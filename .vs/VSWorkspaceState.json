@@ -7,12 +7,10 @@
     "\\app\\Resources\\views\\default",
     "\\src",
     "\\src\\AppBundle",
-    "\\src\\AppBundle\\Controller",
     "\\tests",
     "\\tests\\AppBundle",
-    "\\tests\\AppBundle\\Controller",
-    "\\web"
+    "\\tests\\AppBundle\\Util"
   ],
-  "SelectedNode": "\\src\\AppBundle\\Controller\\DefaultController.php",
+  "SelectedNode": "\\src\\AppBundle\\Controller\\CreateEduMatController.php",
   "PreviewInSolutionExplorer": false
 }
