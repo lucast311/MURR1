@@ -1,13 +1,13 @@
 Create a software for COSMO that will help manage their Multi Unit Residential Recycling program.
 
 Team Members
+- Austin Burn
 - Matthew Thompson
 - Matthew Weeks
 - Ashton South
 - Liam Johnson
 - Luke MacNeill
 - Dan Akre
-- Austin Burn
 
 Naming convention:
 - Everything lowercase for story names story#_description
