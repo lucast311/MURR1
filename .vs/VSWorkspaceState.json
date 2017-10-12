@@ -11,8 +11,8 @@
     "\\tests",
     "\\tests\\AppBundle",
     "\\tests\\AppBundle\\Controller",
-    "\\web"
+    "\\tests\\AppBundle\\Entity"
   ],
-  "SelectedNode": "\\src\\AppBundle\\Controller\\DefaultController.php",
+  "SelectedNode": "\\tests\\AppBundle\\Controller\\CommunicationControllerTest.php",
   "PreviewInSolutionExplorer": false
 }
