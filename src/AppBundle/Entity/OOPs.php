@@ -36,4 +36,36 @@ class OOPs
         $this->image = $image;
     }
 
+    public function getID()
+    {
+        return $this->OOPsID;
+    }
+
+    public function getBinSerial()
+    {
+        return $this->binSerial;
+    }
+
+    public function getProblem()
+    {
+        return $this->problemType;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+
+
 }
