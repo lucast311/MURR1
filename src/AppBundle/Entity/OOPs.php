@@ -1,5 +1,5 @@
 <?php
-namespace src\AppBundle\Entity;
+
 /**
  * Class1 short summary.
  *
@@ -8,6 +8,11 @@ namespace src\AppBundle\Entity;
  * @version 1.0
  * @author cst206
  */
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
 class OOPs
 {
     private $OOPsID;
