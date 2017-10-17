@@ -4,15 +4,17 @@
     "\\app",
     "\\app\\Resources",
     "\\app\\Resources\\views",
+    "\\app\\Resources\\views\\Contact",
     "\\app\\Resources\\views\\default",
     "\\src",
     "\\src\\AppBundle",
     "\\src\\AppBundle\\Controller",
+    "\\src\\AppBundle\\Form",
     "\\tests",
     "\\tests\\AppBundle",
     "\\tests\\AppBundle\\Controller",
-    "\\web"
+    "\\tests\\AppBundle\\Entity"
   ],
-  "SelectedNode": "\\src\\AppBundle\\Controller\\DefaultController.php",
+  "SelectedNode": "\\tests\\AppBundle\\Entity\\Contact.php",
   "PreviewInSolutionExplorer": false
 }
