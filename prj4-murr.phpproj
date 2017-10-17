@@ -43,7 +43,7 @@
     <Compile Include="src\.htaccess" />
     <Compile Include="src\AppBundle\Entity\OOPs.php" />
     <Compile Include="tests\AppBundle\Controller\DefaultControllerTest.php" />
-    <Compile Include="tests\AppBundle\Controller\CSRUserCreationTest.php" />
+    <Compile Include="tests\AppBundle\Controller\CSROOPsCreationTest.php" />
     <Compile Include="var\cache\.gitkeep" />
     <Compile Include="var\logs\.gitkeep" />
     <Compile Include="var\sessions\.gitkeep" />
@@ -69,6 +69,7 @@
     <Folder Include=".vs\MURR" />
     <Folder Include=".vs" />
     <Folder Include="app\config" />
+    <Folder Include="app\Resources\images\" />
     <Folder Include="app\Resources\views\default" />
     <Folder Include="app\Resources\views" />
     <Folder Include="app\Resources" />

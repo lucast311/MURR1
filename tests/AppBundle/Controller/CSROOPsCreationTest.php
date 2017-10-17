@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * 13a_CSR_user_creation_test
  */
-class CSRUserCreationTest extends TestCase
+class CSROOPsCreationTest extends TestCase
 {
     //valid inputs
     public function testValidCreationProbContamination()
@@ -37,7 +37,7 @@ class CSRUserCreationTest extends TestCase
 
     //i have no clue how to test this yet
     /*
-    public function testValidCreationImage()
+    public function testValidImageUpload()
     {
         $testOOPs = new OOPs('1111111111', 'contamination', );
         $this->assertTrue(strlen($testOOPs->getDescription) > 0);
@@ -91,5 +91,37 @@ isisczppkwnavzarusagtlywqocxktvlnudzpeouldjmrayuqtsqqxt");
         $this->assertTrue(strlen($testOOPs->getDescription()) == 250);
     }
 
+    public function testInvalidBoundarySerialNumberMoreThanMax()
+    {
+        $testOOPs = new OOPs('ZZZZZZZZZZZ', 'contamination');
+        $this->assertTrue($testOOPs==null);
+    }
 
+    public function testInvalidBoundarySerialNumberLessThanMax()
+    {
+        $testOOPs = new OOPs('ZZZZZZZZZ', 'contamination');
+        $this->assertTrue($testOOPs==null);
+    }
+
+    public function testInvalidBoundaryDescriptionMoreThanMax()
+    {
+        $testOOPs = new OOPs('ZZZZZZZZZZ', 'contamination', '',
+    "iomnavmmoptwrwyvudipazflggbwzfhcigxjopzisfrpcieebmmhshofhpwvlzytxgnvzyhxejefjedyrwuvpzfswdxfwbrxmliujpcnjzzulm
+foxxvpjekafmdmwewbzlxzldcdrvemyqnfppodwgrjveduviysaazeelmfbcksgrwfrnbfqogdyjflxeavrtdovifcmewcjhowycbnqprgkwgtdpoxmqjhxnnsbsqur
+hskcweavnxumxqnomkdquqnpuaospigrznzngnrjsgnzmnejezwmrhqsiwgehfiqlhqcwwftfdlbsrfogxhnuykisnsfyhdnvnrkjbolbkhfsqeefuwbtkfbnvidhquu
+isisczppkwnavzarusagtlywqocxktvlnudzpeouldjmrayuqtsqqxtl");
+        $this->assertTrue($testOOPs==null);
+    }
+
+    public function testInvalidImageUpload()
+    {
+        $invalidImageFile = '../../../app/Resources/images/OOPs NOTICE inValid1.bmp';
+        $invalidImageType = 'image/bmp';
+        header('Content-Type:'.$invalidImageType);
+        header('Content-Length: ' . filesize($invalidImageFile));
+        $invalidImage = readfile($invalidImageFile);
+
+        $testOOPs = new OOPs('ZZZZZZZZZ', 'contamination', 'not started', 'invalid image test', $invalidImage);
+        $this->assertTrue($testOOPs==null);
+    }
 }
