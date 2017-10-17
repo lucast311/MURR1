@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use AppBundle\Entity\Communication;
 //use Doctrine\Common\Persistence\ObjectRepository;
 
 class CommunicationControllerTest extends WebTestCase
@@ -255,31 +256,4 @@ class CommunicationControllerTest extends WebTestCase
 
         assertContains("Please keep the description under 2000 characters",$client->getResponse()->getContent());
     }
-
-    //public function testDataBaseEntry()
-    //{
-    //    $client = static::createClient();
-
-    //    $crawler = $client->request('GET', '/communication/submit');
-
-    //    $form = $crawler->selectButton('submit')->form();
-
-    //    //set form values
-    //    $form['form[date]'] = "2017-10-05";
-    //    $form['form[type]']="Phone";
-    //    $form['form[medium]']="incoming";
-    //    $form['form[contact]']=1; //contact id
-    //    $form['form[property]']=1; //property id
-    //    $form['form[category]']="Container";
-    //    $form["form[description]"]="Container has graffiti and needs to be cleaned. Action request made";
-
-    //    $crawler = $client->submit($form);
-
-    //    $communicationRepo = $this->createMock(ObjectRepository::class);
-
-    //    $communicationRepo->expects($this->any())
-    //        ->method('find')
-    //        ->willReturn()
-
-    //}
 }
