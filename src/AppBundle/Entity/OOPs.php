@@ -24,7 +24,7 @@ class OOPs
     private $status;
 
     private $description;
-
+    
     private $image;
 
     function __construct( $binSerial, $problemType, $status = 'not started', $description='', $image='' )

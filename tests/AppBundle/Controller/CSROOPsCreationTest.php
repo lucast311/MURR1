@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 class CSROOPsCreationTest extends TestCase
 {
     //valid inputs
+    
     public function testValidCreationProbContamination()
     {
         $testOOPs = new OOPs('1111111111', 'contanmination');
@@ -35,14 +36,18 @@ class CSROOPsCreationTest extends TestCase
         $this->assertTrue(strlen($testOOPs->getDescription) > 0);
     }
 
-    //i have no clue how to test this yet
-    /*
     public function testValidImageUpload()
     {
-        $testOOPs = new OOPs('1111111111', 'contamination', );
-        $this->assertTrue(strlen($testOOPs->getDescription) > 0);
+        $validImageFile = '../../../../app/Resources/images/OOPs NOTICE Valid1.png';
+        $validImageType = 'image/png';
+        //header('Content-Type:'.$validImageType);
+        //header('Content-Length: ' . filesize($validImageFile));
+        $validImage = readfile($validImageFile);
+
+        $testOOPs = new OOPs('ZZZZZZZZZ', 'contamination', 'not started', 'invalid image test', $validImage);
+        $this->assertTrue($testOOPs->getImage() != null);
     }
-    */
+
 
     public function testValidCreationStatusInProg()
     {
