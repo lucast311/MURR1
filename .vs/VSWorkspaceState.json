@@ -9,8 +9,9 @@
     "\\src\\AppBundle",
     "\\tests",
     "\\tests\\AppBundle",
+    "\\tests\\AppBundle\\Controller",
     "\\tests\\AppBundle\\Util"
   ],
-  "SelectedNode": "\\src\\AppBundle\\Controller\\CreateEduMatController.php",
+  "SelectedNode": "\\tests\\AppBundle\\Util\\Story14aTest.php",
   "PreviewInSolutionExplorer": false
 }
