@@ -43,8 +43,10 @@
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
+    <Compile Include="src\AppBundle\Type\CommunicationType.php" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\DefaultControllerTest.php" />
+    <Compile Include="tests\AppBundle\Type\CommunicationTypeTest.php" />
     <Compile Include="var\cache\.gitkeep" />
     <Compile Include="var\logs\.gitkeep" />
     <Compile Include="var\sessions\.gitkeep" />
@@ -81,10 +83,12 @@
     <Folder Include="src\AppBundle\Entity" />
     <Folder Include="src\AppBundle" />
     <Folder Include="src" />
+    <Folder Include="src\AppBundle\Type\" />
     <Folder Include="tests\AppBundle\Controller" />
     <Folder Include="tests\AppBundle\Entity" />
     <Folder Include="tests\AppBundle" />
     <Folder Include="tests" />
+    <Folder Include="tests\AppBundle\Type\" />
     <Folder Include="var\cache" />
     <Folder Include="var\logs" />
     <Folder Include="var\sessions" />
