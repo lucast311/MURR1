@@ -2,9 +2,9 @@
 
 namespace Tests\AppBundle\Form\Type;
 
-use AppBundle\Form\Type\CommuniucationType;
 use AppBundle\Entity\Communication;
 use Symfony\Component\Form\Test\TypeTestCase;
+use AppBundle\Form\Type\CommunicationType;
 
 
 class CommunicationTypeTest extends TypeTestCase
@@ -24,7 +24,7 @@ class CommunicationTypeTest extends TypeTestCase
         );
 
         //creates a form
-        $form = $this->factory->create(CommuniucationType::class);
+        $form = $this->factory->create(CommunicationType::class);
 
         //creates an object from the array
         $object = Communication::fromArray($formData);

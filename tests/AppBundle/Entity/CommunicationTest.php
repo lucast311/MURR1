@@ -11,21 +11,19 @@ class CommunicationTest extends TestCase
 
         $com->setDate(new DateTime("2017-10-05"));
         $com->setType("phone");
-        $com->__set("medium", "incoming");
-        $com->__set("contact", 1);
-        $com->__set("property", 1);
-        $com->__set("category","container");
-        $com->__set("description","Container has graffiti and needs to be cleaned. Action request made");
+        $com->setMedium("incoming");
+        $com->setContact(1);
+        $com->setProperty(1);
+        $com->setCategory("container");
+        $com->setDescription("Container has graffiti and needs to be cleaned. Action request made");
 
-        $this->assertEquals($com->__get('id'),1);
-        $this->assertEquals($com->__get('date'),"2017-10-05");
-        $this->assertEquals($com->__get('type'),"phone");
-        $this->assertEquals($com->__get('medium'),"incoming");
-        $this->assertEquals($com->__get('contact'),1);
-        $this->assertEquals($com->__get('property'),1);
-        $this->assertEquals($com->__get('category'),"container");
-        $this->assertEquals($com->__get('description'),"Container has graffiti and needs to be cleaned. Action request made");
-
-        $this->assertNull($com->__get(""));
+        $this->assertEquals($com->getId(),1);
+        $this->assertEquals($com->getDate()->format("YYYY-MM-DD"),"2017-10-05");
+        $this->assertEquals($com->getType(),"phone");
+        $this->assertEquals($com->getMedium(),"incoming");
+        $this->assertEquals($com->getContact(),1);
+        $this->assertEquals($com->getProperty(),1);
+        $this->assertEquals($com->getCategory(),"container");
+        $this->assertEquals($com->getDescription(),"Container has graffiti and needs to be cleaned. Action request made");
     }
 }
