@@ -7,11 +7,10 @@
     "\\app\\Resources\\views\\default",
     "\\src",
     "\\src\\AppBundle",
+    "\\src\\AppBundle\\Entity",
     "\\tests",
-    "\\tests\\AppBundle",
-    "\\tests\\AppBundle\\Controller",
-    "\\tests\\AppBundle\\Util"
+    "\\tests\\AppBundle"
   ],
-  "SelectedNode": "\\tests\\AppBundle\\Util\\Story14aTest.php",
+  "SelectedNode": "\\tests\\AppBundle\\Controller\\EduMatCreationControllerTest.php",
   "PreviewInSolutionExplorer": false
 }
