@@ -31,6 +31,34 @@ class ContactRepositoryTest extends KernelTestCase
      */
     public function testInsert()
     {
-        // Create a new o
+        // Create a new object
+        $contact = new Contact();
+        $address = new Address();
+        $contact->setFirstName("Bob");
+        $contact->setLastName("Jons");
+        $contact->setEmailAddress("l@L.com");
+        $contact->setAddressReference($address);
+        //Get the repository for testing
+        $repository = $this->em->getRepository(Contact::class);
+        //Call insert on the repositor and record the id of the new object
+        $id = $repository->insert($contact);
+        //Assert that the id was returned
+        $this->assertNotNull($id);
+        //check the contact id is the same as the returned id
+        $this->assertEquals($contact->getId(), $id);
     }
+
+
+    //closes the memory mamnger
+    /**
+     * (@inheritDoc)
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null;//avoid memory meaks
+    }
+
 }

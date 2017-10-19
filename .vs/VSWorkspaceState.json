@@ -6,10 +6,11 @@
     "\\app\\Resources\\views",
     "\\src",
     "\\src\\AppBundle",
-    "\\src\\AppBundle\\Repository",
+    "\\src\\AppBundle\\Controller",
+    "\\src\\AppBundle\\Entity",
+    "\\src\\AppBundle\\Form",
     "\\tests",
     "\\tests\\AppBundle",
-    "\\tests\\AppBundle\\Controller",
     "\\tests\\AppBundle\\Repository"
   ],
   "SelectedNode": "\\src\\AppBundle\\Entity\\Contact.php",
