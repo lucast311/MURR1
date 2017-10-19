@@ -23,20 +23,28 @@ class CommunicationTypeTest extends TypeTestCase
           "description" => "Container has graffiti and needs to be cleaned. Action request made"
         );
 
-
+        //creates a form
         $form = $this->factory->create(CommuniucationType::class);
 
+        //creates an object from the array
         $object = Communication::fromArray($formData);
 
+        //submit the form
         $form->submit($formData);
+
+        //makes sure the page doesnt have errors
         $this->assertTrue($form->isSynchronized());
+
+        //make sure the form matches the objects data
         $this->assertEqauls($object, $form->getData());
 
+        //get the form view and children
         $view = $form->createView();
         $children = $view->children;
 
         foreach(array_keys($formData) as $key)
         {
+            //make sure the form has each key
             $this->assertArrayHasKey($key,$children);
         }
     }

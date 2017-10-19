@@ -24,23 +24,23 @@ class CommunicationRepositoryTest extends KernelTestCase
     }
 
 
-    public function testAddToDatabase()
+    public function testInsert()
     {
         //create a communication
         $comm = new Communication();
-        $comm->date = "2017-10-05";
-        $comm->type = "phone";
-        $comm->medium = "incoming";
-        $comm->contact = 1;
-        $comm->property = 1;
-        $comm->category = "Container";
-        $comm->description = "Container has graffiti and needs to be cleaned. Action request made";
+        $comm->__set("date","2017-10-05");
+        $comm->__set("type", "phone");
+        $comm->__set("medium", "incoming");
+        $comm->__set("contact", 1);
+        $comm->__set("property", 1);
+        $comm->__set("category","Container");
+        $comm->__set("description","Container has graffiti and needs to be cleaned. Action request made");
 
         //add to database and return the ID
-        $newComm = $this->em->getRepository(Communication::class)
+        $id = $this->em->getRepository(Communication::class)
             ->addToDatabase($comm);
 
-        $this->assertEquals($newComm->id,$comm->id);
+        $this->assertEquals($id,$comm->__get('id'));
     }
 
     /**

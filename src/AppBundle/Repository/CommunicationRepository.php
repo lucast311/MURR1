@@ -3,11 +3,11 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-
+use AppBundle\Entity\Communication;
 class CommunicationRepository extends EntityRepository
 {
-    public function addToDatabase($communication)
+    public function insert($communication)
     {
-        
+
     }
 }
