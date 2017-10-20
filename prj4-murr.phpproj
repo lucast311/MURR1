@@ -42,8 +42,12 @@
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />
     <Compile Include="src\AppBundle\Entity\OOPs.php" />
+    <Compile Include="src\AppBundle\Form\OOPsType.php" />
+    <Compile Include="tests\AppBundle\Controller\CSROOPsFormTest.php" />
+    <Compile Include="tests\AppBundle\Controller\CSROOPsRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Controller\DefaultControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\CSROOPsCreationTest.php" />
+    <Compile Include="tests\AppBundle\Form\AddOOPsForm.php" />
     <Compile Include="var\cache\.gitkeep" />
     <Compile Include="var\logs\.gitkeep" />
     <Compile Include="var\sessions\.gitkeep" />
@@ -79,9 +83,11 @@
     <Folder Include="src\AppBundle" />
     <Folder Include="src" />
     <Folder Include="src\AppBundle\Entity\" />
+    <Folder Include="src\AppBundle\Form\" />
     <Folder Include="tests\AppBundle\Controller" />
     <Folder Include="tests\AppBundle" />
     <Folder Include="tests" />
+    <Folder Include="tests\AppBundle\Form\" />
     <Folder Include="var\cache" />
     <Folder Include="var\logs" />
     <Folder Include="var\sessions" />
