@@ -42,6 +42,7 @@
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />
+    <Compile Include="src\AppBundle\Entity\Communication.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
     <Compile Include="src\AppBundle\Repository\CommunicationRepository.php" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />

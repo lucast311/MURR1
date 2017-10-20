@@ -16,6 +16,7 @@ class CommunicationTest extends TestCase
         $com->setProperty(1);
         $com->setCategory("container");
         $com->setDescription("Container has graffiti and needs to be cleaned. Action request made");
+        $com->setUser(1);
 
         $this->assertEquals($com->getId(),1);
         $this->assertEquals($com->getDate()->format("YYYY-MM-DD"),"2017-10-05");
@@ -25,5 +26,6 @@ class CommunicationTest extends TestCase
         $this->assertEquals($com->getProperty(),1);
         $this->assertEquals($com->getCategory(),"container");
         $this->assertEquals($com->getDescription(),"Container has graffiti and needs to be cleaned. Action request made");
+        $this->assertEquals($com->getUser(),1);
     }
 }

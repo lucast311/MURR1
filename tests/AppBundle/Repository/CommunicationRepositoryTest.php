@@ -36,6 +36,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $com->setProperty(1);
         $com->setCategory("container");
         $com->setDescription("Container has graffiti and needs to be cleaned. Action request made");
+        $com->setUser(1);
 
         //add to database and return the ID
         $id = $this->em->getRepository(Communication::class)

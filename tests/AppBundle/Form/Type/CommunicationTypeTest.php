@@ -20,7 +20,8 @@ class CommunicationTypeTest extends TypeTestCase
           "contact" => 1,
           "property" => 1,
           "category" => "Container",
-          "description" => "Container has graffiti and needs to be cleaned. Action request made"
+          "description" => "Container has graffiti and needs to be cleaned. Action request made",
+          "user" => 1
         );
 
         //creates a form

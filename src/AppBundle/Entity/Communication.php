@@ -47,6 +47,11 @@ class Communication
      */
     private $description;
 
+    /**
+     * @var int
+     */
+    private $user;
+
 
     /**
      * Get id
@@ -224,6 +229,30 @@ class Communication
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set user
+     *
+     * @param int $description
+     *
+     * @return Communication
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return int
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
 
