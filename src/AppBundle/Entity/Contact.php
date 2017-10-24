@@ -80,9 +80,12 @@ class Contact
     /**
      * @var \stdClass
      *
-     * @ORM\Column(name="addressReference", type="object")
+     * @ORM\ManyToOne(targetEntity="Address")
+     * @ORM\JoinColumn(name="addressId", referencedColumnName="id")
+     * 
+     * @ORM\Column(name="addressId", type="integer")
      */
-    private $addressReference;
+    private $addressId;
 
 
     /**
@@ -306,9 +309,9 @@ class Contact
      *
      * @return \stdClass
      */
-    public function getAddressReference()
+    public function getAddressId()
     {
-        return $this->addressReference;
+        return $this->addressId;
     }
 }
 

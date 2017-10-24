@@ -7,12 +7,11 @@
     "\\src",
     "\\src\\AppBundle",
     "\\src\\AppBundle\\Controller",
-    "\\src\\AppBundle\\Entity",
-    "\\src\\AppBundle\\Form",
     "\\tests",
     "\\tests\\AppBundle",
+    "\\tests\\AppBundle\\Form",
     "\\tests\\AppBundle\\Repository"
   ],
-  "SelectedNode": "\\src\\AppBundle\\Entity\\Contact.php",
+  "SelectedNode": "\\tests\\AppBundle\\Form\\ContactTypeTest.php",
   "PreviewInSolutionExplorer": false
 }
