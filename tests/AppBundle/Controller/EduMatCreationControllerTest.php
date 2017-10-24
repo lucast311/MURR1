@@ -2,6 +2,7 @@
 namespace tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use AppBundle\Entity\EduMat;
 
 /**
  * story14a_csr_user_creates_new_educational_material - Tests

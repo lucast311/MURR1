@@ -1,61 +1,221 @@
 <?php
+
 namespace AppBundle\Entity;
 
-use Doctrine\Orm\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * EduMat
+ *
+ * @ORM\Table(name="edu_mat")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EduMatRepository")
+ */
 class EduMat
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=30)
+     */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", length=30)
+     */
     private $status;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dateCreated", type="string", length=10)
+     */
     private $dateCreated;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dateFinished", type="string", length=10, nullable=true)
+     */
     private $dateFinished;
-    private $desc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="recipient", type="string", length=50)
+     */
     private $recipient;
 
-    public function __construct($name, $status, $dateCreated, $dateFinished, $desc, $recipient)
-    {
-        $this->name = htmlentities($name);
-        $this->status = htmlentities($status);
-        $this->dateCreated = htmlentities($dateCreated);
-        $this->dateFinished = htmlentities($dateFinished);
-        $this->desc = htmlentities($desc);
-        $this->recipient = htmlentities($recipient);
-    }
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=250, nullable=true)
+     */
+    private $description;
 
-    public function getID()
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return EduMat
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return EduMat
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
     public function getStatus()
     {
         return $this->status;
-
     }
 
+    /**
+     * Set dateCreated
+     *
+     * @param string $dateCreated
+     *
+     * @return EduMat
+     */
+    public function setDateCreated($dateCreated)
+    {
+        $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreated
+     *
+     * @return string
+     */
     public function getDateCreated()
     {
         return $this->dateCreated;
     }
 
-    public function getDateStarted()
+    /**
+     * Set dateFinished
+     *
+     * @param string $dateFinished
+     *
+     * @return EduMat
+     */
+    public function setDateFinished($dateFinished)
+    {
+        $this->dateFinished = $dateFinished;
+
+        return $this;
+    }
+
+    /**
+     * Get dateFinished
+     *
+     * @return string
+     */
+    public function getDateFinished()
     {
         return $this->dateFinished;
     }
 
-    public function getDesc()
+    /**
+     * Set recipient
+     *
+     * @param string $recipient
+     *
+     * @return EduMat
+     */
+    public function setRecipient($recipient)
     {
-        return $this->desc;
+        $this->recipient = $recipient;
+
+        return $this;
     }
 
+    /**
+     * Get recipient
+     *
+     * @return string
+     */
     public function getRecipient()
     {
         return $this->recipient;
     }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return EduMat
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 }
+
