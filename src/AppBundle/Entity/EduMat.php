@@ -64,6 +64,17 @@ class EduMat
     private $description;
 
 
+    function __construct($name, $status="", $dateCreated="", $dateFinished="", $recipient="", $description="")
+    {
+        $this->name = $name;
+        $this->status = $status;
+        $this->dateCreated= $dateCreated;
+        $this->dateFinished = $dateFinished;
+        $this->recipient = $recipient;
+        $this->description = $description;
+    }
+
+
     /**
      * Get id
      *
