@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\AppBundle\Controller;
+namespace Tests\AppBundle\Entity;
 
 use AppBundle\Entity\OOPs;
 use PHPUnit\Framework\TestCase;
@@ -10,9 +10,6 @@ use PHPUnit\Framework\TestCase;
  */
 class CSROOPsCreationTest extends TestCase
 {
-
-
-
     //valid inputs
     /**
      * Tests that a valid OOPs notice can be created using a simple binSerial and
@@ -79,7 +76,7 @@ class CSROOPsCreationTest extends TestCase
     public function testValidImageUpload()
     {
         $validImageFile = '../../../app/Resources/images/OOPs NOTICE Valid1.png';
-        $validImageType = 'image/png';
+        //$validImageType = 'image/png';
         //header('Content-Type:'.$validImageType);
         //header('Content-Length: ' . filesize($validImageFile));
         $validImage = readfile($validImageFile);

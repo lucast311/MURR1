@@ -40,7 +40,7 @@ class CSROOPsRepositoryTest extends KernelTestCase
         $testOOPs = new OOPs("1111111111", "damage");
 
         //call the insert method
-        $id = $this->em->getRepository($testOOPs::class)->insert($testOOPs);
+        $id = $this->em->getRepository('AppBundle:OOPs')->insert($testOOPs);
 
         $this->assertNotNull($id); //assert that an ID was returned
         $this->assertEquals($testOOPs->id,$id); //check that the returned ID is the same as the object's new ID
