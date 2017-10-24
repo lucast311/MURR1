@@ -37,7 +37,7 @@ class CommunicationTypeTest extends TypeTestCase
         $this->assertTrue($form->isSynchronized());
 
         //make sure the form matches the objects data
-        $this->assertEqauls($object, $form->getData());
+        $this->assertEquals($object, $form->getData());
 
         //get the form view and children
         $view = $form->createView();
