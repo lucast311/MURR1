@@ -38,6 +38,7 @@
     <Compile Include="app\sqlite.db" />
     <Compile Include="bin\console" />
     <Compile Include="bin\symfony_requirements" />
+    <Compile Include="src\AppBundle\Controller\OOPsController.php" />
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />
