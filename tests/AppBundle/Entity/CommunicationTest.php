@@ -1,7 +1,10 @@
 <?php
 
+namespace Tests\AppBundle\Entity;
+
 use PHPUnit\Framework\TestCase;
 use AppBundle\Entity\Communication;
+use DateTime;
 
 class CommunicationTest extends TestCase
 {
