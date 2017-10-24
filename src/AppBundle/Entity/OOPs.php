@@ -2,38 +2,48 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 /**
- * OOPs
+ * @ORM\OOPs
+ * @ORM\Table(name="OOPs")
  */
 class OOPs
 {
     /**
      * @var int
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=10, unique=true)
      */
     private $binSerial;
 
     /**
      * @var string
+     * @ORM\Column(type="string")
      */
     private $problemType;
 
     /**
      * @var string
+     * @ORM\Column(type="string")
      */
     private $status;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=250, nullable=true)
      */
     private $description;
 
     /**
      * @var \stdClass
+     * @ORM\Column(type="object", nullable=true)
      */
     private $image;
 
