@@ -9,8 +9,7 @@
     "\\src\\AppBundle\\Controller",
     "\\tests",
     "\\tests\\AppBundle",
-    "\\tests\\AppBundle\\Form",
-    "\\tests\\AppBundle\\Repository"
+    "\\tests\\AppBundle\\Form"
   ],
   "SelectedNode": "\\tests\\AppBundle\\Form\\ContactTypeTest.php",
   "PreviewInSolutionExplorer": false

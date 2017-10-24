@@ -10,7 +10,7 @@ class ContactTypeTest extends TypeTestCase
     public function testSubmitValidData()
     {
         // The data that will be "submitted" to the form
-        $contactData = array(
+        $formData = array(
             'firstName' => 'Jimmy',
             'lastName' => 'Jone',
             'organization' => 'MURR',
@@ -18,10 +18,7 @@ class ContactTypeTest extends TypeTestCase
             'phoneExtention' => '9999',
             'mobilePhone' => '5555555555',
             'emailAddress' => 'jimmy@jone.com',
-            'fax' => '7894561232'
-        );
-
-        $addressData = array(
+            'fax' => '7894561232',
             'streetAddress' => '123 Main Street',
             'postalCode' => 'S7N 4K6',
             'city' => 'Saskatoon',
@@ -32,10 +29,22 @@ class ContactTypeTest extends TypeTestCase
         // Create a new form and verify it compiles
         $form = $this->factory->create(ContactType::class);
         //create a new contact object
-        $contact = Contact::fromArray($contactData);
-        // Create a new address object
-        $address = Address::fromArray($addressData);
+        $contact = Contact::fromArray($formData);
+        //create a new Address object
+        $address = Address::fromArray($formData);
 
+        $form->submit($formData);
+
+        $this->assertTrue($form->isSynchronized());
+        //$this->assertEquals($object,$form->getData());
+
+        $view = $form->createView();
+        $children = $view->children;
+
+        foreach (array_key($formData) as $key)
+        {
+        	$this->assertArrayHasKey($key, $children);
+        }
 
     }
 }
