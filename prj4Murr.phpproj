@@ -102,4 +102,7 @@
     <Folder Include="var" />
     <Folder Include="web" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\config\parameters.yml" />
+  </ItemGroup>
 </Project>

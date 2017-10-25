@@ -1,54 +1,88 @@
 <?php
 
 namespace AppBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Communication
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CommunicationRepository")
+ * @ORM\Table(name="communication")
  */
 class Communication
 {
     /**
      * @var int
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var \DateTime
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Please select a valid date")
+     * @Assert\DateTime(message="Please select a valid date")
+     * @Assert\LessThan("today", message="Please select a current or past date")
+     *
      */
     private $date;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=25)
+     * @Assert\NotBlank(message="Please select a type of communication")
+     * @Assert\Choice(choice = {"In Person", "Phone", "Email"}, message = "Please select a type of communication")
      */
     private $type;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=8)
+     * @Assert\NotBlank(message="Please select incoming or outgoing")
+     * @Assert\Choice(choice = {"Incoming", "Outgoing"}, message = "Please select incoming or outgoing")
      */
     private $medium;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Please enter a contact")
+     * @Assert\Choice(choice = {-1,0,1,2,3}, message = "Please enter a contact")
      */
     private $contact;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Please select a property")
+     * @Assert\Choice(choice = {-1,0,1,2,3}, message = "Please select a property")
      */
     private $property;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=25)
+     * @Assert\NotBlank(message="Please select a category")
+     * @Assert\Choice(choice = {"Collection","Container"}, message = "Please select a category")
      */
     private $category;
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=2000)
+     * @Assert\NotBlank(message="Please provide a brief description of the communication")
+     * @Assert\Length(max = 2000,
+     *                min = 50,
+     *                maxMessage = "Please keep the description under{{ limit }} characters",
+     *                minMessage = "Please provide a description of {{ limit }} characters or more"
+     * )
      */
     private $description;
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
      */
     private $user;
 
