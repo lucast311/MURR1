@@ -2,9 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 /**
- * @ORM\OOPs
+ * @ORM\Entity
  * @ORM\Table(name="OOPs")
  */
 class OOPs
@@ -55,13 +56,13 @@ class OOPs
      * @param mixed $description an optional description of the issue
      * @param mixed $image an optional image of the oops notice
      */
-    function __construct( /*$binSerial, $problemType, $status = 'not started', $description = '', $image = null*/ )
+    function __construct( $binSerial, $problemType, $status = 'not in progress', $description = '', $image = null )
     {
-        //$this->binSerial = htmlentities($binSerial);
-        //$this->problemType = htmlentities($problemType);
-        //$this->status = htmlentities($status);
-        //$this->description = htmlentities($description);
-        //$this->image = $image;
+        $this->binSerial = htmlentities($binSerial);
+        $this->problemType = htmlentities($problemType);
+        $this->status = htmlentities($status);
+        $this->description = htmlentities($description);
+        $this->image = $image;
     }
 
 
