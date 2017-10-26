@@ -63,8 +63,15 @@ class EduMat
      */
     private $description;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="operationType", type="string", length=6, nullable=false)
+     */
+    private $operationType;
 
-    function __construct($name, $status="", $dateCreated="", $dateFinished="", $recipient="", $description="")
+
+    function __construct($name, $status="", $dateCreated="", $dateFinished="", $recipient="", $description="", $operationType="EduMat")
     {
         $this->name = $name;
         $this->status = $status;
@@ -72,8 +79,8 @@ class EduMat
         $this->dateFinished = $dateFinished;
         $this->recipient = $recipient;
         $this->description = $description;
+        $this->operationType = $operationType;
     }
-
 
     /**
      * Get id
@@ -227,6 +234,19 @@ class EduMat
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Get operationType
+     * 
+     * We don't need a setter for this, since it will auto generate 
+     *  if we create it in the story14a functionality
+     *
+     * @return string
+     */
+    public function getOperationType()
+    {
+        return $this->operationType;
     }
 }
 
