@@ -34,11 +34,10 @@ class ContactRepositoryTest extends KernelTestCase
     {
         // Create a new object
         $contact = new Contact();
-        $address = new Address();
         $contact->setFirstName("Bob");
         $contact->setLastName("Jons");
         $contact->setEmailAddress("l@L.com");
-        $contact->setAddressReference($address);
+        $contact->setAddressId(1);
         //Get the repository for testing
         $repository = $this->em->getRepository(Contact::class);
         //Call insert on the repositor and record the id of the new object

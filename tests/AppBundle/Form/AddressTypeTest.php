@@ -1,14 +1,14 @@
 <?php
 namespace Tests\AppBundle\Form\Type;
 
-use AppBundle\Form\Type\TestedType;
-use AppBundle\Model\TestObject;
 use Symfony\Component\Form\Test\TypeTestCase;
 use AppBundle\Entity\Address;
+use AppBundle\Form\AddressType;
 
 class AddressTypeTest extends TypeTestCase
 {
- public function testAddressForm()
+
+    public function testAddressForm()
     {
         // The data that will be "submitted" to the form
         $formData = array(
@@ -18,23 +18,25 @@ class AddressTypeTest extends TypeTestCase
             'province' => 'Saskatchewan',
             'country' => 'Canada'
         );
+
         //create a new form
-         $form = $this->factory->create(AddressType::class, new Address());
+        $form = $this->factory->create(AddressType::class, new Address());
 
-         $object = new Address();
-         //populate the new address with the new data
-         foreach ($formData as $key=>$value)
-         {
-         	$object->__set($key,$value);
-         }
+        $object = new Address();
+        //populate the new address with the new data
+        foreach ($formData as $key=>$value)
+        {
+            $methodName = "set" . $key;
+            $object->$methodName($value);
+        }
 
 
-         //submit the data
+        //submit the data
         $form->submit($formData);
 
         //Make sure the from doesent through exceptions
-         $this->assertTrue($form->isSynchronized());
-         //Check that the from contains the objects info.
+        $this->assertTrue($form->isSynchronized());
+        //Check that the from contains the objects info.
         $this->assertEquals($object,$form->getData());
         //create the forms view
         $view = $form->createView();
@@ -43,8 +45,9 @@ class AddressTypeTest extends TypeTestCase
         //make sure the form has all the right fields
         foreach ($formData as $key)
         {
-        $this->assertArrayHasKey($key,$children);        	
+            $this->assertArrayHasKey($key,$children);        	
         }
         
 
+    }
 }

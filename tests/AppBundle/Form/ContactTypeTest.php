@@ -1,12 +1,9 @@
 <?php
 namespace Tests\AppBundle\Form\Type;
 
-use AppBundle\Form\Type\TestedType;
-use AppBundle\Model\TestObject;
 use Symfony\Component\Form\Test\TypeTestCase;
 use AppBundle\Form\ContactType;
 use AppBundle\Entity\Contact;
-use AppBundle\Entity\Address;
 
 class ContactTypeTest extends TypeTestCase
 {
@@ -17,35 +14,40 @@ class ContactTypeTest extends TypeTestCase
             'firstName' => 'Jimmy',
             'lastName' => 'Jone',
             'organization' => 'MURR',
-            'officePhone' => '3066659999',
+            'primaryPhone' => '3066659999',
             'phoneExtention' => '9999',
-            'mobilePhone' => '5555555555',
+            'secondaryPhone' => '5555555555',
             'emailAddress' => 'jimmy@jone.com',
-            'fax' => '7894561232',
-            'streetAddress' => '123 Main Street',
-            'postalCode' => 'S7N 4K6',
-            'city' => 'Saskatoon',
-            'province' => 'Saskatchewan',
-            'country' => 'Canada'
+            'fax' => '7894561232'
         );
 
-        // Create a new form and verify it compiles
-        $form = $this->factory->create(ContactType::class);
-       
-       
+        //create a new form
+        $form = $this->factory->create(ContactType::class, new Contact());
 
+        $object = new Contact();
+        //populate the new address with the new data
+        foreach ($formData as $key=>$value)
+        {
+            $methodName = "set" . $key;
+            $object->$methodName($value);
+        }
+
+
+        //submit the data
         $form->submit($formData);
 
+        //Make sure the from doesent through exceptions
         $this->assertTrue($form->isSynchronized());
-        //$this->assertEquals($object,$form->getData());
-
+        //Check that the from contains the objects info.
+        $this->assertEquals($object,$form->getData());
+        //create the forms view
         $view = $form->createView();
+        //get the children of the form
         $children = $view->children;
-
-
-        foreach (array_keys($formData) as $key)
+        //make sure the form has all the right fields
+        foreach ($formData as $key)
         {
-        	$this->assertArrayHasKey($key, $children);
+            $this->assertArrayHasKey($key,$children);
         }
 
     }

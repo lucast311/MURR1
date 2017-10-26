@@ -56,7 +56,7 @@ class ContactTest extends TestCase
     public function testContactPrimaryPhoneMissing()
     {
         // Make contact invalid
-        $this->contact->setPrimaryPhpne("");
+        $this->contact->setPrimaryPhone("");
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
@@ -66,7 +66,7 @@ class ContactTest extends TestCase
     public function testContactPrimaryPhoneInvalid()
     {
         // Make contact invalid
-        $this->contact->setPrimaryPhpne("6");
+        $this->contact->setPrimaryPhone("6");
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
@@ -96,7 +96,7 @@ class ContactTest extends TestCase
     public function testContactSecondaryPhoneInvalid()
     {
         // Make contact invalid
-        $this->contact->setSecondaryPhpne("6");
+        $this->contact->setSecondaryPhone("6");
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
@@ -125,7 +125,7 @@ class ContactTest extends TestCase
     public function testContactMultipleErrors()
     {
         // Make contact invalid
-        $this->contact->setPrimaryPhpne("6");
+        $this->contact->setPrimaryPhone("6");
         $this->contact->setFax("6");
         $this->contact->setFirstName("");
         $errors = $this->validator->validate($this->contact);

@@ -297,9 +297,9 @@ class Contact
      *
      * @return Contact
      */
-    public function setAddressReference($addressReference)
+    public function setAddressId($addressId)
     {
-        $this->addressReference = $addressReference;
+        $this->addressId = $addressId;
 
         return $this;
     }

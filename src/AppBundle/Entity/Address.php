@@ -25,6 +25,8 @@ class Address
      * @var string
      *
      * @ORM\Column(name="streetAddress", type="string", length=150)
+     *
+     * @Assert\NotBlank()
      */
     private $streetAddress;
 
@@ -32,6 +34,8 @@ class Address
      * @var string
      *
      * @ORM\Column(name="postalCode", type="string", length=7)
+     *
+     * @Assert\NotBlank()
      */
     private $postalCode;
 
@@ -39,6 +43,8 @@ class Address
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=100)
+     *
+     * @Assert\NotBlank()
      */
     private $city;
 
@@ -46,6 +52,8 @@ class Address
      * @var string
      *
      * @ORM\Column(name="province", type="string", length=100)
+     *
+     * @Assert\NotBlank()
      */
     private $province;
 
@@ -53,6 +61,8 @@ class Address
      * @var string
      *
      * @ORM\Column(name="country", type="string", length=100)
+     *
+     * @Assert\NotBlank()
      */
     private $country;
 

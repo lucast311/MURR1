@@ -221,9 +221,9 @@ class ContactControllerTest extends WebTestCase
             0,
             $crawler->filter('html:contains("Country cannot be left blank")')->count()
             );
-
-
     }
+
+
 
 
 

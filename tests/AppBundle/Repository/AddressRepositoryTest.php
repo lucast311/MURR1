@@ -27,7 +27,7 @@ class AddressRepositoryTest extends KernelTestCase
     }
 
     /**
-     * Tests the insert functionality of the repository. Makes sure that data actaully gets inserted into the database properly
+     * Tests the insert functionality of the repository. Makes sure that data actaully gets inserted into the database properly.
      */
     public function testInsert()
     {
