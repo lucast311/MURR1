@@ -32,7 +32,7 @@ class Communication
      * @var string
      * @ORM\Column(type="string", length=25)
      * @Assert\NotBlank(message="Please select a type of communication")
-     * @Assert\Choice(callback=getTypes, message = "Please select a type of communication")
+     * @Assert\Choice(callback="getTypes", message = "Please select a type of communication")
      */
     private $type;
 
@@ -48,7 +48,7 @@ class Communication
      * @var int
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Please enter a contact")
-     * @Assert\Choice(callback=getContacts, message = "Please enter a contact")
+     * @Assert\Choice(callback="getContacts", message = "Please enter a contact")
      */
     private $contact;
 
@@ -56,7 +56,7 @@ class Communication
      * @var int
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Please select a property")
-     * @Assert\Choice(callback=getProperties, message = "Please select a property")
+     * @Assert\Choice(callback="getProperties", message = "Please select a property")
      */
     private $property;
 
@@ -64,7 +64,7 @@ class Communication
      * @var string
      * @ORM\Column(type="string", length=25)
      * @Assert\NotBlank(message="Please select a category")
-     * @Assert\Choice(callback=getCategories, message = "Please select a category")
+     * @Assert\Choice(callback="getCategories", message = "Please select a category")
      */
     private $category;
 
@@ -74,7 +74,7 @@ class Communication
      * @Assert\NotBlank(message="Please provide a brief description of the communication")
      * @Assert\Length(max = 2000,
      *                min = 50,
-     *                maxMessage = "Please keep the description under{{ limit }} characters",
+     *                maxMessage = "Please keep the description under {{ limit }} characters",
      *                minMessage = "Please provide a description of {{ limit }} characters or more"
      * )
      */
@@ -306,12 +306,12 @@ class Communication
 
     public static function getContacts()
     {
-        return array ('Linda Smith' => 0, 'John Snow' => 1, 'Resident' => -1);
+        return array ('Linda Smith' => 1, 'John Snow' => 2, 'Resident' => -1);
     }
 
     public static function getProperties()
     {
-        return array('123 Fake St' => 0, 'N/A' => -1, 'Multi-property' => -1);
+        return array('123 Fake St' => 1, 'N/A' => -1, 'Multi-property' => -1);
     }
 }
 

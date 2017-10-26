@@ -23,9 +23,9 @@ class CommunicationController extends Controller
 
         $added = false;
 
-        if($form->isSubmitted() && $form->isValid())
+        if($form->isSubmitted() )
         {
-            
+            var_dump($form->getData());
         }
 
         return $this->render('communication/newComm.html.twig', [

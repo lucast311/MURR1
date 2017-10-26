@@ -81,6 +81,7 @@
     <Folder Include="app\Resources\views" />
     <Folder Include="app\Resources" />
     <Folder Include="app" />
+    <Folder Include="app\Resources\views\communication\" />
     <Folder Include="bin" />
     <Folder Include="src\AppBundle\Controller" />
     <Folder Include="src\AppBundle\Entity" />
@@ -104,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\config\parameters.yml" />
-    <Content Include="app\phpunit.xml" />
+    <Content Include="app\Resources\views\communication\newComm.html.twig" />
+    <Content Include="phpunit.xml" />
   </ItemGroup>
 </Project>

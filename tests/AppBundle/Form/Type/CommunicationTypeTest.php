@@ -5,6 +5,7 @@ namespace Tests\AppBundle\Form\Type;
 use AppBundle\Entity\Communication;
 use Symfony\Component\Form\Test\TypeTestCase;
 use AppBundle\Form\Type\CommunicationType;
+use DateTime;
 
 
 class CommunicationTypeTest extends TypeTestCase
@@ -14,21 +15,27 @@ class CommunicationTypeTest extends TypeTestCase
     {
         //form test
         $formData = array(
-          "date" => "2017-10-05",
-          "type" => "Phone",
+          "date" => null, //TODO: COME BACK TO ME
+          "type" => "phone",
           "medium" => "incoming",
           "contact" => 1,
           "property" => 1,
-          "category" => "Container",
-          "description" => "Container has graffiti and needs to be cleaned. Action request made",
-          "user" => 1
+          "category" => "container",
+          "description" => "Container has graffiti and needs to be cleaned. Action request made"
         );
 
         //creates a form
         $form = $this->factory->create(CommunicationType::class);
 
         //creates an object from the array
-        $object = Communication::fromArray($formData);
+        //$object = new Communication();
+        //$object->setDate(new DateTime($formData['date']));
+        //$object->setType($formData['type']);
+        //$object->setMedium($formData['medium']);
+        //$object->setContact($formData['contact']);
+        //$object->setProperty($formData['property']);
+        //$object->setCategory($formData['category']);
+        //$object->setDescription($formData['description']);
 
         //submit the form
         $form->submit($formData);
@@ -36,8 +43,9 @@ class CommunicationTypeTest extends TypeTestCase
         //makes sure the page doesnt have errors
         $this->assertTrue($form->isSynchronized());
 
+        $formResponse = $form->getData();
         //make sure the form matches the objects data
-        $this->assertEquals($object, $form->getData());
+        $this->assertEquals($formData, $formResponse);
 
         //get the form view and children
         $view = $form->createView();

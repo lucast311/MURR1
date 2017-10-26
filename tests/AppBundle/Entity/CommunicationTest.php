@@ -12,7 +12,10 @@ class CommunicationTest extends TestCase
     {
         $com = new Communication();
 
-        $com->setDate(new DateTime("2017-10-05"));
+        //date to be added to the object
+        $date = new DateTime("2017-10-05");
+
+        $com->setDate($date);
         $com->setType("phone");
         $com->setMedium("incoming");
         $com->setContact(1);
@@ -21,8 +24,8 @@ class CommunicationTest extends TestCase
         $com->setDescription("Container has graffiti and needs to be cleaned. Action request made");
         $com->setUser(1);
 
-        $this->assertEquals($com->getId(),1);
-        $this->assertEquals($com->getDate()->format("YYYY-MM-DD"),"2017-10-05");
+        $this->assertEquals($com->getId(),0); //id is default 0
+        $this->assertEquals($com->getDate(), $date);
         $this->assertEquals($com->getType(),"phone");
         $this->assertEquals($com->getMedium(),"incoming");
         $this->assertEquals($com->getContact(),1);
