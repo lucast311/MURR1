@@ -4,6 +4,7 @@ namespace Tests\AppBundle\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\Contact;
+use AppBundle\Entity\Address;
 
 class ContactRepositoryTest extends KernelTestCase
 {

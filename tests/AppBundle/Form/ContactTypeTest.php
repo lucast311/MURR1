@@ -4,6 +4,9 @@ namespace Tests\AppBundle\Form\Type;
 use AppBundle\Form\Type\TestedType;
 use AppBundle\Model\TestObject;
 use Symfony\Component\Form\Test\TypeTestCase;
+use AppBundle\Form\ContactType;
+use AppBundle\Entity\Contact;
+use AppBundle\Entity\Address;
 
 class ContactTypeTest extends TypeTestCase
 {
@@ -41,7 +44,8 @@ class ContactTypeTest extends TypeTestCase
         $view = $form->createView();
         $children = $view->children;
 
-        foreach (array_key($formData) as $key)
+
+        foreach (array_keys($formData) as $key)
         {
         	$this->assertArrayHasKey($key, $children);
         }

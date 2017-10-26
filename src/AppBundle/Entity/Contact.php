@@ -45,9 +45,9 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="officePhone", type="string", length=12, nullable=true)
+     * @ORM\Column(name="primaryPhone", type="string", length=12, nullable=true)
      */
-    private $officePhone;
+    private $primaryPhone;
 
     /**
      * @var int
@@ -59,9 +59,9 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="mobilePhone", type="string", length=12, nullable=true)
+     * @ORM\Column(name="secondaryPhone", type="string", length=12, nullable=true)
      */
-    private $mobilePhone;
+    private $secondaryPhone;
 
     /**
      * @var string
@@ -171,27 +171,27 @@ class Contact
     }
 
     /**
-     * Set officePhone
+     * Set primaryPhone
      *
-     * @param string $officePhone
+     * @param string $primaryPhone
      *
      * @return Contact
      */
-    public function setOfficePhone($officePhone)
+    public function setprimaryPhone($primaryPhone)
     {
-        $this->officePhone = $officePhone;
+        $this->primaryPhone = $primaryPhone;
 
         return $this;
     }
 
     /**
-     * Get officePhone
+     * Get primaryPhone
      *
      * @return string
      */
-    public function getOfficePhone()
+    public function getprimaryPhone()
     {
-        return $this->officePhone;
+        return $this->primaryPhone;
     }
 
     /**
@@ -219,27 +219,27 @@ class Contact
     }
 
     /**
-     * Set mobilePhone
+     * Set secondaryPhone
      *
-     * @param string $mobilePhone
+     * @param string $secondaryPhone
      *
      * @return Contact
      */
-    public function setMobilePhone($mobilePhone)
+    public function setsecondaryPhone($secondaryPhone)
     {
-        $this->mobilePhone = $mobilePhone;
+        $this->secondaryPhone = $secondaryPhone;
 
         return $this;
     }
 
     /**
-     * Get mobilePhone
+     * Get secondaryPhone
      *
      * @return string
      */
-    public function getMobilePhone()
+    public function getsecondaryPhone()
     {
-        return $this->mobilePhone;
+        return $this->secondaryPhone;
     }
 
     /**
