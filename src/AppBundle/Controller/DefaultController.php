@@ -10,11 +10,12 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use AppBundle\Entity\EduMat;
 
 class DefaultController extends Controller
 {
     /**
-     * @Route("/EduMat", name="EduMat")
+     * @Route("/EduMatForm", name="EduMatForm")
      */
     public function indexAction(Request $request)
     {
@@ -24,12 +25,8 @@ class DefaultController extends Controller
             ->add('name', TextType::class)
             ->add('status', ChoiceType::class, array(
                 'choices' => array('Pending Distribution' => true, 'Distribution in progress' => false, 'Complete' => false)))
-            ->add('dateCreated', DateType::class, array(
-                'createdDate' => 'enteredCDate',
-                'format' => 'yyyy-MM-dd'))
-            ->add('dateFinished', DateType::class, array(
-                'finishedDate' => 'enteredFDate',
-                'format' => 'yyyy-MM-dd'))
+            ->add('dateCreated', DateType::class)
+            ->add('dateFinished',null)
             ->add('recipient', TextType::class)
             ->add('description', TextType::class)
             ->add('add', SubmitType::class, array('label' => 'Add'))
@@ -43,3 +40,30 @@ class DefaultController extends Controller
         ));
     }
 }
+
+
+//<?php
+
+//namespace AppBundle\Controller;
+
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+//use Symfony\Component\HttpFoundation\Request;
+
+//class DefaultController extends Controller
+//{
+//    /**
+//     * @Route("/", name="homepage")
+//     */
+//    public function indexAction(Request $request)
+//    {
+//        // replace this example code with whatever you need
+//        return $this->render('default/index.html.twig', [
+//            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+//        ]);
+//    }
+//}
+
+
+
+

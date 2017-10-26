@@ -71,7 +71,7 @@ class EduMat
     private $operationType;
 
 
-    function __construct($name, $status="", $dateCreated="", $dateFinished="", $recipient="", $description="", $operationType="EduMat")
+    function __construct($name="", $status="", $dateCreated="", $dateFinished="", $recipient="", $description="", $operationType="EduMat")
     {
         $this->name = $name;
         $this->status = $status;
