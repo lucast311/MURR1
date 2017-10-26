@@ -32,7 +32,7 @@ class Communication
      * @var string
      * @ORM\Column(type="string", length=25)
      * @Assert\NotBlank(message="Please select a type of communication")
-     * @Assert\Choice(choice = {"In Person", "Phone", "Email"}, message = "Please select a type of communication")
+     * @Assert\Choice(callback=getTypes, message = "Please select a type of communication")
      */
     private $type;
 
@@ -40,7 +40,7 @@ class Communication
      * @var string
      * @ORM\Column(type="string", length=8)
      * @Assert\NotBlank(message="Please select incoming or outgoing")
-     * @Assert\Choice(choice = {"Incoming", "Outgoing"}, message = "Please select incoming or outgoing")
+     * @Assert\Choice(callback="getMediums", message = "Please select incoming or outgoing")
      */
     private $medium;
 
@@ -48,7 +48,7 @@ class Communication
      * @var int
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Please enter a contact")
-     * @Assert\Choice(choice = {-1,0,1,2,3}, message = "Please enter a contact")
+     * @Assert\Choice(callback=getContacts, message = "Please enter a contact")
      */
     private $contact;
 
@@ -56,7 +56,7 @@ class Communication
      * @var int
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Please select a property")
-     * @Assert\Choice(choice = {-1,0,1,2,3}, message = "Please select a property")
+     * @Assert\Choice(callback=getProperties, message = "Please select a property")
      */
     private $property;
 
@@ -64,7 +64,7 @@ class Communication
      * @var string
      * @ORM\Column(type="string", length=25)
      * @Assert\NotBlank(message="Please select a category")
-     * @Assert\Choice(choice = {"Collection","Container"}, message = "Please select a category")
+     * @Assert\Choice(callback=getCategories, message = "Please select a category")
      */
     private $category;
 
@@ -287,6 +287,31 @@ class Communication
     public function getUser()
     {
         return $this->user;
+    }
+
+    public static function getMediums()
+    {
+        return array ('Incoming' => 'incoming', 'Outgoing' => 'outgoing');
+    }
+
+    public static function getTypes()
+    {
+        return array ('In Person' => 'in person', 'Phone' => 'phone', 'Email' => 'email');
+    }
+
+    public static function getCategories()
+    {
+        return array ('Container' => 'container', 'Collection' => 'collection', 'Misc.' => 'misc');
+    }
+
+    public static function getContacts()
+    {
+        return array ('Linda Smith' => 0, 'John Snow' => 1, 'Resident' => -1);
+    }
+
+    public static function getProperties()
+    {
+        return array('123 Fake St' => 0, 'N/A' => -1, 'Multi-property' => -1);
     }
 }
 
