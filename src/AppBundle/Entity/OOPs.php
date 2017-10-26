@@ -55,14 +55,17 @@ class OOPs
      * @param mixed $description an optional description of the issue
      * @param mixed $image an optional image of the oops notice
      */
-    function __construct( $binSerial, $problemType, $status = 'not started', $description = '', $image = null )
+    function __construct( /*$binSerial, $problemType, $status = 'not started', $description = '', $image = null*/ )
     {
-        $this->binSerial = htmlentities($binSerial);
-        $this->problemType = htmlentities($problemType);
-        $this->status = htmlentities($status);
-        $this->description = htmlentities($description);
-        $this->image = $image;
+        //$this->binSerial = htmlentities($binSerial);
+        //$this->problemType = htmlentities($problemType);
+        //$this->status = htmlentities($status);
+        //$this->description = htmlentities($description);
+        //$this->image = $image;
     }
+
+
+
 
     /**
      * Set binSerialNumber
@@ -71,9 +74,9 @@ class OOPs
      *
      * @return OOPs
      */
-    public function setBinSerialNumber($binSerialNumber)
+    public function setBinSerial($binSerial)
     {
-        $this->binSerial = $binSerialNumber;
+        $this->binSerial = $binSerial;
 
         return $this;
     }
@@ -83,7 +86,7 @@ class OOPs
      *
      * @return string
      */
-    public function getBinSerialNumber()
+    public function getBinSerial()
     {
         return $this->binSerial;
     }
