@@ -31,10 +31,8 @@ class ContactTypeTest extends TypeTestCase
 
         // Create a new form and verify it compiles
         $form = $this->factory->create(ContactType::class);
-        //create a new contact object
-        $contact = Contact::fromArray($formData);
-        //create a new Address object
-        $address = Address::fromArray($formData);
+       
+       
 
         $form->submit($formData);
 
