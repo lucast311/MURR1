@@ -20,7 +20,7 @@ class OOPsController extends Controller
     public function newAction(Request $request)
     {
         // create a task and give it some dummy data for this example
-        $oops = new OOPs('1111111111','Damage');
+        $oops = new OOPs('          ','');
         $oops->setStatus('Not in progress');
 
         $oopsForm = $this->createFormBuilder($oops)
@@ -28,12 +28,7 @@ class OOPsController extends Controller
                     'attr' => array('pattern' => '/^[a-Z0-9]{10}$/', 'placeholder' => 'abcde12345')
                     ))
             ->add('problemType', ChoiceType::class, array(
-                    'choices' => array(
-                        'Damage' => 'Damage',
-                        'Contamination' => 'Contamination',
-                        'Blocked' => 'Blocked',
-                        'Other (include in description)' => 'Other'
-                    )))
+                    'choices' => OOPs::getProblemOptions()))
             ->add('description', TextType::class, array('required' => false))
             ->add('image', FileType::class, array('required' => false))
             ->add('save', SubmitType::class, array('label' => 'Create OOPs Notice'))
@@ -52,4 +47,5 @@ class OOPsController extends Controller
             'form' => $oopsForm->createView(),
         ));
     }
+
 }

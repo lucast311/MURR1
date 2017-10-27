@@ -21,30 +21,42 @@ class OOPs
     /**
      * @var string
      * @ORM\Column(type="string", length=10, unique=true)
+     * @Assert\NotBlank(message="Please enter a serial number")
+     * @Assert\Length(max = 10,
+     *                min = 10,
+     *                maxMessage = "Please enter a valid serial number with 10 characters",
+     *                minMessage = "Please enter a valid serial number with 10 characters"
+     * )
      */
     private $binSerial;
 
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Assert\Choice(callback="getProblemOptions", message = "Please select a problem type")
      */
     private $problemType;
 
-    /**
+    /** // replace getProblemOptions with getStatusOptions
      * @var string
      * @ORM\Column(type="string")
+     * @Assert\Choice(callback="getProblemOptions", message = "Please select the current OOPs status")
      */
     private $status;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=250, nullable=true)
+     * @Assert\Length(max = 250,
+     *                maxMessage = "Please enter a valid description with less than {{ limit }} characters"
+     *                )
      */
     private $description;
 
     /**
      * @var \stdClass
      * @ORM\Column(type="object", nullable=true)
+     * @Assert\Image(mimeTypes="image/jpeg", mimeTypesMessage="Please upload an image in JPEG or PNG format")
      */
     private $image;
 
@@ -186,6 +198,20 @@ class OOPs
     public function getImage()
     {
         return $this->image;
+    }
+
+
+    public static function getProblemOptions()
+    {
+        return array ('Damage' => 'Damage',
+                      'Contamination' => 'Contamination',
+                      'Blocked' => 'Blocked',
+                      'Other (include in description)' => 'Other' );
+    }
+
+    public static function getValidImageTypes()
+    {
+        return array ('image/png','image/jpeg');
     }
 }
 
