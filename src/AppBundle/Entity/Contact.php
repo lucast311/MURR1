@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Contact
@@ -25,6 +26,10 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="firstName", type="string", length=50)
+     *
+     * @Assert\NotBlank(message = "First name cannot be left blank")
+     *
+     * @Assert\Length(max=50 , message = "Length can't be more than 50 characters long.")
      */
     private $firstName;
 
@@ -32,6 +37,10 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="lastName", type="string", length=50)
+     *
+     * @Assert\NotBlank(message = "Last name cannot be left blank")
+     *
+     * @Assert\Length(max=50 , message = "Length can't be more than 50 characters long.")
      */
     private $lastName;
 
@@ -39,6 +48,8 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="organization", type="string", length=100, nullable=true)
+     *
+     * @Assert\Length(max=100 , message = "Length can't be more than 100 characters long.")
      */
     private $organization;
 
@@ -46,6 +57,12 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="primaryPhone", type="string", length=12, nullable=true)
+     *
+     * @Assert\NotBlank(message = "Primary phone cannot be left blank")
+     *
+     * @Assert\Regex(pattern = "/^\d{3}-\d{3}-\d{4}$/", message = "Phone number must be in the format of ###-###-####")
+     *
+     *
      */
     private $primaryPhone;
 
@@ -53,6 +70,8 @@ class Contact
      * @var int
      *
      * @ORM\Column(name="phoneExtention", type="integer", nullable=true)
+     *
+     * @Assert\Length(max=4 , message = "Length can't be more than 4 characters long.")
      */
     private $phoneExtention;
 
@@ -60,6 +79,8 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="secondaryPhone", type="string", length=12, nullable=true)
+     *
+     * @Assert\Regex(pattern = "/^\d{3}-\d{3}-\d{4}$/", message = "Phone number must be in the format of ###-###-####")
      */
     private $secondaryPhone;
 
@@ -67,6 +88,10 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="emailAddress", type="string", length=100)
+     *
+     * @Assert\NotBlank(message = "Email address cannot be left blank")
+     *
+     * @Assert\Email(message = "Email must be in the format of 'Example@example.com'")
      */
     private $emailAddress;
 
@@ -74,6 +99,9 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="fax", type="string", length=12, nullable=true)
+     *
+     * @Assert\Regex(pattern = "/^\d{3}-\d{3}-\d{4}$/", message = "Fax must be in the format of ###-###-####")
+     *
      */
     private $fax;
 
@@ -82,10 +110,11 @@ class Contact
      *
      * @ORM\ManyToOne(targetEntity="Address")
      * @ORM\JoinColumn(name="addressId", referencedColumnName="id")
-     * 
-     * @ORM\Column(name="addressId", type="integer")
+     *
+     * @Assert\Valid()
+     *
      */
-    private $addressId;
+    private $address;
 
 
     /**
@@ -297,9 +326,9 @@ class Contact
      *
      * @return Contact
      */
-    public function setAddressId($addressId)
+    public function setAddress($address)
     {
-        $this->addressId = $addressId;
+        $this->address = $address;
 
         return $this;
     }
@@ -309,9 +338,9 @@ class Contact
      *
      * @return \stdClass
      */
-    public function getAddressId()
+    public function getAddress()
     {
-        return $this->addressId;
+        return $this->address;
     }
 }
 

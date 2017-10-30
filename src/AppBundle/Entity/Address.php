@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Address
@@ -26,7 +27,9 @@ class Address
      *
      * @ORM\Column(name="streetAddress", type="string", length=150)
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Street address cannot be left blank")
+     *
+     * @Assert\Length(max=150 , message = "Length can't be more than 150 characters long.")
      */
     private $streetAddress;
 
@@ -35,7 +38,10 @@ class Address
      *
      * @ORM\Column(name="postalCode", type="string", length=7)
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Postal code cannot be left blank")
+     *
+     * @Assert\Regex(pattern ="/[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ] [0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]/",
+     * message = "A proper postal code must be entered in the form of L#L #L#")
      */
     private $postalCode;
 
@@ -44,7 +50,9 @@ class Address
      *
      * @ORM\Column(name="city", type="string", length=100)
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "City cannot be left blank")
+     *
+     *  @Assert\Length(max=100 , message = "Length can't be more than 100 characters long.")
      */
     private $city;
 
@@ -53,7 +61,9 @@ class Address
      *
      * @ORM\Column(name="province", type="string", length=100)
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Province cannot be left blank")
+     *
+     * @Assert\Length(max=100 , message = "Length can't be more than 100 characters long.")
      */
     private $province;
 
@@ -62,7 +72,9 @@ class Address
      *
      * @ORM\Column(name="country", type="string", length=100)
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Country cannot be left blank")
+     *
+     * @Assert\Length(max=100 , message = "Length can't be more than 100 characters long.")
      */
     private $country;
 
