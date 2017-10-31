@@ -17,12 +17,14 @@ class CommunicationControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add')->form();
 
         //set form values
-        $form['communication[date]'] = "2017-10-05";
-        $form['communication[type]']="Phone";
+        $form['communication[date][year]'] = "2017";
+        $form['communication[date][month]'] = "10";
+        $form['communication[date][day]'] = "5";
+        $form['communication[type]']="phone";
         $form['communication[medium]']="incoming";
         $form['communication[contact]']=1; //contact id
         $form['communication[property]']=1; //property id
-        $form['communication[category]']="Container";
+        $form['communication[category]']="container";
         $form["communication[description]"]="Container has graffiti and needs to be cleaned. Action request made";
 
         $crawler = $client->submit($form);
@@ -52,11 +54,13 @@ class CommunicationControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add')->form();
 
         //set form values
-        $form['communication[date]'] = "2019-10-05";
+        $form['communication[date][year]'] = "2019";
+        $form['communication[date][month]'] = "10";
+        $form['communication[date][day]'] = "5";
 
         $crawler = $client->submit($form);
 
-        assertContains("Please select a current or past date",$client->getResponse()->getContent());
+        $this->assertContains("Please select a current or past date",$client->getResponse()->getContent());
     }
 
     public function testEmptyDate()
@@ -68,11 +72,12 @@ class CommunicationControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add')->form();
 
         //set form values
-        $form['communication[date]'] = "";
+        //do not set date
+        //$form['communication[date]'] = "";
 
         $crawler = $client->submit($form);
 
-        assertContains("Please select a date",$client->getResponse()->getContent());
+        $this->assertContains("Please select a date",$client->getResponse()->getContent());
     }
 
     public function testNonExistantDate()
@@ -84,11 +89,13 @@ class CommunicationControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add')->form();
 
         //set form values
-        $form['communication[date]'] = "2017-2-30";
+        $form['communication[date][year]'] = "2017";
+        $form['communication[date][month]'] = "2";
+        $form['communication[date][day]'] = "31";
 
         $crawler = $client->submit($form);
 
-        assertContains("Please select a valid date",$client->getResponse()->getContent());
+        $this->assertContains("Please select a valid date",$client->getResponse()->getContent());
     }
 
     public function testNoType()
@@ -104,7 +111,7 @@ class CommunicationControllerTest extends WebTestCase
 
         $crawler = $client->submit($form);
 
-        assertContains("Please select a type of communication",$client->getResponse()->getContent());
+        $this->assertContains("Please select a type of communication",$client->getResponse()->getContent());
     }
 
     public function testNoMedium()
@@ -116,11 +123,12 @@ class CommunicationControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add')->form();
 
         //set form values
-        $form['communication[medium]']=0;
+        //do not set medium
+        //$form['communication[medium]']=0;
 
         $crawler = $client->submit($form);
 
-        assertContains("Please select incoming or outgoing",$client->getResponse()->getContent());
+        $this->assertContains("Please select incoming or outgoing",$client->getResponse()->getContent());
     }
 
     public function testBlankContact()
@@ -136,7 +144,7 @@ class CommunicationControllerTest extends WebTestCase
 
         $crawler = $client->submit($form);
 
-        assertContains("Please enter a contact",$client->getResponse()->getContent());
+        $this->assertContains("Please enter a contact",$client->getResponse()->getContent());
     }
 
     public function testResidentContact()
@@ -148,12 +156,14 @@ class CommunicationControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add')->form();
 
         //set form values
-        $form['communication[date]'] = "2017-10-05";
-        $form['communication[type]']="Phone";
+        $form['communication[date][year]'] = "2017";
+        $form['communication[date][month]'] = "10";
+        $form['communication[date][day]'] = "5";
+        $form['communication[type]']="phone";
         $form['communication[medium]']="incoming";
         $form['communication[contact]']=-1; //identifier for a resident, will not be stored
         $form['communication[property]']=1;
-        $form['communication[category]']="Container";
+        $form['communication[category]']="container";
         $form["communication[description]"]="Container has graffiti and needs to be cleaned. Action request made";
 
         $crawler = $client->submit($form);
@@ -174,7 +184,7 @@ class CommunicationControllerTest extends WebTestCase
 
         $crawler = $client->submit($form);
 
-        assertContains("Please select a property",$client->getResponse()->getContent());
+        $this->assertContains("Please select a property",$client->getResponse()->getContent());
     }
 
     public function testMultiOrNAProperty()
@@ -187,17 +197,19 @@ class CommunicationControllerTest extends WebTestCase
 
         //set form values
         //set form values
-        $form['communication[date]'] = "2017-10-05";
-        $form['communication[type]']="Phone";
+        $form['communication[date][year]'] = "2017";
+        $form['communication[date][month]'] = "10";
+        $form['communication[date][day]'] = "5";
+        $form['communication[type]']="phone";
         $form['communication[medium]']="incoming";
         $form['communication[contact]']=1; //contact id
         $form['communication[property]']=-1; //multi-property or N/A property identifier
-        $form['communication[category]']="Container";
+        $form['communication[category]']="container";
         $form["communication[description]"]="Container has graffiti and needs to be cleaned. Action request made";
 
         $crawler = $client->submit($form);
 
-        assertContains("Communication added successfully",$client->getResponse()->getContent());
+        $this->assertContains("Communication added successfully",$client->getResponse()->getContent());
     }
 
     public function testBlankCategory()
@@ -214,7 +226,7 @@ class CommunicationControllerTest extends WebTestCase
 
         $crawler = $client->submit($form);
 
-        assertContains("Please select a category",$client->getResponse()->getContent());
+        $this->assertContains("Please select a category",$client->getResponse()->getContent());
     }
 
     public function testBlankDescription()
@@ -231,7 +243,7 @@ class CommunicationControllerTest extends WebTestCase
 
         $crawler = $client->submit($form);
 
-        assertContains("Please provide a brief description of the communication",$client->getResponse()->getContent());
+        $this->assertContains("Please provide a brief description of the communication",$client->getResponse()->getContent());
     }
 
     public function testShortDescription()
@@ -248,7 +260,7 @@ class CommunicationControllerTest extends WebTestCase
 
         $crawler = $client->submit($form);
 
-        assertContains("Please provide a description of 50 characters or more",$client->getResponse()->getContent());
+        $this->assertContains("Please provide a description of 50 characters or more",$client->getResponse()->getContent());
     }
 
     public function testLongDescription()
@@ -266,6 +278,6 @@ class CommunicationControllerTest extends WebTestCase
 
         $crawler = $client->submit($form);
 
-        assertContains("Please keep the description under 2000 characters",$client->getResponse()->getContent());
+        $this->assertContains("Please keep the description under 2000 characters",$client->getResponse()->getContent());
     }
 }

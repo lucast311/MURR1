@@ -20,8 +20,8 @@ class CommunicationType extends AbstractType
             ->add('date', DateType::class, array('label' => 'Date')) //add date type field
             ->add('type', ChoiceType::class, array('label' => 'Type','choices' => array_merge( array('...' => '0'), Communication::getTypes()))) //add a type select box
             ->add('medium', ChoiceType::class, array('expanded' => true, 'choices' => Communication::getMediums())) //add a medium radio button
-            ->add('contact', ChoiceType::class, array('label' => 'Contact', 'choices' => array_merge( array('...' => -100),Communication::getContacts()))) //add a contact select box
-            ->add('property', ChoiceType::class, array('label'=>'Property', 'choices' => array_merge( array('...' => -100),Communication::getProperties()))) //add a property select box
+            ->add('contact', ChoiceType::class, array('label' => 'Contact', 'choices' => array_merge( array('...' => 0),Communication::getContacts()))) //add a contact select box
+            ->add('property', ChoiceType::class, array('label'=>'Property', 'choices' => array_merge( array('...' => 0),Communication::getProperties()))) //add a property select box
             ->add('category', ChoiceType::class, array('label' => 'Category', 'choices' => array_merge( array('...' => '0'),Communication::getCategories()))) //add a category select box
             ->add('description', TextareaType::class, array('label' => 'Description')) //add a description text area
             ->add('add', SubmitType::class, array('label' => 'Add')); //add a submit button

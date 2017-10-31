@@ -12,7 +12,7 @@ class CommunicationController extends Controller
 {
     /**
      * @Route("/communication", name = "new communication")
-     * @param Request $request 
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
@@ -23,14 +23,27 @@ class CommunicationController extends Controller
 
         $added = false;
 
-        if($form->isSubmitted() )
+        if($form->isSubmitted() && $form->isValid())
         {
-            var_dump($form->getData());
+            //get the data from the form
+            $communication = $form->getData();
+
+            //get the doctrine repository
+            //$repo = $this->getDoctrine()->getRepository(Communication::class);
+            ////insert into the database
+            //$repo->insert($communication);
+
+            //create a new blank form to erase the old data
+            $form = $this->createForm(CommunicationType::class, new Communication());
+
+            //let the user know that the communication was added
+            $added = true;
         }
 
         return $this->render('communication/newComm.html.twig', [
     'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-    'form' => $form->createView()]);
+    'form' => $form->createView(),
+    'added'=>$added]);
     }
 
 }

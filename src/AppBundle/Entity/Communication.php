@@ -21,8 +21,9 @@ class Communication
     /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
-     * @Assert\NotBlank(message="Please select a valid date")
-     * @Assert\DateTime(message="Please select a valid date")
+     * @Assert\NotBlank(message="Please select a date")
+     * @Assert\NotNull(message="Please select a date")
+     * @Assert\Date(message="Please select a valid date")
      * @Assert\LessThan("today", message="Please select a current or past date")
      *
      */
@@ -306,12 +307,12 @@ class Communication
 
     public static function getContacts()
     {
-        return array ('Linda Smith' => 1, 'John Snow' => 2, 'Resident' => -1);
+        return array ('Resident' => -1, 'Linda Smith' => 1, 'John Snow' => 2 );
     }
 
     public static function getProperties()
     {
-        return array('123 Fake St' => 1, 'N/A' => -1, 'Multi-property' => -1);
+        return array ('N/A' => -1, 'Multi-Property' => -2, '123 Fake St.' => 1, '456 Fake St.' => 2);
     }
 }
 

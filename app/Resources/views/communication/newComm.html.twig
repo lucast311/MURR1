@@ -7,6 +7,10 @@
             {{ form_start(form) }}
             {{ form_widget(form) }}
             {{ form_end(form) }}
+
+            {% if added is defined and added %}
+                Communication added successfully
+            {% endif %}
         </div>
     </div>
 {% endblock %}
