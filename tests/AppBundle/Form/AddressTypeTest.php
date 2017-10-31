@@ -43,11 +43,11 @@ class AddressTypeTest extends TypeTestCase
         //get the children of the form
         $children = $view->children;
         //make sure the form has all the right fields
-        foreach ($formData as $key)
+        foreach ($formData as $key=>$value)
         {
-            $this->assertArrayHasKey($key,$children);        	
+            $this->assertArrayHasKey($key,$children);
         }
-        
+
 
     }
 }

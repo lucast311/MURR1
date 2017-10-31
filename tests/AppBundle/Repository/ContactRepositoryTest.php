@@ -37,7 +37,16 @@ class ContactRepositoryTest extends KernelTestCase
         $contact->setFirstName("Bob");
         $contact->setLastName("Jons");
         $contact->setEmailAddress("l@L.com");
-        $contact->setAddressId(1);
+
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+
+        $contact->setAddress($address);
         //Get the repository for testing
         $repository = $this->em->getRepository(Contact::class);
         //Call insert on the repositor and record the id of the new object

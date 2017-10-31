@@ -24,7 +24,7 @@ class AddressTest extends TestCase
 
         // Get a validator
         //$this->validator = $this->get('validator');
-        $this->validator = Validation::createValidator();
+        $this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
     }
 
     public function testAddressCorrect()

@@ -28,15 +28,15 @@ class ContactType extends AbstractType
         // Add the fields
         $builder->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
-            ->add('organization', TextType::class)
+            ->add('organization', TextType::class, array('required'=>false))
             ->add('primaryPhone', TextType::class)
-            ->add('secondaryPhone', TextType::class)
-            ->add('phoneExtention', IntegerType::class)
+            ->add('secondaryPhone', TextType::class, array('required'=>false))
+            ->add('phoneExtention', IntegerType::class, array('required'=>false))
             ->add('emailAddress', EmailType::class)
-            ->add('fax', TextType::class);
+            ->add('fax', TextType::class, array('required'=>false));
 
         // Add the address form into this form
-        $builder->add('address', AddressType::class);
+        $builder->add('address', AddressType::class, array('label'=>false));
 
         // Add a clear button
         $builder->add('reset', ResetType::class, array(

@@ -12,19 +12,20 @@ class ContactControllerTest extends WebTestCase
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/add');
         //select the form and add values to it.
-        $form = $crawler->selectButton('submit')->form();
-        $form['firstName'] = 'Bob';
-        $form['lastName'] = 'frank';
-        $form['Organization'] = 'Murr';
-        $form['officePhone'] = '3069213344';
-        $form['phoneExtention'] = '';
-        $form['mobilePhone'] = '';
-        $form['emailAddress'] = 'murr123@gmail.com';
-        $form['fax'] = '';
-        $form['postalCode'] = 'S7N0R7';
-        $form['city'] = 'Saskatoon';
-        $form['province'] = 'Saskatchewan';
-        $form['country'] = 'Canada';
+        $form = $crawler->selectButton('Save')->form();
+        $form['contact[firstName]'] = 'Bob';
+        $form['contact[lastName]'] = 'frank';
+        $form['contact[organization]'] = 'Murr';
+        $form['contact[primaryPhone]'] = '306-921-3344';
+        $form['contact[phoneExtention]'] = '';
+        $form['contact[secondaryPhone]'] = '';
+        $form['contact[emailAddress]'] = 'murr123@gmail.com';
+        $form['contact[fax]'] = '';
+        $form['contact[address][streetAddress]'] = '123 Main Street';
+        $form['contact[address][postalCode]'] = 'S7N 0R7';
+        $form['contact[address][city]'] = 'Saskatoon';
+        $form['contact[address][province]'] = 'Saskatchewan';
+        $form['contact[address][country]'] = 'Canada';
         //crawler submits the form
         $crawler = $client->submit($form);
         //check for the success message
@@ -44,25 +45,26 @@ class ContactControllerTest extends WebTestCase
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/add');
         //select the form and add values to it.
-        $form = $crawler->selectButton('submit')->form();
-        $form['firstName'] = '';
-        $form['lastName'] = 'frank';
-        $form['Organization'] = 'Murr';
-        $form['officePhone'] = '3069213344';
-        $form['phoneExtention'] = '';
-        $form['mobilePhone'] = '';
-        $form['emailAddress'] = 'murr123@gmail.com';
-        $form['fax'] = '';
-        $form['postalCode'] = 'S7N0R7';
-        $form['city'] = 'Saskatoon';
-        $form['province'] = 'Saskatchewan';
-        $form['country'] = 'Canada';
+        $form = $crawler->selectButton('Save')->form();
+        $form['contact[firstName]'] = '';
+        $form['contact[lastName]'] = 'frank';
+        $form['contact[organization]'] = 'Murr';
+        $form['contact[primaryPhone]'] = '306-921-3344';
+        $form['contact[phoneExtention]'] = '';
+        $form['contact[secondaryPhone]'] = '';
+        $form['contact[emailAddress]'] = 'murr123@gmail.com';
+        $form['contact[fax]'] = '';
+        $form['contact[address][streetAddress]'] = '123 Main Street';
+        $form['contact[address][postalCode]'] = 'S7N 0R7';
+        $form['contact[address][city]'] = 'Saskatoon';
+        $form['contact[address][province]'] = 'Saskatchewan';
+        $form['contact[address][country]'] = 'Canada';
         //crawler submits the form
         $crawler = $client->submit($form);
         //check for the success message
         $this->assertGreaterThan(
             0,
-            $crawler->filter('html:contains("First Name cannot be left blank")')->count()
+            $crawler->filter('html:contains("First name cannot be left blank")')->count()
             );
 
 
@@ -75,25 +77,26 @@ class ContactControllerTest extends WebTestCase
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/add');
         //select the form and add values to it.
-        $form = $crawler->selectButton('submit')->form();
-        $form['firstName'] = 'Bob';
-        $form['lastName'] = '';
-        $form['Organization'] = 'Murr';
-        $form['officePhone'] = '3069213344';
-        $form['phoneExtention'] = '';
-        $form['mobilePhone'] = '';
-        $form['emailAddress'] = 'murr123@gmail.com';
-        $form['fax'] = '';
-        $form['postalCode'] = 'S7N0R7';
-        $form['city'] = 'Saskatoon';
-        $form['province'] = 'Saskatchewan';
-        $form['country'] = 'Canada';
+        $form = $crawler->selectButton('Save')->form();
+        $form['contact[firstName]'] = 'Bob';
+        $form['contact[lastName]'] = '';
+        $form['contact[organization]'] = 'Murr';
+        $form['contact[primaryPhone]'] = '306-921-3344';
+        $form['contact[phoneExtention]'] = '';
+        $form['contact[secondaryPhone]'] = '';
+        $form['contact[emailAddress]'] = 'murr123@gmail.com';
+        $form['contact[fax]'] = '';
+        $form['contact[address][streetAddress]'] = '123 Main Street';
+        $form['contact[address][postalCode]'] = 'S7N 0R7';
+        $form['contact[address][city]'] = 'Saskatoon';
+        $form['contact[address][province]'] = 'Saskatchewan';
+        $form['contact[address][country]'] = 'Canada';
         //crawler submits the form
         $crawler = $client->submit($form);
         //check for the success message
         $this->assertGreaterThan(
             0,
-            $crawler->filter('html:contains("Last Name cannot be left blank")')->count()
+            $crawler->filter('html:contains("Last name cannot be left blank")')->count()
             );
 
 
@@ -106,19 +109,20 @@ class ContactControllerTest extends WebTestCase
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/add');
         //select the form and add values to it.
-        $form = $crawler->selectButton('submit')->form();
-        $form['firstName'] = 'Bob';
-        $form['lastName'] = 'Frank';
-        $form['Organization'] = 'Murr';
-        $form['officePhone'] = '3069213344';
-        $form['phoneExtention'] = '';
-        $form['mobilePhone'] = '';
-        $form['emailAddress'] = '';
-        $form['fax'] = '';
-        $form['postalCode'] = 'S7N0R7';
-        $form['city'] = 'Saskatoon';
-        $form['province'] = 'Saskatchewan';
-        $form['country'] = 'Canada';
+        $form = $crawler->selectButton('Save')->form();
+        $form['contact[firstName]'] = 'Bob';
+        $form['contact[lastName]'] = 'Frank';
+        $form['contact[organization]'] = 'Murr';
+        $form['contact[primaryPhone]'] = '306-921-3344';
+        $form['contact[phoneExtention]'] = '';
+        $form['contact[secondaryPhone]'] = '';
+        $form['contact[emailAddress]'] = '';
+        $form['contact[fax]'] = '';
+        $form['contact[address][streetAddress]'] = '123 Main Street';
+        $form['contact[address][postalCode]'] = 'S7N 0R7';
+        $form['contact[address][city]'] = 'Saskatoon';
+        $form['contact[address][province]'] = 'Saskatchewan';
+        $form['contact[address][country]'] = 'Canada';
         //crawler submits the form
         $crawler = $client->submit($form);
         //check for the success message
@@ -137,25 +141,26 @@ class ContactControllerTest extends WebTestCase
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/add');
         //select the form and add values to it.
-        $form = $crawler->selectButton('submit')->form();
-        $form['firstName'] = 'Bob';
-        $form['lastName'] = 'Frank';
-        $form['Organization'] = 'Murr';
-        $form['officePhone'] = '3069213344';
-        $form['phoneExtention'] = '';
-        $form['mobilePhone'] = '';
-        $form['emailAddress'] = 'murr123@gmail.com';
-        $form['fax'] = '';
-        $form['postalCode'] = '';
-        $form['city'] = 'Saskatoon';
-        $form['province'] = 'Saskatchewan';
-        $form['country'] = 'Canada';
+        $form = $crawler->selectButton('Save')->form();
+        $form['contact[firstName]'] = 'Bob';
+        $form['contact[lastName]'] = 'Frank';
+        $form['contact[organization]'] = 'Murr';
+        $form['contact[primaryPhone]'] = '306-921-3344';
+        $form['contact[phoneExtention]'] = '';
+        $form['contact[secondaryPhone]'] = '';
+        $form['contact[emailAddress]'] = 'murr123@gmail.com';
+        $form['contact[fax]'] = '';
+        $form['contact[address][streetAddress]'] = '123 Main Street';
+        $form['contact[address][postalCode]'] = '';
+        $form['contact[address][city]'] = 'Saskatoon';
+        $form['contact[address][province]'] = 'Saskatchewan';
+        $form['contact[address][country]'] = 'Canada';
         //crawler submits the form
         $crawler = $client->submit($form);
         //check for the success message
         $this->assertGreaterThan(
             0,
-            $crawler->filter('html:contains("Postal Code cannot be left blank")')->count()
+            $crawler->filter('html:contains("Postal code cannot be left blank")')->count()
             );
 
 
@@ -169,19 +174,20 @@ class ContactControllerTest extends WebTestCase
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/add');
         //select the form and add values to it.
-        $form = $crawler->selectButton('submit')->form();
-        $form['firstName'] = 'Bob';
-        $form['lastName'] = 'Frank';
-        $form['Organization'] = 'Murr';
-        $form['officePhone'] = '3069213344';
-        $form['phoneExtention'] = '';
-        $form['mobilePhone'] = '';
-        $form['emailAddress'] = 'murr123@gmail.com';
-        $form['fax'] = '';
-        $form['postalCode'] = 'S7N0R7';
-        $form['city'] = 'Saskatoon';
-        $form['province'] = '';
-        $form['country'] = 'Canada';
+        $form = $crawler->selectButton('Save')->form();
+        $form['contact[firstName]'] = 'Bob';
+        $form['contact[lastName]'] = 'Frank';
+        $form['contact[organization]'] = 'Murr';
+        $form['contact[primaryPhone]'] = '306-921-3344';
+        $form['contact[phoneExtention]'] = '';
+        $form['contact[secondaryPhone]'] = '';
+        $form['contact[emailAddress]'] = 'murr123@gmail.com';
+        $form['contact[fax]'] = '';
+        $form['contact[address][streetAddress]'] = '123 Main Street';
+        $form['contact[address][postalCode]'] = 'S7N 0R7';
+        $form['contact[address][city]'] = 'Saskatoon';
+        $form['contact[address][province]'] = '';
+        $form['contact[address][country]'] = 'Canada';
         //crawler submits the form
         $crawler = $client->submit($form);
         //check for the success message
@@ -201,19 +207,20 @@ class ContactControllerTest extends WebTestCase
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/add');
         //select the form and add values to it.
-        $form = $crawler->selectButton('submit')->form();
-        $form['firstName'] = 'Bob';
-        $form['lastName'] = 'Frank';
-        $form['Organization'] = 'Murr';
-        $form['officePhone'] = '3069213344';
-        $form['phoneExtention'] = '';
-        $form['mobilePhone'] = '';
-        $form['emailAddress'] = 'murr123@gmail.com';
-        $form['fax'] = '';
-        $form['postalCode'] = 'S7N0R7';
-        $form['city'] = 'Saskatoon';
-        $form['province'] = 'Saskatchewan';
-        $form['country'] = '';
+        $form = $crawler->selectButton('Save')->form();
+        $form['contact[firstName]'] = 'Bob';
+        $form['contact[lastName]'] = 'Frank';
+        $form['contact[organization]'] = 'Murr';
+        $form['contact[primaryPhone]'] = '306-921-3344';
+        $form['contact[phoneExtention]'] = '';
+        $form['contact[secondaryPhone]'] = '';
+        $form['contact[emailAddress]'] = 'murr123@gmail.com';
+        $form['contact[fax]'] = '';
+        $form['contact[address][streetAddress]'] = '123 Main Street';
+        $form['contact[address][postalCode]'] = 'S7N 0R7';
+        $form['contact[address][city]'] = 'Saskatoon';
+        $form['contact[address][province]'] = 'Saskatchewan';
+        $form['contact[address][country]'] = '';
         //crawler submits the form
         $crawler = $client->submit($form);
         //check for the success message

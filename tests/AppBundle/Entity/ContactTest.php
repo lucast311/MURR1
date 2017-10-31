@@ -17,13 +17,13 @@ class ContactTest extends TestCase
         $this->contact = new Contact();
         $this->contact->setFirstName("Ashton");
         $this->contact->setLastName("South");
-        $this->contact->setprimaryPhone("3069215971");
+        $this->contact->setprimaryPhone("306-921-5971");
         $this->contact->setEmailAddress("south@gmail.com");
 
 
 
         // Get a validator
-        $this->validator = Validation::createValidator();
+        $this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
     }
 
 

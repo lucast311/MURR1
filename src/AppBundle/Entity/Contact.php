@@ -29,7 +29,7 @@ class Contact
      *
      * @Assert\NotBlank(message = "First name cannot be left blank")
      *
-     * @Assert\Length(max=50 , message = "Length can't be more than 50 characters long.")
+     * @Assert\Length(max=50 , maxMessage = "Length can't be more than 50 characters long.")
      */
     private $firstName;
 
@@ -40,7 +40,7 @@ class Contact
      *
      * @Assert\NotBlank(message = "Last name cannot be left blank")
      *
-     * @Assert\Length(max=50 , message = "Length can't be more than 50 characters long.")
+     * @Assert\Length(max=50 , maxMessage = "Length can't be more than 50 characters long.")
      */
     private $lastName;
 
@@ -49,7 +49,7 @@ class Contact
      *
      * @ORM\Column(name="organization", type="string", length=100, nullable=true)
      *
-     * @Assert\Length(max=100 , message = "Length can't be more than 100 characters long.")
+     * @Assert\Length(max=100 , maxMessage = "Length can't be more than 100 characters long.")
      */
     private $organization;
 
@@ -71,7 +71,7 @@ class Contact
      *
      * @ORM\Column(name="phoneExtention", type="integer", nullable=true)
      *
-     * @Assert\Length(max=4 , message = "Length can't be more than 4 characters long.")
+     * @Assert\Regex(pattern = "/^\d{4}$/", message = "Phone extention must be in the format of ####")
      */
     private $phoneExtention;
 
@@ -81,6 +81,8 @@ class Contact
      * @ORM\Column(name="secondaryPhone", type="string", length=12, nullable=true)
      *
      * @Assert\Regex(pattern = "/^\d{3}-\d{3}-\d{4}$/", message = "Phone number must be in the format of ###-###-####")
+     *
+     *
      */
     private $secondaryPhone;
 

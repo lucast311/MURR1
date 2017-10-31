@@ -29,7 +29,7 @@ class Address
      *
      * @Assert\NotBlank(message = "Street address cannot be left blank")
      *
-     * @Assert\Length(max=150 , message = "Length can't be more than 150 characters long.")
+     * @Assert\Length(max=150 , maxMessage = "Length can't be more than 150 characters long.")
      */
     private $streetAddress;
 
@@ -52,7 +52,7 @@ class Address
      *
      * @Assert\NotBlank(message = "City cannot be left blank")
      *
-     *  @Assert\Length(max=100 , message = "Length can't be more than 100 characters long.")
+     *  @Assert\Length(max=100 , maxMessage = "Length can't be more than 100 characters long.")
      */
     private $city;
 
@@ -63,7 +63,7 @@ class Address
      *
      * @Assert\NotBlank(message = "Province cannot be left blank")
      *
-     * @Assert\Length(max=100 , message = "Length can't be more than 100 characters long.")
+     * @Assert\Length(max=100 , maxMessage = "Length can't be more than 100 characters long.")
      */
     private $province;
 
@@ -74,7 +74,7 @@ class Address
      *
      * @Assert\NotBlank(message = "Country cannot be left blank")
      *
-     * @Assert\Length(max=100 , message = "Length can't be more than 100 characters long.")
+     * @Assert\Length(max=100 , maxMessage = "Length can't be more than 100 characters long.")
      */
     private $country;
 
