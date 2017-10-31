@@ -28,13 +28,29 @@ class CommunicationController extends Controller
             //get the data from the form
             $communication = $form->getData();
 
+
+
+            //create a new blank form to erase the old data
+            $form = $this->createForm(CommunicationType::class, new Communication());
+
+            if($communication->getContact() <= 0) //if the communication ID is not a real ID
+            {
+                $communication->setContact(null);
+            }
+            if($communication->getProperty() <= 0)
+            {
+                $communication->setProperty(null);
+            }
+
+            //PLEASE RETURN TO ME WHEN USERS ARE IMPLEMENTED
+            $communication->setUser(1); //set the user ID
+
+
             //get the doctrine repository
             //$repo = $this->getDoctrine()->getRepository(Communication::class);
             ////insert into the database
             //$repo->insert($communication);
 
-            //create a new blank form to erase the old data
-            $form = $this->createForm(CommunicationType::class, new Communication());
 
             //let the user know that the communication was added
             $added = true;

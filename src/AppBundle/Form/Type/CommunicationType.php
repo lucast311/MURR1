@@ -15,9 +15,9 @@ class CommunicationType extends AbstractType
     {
 
         //Note: Anywhere you see array_merge, I am added a default value. It is not included in the method call because the default value is not valid
-        
+
         $builder
-            ->add('date', DateType::class, array('label' => 'Date')) //add date type field
+            ->add('date', DateType::class, array('label' => 'Date'/*, 'invalid_message' => 'Please select a valid date'*/)) //add date type field, and invalid message
             ->add('type', ChoiceType::class, array('label' => 'Type','choices' => array_merge( array('...' => '0'), Communication::getTypes()))) //add a type select box
             ->add('medium', ChoiceType::class, array('expanded' => true, 'choices' => Communication::getMediums())) //add a medium radio button
             ->add('contact', ChoiceType::class, array('label' => 'Contact', 'choices' => array_merge( array('...' => 0),Communication::getContacts()))) //add a contact select box

@@ -5,8 +5,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\CommunicationRepository")
+ * Communication
  * @ORM\Table(name="communication")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CommunicationRepository")
  */
 class Communication
 {
@@ -23,7 +24,7 @@ class Communication
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="Please select a date")
      * @Assert\NotNull(message="Please select a date")
-     * @Assert\Date(message="Please select a valid date")
+     * @Assert\DateTime(message="Please select a valid date")
      * @Assert\LessThan("today", message="Please select a current or past date")
      *
      */

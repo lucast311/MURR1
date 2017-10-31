@@ -32,10 +32,13 @@ class CommunicationControllerTest extends WebTestCase
         $this->assertContains("Communication added successfully",$client->getResponse()->getContent());
 
         //Refresh the form because a new one was created after submission
-        $form = $crawler->selectButton('Submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         //test that all fields are now empty
-        $this->assertEmpty($form['communication[date]']->getValue());
+            //date will not be empty by default
+        //$this->assertEmpty($form['communication[date][year]']->getValue());
+        //$this->assertEmpty($form['communication[date][month]']->getValue());
+        //$this->assertEmpty($form['communication[date][day]']->getValue());
         $this->assertEmpty($form['communication[type]']->getValue());
         $this->assertEmpty($form['communication[medium]']->getValue());
         $this->assertEmpty($form['communication[contact]']->getValue());
@@ -72,8 +75,11 @@ class CommunicationControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add')->form();
 
         //set form values
-        //do not set date
-        //$form['communication[date]'] = "";
+        //do not set date by removing the form fields
+        $form->remove('communication[date][year]');
+        $form->remove('communication[date][month]');
+        $form->remove('communication[date][day]');
+
 
         $crawler = $client->submit($form);
 
