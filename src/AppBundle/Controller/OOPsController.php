@@ -22,7 +22,7 @@ class OOPsController extends Controller
     {
         // create a task and give it some dummy data for this example
         $oops = new OOPs('          ','');
-        $oops->setStatus('Not in progress');
+        //$oops->setStatus('Not in progress');
 
         $oopsForm = $this->createFormBuilder($oops)
             ->add('binSerial', TextType::class,array(
@@ -43,12 +43,11 @@ class OOPsController extends Controller
         {
             //form submition
             $em = $this->getDoctrine()->getManager();
-            $em->persist($oops);
-            $em->flush();
-            return new Response('Created a new OOPs notice!');
+            $em->getRepository(OOPs::class)->insert($oops); 
+            //return new Response('Created a new OOPs notice!');
 
 
-            //return $this->render('default/OOPsFormSuccess.html.twig');
+            return $this->render('default/OOPsFormSuccess.html.twig');
         }
 
         return $this->render('default/OOPsFormBase.html.twig', array(
