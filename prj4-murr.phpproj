@@ -90,9 +90,16 @@
     <Folder Include="tests" />
     <Folder Include="tests\AppBundle\Form\" />
     <Folder Include="var\cache" />
+    <Folder Include="var\cache\dev\" />
+    <Folder Include="var\cache\dev\doctrine\" />
+    <Folder Include="var\cache\dev\doctrine\orm\" />
+    <Folder Include="var\cache\dev\doctrine\orm\Proxies\" />
     <Folder Include="var\logs" />
     <Folder Include="var\sessions" />
     <Folder Include="var" />
     <Folder Include="web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="sqlite.db" />
   </ItemGroup>
 </Project>
