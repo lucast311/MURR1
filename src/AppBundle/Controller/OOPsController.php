@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class OOPsController extends Controller
@@ -25,12 +26,14 @@ class OOPsController extends Controller
 
         $oopsForm = $this->createFormBuilder($oops)
             ->add('binSerial', TextType::class,array(
-                    'attr' => array('pattern' => '/^[a-Z0-9]{10}$/', 'placeholder' => 'abcde12345')
+                    'data' => 'abcde12345'
                     ))
             ->add('problemType', ChoiceType::class, array(
                     'choices' => OOPs::getProblemOptions()))
             ->add('description', TextType::class, array('required' => false))
             ->add('image', FileType::class, array('required' => false))
+            ->add('status', HiddenType::class, array(
+                    'data' => 'Not yet started'))
             ->add('save', SubmitType::class, array('label' => 'Create OOPs Notice'))
             ->getForm();
 
@@ -39,8 +42,13 @@ class OOPsController extends Controller
         if($oopsForm->isSubmitted() && $oopsForm->isValid())
         {
             //form submition
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($oops);
+            $em->flush();
+            return new Response('Created a new OOPs notice!');
 
-            return $this->render('default/OOPsFormSuccess.html.twig');
+
+            //return $this->render('default/OOPsFormSuccess.html.twig');
         }
 
         return $this->render('default/OOPsFormBase.html.twig', array(

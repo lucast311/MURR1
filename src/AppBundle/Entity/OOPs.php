@@ -5,8 +5,8 @@ namespace AppBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 /**
+ * OOPs
  * @ORM\Entity
- * @ORM\Table(name="OOPs")
  */
 class OOPs
 {
@@ -40,7 +40,7 @@ class OOPs
     /** // replace getProblemOptions with getStatusOptions
      * @var string
      * @ORM\Column(type="string")
-     * @Assert\Choice(callback="getProblemOptions", message = "Please select the current OOPs status")
+     * @Assert\Choice(callback="getStatusOptions", message = "Please select the current OOPs status")
      */
     private $status;
 
@@ -200,6 +200,13 @@ class OOPs
         return $this->image;
     }
 
+
+    public static function getStatusOptions()
+    {
+        return array('Not yet started' => 'Not yet started',
+                     'In progress' => 'In progress',
+                     'Completed' => 'Completed');
+    }
 
     public static function getProblemOptions()
     {
