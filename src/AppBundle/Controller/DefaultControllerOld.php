@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use AppBundle\Entity\EduMat;
 
 class DefaultControllerOld extends Controller
 {
@@ -23,12 +24,8 @@ class DefaultControllerOld extends Controller
             ->add('name', TextType::class)
             ->add('status', ChoiceType::class, array(
                 'choices' => array('Pending Distribution' => true, 'Distribution in progress' => false, 'Complete' => false)))
-            ->add('dateCreated', DateType::class, array(
-                'createdDate' => 'enteredCDate',
-                'format' => 'yyyy-MM-dd'))
-            ->add('dateFinished', DateType::class, array(
-                'finishedDate' => 'enteredFDate',
-                'format' => 'yyyy-MM-dd'))
+            ->add('dateCreated', null)
+            ->add('dateFinished', null)
             ->add('recipient', TextType::class)
             ->add('description', TextType::class)
             ->add('add', SubmitType::class, array('label' => 'Add'))
