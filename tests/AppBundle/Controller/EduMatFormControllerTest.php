@@ -7,7 +7,7 @@ use AppBundle\Entity\EduMat;
 /**
  * story14a_csr_user_creates_new_educational_material - Tests
  */
-class DefaultControllerTest extends WebTestCase
+class EduMatFormControllerTest extends WebTestCase
 {
     /**
      * test a successful submit
@@ -18,11 +18,11 @@ class DefaultControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press (doesn't exist yet, so the button is null)
         // This will throw an exception when the tests run, due to selecting a null
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('add')->form();
 
         // Populate form
         $form['name'] = "SchoolDelivery";
@@ -31,6 +31,7 @@ class DefaultControllerTest extends WebTestCase
         $form['dateFinished'] = "2017-10-17";
         $form['description'] = "Deliver stufff to school";
         $form['recipient'] = "Hamburg School";
+        $form['operationType'] = "EduMat";
 
         // Submit the form to the crawler
         $crawler = $client->submit($form);

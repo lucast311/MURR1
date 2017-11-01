@@ -1,8 +1,8 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * EduMat
@@ -24,6 +24,10 @@ class EduMat
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="This field is required.")
+     * @Assert\Length(max=30, maxMessage="The maximum number of characters for this field is 30.")
+     * @Assert\Regex(pattern="/^[a-zA-Z]{0,30}$/", message="You have entered invalid characters into the name field. Please use letter names only. Additional characters may be used in the description field.")
+     *
      * @ORM\Column(name="name", type="string", length=30)
      */
     private $name;
@@ -38,19 +42,29 @@ class EduMat
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateCreated", type="\DateTime", length=10)
+     * @Assert\LessThanOrEqual("today", message="Please select either a current or past date.")
+     *
+     * @ORM\Column(name="dateCreated", type="datetime", length=10)
      */
     private $dateCreated;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateFinished", type="\DateTime", length=10, nullable=true)
+     * @Assert\LessThanOrEqual("today", message="Please select either a current or past date.")
+     *
+     * // FIND OUT HOW TO SPECIFY THAT DATE CREATED CAN'T BE A DATE BEFORE DATE CREATED
+     *
+     * @ORM\Column(name="dateFinished", type="datetime", length=10, nullable=true)
      */
     private $dateFinished;
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank(message="This field is required.")
+     * @Assert\Length(max=50, maxMessage="The maximum number of characters for this field is 50.")
+     * @Assert\Regex(pattern="/^[a-zA-Z 1-9]{0,50}$/", message="You have entered invalid characters into this field. Please use only alphanumeric values, and spaces.")
      *
      * @ORM\Column(name="recipient", type="string", length=50)
      */
@@ -58,6 +72,8 @@ class EduMat
 
     /**
      * @var string
+     *
+     * @Assert\Length(max=250, maxMessage="The maximum number of characters for this field is 250.")
      *
      * @ORM\Column(name="description", type="string", length=250, nullable=true)
      */

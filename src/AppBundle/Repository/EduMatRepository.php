@@ -1,7 +1,7 @@
 <?php
-
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\EduMat;
 /**
  * EduMatRepository
  *
@@ -11,4 +11,18 @@ namespace AppBundle\Repository;
 class EduMatRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    // SO FAR THIS REPOSITY IS UNUSED. THE FUNCTIONALITY HAS BEEN MOVED INTO THE CONTROLLER
+
+
+    public function insert(EduMat $edu)
+    {
+        $em = $this->getEntityManager();
+        $em->persist($edu);
+        $em->flush();
+
+        $em->close();
+        $em = null;
+
+        return $edu->getId();
+    }
 }
