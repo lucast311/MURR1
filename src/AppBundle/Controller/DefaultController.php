@@ -24,15 +24,14 @@ class DefaultController extends Controller
         $form = $this->createFormBuilder($edu)
             ->add('name', TextType::class)
             ->add('status', ChoiceType::class, array(
-                'choices' => array('Pending Distribution' => true, 'Distribution in progress' => false, 'Complete' => false)))
-            ->add('dateCreated', DateType::class)
-            ->add('dateFinished',null)
+                'choices' => array('Pending Distribution' => 1, 'Distribution in progress' => 2, 'Complete' => 3)))
+            ->add('dateCreated', DateType::class, array('widget' => 'single_text'))
+            ->add('dateFinished', DateType::class, array('widget' => 'single_text'))
             ->add('recipient', TextType::class)
-            ->add('description', TextType::class)
+            ->add('description', TextType::class, array('required' => false))
             ->add('add', SubmitType::class, array('label' => 'Add'))
             ->add('reset', ResetType::class, array('label' => 'Cancel'))
             ->getForm();
-
 
         // replace this example code with whatever you need
         return $this->render('default/index.html2.twig', array(

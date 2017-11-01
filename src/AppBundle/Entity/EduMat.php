@@ -36,16 +36,16 @@ class EduMat
     private $status;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="dateCreated", type="string", length=10)
+     * @ORM\Column(name="dateCreated", type="\DateTime", length=10)
      */
     private $dateCreated;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="dateFinished", type="string", length=10, nullable=true)
+     * @ORM\Column(name="dateFinished", type="\DateTime", length=10, nullable=true)
      */
     private $dateFinished;
 
@@ -73,10 +73,26 @@ class EduMat
 
     function __construct($name="", $status="", $dateCreated="", $dateFinished="", $recipient="", $description="", $operationType="EduMat")
     {
+        if($dateCreated == "")
+        {
+            $this->dateCreated = new \DateTime;
+        }
+        else
+        {
+            $this->dateCreated = $dateCreated;
+        }
+
+        if($dateFinished == "")
+        {
+            $this->dateFinished = new \DateTime;
+        }
+        else
+        {
+            $this->dateFinished = $dateFinished;
+        }
+
         $this->name = $name;
         $this->status = $status;
-        $this->dateCreated= $dateCreated;
-        $this->dateFinished = $dateFinished;
         $this->recipient = $recipient;
         $this->description = $description;
         $this->operationType = $operationType;
@@ -147,9 +163,9 @@ class EduMat
      *
      * @return EduMat
      */
-    public function setDateCreated($dateCreated)
+    public function setDateCreated($date)
     {
-        $this->dateCreated = $dateCreated;
+        $this->dateCreated = $date;
 
         return $this;
     }
@@ -157,7 +173,7 @@ class EduMat
     /**
      * Get dateCreated
      *
-     * @return string
+     * @return \DateTime
      */
     public function getDateCreated()
     {
@@ -171,9 +187,9 @@ class EduMat
      *
      * @return EduMat
      */
-    public function setDateFinished($dateFinished)
+    public function setDateFinished($date)
     {
-        $this->dateFinished = $dateFinished;
+        $this->dateFinished = $date;
 
         return $this;
     }
@@ -181,7 +197,7 @@ class EduMat
     /**
      * Get dateFinished
      *
-     * @return string
+     * @return \DateTime
      */
     public function getDateFinished()
     {
@@ -238,8 +254,8 @@ class EduMat
 
     /**
      * Get operationType
-     * 
-     * We don't need a setter for this, since it will auto generate 
+     *
+     * We don't need a setter for this, since it will auto generate
      *  if we create it in the story14a functionality
      *
      * @return string
