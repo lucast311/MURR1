@@ -14,19 +14,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class OOPsController extends Controller
 {
     /**
-     * @Route("/OOPsForm")
+     * @Route("/oops/add", name="contact_add")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
-        // create a task and give it some dummy data for this example
-        $oops = new OOPs('          ','');
+        // create an OOPs and give it some dummy data for this example
+        $oops = new OOPs('','');
         //$oops->setStatus('Not in progress');
 
         $oopsForm = $this->createFormBuilder($oops)
             ->add('binSerial', TextType::class,array(
-                    'data' => 'abcde12345'
+                    'data' => ''
                     ))
             ->add('problemType', ChoiceType::class, array(
                     'choices' => OOPs::getProblemOptions()))
@@ -47,10 +47,10 @@ class OOPsController extends Controller
             //return new Response('Created a new OOPs notice!');
 
 
-            return $this->render('default/OOPsFormSuccess.html.twig');
+            return $this->render('oops/addOOPsFormSuccess.html.twig');
         }
 
-        return $this->render('default/OOPsFormBase.html.twig', array(
+        return $this->render('oops/addOOPsForm.html.twig', array(
             'form' => $oopsForm->createView(),
         ));
     }

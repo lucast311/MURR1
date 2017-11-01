@@ -21,6 +21,22 @@ class CSROOPsFormTest extends TypeTestCase
 {
     public function testSubmitValidData()
     {
+        $client = static::createClient();
+        //Create a client to go through the web page
+        $client = static::createClient();
+        //Reques the contact add page
+        $crawler = $client->request('GET','/OOPsForm');
+        $form = $crawler->selectButton('save_form')->form();
+        $form = ['oops[binSerial]'] = 'testOOPs66';
+        $form = ['oops[problemType]'] = 'Damage';
+        $form = ['oops[status]'] = 'test oops status';
+        $form = ['oops[description]'] = 'test oops description';
+        $form = ['oops[image]'] = 'N;';
+
+        //^ this is based off of the testAddActionSuccess() method in ContactControllerTest.php in master
+        //  INCOMPLETE
+
+        /*
         $validImageFile = '../../../app/Resources/images/OOPs NOTICE Valid1.png';
         $validImage = readfile($validImageFile);
 
@@ -59,5 +75,6 @@ class CSROOPsFormTest extends TypeTestCase
             //make sure the form has each key
             $this->assertArrayHasKey($key, $children);
         }
+        */
     }
 }
