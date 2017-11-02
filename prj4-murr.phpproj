@@ -44,11 +44,12 @@
     <Compile Include="src\.htaccess" />
     <Compile Include="src\AppBundle\Entity\OOPs.php" />
     <Compile Include="src\AppBundle\Form\OOPsType.php" />
-    <Compile Include="tests\AppBundle\Controller\CSROOPsFormTest.php" />
-    <Compile Include="tests\AppBundle\Controller\CSROOPsRepositoryTest.php" />
+    <Compile Include="tests\AppBundle\Controller\CSROOPsControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\DefaultControllerTest.php" />
-    <Compile Include="tests\AppBundle\Controller\CSROOPsCreationTest.php" />
+    <Compile Include="tests\AppBundle\Entity\CSROOPsCreationTest.php" />
     <Compile Include="tests\AppBundle\Form\AddOOPsForm.php" />
+    <Compile Include="tests\AppBundle\Form\CSROOPsFormTest.php" />
+    <Compile Include="tests\AppBundle\Repository\CSROOPsRepositoryTest.php" />
     <Compile Include="var\cache\.gitkeep" />
     <Compile Include="var\logs\.gitkeep" />
     <Compile Include="var\sessions\.gitkeep" />
@@ -89,6 +90,8 @@
     <Folder Include="tests\AppBundle" />
     <Folder Include="tests" />
     <Folder Include="tests\AppBundle\Form\" />
+    <Folder Include="tests\AppBundle\Entity\" />
+    <Folder Include="tests\AppBundle\Repository\" />
     <Folder Include="var\cache" />
     <Folder Include="var\cache\dev\" />
     <Folder Include="var\cache\dev\doctrine\" />
