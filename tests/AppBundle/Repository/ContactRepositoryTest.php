@@ -28,6 +28,76 @@ class ContactRepositoryTest extends KernelTestCase
     }
 
     /**
+     * Tests the functionality of the repository of getting all of the contacts out of the database
+     */
+    public function testGetAll()
+    {
+        // Create a contact and insert it to see if it comes back out
+        // Create a new object
+        $contact = new Contact();
+        $contact->setFirstName("Bob");
+        $contact->setLastName("Jons");
+        $contact->setEmailAddress("l@L.com");
+
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $contact->setAddress($address);
+
+        // Get the repository
+        $repository = $this->em->getRepository(Contact::class);
+        // Insert the contact
+        $repository->insert($contact);
+
+        // query the database
+        $contacts = $repository->getAll();
+
+        // Assert that it is an array of contacts
+        $this->assert(is_array($contacts));
+        // Assert that the inserted contact exists within the array
+        $this->assert(in_array($contact, $contacts));
+
+    }
+
+    /**
+     * Tests the functionality of the repository of getting a singular specified id out of the database
+     */
+    public function testGetOne()
+    {
+        // Create a contact and insert it to see if it comes back out
+        // Create a new object
+        $contact = new Contact();
+        $contact->setFirstName("Bob");
+        $contact->setLastName("Jons");
+        $contact->setEmailAddress("l@L.com");
+
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $contact->setAddress($address);
+
+        // Get the repository
+        $repository = $this->em->getRepository(Contact::class);
+        // Insert the contact and store the id
+        $id = $repository->insert($contact);
+
+        // query the database for the contact that was inserted
+        $obtainedContact = $repository->getOne($id);
+
+        // Assert that the object retrieved is the same as the object that was inserted
+        $this->assertEquals($contact, $obtainedContact);
+    }
+
+
+    /**
      * Tests the insert functionality of the repository. Makes sure that data actaully gets inserted into the database properly
      */
     public function testInsert()

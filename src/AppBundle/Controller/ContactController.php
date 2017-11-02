@@ -13,6 +13,7 @@ use AppBundle\Form\ContactType;
  */
 class ContactController extends Controller
 {
+
     /**
      * Handles the adding of a contact.
      * @param Request $request
@@ -67,8 +68,15 @@ class ContactController extends Controller
      *
      * @Route("/contact/list", name="contact_list")
      */
-    public function viewAction()
+    public function listAction()
     {
         return $this->render('contact/listContacts.html.twig');
     }
+
+    public function viewAction()
+    {
+        
+    }
+
+
 }

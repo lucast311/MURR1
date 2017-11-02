@@ -32,5 +32,15 @@ class ContactRepository extends EntityRepository
         return $contact->getId();
     }
 
+    public function getAll()
+    {
+        
+    }
+
+    public function getOne()
+    {
+        
+    }
+
 
 }

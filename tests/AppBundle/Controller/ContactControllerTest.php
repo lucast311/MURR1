@@ -5,6 +5,59 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ContactControllerTest extends WebTestCase
 {
+
+    /**
+     * Story 9a
+     * Tests the list action. Ensures that a table exists in the html with the right headers.
+     */
+    public function testListAction()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+        //Request the contact add page
+        $crawler = $client->request('GET','/contact/list');
+
+        // Assert that a table exists
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("<table>")'));
+        // Assert that the table has the proper headings
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>First Name</th>")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>Last Name</th>")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>Organization</th>")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>Primary Phone</th>")'));
+    }
+
+    /**
+     * Story 9a
+     * Tests the viewing of a specific contact. Ensures that the page can be navigated to through the list
+     * and that it contains all the required labels on the page.
+     */
+    public function testViewAction()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+        //Request the contact add page
+        $crawler = $client->request('GET','/contact/list');
+        // Select the first button on the page that views the details for a contact
+        $link = $crawler->filter('a:contains("View")')->eq(0)->link();
+        // Go there - should be viewing a specific contact after this
+        $crawler = $client->click($link);
+
+        // Assert that all the proper labels are on the page
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("First Name:")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Last Name:")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Organization:")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Primary Phone:")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Secondary Phone:")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Phone Extension:")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Email Address:")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Fax:")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Street Address:")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Postal Code:")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("City:")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Province:")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Country:")'));
+    }
+
     public function testAddActionSuccess()
     {
         //Create a client to go through the web page
