@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OOPsRepository")
  * @ORM\Table(name="oops")
  */
-class OOPs
+class OOPs implements \Serializable
 {
     /**
      * @var int
@@ -21,7 +21,7 @@ class OOPs
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=10, unique=true)
+     * @ORM\Column(type="string", length=10)
      * @Assert\NotBlank(message="Please enter a serial number")
      * @Assert\Length(max = 10,
      *                min = 10,
@@ -57,7 +57,7 @@ class OOPs
     /**
      * @var \stdClass
      * @ORM\Column(type="object", nullable=true)
-     * @Assert\Image(mimeTypes="image/jpeg", mimeTypesMessage="Please upload an image in JPEG or PNG format")
+     * @Assert\Image(mimeTypes={"image/jpeg","image/png"}, mimeTypesMessage="Please upload an image in JPEG or PNG format")
      */
     private $image;
 
@@ -80,6 +80,15 @@ class OOPs
 
 
 
+    /**
+     * Get id
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set binSerialNumber
@@ -221,5 +230,25 @@ class OOPs
     {
         return array ('image/png','image/jpeg');
     }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->image,
+
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->image,
+        ) = unserialize($serialized);
+    }
+
 }
 

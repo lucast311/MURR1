@@ -1,5 +1,4 @@
 <?php
-
 namespace tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -16,165 +15,128 @@ class CSROOPsControllerTest extends WebTestCase
 {
     public function testNewActionSuccess()
     {
-        $client = static::createClient();
-        //Create a client to go through the web page
-        //Reques the contact add page
-        
-        $crawler = $client->request('GET','/oops/add');
-        
-        $form = $crawler->selectButton('save_form')->form();
-        $form['oops[binSerial]'] = 'testOOPs66';
-        $form['oops[problemType]'] = 'Damage';
-        $form['oops[status]'] = 'In Progress';
-        $form['oops[description]'] = 'test oops description';
-        $form['oops[image]'] = 'N;';
 
-        
+        //Create a client to go through the web page
+        $client = static::createClient();
+        $client->followRedirects(true);
+
+        //Reques the contact add page
+        $crawler = $client->request('POST','/oops/add');
+
+        $form = $crawler->selectButton('Create OOPs Notice')->form();
+        $form['form[binSerial]'] = 'testOOPs66';
+        $form['form[problemType]'] = 'Damage';
+        $form['form[description]'] = 'test oops description';
+        $form['form[image]'] = 'N;';
+
         $crawler = $client->submit($form);
         $this->assertGreaterThan(
             0,
-            $crawler->filter('html:contains("OOPs Form Success")')->count()
+            $crawler->filter('html:contains("OOPs Form Success!")')->count()
             );
+
     }
 
-    /*
-    public function testAddActionFailurefName()
+    public function testNewActionFailureBinSerialSmall()
+    {
+
+        //Create a client to go through the web page
+        $client = static::createClient();
+        $client->followRedirects(true);
+
+        //Reques the contact add page
+        $crawler = $client->request('POST','/oops/add');
+
+        $form = $crawler->selectButton('Create OOPs Notice')->form();
+        $form['form[binSerial]'] = 'testOOPs6';
+        $form['form[problemType]'] = 'Damage';
+        $form['form[description]'] = 'test oops description';
+        $form['form[image]'] = 'N;';
+
+        $crawler = $client->submit($form);
+        $this->assertGreaterThan(
+        0,
+        $crawler->filter('html:contains("This value should have exactly 10 characters.")')->count()
+        );
+    }
+
+    public function testNewActionFailureBinSerialBig()
+    {
+
+        //Create a client to go through the web page
+        $client = static::createClient();
+        $client->followRedirects(true);
+
+        //Reques the contact add page
+        $crawler = $client->request('POST','/oops/add');
+
+        $form = $crawler->selectButton('Create OOPs Notice')->form();
+        $form['form[binSerial]'] = 'testOOPs666';
+        $form['form[problemType]'] = 'Damage';
+        $form['form[description]'] = 'test oops description';
+        $form['form[image]'] = 'N;';
+
+        $crawler = $client->submit($form);
+        $this->assertGreaterThan(
+        0,
+        $crawler->filter('html:contains("This value should have exactly 10 characters.")')->count()
+        );
+    }
+
+
+    public function testNewActionSuccessImageUpload()
     {
         //Create a client to go through the web page
         $client = static::createClient();
+        $client->followRedirects(true);
+
         //Reques the contact add page
-        $crawler = $client->request('GET','/oops/add');
-        $form = $crawler->selectButton('save_form')->form();
-        $form['oops[binSerial]'] = 'testOOPs66';
-        $form['oops[problemType]'] = 'Damage';
-        $form['oops[status]'] = 'test oops status';
-        $form['oops[description]'] = 'test oops description';
-        $form['oops[image]'] = 'N;';
-        //crawler submits the form
+        $crawler = $client->request('POST','/oops/add');
+
+        $form = $crawler->selectButton('Create OOPs Notice')->form();
+        $form['form[binSerial]'] = 'testOOPs66';
+        $form['form[problemType]'] = 'Damage';
+        $form['form[description]'] = 'test oops description';
+        $form['form[image]'] = 'N;';
+
         $crawler = $client->submit($form);
-        //check for the success message
         $this->assertGreaterThan(
-            0,
-            $crawler->filter('html:contains("First name cannot be left blank")')->count()
-            );
-
-
+        0,
+        $crawler->filter('html:contains("This value should have exactly 10 characters.")')->count()
+        );
     }
 
-    
-    public function testAddActionFailurelName()
+
+    /**
+     * Tests that an OOPs notice can't be created with a description longer than 250 characters
+     * Inputs: binSerial: testOOPs66
+     *         problemType: Damage
+     *         Description: 251 characters
+     */
+    public function testNewActionFailureDescriptionTooLong()
     {
+
         //Create a client to go through the web page
         $client = static::createClient();
+        $client->followRedirects(true);
+
         //Reques the contact add page
-        $crawler = $client->request('GET','/oops/add');
-        $form = $crawler->selectButton('save_form')->form();
-        $form['oops[binSerial]'] = 'testOOPs66';
-        $form['oops[problemType]'] = 'Damage';
-        $form['oops[status]'] = 'test oops status';
-        $form['oops[description]'] = 'test oops description';
-        $form['oops[image]'] = 'N;';
-        //crawler submits the form
+        $crawler = $client->request('POST','/oops/add');
+
+        $form = $crawler->selectButton('Create OOPs Notice')->form();
+        $form['form[binSerial]'] = 'testOOPs66';
+        $form['form[problemType]'] = 'Damage';
+        $form['form[description]'] = 'iomnavmmoptwrwyvudipazflggbwzfhcigxjopzisfrpcieebmmhshofhpwvlzytxgnvzyhxejefjedyrwuvpzfswdxfwbrxmliujpcnjzzulm
+foxxvpjekafmdmwewbzlxzldcdrvemyqnfppodwgrjveduviysaazeelmfbcksgrwfrnbfqogdyjflxeavrtdovifcmewcjhowycbnqprgkwgtdpoxmqjhxnnsbsqur
+hskcweavnxumxqnomkdquqnpuaospigrznzngnrjsgnzmnejezwmrhqsiwgehfiqlhqcwwftfdlbsrfogxhnuykisnsfyhdnvnrkjbolbkhfsqeefuwbtkfbnvidhquu
+isisczppkwnavzarusagtlywqocxktvlnudzpeouldjmrayuqtsqqxdd';
+        $form['form[image]'] = 'N;';
+
         $crawler = $client->submit($form);
-        //check for the success message
         $this->assertGreaterThan(
-            0,
-            $crawler->filter('html:contains("Last name cannot be left blank")')->count()
-            );
-
-
+        0,
+        $crawler->filter('html:contains("Please enter a valid description with less than 250 characters")')->count()
+        );
     }
-
-    public function testAddActionFailureEmailAddress()
-    {
-        //Create a client to go through the web page
-        $client = static::createClient();
-        //Reques the contact add page
-        $crawler = $client->request('GET','/oops/add');
-        $form = $crawler->selectButton('save_form')->form();
-        $form['oops[binSerial]'] = 'testOOPs66';
-        $form['oops[problemType]'] = 'Damage';
-        $form['oops[status]'] = 'test oops status';
-        $form['oops[description]'] = 'test oops description';
-        $form['oops[image]'] = 'N;';
-        //crawler submits the form
-        $crawler = $client->submit($form);
-        //check for the success message
-        $this->assertGreaterThan(
-            0,
-            $crawler->filter('html:contains("Email address cannot be left blank")')->count()
-            );
-
-
-    }
-
-    public function testAddActionFailurePostalCode()
-    {
-        //Create a client to go through the web page
-        $client = static::createClient();
-        //Reques the contact add page
-        $crawler = $client->request('GET','/oops/add');
-        $form = $crawler->selectButton('save_form')->form();
-        $form['oops[binSerial]'] = 'testOOPs66';
-        $form['oops[problemType]'] = 'Damage';
-        $form['oops[status]'] = 'test oops status';
-        $form['oops[description]'] = 'test oops description';
-        $form['oops[image]'] = 'N;';
-        //crawler submits the form
-        $crawler = $client->submit($form);
-        //check for the success message
-        $this->assertGreaterThan(
-            0,
-            $crawler->filter('html:contains("Postal code cannot be left blank")')->count()
-            );
-
-
-    }
-
-
-    public function testAddActionFailureProvince()
-    {
-        //Create a client to go through the web page
-        $client = static::createClient();
-        //Reques the contact add page
-        $crawler = $client->request('GET','/oops/add');
-        $form = $crawler->selectButton('save_form')->form();
-        $form['oops[binSerial]'] = 'testOOPs66';
-        $form['oops[problemType]'] = 'Damage';
-        $form['oops[status]'] = 'test oops status';
-        $form['oops[description]'] = 'test oops description';
-        $form['oops[image]'] = 'N;';
-        //crawler submits the form
-        $crawler = $client->submit($form);
-        //check for the success message
-        $this->assertGreaterThan(
-            0,
-            $crawler->filter('html:contains("Province cannot be left blank")')->count()
-            );
-
-
-    }
-
-
-    public function testAddActionFailureCountry()
-    {
-        //Create a client to go through the web page
-        $client = static::createClient();
-        //Reques the contact add page
-        $crawler = $client->request('GET','/oops/add');
-        $form = $crawler->selectButton('save_form')->form();
-        $form['oops[binSerial]'] = 'testOOPs66';
-        $form['oops[problemType]'] = 'Damage';
-        $form['oops[status]'] = 'test oops status';
-        $form['oops[description]'] = 'test oops description';
-        $form['oops[image]'] = 'N;';
-        $crawler = $client->submit($form);
-        //check for the success message
-        $this->assertGreaterThan(
-            0,
-            $crawler->filter('html:contains("Country cannot be left blank")')->count()
-            );
-    }
-    */
 
 }

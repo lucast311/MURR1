@@ -20,5 +20,6 @@ class OOPsRepository extends EntityRepository
         $em->persist($oops); 
         $em->flush(); 
         $em->close(); 
+        return $oops->getId();
     }
 }

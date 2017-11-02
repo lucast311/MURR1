@@ -43,7 +43,7 @@ class CSROOPsRepositoryTest extends KernelTestCase
         $id = $this->em->getRepository('AppBundle:OOPs')->insert($testOOPs);
 
         $this->assertNotNull($id); //assert that an ID was returned
-        $this->assertEquals($testOOPs->id,$id); //check that the returned ID is the same as the object's new ID
+        $this->assertEquals($testOOPs->getId(),$id); //check that the returned ID is the same as the object's new ID
     }
 
     //closes the entity manager

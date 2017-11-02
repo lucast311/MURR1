@@ -2,6 +2,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\OOPs;
+use AppBundle\Entity\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,6 +21,8 @@ class OOPsController extends Controller
      */
     public function newAction(Request $request)
     {
+        $image = new Image();
+
         // create an OOPs and give it some dummy data for this example
         $oops = new OOPs('','');
         //$oops->setStatus('Not in progress');
@@ -43,7 +46,7 @@ class OOPsController extends Controller
         {
             //form submition
             $em = $this->getDoctrine()->getManager();
-            $em->getRepository(OOPs::class)->insert($oops); 
+            $em->getRepository(OOPs::class)->insert($oops);
             //return new Response('Created a new OOPs notice!');
 
 
