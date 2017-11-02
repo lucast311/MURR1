@@ -35,7 +35,7 @@ class ContactRepositoryTest extends KernelTestCase
         // Create a contact and insert it to see if it comes back out
         // Create a new object
         $contact = new Contact();
-        $contact->setFirstName("Bob");
+        $contact->setFirstName("AAAAAAAAAA");
         $contact->setLastName("Jons");
         $contact->setEmailAddress("l@L.com");
 
@@ -58,6 +58,7 @@ class ContactRepositoryTest extends KernelTestCase
 
         // Assert that it is an array of contacts
         $this->assertTrue(is_array($contacts));
+        $address = $contacts[0]->getAddress();
         // Assert that the inserted contact exists within the array
         $this->assertTrue(in_array($contact, $contacts));
 

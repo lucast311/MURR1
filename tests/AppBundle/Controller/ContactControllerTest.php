@@ -18,12 +18,12 @@ class ContactControllerTest extends WebTestCase
         $crawler = $client->request('GET','/contact/list');
 
         // Assert that a table exists
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("<table>")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table')->count());
         // Assert that the table has the proper headings
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>First Name</th>")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>Last Name</th>")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>Organization</th>")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>Primary Phone</th>")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("First Name")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Last Name")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Organization")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Primary Phone")')->count());
     }
 
     /**
