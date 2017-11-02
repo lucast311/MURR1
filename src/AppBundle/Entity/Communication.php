@@ -28,7 +28,7 @@ class Communication
      * @Assert\NotBlank(message="Please select a date")
      * @Assert\NotNull(message="Please select a date")
      * @Assert\DateTime(message="Please select a valid date")
-     * @Assert\LessThan("today", message="Please select a current or past date")
+     * @Assert\LessThanOrEqual("today", message="Please select a current or past date")
      *
      */
     private $date;
@@ -97,7 +97,7 @@ class Communication
     public function __construct()
     {
         $this->date = new DateTime('now');
-        $this->date->setTime(0,0);
+        $this->date->setTime(0,0,0);
     }
 
 
