@@ -6,25 +6,20 @@ use AppBundle\Entity\Communication;
 use Symfony\Component\Form\Test\TypeTestCase;
 use AppBundle\Form\Type\CommunicationType;
 use DateTime;
-use Symfony\Component\Form\Forms;
-use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 
 
 class CommunicationTypeTest extends TypeTestCase
 {
     /**
-     *
-     * @var FormFactoryInterface
+     * This method is required to allow the test to run
+     * @return ValidatorExtension[]
      */
-    protected $factory;
-
-    protected function setUp()
+    protected function getExtensions()
     {
-
-        $this->factory = Forms::createFormFactoryBuilder()
-            ->getFormFactory();
+        return array(new ValidatorExtension(Validation::createValidator()));
     }
-
 
     public function testSubmitValidData()
     {
