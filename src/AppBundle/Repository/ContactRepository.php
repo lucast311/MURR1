@@ -32,15 +32,28 @@ class ContactRepository extends EntityRepository
         return $contact->getId();
     }
 
+    /**
+     * Returns all the contacts out of the database sorted by first name, then last name
+     * @return array array of contacts in the database.
+     */
     public function getAll()
     {
-        
+        // Query the database and return an array of contacts
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c FROM AppBundle:Contact c ORDER BY c.firstName, c.lastName ASC'
+            )
+            ->getResult();
     }
 
-    public function getOne()
+    /**
+     * Returns a single contact from the databased based on the id specified.
+     * @param mixed $contactId the id of the contact you wish to obtain.
+     * @return mixed the contact that was found.
+     */
+    public function getOne($contactId)
     {
-        
+        // Use the built in repository to find the specific contact by id
+        return $this->getEntityManager()->getRepository(Contact::class)->findOneById($contactId);
     }
-
-
 }

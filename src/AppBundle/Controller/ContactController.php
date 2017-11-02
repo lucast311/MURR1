@@ -13,7 +13,6 @@ use AppBundle\Form\ContactType;
  */
 class ContactController extends Controller
 {
-
     /**
      * Handles the adding of a contact.
      * @param Request $request
@@ -70,13 +69,29 @@ class ContactController extends Controller
      */
     public function listAction()
     {
-        return $this->render('contact/listContacts.html.twig');
-    }
+        // Get the entity manager
+        $em = $this->getDoctrine()->getManager();
+        // Get all the contacts
+        $contacts = $em->getRepository(Contact::class)->getAll();
 
-    public function viewAction()
+        // Render the html and pass it a list of all contacts
+        return $this->render('contact/listContacts.html.twig', array('contacts'=>$contacts));
+    }
+    /**
+     * Handles the viewing of a specific contact with all of its details
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/contact/view/{contactId}", name="contact_view")
+     */
+    public function viewAction($contactId = -1)
     {
-        
+        // Get the entity manager
+        $em = $this->getDoctrine()->getManager();
+        // Get the specific contact
+        $contact = $em->getRepository(Contact::class)->getOne($contactId);
+
+        // Render the html and pass in the contact
+        return $this->render('contact/viewContact.html.twig', array('contact'=>$contact));
+
     }
-
-
 }
