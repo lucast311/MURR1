@@ -73,7 +73,7 @@ class EduMatFormController extends Controller
         }
 
         // display the form for the first time
-        return $this->render('default/index.html2.twig', array(
+        return $this->render('default/EduMatForm.html.twig', array(
             'form' => $form->createView(),
         ));
     }

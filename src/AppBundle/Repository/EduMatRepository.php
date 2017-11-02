@@ -16,13 +16,13 @@ class EduMatRepository extends \Doctrine\ORM\EntityRepository
 
     public function insert(EduMat $edu)
     {
-        $em = $this->getEntityManager();
-        $em->persist($edu);
-        $em->flush();
+        //$em = $this->getEntityManager();
+        //$em->persist($edu);
+        //$em->flush();
 
-        $em->close();
-        $em = null;
+        //$em->close();
+        //$em = null;
 
-        return $edu->getId();
+        //return $edu->getId();
     }
 }

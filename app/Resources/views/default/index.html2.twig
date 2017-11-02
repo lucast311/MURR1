@@ -1,9 +1,0 @@
-{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
-
-{% for message in app.flashes('success') %}
-    <div class="flash-success">
-        {{ message }}
-    </div>
-{% endfor %}
