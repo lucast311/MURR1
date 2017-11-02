@@ -2,7 +2,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\OOPs;
-use AppBundle\Entity\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,7 +20,6 @@ class OOPsController extends Controller
      */
     public function newAction(Request $request)
     {
-        $image = new Image();
 
         // create an OOPs and give it some dummy data for this example
         $oops = new OOPs('','');
@@ -34,7 +32,7 @@ class OOPsController extends Controller
             ->add('problemType', ChoiceType::class, array(
                     'choices' => OOPs::getProblemOptions()))
             ->add('description', TextType::class, array('required' => false))
-            ->add('image', FileType::class, array('required' => false))
+            ->add('imageFile', FileType::class, array('required' => false))
             ->add('status', HiddenType::class, array(
                     'data' => 'Not yet started'))
             ->add('save', SubmitType::class, array('label' => 'Create OOPs Notice'))
@@ -46,6 +44,9 @@ class OOPsController extends Controller
         {
             //form submition
             $em = $this->getDoctrine()->getManager();
+
+            $oops->upload();
+
             $em->getRepository(OOPs::class)->insert($oops);
             //return new Response('Created a new OOPs notice!');
 

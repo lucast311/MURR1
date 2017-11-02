@@ -23,9 +23,8 @@ class OOPsType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('image',FileType::class, array('label' => 'OOPs notice (image file)'));
+        //$builder->add('image',FileType::class, array('label' => 'OOPs notice (image file)'));
     }
-
 
     public function configureOptions(OptionsResolver $resolver)
     {

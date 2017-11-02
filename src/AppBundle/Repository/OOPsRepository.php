@@ -13,7 +13,6 @@ use AppBundle\Entity\OOPs;
  */
 class OOPsRepository extends EntityRepository
 {
-
     public function insert(OOPs $oops)
     {
         $em = $this->getEntityManager(); 

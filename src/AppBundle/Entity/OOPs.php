@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 /**
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OOPsRepository")
  * @ORM\Table(name="oops")
  */
-class OOPs implements \Serializable
+class OOPs
 {
     /**
      * @var int
@@ -54,12 +55,18 @@ class OOPs implements \Serializable
      */
     private $description;
 
+
+
     /**
-     * @var \stdClass
-     * @ORM\Column(type="object", nullable=true)
-     * @Assert\Image(mimeTypes={"image/jpeg","image/png"}, mimeTypesMessage="Please upload an image in JPEG or PNG format")
+     * @Assert\File(maxSize="6000000", mimeTypes={"image/jpeg","image/png"}, mimeTypesMessage="Please upload an image in JPEG or PNG format")
      */
-    private $image;
+    private $imageFile;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imagePath;
 
     /**
      * The constructor for OOPs notice objects
@@ -186,29 +193,7 @@ class OOPs implements \Serializable
         return $this->description;
     }
 
-    /**
-     * Set image
-     *
-     * @param \stdClass $image
-     *
-     * @return OOPs
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
 
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \stdClass
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
 
 
     public static function getStatusOptions()
@@ -231,23 +216,82 @@ class OOPs implements \Serializable
         return array ('image/png','image/jpeg');
     }
 
-    /** @see \Serializable::serialize() */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->image,
 
-        ));
+
+    /**
+     * Sets imageFile.
+     *
+     * @param UploadedFile $file
+     */
+    public function setImageFile(UploadedFile $imageFile = null)
+    {
+        $this->imageFile = $imageFile;
     }
 
-    /** @see \Serializable::unserialize() */
-    public function unserialize($serialized)
+    /**
+     * Get imageFile.
+     *
+     * @return UploadedFile
+     */
+    public function getImageFile()
     {
-        list (
-            $this->id,
-            $this->image,
-        ) = unserialize($serialized);
+        return $this->imageFile;
+    }
+
+
+    public function getAbsoluteImagePath()
+    {
+        return null === $this->imagePath
+            ? null
+            : $this->getImageUploadRootDir().'/'.$this->imagePath;
+    }
+
+    public function getWebImagePath()
+    {
+        return null === $this->imagePath
+            ? null
+            : $this->getImageUploadDir().'/'.$this->imagePath;
+    }
+
+    protected function getImageUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../uploads/'.$this->getImageUploadDir();
+    }
+
+    protected function getImageUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'images';
+    }
+
+
+
+
+    public function upload()
+    {
+        // the file property can be empty if the field is not required
+        if (null === $this->getImageFile()) {
+            return;
+        }
+
+        // use the original file name here but you should
+        // sanitize it at least to avoid any security issues
+
+        // move takes the target directory and then the
+        // target filename to move to
+        $this->getImageFile()->move(
+            $this->getImageUploadRootDir(),
+            $this->getImageFile()->getClientOriginalName()
+        );
+
+        // set the path property to the filename where you've saved the file
+        $this->imagePath = $this->getImageFile()->getClientOriginalName();
+
+        // clean up the file property as you won't need it anymore
+        $this->imageFile = null;
     }
 
 }
