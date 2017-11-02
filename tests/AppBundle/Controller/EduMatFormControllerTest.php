@@ -22,16 +22,16 @@ class EduMatFormControllerTest extends WebTestCase
 
         // select the button to press (doesn't exist yet, so the button is null)
         // This will throw an exception when the tests run, due to selecting a null
-        $form = $crawler->selectButton('add')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "SchoolDelivery";
-        $form['status'] = "Complete";
-        $form['dateCreated'] = "2017-10-17";
-        $form['dateFinished'] = "2017-10-17";
-        $form['description'] = "Deliver stufff to school";
-        $form['recipient'] = "Hamburg School";
-        $form['operationType'] = "EduMat";
+        $form['form[name]'] = "SchoolDelivery";
+        $form['form[status]'] = 3;
+        $form['form[dateCreated]'] = "2017-10-17";
+        $form['form[dateFinished]'] = "2017-10-17";
+        $form['form[description]'] = "Deliver stufff to school";
+        $form['form[recipient]'] = "Hamburg School";
+        //$form['form[operationType'] = "EduMat";
 
         // Submit the form to the crawler
         $crawler = $client->submit($form);
@@ -50,21 +50,21 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "aaaaaaSchoolDeliveryaaaaaaaaa";
-        $form['status'] = "Complete";
-        $form['dateCreated'] = "2017-10-17";
-        $form['dateFinished'] = "2017-10-17";
-        $form['description'] = "Deliver stufff to school";
-        $form['recipient'] = "Hamburg School";
+        $form['form[name]'] = "aaaaaaSchoolDeliveryaaaaaaaaa";
+        $form['form[status]'] = 3;
+        $form['form[dateCreated]'] = "2017-10-17";
+        $form['form[dateFinished]'] = "2017-10-17";
+        $form['form[description]'] = "Deliver stufff to school";
+        $form['form[recipient]'] = "Hamburg School";
 
         // create a new EduMat with the name
-        $edu = new EduMat($form['name']);
+        $edu = new EduMat($form['form[name]']);
 
         // test that the name of the EduMat matches the value submitted by the form
         $this->assertTrue($edu->getName() === "aaaaaaSchoolDeliveryaaaaaaaaa");
@@ -83,21 +83,21 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "aaaaaaSchoolDeliveryaaaaaaaa";
-        $form['status'] = "Complete";
-        $form['dateCreated'] = "2017-10-17";
-        $form['dateFinished'] = "2017-10-17";
-        $form['description'] = "Deliver stufff to school";
-        $form['recipient'] = "Hamburg School";
+        $form['form[name]'] = "aaaaaaSchoolDeliveryaaaaaaaa";
+        $form['form[status]'] = 3;
+        $form['form[dateCreated]'] = "2017-10-17";
+        $form['form[dateFinished]'] = "2017-10-17";
+        $form['form[description]'] = "Deliver stufff to school";
+        $form['form[recipient]'] = "Hamburg School";
 
         // same tests as above, only with name length - 1
-        $edu = new EduMat($form['name']);
+        $edu = new EduMat($form['form[name]']);
         $this->assertTrue($edu->getName() === "aaaaaaSchoolDeliveryaaaaaaaa");
         $this->assertCount(0, $crawler->filter('.error'));
     }
@@ -112,21 +112,21 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "s";
-        $form['status'] = "Complete";
-        $form['dateCreated'] = "2017-10-17";
-        $form['dateFinished'] = "2017-10-17";
-        $form['description'] = "Deliver stufff to school";
-        $form['recipient'] = "Hamburg School";
+        $form['form[name]'] = "s";
+        $form['form[status]'] = 3;
+        $form['form[dateCreated]'] = "2017-10-17";
+        $form['form[dateFinished]'] = "2017-10-17";
+        $form['form[description]'] = "Deliver stufff to school";
+        $form['form[recipient]'] = "Hamburg School";
 
         // same as above but with a single character
-        $edu = new EduMat($form['name']);
+        $edu = new EduMat($form['form[name]']);
         $this->assertTrue($edu->getName() === "s");
         $this->assertCount(0, $crawler->filter('.error'));
     }
@@ -141,13 +141,13 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "School Delivery1";
+        $form['form[name]'] = "School Delivery1";
 
         // Submit the form to the crawler
         $crawler = $client->submit($form);
@@ -168,13 +168,13 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "       ";
+        $form['form[name]'] = "       ";
 
         // Submit the form to the crawler
         $crawler = $client->submit($form);
@@ -193,21 +193,21 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "s";
-        $form['status'] = "Complete";
-        $form['dateCreated'] = "2017-10-17";
-        $form['dateFinished'] = "2017-10-17";
-        $form['description'] = "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
-        $form['recipient'] = "Hamburg School";
+        $form['form[name]'] = "s";
+        $form['form[status]'] = "Complete";
+        $form['form[dateCreated]'] = "2017-10-17";
+        $form['form[dateFinished]'] = "2017-10-17";
+        $form['form[description]'] = "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+        $form['form[recipient]'] = "Hamburg School";
 
         // same test as above only this uses description instead of name
-        $edu = new EduMat($form['name'], $form['status'], $form['dateCreated'], $form['dateFinished'], $form['recipient'], $form['description']);
+        $edu = new EduMat($form['form[name]'], $form['form[status]'], $form['form[dateCreated]'], $form['form[dateFinished]'], $form['form[recipient]'], $form['form[description]']);
         $this->assertTrue($edu->getDescription() === "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
         $this->assertCount(0, $crawler->filter('.error'));
     }
@@ -222,21 +222,21 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "s";
-        $form['status'] = "Complete";
-        $form['dateCreated'] = "2017-10-17";
-        $form['dateFinished'] = "2017-10-17";
-        $form['description'] = "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
-        $form['recipient'] = "Hamburg School";
+        $form['form[name]'] = "s";
+        $form['form[status]'] = "Complete";
+        $form['form[dateCreated]'] = "2017-10-17";
+        $form['form[dateFinished]'] = "2017-10-17";
+        $form['form[description]'] = "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+        $form['form[recipient]'] = "Hamburg School";
 
         // same as above
-        $edu = new EduMat($form['name'], $form['status'], $form['dateCreated'], $form['dateFinished'], $form['recipient'], $form['description']);
+        $edu = new EduMat($form['form[name]'], $form['form[status]'], $form['form[dateCreated]'], $form['form[dateFinished]'], $form['form[recipient]'], $form['form[description]']);
         $this->assertTrue($edu->getDescription() === "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
         $this->assertCount(0, $crawler->filter('.error'));
     }
@@ -251,21 +251,21 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "s";
-        $form['status'] = "Complete";
-        $form['dateCreated'] = "2017-10-17";
-        $form['dateFinished'] = "2017-10-17";
-        $form['description'] = "s";
-        $form['recipient'] = "Hamburg School";
+        $form['form[name]'] = "s";
+        $form['form[status]'] = "Complete";
+        $form['form[dateCreated]'] = "2017-10-17";
+        $form['form[dateFinished]'] = "2017-10-17";
+        $form['form[description]'] = "s";
+        $form['form[recipient]'] = "Hamburg School";
 
         // same as above
-        $edu = new EduMat($form['name'], $form['status'], $form['dateCreated'], $form['dateFinished'], $form['recipient'], $form['description']);
+        $edu = new EduMat($form['form[name]'], $form['form[status]'], $form['form[dateCreated]'], $form['form[dateFinished]'], $form['form[recipient]'], $form['form[description]']);
         $this->assertTrue($edu->getDescription() === "s");
         $this->assertCount(0, $crawler->filter('.error'));
     }
@@ -280,21 +280,21 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "s";
-        $form['status'] = "Complete";
-        $form['dateCreated'] = "2017-10-17";
-        $form['dateFinished'] = "2017-10-17";
-        $form['description'] = "";
-        $form['recipient'] = "Hamburg School";
+        $form['form[name]'] = "s";
+        $form['form[status]'] = 3;
+        $form['form[dateCreated]'] = "2017-10-17";
+        $form['form[dateFinished]'] = "2017-10-17";
+        $form['form[description]'] = "";
+        $form['form[recipient]'] = "Hamburg School";
 
         // same as above
-        $edu = new EduMat($form['name'], $form['status'], $form['dateCreated'], $form['dateFinished'], $form['recipient'], $form['description']);
+        $edu = new EduMat($form['form[name]'], $form['form[status]'], $form['form[dateCreated]'], $form['form[dateFinished]'], $form['form[recipient]'], $form['form[description]']);
         $this->assertTrue($edu->getDescription() === "");
         $this->assertCount(0, $crawler->filter('.error'));
     }
@@ -309,21 +309,21 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "s";
-        $form['status'] = "Complete";
-        $form['dateCreated'] = "2017-10-17";
-        $form['dateFinished'] = "2017-10-17";
-        $form['description'] = "Deliver stufff to school";
-        $form['recipient'] = "sssssssssssssssssssssssssssssssssssssssssssssssss";
+        $form['form[name]'] = "s";
+        $form['form[status]'] = 3;
+        $form['form[dateCreated]'] = "2017-10-17";
+        $form['form[dateFinished]'] = "2017-10-17";
+        $form['form[description]'] = "Deliver stufff to school";
+        $form['form[recipient]'] = "sssssssssssssssssssssssssssssssssssssssssssssssss";
 
         // same as above only this is for recipient
-        $edu = new EduMat($form['name'], $form['status'], $form['dateCreated'], $form['dateFinished'], $form['recipient'], $form['description']);
+        $edu = new EduMat($form['form[name]'], $form['form[status]'], $form['form[dateCreated]'], $form['form[dateFinished]'], $form['form[recipient]'], $form['form[description]']);
         $this->assertTrue($edu->getRecipient() === "sssssssssssssssssssssssssssssssssssssssssssssssss");
         $this->assertCount(0, $crawler->filter('.error'));
     }
@@ -338,21 +338,21 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "s";
-        $form['status'] = "Complete";
-        $form['dateCreated'] = "2017-10-17";
-        $form['dateFinished'] = "2017-10-17";
-        $form['description'] = "ssssssssssssssssssssssssssssssssssssssssssssssss";
-        $form['recipient'] = "Hamburg School";
+        $form['form[name]'] = "s";
+        $form['form[status]'] = 3;
+        $form['form[dateCreated]'] = "2017-10-17";
+        $form['form[dateFinished]'] = "2017-10-17";
+        $form['form[description]'] = "ssssssssssssssssssssssssssssssssssssssssssssssss";
+        $form['form[recipient]'] = "Hamburg School";
 
         // same as above
-        $edu = new EduMat($form['name'], $form['status'], $form['dateCreated'], $form['dateFinished'], $form['recipient'], $form['description']);
+        $edu = new EduMat($form['form[name]'], $form['form[status]'], $form['form[dateCreated]'], $form['form[dateFinished]'], $form['form[recipient]'], $form['form[description]']);
         $this->assertTrue($edu->getDescription() === "ssssssssssssssssssssssssssssssssssssssssssssssss");
         $this->assertCount(0, $crawler->filter('.error'));
     }
@@ -367,21 +367,21 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "s";
-        $form['status'] = "Complete";
-        $form['dateCreated'] = "2017-10-17";
-        $form['dateFinished'] = "2017-10-17";
-        $form['description'] = "s";
-        $form['recipient'] = "s";
+        $form['form[name]'] = "s";
+        $form['form[status]'] = 3;
+        $form['form[dateCreated]'] = "2017-10-17";
+        $form['form[dateFinished]'] = "2017-10-17";
+        $form['form[description]'] = "s";
+        $form['form[recipient]'] = "s";
 
         // same as above
-        $edu = new EduMat($form['name'], $form['status'], $form['dateCreated'], $form['dateFinished'], $form['recipient'], $form['description']);
+        $edu = new EduMat($form['form[name]'], $form['form[status]'], $form['form[dateCreated]'], $form['form[dateFinished]'], $form['form[recipient]'], $form['form[description]']);
         $this->assertTrue($edu->getRecipient() === "s");
         $this->assertCount(0, $crawler->filter('.error'));
     }
@@ -396,13 +396,13 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['recipient'] = "@Saskpolytech";
+        $form['form[recipient]'] = "@Saskpolytech";
 
         // Submit the form to the crawler
         $crawler = $client->submit($form);
@@ -421,13 +421,13 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['recipient'] = "       ";
+        $form['form[recipient]'] = "       ";
 
         // Submit the form to the crawler
         $crawler = $client->submit($form);
@@ -445,18 +445,18 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form
-        $form['name'] = "";
-        $form['dateCreated'] = "";
-        $form['recipient'] = "";
-        $form['status'] = "Complete";
-        $form['dateFinished'] = "2017-10-17";
-        $form['description'] = "Deliver stufff to school";
+        $form['form[name'] = "";
+        $form['form[dateCreated]'] = "";
+        $form['form[recipient]'] = "";
+        $form['form[status]'] = 3;
+        $form['form[dateFinished]'] = "2017-10-17";
+        $form['form[description]'] = "Deliver stufff to school";
 
         // Submit the form to the crawler
         $crawler = $client->submit($form);
@@ -475,13 +475,13 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form (Assume current date is 10/16/2017)
-        $form['dateCreated'] = "2017-10-17";
+        $form['form[dateCreated]'] = "2017-10-17";
 
         // Submit the form to the crawler
         $crawler = $client->submit($form);
@@ -500,19 +500,19 @@ class EduMatFormControllerTest extends WebTestCase
         $client = static::createClient();
 
         // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'/operation/edumat');
+        $crawler = $client->request("GET",'EduMatForm');
 
         // select the button to press
-        $form = $crawler->selectButton('submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         // Populate form (Assume current date is 10/16/2017)
-        $form['dateFinished'] = "2017-10-17";
+        $form['form[dateFinished]'] = "2017-10-17";
 
         // Submit the form to the crawler
         $crawler = $client->submit($form);
 
         // Test to see if our error message is on has appeared.
-        $this->assertContains("You have entered a date in the future. You may only enter todays date, and dates in the past.", $client->getResponse()->getContent());
+        $this->assertContains("Please select either a current or past date.", $client->getResponse()->getContent());
     }
 
 
