@@ -4,8 +4,19 @@ namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Communication;
+
+/**
+ * This class will be responsible with interacting with the database
+ * in relation to Communication objects
+ */
 class CommunicationRepository extends EntityRepository
 {
+    /**
+     * This method will insert a single communication object into the database and
+     * return its ID
+     * @param Communication $communication 
+     * @return integer
+     */
     public function insert(Communication $communication)
     {
         $em = $this->getEntityManager(); //get the entity manager to insert the communication

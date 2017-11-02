@@ -1,8 +1,8 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Name>prjMURR</Name>
-    <ProjectGuid>{b6c9827b-3d01-4d38-8369-6bb619832ae9}</ProjectGuid>
+    <ProjectGuid>{fe69d8da-9bd7-4518-9be8-22640871dfbb}</ProjectGuid>
     <RootNamespace>
     </RootNamespace>
     <OutputType>Library</OutputType>
@@ -20,6 +20,7 @@
     <Compile Include=".vs\MURR\v15\Browse.VC.db" />
     <Compile Include=".vs\prj4-murr\v15\.suo" />
     <Compile Include=".vs\prj4Murr\v15\.suo" />
+    <Compile Include=".vs\prjMURR\v15\.suo" />
     <Compile Include=".vs\ProjectSettings.json" />
     <Compile Include=".vs\slnx.sqlite" />
     <Compile Include=".vs\VSWorkspaceState.json" />
@@ -46,7 +47,6 @@
     <Compile Include="src\AppBundle\Entity\Communication.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
     <Compile Include="src\AppBundle\Repository\CommunicationRepository.php" />
-    <Compile Include="src\AppBundle\Resources\config\doctrine\Communication.orm.php" />
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
@@ -69,9 +69,8 @@
     <Compile Include="composer.json" />
     <Compile Include="composer.lock" />
     <Compile Include="phpunit.xml.dist" />
-    <Compile Include="phpunit5.phar" />
-    <Compile Include="phpunit6.phar" />
     <Compile Include="prj4Murr.phpproj" />
+    <Compile Include="prjMURR.phpproj" />
     <Compile Include="README.md" />
     <Compile Include="runSymfonyWebserver.bat" />
     <Compile Include="symfonyCONSOLE.bat" />
@@ -84,6 +83,8 @@
     <Folder Include=".vs\prj4-murr" />
     <Folder Include=".vs\prj4Murr\v15" />
     <Folder Include=".vs\prj4Murr" />
+    <Folder Include=".vs\prjMURR\v15" />
+    <Folder Include=".vs\prjMURR" />
     <Folder Include=".vs" />
     <Folder Include="app\config" />
     <Folder Include="app\Resources\views\communication" />

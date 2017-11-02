@@ -12,7 +12,7 @@ class CommunicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 
@@ -52,7 +52,7 @@ class CommunicationControllerTest extends WebTestCase
 
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 
@@ -70,7 +70,7 @@ class CommunicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 
@@ -90,14 +90,14 @@ class CommunicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 
         //set form values
         $form['communication[date][year]'] = "2017";
         $form['communication[date][month]'] = "2";
-        $form['communication[date][day]'] = "31";
+        $form['communication[date][day]'] = "30";
 
         $crawler = $client->submit($form);
 
@@ -108,7 +108,7 @@ class CommunicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 
@@ -124,7 +124,7 @@ class CommunicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 
@@ -141,7 +141,7 @@ class CommunicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 
@@ -157,7 +157,7 @@ class CommunicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 
@@ -181,7 +181,7 @@ class CommunicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 
@@ -197,7 +197,7 @@ class CommunicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 
@@ -222,7 +222,7 @@ class CommunicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 
@@ -239,7 +239,7 @@ class CommunicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 
@@ -256,7 +256,7 @@ class CommunicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 
@@ -273,7 +273,7 @@ class CommunicationControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication');
+        $crawler = $client->request('GET', '/communication/new');
 
         $form = $crawler->selectButton('Add')->form();
 

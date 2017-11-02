@@ -6,10 +6,25 @@ use AppBundle\Entity\Communication;
 use Symfony\Component\Form\Test\TypeTestCase;
 use AppBundle\Form\Type\CommunicationType;
 use DateTime;
+use Symfony\Component\Form\Forms;
+use Symfony\Component\Form\FormFactoryInterface;
 
 
 class CommunicationTypeTest extends TypeTestCase
 {
+    /**
+     *
+     * @var FormFactoryInterface
+     */
+    protected $factory;
+
+    protected function setUp()
+    {
+
+        $this->factory = Forms::createFormFactoryBuilder()
+            ->getFormFactory();
+    }
+
 
     public function testSubmitValidData()
     {
@@ -47,7 +62,7 @@ class CommunicationTypeTest extends TypeTestCase
         $this->assertTrue($form->isSynchronized());
 
         $formResponse = $form->getData();
-        
+
         //For some reason within the unit tests it will not return the proper date,
         //but the implementation does, and also there is another unit test
         //whithin CommunicationControllerTest that proves this

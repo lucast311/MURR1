@@ -7,11 +7,16 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\Type\CommunicationType;
 use AppBundle\Entity\Communication;
 
-
+/**
+ * This controller will be repsonsible for the various requirements of interacting with
+ * Communication data (add, edit, view, etc.)
+ */
 class CommunicationController extends Controller
 {
     /**
-     * @Route("/communication", name = "new communication")
+     * This route will be responsible for loading and submitting the form responsible
+     * for entering Communication Data
+     * @Route("/communication/new", name = "new communication")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -47,9 +52,9 @@ class CommunicationController extends Controller
 
 
             //get the doctrine repository
-            //$repo = $this->getDoctrine()->getRepository(Communication::class);
-            ////insert into the database
-            //$repo->insert($communication);
+            $repo = $this->getDoctrine()->getRepository(Communication::class);
+            //insert into the database
+            $repo->insert($communication);
 
 
             //let the user know that the communication was added

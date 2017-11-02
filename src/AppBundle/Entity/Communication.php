@@ -3,9 +3,12 @@
 namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use DateTime;
 
 /**
- * Communication
+ * This class is responsible for modelling a communication between a user
+ * and a contact
+ * 
  * @ORM\Table(name="communication")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommunicationRepository")
  */
@@ -48,7 +51,7 @@ class Communication
 
     /**
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @Assert\NotBlank(message="Please enter a contact")
      * @Assert\Choice(callback="getContacts", message = "Please enter a contact")
      */
@@ -56,7 +59,7 @@ class Communication
 
     /**
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @Assert\NotBlank(message="Please select a property")
      * @Assert\Choice(callback="getProperties", message = "Please select a property")
      */
@@ -87,6 +90,14 @@ class Communication
      * @ORM\Column(type="integer")
      */
     private $user;
+
+    /**
+     * Default constructor for a Communication object. This will just set the value of date to be today by default
+     */
+    public function __construct()
+    {
+        $this->date = new DateTime('now');
+    }
 
 
     /**
@@ -291,26 +302,46 @@ class Communication
         return $this->user;
     }
 
+    /**
+     * This method will return the valid values for the medium field
+     * @return string[]
+     */
     public static function getMediums()
     {
         return array ('Incoming' => 'incoming', 'Outgoing' => 'outgoing');
     }
 
+    /**
+     * This method will return the valid values for the type field
+     * @return string[]
+     */
     public static function getTypes()
     {
         return array ('In Person' => 'in person', 'Phone' => 'phone', 'Email' => 'email');
     }
 
+    /**
+     * This method will return the valid values for the Category field
+     * @return string[]
+     */
     public static function getCategories()
     {
         return array ('Container' => 'container', 'Collection' => 'collection', 'Misc.' => 'misc');
     }
 
+    /**
+     * This method will return the valid values for the Contacts field
+     * @return array
+     */
     public static function getContacts()
     {
         return array ('Resident' => -1, 'Linda Smith' => 1, 'John Snow' => 2 );
     }
 
+    /**
+     * This method will return the valid values for the properties field
+     * @return array
+     */
     public static function getProperties()
     {
         return array ('N/A' => -1, 'Multi-Property' => -2, '123 Fake St.' => 1, '456 Fake St.' => 2);

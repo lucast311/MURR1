@@ -40,7 +40,7 @@ class CommunicationRepositoryTest extends KernelTestCase
 
         //add to database and return the ID
         $id = $this->em->getRepository(Communication::class)
-            ->addToDatabase($com);
+            ->insert($com);
 
         $this->assertEquals($id,$com->getId());
     }
