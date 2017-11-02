@@ -97,6 +97,7 @@ class Communication
     public function __construct()
     {
         $this->date = new DateTime('now');
+        $this->date->setTime(0,0);
     }
 
 
