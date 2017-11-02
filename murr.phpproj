@@ -129,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\Resources\views\Contact\listContacts.html.twig" />
+    <Content Include="app\Resources\views\Contact\viewContact.html.twig" />
     <Content Include="phpunit.xml" />
   </ItemGroup>
 </Project>

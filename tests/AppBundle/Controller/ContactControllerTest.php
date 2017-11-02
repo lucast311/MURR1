@@ -18,12 +18,12 @@ class ContactControllerTest extends WebTestCase
         $crawler = $client->request('GET','/contact/list');
 
         // Assert that a table exists
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("<table>")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("<table>")')->count());
         // Assert that the table has the proper headings
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>First Name</th>")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>Last Name</th>")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>Organization</th>")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>Primary Phone</th>")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>First Name</th>")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>Last Name</th>")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>Organization</th>")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("<th>Primary Phone</th>")')->count());
     }
 
     /**
@@ -43,19 +43,19 @@ class ContactControllerTest extends WebTestCase
         $crawler = $client->click($link);
 
         // Assert that all the proper labels are on the page
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("First Name:")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Last Name:")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Organization:")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Primary Phone:")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Secondary Phone:")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Phone Extension:")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Email Address:")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Fax:")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Street Address:")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Postal Code:")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("City:")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Province:")'));
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Country:")'));
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("First Name:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Last Name:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Organization:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Primary Phone:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Secondary Phone:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Phone Extension:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Email Address:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Fax:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Street Address:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Postal Code:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("City:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Province:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Country:")')->count());
     }
 
     public function testAddActionSuccess()

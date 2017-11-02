@@ -57,9 +57,9 @@ class ContactRepositoryTest extends KernelTestCase
         $contacts = $repository->getAll();
 
         // Assert that it is an array of contacts
-        $this->assert(is_array($contacts));
+        $this->assertTrue(is_array($contacts));
         // Assert that the inserted contact exists within the array
-        $this->assert(in_array($contact, $contacts));
+        $this->assertTrue(in_array($contact, $contacts));
 
     }
 
