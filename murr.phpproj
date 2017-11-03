@@ -45,9 +45,11 @@
     <Compile Include="src\AppBundle\Controller\CommunicationController.php" />
     <Compile Include="src\AppBundle\Controller\ContactController.php" />
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
+    <Compile Include="src\AppBundle\Controller\EduMatFormController.php" />
     <Compile Include="src\AppBundle\Entity\Address.php" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
     <Compile Include="src\AppBundle\Entity\Contact.php" />
+    <Compile Include="src\AppBundle\Entity\EduMat.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
     <Compile Include="src\AppBundle\Form\ContactType.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
@@ -56,9 +58,11 @@
     <Compile Include="src\AppBundle\Repository\ContactRepository.php" />
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />
+    <Compile Include="src\AppBundle\Repository\EduMatRepository.php" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\ContactControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\DefaultControllerTest.php" />
+    <Compile Include="tests\AppBundle\Controller\EduMatFormControllerTest.php" />
     <Compile Include="tests\AppBundle\Entity\AddressTest.php" />
     <Compile Include="tests\AppBundle\Entity\CommunicationTest.php" />
     <Compile Include="tests\AppBundle\Entity\ContactTest.php" />
@@ -142,6 +146,7 @@
     <Content Include="app\Resources\views\communication\newComm.html.twig" />
     <Content Include="app\Resources\views\Contact\listContacts.html.twig" />
     <Content Include="app\Resources\views\Contact\viewContact.html.twig" />
+    <Content Include="app\Resources\views\default\EduMatForm.html.twig" />
     <Content Include="phpunit.xml" />
   </ItemGroup>
 </Project>
