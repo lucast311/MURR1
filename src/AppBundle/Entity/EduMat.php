@@ -26,7 +26,7 @@ class EduMat
      *
      * @Assert\NotBlank(message="This field is required.")
      * @Assert\Length(max=30, maxMessage="The maximum number of characters for this field is 30.")
-     * @Assert\Regex(pattern="/^[a-zA-Z]{0,30}$/", message="You have entered invalid characters into the name field. Please use letter names only. Additional characters may be used in the description field.")
+     * @Assert\Regex(pattern="/^[a-zA-Z ]{0,30}$/", message="You have entered invalid characters into the name field. Please use letter names only. Additional characters may be used in the description field.")
      *
      * @ORM\Column(name="name", type="string", length=30)
      */
