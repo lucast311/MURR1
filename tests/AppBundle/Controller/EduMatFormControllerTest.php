@@ -62,6 +62,8 @@ class EduMatFormControllerTest extends WebTestCase
         $form['form[description]'] = "Deliver stufff to school";
         $form['form[recipient]'] = "Hamburg School";
 
+        $crawler = $client->submit($form);
+
         // test that no errors were displayed by the form
         $this->assertCount(0, $crawler->filter('li'));
     }
@@ -89,6 +91,8 @@ class EduMatFormControllerTest extends WebTestCase
         $form['form[description]'] = "Deliver stufff to school";
         $form['form[recipient]'] = "Hamburg School";
 
+        $crawler = $client->submit($form);
+
         // same tests as above, only with name length - 1
         $this->assertCount(0, $crawler->filter('li'));
     }
@@ -115,6 +119,8 @@ class EduMatFormControllerTest extends WebTestCase
         $form['form[dateFinished]'] = "2017-10-17";
         $form['form[description]'] = "Deliver stufff to school";
         $form['form[recipient]'] = "Hamburg School";
+
+        $crawler = $client->submit($form);
 
         // same as above but with a single character
         $this->assertCount(0, $crawler->filter('li'));
@@ -195,6 +201,8 @@ class EduMatFormControllerTest extends WebTestCase
         $form['form[description]'] = "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
         $form['form[recipient]'] = "Hamburg School";
 
+        $crawler = $client->submit($form);
+
         // same test as above only this uses description instead of name
         $this->assertCount(0, $crawler->filter('li'));
     }
@@ -221,6 +229,8 @@ class EduMatFormControllerTest extends WebTestCase
         $form['form[dateFinished]'] = "2017-10-17";
         $form['form[description]'] = "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
         $form['form[recipient]'] = "Hamburg School";
+
+        $crawler = $client->submit($form);
 
         // same as above
         $this->assertCount(0, $crawler->filter('li'));
@@ -249,6 +259,8 @@ class EduMatFormControllerTest extends WebTestCase
         $form['form[description]'] = "s";
         $form['form[recipient]'] = "Hamburg School";
 
+        $crawler = $client->submit($form);
+
         // same as above
         $this->assertCount(0, $crawler->filter('li'));
     }
@@ -275,6 +287,8 @@ class EduMatFormControllerTest extends WebTestCase
         $form['form[dateFinished]'] = "2017-10-17";
         $form['form[description]'] = "";
         $form['form[recipient]'] = "Hamburg School";
+
+        $crawler = $client->submit($form);
 
         // same as above
         $this->assertCount(0, $crawler->filter('li'));
@@ -303,6 +317,8 @@ class EduMatFormControllerTest extends WebTestCase
         $form['form[description]'] = "Deliver stufff to school";
         $form['form[recipient]'] = "sssssssssssssssssssssssssssssssssssssssssssssssss";
 
+        $crawler = $client->submit($form);
+
         // same as above only this is for recipient
         $this->assertCount(0, $crawler->filter('li'));
     }
@@ -330,6 +346,8 @@ class EduMatFormControllerTest extends WebTestCase
         $form['form[description]'] = "ssssssssssssssssssssssssssssssssssssssssssssssss";
         $form['form[recipient]'] = "Hamburg School";
 
+        $crawler = $client->submit($form);
+
         // same as above
         $this->assertCount(0, $crawler->filter('li'));
     }
@@ -356,6 +374,8 @@ class EduMatFormControllerTest extends WebTestCase
         $form['form[dateFinished]'] = "2017-10-17";
         $form['form[description]'] = "s";
         $form['form[recipient]'] = "s";
+
+        $crawler = $client->submit($form);
 
         // same as above
         $this->assertCount(0, $crawler->filter('li'));
