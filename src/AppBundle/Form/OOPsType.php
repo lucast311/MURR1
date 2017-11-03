@@ -1,29 +1,42 @@
 <?php
-
 namespace AppBundle\Form;
 
-use AppBundle\Entity\OOPs;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use AppBundle\Entity\OOPs;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
 /**
- * OOPsType short summary.
- *
- * OOPsType description.
- *
- * @version 1.0
- * @author cst201
+ * This class is repsonsible for building a form for a Communication object
  */
-class OOPsType
+class OOPsType 
 {
+    /**
+     * This function will build the form to be displayed on a page
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        //$builder->add('image',FileType::class, array('label' => 'OOPs notice (image file)'));
+
+
+        $builder
+            ->add('binSerial', TextType::class,array(
+                    'data' => ''
+                    ))
+            ->add('problemType', ChoiceType::class, array(
+                    'choices' => OOPs::getProblemOptions()))
+            ->add('description', TextType::class, array('required' => false))
+            ->add('imageFile', FileType::class, array('required' => false))
+            ->add('status', HiddenType::class, array(
+                    'data' => 'Not yet started'))
+            ->add('save', SubmitType::class, array('label' => 'Create OOPs Notice'));
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

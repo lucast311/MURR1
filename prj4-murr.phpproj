@@ -103,6 +103,11 @@
     <Folder Include="web" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\Resources\images\OOPs NOTICE generic.png" />
+    <Content Include="app\Resources\images\OOPs NOTICE inValid1.bmp" />
+    <Content Include="app\Resources\images\OOPs NOTICE inValid2.exe" />
+    <Content Include="app\Resources\images\OOPs NOTICE Valid1.png" />
+    <Content Include="app\Resources\images\OOPs NOTICE Valid2.jpg" />
     <Content Include="sqlite.db" />
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 namespace tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * CSROOPsControllerTest short summary.
@@ -27,7 +28,7 @@ class CSROOPsControllerTest extends WebTestCase
         $form['form[binSerial]'] = 'testOOPs66';
         $form['form[problemType]'] = 'Damage';
         $form['form[description]'] = 'test oops description';
-        $form['form[image]'] = 'N;';
+        $form['form[imageFile]'] = 'N;';
 
         $crawler = $client->submit($form);
         $this->assertGreaterThan(
@@ -51,7 +52,7 @@ class CSROOPsControllerTest extends WebTestCase
         $form['form[binSerial]'] = 'testOOPs6';
         $form['form[problemType]'] = 'Damage';
         $form['form[description]'] = 'test oops description';
-        $form['form[image]'] = 'N;';
+        $form['form[imageFile]'] = 'N;';
 
         $crawler = $client->submit($form);
         $this->assertGreaterThan(
@@ -74,7 +75,7 @@ class CSROOPsControllerTest extends WebTestCase
         $form['form[binSerial]'] = 'testOOPs666';
         $form['form[problemType]'] = 'Damage';
         $form['form[description]'] = 'test oops description';
-        $form['form[image]'] = 'N;';
+        $form['form[imageFile]'] = 'N;';
 
         $crawler = $client->submit($form);
         $this->assertGreaterThan(
@@ -84,7 +85,7 @@ class CSROOPsControllerTest extends WebTestCase
     }
 
 
-    public function testNewActionSuccessImageUpload()
+    public function testNewActionSuccessImageUploadPng()
     {
         //Create a client to go through the web page
         $client = static::createClient();
@@ -97,14 +98,39 @@ class CSROOPsControllerTest extends WebTestCase
         $form['form[binSerial]'] = 'testOOPs66';
         $form['form[problemType]'] = 'Damage';
         $form['form[description]'] = 'test oops description';
-        $form['form[image]'] = 'N;';
+        $form['form[imageFile]'] = '../../app/Resources/images/OOPs NOTICE Valid1.png';
 
         $crawler = $client->submit($form);
         $this->assertGreaterThan(
         0,
-        $crawler->filter('html:contains("This value should have exactly 10 characters.")')->count()
+        $crawler->filter('html:contains("OOPs Form Success!")')->count()
         );
     }
+
+    /* NOT SURE HOW TO TEST BUT WORKS IN FORM
+    public function testNewActionFailureImageUpload()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+        $client->followRedirects(true);
+
+
+        //Reques the contact add page
+        $crawler = $client->request('POST','/oops/add');
+
+        $form = $crawler->selectButton('Create OOPs Notice')->form();
+        $form['form[binSerial]'] = 'testOOPs66';
+        $form['form[problemType]'] = 'Damage';
+        $form['form[description]'] = 'test oops description';
+        $form['form[imageFile]'] = '../../app/Resources/images/OOPs NOTICE inValid1.bmp';
+
+        $crawler = $client->submit($form);
+        $this->assertGreaterThan(
+        0,
+        $crawler->filter('html:contains("OOPs Form Success!")')->count()        
+        );
+    }
+    */
 
 
     /**
@@ -130,7 +156,7 @@ class CSROOPsControllerTest extends WebTestCase
 foxxvpjekafmdmwewbzlxzldcdrvemyqnfppodwgrjveduviysaazeelmfbcksgrwfrnbfqogdyjflxeavrtdovifcmewcjhowycbnqprgkwgtdpoxmqjhxnnsbsqur
 hskcweavnxumxqnomkdquqnpuaospigrznzngnrjsgnzmnejezwmrhqsiwgehfiqlhqcwwftfdlbsrfogxhnuykisnsfyhdnvnrkjbolbkhfsqeefuwbtkfbnvidhquu
 isisczppkwnavzarusagtlywqocxktvlnudzpeouldjmrayuqtsqqxdd';
-        $form['form[image]'] = 'N;';
+        $form['form[imageFile]'] = 'N;';
 
         $crawler = $client->submit($form);
         $this->assertGreaterThan(

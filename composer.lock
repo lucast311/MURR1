@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab453167628afd679d6672da5ac14c0a",
+    "content-hash": "0fcc702b3a3e742e6b1a350a0de80a32",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -64,6 +64,55 @@
                 "tls"
             ],
             "time": "2017-09-11T07:24:36+00:00"
+        },
+        {
+            "name": "dfridrich/php-mime-type",
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dfridrich/PhpMimeType.git",
+                "reference": "f3186ffc2d31949c651aae7e9d69e8cc27bd2550"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dfridrich/PhpMimeType/zipball/f3186ffc2d31949c651aae7e9d69e8cc27bd2550",
+                "reference": "f3186ffc2d31949c651aae7e9d69e8cc27bd2550",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6|^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8|^5.0",
+                "symfony/http-foundation": "^2.8 || ^3.0"
+            },
+            "suggest": {
+                "symfony/http-foundation": "Allows you to get prepared Symfony response."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Defr\\PhpMimeType\\": "src/",
+                    "Defr\\": "legacy/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dennis Fridrich",
+                    "email": "fridrich.dennis@gmail.com"
+                }
+            ],
+            "description": "Simple PHP class for guessing file mime type based on file extension with ability to use in Symfony project.",
+            "homepage": "https://github.com/dfridrich/PhpMimeType",
+            "keywords": [
+                "mimetype",
+                "php"
+            ],
+            "time": "2017-10-30T10:40:30+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -1158,6 +1207,204 @@
                 "random"
             ],
             "time": "2017-03-13T16:27:32+00:00"
+        },
+        {
+            "name": "pear/console_getopt",
+            "version": "v1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pear/Console_Getopt.git",
+                "reference": "82f05cd1aa3edf34e19aa7c8ca312ce13a6a577f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pear/Console_Getopt/zipball/82f05cd1aa3edf34e19aa7c8ca312ce13a6a577f",
+                "reference": "82f05cd1aa3edf34e19aa7c8ca312ce13a6a577f",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Console": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Beaver",
+                    "email": "cellog@php.net",
+                    "role": "Helper"
+                },
+                {
+                    "name": "Andrei Zmievski",
+                    "email": "andrei@php.net",
+                    "role": "Lead"
+                },
+                {
+                    "name": "Stig Bakken",
+                    "email": "stig@php.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "More info available on: http://pear.php.net/package/Console_Getopt",
+            "time": "2015-07-20T20:28:12+00:00"
+        },
+        {
+            "name": "pear/mime_type",
+            "version": "v1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pear/MIME_Type.git",
+                "reference": "fcf331a1202dff64599342a6dee02bbe3ef145ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pear/MIME_Type/zipball/fcf331a1202dff64599342a6dee02bbe3ef145ac",
+                "reference": "fcf331a1202dff64599342a6dee02bbe3ef145ac",
+                "shasum": ""
+            },
+            "require": {
+                "pear/pear-core-minimal": "^1.9.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "suggest": {
+                "pear/system_command": "Install optionally via your project's composer.json"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "MIME": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Ian Eure",
+                    "email": "ieure@php.net",
+                    "role": "Lead"
+                },
+                {
+                    "name": "Christian Weiske",
+                    "email": "cweiske@php.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Detect the MIME Type of a file",
+            "homepage": "http://pear.php.net/package/MIME_Type",
+            "time": "2015-11-04T19:57:46+00:00"
+        },
+        {
+            "name": "pear/pear-core-minimal",
+            "version": "v1.10.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pear/pear-core-minimal.git",
+                "reference": "070f0b600b2caca2501e2c9b7e553016e4b0d115"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pear/pear-core-minimal/zipball/070f0b600b2caca2501e2c9b7e553016e4b0d115",
+                "reference": "070f0b600b2caca2501e2c9b7e553016e4b0d115",
+                "shasum": ""
+            },
+            "require": {
+                "pear/console_getopt": "~1.4",
+                "pear/pear_exception": "~1.0"
+            },
+            "replace": {
+                "rsky/pear-core-min": "self.version"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "src/"
+            ],
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Weiske",
+                    "email": "cweiske@php.net",
+                    "role": "Lead"
+                }
+            ],
+            "description": "Minimal set of PEAR core files to be used as composer dependency",
+            "time": "2017-02-28T16:46:11+00:00"
+        },
+        {
+            "name": "pear/pear_exception",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pear/PEAR_Exception.git",
+                "reference": "8c18719fdae000b690e3912be401c76e406dd13b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pear/PEAR_Exception/zipball/8c18719fdae000b690e3912be401c76e406dd13b",
+                "reference": "8c18719fdae000b690e3912be401c76e406dd13b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=4.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "class",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "PEAR": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "."
+            ],
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Helgi Thormar",
+                    "email": "dufuz@php.net"
+                },
+                {
+                    "name": "Greg Beaver",
+                    "email": "cellog@php.net"
+                }
+            ],
+            "description": "The PEAR Exception base class.",
+            "homepage": "https://github.com/pear/PEAR_Exception",
+            "keywords": [
+                "exception"
+            ],
+            "time": "2015-02-10T20:07:52+00:00"
         },
         {
             "name": "phar-io/manifest",
