@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class CSROOPsControllerTest extends WebTestCase
 {
-    public function testNewActionSuccess()
+    public function testNewOOPsActionSuccess()
     {
 
         //Create a client to go through the web page
@@ -26,16 +26,38 @@ class CSROOPsControllerTest extends WebTestCase
 
         $form = $crawler->selectButton('Create OOPs Notice')->form();
         $form['form[binSerial]'] = 'testOOPs66';
-        $form['form[problemType]'] = 'Damage';
-        $form['form[description]'] = 'test oops description';
-        $form['form[imageFile]'] = 'N;';
+        $form['form[problemType]'] = 'Contamination';
+        $form['form[description]'] = 'Filled with Garbage';
+        //$form['form[imageFile]'] = 'N;';
 
         $crawler = $client->submit($form);
         $this->assertGreaterThan(
             0,
             $crawler->filter('html:contains("OOPs Form Success!")')->count()
             );
+    }
 
+    public function testNewOOPsActionFailureNoSerial()
+    {
+
+        //Create a client to go through the web page
+        $client = static::createClient();
+        $client->followRedirects(true);
+
+        //Reques the contact add page
+        $crawler = $client->request('POST','/oops/add');
+
+        $form = $crawler->selectButton('Create OOPs Notice')->form();
+        $form['form[binSerial]'] = '';
+        $form['form[problemType]'] = 'Contamination';
+        $form['form[description]'] = 'Filled with Garbage';
+        //$form['form[imageFile]'] = 'N;';
+
+        $crawler = $client->submit($form);
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('html:contains("Create OOPs Notice")')->count()
+            );
     }
 
     public function testNewActionFailureBinSerialSmall()
@@ -127,7 +149,7 @@ class CSROOPsControllerTest extends WebTestCase
         $crawler = $client->submit($form);
         $this->assertGreaterThan(
         0,
-        $crawler->filter('html:contains("OOPs Form Success!")')->count()        
+        $crawler->filter('html:contains("OOPs Form Success!")')->count()
         );
     }
     */

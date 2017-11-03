@@ -24,7 +24,7 @@ class OOPsType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-
+        //generates an OOPs Form
         $builder
             ->add('binSerial', TextType::class,array(
                     'data' => ''

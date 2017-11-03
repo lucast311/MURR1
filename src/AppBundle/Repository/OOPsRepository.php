@@ -13,6 +13,11 @@ use AppBundle\Entity\OOPs;
  */
 class OOPsRepository extends EntityRepository
 {
+    /**
+     * inserts an OOPs object to the database oops table
+     * @param OOPs $oops 
+     * @return string
+     */
     public function insert(OOPs $oops)
     {
         $em = $this->getEntityManager(); 

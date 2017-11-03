@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeExtensionGuesser;
 class OOPsController extends Controller
 {
     /**
+     * Used to add a new OOPs notice via a form
      * @Route("/oops/add", name="contact_add")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -24,7 +25,6 @@ class OOPsController extends Controller
 
         // create an OOPs and give it some dummy data for this example
         $oops = new OOPs('','');
-        //$oops->setStatus('Not in progress');
 
         $oopsForm = $this->createFormBuilder($oops)
             ->add('binSerial', TextType::class,array(
@@ -47,12 +47,13 @@ class OOPsController extends Controller
             //form submition
             $em = $this->getDoctrine()->getManager();
 
-            $oops->upload();
+            //writes the image to the uploads directory
+            $oops->uploadImage();
 
+            //add form data to oops table as a now OOPs notice
             $em->getRepository(OOPs::class)->insert($oops);
-            //return new Response('Created a new OOPs notice!');
 
-
+            //show success of form
             return $this->render('oops/addOOPsFormSuccess.html.twig');
         }
 

@@ -21,6 +21,7 @@ class OOPs
     private $id;
 
     /**
+     * The serial number of the bin
      * @var string
      * @ORM\Column(type="string", length=10)
      * @Assert\NotBlank(message="Please enter a serial number")
@@ -33,13 +34,15 @@ class OOPs
     private $binSerial;
 
     /**
+     * the problem classification affecting the bin
      * @var string
      * @ORM\Column(type="string")
      * @Assert\Choice(callback="getProblemOptions", message = "Please select a problem type")
      */
     private $problemType;
 
-    /** // replace getProblemOptions with getStatusOptions
+    /**
+     * the current status of the response to the notice
      * @var string
      * @ORM\Column(type="string")
      * @Assert\Choice(callback="getStatusOptions", message = "Please select the current OOPs status")
@@ -47,6 +50,7 @@ class OOPs
     private $status;
 
     /**
+     * a more detailed description of the containers affliction
      * @var string
      * @ORM\Column(type="string", length=250, nullable=true)
      * @Assert\Length(max = 250,
@@ -55,14 +59,16 @@ class OOPs
      */
     private $description;
 
-
-
     /**
+     * an image file relevant to the OOPs notice
+     * **NOT STORED IN DB**
      * @Assert\File(maxSize="6000000", mimeTypes={"image/jpeg","image/png"}, mimeTypesMessage="Please upload an image in JPEG or PNG format")
      */
     private $imageFile;
 
     /**
+     * a path to the stored image
+     * **STORED IN DB**
      * @var string
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -84,8 +90,6 @@ class OOPs
         $this->description = htmlentities($description);
         $this->image = $image;
     }
-
-
 
     /**
      * Get id
@@ -122,7 +126,7 @@ class OOPs
     }
 
     /**
-     * Set problemType
+     * Used to set the problemType
      *
      * @param string $problemType
      *
@@ -193,9 +197,10 @@ class OOPs
         return $this->description;
     }
 
-
-
-
+    /**
+     * returns an array of the possible status options to show in the UI
+     * @return string[]
+     */
     public static function getStatusOptions()
     {
         return array('Not yet started' => 'Not yet started',
@@ -203,6 +208,10 @@ class OOPs
                      'Completed' => 'Completed');
     }
 
+    /**
+     * returns an array of the possible problem options to show in the UI
+     * @return string[]
+     */
     public static function getProblemOptions()
     {
         return array ('Damage' => 'Damage',
@@ -211,12 +220,14 @@ class OOPs
                       'Other (include in description)' => 'Other' );
     }
 
+    /**
+     * returns an array of the valid image mimetypes to validate image files with
+     * @return string[]
+     */
     public static function getValidImageTypes()
     {
         return array ('image/png','image/jpeg');
     }
-
-
 
     /**
      * Sets imageFile.
@@ -238,7 +249,10 @@ class OOPs
         return $this->imageFile;
     }
 
-
+    /**
+     * gets an absolute path to the image
+     * @return \null|string
+     */
     public function getAbsoluteImagePath()
     {
         return null === $this->imagePath
@@ -246,6 +260,10 @@ class OOPs
             : $this->getImageUploadRootDir().'/'.$this->imagePath;
     }
 
+    /**
+     * gets a relative/web path to the image
+     * @return \null|string
+     */
     public function getWebImagePath()
     {
         return null === $this->imagePath
@@ -253,6 +271,10 @@ class OOPs
             : $this->getImageUploadDir().'/'.$this->imagePath;
     }
 
+    /**
+     * gets the root directory of uploaded files
+     * @return string
+     */
     protected function getImageUploadRootDir()
     {
         // the absolute directory path where uploaded
@@ -260,6 +282,10 @@ class OOPs
         return __DIR__.'/../../../uploads/'.$this->getImageUploadDir();
     }
 
+    /**
+     * gets the image upload directory name
+     * @return string
+     */
     protected function getImageUploadDir()
     {
         // get rid of the __DIR__ so it doesn't screw up
@@ -267,10 +293,11 @@ class OOPs
         return 'images';
     }
 
-
-
-
-    public function upload()
+    /**
+     * places the uploaded image file in in the the uploaded images directory
+     * @return void
+     */
+    public function uploadImage()
     {
         // the file property can be empty if the field is not required
         if (null === $this->getImageFile()) {
