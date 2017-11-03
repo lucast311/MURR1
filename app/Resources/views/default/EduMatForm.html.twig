@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}MURR{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
     </head>
-<!--Add a comment to this line-->
+<!-- Create the form and add it inside the body -->
     <body>
         {% block javascripts %}{% endblock %}
  
@@ -13,6 +13,7 @@
         {{ form_widget(form) }}
         {{ form_end(form) }}
 
+        <!-- Add a message that only displays if the user is returned to this page after submitting -->
         {% block body %}
             {% for message in app.flashes('success') %}
                 <div class="flash-success">

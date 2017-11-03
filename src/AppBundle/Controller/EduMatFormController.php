@@ -11,9 +11,18 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use AppBundle\Entity\EduMat;
 
+/*
+ * A Controller class that will build the EduMatForm, and display it.
+ * When the form submits, this page will see if it was valid.
+ * If the form was valid then add the data to the database as a new record.
+ * If the data is invalid then the form will generate error messages based
+ *  on the messages defined in the EduMat entity's Assertion statements.
+ */
 class EduMatFormController extends Controller
 {
     /**
+     * A function that does everything specified in the Class comment above
+     * 
      * @Route("/EduMatForm", name="EduMatForm")
      */
     public function indexAction(Request $request)
@@ -63,16 +72,17 @@ class EduMatFormController extends Controller
             $em->close();
             $em = null;
 
+            // create a message to display to the user if the form submitted successfully
             $this->addFlash(
                     'success',
                     'Successfully Added'
             );
 
-            // return to current page in case CSR wants to add another record
+            // return to form page in case CSR wants to add another record
             return $this->redirectToRoute('EduMatForm');
         }
 
-        // display the form for the first time
+        // render the form page so the user can see it
         return $this->render('default/EduMatForm.html.twig', array(
             'form' => $form->createView(),
         ));
