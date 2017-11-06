@@ -2,7 +2,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\OOPs;
-use AppBundle\Form\OOPsType; 
+use AppBundle\Form\OOPsType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -11,13 +11,13 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeExtensionGuesser; 
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeExtensionGuesser;
 
 class OOPsController extends Controller
 {
     /**
      * Used to add a new OOPs notice via a form
-     * @Route("/oops/add", name="contact_add")
+     * @Route("/oops/add", name="oops_add")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -28,7 +28,18 @@ class OOPsController extends Controller
         $oops = new OOPs('','');
 
         //generates a form
-        $oopsForm = $this->createForm(OOPsType::class, $oops); 
+        $oopsForm = $this->createFormBuilder($oops)
+                        ->add('binSerial', TextType::class,array(
+                    'data' => ''
+                    ))
+            ->add('problemType', ChoiceType::class, array(
+                    'choices' => OOPs::getProblemOptions()))
+            ->add('description', TextType::class, array('required' => false))
+            ->add('imageFile', FileType::class, array('required' => false))
+            ->add('status', HiddenType::class, array(
+                    'data' => 'Not yet started'))
+            ->add('save', SubmitType::class, array('label' => 'Create OOPs Notice'))
+            ->getForm(); 
 
         //request handler
         $oopsForm->handleRequest($request);
@@ -36,7 +47,7 @@ class OOPsController extends Controller
         //if the form, is submited and valid
         if($oopsForm->isSubmitted() && $oopsForm->isValid())
         {
-            
+
             //form submition
             $em = $this->getDoctrine()->getManager();
 
