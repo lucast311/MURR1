@@ -1,18 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\app",
-    "\\app\\Resources",
-    "\\app\\Resources\\views",
-    "\\app\\Resources\\views\\default",
-    "\\src",
-    "\\src\\AppBundle",
-    "\\src\\AppBundle\\Controller",
-    "\\tests",
-    "\\tests\\AppBundle",
-    "\\tests\\AppBundle\\Controller",
-    "\\web"
+    ""
   ],
-  "SelectedNode": "\\src\\AppBundle\\Controller\\DefaultController.php",
   "PreviewInSolutionExplorer": false
 }

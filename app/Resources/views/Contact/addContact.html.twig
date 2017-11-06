@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Contact{% endblock %}
+
+{% block body %}
+
+{% if showSuccess %}
+    <h2>Contact has been successfully added</h2>
+{% endif %}
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+
+{% endblock %}
