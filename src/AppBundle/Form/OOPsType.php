@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * This class is repsonsible for building a form for a Communication object
  */
-class OOPsType 
+class OOPsType extends AbstractType
 {
     /**
      * This function will build the form to be displayed on a page

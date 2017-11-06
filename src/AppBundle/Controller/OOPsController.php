@@ -2,6 +2,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\OOPs;
+use AppBundle\Form\OOPsType; 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,21 +27,13 @@ class OOPsController extends Controller
         // create an OOPs and give it some dummy data for this example
         $oops = new OOPs('','');
 
-        $oopsForm = $this->createFormBuilder($oops)
-            ->add('binSerial', TextType::class,array(
-                    'data' => ''
-                    ))
-            ->add('problemType', ChoiceType::class, array(
-                    'choices' => OOPs::getProblemOptions()))
-            ->add('description', TextType::class, array('required' => false))
-            ->add('imageFile', FileType::class, array('required' => false))
-            ->add('status', HiddenType::class, array(
-                    'data' => 'Not yet started'))
-            ->add('save', SubmitType::class, array('label' => 'Create OOPs Notice'))
-            ->getForm();
+        //generates a form
+        $oopsForm = $this->createForm(OOPsType::class, $oops); 
 
+        //request handler
         $oopsForm->handleRequest($request);
 
+        //if the form, is submited and valid
         if($oopsForm->isSubmitted() && $oopsForm->isValid())
         {
             
@@ -58,7 +51,7 @@ class OOPsController extends Controller
         }
 
         return $this->render('oops/addOOPsForm.html.twig', array(
-            'form' => $oopsForm->createView(),
+            'form' => $oopsForm->createView()
         ));
     }
 
