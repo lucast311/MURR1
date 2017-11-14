@@ -1,0 +1,136 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Name>prj4-murr</Name>
+    <ProjectGuid>{32713824-f964-41c2-ac6a-ddb668871cab}</ProjectGuid>
+    <RootNamespace>
+    </RootNamespace>
+    <OutputType>Library</OutputType>
+    <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <IncludeDebugInformation>true</IncludeDebugInformation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <IncludeDebugInformation>false</IncludeDebugInformation>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="app\config\config.yml" />
+    <Compile Include="app\config\config_dev.yml" />
+    <Compile Include="app\config\config_prod.yml" />
+    <Compile Include="app\config\config_test.yml" />
+    <Compile Include="app\config\parameters.yml" />
+    <Compile Include="app\config\parameters.yml.dist" />
+    <Compile Include="app\config\routing.yml" />
+    <Compile Include="app\config\routing_dev.yml" />
+    <Compile Include="app\config\security.yml" />
+    <Compile Include="app\config\services.yml" />
+    <Compile Include="app\Resources\images\OOPs NOTICE generic.png" />
+    <Compile Include="app\Resources\images\OOPs NOTICE inValid1.bmp" />
+    <Compile Include="app\Resources\images\OOPs NOTICE inValid2.exe" />
+    <Compile Include="app\Resources\images\OOPs NOTICE Valid1.png" />
+    <Compile Include="app\Resources\images\OOPs NOTICE Valid2.jpg" />
+    <Compile Include="app\Resources\views\communication\newComm.html.twig" />
+    <Compile Include="app\Resources\views\Contact\addContact.html.twig" />
+    <Compile Include="app\Resources\views\Contact\listContacts.html.twig" />
+    <Compile Include="app\Resources\views\Contact\viewContact.html.twig" />
+    <Compile Include="app\Resources\views\default\EduMatForm.html.twig" />
+    <Compile Include="app\Resources\views\default\index.html.twig" />
+    <Compile Include="app\Resources\views\oops\addOOPsForm.html.twig" />
+    <Compile Include="app\Resources\views\oops\addOOPsFormSuccess.html.twig" />
+    <Compile Include="app\Resources\views\base.html.twig" />
+    <Compile Include="app\.htaccess" />
+    <Compile Include="app\AppCache.php" />
+    <Compile Include="app\AppKernel.php" />
+    <Compile Include="app\sqlite.db" />
+    <Compile Include="bin\console" />
+    <Compile Include="bin\symfony_requirements" />
+    <Compile Include="src\AppBundle\Controller\CommunicationController.php" />
+    <Compile Include="src\AppBundle\Controller\ContactController.php" />
+    <Compile Include="src\AppBundle\Controller\DefaultController.php" />
+    <Compile Include="src\AppBundle\Controller\EduMatFormController.php" />
+    <Compile Include="src\AppBundle\Controller\OOPsController.php" />
+    <Compile Include="src\AppBundle\Entity\Address.php" />
+    <Compile Include="src\AppBundle\Entity\Communication.php" />
+    <Compile Include="src\AppBundle\Entity\Contact.php" />
+    <Compile Include="src\AppBundle\Entity\EduMat.php" />
+    <Compile Include="src\AppBundle\Entity\OOPs.php" />
+    <Compile Include="src\AppBundle\Form\Type\AddressType.php" />
+    <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
+    <Compile Include="src\AppBundle\Form\AddressType.php" />
+    <Compile Include="src\AppBundle\Form\ContactType.php" />
+    <Compile Include="src\AppBundle\Form\OOPsType.php" />
+    <Compile Include="src\AppBundle\Repository\AddressRepository.php" />
+    <Compile Include="src\AppBundle\Repository\CommunicationRepository.php" />
+    <Compile Include="src\AppBundle\Repository\ContactRepository.php" />
+    <Compile Include="src\AppBundle\Repository\EduMatRepository.php" />
+    <Compile Include="src\AppBundle\Repository\OOPsRepository.php" />
+    <Compile Include="src\AppBundle\AppBundle.php" />
+    <Compile Include="src\.htaccess" />
+    <Compile Include="src\ContactController.php" />
+    <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
+    <Compile Include="tests\AppBundle\Controller\ContactController.php" />
+    <Compile Include="tests\AppBundle\Controller\ContactControllerTest.php" />
+    <Compile Include="tests\AppBundle\Controller\CSROOPsControllerTest.php" />
+    <Compile Include="tests\AppBundle\Controller\EduMatFormControllerTest.php" />
+    <Compile Include="tests\AppBundle\Entity\AddressTest.php" />
+    <Compile Include="tests\AppBundle\Entity\CommunicationTest.php" />
+    <Compile Include="tests\AppBundle\Entity\ContactTest.php" />
+    <Compile Include="tests\AppBundle\Entity\CSROOPsCreationTest.php" />
+    <Compile Include="tests\AppBundle\Form\Type\CommunicationTypeTest.php" />
+    <Compile Include="tests\AppBundle\Form\AddOOPsForm.php" />
+    <Compile Include="tests\AppBundle\Form\AddressTypeTest.php" />
+    <Compile Include="tests\AppBundle\Form\ContactTypeTest.php" />
+    <Compile Include="tests\AppBundle\Form\CSROOPsFormTest.php" />
+    <Compile Include="tests\AppBundle\Repository\AddressRepositoryTest.php" />
+    <Compile Include="tests\AppBundle\Repository\CommunicationRepositoryTest.php" />
+    <Compile Include="tests\AppBundle\Repository\ContactRepositoryTest.php" />
+    <Compile Include="tests\AppBundle\Repository\CSROOPsRepositoryTest.php" />
+    <Compile Include="uploads\images\OOPs NOTICE Valid1.png" />
+    <Compile Include="uploads\images\OOPs NOTICE Valid2.jpg" />
+    <Compile Include="web\.htaccess" />
+    <Compile Include="web\app.php" />
+    <Compile Include="web\apple-touch-icon.png" />
+    <Compile Include="web\app_dev.php" />
+    <Compile Include="web\config.php" />
+    <Compile Include="web\favicon.ico" />
+    <Compile Include="web\robots.txt" />
+    <Compile Include=".gitignore" />
+    <Compile Include="composer.json" />
+    <Compile Include="composer.lock" />
+    <Compile Include="phpunit.xml.dist" />
+    <Compile Include="README.md" />
+    <Compile Include="runSymfonyWebserver.bat" />
+    <Compile Include="symfonyCONSOLE.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\config" />
+    <Folder Include="app\Resources\images" />
+    <Folder Include="app\Resources\views\communication" />
+    <Folder Include="app\Resources\views\Contact" />
+    <Folder Include="app\Resources\views\default" />
+    <Folder Include="app\Resources\views\oops" />
+    <Folder Include="app\Resources\views" />
+    <Folder Include="app\Resources" />
+    <Folder Include="app" />
+    <Folder Include="bin" />
+    <Folder Include="src\AppBundle\Controller" />
+    <Folder Include="src\AppBundle\Entity" />
+    <Folder Include="src\AppBundle\Form\Type" />
+    <Folder Include="src\AppBundle\Form" />
+    <Folder Include="src\AppBundle\Repository" />
+    <Folder Include="src\AppBundle" />
+    <Folder Include="src" />
+    <Folder Include="tests\AppBundle\Controller" />
+    <Folder Include="tests\AppBundle\Entity" />
+    <Folder Include="tests\AppBundle\Form\Type" />
+    <Folder Include="tests\AppBundle\Form" />
+    <Folder Include="tests\AppBundle\Repository" />
+    <Folder Include="tests\AppBundle" />
+    <Folder Include="tests" />
+    <Folder Include="uploads\images" />
+    <Folder Include="uploads" />
+    <Folder Include="web\bundles" />
+    <Folder Include="web" />
+  </ItemGroup>
+</Project>
