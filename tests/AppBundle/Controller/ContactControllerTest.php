@@ -58,6 +58,12 @@ class ContactControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Country:")')->count());
     }
 
+    public function testeditRedirect()
+    {
+        
+    }
+
+
     public function testAddActionSuccess()
     {
         //Create a client to go through the web page

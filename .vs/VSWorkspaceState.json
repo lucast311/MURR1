@@ -1,6 +1,16 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\.vs",
+    "\\.vs\\MURR\\v15",
+    "\\vendor\\symfony",
+    "\\vendor\\symfony\\symfony",
+    "\\vendor\\symfony\\symfony\\src",
+    "\\vendor\\symfony\\symfony\\src\\Symfony",
+    "\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle",
+    "\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\FrameworkBundle",
+    "\\vendor\\symfony\\symfony\\src\\Symfony\\Bundle\\FrameworkBundle\\Controller"
   ],
+  "SelectedNode": "\\src\\AppBundle\\Controller\\CommunicationController.php",
   "PreviewInSolutionExplorer": false
 }
