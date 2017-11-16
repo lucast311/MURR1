@@ -31,7 +31,7 @@ class AddressRepository extends EntityRepository
         return $address->getId();
     }
 
-    public function update(int $id)
+    public function update(int $id, Address $address)
     {
 
     }

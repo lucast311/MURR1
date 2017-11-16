@@ -32,7 +32,7 @@ class ContactRepository extends EntityRepository
         return $contact->getId();
     }
 
-    public function update(int $id)
+    public function update(int $id, Contact $contact)
     {
     
     }
