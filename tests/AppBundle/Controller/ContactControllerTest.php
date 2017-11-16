@@ -290,7 +290,3 @@ class ContactControllerTest extends WebTestCase
     }
 
 
-
-
-
-}
