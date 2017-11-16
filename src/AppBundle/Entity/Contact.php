@@ -107,6 +107,10 @@ class Contact
      */
     private $fax;
 
+
+
+
+    // NOTE: Remember to disable validation
     /**
      * @var \stdClass
      *
