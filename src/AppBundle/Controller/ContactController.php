@@ -94,4 +94,12 @@ class ContactController extends Controller
         return $this->render('contact/viewContact.html.twig', array('contact'=>$contact));
 
     }
+
+    /**
+     * @route("/contact/view/{contactId}/edit", name="contact_Edit")
+     */
+    public function editAction()
+    {
+        return $this->render('contact/editContact.html.twig', array('id'=>1));
+    }
 }

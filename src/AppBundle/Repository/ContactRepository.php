@@ -16,7 +16,7 @@ class ContactRepository extends EntityRepository
      * @param Contact $contact
      * @return integer
      */
-    public function insert(int $id)
+    public function insert(Contact $contact)
     {
         // get the entity manager
         $em = $this->getEntityManager();
@@ -32,7 +32,7 @@ class ContactRepository extends EntityRepository
         return $contact->getId();
     }
 
-    public function update(Contact $contact)
+    public function update(int $id)
     {
     
     }

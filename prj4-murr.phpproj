@@ -144,4 +144,8 @@
     <Folder Include="web\bundles" />
     <Folder Include="web" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\Resources\views\Contact\EditContact.html.twig" />
+    <Content Include="app\sqlite.db" />
+  </ItemGroup>
 </Project>

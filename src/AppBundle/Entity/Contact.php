@@ -129,6 +129,7 @@ class Contact
         return $this->id;
     }
 
+
     /**
      * Set firstName
      *

@@ -140,6 +140,44 @@ class ContactRepositoryTest extends KernelTestCase
         $this->assertEquals($contact->getId(), $id);
     }
 
+    public function testContactUpdate()
+    {
+        // Create a new object
+        $contact = new Contact();
+        $contact->setFirstName("Bob");
+        $contact->setLastName("Jons");
+        $contact->setEmailAddress("l@L.com");
+
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+
+        $contact->setAddress($address);
+        //Get the repository for testing
+        $repository = $this->em->getRepository(Contact::class);
+        //Call insert on the repositor and record the id of the new object
+        $id = $repository->insert($contact);
+
+        //create replacement contact with same id
+        $replaceContact = new Contact();
+        $replaceContact->setFirstName("Phillip");
+        $replaceContact->setLastName("Jons");
+        $replaceContact->setEmailAddress("l@L.com");
+
+        $replaceContact->setAddress($address); 
+
+        //call update and pass in the id
+        $repository->update($id, $replaceContact);
+
+        $testContact = $repository->getOne($id); 
+
+        assertTrue($testContact->getFirstName === "Philip"); 
+    }
+
 
     //closes the memory mamnger
     /**
