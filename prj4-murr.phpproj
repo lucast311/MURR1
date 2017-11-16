@@ -61,11 +61,14 @@
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
     <Compile Include="src\AppBundle\Controller\EduMatFormController.php" />
     <Compile Include="src\AppBundle\Controller\OOPsController.php" />
+    <Compile Include="src\AppBundle\Controller\PropertyController.php" />
     <Compile Include="src\AppBundle\Entity\Address.php" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
     <Compile Include="src\AppBundle\Entity\Contact.php" />
     <Compile Include="src\AppBundle\Entity\EduMat.php" />
     <Compile Include="src\AppBundle\Entity\OOPs.php" />
+    <Compile Include="src\AppBundle\Entity\Property.php" />
+    <Compile Include="src\AppBundle\Form\PropertyType.php" />
     <Compile Include="src\AppBundle\Form\Type\AddressType.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
@@ -78,6 +81,7 @@
     <Compile Include="src\AppBundle\Repository\OOPsRepository.php" />
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />
+    <Compile Include="src\AppBundle\Repository\PropertyRepository.php" />
     <Compile Include="src\ContactController.php" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\ContactController.php" />
@@ -88,6 +92,7 @@
     <Compile Include="tests\AppBundle\Entity\CommunicationTest.php" />
     <Compile Include="tests\AppBundle\Entity\ContactTest.php" />
     <Compile Include="tests\AppBundle\Entity\CSROOPsCreationTest.php" />
+    <Compile Include="tests\AppBundle\Entity\PropertyTest.php" />
     <Compile Include="tests\AppBundle\Form\Type\CommunicationTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\AddOOPsForm.php" />
     <Compile Include="tests\AppBundle\Form\AddressTypeTest.php" />
