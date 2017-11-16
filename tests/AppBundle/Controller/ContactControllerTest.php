@@ -7,6 +7,158 @@ class ContactControllerTest extends WebTestCase
 {
 
     /**
+     * story 9f
+     * A test to ensure an entry isn't submitted with nothing in it.
+     */
+    public function testAddActionFailureEmptyForm()
+    {
+        // Create a client to go through the web form
+        $client = static::createClient;
+        // Create a crawler to request the page
+        $crawler = $client->request('GET','/contact/add');
+        // Select the form and add values to it
+        $form = $crawler->selectButton('Save')->form;
+        $form['contact[firstName]'] = '';
+        $form['contact[lastName]'] = '';
+        $form['contact[role]'] = '';
+        $form['contact[primaryPhone]'] = '';
+        $form['contact[extension]'] = '';
+        $form['contact[primaryPhone]'] = '';
+        $form['contact[secondaryPhone]'] = '';
+        $form['contact[emailAddress]'] = '';
+        $form['contact[fax]'] = '';
+        $form['contact[address][streetAddress]'] = '';
+        $form['contact[address][postalCode]'] = '';
+        $form['contact[address][city]'] = '';
+        $form['contact[address][province]'] = '';
+        $form['contact[address][country]'] = '';
+
+        // submit the form
+        $crawler = $client->submit($form);
+        // Check to see if the failure message has appeared
+        $this->assertCount(1,
+            $crawler->filter(
+                'html:contains("Please fill out the form.")')->count()
+            );
+    }
+    /**
+     * story 9f
+     * A test to ensure the contact entry has at least one piece of personal info. such as
+     * a first name, last name, or email address
+     */
+    public function testAddActionFailureNoPersonalInfo()
+    {
+        // Create a client to go through the web form
+        $client = static::createClient;
+        // Create a crawler to request the page
+        $crawler = $client->request('GET','/contact/add');
+        // Select the form and add values to it
+        $form = $crawler->selectButton('Save')->form;
+        $form['contact[firstName]'] = '';
+        $form['contact[lastName]'] = '';
+        $form['contact[role]'] = '';
+        $form['contact[primaryPhone]'] = '306-854-2486';
+        $form['contact[extension]'] = '';
+        $form['contact[primaryPhone]'] = '';
+        $form['contact[secondaryPhone]'] = '';
+        $form['contact[emailAddress]'] = '';
+        $form['contact[fax]'] = '';
+        $form['contact[address][streetAddress]'] = '123 Main Street';
+        $form['contact[address][postalCode]'] = 'S7N 0R7';
+        $form['contact[address][city]'] = 'Saskatoon';
+        $form['contact[address][province]'] = 'Saskatchewan';
+        $form['contact[address][country]'] = 'Canada';
+
+        // submit the form
+        $crawler = $client->submit($form);
+        // Check to see if the failure message has appeared
+        $this->assertCount(1,
+            $crawler->filter(
+                'html:contains("Contacts must have at least one piece of personal information. (First name, last name, or email)")')->count()
+            );
+    }
+    /**
+     * story9f
+     * A test to ensure the contact entry has at least one piece of contact info
+     */
+    public function testAddActionFailureNoContactInfo()
+    {
+        // Create a client to go through the web form
+        $client = static::createClient;
+        // Create a crawler to request the page
+        $crawler = $client->request('GET','/contact/add');
+        // Select the form and add values to it
+        $form = $crawler->selectButton('Save')->form;
+        $form['contact[firstName]'] = 'Luke';
+        $form['contact[lastName]'] = 'Skywalker';
+        $form['contact[role]'] = '';
+        $form['contact[primaryPhone]'] = '';
+        $form['contact[extension]'] = '';
+        $form['contact[primaryPhone]'] = '';
+        $form['contact[secondaryPhone]'] = '';
+        $form['contact[emailAddress]'] = '';
+        $form['contact[fax]'] = '';
+        $form['contact[address][streetAddress]'] = '123 Main Street';
+        $form['contact[address][postalCode]'] = 'S7N 0R7';
+        $form['contact[address][city]'] = 'Saskatoon';
+        $form['contact[address][province]'] = 'Saskatchewan';
+        $form['contact[address][country]'] = 'Canada';
+
+        // submit the form
+        $crawler = $client->submit($form);
+        // Check to see if the failure message has appeared
+        $this->assertCount(1,
+            $crawler->filter(
+                'html:contains("Contacts must have at least one piece of contact information. (First name, last name, or email)")')->count()
+            );
+    }
+    /**
+     * story 9f
+     * A test to ensure an entry can't be submitted with a role of
+     * more than 100 characters
+     */
+    public function testRoleCharacterLimit()
+    {
+        // Create a client to go through the web form
+        $client = static::createClient;
+        // Create a crawler to request the page
+        $crawler = $client->request('GET','/contact/add');
+        // Select the form and add values to it
+        $form = $crawler->selectButton('Save')->form;
+        $form['contact[firstName]'] = '';
+        $form['contact[lastName]'] = '';
+        $form['contact[role]'] = '';
+        $form['contact[primaryPhone]'] = '306-854-2486';
+        $form['contact[extension]'] = '';
+        $form['contact[primaryPhone]'] = '';
+        $form['contact[secondaryPhone]'] = '';
+        $form['contact[emailAddress]'] = '';
+        $form['contact[fax]'] = '';
+        $form['contact[address][streetAddress]'] = '123 Main Street';
+        $form['contact[address][postalCode]'] = 'S7N 0R7';
+        $form['contact[address][city]'] = 'Saskatoon';
+        $form['contact[address][province]'] = 'Saskatchewan';
+        $form['contact[address][country]'] = 'Canada';
+
+        // submit the form
+        $crawler = $client->submit($form);
+        // Check to see if the failure message has appeared
+        $this->assertCount(1,
+            $crawler->filter(
+                'html:contains("Contacts must have at least one piece of personal information. (First name, last name, or email)")')->count()
+            );
+    }
+    /**
+     * story 9f
+     * A test to ensure an entry can't be submitted with a role of
+     * more than 100 characters
+     */
+    public function testPropertyCharacterLimit()
+    {
+    }
+
+
+    /**
      * Story 9a
      * Tests the list action. Ensures that a table exists in the html with the right headers.
      */
