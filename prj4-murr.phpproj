@@ -19,6 +19,8 @@
     <DebugMappingMethod>Automatic</DebugMappingMethod>
     <DBGpProxyEnabled>false</DBGpProxyEnabled>
     <DBGpProxyPort>9001</DBGpProxyPort>
+    <SpecificPageValue>tests/AppBundle/Form/</SpecificPageValue>
+    <StartAction>SpecificPage</StartAction>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <IncludeDebugInformation>true</IncludeDebugInformation>
