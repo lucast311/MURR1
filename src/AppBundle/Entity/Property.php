@@ -23,14 +23,14 @@ class Property
     /**
      * @var string
      *
-     * @ORM\Column(name="propertyName", type="string", length=100)
+     * @ORM\Column(name="propertyName", type="string", length=100, nullable=true)
      */
     private $propertyName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="propertyType", type="string", length=50)
+     * @ORM\Column(name="propertyType", type="string", length=50, nullable=true)
      */
     private $propertyType;
 
@@ -40,6 +40,21 @@ class Property
      * @ORM\Column(name="propertyStatus", type="string", length=50)
      */
     private $propertyStatus;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="structureId", type="integer", nullable=true)
+     */
+    private $structureId;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="numUnits", type="integer")
+     */
+    private $numUnits;
+
 
     /**
      * @var string
@@ -164,6 +179,54 @@ class Property
     public function getPropertyStatus()
     {
         return $this->propertyStatus;
+    }
+
+    /**
+     * Set structureId
+     *
+     * @param int $structureId
+     *
+     * @return Property
+     */
+    public function setStructureId($structureId)
+    {
+        $this->structureId = $structureId;
+
+        return $this;
+    }
+
+    /**
+     * Get structureId
+     *
+     * @return int
+     */
+    public function getStructureId()
+    {
+        return $this->structureId;
+    }
+
+    /**
+     * Set numUnits
+     *
+     * @param int $numUnits
+     *
+     * @return Property
+     */
+    public function setNumUnits($numUnits)
+    {
+        $this->numUnits = $numUnits;
+
+        return $this;
+    }
+
+    /**
+     * Get numUnits
+     *
+     * @return int
+     */
+    public function getNumUnits()
+    {
+        return $this->numUnits;
     }
 
     /**
