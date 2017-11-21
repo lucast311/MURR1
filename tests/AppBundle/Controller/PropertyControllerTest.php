@@ -1,4 +1,6 @@
 <?php
+namespace Tests\AppBundle\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PropertyControllerTest extends WebTestCase
@@ -18,7 +20,7 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[siteId]'] = 1593843;
+        $form['property[id]'] = 1593843;
         $form['property[propertyName]'] = 'Charlton Arms';
         $form['property[propertyType]'] = 'Townhouse Condo';
         $form['property[propertyStatus]'] = 'Active';
@@ -41,7 +43,7 @@ class PropertyControllerTest extends WebTestCase
 
         //test that all fields are now empty
         //$this->assertEmpty($form['communication[date][year]']->getValue());
-        $this->assertEmpty($form['property[siteId]']-> getValue());
+        $this->assertEmpty($form['property[id]']-> getValue());
         $this->assertEmpty($form['property[propertyName]']-> getValue());
         $this->assertEmpty($form['property[propertyType]']-> getValue());
         $this->assertEmpty($form['property[propertyStatus]']-> getValue());
@@ -68,7 +70,7 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[siteId]'] = 1593843;
+        $form['property[id]'] = 1593843;
         $form['property[propertyName]'] = 'Charlton Arms';
         $form['property[propertyType]'] = 'Townhouse Condo';
         $form['property[propertyStatus]'] = 'Active';
