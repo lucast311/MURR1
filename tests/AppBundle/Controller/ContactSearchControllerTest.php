@@ -19,7 +19,10 @@ class ContactSearchControllerTest extends WebTestCase
 
     public function testSuccessfullyReceiveSearch()
     {
-        $this->assertContains('', $this->client->getResponse()->getContent());
+        //send search
+
+        //check response
+        $this->assertContains('{"id":"5"', $this->client->getResponse()->getContent());
     }
 
     //public function testSuccessfullyReceivedSearchWithSpecialCharacter()

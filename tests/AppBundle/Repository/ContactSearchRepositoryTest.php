@@ -1,5 +1,9 @@
 <?php
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+namespace Tests\AppBundle\Repository;
+
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+
+
 
 /**
  * a test class for the search controller
@@ -7,10 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @version 1.0
  * @author cst206 cst225
  */
-class ContactSearchRepositoryTest extends WebTestCase
+class ContactSearchRepositoryTest extends KernelTestCase
 {
     private $em;
-    private $client;
 
     protected function setUp()
     {
@@ -18,8 +21,6 @@ class ContactSearchRepositoryTest extends WebTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
-
-        $this->client = static::createClient();
     }
 
     public function testSuccessfullyReceiveSearch()
@@ -56,3 +57,4 @@ class ContactSearchRepositoryTest extends WebTestCase
     {
 
     }
+}

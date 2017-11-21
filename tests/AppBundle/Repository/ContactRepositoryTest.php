@@ -71,7 +71,7 @@ class ContactRepositoryTest extends KernelTestCase
         // Create a new object
         $contact = new Contact();
         $contact->setFirstName("Bob");
-        $contact->setLastName("Jons");
+        $contact->setLastName("Jones");
         $contact->setEmailAddress("l@L.com");
 
         // Have to create a new valid address too otherwise doctrine will fail
@@ -118,7 +118,7 @@ class ContactRepositoryTest extends KernelTestCase
         // Create a new object
         $contact = new Contact();
         $contact->setFirstName("Bob");
-        $contact->setLastName("Jons");
+        $contact->setLastName("Jones");
         $contact->setEmailAddress("l@L.com");
 
         // Have to create a new valid address too otherwise doctrine will fail
