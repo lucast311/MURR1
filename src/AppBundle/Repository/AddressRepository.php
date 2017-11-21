@@ -31,8 +31,31 @@ class AddressRepository extends EntityRepository
         return $address->getId();
     }
 
+    /**
+     * This function will update an address in the database.
+     * ID is required to be set on the object.
+     * @param Address $address The address to update in the database.
+     * @param int $id The id of the address in the database.
+     *
+     */
     public function update(int $id, Address $address)
     {
+        //$em = $this->getDoctrine()->getManager();
+        //$oldAddress = $em->getRepository(Address::class)->find($id);
+
+        //if (!$oldAddress) {
+        //    throw $this->createNotFoundException(
+        //        'No product found for id '.$id
+        //    );
+        //}
+
+        //$oldAddress->setStreetAddress($address->getStreetAddress());
+        //$oldAddress->setCity($address->getCity());
+        //$oldAddress->setCountry($address->getCountry());
+        //$oldAddress->setProvince($address->getProvince());
+        //$oldAddress->setPostalCode($address->getPostalCode());
+        //$em->flush();
+
 
     }
 

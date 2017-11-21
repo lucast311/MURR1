@@ -32,9 +32,17 @@ class ContactRepository extends EntityRepository
         return $contact->getId();
     }
 
+
+
+    /**
+     * This function will update a contact in the database.
+     * ID is required to be set on the object.
+     * @param Contact $contact The contact to update in the database.
+     * @return integer The id of the object in the database.
+     */
     public function update(int $id, Contact $contact)
     {
-    
+
     }
 
 

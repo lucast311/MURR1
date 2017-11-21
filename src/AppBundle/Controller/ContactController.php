@@ -96,6 +96,9 @@ class ContactController extends Controller
     }
 
     /**
+     * Handles the editing of a specific contact with all of its details
+     * @return \Symfony\Component\HttpFoundation\Response
+     * 
      * @route("/contact/view/{contactId}/edit", name="contact_Edit")
      */
     public function editAction()
