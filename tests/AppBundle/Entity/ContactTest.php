@@ -20,8 +20,6 @@ class ContactTest extends TestCase
         $this->contact->setprimaryPhone("306-921-5971");
         $this->contact->setEmailAddress("south@gmail.com");
 
-
-
         // Get a validator
         $this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
     }

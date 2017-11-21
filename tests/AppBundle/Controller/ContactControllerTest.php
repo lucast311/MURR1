@@ -8,7 +8,7 @@ class ContactControllerTest extends WebTestCase
 
     /**
      * story 9f
-     * A test to ensure an entry isn't submitted with nothing in it.
+     * A test to ensure an entry isn't submitted blank.
      */
     public function testAddActionFailureEmptyForm()
     {
@@ -27,6 +27,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = '';
         $form['contact[fax]'] = '';
+        $form['contact[property]'] = '';
         $form['contact[address][streetAddress]'] = '';
         $form['contact[address][postalCode]'] = '';
         $form['contact[address][city]'] = '';
@@ -44,7 +45,7 @@ class ContactControllerTest extends WebTestCase
     /**
      * story 9f
      * A test to ensure the contact entry has at least one piece of personal info. such as
-     * a first name, last name, or email address
+     * a first name or last name.
      */
     public function testAddActionFailureNoPersonalInfo()
     {
@@ -63,6 +64,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = '';
         $form['contact[fax]'] = '';
+        $form['contact[property]'] = '';
         $form['contact[address][streetAddress]'] = '123 Main Street';
         $form['contact[address][postalCode]'] = 'S7N 0R7';
         $form['contact[address][city]'] = 'Saskatoon';
@@ -79,7 +81,8 @@ class ContactControllerTest extends WebTestCase
     }
     /**
      * story9f
-     * A test to ensure the contact entry has at least one piece of contact info
+     * A test to ensure the contact entry has at least one piece of contact info,
+     * such as an email, phone number, or fax.
      */
     public function testAddActionFailureNoContactInfo()
     {
@@ -98,6 +101,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = '';
         $form['contact[fax]'] = '';
+        $form['contact[property]'] = '';
         $form['contact[address][streetAddress]'] = '123 Main Street';
         $form['contact[address][postalCode]'] = 'S7N 0R7';
         $form['contact[address][city]'] = 'Saskatoon';
@@ -109,13 +113,12 @@ class ContactControllerTest extends WebTestCase
         // Check to see if the failure message has appeared
         $this->assertCount(1,
             $crawler->filter(
-                'html:contains("Contacts must have at least one piece of contact information. (First name, last name, or email)")')->count()
+                'html:contains("Contacts must have at least one piece of contact information. (Phone number, email, fax)")')->count()
             );
     }
     /**
      * story 9f
-     * A test to ensure an entry can't be submitted with a role of
-     * more than 100 characters
+     * A test to make sure the role field has less than 101 characters
      */
     public function testRoleCharacterLimit()
     {
@@ -125,15 +128,17 @@ class ContactControllerTest extends WebTestCase
         $crawler = $client->request('GET','/contact/add');
         // Select the form and add values to it
         $form = $crawler->selectButton('Save')->form;
-        $form['contact[firstName]'] = '';
-        $form['contact[lastName]'] = '';
-        $form['contact[role]'] = '';
+        $form['contact[firstName]'] = 'Jeremy';
+        $form['contact[lastName]'] = 'Dunkan';
+        $form['contact[role]'] = 'saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae';
         $form['contact[primaryPhone]'] = '306-854-2486';
         $form['contact[extension]'] = '';
         $form['contact[primaryPhone]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = '';
         $form['contact[fax]'] = '';
+        $form['contact[property]'] = '';
         $form['contact[address][streetAddress]'] = '123 Main Street';
         $form['contact[address][postalCode]'] = 'S7N 0R7';
         $form['contact[address][city]'] = 'Saskatoon';
@@ -145,18 +150,46 @@ class ContactControllerTest extends WebTestCase
         // Check to see if the failure message has appeared
         $this->assertCount(1,
             $crawler->filter(
-                'html:contains("Contacts must have at least one piece of personal information. (First name, last name, or email)")')->count()
+                'html:contains("Please keep the Role field under 100 characters.")')->count()
             );
     }
     /**
      * story 9f
-     * A test to ensure an entry can't be submitted with a role of
-     * more than 100 characters
+     * A test to make sure the property field has less than 151 characters
      */
     public function testPropertyCharacterLimit()
     {
-    }
+        // Create a client to go through the web form
+        $client = static::createClient;
+        // Create a crawler to request the page
+        $crawler = $client->request('GET','/contact/add');
 
+        $form = $crawler->selectButton('Save')->form;
+        $form['contact[firstName]'] = 'Jeremy';
+        $form['contact[lastName]'] = 'Dunkan';
+        $form['contact[role]'] = 'Inspection Agent';
+        $form['contact[primaryPhone]'] = '306-854-2486';
+        $form['contact[extension]'] = '';
+        $form['contact[primaryPhone]'] = '';
+        $form['contact[secondaryPhone]'] = '';
+        $form['contact[emailAddress]'] = '';
+        $form['contact[fax]'] = '';
+        $form['contact[property]'] = 'saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae';
+        $form['contact[address][streetAddress]'] = '123 Main Street';
+        $form['contact[address][postalCode]'] = 'S7N 0R7';
+        $form['contact[address][city]'] = 'Saskatoon';
+        $form['contact[address][province]'] = 'Saskatchewan';
+        $form['contact[address][country]'] = 'Canada';
+
+        // submit the form
+        $crawler = $client->submit($form);
+        // Check to see if the failure message has appeared
+        $this->assertCount(1,
+            $crawler->filter(
+                'html:contains("Please keep the Property field under 150 characters.")')->count()
+            );
+    }
 
     /**
      * Story 9a
