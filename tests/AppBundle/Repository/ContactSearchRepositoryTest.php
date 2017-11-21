@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class ContactSearchRepositoryTest extends WebTestCase
 {
     private $em;
+    private $client;
 
     protected function setUp()
     {
@@ -17,12 +18,41 @@ class ContactSearchRepositoryTest extends WebTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        $this->client = static::createClient();
     }
 
+    public function testSuccessfullyReceiveSearch()
+    {
 
+    }
+
+    public function testSuccessfullyReceivedSearchWithSpecialCharacter()
+    {
+
+    }
+
+    public function testNoSearchOnOnlySpaces()
+    {
+
+    }
 
     public function testRemoveTrailingSpaces()
     {
-        
+
     }
-}
+
+    public function testRemoveLeadingSpaces()
+    {
+
+    }
+
+    public function testRemoveSandwichSpaces()
+    {
+
+    }
+
+    public function testRemoveUnneededSpaces()
+    {
+
+    }
