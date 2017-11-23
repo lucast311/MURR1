@@ -17,6 +17,8 @@ class Property
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     *
+     * @Assert\GreaterThan(value = 0, message = "Please specify a valid Site ID")
      */
     private $id;
 
@@ -24,6 +26,8 @@ class Property
      * @var string
      *
      * @ORM\Column(name="propertyName", type="string", length=100, nullable=true)
+     *
+     * @Assert\Length(max = 100, maxMessage = "Property name must be less than {{ limit }} characters")
      */
     private $propertyName;
 
@@ -31,6 +35,9 @@ class Property
      * @var string
      *
      * @ORM\Column(name="propertyType", type="string", length=50, nullable=true)
+     *
+     * @Assert\Length(max = 50, maxMessage = "Property type must be less than {{ limit }} characters")
+     * @Assert\Choice(callback = "getTypes", message = "Invalid property type")
      */
     private $propertyType;
 
@@ -38,6 +45,10 @@ class Property
      * @var string
      *
      * @ORM\Column(name="propertyStatus", type="string", length=50)
+     *
+     * @Assert\NotNull(message = "Please specify a Property Status")
+     * @Assert\Choice(callback = "getStatuses", message = "Invalid property status")
+     * @Assert\Length(max = 50, maxMessage = "Property status must be less than {{ limit }} characters")
      */
     private $propertyStatus;
 
@@ -45,6 +56,8 @@ class Property
      * @var int
      *
      * @ORM\Column(name="structureId", type="integer", nullable=true)
+     *
+     * @Assert\GreaterThan(value = 0, message = "Please specify a valid Structure ID")
      */
     private $structureId;
 
@@ -52,6 +65,10 @@ class Property
      * @var int
      *
      * @ORM\Column(name="numUnits", type="integer")
+     *
+     * @Assert\NotBlank(message = "Please specify the number of units")
+     * @Assert\GreaterThan(value = 0, message = "Please specify a valid number of units")
+     *
      */
     private $numUnits;
 
@@ -60,6 +77,9 @@ class Property
      * @var string
      *
      * @ORM\Column(name="neighbourhoodName", type="string", length=100)
+     *
+     * @Assert\Length(max = 100, maxMessage = "Neighbourhood Name must be less than {{ limit }} characters")
+     * @Assert\NotBlank(message = "Please specify a neighbourhood name")
      */
     private $neighbourhoodName;
 
@@ -67,6 +87,8 @@ class Property
      * @var string
      *
      * @ORM\Column(name="neighbourhoodId", type="string", length=25, nullable=true)
+     *
+     * @Assert\Length(max = 25, maxMessage = "Neighbourhood ID must be less than {{ limit }} characters")
      */
     private $neighbourhoodId;
 
@@ -313,8 +335,38 @@ class Property
 
     public function setBuildings($buildings){}
 
-    public static function getStatuses(){}
+    /**
+     * Returns an array of valid choices for the property status.
+     * @return string[]
+     */
+    public static function getStatuses()
+    {
+        return array(
+            "Active"=>"Active",
+            "Active (Partial Billing)"=>"Active (Partial Billing)",
+            "Active (Declined)"=>"Active (Declined)",
+            "Inactive (Renovation)"=>"Inactive (Renovation)",
+            "Inactive (Pending)"=>"Inactive (Pending)"
+        );
+    }
 
-    public static function getTypes(){}
+    /**
+     * Returns an array of valid choices for the property type.
+     * @return string[]
+     */
+    public static function getTypes()
+    {
+        return array(
+            "..."=>null,
+            "Townhouse Apartment"=>"Townhouse Apartment",
+            "Townhouse Condo"=>"Townhouse Condo",
+            "High Rise Apartment"=>"High Rise Apartment",
+            "Low Rise Apartment"=>"Low Rise Apartment",
+            "High Rise Condo"=>"High Rise Condo",
+            "Low Rise Condo"=>"Low Rise Condo",
+            "Mixed Use Condo Apartment"=>"Mixed Use Condo Apartment",
+            "Mixed Use Apartment Commercial"=>"Mixed Use Apartment Commercial"
+        );
+    }
 }
 

@@ -69,7 +69,6 @@
     <Compile Include="src\AppBundle\Entity\OOPs.php" />
     <Compile Include="src\AppBundle\Entity\Property.php" />
     <Compile Include="src\AppBundle\Form\PropertyType.php" />
-    <Compile Include="src\AppBundle\Form\Type\AddressType.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
     <Compile Include="src\AppBundle\Form\ContactType.php" />
