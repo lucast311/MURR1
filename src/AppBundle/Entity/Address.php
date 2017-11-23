@@ -70,11 +70,11 @@ class Address
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="string", length=100)
+     * @ORM\Column(name="country", type="string", length=40)
      *
      * @Assert\NotBlank(message = "Country cannot be left blank")
      *
-     * @Assert\Length(max=100 , maxMessage = "Length can't be more than 100 characters long.")
+     * @Assert\Length(max=40 , maxMessage = "Length can't be more than 100 characters long.")
      */
     private $country;
 

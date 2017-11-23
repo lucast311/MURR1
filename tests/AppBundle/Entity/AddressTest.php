@@ -35,7 +35,69 @@ class AddressTest extends TestCase
         $this->assertEquals(0, count($errors));
     }
 
- 
+    public function testAddressStreetAddressOnBoundary()
+    {
+        // Set Street Address to be 150 characters
+        $this->address->setStreetAddress("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        $errors = $this->validator->validate($this->address);
+        // Assert that there are no errors
+        $this->assertEquals(0, count($errors));
+    }
+    public function testAddressStreetAddressOverBoundary()
+    {
+        // Set Street Address to be 151 characters
+        $this->address->setStreetAddress("baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        $errors = $this->validator->validate($this->address);
+        // Assert that there are no errors
+        $this->assertEquals(1, count($errors));
+    }
+
+    public function testAddressCountryOnBoundary()
+    {
+        // Set Street Address to be 40 characters
+        $this->address->setProvince("baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        $errors = $this->validator->validate($this->address);
+        // Assert that there are no errors
+        $this->assertEquals(0, count($errors));
+    }
+    public function testAddressCountryeOverBoundary()
+    {
+        // Set Street Address to be 41 characters
+        $this->address->setProvince("baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        $errors = $this->validator->validate($this->address);
+        // Assert that there are no errors
+        $this->assertEquals(1, count($errors));
+    }
+
+    public function testAddressProvinceOnBoundary()
+    {
+        // Set Street Address to be 150 characters
+        $this->address->setProvince("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        $errors = $this->validator->validate($this->address);
+        // Assert that there are no errors
+        $this->assertEquals(0, count($errors));
+    }
+    public function testAddressProvinceOverBoundary()
+    {
+        // Set Street Address to be 151 characters
+        $this->address->setProvince("baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        $errors = $this->validator->validate($this->address);
+        // Assert that there are no errors
+        $this->assertEquals(1, count($errors));
+    }
+
     public function testAddressInvalidPostalCode()
     {
         // Make Address invalid
@@ -46,5 +108,5 @@ class AddressTest extends TestCase
         $this->assertEquals(1, count($errors));
     }
 
-   
+
 }
