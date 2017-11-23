@@ -140,6 +140,7 @@ class ContactRepositoryTest extends KernelTestCase
         $this->assertEquals($contact->getId(), $id);
     }
 
+    //9c contact test
     public function testContactUpdate()
     {
         // Create a new object

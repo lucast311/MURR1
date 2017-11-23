@@ -47,21 +47,28 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="organization", type="string", length=100, nullable=true)
+     * @ORM\Column(name="role", type="string", length=100, nullable=false)
      *
-     * @Assert\Length(max=100 , maxMessage = "Length can't be more than 100 characters long.")
+     * @Assert\Choice(callback="getValidRoleOptions", message = "Please select only choices in the 'Role' dropdown box")
      */
-    private $organization;
+    private $role;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="company", type="string", length=100, nullable=true)
+     *
+     * @Assert\Length(max=100 , maxMessage = "Company name can't be more than 100 characters long.")
+     */
+    private $companyName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="primaryPhone", type="string", length=12, nullable=true)
      *
-     * @Assert\NotBlank(message = "Primary phone cannot be left blank")
      *
      * @Assert\Regex(pattern = "/^\d{3}-\d{3}-\d{4}$/", message = "Phone number must be in the format of ###-###-####")
-     *
      *
      */
     private $primaryPhone;
@@ -69,7 +76,7 @@ class Contact
     /**
      * @var int
      *
-     * @ORM\Column(name="phoneExtention", type="integer", nullable=true)
+     * @ORM\Column(name="phoneExtention", type="string", nullable=true)
      *
      * @Assert\Regex(pattern = "/^\d{4}$/", message = "Phone extention must be in the format of ####")
      */
@@ -90,8 +97,6 @@ class Contact
      * @var string
      *
      * @ORM\Column(name="emailAddress", type="string", length=100)
-     *
-     * @Assert\NotBlank(message = "Email address cannot be left blank")
      *
      * @Assert\Email(message = "Email must be in the format of 'Example@example.com'")
      */
@@ -118,6 +123,25 @@ class Contact
      */
     private $address;
 
+    public static function getRoleOptions()
+    {
+        return array('...' => '...',
+                     'Property Manager' => 'Property Manager',
+                     'Property Manager Staff' => 'Property Manager Staff',
+                     'Onsite Staff' => 'Onsite Staff',
+                     'Owner' => 'Owner',
+                     'Landlord' => 'Landlord',
+                     'Condo President' => 'Condo President',
+                     'Condo Board Member' => 'Condo Board Member',
+                     'Mailing' => 'Mailing'
+            );
+    }
+
+    public function getValidRoleOptions()
+    {
+
+        return array_slice($Contact->getRoleOptions(),1, count($Contact->getRoleOptions())-1, true);
+    }
 
     /**
      * Get id
@@ -185,9 +209,9 @@ class Contact
      *
      * @return Contact
      */
-    public function setOrganization($organization)
+    public function setRole($role)
     {
-        $this->organization = $organization;
+        $this->role = $role;
 
         return $this;
     }
@@ -197,7 +221,7 @@ class Contact
      *
      * @return string
      */
-    public function getOrganization()
+    public function getRole()
     {
         return $this->organization;
     }
@@ -344,6 +368,17 @@ class Contact
     public function getAddress()
     {
         return $this->address;
+    }
+
+    public function setCompanyName($companyName)
+    {
+        $this->companyName = $companyName;
+        return $this;
+    }
+
+    public function getCompanyName()
+    {
+        return $this->companyName();
     }
 }
 

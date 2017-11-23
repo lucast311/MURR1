@@ -43,6 +43,20 @@ class ContactRepository extends EntityRepository
     public function update(int $id, Contact $contact)
     {
 
+        //$em = $this->getDoctrine()->getManager();
+        //$oldContact = $em->getRepository(Contact::class)->find($id);
+
+        //$oldContact->setFirstName($contact->getFirstName());
+        //$oldContact->setLastName($contact->getLastName());
+        //$oldContact->setOrganization($contact->getOrganization());
+        //$oldContact->setPrimaryPhone($contact->getPrimaryPhone());
+        //$oldContact->setPhoneExtention($contact->getPhoneExtension());
+        //$oldContact->setSecondaryPhone($contact->getSecondaryPhone());
+        //$oldContact->setEmailAddress($contact->getEmailAddress());
+        //$oldContact->setFax($contact->getFax());
+
+        //$old
+        //$em->flush();
     }
 
 

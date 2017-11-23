@@ -43,12 +43,6 @@ class AddressRepository extends EntityRepository
         //$em = $this->getDoctrine()->getManager();
         //$oldAddress = $em->getRepository(Address::class)->find($id);
 
-        //if (!$oldAddress) {
-        //    throw $this->createNotFoundException(
-        //        'No product found for id '.$id
-        //    );
-        //}
-
         //$oldAddress->setStreetAddress($address->getStreetAddress());
         //$oldAddress->setCity($address->getCity());
         //$oldAddress->setCountry($address->getCountry());
