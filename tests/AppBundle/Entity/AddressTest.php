@@ -35,26 +35,7 @@ class AddressTest extends TestCase
         $this->assertEquals(0, count($errors));
     }
 
-    public function testAddressMissingStreet()
-    {
-        // Make Address invalid
-        $this->address->setStreetAddress("");
-        // Validate the address
-        $errors = $this->validator->validate($this->address);
-        // Assert that there is 1 error
-        $this->assertEquals(1, count($errors));
-    }
-
-    public function testAddressMissingPostalCode()
-    {
-        // Make Address invalid
-        $this->address->setPostalCode("");
-        // Validate the address
-        $errors = $this->validator->validate($this->address);
-        // Assert that there is 1 error
-        $this->assertEquals(1, count($errors));
-    }
-
+ 
     public function testAddressInvalidPostalCode()
     {
         // Make Address invalid
@@ -65,45 +46,5 @@ class AddressTest extends TestCase
         $this->assertEquals(1, count($errors));
     }
 
-    public function testAddressMissingCity()
-    {
-        // Make Address invalid
-        $this->address->setCity("");
-        // Validate the address
-        $errors = $this->validator->validate($this->address);
-        // Assert that there is 1 error
-        $this->assertEquals(1, count($errors));
-    }
-
-    public function testAddressMissingProvince()
-    {
-        // Make Address invalid
-        $this->address->setProvince("");
-        // Validate the address
-        $errors = $this->validator->validate($this->address);
-        // Assert that there is 1 error
-        $this->assertEquals(1, count($errors));
-    }
-
-    public function testAddressMissingCountry()
-    {
-        // Make Address invalid
-        $this->address->setCountry("");
-        // Validate the address
-        $errors = $this->validator->validate($this->address);
-        // Assert that there is 1 error
-        $this->assertEquals(1, count($errors));
-    }
-
-    public function testMultipleErrors()
-    {
-        // Make Address invalid
-        $this->address->setStreetAddress("");
-        $this->address->setCountry("");
-        $this->address->setProvince("");
-        // Validate the address
-        $errors = $this->validator->validate($this->address);
-        // Assert that there is 3 error
-        $this->assertEquals(3, count($errors));
-    }
+   
 }

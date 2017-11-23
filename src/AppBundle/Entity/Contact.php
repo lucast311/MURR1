@@ -36,11 +36,11 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="lastName", type="string", length=50)
+     * @ORM\Column(name="lastName", type="string", length=150)
      *
      * @Assert\NotBlank(message = "Last name cannot be left blank")
      *
-     * @Assert\Length(max=50 , maxMessage = "Length can't be more than 50 characters long.")
+     * @Assert\Length(max=50 , maxMessage = "Length can't be more than 150 characters long.")
      */
     private $lastName;
 

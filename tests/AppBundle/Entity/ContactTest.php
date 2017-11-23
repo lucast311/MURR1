@@ -36,32 +36,9 @@ class ContactTest extends TestCase
         $this->assertEquals(0, count($errors));
     }
 
-    public function testContactFirstNameMissing()
-    {
-        // Make contact invalid
-        $this->contact->setFirstName("");
-        $errors = $this->validator->validate($this->contact);
-        // Assert that there is 1 error
-        $this->assertEquals(1, count($errors));
-
-    }
-    public function testContactLastNameMissing()
-    {
-        // Make contact invalid
-        $this->contact->setLastName("");
-        $errors = $this->validator->validate($this->contact);
-        // Assert that there is 1 error
-        $this->assertEquals(1, count($errors));
-    }
-    public function testContactPrimaryPhoneMissing()
-    {
-        // Make contact invalid
-        $this->contact->setPrimaryPhone("");
-        $errors = $this->validator->validate($this->contact);
-        // Assert that there is 1 error
-        $this->assertEquals(1, count($errors));
-
-    }
+   
+   
+   
 
     public function testContactPrimaryPhoneInvalid()
     {
@@ -73,15 +50,7 @@ class ContactTest extends TestCase
 
     }
 
-    public function testContactEmailAddressMissing()
-    {
-        // Make contact invalid
-        $this->contact->setEmailAddress("");
-        $errors = $this->validator->validate($this->contact);
-        // Assert that there is 1 error
-        $this->assertEquals(1, count($errors));
-
-    }
+    
 
     public function testContactEmailAddressInvalid()
     {
@@ -127,7 +96,6 @@ class ContactTest extends TestCase
         // Make contact invalid
         $this->contact->setPrimaryPhone("6");
         $this->contact->setFax("6");
-        $this->contact->setFirstName("");
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 3 error
         $this->assertEquals(3, count($errors));

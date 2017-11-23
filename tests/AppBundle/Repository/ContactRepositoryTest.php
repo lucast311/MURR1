@@ -179,6 +179,8 @@ class ContactRepositoryTest extends KernelTestCase
         assertTrue($testContact->getFirstName === "Philip"); 
     }
 
+    
+
 
     //closes the memory mamnger
     /**

@@ -41,6 +41,7 @@ class ContactControllerTest extends WebTestCase
                 'html:contains("Please fill out the form.")')->count()
             );
     }
+
     /**
      * story 9f
      * A test to ensure the contact entry has at least one piece of personal info. such as

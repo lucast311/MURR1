@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" backupGlobals="false" bootstrap="vendor/autoload.php" colors="true" printerClass="PhpTestingPrinter" printerFile="C:\PROGRA~2\MICROS~4\2017\ENTERP~1\COMMON7\IDE\EXTENS~1\X12ER2BF.4MN\PHPTES~1.PHP">
+  <testsuites>
+    <testsuite name="PhpTools_TestSuite">
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Controller\CommunicationControllerTest.php</file>
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Controller\CSROOPsControllerTest.php</file>
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Controller\EduMatFormControllerTest.php</file>
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Entity\AddressTest.php</file>
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Entity\CommunicationTest.php</file>
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Entity\ContactTest.php</file>
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Entity\CSROOPsCreationTest.php</file>
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Form\AddressTypeTest.php</file>
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Form\ContactTypeTest.php</file>
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Form\Type\CommunicationTypeTest.php</file>
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Repository\AddressRepositoryTest.php</file>
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Repository\CommunicationRepositoryTest.php</file>
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Repository\ContactRepositoryTest.php</file>
+      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Repository\CSROOPsRepositoryTest.php</file>
+    </testsuite>
+  </testsuites>
+  <filter>
+    <whitelist>
+      <directory>src</directory>
+      <exclude>
+        <directory>src/*Bundle/Resources</directory>
+        <directory>src/*/*Bundle/Resources</directory>
+        <directory>src/*/Bundle/*Bundle/Resources</directory>
+      </exclude>
+    </whitelist>
+  </filter>
+  <php>
+    <ini name="error_reporting" value="-1" />
+    <server name="KERNEL_CLASS" value="AppKernel" />
+  </php>
+</phpunit>
