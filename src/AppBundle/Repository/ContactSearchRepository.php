@@ -5,6 +5,7 @@ use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Contact;
 
 /**
+<<<<<<< HEAD
  * Handles querying the database for information related to contacts
  */
 class ContactSearchRepository extends ContactRepository
