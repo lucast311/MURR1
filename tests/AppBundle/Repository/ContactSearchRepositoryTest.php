@@ -24,6 +24,14 @@ class ContactSearchRepositoryTest extends WebTestCase
 
     public function testSuccessfullyReceiveSearch()
     {
+        // Get the repository
+        $repository = $this->em->getRepository(Contact::class);
+
+        // query the database
+        $contacts = $repository->contactSearch("Bob Jones");
+
+
+
 
     }
 
