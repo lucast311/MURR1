@@ -71,7 +71,7 @@ class Property
     private $neighbourhoodId;
 
     /**
-     * @var \stdClass
+     * @var Address
      *
      * @ORM\ManyToOne(targetEntity="Address")
      * @ORM\JoinColumn(name="addressId", referencedColumnName="id")
