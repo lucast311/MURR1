@@ -126,6 +126,7 @@
     <Folder Include="app\Resources\views\communication" />
     <Folder Include="app\Resources\views\Contact" />
     <Folder Include="app\Resources\views\default" />
+    <Folder Include="app\Resources\views\property\" />
     <Folder Include="app\Resources\views\oops" />
     <Folder Include="app\Resources\views" />
     <Folder Include="app\Resources" />
@@ -149,5 +150,8 @@
     <Folder Include="uploads" />
     <Folder Include="web\bundles" />
     <Folder Include="web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\Resources\views\property\addProperty.html.twig" />
   </ItemGroup>
 </Project>

@@ -89,6 +89,7 @@ class Property
      * @ORM\Column(name="neighbourhoodId", type="string", length=25, nullable=true)
      *
      * @Assert\Length(max = 25, maxMessage = "Neighbourhood ID must be less than {{ limit }} characters")
+     * @Assert\GreaterThan(value = 0, message = "Please specify a valid neighbourhood id")
      */
     private $neighbourhoodId;
 
