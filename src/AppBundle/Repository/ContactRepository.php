@@ -85,13 +85,15 @@ class ContactRepository extends EntityRepository
         {
             for($j = 0; $j < sizeof($testStrings); $j++)
             {
-                $classProperties .= "$col LIKE '%$testStrings[$j]%' OR ";
+                $classProperties .= "c.$col LIKE '%$testStrings[$j]%' OR ";
             }
         }
         $searchString = rtrim($searchString, ' OR ');
 
         //$stmt = $db->prepare('SELECT * FROM Pet WHERE name IN (\'Fido\')');
         //$stmt = $db->prepare(sprintf('SELECT * FROM Pet WHERE name %s OR gender %s', $stringValues, $stringValues));
+
+        //sprintf('SELECT c FROM AppBundle:Contact c WHERE %s', $searchString)
 
         return $this->getEntityManager()->createQuery(
             sprintf('SELECT c FROM AppBundle:Contact c WHERE %s', $searchString)
