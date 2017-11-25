@@ -6,7 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
 use AppBundle\Form\PropertyType;
-
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Symfony\Component\Form\FormError;
 /**
  * Controller that contains methods for anything having to do with a property.
  */
@@ -40,17 +41,27 @@ class PropertyController extends Controller
         if ($form->isSubmitted() && $form->isValid())
         {
         	// Insert the new data into the database
-            $this->getDoctrine()->getRepository(Property::class)->insert($property);
-            // Nuke the form and contact so that on a successful submit the form fields are now blank
-            $property = new Property();
-            $property->setAddress(new Address());
-            $property->getAddress()->setCity("Saskatoon");
-            $property->getAddress()->setProvince("Saskatchewan");
-            $property->getAddress()->setCountry("Canada");
+            try{
+                //the value for type could be a blank string so change it to null for the database
+                if($property->getPropertyType() == '') $property->setPropertyType(null);
 
-            $form = $this->createForm(PropertyType::class, $property);
-            // Show the success message
-            $showSuccess = true;
+                $this->getDoctrine()->getRepository(Property::class)->insert($property);
+                // Nuke the form and contact so that on a successful submit the form fields are now blank
+                $property = new Property();
+                $property->setAddress(new Address());
+                $property->getAddress()->setCity("Saskatoon");
+                $property->getAddress()->setProvince("Saskatchewan");
+                $property->getAddress()->setCountry("Canada");
+
+                $form = $this->createForm(PropertyType::class, $property);
+                // Show the success message
+                $showSuccess = true;
+            }
+            catch(UniqueConstraintViolationException $e) //if the ID already exists we need to catch the exception thrown
+            {
+                //add an error to the ID field
+                $form->get('id')->addError(new FormError('Site ID already exists'));
+            }
         }
 
         // Render the form

@@ -19,6 +19,7 @@ class Property
      * @ORM\Id
      *
      * @Assert\GreaterThan(value = 0, message = "Please specify a valid Site ID")
+     * @Assert\NotNull(message = "Please specify a Site ID")
      */
     private $id;
 
@@ -89,7 +90,7 @@ class Property
      * @ORM\Column(name="neighbourhoodId", type="string", length=25, nullable=true)
      *
      * @Assert\Length(max = 25, maxMessage = "Neighbourhood ID must be less than {{ limit }} characters")
-     * @Assert\GreaterThan(value = 0, message = "Please specify a valid neighbourhood id")
+     * /@Assert\GreaterThan(value = 0, message = "Please specify a valid neighbourhood id")
      */
     private $neighbourhoodId;
 
@@ -358,7 +359,7 @@ class Property
     public static function getTypes()
     {
         return array(
-            "..."=>null,
+            "..."=>"",
             "Townhouse Apartment"=>"Townhouse Apartment",
             "Townhouse Condo"=>"Townhouse Condo",
             "High Rise Apartment"=>"High Rise Apartment",

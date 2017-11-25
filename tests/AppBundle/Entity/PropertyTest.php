@@ -44,6 +44,7 @@ class PropertyTest extends TestCase
     {
         // Make the property invalid
         $this->property->setId(null);
+
         // Validate the property
         $errors = $this->validator->validate($this->property);
         // Assert that there is 1 error
@@ -154,18 +155,18 @@ class PropertyTest extends TestCase
         $this->assertEquals(0, count($errors));
     }
 
-    /**
-     * Make the neighbourhood ID invalid and test that error shows up
-     */
-    public function testPropertyNeighbourhoodIdInvalid()
-    {
-        // Make the property neighbourhood id invalid
-        $this->property->setNeighbourhoodId(-1);
-        // Validate the property
-        $errors = $this->validator->validate($this->property);
-        // Assert that there is 1 error
-        $this->assertEquals(1, count($errors));
-    }
+    ///**
+    // * Make the neighbourhood ID invalid and test that error shows up
+    // */
+    //public function testPropertyNeighbourhoodIdInvalid()
+    //{
+    //    // Make the property neighbourhood id invalid
+    //    $this->property->setNeighbourhoodId(-1);
+    //    // Validate the property
+    //    $errors = $this->validator->validate($this->property);
+    //    // Assert that there is 1 error
+    //    $this->assertEquals(1, count($errors));
+    //}
 
     /**
      * Make the property number of units invalid and test that an error shows up

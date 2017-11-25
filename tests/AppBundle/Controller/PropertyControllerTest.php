@@ -34,6 +34,16 @@ class PropertyControllerTest extends WebTestCase
         $form['property[address][province]'] = 'Saskatchewan';
         $form['property[address][country]'] = 'Canada';
 
+        //Remove the property from the database if it already exists so we can insert this one
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $property = new Property();
+        $property->setId(1593843);
+        $em->remove($property);
+        $em->flush();
+        $em->close();
+
+
+
         $crawler = $client->submit($form);
 
         $this->assertContains("Successfully added property",$client->getResponse()->getContent());
@@ -86,6 +96,6 @@ class PropertyControllerTest extends WebTestCase
 
         $crawler = $client->submit($form);
 
-        $this->assertContains("Please specify a Neighbourhood Name",$client->getResponse()->getContent());
+        $this->assertContains("Please specify a neighbourhood name",$client->getResponse()->getContent());
     }
 }
