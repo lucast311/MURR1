@@ -48,6 +48,7 @@ class Property
      * @ORM\Column(name="propertyStatus", type="string", length=50)
      *
      * @Assert\NotNull(message = "Please specify a Property Status")
+     * @Assert\NotBlank(message = "Please specify a Property Status")
      * @Assert\Choice(callback = "getStatuses", message = "Invalid property status")
      * @Assert\Length(max = 50, maxMessage = "Property status must be less than {{ limit }} characters")
      */

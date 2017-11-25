@@ -49,7 +49,9 @@ class PropertyTest extends TestCase
         $errors = $this->validator->validate($this->property);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
+        $this->assertEquals('Please specify a Site ID',$errors[0]->getMessage());
     }
+
 
     /**
      * make the site id invalid and test to see that it made an error
@@ -62,6 +64,7 @@ class PropertyTest extends TestCase
         $errors = $this->validator->validate($this->property);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
+        $this->assertEquals('Please specify a valid Site ID',$errors[0]->getMessage());
     }
 
     /**
@@ -75,6 +78,35 @@ class PropertyTest extends TestCase
         $errors = $this->validator->validate($this->property);
         // Assert that there is 0 error
         $this->assertEquals(0, count($errors));
+    }
+
+    /**
+     * Test the length of the propertyName at its boundary
+     */
+    public function testPropertyNameLengthValid()
+    {
+        // Make the property invalid
+        $this->property->setPropertyName(str_repeat('a',100));
+
+        // Validate the property
+        $errors = $this->validator->validate($this->property);
+        // Assert that there is 1 error
+        $this->assertEquals(0, count($errors));
+    }
+
+    /**
+     * Test the length of the propertyName past its boundary
+     */
+    public function testPropertyNameLengthInvalid()
+    {
+        // Make the property invalid
+        $this->property->setPropertyName(str_repeat('a',101));
+
+        // Validate the property
+        $errors = $this->validator->validate($this->property);
+        // Assert that there is 1 error
+        $this->assertEquals(1, count($errors));
+        $this->assertEquals('Property name must be less than 100 characters',$errors[0]->getMessage());
     }
 
     /**
@@ -101,6 +133,40 @@ class PropertyTest extends TestCase
         $errors = $this->validator->validate($this->property);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
+        $this->assertEquals('Invalid property type',$errors[0]->getMessage());
+    }
+
+    /**
+     * Test the length of the property type at its boundary
+     */
+    public function testPropertyTypeLengthValid()
+    {
+        // Make the property invalid
+        $this->property->setPropertyType(str_repeat('a',50));
+
+        // Validate the property
+        $errors = $this->validator->validate($this->property);
+        // Assert that there is 1 error but it is of the choice not the length
+        $this->assertEquals(1, count($errors));
+        $this->assertEquals('Invalid property type',$errors[0]->getMessage());
+    }
+
+    /**
+     * Test the length of the property type past its boundary
+     */
+    public function testPropertyTypeLengthInvalid()
+    {
+        // Make the property invalid
+        $this->property->setPropertyType(str_repeat('a',51));
+
+        // Validate the property
+        $errors = $this->validator->validate($this->property);
+        // Assert that there is 2 errors, 1 for the choice, 1 for the length
+        $this->assertEquals(2, count($errors));
+        //the length error comes first because it is first in the entity
+        $this->assertEquals('Property type must be less than 50 characters',$errors[0]->getMessage());
+        //The invalid type is the second error
+        $this->assertEquals('Invalid property type',$errors[1]->getMessage());
     }
 
     /**
@@ -114,6 +180,7 @@ class PropertyTest extends TestCase
         $errors = $this->validator->validate($this->property);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
+        $this->assertEquals('Please specify a Property Status',$errors[0]->getMessage());
     }
 
     /**
@@ -127,7 +194,10 @@ class PropertyTest extends TestCase
         $errors = $this->validator->validate($this->property);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
+        $this->assertEquals('Invalid property status',$errors[0]->getMessage());
     }
+
+
 
     /**
      * Make the property status invalid and test that an error shows up
@@ -140,6 +210,7 @@ class PropertyTest extends TestCase
         $errors = $this->validator->validate($this->property);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
+        $this->assertEquals('Please specify a neighbourhood name',$errors[0]->getMessage());
     }
 
     /**
@@ -179,6 +250,21 @@ class PropertyTest extends TestCase
         $errors = $this->validator->validate($this->property);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
+        $this->assertEquals('Please specify a valid number of units',$errors[0]->getMessage());
+    }
+
+    /**
+     * Test that the number of units can not be blank
+     */
+    public function testPropertyNumUnitsBlank()
+    {
+        // Make the number of units invalid
+        $this->property->setNumUnits(null);
+        // Validate the property
+        $errors = $this->validator->validate($this->property);
+        // Assert that there is 1 error
+        $this->assertEquals(1, count($errors));
+        $this->assertEquals('Please specify the number of units',$errors[0]->getMessage());
     }
 
     /**
@@ -205,5 +291,6 @@ class PropertyTest extends TestCase
         $errors = $this->validator->validate($this->property);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
+        $this->assertEquals('Please specify a valid structure ID',$errors[0]->getMessage());
     }
 }

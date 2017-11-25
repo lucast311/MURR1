@@ -2,6 +2,7 @@
 namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use AppBundle\Entity\Property;
 
 class PropertyControllerTest extends WebTestCase
 {
@@ -36,10 +37,8 @@ class PropertyControllerTest extends WebTestCase
 
         //Remove the property from the database if it already exists so we can insert this one
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
-        $property = new Property();
-        $property->setId(1593843);
-        $em->remove($property);
-        $em->flush();
+        $stmt = $em->getConnection()->prepare('DELETE FROM Property WHERE id = 1593843');
+        $stmt->execute();
         $em->close();
 
 
@@ -63,9 +62,9 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEmpty($form['property[neighbourhoodId]']-> getValue());
         $this->assertEmpty($form['property[address][streetAddress]']-> getValue());
         $this->assertEmpty($form['property[address][postalCode]']-> getValue());
-        $this->assertEmpty($form['property[address][city]']-> getValue());
-        $this->assertEmpty($form['property[address][province]']-> getValue());
-        $this->assertEmpty($form['property[address][country]']-> getValue());
+        $this->assertEquals($form['property[address][city]']-> getValue(),"Saskatoon");
+        $this->assertEquals($form['property[address][province]']-> getValue(),"Saskatchewan");
+        $this->assertEquals($form['property[address][country]']-> getValue(),"Canada");
     }
 
     /**

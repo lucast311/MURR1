@@ -52,6 +52,11 @@ class PropertyRepositoryTest extends KernelTestCase
         $address->setCountry("Canada");
 
         $property->setAddress($address);
+
+        //Before we can insert, make sure data with the existing ID is not in the database
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Property WHERE id = 1593843');
+        $stmt->execute();
+
         //Get the repository for testing
         $repository = $this->em->getRepository(Property::class);
         //Call insert on the repository and record the id of the new object
