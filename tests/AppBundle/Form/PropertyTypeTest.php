@@ -5,9 +5,20 @@ use Symfony\Component\Form\Test\TypeTestCase;
 use AppBundle\Form\PropertyType;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
-
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 class PropertyTypeTest extends TypeTestCase
 {
+
+    /**
+     * This method is required to allow the test to run
+     * @return ValidatorExtension[]
+     */
+    protected function getExtensions()
+    {
+        return array(new ValidatorExtension(Validation::createValidator()));
+    }
+
     /**
      * Tests that the form class can be created and submit data
      */

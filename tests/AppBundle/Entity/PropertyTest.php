@@ -175,12 +175,15 @@ class PropertyTest extends TestCase
     public function testPropertyStatusMissing()
     {
         // Make the property status blank
-        $this->property->setPropertyStatus('');
+        $this->property->setPropertyStatus(null);
         // Validate the property
         $errors = $this->validator->validate($this->property);
-        // Assert that there is 1 error
+        // Assert that there is 2 error
+        //One will be for blank/null
+        //One will be for invalid status
         $this->assertEquals(1, count($errors));
         $this->assertEquals('Please specify a Property Status',$errors[0]->getMessage());
+        
     }
 
     /**
@@ -197,7 +200,38 @@ class PropertyTest extends TestCase
         $this->assertEquals('Invalid property status',$errors[0]->getMessage());
     }
 
+    /**
+     * Test the length of the property status at its boundary
+     */
+    public function testPropertyStatusLengthValid()
+    {
+        // Make the property invalid
+        $this->property->setPropertyStatus(str_repeat('a',50));
 
+        // Validate the property
+        $errors = $this->validator->validate($this->property);
+        // Assert that there is 1 error but it is of the choice not the length
+        $this->assertEquals(1, count($errors));
+        $this->assertEquals('Invalid property status',$errors[0]->getMessage());
+    }
+
+    /**
+     * Test the length of the property status past its boundary
+     */
+    public function testPropertyStatusLengthInvalid()
+    {
+        // Make the property invalid
+        $this->property->setPropertyStatus(str_repeat('a',51));
+
+        // Validate the property
+        $errors = $this->validator->validate($this->property);
+        // Assert that there is 2 errors, 1 for the choice, 1 for the length
+        $this->assertEquals(2, count($errors));
+        //the length error comes first because it is first in the entity
+        $this->assertEquals('Property status must be less than 50 characters',$errors[0]->getMessage());
+        //The invalid type is the second error
+        $this->assertEquals('Invalid property status',$errors[1]->getMessage());
+    }
 
     /**
      * Make the property status invalid and test that an error shows up
@@ -214,6 +248,36 @@ class PropertyTest extends TestCase
     }
 
     /**
+     * Test the length of the neighbourhood name at its boundary
+     */
+    public function testPropertyNeighbourhoodNameLengthValid()
+    {
+        // Make the property invalid
+        $this->property->setNeighbourhoodName(str_repeat('a',100));
+
+        // Validate the property
+        $errors = $this->validator->validate($this->property);
+        // Assert that there is 1 error
+        $this->assertEquals(0, count($errors));
+    }
+
+    /**
+     * Test the length of the neighbourhood name past its boundary
+     */
+    public function testPropertyNeighbourhoodNameLengthInvalid()
+    {
+        // Make the property invalid
+        $this->property->setNeighbourhoodName(str_repeat('a',101));
+
+        // Validate the property
+        $errors = $this->validator->validate($this->property);
+        // Assert that there is 1 error
+        $this->assertEquals(1, count($errors));
+        $this->assertEquals('Neighbourhood Name must be less than 100 characters',$errors[0]->getMessage());
+    }
+
+
+    /**
      * Make the neighbourhood ID empty and test that no error shows up
      */
     public function testPropertyNeighbourhoodIdBlank()
@@ -225,6 +289,36 @@ class PropertyTest extends TestCase
         // Assert that there is 0 error
         $this->assertEquals(0, count($errors));
     }
+
+    /**
+     * Test the length of the neighbourhood ID at its boundary
+     */
+    public function testNeighbourhoodIdLengthValid()
+    {
+        // Make the property invalid
+        $this->property->setNeighbourhoodId(str_repeat('a',25));
+
+        // Validate the property
+        $errors = $this->validator->validate($this->property);
+        // Assert that there is 1 error
+        $this->assertEquals(0, count($errors));
+    }
+
+    /**
+     * Test the length of the neighbourhood id past its boundary
+     */
+    public function testNeighbourhoodIdLengthInvalid()
+    {
+        // Make the property invalid
+        $this->property->setNeighbourhoodId(str_repeat('a',26));
+
+        // Validate the property
+        $errors = $this->validator->validate($this->property);
+        // Assert that there is 1 error
+        $this->assertEquals(1, count($errors));
+        $this->assertEquals('Neighbourhood ID must be less than 25 characters',$errors[0]->getMessage());
+    }
+
 
     ///**
     // * Make the neighbourhood ID invalid and test that error shows up
@@ -291,6 +385,6 @@ class PropertyTest extends TestCase
         $errors = $this->validator->validate($this->property);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
-        $this->assertEquals('Please specify a valid structure ID',$errors[0]->getMessage());
+        $this->assertEquals('Please specify a valid Structure ID',$errors[0]->getMessage());
     }
 }
