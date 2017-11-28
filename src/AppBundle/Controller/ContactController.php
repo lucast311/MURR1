@@ -92,7 +92,6 @@ class ContactController extends Controller
 
         // Render the html and pass in the contact
         return $this->render('contact/viewContact.html.twig', array('contact'=>$contact));
-
     }
 
     /**
