@@ -21,7 +21,7 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[id]'] = 1593843;
+        $form['property[siteId]'] = 1593843;
         $form['property[propertyName]'] = 'Charlton Arms';
         $form['property[propertyType]'] = 'Townhouse Condo';
         $form['property[propertyStatus]'] = 'Active';
@@ -36,10 +36,10 @@ class PropertyControllerTest extends WebTestCase
         $form['property[address][country]'] = 'Canada';
 
         //Remove the property from the database if it already exists so we can insert this one
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
-        $stmt = $em->getConnection()->prepare('DELETE FROM Property WHERE id = 1593843');
-        $stmt->execute();
-        $em->close();
+        //$em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        //$stmt = $em->getConnection()->prepare('DELETE FROM Property WHERE id = 1593843');
+        //$stmt->execute();
+        //$em->close();
 
 
 
@@ -52,7 +52,7 @@ class PropertyControllerTest extends WebTestCase
 
         //test that all fields are now empty
         //$this->assertEmpty($form['communication[date][year]']->getValue());
-        $this->assertEmpty($form['property[id]']-> getValue());
+        $this->assertEmpty($form['property[siteId]']-> getValue());
         $this->assertEmpty($form['property[propertyName]']-> getValue());
         $this->assertEmpty($form['property[propertyType]']-> getValue());
         $this->assertEmpty($form['property[propertyStatus]']-> getValue());
@@ -79,7 +79,7 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[id]'] = 1593843;
+        $form['property[siteId]'] = 1593843;
         $form['property[propertyName]'] = 'Charlton Arms';
         $form['property[propertyType]'] = 'Townhouse Condo';
         $form['property[propertyStatus]'] = 'Active';
@@ -96,5 +96,18 @@ class PropertyControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         $this->assertContains("Please specify a neighbourhood name",$client->getResponse()->getContent());
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        // Delete all the things that were just inserted. Or literally everything.
+        $client = static::createClient();
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $stmt = $em->getConnection()->prepare('DELETE FROM Property');
+        $stmt->execute();
+        $em->close();
+
     }
 }

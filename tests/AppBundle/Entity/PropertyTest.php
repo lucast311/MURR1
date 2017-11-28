@@ -3,18 +3,20 @@
 namespace tests\ApBundle\Entity;
 
 use AppBundle\Entity\Property;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validation;
 
-class PropertyTest extends TestCase
+class PropertyTest extends KernelTestCase
 {
     private $property;
     private $validator;
 
     public function setUp()
     {
+        self::bootKernel();
+
         $this->property = new Property();
-        $this->property->setId(1593843);
+        $this->property->setSiteId(1593843);
         $this->property->setPropertyName("Charlton Arms");
         $this->property->setPropertyType("Townhouse Condo");
         $this->property->setPropertyStatus("Active");
@@ -23,7 +25,9 @@ class PropertyTest extends TestCase
         $this->property->setNeighbourhoodName("Sutherland");
         $this->property->setNeighbourhoodId("O48");
 
-        $this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
+        //$this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
+        // Gotta do some weird stuff because doing a validation on the class for unique
+        $this->validator = static::$kernel->getContainer()->get("validator");
     }
 
     /**
@@ -43,7 +47,7 @@ class PropertyTest extends TestCase
     public function testPropertySiteIdMissing()
     {
         // Make the property invalid
-        $this->property->setId(null);
+        $this->property->setSiteId(null);
 
         // Validate the property
         $errors = $this->validator->validate($this->property);
@@ -59,7 +63,7 @@ class PropertyTest extends TestCase
     public function testPropertySiteIdInvalid()
     {
         // Make the property invalid
-        $this->property->setId(-1);
+        $this->property->setSiteId(-1);
         // Validate the property
         $errors = $this->validator->validate($this->property);
         // Assert that there is 1 error
@@ -183,7 +187,7 @@ class PropertyTest extends TestCase
         //One will be for invalid status
         $this->assertEquals(1, count($errors));
         $this->assertEquals('Please specify a Property Status',$errors[0]->getMessage());
-        
+
     }
 
     /**

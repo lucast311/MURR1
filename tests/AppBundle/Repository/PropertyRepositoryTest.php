@@ -34,7 +34,7 @@ class PropertyRepositoryTest extends KernelTestCase
     {
         // Create a new object
         $property = new Property();
-        $property->setId(1593843);
+        $property->setSiteId(1593843);
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
@@ -52,10 +52,6 @@ class PropertyRepositoryTest extends KernelTestCase
         $address->setCountry("Canada");
 
         $property->setAddress($address);
-
-        //Before we can insert, make sure data with the existing ID is not in the database
-        $stmt = $this->em->getConnection()->prepare('DELETE FROM Property WHERE id = 1593843');
-        $stmt->execute();
 
         //Get the repository for testing
         $repository = $this->em->getRepository(Property::class);
@@ -75,6 +71,10 @@ class PropertyRepositoryTest extends KernelTestCase
     protected function tearDown()
     {
         parent::tearDown();
+
+        // Delete everything out of the property table after inserting stuff
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Property');
+        $stmt->execute();
 
         $this->em->close();
         $this->em = null;//avoid memory meaks

@@ -4,11 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Property
  *
  * @ORM\Table(name="property")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PropertyRepository")
+ *
+ * @UniqueEntity(fields = {"siteId"}, message = "Site Id already exists")
  */
 class Property
 {
@@ -17,11 +20,19 @@ class Property
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="siteId", type="integer", unique=true)
      *
      * @Assert\GreaterThan(value = 0, message = "Please specify a valid Site ID")
      * @Assert\NotNull(message = "Please specify a Site ID")
      */
-    private $id;
+    private $siteId;
 
     /**
      * @var string
@@ -110,20 +121,6 @@ class Property
     private $buildings;
 
     /**
-     * Set site id
-     *
-     * @param int $siteId
-     *
-     * @return Property
-     */
-    public function setId($siteId)
-    {
-        $this->id = $siteId;
-
-        return $this;
-    }
-
-    /**
      * Get id
      *
      * @return int
@@ -131,6 +128,30 @@ class Property
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set site id
+     *
+     * @param int $siteId
+     *
+     * @return Property
+     */
+    public function setSiteId($siteId)
+    {
+        $this->siteId = $siteId;
+
+        return $this;
+    }
+
+    /**
+     * Get site id
+     *
+     * @return int
+     */
+    public function getSiteId()
+    {
+        return $this->siteId;
     }
 
     /**

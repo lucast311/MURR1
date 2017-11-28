@@ -26,7 +26,7 @@ class PropertyTypeTest extends TypeTestCase
     {
         // The data that will be "submitted" to the form
         $formData = array(
-            'id' => 5555555,
+            'siteId' => 5555555,
             'propertyName' => 'Cosmo House',
             'propertyType' => 'Townhouse Condo',
             'propertyStatus' => 'Active',

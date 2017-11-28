@@ -41,27 +41,20 @@ class PropertyController extends Controller
         if ($form->isSubmitted() && $form->isValid())
         {
         	// Insert the new data into the database
-            try{
-                //the value for type could be a blank string so change it to null for the database
-                if($property->getPropertyType() == '') $property->setPropertyType(null);
+            //the value for type could be a blank string so change it to null for the database
+            if($property->getPropertyType() == '') $property->setPropertyType(null);
 
-                $this->getDoctrine()->getRepository(Property::class)->insert($property);
-                // Nuke the form and contact so that on a successful submit the form fields are now blank
-                $property = new Property();
-                $property->setAddress(new Address());
-                $property->getAddress()->setCity("Saskatoon");
-                $property->getAddress()->setProvince("Saskatchewan");
-                $property->getAddress()->setCountry("Canada");
+            $this->getDoctrine()->getRepository(Property::class)->insert($property);
+            // Nuke the form and contact so that on a successful submit the form fields are now blank
+            $property = new Property();
+            $property->setAddress(new Address());
+            $property->getAddress()->setCity("Saskatoon");
+            $property->getAddress()->setProvince("Saskatchewan");
+            $property->getAddress()->setCountry("Canada");
 
-                $form = $this->createForm(PropertyType::class, $property);
-                // Show the success message
-                $showSuccess = true;
-            }
-            catch(UniqueConstraintViolationException $e) //if the ID already exists we need to catch the exception thrown
-            {
-                //add an error to the ID field
-                $form->get('id')->addError(new FormError('Site ID already exists'));
-            }
+            $form = $this->createForm(PropertyType::class, $property);
+            // Show the success message
+            $showSuccess = true;
         }
 
         // Render the form
