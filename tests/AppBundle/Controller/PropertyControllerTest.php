@@ -98,6 +98,40 @@ class PropertyControllerTest extends WebTestCase
         $this->assertContains("Please specify a neighbourhood name",$client->getResponse()->getContent());
     }
 
+    /**
+     * This test will submit the form and check that an error message is displayed
+     */
+    public function testsiteIdDuplicate()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/property/add');
+
+        for ($i = 0; $i < 2; $i++)
+        {
+
+            $form = $crawler->selectButton('Submit')->form();
+
+            //set form values
+            $form['property[siteId]'] = 1593843;
+            $form['property[propertyName]'] = 'Charlton Arms';
+            $form['property[propertyType]'] = 'Townhouse Condo';
+            $form['property[propertyStatus]'] = 'Active';
+            $form['property[structureId]'] = 54586;
+            $form['property[numUnits]'] = 5;
+            $form['property[neighbourhoodName]'] = 'Sutherland';
+            $form['property[neighbourhoodId]'] = 'O48';
+            $form['property[address][streetAddress]'] = '123 Main Street';
+            $form['property[address][postalCode]'] = 'S7N 0R7';
+            $form['property[address][city]'] = 'Saskatoon';
+            $form['property[address][province]'] = 'Saskatchewan';
+            $form['property[address][country]'] = 'Canada';
+
+            $crawler = $client->submit($form);
+        }
+        $this->assertContains("Site Id already exists",$client->getResponse()->getContent());
+    }
+
     protected function tearDown()
     {
         parent::tearDown();
