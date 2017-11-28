@@ -56,4 +56,9 @@ class ContactRepository extends EntityRepository
         // Use the built in repository to find the specific contact by id
         return $this->getEntityManager()->getRepository(Contact::class)->findOneById($contactId);
     }
+
+    public function contactSearch($queryStrings)
+    {
+        
+    }
 }

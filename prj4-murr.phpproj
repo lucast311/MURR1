@@ -125,6 +125,7 @@
     <Folder Include="app\Resources\images" />
     <Folder Include="app\Resources\views\communication" />
     <Folder Include="app\Resources\views\Contact" />
+    <Folder Include="app\Resources\views\contactsearch\" />
     <Folder Include="app\Resources\views\default" />
     <Folder Include="app\Resources\views\oops" />
     <Folder Include="app\Resources\views" />
@@ -149,5 +150,9 @@
     <Folder Include="uploads" />
     <Folder Include="web\bundles" />
     <Folder Include="web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\Resources\views\contactsearch\raw.html.twig" />
+    <Content Include="app\Resources\views\contactsearch\show.html.twig" />
   </ItemGroup>
 </Project>
