@@ -1,6 +1,7 @@
 <?php
 namespace Tests\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use AppBundle\Entity\Contact;
 
 /**
  * a test class for the search controller

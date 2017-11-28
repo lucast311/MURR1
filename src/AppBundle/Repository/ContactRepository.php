@@ -60,10 +60,6 @@ class ContactRepository extends EntityRepository
 
     public function contactSearch($queryString)
     {
-        //$queryString = 'test, cat';
-
-        $type = '';
-
         if(strpos($queryString, ', '))
         {
             $testStrings = explode(', ', $queryString);
@@ -78,25 +74,34 @@ class ContactRepository extends EntityRepository
             $testStrings = explode(' ', $queryString);
         }
 
-        $classProperties = get_class_vars(get_class(new Contact()));
+        var_dump($testStrings);
 
-        $searchString = '';
-        foreach($classProperties as $col=>$val)
-        {
-            for($j = 0; $j < sizeof($testStrings); $j++)
-            {
-                $classProperties .= "c.$col LIKE '%$testStrings[$j]%' OR ";
-            }
-        }
-        $searchString = rtrim($searchString, ' OR ');
+        $mappings = $this->getClassMetadata('AppBundle:Contact');
+        $classProperties = $mappings->getFieldNames();
 
-        //$stmt = $db->prepare('SELECT * FROM Pet WHERE name IN (\'Fido\')');
-        //$stmt = $db->prepare(sprintf('SELECT * FROM Pet WHERE name %s OR gender %s', $stringValues, $stringValues));
+        //$searchString = '';
+        //foreach($classProperties as $col=>$val)
+        //{
+        //    foreach ($testStrings as $index=>$string)
+        //    {
 
-        //sprintf('SELECT c FROM AppBundle:Contact c WHERE %s', $searchString)
+        //        if($string == '')
+        //        {
+        //            unset($testStrings[$index]);
+        //        }
+        //        else
+        //        {
+        //            $searchString .= "c.$val LIKE '%$string%' AND ";
+        //        }
+        //    }
+        //}
+        //$searchString = rtrim($searchString, ' AND ');
+
+        var_dump($testStrings);
+        var_dump($searchString);
 
         return $this->getEntityManager()->createQuery(
-            sprintf('SELECT c FROM AppBundle:Contact c WHERE %s', $searchString)
+           "SELECT c FROM AppBundle:Contact c WHERE $searchString"
             )->getResult();
     }
 }

@@ -18,11 +18,13 @@ class ContactSearchController extends Controller
      * @Route("/contact/search/{searchQuery}", name="contact_search")
      * @Method("GET")
      */
-    public function searchAction($searchQuery)
+    public function searchAction($searchQuery = '1')
     {
         $em = $this->getDoctrine()->getManager();
 
-        $contactSearches = $em->getRepository('AppBundle:Contact')->contactSearch($searchQuery);
+        $queryString = trim($searchQuery);
+
+        $contactSearches = $em->getRepository(Contact::class)->contactSearch($queryString);
 
         $jsonEncodedSearches = "[";
         foreach ($contactSearches as $result)
@@ -39,7 +41,10 @@ class ContactSearchController extends Controller
             //THIS WILL BE ADDED BACK WHEN THE CONTACT ENTITY ISNT GARBAGE
             //$curAddress = $result->getAddress() == null ? 'null' : '"'.$result->getAddress().'"';
 
-        	$jsonEncodedSearches.='{"id":'.$curID
+            $narrow = $curID . $curFName . $curLName . $curOrg . $curPPhone . $curPExt . $curSPhone . $curEMail . $curFax;
+
+
+            $jsonEncodedSearches.='{"id":'.$curID
                 .',"firstName":'.$curFName
                 .',"lastName":'.$curLName
                 .',"organization":'.$curOrg
@@ -55,25 +60,10 @@ class ContactSearchController extends Controller
 
         $jsonEncodedSearches .= "]";
 
-
         //$jsonEncodedSearches= json_encode($contactSearches);
 
         return $this->render('contactsearch/raw.html.twig', array(
             'contactSearches' => $jsonEncodedSearches,
         ));
     }
-
-    ///**
-    // * Finds and displays a contactSearch entity.
-    // *
-    // * @Route("/{id}", name="contactsearch_show")
-    // * @Method("GET")
-    // */
-    //public function showAction(ContactSearch $contactSearch)
-    //{
-
-    //    return $this->render('contactsearch/show.html.twig', array(
-    //        'contactSearch' => $contactSearch,
-    //    ));
-    //}
 }

@@ -2,8 +2,7 @@
 namespace Tests\AppBundle\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-
-
+use AppBundle\Entity\Contact;
 
 /**
  * a test class for the search controller
@@ -31,38 +30,50 @@ class ContactSearchRepositoryTest extends KernelTestCase
         // query the database
         $contacts = $repository->contactSearch("Bob Jones");
 
-
-
-
+        $this->assertEquals(3, sizeof($contacts));
     }
 
     public function testSuccessfullyReceivedSearchWithSpecialCharacter()
     {
+        // Get the repository
+        $repository = $this->em->getRepository(Contact::class);
 
-    }
+        // query the database
+        $contacts = $repository->contactSearch("murr123@gmail.com");
 
-    public function testNoSearchOnOnlySpaces()
-    {
-
+        $this->assertEquals(2, sizeof($contacts));
     }
 
     public function testRemoveTrailingSpaces()
     {
+        // Get the repository
+        $repository = $this->em->getRepository(Contact::class);
 
+        // query the database
+        $contacts = $repository->contactSearch("Bob ");
+
+        $this->assertEquals(7, sizeof($contacts));
     }
 
     public function testRemoveLeadingSpaces()
     {
+        // Get the repository
+        $repository = $this->em->getRepository(Contact::class);
 
+        // query the database
+        $contacts = $repository->contactSearch(" Bob");
+
+        $this->assertEquals(7, sizeof($contacts));
     }
 
     public function testRemoveSandwichSpaces()
     {
+        // Get the repository
+        $repository = $this->em->getRepository(Contact::class);
 
-    }
+        // query the database
+        $contacts = $repository->contactSearch("Bob   Jones");
 
-    public function testRemoveUnneededSpaces()
-    {
-
+        $this->assertEquals(3, sizeof($contacts));
     }
 }
