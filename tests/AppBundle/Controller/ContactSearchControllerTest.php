@@ -20,39 +20,15 @@ class ContactSearchControllerTest extends WebTestCase
 
     public function testSuccessfullyReceiveSearch()
     {
-        //send search
+        // Get the repository
+        $repository = $this->em->getRepository(Contact::class);
 
-        //check response
-        $this->assertContains('{"id":"5"', $this->client->getResponse()->getContent());
+        // query the database
+        $contacts = $repository->contactSearch("5");
+
+        // Convert to a simple PHP object
+        $testFormat = json_decode($contacts)[0];
+
+        $this->assertEquals('{"id":1,"firstName":"AAAAAAAAAAAAAAAAAAAAA","lastName":"Jons","organization":null,"primaryPhone":null,"phoneExtention":null,"secondaryPhone":null,"emailAddress":"l@L.com","fax":null,"address":2}', $testFormat);
     }
-
-    //public function testSuccessfullyReceivedSearchWithSpecialCharacter()
-    //{
-
-    //}
-
-    //public function testNoSearchOnOnlySpaces()
-    //{
-
-    //}
-
-    //public function testRemoveTrailingSpaces()
-    //{
-
-    //}
-
-    //public function testRemoveLeadingSpaces()
-    //{
-
-    //}
-
-    //public function testRemoveSandwichSpaces()
-    //{
-
-    //}
-
-    //public function testRemoveUnneededSpaces()
-    //{
-
-    //}
 }
