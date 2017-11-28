@@ -25,7 +25,7 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="firstName", type="string", length=50)
+     * @ORM\Column(name="firstName", type="string", length=150)
      *
      * @Assert\NotBlank(message = "First name cannot be left blank")
      *

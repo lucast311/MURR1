@@ -56,6 +56,15 @@ class ContactTest extends TestCase
         $this->assertEquals(1, count($errors));
     }
 
+    public function testContactFirstNamevValid()
+    {
+        // Make First Name valid
+        $this->contact->setFirstName("Ashton");
+        $errors = $this->validator->validate($this->contact);
+        // Assert that there is 0 error
+        $this->assertEquals(0, count($errors));
+    }
+
     public function testContactCampanyNameOnBoundary()
     {
         // Make Company Name invalid ( 100 characters )
@@ -77,6 +86,15 @@ class ContactTest extends TestCase
         $this->assertEquals(1, count($errors));
     }
 
+    public function testContactCampanyNameValid()
+    {
+        // Make Company Name valid
+        $this->contact->setCompanyName("Siast");
+        $errors = $this->validator->validate($this->contact);
+        // Assert that there is 0 error
+        $this->assertEquals(0, count($errors));
+    }
+
     public function testContactPrimaryPhoneInvalid()
     {
         // Make contact invalid
@@ -93,6 +111,14 @@ class ContactTest extends TestCase
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
     }
+    public function testContactPrimaryPhoneValid()
+    {
+        // Make contact invalid
+        $this->contact->setPrimaryPhone("306-457-8907");
+        $errors = $this->validator->validate($this->contact);
+        // Assert that there is 0 error
+        $this->assertEquals(0, count($errors));
+    }
 
     public function testContactSecondaryPhoneInvalid()
     {
@@ -103,13 +129,31 @@ class ContactTest extends TestCase
         $this->assertEquals(1, count($errors));
     }
 
+    public function testContactSecondaryPhonevalid()
+    {
+        // Make contact valid
+        $this->contact->setSecondaryPhone("306-457-8907");
+        $errors = $this->validator->validate($this->contact);
+        // Assert that there is 0 error
+        $this->assertEquals(0, count($errors));
+    }
+
     public function testContactPhoneExtentionInvalid()
     {
         // Make contact invalid
-        $this->contact->setPhoneExtention("6");
+        $this->contact->setPhoneExtention(6);
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
+    }
+
+    public function testContactPhoneExtentionValid()
+    {
+        // Make contact invalid
+        $this->contact->setPhoneExtention(6444);
+        $errors = $this->validator->validate($this->contact);
+        // Assert that there is 0 error
+        $this->assertEquals(0, count($errors));
     }
 
     public function testContactEmailAddressInvalid()
@@ -142,6 +186,14 @@ class ContactTest extends TestCase
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
     }
+    public function testContactEmailAddressvalid()
+    {
+        // Make contact valid
+        $this->contact->setEmailAddress("Siast@abc.com");
+        $errors = $this->validator->validate($this->contact);
+        // Assert that there is 1 error
+        $this->assertEquals(0, count($errors));
+    }
 
     public function testContactFaxInvalid()
     {
@@ -160,6 +212,15 @@ class ContactTest extends TestCase
         $this->assertEquals(1, count($errors));
     }
 
+    public function testContactFaxValid()
+    {
+        // Make contact valid
+        $this->contact->setFax("306-457-8907");
+        $errors = $this->validator->validate($this->contact);
+        // Assert that there is 0 error
+        $this->assertEquals(0, count($errors));
+    }
+
     public function testContactMultipleErrors()
     {
         // Make contact invalid
@@ -168,6 +229,33 @@ class ContactTest extends TestCase
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 2 errors
         $this->assertEquals(2, count($errors));
-
     }
+
+    public function testContacthasmorethanroll()
+    {
+        $this->contact->setFirstName("");
+        $this->contact->setLastName("");
+        $this->contact->setCompanyName("");
+        $this->contact->setRole("Property Manager");
+        $this->contact->setprimaryPhone("");
+        $this->contact->setEmailAddress("");
+
+        $errors = $this->validator->validate($this->contact);
+        // Assert that there is 1 error
+        $this->assertEquals(1, count($errors));
+    }
+    public function testContactblankform()
+    {
+        $this->contact->setFirstName("");
+        $this->contact->setLastName("");
+        $this->contact->setCompanyName("");
+        $this->contact->setRole("");
+        $this->contact->setprimaryPhone("");
+        $this->contact->setEmailAddress("");
+
+        $errors = $this->validator->validate($this->contact);
+        // Assert that there is 1 error
+        $this->assertEquals(1, count($errors));
+    }
+
 }
