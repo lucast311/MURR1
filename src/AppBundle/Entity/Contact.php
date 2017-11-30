@@ -119,7 +119,6 @@ class Contact
      * @ORM\JoinColumn(name="addressId", referencedColumnName="id")
      *
      * @Assert\Valid()
-     *
      */
     private $address;
 

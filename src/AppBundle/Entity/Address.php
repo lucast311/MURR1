@@ -208,5 +208,10 @@ class Address
     {
         return $this->country;
     }
+
+    public function __toString()
+    {
+        return $this->streetAddress; 
+    }
 }
 

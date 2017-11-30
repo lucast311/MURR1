@@ -5,6 +5,8 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use AppBundle\Entity\Contact;
 
 class ContactType extends AbstractType
 {
@@ -13,9 +15,11 @@ class ContactType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstName')->add('lastName')->add('role')->add('companyName')->add('primaryPhone')->add('phoneExtention')->add('secondaryPhone')->add('emailAddress')->add('fax')->add('address');
+        $builder->add('firstName')->add('lastName')
+            ->add('role', ChoiceType::class, array('choices' => Contact::getRoleOptions()))
+            ->add('companyName')->add('primaryPhone')->add('phoneExtention')->add('secondaryPhone')->add('emailAddress')->add('fax')->add('address');
     }
-    
+
     /**
      * {@inheritdoc}
      */
