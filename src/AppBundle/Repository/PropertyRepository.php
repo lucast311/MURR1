@@ -34,4 +34,9 @@ class PropertyRepository extends EntityRepository
         // return the id of the new property in the database
         return $property->getId();
     }
+
+    public function getOne(int $propertyId)
+    {
+        
+    }
 }
