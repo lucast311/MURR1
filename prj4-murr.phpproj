@@ -61,7 +61,6 @@
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
     <Compile Include="src\AppBundle\Controller\EduMatFormController.php" />
     <Compile Include="src\AppBundle\Controller\OOPsController.php" />
-    <Compile Include="src\AppBundle\Entity\Address.php" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
     <Compile Include="src\AppBundle\Entity\Contact.php" />
     <Compile Include="src\AppBundle\Entity\EduMat.php" />
@@ -144,7 +143,12 @@
     <Folder Include="web" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\Resources\views\Contact\edit.html.twig" />
     <Content Include="app\Resources\views\Contact\EditContact.html.twig" />
+    <Content Include="app\Resources\views\Contact\index.html.twig" />
+    <Content Include="app\Resources\views\Contact\new.html.twig" />
+    <Content Include="app\Resources\views\Contact\show.html.twig" />
     <Content Include="app\sqlite.db" />
+    <Content Include="src\AppBundle\Entity\Address.php" />
   </ItemGroup>
 </Project>

@@ -49,7 +49,7 @@ class Contact
      *
      * @ORM\Column(name="role", type="string", length=100, nullable=false)
      *
-     * @Assert\Choice(callback="getValidRoleOptions", message = "Please select only choices in the 'Role' dropdown box")
+     * @Assert\Choice(callback="getRoleOptions", message = "Please select only choices in the 'Role' dropdown box")
      */
     private $role;
 
@@ -125,8 +125,7 @@ class Contact
 
     public static function getRoleOptions()
     {
-        return array('...' => '...',
-                     'Property Manager' => 'Property Manager',
+        return array('Property Manager' => 'Property Manager',
                      'Property Manager Staff' => 'Property Manager Staff',
                      'Onsite Staff' => 'Onsite Staff',
                      'Owner' => 'Owner',
@@ -137,11 +136,6 @@ class Contact
             );
     }
 
-    public function getValidRoleOptions()
-    {
-
-        return array_slice($Contact->getRoleOptions(),1, count($Contact->getRoleOptions())-1, true);
-    }
 
     /**
      * Get id
@@ -223,7 +217,7 @@ class Contact
      */
     public function getRole()
     {
-        return $this->organization;
+        return $this->role;
     }
 
     /**
@@ -378,7 +372,7 @@ class Contact
 
     public function getCompanyName()
     {
-        return $this->companyName();
+        return $this->companyName;
     }
 }
 

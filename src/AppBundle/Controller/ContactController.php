@@ -1,107 +1,137 @@
 <?php
+
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Contact;
-use AppBundle\Entity\Address;
-use AppBundle\Form\ContactType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Controller that contains methods for anything having to do with a contact.
+ * Contact controller.
+ *
+ * @Route("contact")
  */
 class ContactController extends Controller
 {
     /**
-     * Handles the adding of a contact.
-     * @param Request $request
+     * Lists all contact entities.
      *
-     * @Route("/contact/add", name="contact_add")
+     * @Route("/", name="contact_index")
+     * @Method("GET")
      */
-    public function addAction(Request $request)
+    public function indexAction()
     {
-        $showSuccess = false;
-        // Create a new contact
+        $em = $this->getDoctrine()->getManager();
+
+        $contacts = $em->getRepository('AppBundle:Contact')->findAll();
+
+        return $this->render('contact/index.html.twig', array(
+            'contacts' => $contacts,
+        ));
+    }
+
+    /**
+     * Creates a new contact entity.
+     *
+     * @Route("/new", name="contact_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request)
+    {
         $contact = new Contact();
-        // Populate some common fields for convenience
-        $contact->setAddress(new Address());
-        $contact->getAddress()->setCity("Saskatoon");
-        $contact->getAddress()->setProvince("Saskatchewan");
-        $contact->getAddress()->setCountry("Canada");
-
-        // Create the form
-        $form = $this->createForm(ContactType::class, $contact);
-
-        // handle the submitted data coming in (if there was any).
+        $form = $this->createForm('AppBundle\Form\ContactType', $contact);
         $form->handleRequest($request);
 
-        // if the form is submitted and is valid
-        if ($form->isSubmitted() && $form->isValid())
-        {
-        	// Insert the new data into the database
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->getRepository(Contact::class)->insert($contact);
-            // Nuke the form and contact so that on a successful submit the form fields are now blank
-            $contact = new Contact();
-            $contact->setAddress(new Address());
-            $contact->getAddress()->setCity("Saskatoon");
-            $contact->getAddress()->setProvince("Saskatchewan");
-            $contact->getAddress()->setCountry("Canada");
+            $em->persist($contact);
+            $em->flush();
 
-            $form = $this->createForm(ContactType::class, $contact);
-            // Show the success message
-            $showSuccess = true;
+            return $this->redirectToRoute('contact_show', array('id' => $contact->getId()));
         }
 
-
-        // Render the form
-        return $this->render('contact/addContact.html.twig',
-            array('form'=>$form->createView(), 'showSuccess'=>$showSuccess));
+        return $this->render('Contact/new.html.twig', array(
+            'contact' => $contact,
+            'form' => $form->createView()
+        ));
     }
 
-
     /**
-     * Handles displaying all the contacts to the page
-     * @return \Symfony\Component\HttpFoundation\Response
+     * Finds and displays a contact entity.
      *
-     * @Route("/contact/list", name="contact_list")
+     * @Route("/{id}", name="contact_show")
+     * @Method("GET")
      */
-    public function listAction()
+    public function showAction(Contact $contact)
     {
-        // Get the entity manager
-        $em = $this->getDoctrine()->getManager();
-        // Get all the contacts
-        $contacts = $em->getRepository(Contact::class)->getAll();
+        $deleteForm = $this->createDeleteForm($contact);
 
-        // Render the html and pass it a list of all contacts
-        return $this->render('contact/listContacts.html.twig', array('contacts'=>$contacts));
+        return $this->render('contact/show.html.twig', array(
+            'contact' => $contact,
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
+
     /**
-     * Handles the viewing of a specific contact with all of its details
-     * @return \Symfony\Component\HttpFoundation\Response
+     * Displays a form to edit an existing contact entity.
      *
-     * @Route("/contact/view/{contactId}", name="contact_view")
+     * @Route("/{id}/edit", name="contact_edit")
+     * @Method({"GET", "POST"})
      */
-    public function viewAction($contactId = -1)
+    public function editAction(Request $request, Contact $contact)
     {
-        // Get the entity manager
-        $em = $this->getDoctrine()->getManager();
-        // Get the specific contact
-        $contact = $em->getRepository(Contact::class)->getOne($contactId);
+        $deleteForm = $this->createDeleteForm($contact);
+        $editForm = $this->createForm('AppBundle\Form\ContactType', $contact);
+        $editForm->handleRequest($request);
 
-        // Render the html and pass in the contact
-        return $this->render('contact/viewContact.html.twig', array('contact'=>$contact));
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('contact_edit', array('id' => $contact->getId()));
+        }
+
+        return $this->render('contact/edit.html.twig', array(
+            'contact' => $contact,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
     /**
-     * Handles the editing of a specific contact with all of its details
-     * @return \Symfony\Component\HttpFoundation\Response
-     * 
-     * @route("/contact/view/{contactId}/edit", name="contact_Edit")
+     * Deletes a contact entity.
+     *
+     * @Route("/{id}", name="contact_delete")
+     * @Method("DELETE")
      */
-    public function editAction()
+    public function deleteAction(Request $request, Contact $contact)
     {
-        return $this->render('contact/editContact.html.twig', array('id'=>1));
+        $form = $this->createDeleteForm($contact);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($contact);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('contact_index');
+    }
+
+    /**
+     * Creates a form to delete a contact entity.
+     *
+     * @param Contact $contact The contact entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(Contact $contact)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('contact_delete', array('id' => $contact->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
     }
 }
