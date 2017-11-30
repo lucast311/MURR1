@@ -60,7 +60,6 @@
     <Compile Include="bin\symfony_requirements" />
     <Compile Include="src\AppBundle\Controller\CommunicationController.php" />
     <Compile Include="src\AppBundle\Controller\ContactController.php" />
-    <Compile Include="src\AppBundle\Controller\ContactSearchController.php" />
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
     <Compile Include="src\AppBundle\Controller\EduMatFormController.php" />
     <Compile Include="src\AppBundle\Controller\OOPsController.php" />
@@ -82,6 +81,7 @@
     <Compile Include="src\AppBundle\Repository\OOPsRepository.php" />
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />
+    <Compile Include="src\AppBundle\Services\Cleaner.php" />
     <Compile Include="src\ContactController.php" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\ContactController.php" />
@@ -139,6 +139,7 @@
     <Folder Include="src\AppBundle\Repository" />
     <Folder Include="src\AppBundle" />
     <Folder Include="src" />
+    <Folder Include="src\AppBundle\Services\" />
     <Folder Include="tests\AppBundle\Controller" />
     <Folder Include="tests\AppBundle\Entity" />
     <Folder Include="tests\AppBundle\Form\Type" />

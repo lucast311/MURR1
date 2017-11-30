@@ -106,71 +106,15 @@ class ContactController extends Controller
         // if the string to query onn is less than or equal to 100 characters
         if(strlen($searchQuery) <= 100)
         {
-            // a variable set to the passed in string after being trimmed
-            $queryString = trim($searchQuery);
-
-            //// Break apart the passed in string based on 'comma spaces'
-            //if(strpos($queryString, ', '))
-            //{
-            //    $queries = explode(', ', $queryString);
-            //}
-            //// Break apart the passed in string based on 'comma's'
-            //else if(strpos($queryString, ','))
-            //{
-            //    $queries = explode(',', $queryString);
-            //}
-            //// Break apart the passed in string based on 'spaces'
-            //else
-            //{
-            //    $queries = explode(' ', $queryString);
-            //}
+            $cleaner = new Cleaner();
+            $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
 
             // get an entity manager
             $em = $this->getDoctrine()->getManager();
 
-            //$tempQueries = array();
-            //foreach($queries as $index=>$string)
-            //{
-            //    if($string != '')
-            //    {
-            //        $tempQueries[]=$queries[$index];
-            //    }
-            //}
-            //$queries = $tempQueries;
-
-
-
             // Use the repository to query for the records we want.
             // Store those records into an array.
-            $contactSearches = $em->getRepository(Contact::class)->contactSearch($queryString);
-
-
-            // Break apart the passed in string based on 'comma spaces'
-            if(strpos($queryString, ', '))
-            {
-                $queries = explode(', ', $queryString);
-            }
-            // Break apart the passed in string based on 'comma's'
-            else if(strpos($queryString, ','))
-            {
-                $queries = explode(',', $queryString);
-            }
-            // Break apart the passed in string based on 'spaces'
-            else
-            {
-                $queries = explode(' ', $queryString);
-            }
-
-            $tempQueries = array();
-            foreach($queries as $index=>$string)
-            {
-                if($string != '')
-                {
-                    $tempQueries[]=$queries[$index];
-                }
-            }
-            $queries = $tempQueries;
-
+            $contactSearches = $em->getRepository(Contact::class)->contactSearch($cleanQuery);
 
             //var_dump($contactSearches);
 
@@ -236,21 +180,6 @@ class ContactController extends Controller
                     }
                 }
 
-                //$curID = $result->getId();
-                //$curFName = $result->getFirstName() == null ? 'null' : '"'.$result->getFirstName().'"';
-                //$curLName = $result->getLastName() == null ? 'null' : '"'.$result->getLastName().'"';
-                //$curOrg = $result->getOrganization() == null ? 'null' : '"'.$result->getOrganization().'"';
-                //$curPPhone = $result->getprimaryPhone() == null ? 'null' : '"'.$result->getprimaryPhone().'"';
-                //$curPExt = $result->getphoneExtension() == null ? 'null' : '"'.$result->getphoneExtension().' (might be int)[!DEBUG!INFO!]"';
-                //$curSPhone = $result->getsecondaryPhone() == null ? 'null' : '"'.$result->getsecondaryPhone().'"';
-                //$curEMail = $result->getEmailAddress() == null ? 'null' : '"'.$result->getEmailAddress().'"';
-                //$curFax = $result->getFax() == null ? 'null' : '"'.$result->getFax().'"';
-                //$curAddrId = $result->getAddress()->getId();
-                //$curAddrStreet = $result->getAddress()->getStreetAddress() == null ? 'null' : '"'.$result->getAddress()->getStreetAddress().'"';
-                //$curAddrPCode = $result->getAddress()->getPostalCode() == null ? 'null' : '"'.$result->getAddress()->getPostalCode().'"';
-                //$curAddrCity = $result->getAddress()->getCity() == null ? 'null' : '"'.$result->getAddress()->getCity().'"';
-                //$curAddrProv = $result->getAddress()->getProvince() == null ? 'null' : '"'.$result->getAddress()->getProvince().'"';
-                //$curAddrCountry = $result->getAddress()->getCountry() == null ? 'null' : '"'.$result->getAddress()->getCountry().'"';
 
                 // a variable to store the JSON formatted string
                 $currData = '';
