@@ -59,6 +59,101 @@ class ContactRepository extends EntityRepository
 
     public function contactSearch($queryStrings)
     {
-        
+        // Break apart the passed in string based on 'comma spaces'
+        if(strpos($queryStrings, ', '))
+        {
+            $queryStrings = explode(', ', $queryStrings);
+        }
+        // Break apart the passed in string based on 'comma's'
+        else if(strpos($queryStrings, ','))
+        {
+            $queryStrings = explode(',', $queryStrings);
+        }
+        // Break apart the passed in string based on 'spaces'
+        else
+        {
+            $queryStrings = explode(' ', $queryStrings);
+        }
+
+        var_dump($queryStrings);
+
+        // get the field names of both the Contact and Address Entities.
+        $contactClassProperties = $this->getClassMetadata('AppBundle:Contact')->fieldNames;
+        $addressClassProperties = $this->getEntityManager()->getRepository('AppBundle:Address')->getClassMetadata()->fieldNames;
+
+        // shift off the id from the Contact (A user will never search based on this)
+        array_shift($contactClassProperties);
+
+        // a variable to store the SQLite WHERE clause to query with
+        $searchString = '';
+
+        $tempQueries = array();
+        foreach($queryStrings as $index=>$string)
+        {
+            if($string != '')
+            {
+                $tempQueries[]=$queryStrings[$index];
+            }
+        }
+        $queryStrings = $tempQueries;
+
+        //foreach field in the Contact
+        foreach($contactClassProperties as $col=>$val)
+        {
+            // foreach string to query on
+            for ($i = 0; $i < sizeof($queryStrings); $i++)
+            {
+                // if the string to query on is a space
+                if($queryStrings[$i] == '')
+                {
+                    // remove it from the array of query strings
+                    unset($queryStrings[$i]);
+                }
+                else
+                {
+                    //otherwise append to the WHERE clause
+                    $searchString .= "c.$val LIKE '%$queryStrings[$i]%' OR ";
+                }
+            }
+        }
+
+        // foreach field in the Address
+        foreach($addressClassProperties as $col=>$val)
+        {
+            // foreach string to query on
+            for ($i = 0; $i < sizeof($queryStrings); $i++)
+            {
+                // if the string to query on is a space
+                if($queryStrings[$i] == '')
+                {
+                    // remove it from the array of query strings
+                    unset($queryStrings[$i]);
+                }
+                else
+                {
+                    // otherwise append to teh WHERE clause
+                    $searchString .= "a.$val LIKE '%$queryStrings[$i]%' OR ";
+                }
+            }
+        }
+
+        // Remove the unneeded ' OR ' from the end of the query string
+        $searchString = rtrim($searchString, ' OR ');
+
+        var_dump($queryStrings);
+        var_dump($searchString);
+
+        // return the records that were queried to the Controller
+        //$return =  $this->getEntityManager()->createQuery(
+        //   "SELECT c, a FROM AppBundle:Contact c JOIN c.address a"
+        //    )->getResult();
+
+        $return = $this->getEntityManager()->createQuery(
+           "SELECT c, a FROM AppBundle:Contact c JOIN c.address a WHERE $searchString"
+            )->getResult();
+
+        var_dump($return);
+
+        return $return;
     }
 }

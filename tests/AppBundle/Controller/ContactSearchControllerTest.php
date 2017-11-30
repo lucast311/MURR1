@@ -11,24 +11,41 @@ use AppBundle\Entity\Contact;
  */
 class ContactSearchControllerTest extends WebTestCase
 {
-    private $client;
+    private $em;
 
     protected function setUp()
     {
-        $this->client = static::createClient();
+        self::bootKernel();
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
     }
 
     public function testSuccessfullyReceiveSearch()
     {
-        // Get the repository
         $repository = $this->em->getRepository(Contact::class);
 
+        $client = static::createClient();
+
+        $client->request('GET', '/contact/search/Jim');
+
         // query the database
-        $contacts = $repository->contactSearch("5");
+        $repository->contactSearch("Jim");
 
-        // Convert to a simple PHP object
-        $testFormat = json_decode($contacts)[0];
+        $this->assertContains('[{&quot;id&quot;:5,&quot;firstName&quot;:&quot;Jim&quot;,&quot;lastName&quot;:null,&quot;organization&quot;:null,&quot;primaryPhone&quot;:&quot;666-666-1234&quot;,&quot;phoneExtension&quot;:null,&quot;secondaryPhone&quot;:null,&quot;emailAddress&quot;:null,&quot;fax&quot;:null}]', $client->getResponse()->getContent());
+    }
 
-        $this->assertEquals('{"id":1,"firstName":"AAAAAAAAAAAAAAAAAAAAA","lastName":"Jons","organization":null,"primaryPhone":null,"phoneExtention":null,"secondaryPhone":null,"emailAddress":"l@L.com","fax":null,"address":2}', $testFormat);
+    public function testQueryTooLong()
+    {
+        $repository = $this->em->getRepository(Contact::class);
+
+        $client = static::createClient();
+
+        $client->request('GET', '/contact/search/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones');
+
+        // query the database
+        $repository->contactSearch("Jim");
+
+        $this->assertContains('Query string was too long.', $client->getResponse()->getContent());
     }
 }

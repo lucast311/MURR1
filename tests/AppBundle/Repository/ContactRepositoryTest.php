@@ -141,6 +141,79 @@ class ContactRepositoryTest extends KernelTestCase
     }
 
 
+    /////////////////////////////////////////////////////
+
+
+
+    public function testSuccessfullyReceiveSearch()
+    {
+        $repo = $this->em->getRepository(Contact::class);
+
+        $results = $repo->contactSearch("Bob Jones");
+
+        $this->assertEquals(4, sizeof($results));
+    }
+
+    public function testSuccessfullyReceivedSearchWithSpecialCharacter()
+    {
+        //Get the repository
+        $repository = $this->em->getRepository(Contact::class);
+
+        //query the database
+        $contacts = $repository->contactSearch("murr123@gmail.com");
+
+        $this->assertEquals(3, sizeof($contacts));
+    }
+
+    public function testRemoveTrailingSpaces()
+    {
+        // Get the repository
+        $repository = $this->em->getRepository(Contact::class);
+
+        // query the database
+        $contacts = $repository->contactSearch("Bob ");
+
+        $this->assertEquals(9, sizeof($contacts));
+    }
+
+    public function testRemoveLeadingSpaces()
+    {
+        // Get the repository
+        $repository = $this->em->getRepository(Contact::class);
+
+        // query the database
+        $contacts = $repository->contactSearch(" Bob");
+
+        $this->assertEquals(9, sizeof($contacts));
+    }
+
+    public function testRemoveSpacesEitherEnd()
+    {
+        // Get the repository
+        $repository = $this->em->getRepository(Contact::class);
+
+        // query the database
+        $contacts = $repository->contactSearch(" Bob ");
+
+        $this->assertEquals(9, sizeof($contacts));
+    }
+
+    public function testRemoveSandwichSpaces()
+    {
+        // Get the repository
+        $repository = $this->em->getRepository(Contact::class);
+
+        // query the database
+        $contacts = $repository->contactSearch("Bob   Jones");
+
+        $this->assertEquals(4, sizeof($contacts));
+    }
+
+
+
+
+    /////////////////////////////////////////////////////
+
     //closes the memory mamnger
     /**
      * (@inheritDoc)
