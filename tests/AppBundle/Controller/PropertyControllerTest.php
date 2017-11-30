@@ -3,6 +3,7 @@ namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Property;
+use AppBundle\Entity\Address;
 
 class PropertyControllerTest extends WebTestCase
 {
@@ -131,6 +132,64 @@ class PropertyControllerTest extends WebTestCase
         }
         $this->assertContains("Site Id already exists",$client->getResponse()->getContent());
     }
+
+    /**
+     * This test will load the update page and attempt to edit it
+     */
+    public function testUpdateProperty()
+    {
+        //Create a new property to ensure that there is one to edit in the database
+        $property = new Property();
+        $property->setSiteId(1593843);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(54586);
+        $property->setNumUnits(5);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+
+
+        $client = static::createClient();
+
+        //Get the entity manager and the repo so we can make sure a property exists before editing it
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $repo = $em->getRepository(Property::class);
+        //insert the property
+        $propertyId = $repo->insert($property);
+
+
+
+        $crawler = $client->request('GET', "/property/edit/$propertyId");
+
+        $form = $crawler->selectButton('Submit')->form();
+
+        //set form values
+        $form['property[siteId]'] = 1593843;
+        $form['property[propertyName]'] = 'Charlton Arms';
+        $form['property[propertyType]'] = 'Townhouse Condo';
+        $form['property[propertyStatus]'] = 'Inactive (Renovation)';
+        $form['property[structureId]'] = 54586;
+        $form['property[numUnits]'] = 5;
+        $form['property[neighbourhoodName]'] = 'Sutherland';
+        $form['property[neighbourhoodId]'] = 'O48';
+        $form['property[address][streetAddress]'] = '123 Main Street';
+        $form['property[address][postalCode]'] = 'S7N 0R7';
+        $form['property[address][city]'] = 'Saskatoon';
+        $form['property[address][province]'] = 'Saskatchewan';
+        $form['property[address][country]'] = 'Canada';
+
+        $crawler = $client->submit($form);
+    }
+
 
     protected function tearDown()
     {

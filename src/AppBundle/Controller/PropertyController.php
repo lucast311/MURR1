@@ -61,4 +61,9 @@ class PropertyController extends Controller
         return $this->render('property/addProperty.html.twig',
             array('form'=>$form->createView(), 'showSuccess'=>$showSuccess));
     }
+
+    public function editAction($propertyId = -1)
+    {
+        
+    }
 }
