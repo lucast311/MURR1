@@ -3,13 +3,16 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+//@Assert\Callback(methods={"checkCustomValidation"})
 
 /**
  * Contact
  *
  * @ORM\Table(name="contact")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContactRepository")
+ *
  */
 class Contact
 {
@@ -121,6 +124,11 @@ class Contact
      * @Assert\Valid()
      */
     private $address;
+
+    public function checkCustomValidation(ExecutionContextInterface $context)
+    {
+
+    }
 
     public static function getRoleOptions()
     {

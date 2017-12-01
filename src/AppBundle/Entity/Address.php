@@ -33,6 +33,9 @@ class Address
      */
     private $streetAddress;
 
+    //@Assert\Regex(pattern ="/[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ] [0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]/",
+     //* message = "A proper postal code must be entered in the form of L#L #L#")
+
     /**
      * @var string
      *
@@ -40,8 +43,7 @@ class Address
      *
      * @Assert\NotBlank(message = "Postal code cannot be left blank")
      *
-     * @Assert\Regex(pattern ="/[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ] [0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]/",
-     * message = "A proper postal code must be entered in the form of L#L #L#")
+     *
      */
     private $postalCode;
 
@@ -211,7 +213,7 @@ class Address
 
     public function __toString()
     {
-        return $this->streetAddress; 
+        return $this->streetAddress;
     }
 }
 
