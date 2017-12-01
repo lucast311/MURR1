@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AcmeAssert;
 //@Assert\Callback(methods={"checkCustomValidation"})
 
 /**
@@ -12,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="contact")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContactRepository")
- *
+ * @AcmeAssert\contactAtLeastOneField
  */
 class Contact
 {
