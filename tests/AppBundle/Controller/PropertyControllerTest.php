@@ -136,7 +136,7 @@ class PropertyControllerTest extends WebTestCase
     /**
      * This test will load the update page and attempt to edit it
      */
-    public function testUpdateProperty()
+    public function testEditProperty()
     {
         //Create a new property to ensure that there is one to edit in the database
         $property = new Property();
@@ -188,8 +188,107 @@ class PropertyControllerTest extends WebTestCase
         $form['property[address][country]'] = 'Canada';
 
         $crawler = $client->submit($form);
+
+        //assert that the page contains the updated data
+        $this->assertContains('Inactive (Renovation)', $client->getResponse()->getContent());
+        //assert that the page is the view property page
+        $this->assertContains('View', $client->getResponse()->getContent());
     }
 
+    /**
+     * This test will load the update page and attempt to edit it
+     * The page should contain an error
+     */
+    public function testEditPropertyError()
+    {
+        //Create a new property to ensure that there is one to edit in the database
+        $property = new Property();
+        $property->setSiteId(1593843);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(54586);
+        $property->setNumUnits(5);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+
+
+        $client = static::createClient();
+
+        //Get the entity manager and the repo so we can make sure a property exists before editing it
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $repo = $em->getRepository(Property::class);
+        //insert the property
+        $propertyId = $repo->insert($property);
+
+
+
+        $crawler = $client->request('GET', "/property/edit/$propertyId");
+
+        $form = $crawler->selectButton('Submit')->form();
+
+        //set form values
+        $form['property[siteId]'] = 1593843;
+        //Change the property name to test if it is staying on the page
+        $form['property[propertyName]'] = 'Charlton Armies';
+        $form['property[propertyType]'] = 'Townhouse Condo';
+        $form['property[propertyStatus]'] = 'Active';
+        $form['property[structureId]'] = 54586;
+        $form['property[numUnits]'] = -5;
+        $form['property[neighbourhoodName]'] = 'Sutherland';
+        $form['property[neighbourhoodId]'] = 'O48';
+        $form['property[address][streetAddress]'] = '123 Main Street';
+        $form['property[address][postalCode]'] = 'S7N 0R7';
+        $form['property[address][city]'] = 'Saskatoon';
+        $form['property[address][province]'] = 'Saskatchewan';
+        $form['property[address][country]'] = 'Canada';
+
+        $crawler = $client->submit($form);
+
+        //assert that the page contains the error message
+        $this->assertContains('Please specify a valid number of units', $client->getResponse()->getContent());
+
+        //assert that the page still contains any changed data
+        $this->assertContains('-5', $client->getResponse()->getContent());
+        $this->assertContains('Charlton Armies', $client->getResponse()->getContent());
+    }
+
+    /**
+     * This method will test that an error appears if the user does not enter an ID
+     */
+    public function testEditPropetyNoId(){
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //request the property edit page without specifying an ID
+        $crawler = $client->request('GET', "/property/edit/");
+
+        //Check if the appropriate error message exists on the page
+        $this->assertContains("No property specified", $client->getResponse()->getContent());
+    }
+
+    /**
+     * This method will test that an error appears if the user enters an invalid ID into the address bar
+     */
+    public function testEditPropertyBadId()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //request the property edit page without specifying an ID
+        $crawler = $client->request('GET', "/property/edit/-5");
+
+        //Check if the appropriate error message exists on the page
+        $this->assertContains("The specified property could not be found", $client->getResponse()->getContent());
+    }
 
     protected function tearDown()
     {
