@@ -1,7 +1,6 @@
 <?php
 
-//uses
-
+namespace AppBundle\Services;
 
 
 /**
@@ -18,33 +17,17 @@ class Cleaner
     {
         $result = array();
 
+        $cleanMe = str_replace(',', ' ', $cleanMe);
+
         // a variable set to the passed in string after being trimmed
         $queryString = trim($cleanMe);
 
-        $queries = array();
-        // Break apart the passed in string based on 'comma spaces'
-        if(strpos($queryString, ', '))
+        while(strpos($queryString, '  '))
         {
-            $queries = explode(', ', $queryString);
-        }
-        // Break apart the passed in string based on 'comma's'
-        else if(strpos($queryString, ','))
-        {
-            $queries = explode(',', $queryString);
-        }
-        // Break apart the passed in string based on 'spaces'
-        else
-        {
-            $queries = explode(' ', $queryString);
+            $queryString = str_replace('  ', ' ', $queryString);
         }
 
-        foreach($queries as $index=>$string)
-        {
-            if($string != '')
-            {
-                $result[]=$queries[$index];
-            }
-        }
+        $result = explode(' ', $queryString);
 
         return $result;
     }

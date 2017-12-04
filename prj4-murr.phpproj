@@ -75,16 +75,16 @@
     <Compile Include="src\AppBundle\Form\OOPsType.php" />
     <Compile Include="src\AppBundle\Repository\AddressRepository.php" />
     <Compile Include="src\AppBundle\Repository\CommunicationRepository.php" />
-    <Compile Include="src\AppBundle\Repository\ContactSearchRepository.php" />
     <Compile Include="src\AppBundle\Repository\ContactRepository.php" />
     <Compile Include="src\AppBundle\Repository\EduMatRepository.php" />
     <Compile Include="src\AppBundle\Repository\OOPsRepository.php" />
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />
+    <Compile Include="src\AppBundle\Services\Changer.php" />
     <Compile Include="src\AppBundle\Services\Cleaner.php" />
+    <Compile Include="src\AppBundle\Services\SearchNarrower.php" />
     <Compile Include="src\ContactController.php" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
-    <Compile Include="tests\AppBundle\Controller\ContactController.php" />
     <Compile Include="tests\AppBundle\Controller\ContactControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\ContactSearchControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\CSROOPsControllerTest.php" />
@@ -103,6 +103,9 @@
     <Compile Include="tests\AppBundle\Repository\ContactRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\ContactSearchRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CSROOPsRepositoryTest.php" />
+    <Compile Include="tests\AppBundle\Services\ChangerTest.php" />
+    <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
+    <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
     <Compile Include="uploads\images\OOPs NOTICE Valid1.png" />
     <Compile Include="uploads\images\OOPs NOTICE Valid2.jpg" />
     <Compile Include="web\.htaccess" />
@@ -144,6 +147,7 @@
     <Folder Include="tests\AppBundle\Entity" />
     <Folder Include="tests\AppBundle\Form\Type" />
     <Folder Include="tests\AppBundle\Form" />
+    <Folder Include="tests\AppBundle\Services\" />
     <Folder Include="tests\AppBundle\Repository" />
     <Folder Include="tests\AppBundle" />
     <Folder Include="tests" />

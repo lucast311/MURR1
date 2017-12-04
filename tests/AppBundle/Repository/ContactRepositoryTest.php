@@ -5,6 +5,7 @@ namespace Tests\AppBundle\Repository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\Contact;
 use AppBundle\Entity\Address;
+use AppBundle\Services\SearchNarrower;
 
 class ContactRepositoryTest extends KernelTestCase
 {
@@ -145,71 +146,32 @@ class ContactRepositoryTest extends KernelTestCase
 
 
 
-    public function testSuccessfullyReceiveSearch()
+    public function testContactObjectsReturned()
     {
         $repo = $this->em->getRepository(Contact::class);
 
         $results = $repo->contactSearch("Bob Jones");
 
-        $this->assertEquals(4, sizeof($results));
+        $resultReflection = new \ReflectionClass(get_class($results[0]));
+
+        $this->assertTrue($resultReflection->getShortName() == 'Contact');
     }
 
-    public function testSuccessfullyReceivedSearchWithSpecialCharacter()
+    public function testSearchNarrowerFunctionality()
     {
-        //Get the repository
-        $repository = $this->em->getRepository(Contact::class);
+        $searchNarrower = new SearchNarrower();
+        $repo = $this->em->getRepository(Contact::class);
 
-        //query the database
-        $contacts = $repository->contactSearch("murr123@gmail.com");
+        $results = $repo->contactSearch("Bob Jones");
 
-        $this->assertEquals(3, sizeof($contacts));
+        $cleanQuery = array();
+        $cleanQuery[] = 'Bob';
+        $cleanQuery[] = 'Jones';
+
+        $narrowedSearches = $searchNarrower->narrowContacts($results, $cleanQuery);
+
+        $this->assertTrue(sizeof($narrowedSearches[0]) < sizeof($results));
     }
-
-    public function testRemoveTrailingSpaces()
-    {
-        // Get the repository
-        $repository = $this->em->getRepository(Contact::class);
-
-        // query the database
-        $contacts = $repository->contactSearch("Bob ");
-
-        $this->assertEquals(9, sizeof($contacts));
-    }
-
-    public function testRemoveLeadingSpaces()
-    {
-        // Get the repository
-        $repository = $this->em->getRepository(Contact::class);
-
-        // query the database
-        $contacts = $repository->contactSearch(" Bob");
-
-        $this->assertEquals(9, sizeof($contacts));
-    }
-
-    public function testRemoveSpacesEitherEnd()
-    {
-        // Get the repository
-        $repository = $this->em->getRepository(Contact::class);
-
-        // query the database
-        $contacts = $repository->contactSearch(" Bob ");
-
-        $this->assertEquals(9, sizeof($contacts));
-    }
-
-    public function testRemoveSandwichSpaces()
-    {
-        // Get the repository
-        $repository = $this->em->getRepository(Contact::class);
-
-        // query the database
-        $contacts = $repository->contactSearch("Bob   Jones");
-
-        $this->assertEquals(4, sizeof($contacts));
-    }
-
-
 
 
     /////////////////////////////////////////////////////
