@@ -138,7 +138,7 @@ class PropertyControllerTest extends WebTestCase
      * Tests the viewing of a specific property. Ensures that the page can be navigated to
      * and that it contains all the required labels on the page.
      */
-    public function testViewAction()
+    public function testViewActionSuccess()
     {
         //Create a new property to ensure that there is one to view in the database
         $property = new Property();
