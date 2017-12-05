@@ -75,7 +75,7 @@ class PropertyController extends Controller
     {
         $repo = $this->getDoctrine()->getEntityManager()->getRepository(Property::class);
         $property = $repo->findOneById($propertyId);
-        
+
         $errorType = null;
 
         if($property == null) $errorType="notfound";
@@ -93,6 +93,7 @@ class PropertyController extends Controller
         }
 
         return $this->render('property/editProperty.html.twig',
-            array('form'=>$form->createView(), 'errorType'=>$errorType));
+            array('form'=>$form->createView(), 'errorType'=>$errorType,
+            'cancelPath' => $this->generateUrl('property_edit', array('propertyId'=>$propertyId))));
     }
 }
