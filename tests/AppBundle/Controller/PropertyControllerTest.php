@@ -165,7 +165,7 @@ class PropertyControllerTest extends WebTestCase
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $repo = $em->getRepository(Property::class);
         //insert the property
-        $propertyId = $repo->insert($property);
+        $propertyId = $repo->save($property);
 
 
 
@@ -229,7 +229,7 @@ class PropertyControllerTest extends WebTestCase
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $repo = $em->getRepository(Property::class);
         //insert the property
-        $propertyId = $repo->insert($property);
+        $propertyId = $repo->save($property);
 
 
 

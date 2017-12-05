@@ -56,7 +56,7 @@ class PropertyRepositoryTest extends KernelTestCase
         //Get the repository for testing
         $repository = $this->em->getRepository(Property::class);
         //Call insert on the repository and record the id of the new object
-        $id = $repository->insert($property);
+        $id = $repository->save($property);
         //Assert that the id was returned
         $this->assertNotNull($id);
         //check the contact id is the same as the returned id
@@ -91,13 +91,13 @@ class PropertyRepositoryTest extends KernelTestCase
         //get the repository
         $repository = $this->em->getRepository(Property::class);
         //Call insert on the repository and record the id of the new object
-        $id = $repository->insert($property);
+        $id = $repository->save($property);
 
         //Make a change to the property object
         $property->setPropertyStatus('Inactive (Renovation)');
 
         //Call the update function on the property
-        $repository->update($property);
+        $repository->save($property);
 
         //Get the supposedly updated property from the database
         $dbProperty = $this->getEntityManager()->getRepository(Property::class)->findOneById($id);

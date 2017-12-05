@@ -44,7 +44,7 @@ class PropertyController extends Controller
             //the value for type could be a blank string so change it to null for the database
             if($property->getPropertyType() == '') $property->setPropertyType(null);
 
-            $this->getDoctrine()->getRepository(Property::class)->insert($property);
+            $this->getDoctrine()->getRepository(Property::class)->save($property);
             // Nuke the form and contact so that on a successful submit the form fields are now blank
             $property = new Property();
             $property->setAddress(new Address());
@@ -69,8 +69,9 @@ class PropertyController extends Controller
      * and contain the form to edit a property
      * @param mixed $propertyId
      * @Route("/property/edit/{propertyId}", name="property_edit")
+     * @Route("/property/edit/")
      */
-    public function editAction(Request $request, $propertyId = -1)
+    public function editAction(Request $request, $propertyId = null)
     {
         $repo = $this->getDoctrine()->getEntityManager()->getRepository(Property::class);
         $property = $repo->findOneById($propertyId);
@@ -87,7 +88,7 @@ class PropertyController extends Controller
         {
             //If the property type is not selected, make it null
             if($property->getPropertyType() == '') $property->setPropertyType(null);
-            $repo->insert($property);
+            $repo->save($property);
             return $this->redirectToRoute('property_view', array('propertyId'=>$propertyId));
         }
 

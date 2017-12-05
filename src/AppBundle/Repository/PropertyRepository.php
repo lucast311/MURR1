@@ -16,7 +16,7 @@ class PropertyRepository extends EntityRepository
      * @return mixed the id of the new inserted property
      * @throws UniqueConstraintViolationException if ID already exists
      */
-    public function insert(Property $property)
+    public function save(Property $property)
     {
         // get the entity manager
         $em = $this->getEntityManager();
