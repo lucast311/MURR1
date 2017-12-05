@@ -36,10 +36,7 @@ class ContactTest extends TestCase
     public function testContactFirstNameOnBoundary()
     {
         // Make First on boundary ( 150 characters )
-        $this->contact->setFirstName("baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        $this->contact->setFirstName(str_repeat("a",150));
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 1 error
         $this->assertEquals(0, count($errors));
@@ -47,10 +44,7 @@ class ContactTest extends TestCase
     public function testContactFirstNameOverBoundary()
     {
         // Make First Name Invalid ( 151 characters )
-        $this->contact->setFirstName("baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        $this->contact->setFirstName(str_repeat("a",151));
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
@@ -67,10 +61,8 @@ class ContactTest extends TestCase
 
     public function testContactCampanyNameOnBoundary()
     {
-        // Make Company Name invalid ( 100 characters )
-        $this->contact->setCompanyName("baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                        aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                        aaaaaaaaaaaaaaaaaaaaaaa");
+        // Make Company Name valid ( 100 characters )
+        $this->contact->setCompanyName(str_repeat("a",100));
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 0 error
         $this->assertEquals(0, count($errors));
@@ -78,9 +70,7 @@ class ContactTest extends TestCase
     public function testContactCampanyNameOverBoundary()
     {
         // Make Company Name invalid ( 101 characters )
-        $this->contact->setCompanyName("baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                        aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                        aaaaaaaaaaaaaaaaaaaaaaaa");
+        $this->contact->setCompanyName(str_repeat("a",101));
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
@@ -167,10 +157,7 @@ class ContactTest extends TestCase
     public function testContactEmailAddressInvalidOnBoundary()
     {
         // Make contact invalid
-        $this->contact->setEmailAddress("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                         aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                         aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                         aaaaaa@aaaa.com");
+        $this->contact->setEmailAddress(str_repeat("a",100) . ".com");
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 0 error
         $this->assertEquals(0, count($errors));

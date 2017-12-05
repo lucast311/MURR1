@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validator\Constraints;
+namespace AppBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -12,7 +12,7 @@ use Symfony\Component\Validator\ConstraintValidator;
  * @version 1.0
  * @author cst201
  */
-class ContactValidator extends ConstraintValidator
+class ContactAtLeastOneFieldValidator extends ConstraintValidator
 {
     public function validate($protocol, Constraint $contraint)
     {
@@ -23,9 +23,9 @@ class ContactValidator extends ConstraintValidator
             || empty($protocol->getEmailAddress())
             || empty($protocol->getFax()))
         {
-            $this->context->buildViolation($contraint->message)
-                ->atPath()
-                ->addViolation(); 
+            $this->context->buildViolation($contraint->getMessage())
+                ->atPath('AppBundle::Contact')
+                ->addViolation();
         }
     }
 }
