@@ -28,9 +28,11 @@ class PropertyRepository extends EntityRepository
         // flush them to the database
         $em->flush();
 
+        //DO NOT CLOSE THE ENTITY MANAGER
+        //The repo will not regenerate a new one
         //Close the entity manager
-        $em->close();
-        $em = null;
+        //$em->close();
+        //$em = null;
         // return the id of the new property in the database
         return $property->getId();
     }

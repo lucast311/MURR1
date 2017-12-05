@@ -89,12 +89,12 @@ class PropertyController extends Controller
             //If the property type is not selected, make it null
             if($property->getPropertyType() == '') $property->setPropertyType(null);
             $repo->save($property);
-            return $this->redirectToRoute('property_view', array('propertyId'=>$propertyId));
+            return $this->redirectToRoute('property_view', array('propertyId'=>$propertyId),301);
         }
 
         return $this->render('property/editProperty.html.twig',
             array('form'=>$form->createView(), 'errorType'=>$errorType,
-            'cancelPath' => $this->generateUrl('property_edit', array('propertyId'=>$propertyId))));
+            'cancelPath' => $this->generateUrl('property_view', array('propertyId'=>$propertyId))));
     }
 
     /**
@@ -115,6 +115,7 @@ class PropertyController extends Controller
 
         // Render the html and pass in the property
         return $this->render('property/viewProperty.html.twig', array('property'=>$property, 
-            'propertyId'=>$propertyId));
+            'propertyId'=>$propertyId, 
+            'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId))));
     }
 }

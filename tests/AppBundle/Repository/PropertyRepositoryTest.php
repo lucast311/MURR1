@@ -71,7 +71,7 @@ class PropertyRepositoryTest extends KernelTestCase
     {
         //Insert a property into the database
         $property = new Property();
-        $property->setSiteId(1593843);
+        $property->setSiteId(1593844);
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
@@ -91,6 +91,8 @@ class PropertyRepositoryTest extends KernelTestCase
         //get the repository
         $repository = $this->em->getRepository(Property::class);
         //Call insert on the repository and record the id of the new object
+
+        //insert
         $id = $repository->save($property);
 
         //Make a change to the property object
@@ -100,7 +102,7 @@ class PropertyRepositoryTest extends KernelTestCase
         $repository->save($property);
 
         //Get the supposedly updated property from the database
-        $dbProperty = $this->getEntityManager()->getRepository(Property::class)->findOneById($id);
+        $dbProperty = $repository->findOneById($id);
 
         //check if the updated property contains the edited field
         $this->assertEquals('Inactive (Renovation)', $dbProperty->getPropertyStatus());
