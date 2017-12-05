@@ -63,6 +63,8 @@
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
     <Compile Include="src\AppBundle\Controller\EduMatFormController.php" />
     <Compile Include="src\AppBundle\Controller\OOPsController.php" />
+    <Compile Include="src\AppBundle\DataFixtures\ORM\LoadAddressData.php" />
+    <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContactData.php" />
     <Compile Include="src\AppBundle\Entity\Address.php" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
     <Compile Include="src\AppBundle\Entity\Contact.php" />
@@ -136,6 +138,8 @@
     <Folder Include="app" />
     <Folder Include="bin" />
     <Folder Include="src\AppBundle\Controller" />
+    <Folder Include="src\AppBundle\DataFixtures\" />
+    <Folder Include="src\AppBundle\DataFixtures\ORM\" />
     <Folder Include="src\AppBundle\Entity" />
     <Folder Include="src\AppBundle\Form\Type" />
     <Folder Include="src\AppBundle\Form" />

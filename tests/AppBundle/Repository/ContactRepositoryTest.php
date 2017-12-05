@@ -4,6 +4,7 @@ namespace Tests\AppBundle\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\Contact;
+use AppBundle\DataFixtures\ORM\LoadContactData;
 use AppBundle\Entity\Address;
 use AppBundle\Services\SearchNarrower;
 
@@ -14,6 +15,17 @@ class ContactRepositoryTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+
+   /* public static function setUpBeforeClass()
+    {
+        $em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+
+        $contactLoader = new LoadContactData();
+        $contactLoader->load($em);
+    }
+    */
 
     /**
      * Just some setup stuff required by symfony for testing Repositories
@@ -26,6 +38,9 @@ class ContactRepositoryTest extends KernelTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        $contactLoader = new LoadContactData();
+        $contactLoader->load($em);
     }
 
     /**
@@ -184,8 +199,31 @@ class ContactRepositoryTest extends KernelTestCase
     {
         parent::tearDown();
 
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Address");
+        $stmt->execute();
+
         $this->em->close();
         $this->em = null;//avoid memory meaks
     }
 
+    /*
+    public static function tearDownAfterClass()
+    {
+        $contactLoader = new LoadContactData();
+        $em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+        $contactLoader->load($em);
+
+        $stmt = $em->getConnection()->prepare("DELETE FROM Contact");
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare("DELETE FROM Address");
+        $stmt->execute();
+
+        $em->close();
+        $em = null;//avoid memory meaks
+    }
+    */
 }
