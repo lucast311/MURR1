@@ -78,7 +78,7 @@ class PropertyController extends Controller
         // Get the specific property
         $property = $em->getRepository(Property::class)->findOneById($propertyId);
 
-        // Render the html and pass in the contact
+        // Render the html and pass in the property
         return $this->render('property/viewProperty.html.twig', array('property'=>$property, 
             'propertyId'=>$propertyId));
     }
