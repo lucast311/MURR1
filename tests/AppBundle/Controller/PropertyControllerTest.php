@@ -244,6 +244,8 @@ class PropertyControllerTest extends WebTestCase
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $stmt = $em->getConnection()->prepare('DELETE FROM Property');
         $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM Address');
+        $stmt->execute();
         $em->close();
 
     }
