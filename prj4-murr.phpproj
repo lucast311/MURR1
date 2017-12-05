@@ -153,5 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\Resources\views\property\addProperty.html.twig" />
+    <Content Include="app\Resources\views\property\viewProperty.html.twig" />
   </ItemGroup>
 </Project>

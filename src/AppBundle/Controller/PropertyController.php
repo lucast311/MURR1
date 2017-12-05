@@ -96,4 +96,25 @@ class PropertyController extends Controller
             array('form'=>$form->createView(), 'errorType'=>$errorType,
             'cancelPath' => $this->generateUrl('property_edit', array('propertyId'=>$propertyId))));
     }
+
+    /**
+     * Story 4a
+     * Handles the viewing of a property.
+     * @param Request $request
+     *
+     * @Route("/property/view/{propertyId}", name="property_view")
+     * @Route("/property/view")
+     * @Route("/property/view/")
+     */
+    public function viewAction($propertyId = 'not_specified')
+    {
+        // Get the entity manager
+        $em = $this->getDoctrine()->getManager();
+        // Get the specific property
+        $property = $em->getRepository(Property::class)->findOneById($propertyId);
+
+        // Render the html and pass in the property
+        return $this->render('property/viewProperty.html.twig', array('property'=>$property, 
+            'propertyId'=>$propertyId));
+    }
 }

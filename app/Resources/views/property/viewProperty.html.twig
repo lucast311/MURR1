@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}View Property{% endblock %}
+
+{% block body %}
+
+<h2>View Property</h2>
+
+<div>
+    {% if propertyId == "not_specified"%}
+    <h2>No property specified</h2>
+    {% elseif property is empty %}
+    <h2>The specified property could not be found</h2>
+    {% else %}
+
+    <table>
+        <tr>
+            <td>Site Id:</td>
+            <td>{{property.siteId}}</td>
+        </tr>
+        <tr>
+            <td>Property Name:</td>
+            <td>{{property.propertyName}}</td>
+        </tr>
+        <tr>
+            <td>Property Type:</td>
+            <td>{{property.propertyType}}</td>
+        </tr>
+        <tr>
+            <td>Property Status:</td>
+            <td>{{property.propertyStatus}}</td>
+        </tr>
+        <tr>
+            <td>Structure Id:</td>
+            <td>{{property.structureId}}</td>
+        </tr>
+        <tr>
+            <td>Num Units:</td>
+            <td>{{property.numUnits}}</td>
+        </tr>
+        <tr>
+            <td>Neighbourhood Name:</td>
+            <td>{{property.neighbourhoodName}}</td>
+        </tr>
+        <tr>
+            <td>Neighbourhood Id:</td>
+            <td>{{property.neighbourhoodId}}</td>
+        </tr>
+        <tr>
+            <td>Street Address:</td>
+            <td>{{property.address.streetAddress}}</td>
+        </tr>
+        <tr>
+            <td>Postal Code:</td>
+            <td>{{property.address.postalCode}}</td>
+        </tr>
+        <tr>
+            <td>City:</td>
+            <td>{{property.address.city}}</td>
+        </tr>
+        <tr>
+            <td>Province:</td>
+            <td>{{property.address.province}}</td>
+        </tr>
+        <tr>
+            <td>Country:</td>
+            <td>{{property.address.country}}</td>
+        </tr>
+    </table>
+
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -294,6 +294,108 @@ class PropertyControllerTest extends WebTestCase
         $this->assertContains("The specified property could not be found", $client->getResponse()->getContent());
     }
 
+    /**
+     * Story 4b
+     * Tests the viewing of a specific property. Ensures that the page can be navigated to
+     * and that it contains all the required labels on the page.
+     */
+    public function testViewActionSuccess()
+    {
+        //Create a new property to ensure that there is one to view in the database
+        $property = new Property();
+        $property->setSiteId(1593843);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(54586);
+        $property->setNumUnits(5);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E 1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //Get the entity manager and the repo so we can make sure a property exists before editing it
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $repo = $em->getRepository(Property::class);
+        //insert the property
+        $propertyId = $repo->insert($property);
+
+
+        //Request the property view page for the property that was just inserted
+        $crawler = $client->request('GET',"/property/view/$propertyId");
+
+        // Assert that all the proper labels are on the page
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Site Id")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Property Name:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Property Type:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Property Status:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Structure Id:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Num Units:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Neighbourhood Name:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Neighbourhood Id:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Street Address:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Postal Code:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("City:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Province:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Country:")')->count());
+
+        // Assert that all the data is also there
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("1593843")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Charlton Arms")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Townhouse Condo")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Active")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("54586")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("5")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Sutherland")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("O48")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("12 15th st east")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("S0E 1A0")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Saskatoon")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Saskatchewan")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Canada")')->count());
+    }
+
+    /**
+     * Story 4b
+     * Tests that an error message appears if the user navigates to a bad property id
+     */
+    public function testViewBadId()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //Request the property view page for a property that does not exist
+        $crawler = $client->request('GET',"/property/view/-5");
+
+        // assert that the correct error message appeared
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("The specified property could not be found")')->count());
+    }
+
+    /**
+     * Story 4b
+     * Tests that an error message appears if the user does not enter an id
+     */
+    public function testViewNoId()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //Request the property view page without specifying an id
+        $crawler = $client->request('GET',"/property/view/");
+
+        // assert that the correct error message appeared
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("No property specified")')->count());
+    }
+
     protected function tearDown()
     {
         parent::tearDown();
@@ -302,6 +404,8 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient();
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $stmt = $em->getConnection()->prepare('DELETE FROM Property');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM Address');
         $stmt->execute();
         $em->close();
 
