@@ -173,14 +173,14 @@ class PropertyControllerTest extends WebTestCase
         $crawler = $client->request('GET',"/property/view/$propertyId");
 
         // Assert that all the proper labels are on the page
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Site id")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Property name:")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Property type:")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Property status:")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Structure id:")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Num units:")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Neighbourhood name:")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Neighbourhood id:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Site Id")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Property Name:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Property Type:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Property Status:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Structure Id:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Num Units:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Neighbourhood Name:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Neighbourhood Id:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Street Address:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Postal Code:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("City:")')->count());

@@ -62,8 +62,34 @@ class PropertyController extends Controller
             array('form'=>$form->createView(), 'showSuccess'=>$showSuccess));
     }
 
-    public function viewAction(int $propertyId)
+    /**
+     * Story 4a
+     * Handles the viewing of a property.
+     * @param Request $request
+     *
+     * @Route("/property/view/{propertyId}", name="property_view")
+     */
+    public function viewAction($propertyId = -1)
     {
-        
+        // Get the entity manager
+        $em = $this->getDoctrine()->getManager();
+        // Get the specific property
+        $property = $em->getRepository(Property::class)->findOneById($propertyId);
+
+        // Render the html and pass in the contact
+        return $this->render('property/viewProperty.html.twig', array('property'=>$property));
+    }
+
+    /**
+     * Story 4a
+     * Handles the viewing of a property when nothing is specified in the id.
+     * @param Request $request
+     *
+     * @Route("/property/view", name="property_view_noId")
+     * @Route("/property/view/", name="property_view_noId")
+     */
+    public function viewActionBlankId()
+    {
+        return $this->render('property/viewPropertyBlankId.html.twig');
     }
 }
