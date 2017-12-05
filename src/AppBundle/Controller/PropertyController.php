@@ -68,8 +68,10 @@ class PropertyController extends Controller
      * @param Request $request
      *
      * @Route("/property/view/{propertyId}", name="property_view")
+     * @Route("/property/view")
+     * @Route("/property/view/")
      */
-    public function viewAction($propertyId = -1)
+    public function viewAction($propertyId = 'not_specified')
     {
         // Get the entity manager
         $em = $this->getDoctrine()->getManager();
@@ -77,19 +79,7 @@ class PropertyController extends Controller
         $property = $em->getRepository(Property::class)->findOneById($propertyId);
 
         // Render the html and pass in the contact
-        return $this->render('property/viewProperty.html.twig', array('property'=>$property));
-    }
-
-    /**
-     * Story 4a
-     * Handles the viewing of a property when nothing is specified in the id.
-     * @param Request $request
-     *
-     * @Route("/property/view", name="property_view_noId")
-     * @Route("/property/view/", name="property_view_noId")
-     */
-    public function viewActionBlankId()
-    {
-        return $this->render('property/viewPropertyBlankId.html.twig');
+        return $this->render('property/viewProperty.html.twig', array('property'=>$property, 
+            'propertyId'=>$propertyId));
     }
 }

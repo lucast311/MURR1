@@ -7,7 +7,9 @@
 <h2>View Property</h2>
 
 <div>
-    {% if property is empty %}
+    {% if propertyId == "not_specified"%}
+    <h2>No property specified</h2>
+    {% elseif property is empty %}
     <h2>The specified property could not be found</h2>
     {% else %}
 
