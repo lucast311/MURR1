@@ -65,6 +65,7 @@ class PropertyRepositoryTest extends KernelTestCase
 
     /**
      * This function will test the update functionality of the repository
+     * Story 4C User edits a property
      */
     public function testUpdate()
     {
@@ -90,7 +91,7 @@ class PropertyRepositoryTest extends KernelTestCase
         //get the repository
         $repository = $this->em->getRepository(Property::class);
         //Call insert on the repository and record the id of the new object
-        $repository->insert($property);
+        $id = $repository->insert($property);
 
         //Make a change to the property object
         $property->setPropertyStatus('Inactive (Renovation)');
@@ -99,7 +100,7 @@ class PropertyRepositoryTest extends KernelTestCase
         $repository->update($property);
 
         //Get the supposedly updated property from the database
-        $dbProperty = $repository->getOne($property->getId());
+        $dbProperty = $this->getEntityManager()->getRepository(Property::class)->findOneById($id);
 
         //check if the updated property contains the edited field
         $this->assertEquals('Inactive (Renovation)', $dbProperty->getPropertyStatus());

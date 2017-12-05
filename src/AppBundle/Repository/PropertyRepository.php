@@ -36,13 +36,4 @@ class PropertyRepository extends EntityRepository
     }
 
 
-    public function update(Property $property)
-    {
-        
-    }
-
-    public function getOne(int $propertyId)
-    {
-        
-    }
 }

@@ -62,8 +62,36 @@ class PropertyController extends Controller
             array('form'=>$form->createView(), 'showSuccess'=>$showSuccess));
     }
 
-    public function editAction($propertyId = -1)
+    /**
+     * Story 4c User Edits Property
+     *
+     * This function will be responsible for handling the requests to the edit page
+     * and contain the form to edit a property
+     * @param mixed $propertyId
+     * @Route("/property/edit/{propertyId}", name="property_edit")
+     */
+    public function editAction(Request $request, $propertyId = -1)
     {
+        $repo = $this->getDoctrine()->getEntityManager()->getRepository(Property::class);
+        $property = $repo->findOneById($propertyId);
         
+        $errorType = null;
+
+        if($property == null) $errorType="notfound";
+        if($propertyId == null) $errorType="noid";
+
+        $form = $this->createForm(PropertyType::class, $property);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            //If the property type is not selected, make it null
+            if($property->getPropertyType() == '') $property->setPropertyType(null);
+            $repo->insert($property);
+            return $this->redirectToRoute('property_view', array('propertyId'=>$propertyId));
+        }
+
+        return $this->render('property/editProperty.html.twig',
+            array('form'=>$form->createView(), 'errorType'=>$errorType));
     }
 }

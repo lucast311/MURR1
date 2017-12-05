@@ -135,8 +135,9 @@ class PropertyControllerTest extends WebTestCase
 
     /**
      * This test will load the update page and attempt to edit it
+     * Story 4c User edits property
      */
-    public function testEditProperty()
+    public function testEditPropertySuccess()
     {
         //Create a new property to ensure that there is one to edit in the database
         $property = new Property();
@@ -198,6 +199,7 @@ class PropertyControllerTest extends WebTestCase
     /**
      * This test will load the update page and attempt to edit it
      * The page should contain an error
+     * Story 4c User edits property
      */
     public function testEditPropertyError()
     {
@@ -263,6 +265,7 @@ class PropertyControllerTest extends WebTestCase
 
     /**
      * This method will test that an error appears if the user does not enter an ID
+     * Story 4c User edits property
      */
     public function testEditPropetyNoId(){
         //Create a client to go through the web page
@@ -277,6 +280,7 @@ class PropertyControllerTest extends WebTestCase
 
     /**
      * This method will test that an error appears if the user enters an invalid ID into the address bar
+     * Story 4c User edits property
      */
     public function testEditPropertyBadId()
     {
