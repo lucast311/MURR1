@@ -476,7 +476,7 @@ class EduMatFormControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add')->form();
 
         // Populate form (Assume current date is 10/16/2017)
-        $form['form[dateCreated]'] = "2020-01-01";
+        $form['form[dateCreated]'] = "2018-11-24";
 
         // Submit the form to the crawler
         $crawler = $client->submit($form);
@@ -501,7 +501,7 @@ class EduMatFormControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add')->form();
 
         // Populate form (Assume current date is 10/16/2017)
-        $form['form[dateFinished]'] = "2020-01-01";
+        $form['form[dateFinished]'] = "2018-11-24";
 
         // Submit the form to the crawler
         $crawler = $client->submit($form);

@@ -78,6 +78,10 @@ class Address
      */
     private $country;
 
+    public function setId($id)
+    {
+
+    }
 
     /**
      * Get id
