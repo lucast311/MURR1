@@ -1,10 +1,12 @@
 <?php
+
 namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ContactControllerTest extends WebTestCase
 {
+
 
     /**
      * story 9f
@@ -248,7 +250,7 @@ class ContactControllerTest extends WebTestCase
     // story 9c tests
     public function testEditRedirect()
     {
-       //Create a client to go through the web page
+        //Create a client to go through the web page
         $client = static::createClient();
         //Request the contact edit page
         $crawler = $client->request('GET','/contact/list/1/edit');
@@ -262,7 +264,7 @@ class ContactControllerTest extends WebTestCase
 
     public function testEditSubmitRedirect()
     {
-       //Create a client to go through the web page
+        //Create a client to go through the web page
         $client = static::createClient();
         //Request the contact edit page
         $crawler = $client->request('GET','/contact/list/1/edit');
@@ -499,5 +501,5 @@ class ContactControllerTest extends WebTestCase
             $crawler->filter('html:contains("Country cannot be left blank")')->count()
             );
     }
-
+}
 
