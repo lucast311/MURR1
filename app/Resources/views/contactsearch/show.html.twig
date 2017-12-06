@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Contactsearch</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ contactSearch.id }}</td>
+            </tr>
+            <tr>
+                <th>Searchquery</th>
+                <td>{{ contactSearch.searchQuery }}</td>
+            </tr>
+            <tr>
+                <th>Results</th>
+                <td>{{ contactSearch.results }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('contactsearch_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

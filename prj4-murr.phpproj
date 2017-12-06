@@ -62,6 +62,8 @@
     <Compile Include="src\AppBundle\Controller\EduMatFormController.php" />
     <Compile Include="src\AppBundle\Controller\OOPsController.php" />
     <Compile Include="src\AppBundle\Controller\PropertyController.php" />
+    <Compile Include="src\AppBundle\DataFixtures\ORM\LoadAddressData.php" />
+    <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContactData.php" />
     <Compile Include="src\AppBundle\Entity\Address.php" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
     <Compile Include="src\AppBundle\Entity\Contact.php" />
@@ -69,6 +71,7 @@
     <Compile Include="src\AppBundle\Entity\OOPs.php" />
     <Compile Include="src\AppBundle\Entity\Property.php" />
     <Compile Include="src\AppBundle\Form\PropertyType.php" />
+    <Compile Include="src\AppBundle\Form\Type\AddressType.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
     <Compile Include="src\AppBundle\Form\ContactType.php" />
@@ -81,8 +84,12 @@
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />
     <Compile Include="src\AppBundle\Repository\PropertyRepository.php" />
+    <Compile Include="src\AppBundle\Services\Changer.php" />
+    <Compile Include="src\AppBundle\Services\Cleaner.php" />
+    <Compile Include="src\AppBundle\Services\SearchNarrower.php" />
     <Compile Include="src\ContactController.php" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
+    <Compile Include="tests\AppBundle\Controller\ContactController.php" />
     <Compile Include="tests\AppBundle\Controller\ContactControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\CSROOPsControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\EduMatFormControllerTest.php" />
@@ -101,8 +108,12 @@
     <Compile Include="tests\AppBundle\Repository\AddressRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CommunicationRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\ContactRepositoryTest.php" />
+    <Compile Include="tests\AppBundle\Repository\ContactSearchRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CSROOPsRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\PropertyRepositoryTest.php" />
+    <Compile Include="tests\AppBundle\Services\ChangerTest.php" />
+    <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
+    <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
     <Compile Include="uploads\images\OOPs NOTICE Valid1.png" />
     <Compile Include="uploads\images\OOPs NOTICE Valid2.jpg" />
     <Compile Include="web\.htaccess" />
@@ -125,20 +136,24 @@
     <Folder Include="app\Resources\images" />
     <Folder Include="app\Resources\views\communication" />
     <Folder Include="app\Resources\views\Contact" />
+    <Folder Include="app\Resources\views\contactsearch\" />
     <Folder Include="app\Resources\views\default" />
-    <Folder Include="app\Resources\views\property\" />
     <Folder Include="app\Resources\views\oops" />
     <Folder Include="app\Resources\views" />
     <Folder Include="app\Resources" />
     <Folder Include="app" />
+    <Folder Include="app\Resources\views\property\" />
     <Folder Include="bin" />
     <Folder Include="src\AppBundle\Controller" />
+    <Folder Include="src\AppBundle\DataFixtures\" />
+    <Folder Include="src\AppBundle\DataFixtures\ORM\" />
     <Folder Include="src\AppBundle\Entity" />
     <Folder Include="src\AppBundle\Form\Type" />
     <Folder Include="src\AppBundle\Form" />
     <Folder Include="src\AppBundle\Repository" />
     <Folder Include="src\AppBundle" />
     <Folder Include="src" />
+    <Folder Include="src\AppBundle\Services\" />
     <Folder Include="tests\AppBundle\Controller" />
     <Folder Include="tests\AppBundle\Entity" />
     <Folder Include="tests\AppBundle\Form\Type" />
@@ -146,12 +161,15 @@
     <Folder Include="tests\AppBundle\Repository" />
     <Folder Include="tests\AppBundle" />
     <Folder Include="tests" />
+    <Folder Include="tests\AppBundle\Services\" />
     <Folder Include="uploads\images" />
     <Folder Include="uploads" />
     <Folder Include="web\bundles" />
     <Folder Include="web" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\Resources\views\contactsearch\contactJSONSearches.html.twig" />
+    <Content Include="app\Resources\views\contactsearch\show.html.twig" />
     <Content Include="app\Resources\views\property\addProperty.html.twig" />
     <Content Include="app\Resources\views\property\editProperty.html.twig" />
     <Content Include="app\Resources\views\property\viewProperty.html.twig" />
