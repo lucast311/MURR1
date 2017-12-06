@@ -8,6 +8,7 @@ use AppBundle\Entity\Address;
 use AppBundle\Form\PropertyType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormError;
+use AppBundle\Repository\PropertyRepository;
 /**
  * Controller that contains methods for anything having to do with a property.
  */

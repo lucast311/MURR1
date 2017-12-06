@@ -152,15 +152,14 @@ class PropertyControllerTest extends WebTestCase
         // Have to create a new valid address too otherwise doctrine will fail
         $address = new Address();
         $address->setStreetAddress("12 15th st east");
-        $address->setPostalCode("S0E1A0");
+        $address->setPostalCode("S0E 1A0");
         $address->setCity("Saskatoon");
         $address->setProvince("Saskatchewan");
         $address->setCountry("Canada");
         $property->setAddress($address);
 
-
         $client = static::createClient();
-        $client->followRedirects(true);
+
 
         //Get the entity manager and the repo so we can make sure a property exists before editing it
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -174,14 +173,20 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[propertyName]'] = 'Charlton Legs';
+        $form['property[propertyName]'] = "Charlton Legs";
+
+        $client->followRedirects(true);
 
         //Submit the form
         $client->submit($form);
-
+        
+        //$clientResponse = $crawler->filter("html:contains('View property')");
         //Make sure the form has the same values
         $clientResponse = $client->getResponse()->getContent();
+
+
         $this->assertContains('Charlton Legs', $clientResponse);
+
 
         //$client->request('GET', "/property/view/$propertyId");
         //$clientResponse = $client->getResponse()->getContent();
@@ -192,7 +197,7 @@ class PropertyControllerTest extends WebTestCase
 
         //$dbProp = $repo->findOneById($propertyId);
 
-        //$this->assertEquals('Inactive (Renovation)',$dbProp->getPropertyStatus());
+
 
         //$crawler = $client->request('GET', "/property/view/$propertyId");
 
@@ -201,7 +206,7 @@ class PropertyControllerTest extends WebTestCase
         //assert that the page contains the updated data
 
         //assert that the page is the view property page
-        //$this->assertContains('View Property', $clientResponse);
+        $this->assertContains('View Property', $clientResponse);
     }
 
     /**

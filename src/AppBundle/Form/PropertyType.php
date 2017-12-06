@@ -25,7 +25,8 @@ class PropertyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // Add the fields
-        $builder->add('siteId', IntegerType::class)
+        $builder
+            ->add('siteId', IntegerType::class)
             ->add('propertyName', TextType::class, array('required'=>false))
             ->add('propertyType', ChoiceType::class, array('choices'=>Property::getTypes(), 'required'=>false, 'invalid_message' => 'Invalid property type'))
             ->add('propertyStatus', ChoiceType::class, array('choices'=>array_merge( array('...' => ""),Property::getStatuses()), 'invalid_message' => 'Invalid property status'))
