@@ -24,7 +24,7 @@ class ContactValidator extends ConstraintValidator
             || empty($protocol->getFax()))
         {
             $this->context->buildViolation($contraint->message)
-                ->atPath()
+                ->atPath('/{id}/edit')
                 ->addViolation(); 
         }
     }

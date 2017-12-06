@@ -78,6 +78,8 @@
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />
     <Compile Include="src\ContactController.php" />
+    <Compile Include="src\Validator\Constraints\contactAtLeastOneField.php" />
+    <Compile Include="src\Validator\Constraints\ContactValidator.php" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\ContactControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\CSROOPsControllerTest.php" />
@@ -130,6 +132,8 @@
     <Folder Include="src\AppBundle\Repository" />
     <Folder Include="src\AppBundle" />
     <Folder Include="src" />
+    <Folder Include="src\Validator\" />
+    <Folder Include="src\Validator\Constraints\" />
     <Folder Include="tests\AppBundle\Controller" />
     <Folder Include="tests\AppBundle\Entity" />
     <Folder Include="tests\AppBundle\Form\Type" />
