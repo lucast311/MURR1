@@ -5,8 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Constraints as AcmeAssert;
-//@Assert\Callback(methods={"checkCustomValidation"})
+use AppBundle\Validator\Constraints as AcmeAssert;
 
 /**
  * Contact
@@ -29,7 +28,7 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="firstName", type="string", length=100)
+     * @ORM\Column(name="firstName", type="string", length=100, nullable=true)
      *
      * @Assert\NotBlank(message = "First name cannot be left blank")
      *
@@ -40,7 +39,7 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="lastName", type="string", length=100)
+     * @ORM\Column(name="lastName", type="string", length=100, nullable=true)
      *
      * @Assert\NotBlank(message = "Last name cannot be left blank")
      *
@@ -100,7 +99,7 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="emailAddress", type="string", length=100)
+     * @ORM\Column(name="emailAddress", type="string", length=100, nullable=true)
      *
      * @Assert\Email(message = "Email must be in the format of 'Example@example.com'")
      */
@@ -126,10 +125,12 @@ class Contact
      */
     private $address;
 
-    public function checkCustomValidation(ExecutionContextInterface $context)
-    {
 
-    }
+    //     * @Assert\Callback(methods={"checkCustomValidation"})
+    //public function checkCustomValidation(ExecutionContextInterface $context)
+    //{
+
+    //}
 
     public static function getRoleOptions()
     {

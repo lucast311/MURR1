@@ -33,8 +33,7 @@ class Address
      */
     private $streetAddress;
 
-    //@Assert\Regex(pattern ="/[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ] [0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]/",
-     //* message = "A proper postal code must be entered in the form of L#L #L#")
+
 
     /**
      * @var string
@@ -42,6 +41,8 @@ class Address
      * @ORM\Column(name="postalCode", type="string", length=7)
      *
      * @Assert\NotBlank(message = "Postal code cannot be left blank")
+     * @Assert\Regex(pattern ="/[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ] [0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]/", 
+     * message = "A proper postal code must be entered in the form of L#L #L#")
      *
      *
      */

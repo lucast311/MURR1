@@ -1,5 +1,5 @@
 <?php
-namespace App\Validator\Constraints;
+namespace AppBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
@@ -18,7 +18,12 @@ use Symfony\Component\Validator\Constraint;
  */
 class contactAtLeastOneField extends Constraint
 {
-    public $messege = 'You must set the role of the contact and at least one other field'; 
+    public $message = 'You must set the role of the contact and at least one other field'; 
+
+    public function getMessage()
+    {
+        return $this->message;
+    }
 
     public function validatedBy()
     {
