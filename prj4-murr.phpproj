@@ -19,8 +19,6 @@
     <DebugMappingMethod>Automatic</DebugMappingMethod>
     <DBGpProxyEnabled>false</DBGpProxyEnabled>
     <DBGpProxyPort>9001</DBGpProxyPort>
-    <SpecificPageValue>tests/AppBundle/Form/</SpecificPageValue>
-    <StartAction>SpecificPage</StartAction>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <IncludeDebugInformation>true</IncludeDebugInformation>
@@ -63,6 +61,7 @@
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
     <Compile Include="src\AppBundle\Controller\EduMatFormController.php" />
     <Compile Include="src\AppBundle\Controller\OOPsController.php" />
+    <Compile Include="src\AppBundle\Controller\PropertyController.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadAddressData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContactData.php" />
     <Compile Include="src\AppBundle\Entity\Address.php" />
@@ -70,6 +69,8 @@
     <Compile Include="src\AppBundle\Entity\Contact.php" />
     <Compile Include="src\AppBundle\Entity\EduMat.php" />
     <Compile Include="src\AppBundle\Entity\OOPs.php" />
+    <Compile Include="src\AppBundle\Entity\Property.php" />
+    <Compile Include="src\AppBundle\Form\PropertyType.php" />
     <Compile Include="src\AppBundle\Form\Type\AddressType.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
@@ -82,19 +83,23 @@
     <Compile Include="src\AppBundle\Repository\OOPsRepository.php" />
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />
+    <Compile Include="src\AppBundle\Repository\PropertyRepository.php" />
     <Compile Include="src\AppBundle\Services\Changer.php" />
     <Compile Include="src\AppBundle\Services\Cleaner.php" />
     <Compile Include="src\AppBundle\Services\SearchNarrower.php" />
     <Compile Include="src\ContactController.php" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
+    <Compile Include="tests\AppBundle\Controller\ContactController.php" />
     <Compile Include="tests\AppBundle\Controller\ContactControllerTest.php" />
-    <Compile Include="tests\AppBundle\Controller\ContactSearchControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\CSROOPsControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\EduMatFormControllerTest.php" />
+    <Compile Include="tests\AppBundle\Controller\PropertyControllerTest.php" />
     <Compile Include="tests\AppBundle\Entity\AddressTest.php" />
     <Compile Include="tests\AppBundle\Entity\CommunicationTest.php" />
     <Compile Include="tests\AppBundle\Entity\ContactTest.php" />
     <Compile Include="tests\AppBundle\Entity\CSROOPsCreationTest.php" />
+    <Compile Include="tests\AppBundle\Entity\PropertyTest.php" />
+    <Compile Include="tests\AppBundle\Form\PropertyTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\Type\CommunicationTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\AddOOPsForm.php" />
     <Compile Include="tests\AppBundle\Form\AddressTypeTest.php" />
@@ -105,6 +110,7 @@
     <Compile Include="tests\AppBundle\Repository\ContactRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\ContactSearchRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CSROOPsRepositoryTest.php" />
+    <Compile Include="tests\AppBundle\Repository\PropertyRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Services\ChangerTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
@@ -136,6 +142,7 @@
     <Folder Include="app\Resources\views" />
     <Folder Include="app\Resources" />
     <Folder Include="app" />
+    <Folder Include="app\Resources\views\property\" />
     <Folder Include="bin" />
     <Folder Include="src\AppBundle\Controller" />
     <Folder Include="src\AppBundle\DataFixtures\" />
@@ -151,10 +158,10 @@
     <Folder Include="tests\AppBundle\Entity" />
     <Folder Include="tests\AppBundle\Form\Type" />
     <Folder Include="tests\AppBundle\Form" />
-    <Folder Include="tests\AppBundle\Services\" />
     <Folder Include="tests\AppBundle\Repository" />
     <Folder Include="tests\AppBundle" />
     <Folder Include="tests" />
+    <Folder Include="tests\AppBundle\Services\" />
     <Folder Include="uploads\images" />
     <Folder Include="uploads" />
     <Folder Include="web\bundles" />
@@ -163,5 +170,7 @@
   <ItemGroup>
     <Content Include="app\Resources\views\contactsearch\contactJSONSearches.html.twig" />
     <Content Include="app\Resources\views\contactsearch\show.html.twig" />
+    <Content Include="app\Resources\views\property\addProperty.html.twig" />
+    <Content Include="app\Resources\views\property\viewProperty.html.twig" />
   </ItemGroup>
 </Project>

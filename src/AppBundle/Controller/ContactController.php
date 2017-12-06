@@ -116,6 +116,8 @@ class ContactController extends Controller
             // cleanse the query
             $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
 
+            var_dump($cleanQuery);
+
             // get an entity manager
             $em = $this->getDoctrine()->getManager();
 

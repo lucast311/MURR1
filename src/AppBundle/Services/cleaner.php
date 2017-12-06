@@ -21,6 +21,8 @@ class Cleaner
      */
     public function cleanSearchQuery($cleanMe)
     {
+        if($cleanMe == '+') $cleanMe = '';
+
         // an array to store the cleaned search queries with
         $cleanedResults = array();
 

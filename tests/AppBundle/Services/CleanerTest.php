@@ -171,4 +171,34 @@ class CleanerTest extends WebTestCase
         // assert that the two arrays are equal
         $this->assertEquals($queryStrings, $result);
     }
+
+    /**
+     * test only space characters
+     */
+    public function testOnlySpaces()
+    {
+        // a varaiable that stores the results from the cleaner
+        $result = $this->cleaner->cleanSearchQuery('    ');
+
+        // an array with the values we expect it to have
+        $queryStrings = array('');
+
+        // assert that the two arrays are equal
+        $this->assertEquals($queryStrings, $result);
+    }
+
+    /**
+     * test no characters
+     */
+    public function testEmptyString()
+    {
+        // a varaiable that stores the results from the cleaner
+        $result = $this->cleaner->cleanSearchQuery('');
+
+        // an array with the values we expect it to have
+        $queryStrings = array('');
+
+        // assert that the two arrays are equal
+        $this->assertEquals($queryStrings, $result);
+    }
 }

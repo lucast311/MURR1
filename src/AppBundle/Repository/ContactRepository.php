@@ -76,8 +76,6 @@ class ContactRepository extends EntityRepository
         $searchStringContacts = '';
         $searchStringAddresses = '';
 
-        var_dump($queryStrings);
-
         //foreach field in the Contact
         foreach($contactClassProperties as $col=>$val)
         {
