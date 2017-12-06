@@ -161,7 +161,7 @@
     <Folder Include="web" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\Resources\views\contactsearch\raw.html.twig" />
+    <Content Include="app\Resources\views\contactsearch\contactJSONSearches.html.twig" />
     <Content Include="app\Resources\views\contactsearch\show.html.twig" />
   </ItemGroup>
 </Project>

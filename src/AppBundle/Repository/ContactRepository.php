@@ -57,6 +57,12 @@ class ContactRepository extends EntityRepository
         return $this->getEntityManager()->getRepository(Contact::class)->findOneById($contactId);
     }
 
+    /**
+     * Search through the database and check if any records contain any of
+     *  the passed in strings (array of strings) in any of their fields.
+     * @param mixed $queryStrings an array of strings to query the database on
+     * @return array of searched entites returned from the queries
+     */
     public function contactSearch($queryStrings)
     {
         // get the field names of both the Contact and Address Entities.
@@ -70,17 +76,20 @@ class ContactRepository extends EntityRepository
         $searchStringContacts = '';
         $searchStringAddresses = '';
 
+        var_dump($queryStrings);
+
         //foreach field in the Contact
         foreach($contactClassProperties as $col=>$val)
         {
             // foreach string to query on
             for ($i = 0; $i < sizeof($queryStrings); $i++)
             {
-                //otherwise append to the WHERE clause
-                $searchStringContacts .= "c.$val LIKE '%$queryStrings[$i]%' OR ";
+                // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
+                $searchStringContacts .= "LOWER(c.$val) LIKE '%$queryStrings[$i]%' OR ";
             }
         }
 
+        // Remove the unneeded ' OR ' from the end of the query string
         $searchStringContacts = rtrim($searchStringContacts, ' OR ');
 
         //foreach field in the Address
@@ -89,25 +98,15 @@ class ContactRepository extends EntityRepository
             // foreach string to query on
             for ($i = 0; $i < sizeof($queryStrings); $i++)
             {
-                // otherwise append to teh WHERE clause
-                $searchStringAddresses .= "a.$val LIKE '%$queryStrings[$i]%' OR ";
+                // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
+                $searchStringAddresses .= "LOWER(a.$val) LIKE '%$queryStrings[$i]%' OR ";
             }
         }
 
         // Remove the unneeded ' OR ' from the end of the query string
         $searchStringAddresses = rtrim($searchStringAddresses, ' OR ');
 
-
-
-
-
-        // return the records that were queried to the Controller
-
-
-
-
-
-
+        // set variables equal to the records returned from each of the two queries
         $returnContacts = $this->getEntityManager()->createQuery(
            "SELECT c FROM AppBundle:Contact c WHERE $searchStringContacts"
             )->getResult();
@@ -116,15 +115,18 @@ class ContactRepository extends EntityRepository
            "SELECT c, a FROM AppBundle:Contact c JOIN c.address a WHERE $searchStringAddresses"
             )->getResult();
 
-
+        // foreach address returned
         foreach($returnAddresses as $returnAddress)
         {
+            // check if the address already exists in the array of contacts returned
             if(!in_array($returnAddress,$returnContacts))
             {
+                // combine the search results
                 $returnContacts[] = $returnAddress;
             }
         }
 
+        // return the results
         return $returnContacts;
     }
 }

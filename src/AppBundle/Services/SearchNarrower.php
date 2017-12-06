@@ -14,17 +14,28 @@ use AppBundle\Entity\Address;
  */
 class SearchNarrower
 {
+    /**
+     * A method that will narrow down any passed in search results so we only
+     *  get back records that contain everything we wanted to find (only valid for Contact searches).
+     * @param mixed $searchResults an array of all records initially returned from the query
+     * @param mixed $cleanQuery an array of each string we wanted to find
+     * @return array of narrowed search results
+     */
     public function narrowContacts($searchResults, $cleanQuery)
     {
+        // an array for the narrowed results
         $narrowedResults= array();
+
+        // an array for the values for each of the narrowed results
         $valuesFromResults = array();
 
         // an array to store the values of the returned objects
         $objectValues = array();
-        $findMe = false;
 
+        // foreach result in the passed in array of search results
         foreach ($searchResults as $result)
         {
+            // get all methods in the contact class
             $methods = get_class_methods(get_class(new Contact()));
 
             // for each method in the entity you are searching for
@@ -52,6 +63,7 @@ class SearchNarrower
                 }
             }
 
+            // re-set the $methods array witrh the Addresses methods
             $methods = get_class_methods(get_class(new Address()));
 
             // foreach method in Address
@@ -74,52 +86,51 @@ class SearchNarrower
                 }
             }
 
-            // a variable to store the JSON formatted string
+            // a variable to store the values of the current Entity
             $currData = '';
 
-            // populate the JSON string with the values from the array of object values
+            // populate the $currdata string with the values from the array of object values
             foreach($objectValues as $value)
             {
                 $currData .= $value;
             }
 
-            // a variable that will store the number of records returned
+            // a variable that will store the number of $cleanQuery's the current record has
             $found = 0;
 
             // foreach separate string to query on in the passed in string
             foreach ($cleanQuery as $query)
             {
-                // if the data to search for exists in the current record
-                if(strpos($currData, $query) > 0)
+                // if the data to search for exists in the current record (check lowercase for case insensitive checks)
+                if(strpos(strtolower($currData), strtolower($query)) > 0)
                 {
                     // increment found
                     $found++;
                 }
             }
 
-            // if the records returned match all of the passed in criteria to search for
+            // if $found is equal the the size of the $cleanQuery array
             if($found == sizeof($cleanQuery))
             {
+                // add the current record to the end of the array of narrowed searches
                 $narrowedResults[] = $result;
-                $findMe = true;
-            }
 
-            if($findMe)
-            {
+                // add the current entities object values to the array of narrowed searches values
                 $valuesFromResults[] = $objectValues;
             }
 
-            $findMe = false;
-
-            // Re-set the value of objectValues so that future loops don't append old data to it
+            // Re-set the value of $objectValues so that future loops don't append old data to look for
             $objectValues = array();
         }
 
+        // an array to store all data gathered in this method
         $allData = array();
 
+        // add both array's generated in this method to the array to return
         $allData[] = $narrowedResults;
         $allData[] = $valuesFromResults;
 
+        // return the array of narrowed searches and the array of each searches object values
         return $allData;
     }
 }
