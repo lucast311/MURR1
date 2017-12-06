@@ -57,7 +57,7 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="company", type="string", length=100, nullable=true)
+     * @ORM\Column(name="companyName", type="string", length=100, nullable=true)
      *
      * @Assert\Length(max=100 , maxMessage = "Company name can't be more than 100 characters long.")
      */
