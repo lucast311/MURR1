@@ -147,7 +147,9 @@ class ContactRepositoryTest extends KernelTestCase
         $contact = new Contact();
         $contact->setFirstName("Bob");
         $contact->setLastName("Jons");
+        $contact->setCompanyName("Doug's Dohnuts");
         $contact->setEmailAddress("l@L.com");
+        $contact->setRole("Property Manager");
 
         // Have to create a new valid address too otherwise doctrine will fail
         $address = new Address();
@@ -167,19 +169,20 @@ class ContactRepositoryTest extends KernelTestCase
         $replaceContact = new Contact();
         $replaceContact->setFirstName("Phillip");
         $replaceContact->setLastName("Jons");
+        $contact->setCompanyName("Bob's Pastries");
         $replaceContact->setEmailAddress("l@L.com");
 
-        $replaceContact->setAddress($address); 
+        $replaceContact->setAddress($address);
 
         //call update and pass in the id
         $repository->update($id, $replaceContact);
 
-        $testContact = $repository->getOne($id); 
+        $testContact = $repository->getOne($id);
 
-        assertTrue($testContact->getFirstName === "Philip"); 
+        assertTrue($testContact->getFirstName === "Philip");
     }
 
-    
+
 
 
     //closes the memory mamnger

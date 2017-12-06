@@ -35,16 +35,16 @@ class ContactTest extends TestCase
     }
     public function testContactFirstNameOnBoundary()
     {
-        // Make First on boundary ( 150 characters )
-        $this->contact->setFirstName(str_repeat("a",150));
+        // Make First on boundary ( 100 characters )
+        $this->contact->setFirstName(str_repeat("a",100));
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 1 error
         $this->assertEquals(0, count($errors));
     }
     public function testContactFirstNameOverBoundary()
     {
-        // Make First Name Invalid ( 151 characters )
-        $this->contact->setFirstName(str_repeat("a",151));
+        // Make First Name Invalid ( 101 characters )
+        $this->contact->setFirstName(str_repeat("a",101));
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
@@ -64,8 +64,9 @@ class ContactTest extends TestCase
         // Make Company Name valid ( 100 characters )
         $this->contact->setCompanyName(str_repeat("a",100));
         $errors = $this->validator->validate($this->contact);
-        // Assert that there is 0 error
+        // Assert that there is 0 errors
         $this->assertEquals(0, count($errors));
+
     }
     public function testContactCampanyNameOverBoundary()
     {
@@ -157,7 +158,7 @@ class ContactTest extends TestCase
     public function testContactEmailAddressInvalidOnBoundary()
     {
         // Make contact invalid
-        $this->contact->setEmailAddress(str_repeat("a",100) . ".com");
+        $this->contact->setEmailAddress(str_repeat("a",94) . "@a.com");
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 0 error
         $this->assertEquals(0, count($errors));
@@ -242,7 +243,9 @@ class ContactTest extends TestCase
 
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 1 error
-        $this->assertEquals(1, count($errors));
+        $this->assertTrue("You must set the role of the contact and at least one other field" === $errors[0]->getMessage());
+        $this->assertEquals("Please select only choices in the 'Role' dropdown box", $errors[1]->getMessage());
+        $this->assertEquals(2, count($errors));
     }
 
 }

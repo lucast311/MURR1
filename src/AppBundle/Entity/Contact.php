@@ -30,7 +30,6 @@ class Contact
      *
      * @ORM\Column(name="firstName", type="string", length=100, nullable=true)
      *
-     * @Assert\NotBlank(message = "First name cannot be left blank")
      *
      * @Assert\Length(max=100 , maxMessage = "Length can't be more than 150 characters long.")
      */
@@ -41,7 +40,6 @@ class Contact
      *
      * @ORM\Column(name="lastName", type="string", length=100, nullable=true)
      *
-     * @Assert\NotBlank(message = "Last name cannot be left blank")
      *
      * @Assert\Length(max=100 , maxMessage = "Length can't be more than 100 characters long.")
      */

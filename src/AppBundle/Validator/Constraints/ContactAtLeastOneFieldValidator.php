@@ -16,12 +16,14 @@ class ContactAtLeastOneFieldValidator extends ConstraintValidator
 {
     public function validate($protocol, Constraint $contraint)
     {
-        if(empty($protocol->getRole) && empty($protocol->getFirstName())
-            || empty($protocol->getLastName())
-            || empty($protocol->getPrimaryPhone())
-            || empty($protocol->getSecondaryPhone())
-            || empty($protocol->getEmailAddress())
-            || empty($protocol->getFax()))
+        // If the role is empty and all other roles are empty
+        if(empty($protocol->getRole) &&
+            ( empty($protocol->getFirstName())
+            && empty($protocol->getLastName())
+            && empty($protocol->getPrimaryPhone())
+            && empty($protocol->getSecondaryPhone())
+            && empty($protocol->getEmailAddress())
+            && empty($protocol->getFax())) )
         {
             $this->context->buildViolation($contraint->getMessage())
                 ->atPath('AppBundle::Contact')
