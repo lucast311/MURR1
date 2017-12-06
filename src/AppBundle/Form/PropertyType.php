@@ -28,7 +28,7 @@ class PropertyType extends AbstractType
         $builder->add('siteId', IntegerType::class)
             ->add('propertyName', TextType::class, array('required'=>false))
             ->add('propertyType', ChoiceType::class, array('choices'=>Property::getTypes(), 'required'=>false, 'invalid_message' => 'Invalid property type'))
-            ->add('propertyStatus', ChoiceType::class, array('choices'=>array_merge( array('...' => "0"),Property::getStatuses()), 'invalid_message' => 'Invalid property status'))
+            ->add('propertyStatus', ChoiceType::class, array('choices'=>array_merge( array('...' => ""),Property::getStatuses()), 'invalid_message' => 'Invalid property status'))
             ->add('structureId', IntegerType::class, array('required'=>false))
             ->add('numUnits', IntegerType::class)
             ->add('neighbourhoodName', TextType::class)

@@ -213,7 +213,7 @@ class PropertyControllerTest extends WebTestCase
     {
         //Create a new property to ensure that there is one to edit in the database
         $property = new Property();
-        $property->setSiteId(1593843);
+        $property->setSiteId(1593844);
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
@@ -246,7 +246,7 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[siteId]'] = 1593843;
+        $form['property[siteId]'] = 1593844;
         //Change the property name to test if it is staying on the page
         $form['property[propertyName]'] = 'Charlton Armies';
         $form['property[propertyType]'] = 'Townhouse Condo';
