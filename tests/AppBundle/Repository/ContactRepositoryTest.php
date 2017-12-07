@@ -4,7 +4,9 @@ namespace Tests\AppBundle\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\Contact;
+use AppBundle\DataFixtures\ORM\LoadContactData;
 use AppBundle\Entity\Address;
+use AppBundle\Services\SearchNarrower;
 
 class ContactRepositoryTest extends KernelTestCase
 {
@@ -13,6 +15,17 @@ class ContactRepositoryTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+
+   /* public static function setUpBeforeClass()
+    {
+        $em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+
+        $contactLoader = new LoadContactData();
+        $contactLoader->load($em);
+    }
+    */
 
     /**
      * Just some setup stuff required by symfony for testing Repositories
@@ -25,6 +38,9 @@ class ContactRepositoryTest extends KernelTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        $contactLoader = new LoadContactData();
+        $contactLoader->load($this->em);
     }
 
     /**
@@ -38,7 +54,6 @@ class ContactRepositoryTest extends KernelTestCase
         $contact->setFirstName("AAAAAAAAAAAAAAAAAAAAA");
         $contact->setLastName("Jons");
         $contact->setEmailAddress("l@L.com");
-        $contact->setRole("Property Manager");
 
         // Have to create a new valid address too otherwise doctrine will fail
         $address = new Address();
@@ -72,9 +87,8 @@ class ContactRepositoryTest extends KernelTestCase
         // Create a new object
         $contact = new Contact();
         $contact->setFirstName("Bob");
-        $contact->setLastName("Jons");
+        $contact->setLastName("Jones");
         $contact->setEmailAddress("l@L.com");
-        $contact->setRole("Property Manager");
 
         // Have to create a new valid address too otherwise doctrine will fail
         $address = new Address();
@@ -84,7 +98,6 @@ class ContactRepositoryTest extends KernelTestCase
         $address->setProvince("Saskatchewan");
         $address->setCountry("Canada");
         $contact->setAddress($address);
-
 
         // Get the repository
         $repository = $this->em->getRepository(Contact::class);
@@ -121,9 +134,8 @@ class ContactRepositoryTest extends KernelTestCase
         // Create a new object
         $contact = new Contact();
         $contact->setFirstName("Bob");
-        $contact->setLastName("Jons");
+        $contact->setLastName("Jones");
         $contact->setEmailAddress("l@L.com");
-        $contact->setRole("Property Manager");
 
         // Have to create a new valid address too otherwise doctrine will fail
         $address = new Address();
@@ -143,8 +155,8 @@ class ContactRepositoryTest extends KernelTestCase
         //check the contact id is the same as the returned id
         $this->assertEquals($contact->getId(), $id);
     }
-
-    //9c contact test
+	
+	 //9c contact test
     public function testContactUpdate()
     {
         // Create a new object
@@ -195,7 +207,84 @@ class ContactRepositoryTest extends KernelTestCase
     }
 
 
+    /**
+     * test that Contact objects are returned by the search
+     */
+    public function testContactObjectsReturned()
+    {
+        // get a repository to search with
+        $repo = $this->em->getRepository(Contact::class);
 
+        // create an array with values to search with
+        $searches = array();
+        $searches[] = 'Bob';
+        $searches[] = 'Jones';
+
+        // query the database
+        $results = $repo->contactSearch($searches);
+
+        // query the database
+        //$results = $repo->contactSearch("Bob Jones");
+
+        // create a new ReflectionClass object, using the returned object at index 0
+        $resultReflection = new \ReflectionClass(get_class($results[0]));
+
+        // Assert that the name of the Reflection object is 'Contact'
+        $this->assertTrue($resultReflection->getShortName() == 'Contact');
+    }
+
+    /**
+     * test that the SearchNarrower actually reduces rthe number of results from the initial query
+     */
+    public function testSearchNarrowerFunctionality()
+    {
+        // create a new SearchNarrower to be used later
+        $searchNarrower = new SearchNarrower();
+
+        // get a repository to search with
+        $repo = $this->em->getRepository(Contact::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = 'Bob';
+        $cleanQuery[] = 'Jones';
+
+        // query the database
+        $results = $repo->contactSearch($cleanQuery);
+
+        //$results = $repo->contactSearch("Bob Jones");
+
+        //$cleanQuery = array();
+        //$cleanQuery[] = 'Bob';
+        //$cleanQuery[] = 'Jones';
+
+        // narrow the searches so we only return exactlly what we want
+        $narrowedSearches = $searchNarrower->narrowContacts($results, $cleanQuery);
+
+        // Assert that the size of the initial query is greater than the size of the narrowed query
+        $this->assertTrue(sizeof($narrowedSearches[0]) < sizeof($results));
+    }
+
+    /**
+     * test that the search will work when an Address is specified
+     */
+    public function testSearchOnAddress()
+    {
+        // create a new SearchNarrower to be used later
+        $repo = $this->em->getRepository(Contact::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = 'Saskatoon';
+
+        // query the database
+        $results = $repo->contactSearch($cleanQuery);
+
+        //$results = $repo->contactSearch("Saskatoon");
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(150, sizeof($results));
+    }
 
     //closes the memory mamnger
     /**
@@ -205,8 +294,12 @@ class ContactRepositoryTest extends KernelTestCase
     {
         parent::tearDown();
 
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Address");
+        $stmt->execute();
+
         $this->em->close();
         $this->em = null;//avoid memory meaks
     }
-
 }

@@ -17,11 +17,11 @@ class ContactTest extends TestCase
         $this->contact = new Contact();
         $this->contact->setFirstName("Ashton");
         $this->contact->setLastName("South");
+<<<<<<< HEAD
         $this->contact->setCompanyName("COSMO!");
         $this->contact->setRole("Property Manager");
         $this->contact->setprimaryPhone("306-345-8932");
         $this->contact->setEmailAddress("south@gmail.com");
-
         // Get a validator
         $this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
     }
@@ -33,6 +33,7 @@ class ContactTest extends TestCase
         // Assert that there are no errors
         $this->assertEquals(0, count($errors));
     }
+
     public function testContactFirstNameOnBoundary()
     {
         // Make First on boundary ( 100 characters )
@@ -86,14 +87,26 @@ class ContactTest extends TestCase
         $this->assertEquals(0, count($errors));
     }
 
-    public function testContactPrimaryPhoneInvalid()
+
+    public function testContactFirstNameMissing()
     {
         // Make contact invalid
-        $this->contact->setPrimaryPhone("6");
+        $this->contact->setFirstName("");
+        $errors = $this->validator->validate($this->contact);
+        // Assert that there is 1 error
+        $this->assertEquals(1, count($errors));
+
+    }
+    public function testContactLastNameMissing()
+    {
+        // Make contact invalid
+        $this->contact->setLastName("");
+
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
     }
+<<<<<<< HEAD
     public function testContactPrimaryPhoneInvalidTooLong()
     {
         // Make contact invalid
@@ -145,6 +158,7 @@ class ContactTest extends TestCase
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 0 error
         $this->assertEquals(0, count($errors));
+   
     }
 
     public function testContactEmailAddressInvalid()
@@ -170,10 +184,18 @@ class ContactTest extends TestCase
                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                                          aaaaaa@aaaa.com");
+
+    }
+
+    public function testContactSecondaryPhoneInvalid()
+    {
+        // Make contact invalid
+        $this->contact->setSecondaryPhone("6");
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
     }
+
     public function testContactEmailAddressvalid()
     {
         // Make contact valid
@@ -191,23 +213,8 @@ class ContactTest extends TestCase
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
     }
-    public function testContactFaxInvalidTooLong()
-    {
-        // Make contact invalid
-        $this->contact->setFax("306-457-89072");
-        $errors = $this->validator->validate($this->contact);
-        // Assert that there is 1 error
-        $this->assertEquals(1, count($errors));
-    }
+	
 
-    public function testContactFaxValid()
-    {
-        // Make contact valid
-        $this->contact->setFax("306-457-8907");
-        $errors = $this->validator->validate($this->contact);
-        // Assert that there is 0 error
-        $this->assertEquals(0, count($errors));
-    }
 
     public function testContactMultipleErrors()
     {
@@ -245,7 +252,14 @@ class ContactTest extends TestCase
         // Assert that there is 1 error
         $this->assertTrue("You must set the role of the contact and at least one other field" === $errors[0]->getMessage());
         $this->assertEquals("Please select only choices in the 'Role' dropdown box", $errors[1]->getMessage());
-        $this->assertEquals(2, count($errors));
+        $this->assertEquals(2, count($errors));   
+
+
+        $this->contact->setFirstName("");
+        $errors = $this->validator->validate($this->contact);
+        // Assert that there is 3 error
+        $this->assertEquals(3, count($errors));
+
     }
 
 }

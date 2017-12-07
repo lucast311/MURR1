@@ -348,3 +348,5 @@ class Communication
         return array ('N/A' => -1, 'Multi-Property' => -2, '123 Fake St.' => 1, '456 Fake St.' => 2);
     }
 }
+
+>>>>>>> master

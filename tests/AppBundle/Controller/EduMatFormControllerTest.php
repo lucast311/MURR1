@@ -460,53 +460,6 @@ class EduMatFormControllerTest extends WebTestCase
         $this->assertCount(2, $crawler->filter('li'));
     }
 
-    /**
-     * test that value entered into the dateCreated field was invalid if the user enters
-     *  a value that is set in the future
-     
-    public function testDateCreatedFutureDate()
-    {
-        // create a client
-        $client = static::createClient();
+    
 
-        // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'EduMatForm');
-
-        // select the button to press
-        $form = $crawler->selectButton('Add')->form();
-
-        // Populate form (Assume current date is 10/16/2017)
-        $form['form[dateCreated]'] = "2017-11-24";
-
-        // Submit the form to the crawler
-        $crawler = $client->submit($form);
-
-        // Test to see if our error message is on has appeared.
-        $this->assertContains("Please select either a current or past date.", $client->getResponse()->getContent());
-    } */
-
-    /**
-     * test that value entered into the dateFinished field was invalid if the user enters
-     *  a value that is set in the future
-     *
-    public function testDateFinishedFutureDate()
-    {
-        // create a client
-        $client = static::createClient();
-
-        // create a crawler that will act like a user (enter data, then submit)
-        $crawler = $client->request("GET",'EduMatForm');
-
-        // select the button to press
-        $form = $crawler->selectButton('Add')->form();
-
-        // Populate form (Assume current date is 10/16/2017)
-        $form['form[dateFinished]'] = "2017-11-24";
-
-        // Submit the form to the crawler
-        $crawler = $client->submit($form);
-
-        // Test to see if our error message is on has appeared.
-        $this->assertContains("Please select either a current or past date.", $client->getResponse()->getContent());
-    } */
 }

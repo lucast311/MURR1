@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Property{% endblock %}
+
+{% block body %}
+
+{% if errorType =="notfound" %}
+    <h2>The specified property could not be found</h2>
+{% elseif errorType=="noid" %}
+    <h2>No property specified</h2>
+{% else %}
+
+    {% form_theme form 'form_table_layout.html.twig'  %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <button onclick="window.location.href ='{{cancelPath}}'">Cancel</button>
+{% endif %}
+
+<style>
+    #property_Clear{
+        display:none;
+    }
+</style>
+
+
+{% endblock %}

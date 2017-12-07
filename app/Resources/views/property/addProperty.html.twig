@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Property{% endblock %}
+
+{% block body %}
+
+{% if showSuccess %}
+    <h2>Successfully added property</h2>
+{% endif %}
+
+{% form_theme form 'form_table_layout.html.twig'  %}
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+
+{% endblock %}

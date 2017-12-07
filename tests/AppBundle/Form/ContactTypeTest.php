@@ -55,3 +55,5 @@ class ContactTypeTest extends TypeTestCase
 
     }
 }
+
+

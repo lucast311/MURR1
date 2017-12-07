@@ -1,17 +1,19 @@
 <?php
-
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Contact;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Contact;
+use AppBundle\Entity\Address;
+use AppBundle\Form\ContactType;
+use AppBundle\Services\Cleaner;
+use AppBundle\Services\SearchNarrower;
+use AppBundle\Services\Changer;
 
 /**
- * Contact controller.
- *
- * @Route("contact")
+ * Controller that contains methods for anything having to do with a contact.
  */
 class ContactController extends Controller
 {
@@ -134,4 +136,83 @@ class ContactController extends Controller
             ->getForm()
         ;
     }
+	
+
+    /**
+     * Lists all contactSearch entities.
+     *
+     * @Route("/contact/search/{searchQuery}", name="contact_search")
+     * @Method("GET")
+     */
+    public function searchAction($searchQuery)
+    {
+        // if the string to query onn is less than or equal to 100 characters
+        if(strlen($searchQuery) <= 100)
+        {
+            // create a cleaner to cleanse the search query
+            $cleaner = new Cleaner();
+
+            // cleanse the query
+            $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
+
+            var_dump($cleanQuery);
+
+            // get an entity manager
+            $em = $this->getDoctrine()->getManager();
+
+            // Use the repository to query for the records we want.
+            // Store those records into an array.
+            $contactSearches = $em->getRepository(Contact::class)->contactSearch($cleanQuery);
+
+            // create a SearchNarrower to narrow down our searches
+            $searchNarrower = new SearchNarrower();
+
+            // narrow down our searches, and store their values along side their field values
+            $searchedData = $searchNarrower->narrowContacts($contactSearches, $cleanQuery);
+
+            // look in the array of narrowed searches/values for the first element (this will be the array of narrowed searches)
+            $narrowedResults = $searchedData[0];
+
+            // create a Changer to convert the narrowed searches to JSON format
+            $changer = new Changer();
+
+            // An open square bracket to denote the start of the JSON object string
+            $jsonEncodedSearches = "[";
+
+            // a counter to index into the array of narrowed results's data
+            $i = 0;
+
+            // foreach record in the array of narrowed results
+            foreach ($narrowedResults as $result)
+            {
+                // append the converted entity JSON string to the string we created above.
+                // the '$searchedData[1][$i]' is indexing into the current records field values
+                $jsonEncodedSearches .= $changer->ToJSON($result, $searchedData[1][$i]);
+
+                // increment our counter
+                $i++;
+            }
+
+            // chop off the last comma at the end of the JSON string
+            $jsonEncodedSearches = substr($jsonEncodedSearches,0,strlen($jsonEncodedSearches)-1);
+
+            // if the length of the JSON string is greater than 0
+            if(strlen($jsonEncodedSearches) > 0)
+            {
+                // close the square bracket (this is the end of the JSON object string)
+                $jsonEncodedSearches .= "]";
+
+                // render the page passing to it the records returned from the query, after being converted to JSON format.
+                return $this->render('contactsearch/contactJSONSearches.html.twig', array(
+                    'contactSearches' => $jsonEncodedSearches,
+                ));
+            }
+        }
+
+        // Display a blank JSON object, the system will interpret this as nothing being returned
+        return $this->render('contactsearch/contactJSONSearches.html.twig', array(
+                'contactSearches' => '[{"role":null}]',
+            ));
+    }
 }
+

@@ -19,7 +19,7 @@ class PropertyTypeTest extends TypeTestCase
         return array(new ValidatorExtension(Validation::createValidator()));
     }
 
-    /**
+       /**
      * Tests that the form class can be created and submit data
      */
     public function testSubmitData()

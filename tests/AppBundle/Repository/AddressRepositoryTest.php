@@ -29,7 +29,7 @@ class AddressRepositoryTest extends KernelTestCase
     /**
      * Tests the insert functionality of the repository. Makes sure that data actaully gets inserted into the database properly.
      */
-    public function testAddressInsert()
+    public function testInsert()
     {
         // Create a new object
         $address = new Address();
@@ -43,14 +43,14 @@ class AddressRepositoryTest extends KernelTestCase
         //get the repo for testing
         $repository = $this->em->getRepository(Address::class);
         //insert address into database
-        $id = $repository->save($address);
+        $id = $repository->insert($address);
         //assert the id is not null
         $this->assertNotNull($id);
         //check the contact id is the same as the returned id
         $this->assertEquals($address->getId(), $id);
     }
-
-    //9c address test
+	
+	//9c address test
     public function testAddressUpdate()
     {
         // Create a new object
@@ -90,5 +90,4 @@ class AddressRepositoryTest extends KernelTestCase
         $this->em->close();
         $this->em = null;//avoid memory meaks
     }
-
 }

@@ -56,11 +56,56 @@ class PropertyRepositoryTest extends KernelTestCase
         //Get the repository for testing
         $repository = $this->em->getRepository(Property::class);
         //Call insert on the repository and record the id of the new object
-        $id = $repository->insert($property);
+        $id = $repository->save($property);
         //Assert that the id was returned
         $this->assertNotNull($id);
         //check the contact id is the same as the returned id
         $this->assertEquals($property->getId(), $id);
+    }
+
+    /**
+     * This function will test the update functionality of the repository
+     * Story 4C User edits a property
+     */
+    public function testUpdate()
+    {
+        //Insert a property into the database
+        $property = new Property();
+        $property->setSiteId(1593844);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(54586);
+        $property->setNumUnits(5);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+
+        //get the repository
+        $repository = $this->em->getRepository(Property::class);
+        //Call insert on the repository and record the id of the new object
+
+        //insert
+        $id = $repository->save($property);
+
+        //Make a change to the property object
+        $property->setPropertyStatus('Inactive (Renovation)');
+
+        //Call the update function on the property
+        $repository->save($property);
+
+        //Get the supposedly updated property from the database
+        $dbProperty = $repository->findOneById($id);
+
+        //check if the updated property contains the edited field
+        $this->assertEquals('Inactive (Renovation)', $dbProperty->getPropertyStatus());
     }
 
 
