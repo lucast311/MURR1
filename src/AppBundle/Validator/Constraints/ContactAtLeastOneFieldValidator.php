@@ -26,7 +26,7 @@ class ContactAtLeastOneFieldValidator extends ConstraintValidator
             && empty($protocol->getFax())) )
         {
             $this->context->buildViolation($contraint->getMessage())
-                ->atPath('AppBundle::Contact')
+                ->atPath('AppBundle::contact')
                 ->addViolation();
         }
     }

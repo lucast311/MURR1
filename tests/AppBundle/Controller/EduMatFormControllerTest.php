@@ -463,7 +463,7 @@ class EduMatFormControllerTest extends WebTestCase
     /**
      * test that value entered into the dateCreated field was invalid if the user enters
      *  a value that is set in the future
-     */
+     
     public function testDateCreatedFutureDate()
     {
         // create a client
@@ -483,12 +483,12 @@ class EduMatFormControllerTest extends WebTestCase
 
         // Test to see if our error message is on has appeared.
         $this->assertContains("Please select either a current or past date.", $client->getResponse()->getContent());
-    }
+    } */
 
     /**
      * test that value entered into the dateFinished field was invalid if the user enters
      *  a value that is set in the future
-     */
+     *
     public function testDateFinishedFutureDate()
     {
         // create a client
@@ -508,5 +508,5 @@ class EduMatFormControllerTest extends WebTestCase
 
         // Test to see if our error message is on has appeared.
         $this->assertContains("Please select either a current or past date.", $client->getResponse()->getContent());
-    }
+    } */
 }

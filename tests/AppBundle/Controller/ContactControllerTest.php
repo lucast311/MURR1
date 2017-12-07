@@ -64,13 +64,13 @@ class ContactControllerTest extends WebTestCase
         //Create a client to go through the web page
         $client = static::createClient();
         //Request the contact edit page
-        $crawler = $client->request('GET','/contact/list/1/edit');
+        $crawler = $client->request('GET','/contact/');
         // Select the first button on the page that views the details for a contact
-        $link = $crawler->filter('a:contains("Edit")')->eq(0)->link();
+        $link = $crawler->filter('a[href="/contact/1/edit"]')->eq(0)->link();
         // Go there - should be viewing a specific contact after this
         $crawler = $client->click($link);
 
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Edit Contact")')->count());
+        $this->assertGreaterThan(0, $crawler->filter($("h1:contains(Contact Edit)")->count());
     }
 
     public function testEditSubmitRedirect()
