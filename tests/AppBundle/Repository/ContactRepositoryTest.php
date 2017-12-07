@@ -38,7 +38,7 @@ class ContactRepositoryTest extends KernelTestCase
         $contact->setFirstName("AAAAAAAAAAAAAAAAAAAAA");
         $contact->setLastName("Jons");
         $contact->setEmailAddress("l@L.com");
-        $contact->setRole("Property Manager"); 
+        $contact->setRole("Property Manager");
 
         // Have to create a new valid address too otherwise doctrine will fail
         $address = new Address();
@@ -74,7 +74,7 @@ class ContactRepositoryTest extends KernelTestCase
         $contact->setFirstName("Bob");
         $contact->setLastName("Jons");
         $contact->setEmailAddress("l@L.com");
-        $contact->setRole("Property Manager"); 
+        $contact->setRole("Property Manager");
 
         // Have to create a new valid address too otherwise doctrine will fail
         $address = new Address();
@@ -123,7 +123,7 @@ class ContactRepositoryTest extends KernelTestCase
         $contact->setFirstName("Bob");
         $contact->setLastName("Jons");
         $contact->setEmailAddress("l@L.com");
-        $contact->setRole("Property Manager"); 
+        $contact->setRole("Property Manager");
 
         // Have to create a new valid address too otherwise doctrine will fail
         $address = new Address();
@@ -167,19 +167,15 @@ class ContactRepositoryTest extends KernelTestCase
         //Get the repository for testing
         $repository = $this->em->getRepository(Contact::class);
         //Call insert on the repositor and record the id of the new object
-        $id = $repository->insert($contact);
+        $id = $repository->save($contact);
 
         //create replacement contact with same id
-        $replaceContact = new Contact();
-        $replaceContact->setFirstName("Phillip");
-        $replaceContact->setLastName("Jons");
-        $contact->setCompanyName("Bob's Pastries");
-        $replaceContact->setEmailAddress("l@L.com");
+        $contact->setFirstName("Phillip"); 
 
-        $replaceContact->setAddress($address);
+        $contact->setAddress($address);
 
         //call update and pass in the id
-        $repository->update($id, $replaceContact);
+        $repository->save($contact);
         /*
         $conn = $repository->getEntityManager()->getConnection();
         $sql = '
@@ -192,7 +188,7 @@ class ContactRepositoryTest extends KernelTestCase
         //assertTrue($testAddress->getStreetAddress === "12345 test street");
         assertTrue(sizeof($results) == 1);*/
 
-        
+
         $testContact = $repository->getOne($id);
 
         $this->assertTrue($testContact->getFirstName() === "Phillip");
