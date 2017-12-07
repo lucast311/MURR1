@@ -207,9 +207,9 @@ class Contact
     }
 
     /**
-     * Set role
+     * Set organization
      *
-     * @param string $role
+     * @param string $organization
      *
      * @return Contact
      */
@@ -221,7 +221,7 @@ class Contact
     }
 
     /**
-     * Get role
+     * Get organization
      *
      * @return string
      */

@@ -20,6 +20,7 @@ class ContactRepository extends EntityRepository
     {
         // get the entity manager
         $em = $this->getEntityManager();
+        $contact->setRole($contact->getRole()); 
         // persist the new contact in the database
         $em->persist($contact);
         // get the address out of the contact and persist it too
@@ -27,7 +28,6 @@ class ContactRepository extends EntityRepository
         // flush them to the database
         $em->flush();
         //Close the entity manager
-        $em->close();
         // return the id of the new contact in the database
         return $contact->getId();
     }
@@ -40,23 +40,25 @@ class ContactRepository extends EntityRepository
      * @param Contact $contact The contact to update in the database.
      * @return integer The id of the object in the database.
      */
-    public function update(int $id, Contact $contact)
+    public function update($id, Contact $contact)
     {
 
-        //$em = $this->getDoctrine()->getManager();
-        //$oldContact = $em->getRepository(Contact::class)->find($id);
+        $em = $this->getEntityManager();
+        $oldContact = $em->getRepository(Contact::class)->find($id);
 
-        //$oldContact->setFirstName($contact->getFirstName());
-        //$oldContact->setLastName($contact->getLastName());
-        //$oldContact->setOrganization($contact->getOrganization());
-        //$oldContact->setPrimaryPhone($contact->getPrimaryPhone());
-        //$oldContact->setPhoneExtention($contact->getPhoneExtension());
-        //$oldContact->setSecondaryPhone($contact->getSecondaryPhone());
-        //$oldContact->setEmailAddress($contact->getEmailAddress());
-        //$oldContact->setFax($contact->getFax());
+        $oldContact->setFirstName($contact->getFirstName());
+        $oldContact->setLastName($contact->getLastName());
+        $oldContact->setCompanyName($contact->getCompanyName());
+        $oldContact->setPrimaryPhone($contact->getPrimaryPhone());
+        $oldContact->setPhoneExtention($contact->getPhoneExtension());
+        $oldContact->setSecondaryPhone($contact->getSecondaryPhone());
+        $oldContact->setEmailAddress($contact->getEmailAddress());
+        $oldContact->setFax($contact->getFax());
+        $oldContact->setRole($contact->getRole());
+        $oldContact->setAddress($contact->getAddress()); 
+        $em->persist($oldContact); 
+        $em->flush();
 
-        //$old
-        //$em->flush();
     }
 
 

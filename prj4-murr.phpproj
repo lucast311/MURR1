@@ -80,7 +80,7 @@
     <Compile Include="src\AppBundle\Tests\Controller\ContactControllerTest.php" />
     <Compile Include="src\ContactController.php" />
     <Compile Include="src\AppBundle\Validator\Constraints\contactAtLeastOneField.php" />
-    <Compile Include="src\AppBundle\Validator\Constraints\ContactAtLeastOneFieldValidator.php" />
+    <Compile Include="src\AppBundle\Validator\Constraints\contactAtLeastOneFieldValidator.php" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\ContactControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\CSROOPsControllerTest.php" />

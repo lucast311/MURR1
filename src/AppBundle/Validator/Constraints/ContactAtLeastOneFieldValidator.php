@@ -24,9 +24,10 @@ class ContactAtLeastOneFieldValidator extends ConstraintValidator
             && empty($protocol->getSecondaryPhone())
             && empty($protocol->getEmailAddress())
             && empty($protocol->getFax())) )
-        {
+        {         
+            
             $this->context->buildViolation($contraint->getMessage())
-                ->atPath('AppBundle::contact')
+                ->atPath('AppBundle::Contact')
                 ->addViolation();
         }
     }

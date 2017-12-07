@@ -38,6 +38,7 @@ class ContactRepositoryTest extends KernelTestCase
         $contact->setFirstName("AAAAAAAAAAAAAAAAAAAAA");
         $contact->setLastName("Jons");
         $contact->setEmailAddress("l@L.com");
+        $contact->setRole("Property Manager"); 
 
         // Have to create a new valid address too otherwise doctrine will fail
         $address = new Address();
@@ -73,6 +74,7 @@ class ContactRepositoryTest extends KernelTestCase
         $contact->setFirstName("Bob");
         $contact->setLastName("Jons");
         $contact->setEmailAddress("l@L.com");
+        $contact->setRole("Property Manager"); 
 
         // Have to create a new valid address too otherwise doctrine will fail
         $address = new Address();
@@ -82,6 +84,7 @@ class ContactRepositoryTest extends KernelTestCase
         $address->setProvince("Saskatchewan");
         $address->setCountry("Canada");
         $contact->setAddress($address);
+
 
         // Get the repository
         $repository = $this->em->getRepository(Contact::class);
@@ -120,6 +123,7 @@ class ContactRepositoryTest extends KernelTestCase
         $contact->setFirstName("Bob");
         $contact->setLastName("Jons");
         $contact->setEmailAddress("l@L.com");
+        $contact->setRole("Property Manager"); 
 
         // Have to create a new valid address too otherwise doctrine will fail
         $address = new Address();
@@ -176,10 +180,22 @@ class ContactRepositoryTest extends KernelTestCase
 
         //call update and pass in the id
         $repository->update($id, $replaceContact);
+        /*
+        $conn = $repository->getEntityManager()->getConnection();
+        $sql = '
+               SELECT * FROM Contact
+                WHERE id = :id';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        $results = $stmt->fetchAll();
 
+        //assertTrue($testAddress->getStreetAddress === "12345 test street");
+        assertTrue(sizeof($results) == 1);*/
+
+        
         $testContact = $repository->getOne($id);
 
-        assertTrue($testContact->getFirstName === "Philip");
+        $this->assertTrue($testContact->getFirstName() === "Phillip");
     }
 
 

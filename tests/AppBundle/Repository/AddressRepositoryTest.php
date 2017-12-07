@@ -65,7 +65,7 @@ class AddressRepositoryTest extends KernelTestCase
         //get the repo for testing
         $repository = $this->em->getRepository(Address::class);
         //insert address into database
-        $id = $repository->insert($address);
+        $id = $repository->save($address);
         //assert the id is not null
 
         $replacementAddress = new Address();
@@ -75,11 +75,19 @@ class AddressRepositoryTest extends KernelTestCase
         $replacementAddress->setProvince("Saskatchewan");
         $replacementAddress->setCountry("Canada");
 
-        $repository->update($id, $replacementAddress); 
-        
-        $testAddress = $repository->getOne($id); 
+        $repository->save($replacementAddress);
 
-        assertTrue($testAddress->getStreetAddress === "12345 test street"); 
+        //$testAddress = $repository->getOne($id);
+        $conn = $repository->getEntityManager()->getConnection();
+        $sql = '
+               SELECT * FROM Address
+                WHERE id = :id';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        $results = $stmt->fetchAll();
+
+        //assertTrue($testAddress->getStreetAddress === "12345 test street");
+        assertTrue(sizeof($results) == 1);
     }
 
 

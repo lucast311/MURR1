@@ -89,7 +89,7 @@ class ContactController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('contact_index');
+            return $this->redirectToRoute('contact_show');
         }
 
         return $this->render('contact/edit.html.twig', array(
