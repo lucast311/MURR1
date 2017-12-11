@@ -280,6 +280,18 @@ class EduMat
     {
         return $this->operationType;
     }
-}
 
->>>>>>> master
+    /**
+     * Set operationType
+     *
+     * @param string $operationType
+     *
+     * @return EduMat
+     */
+    public function setOperationType($operationType)
+    {
+        $this->operationType = $operationType;
+
+        return $this;
+    }
+}

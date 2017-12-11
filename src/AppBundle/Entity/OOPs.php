@@ -321,6 +321,28 @@ class OOPs
         $this->imageFile = null;
     }
 
-}
 
->>>>>>> master
+    /**
+     * Set imagePath
+     *
+     * @param string $imagePath
+     *
+     * @return OOPs
+     */
+    public function setImagePath($imagePath)
+    {
+        $this->imagePath = $imagePath;
+
+        return $this;
+    }
+
+    /**
+     * Get imagePath
+     *
+     * @return string
+     */
+    public function getImagePath()
+    {
+        return $this->imagePath;
+    }
+}

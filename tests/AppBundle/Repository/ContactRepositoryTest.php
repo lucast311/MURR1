@@ -53,6 +53,7 @@ class ContactRepositoryTest extends KernelTestCase
         $contact = new Contact();
         $contact->setFirstName("AAAAAAAAAAAAAAAAAAAAA");
         $contact->setLastName("Jons");
+        $contact->setRole("Property Manager");
         $contact->setEmailAddress("l@L.com");
 
         // Have to create a new valid address too otherwise doctrine will fail
@@ -89,7 +90,7 @@ class ContactRepositoryTest extends KernelTestCase
         $contact->setFirstName("Bob");
         $contact->setLastName("Jones");
         $contact->setEmailAddress("l@L.com");
-
+        $contact->setRole("Property Manager");
         // Have to create a new valid address too otherwise doctrine will fail
         $address = new Address();
         $address->setStreetAddress("12 15th st east");
@@ -135,6 +136,7 @@ class ContactRepositoryTest extends KernelTestCase
         $contact = new Contact();
         $contact->setFirstName("Bob");
         $contact->setLastName("Jones");
+        $contact->setRole("Property Manager");
         $contact->setEmailAddress("l@L.com");
 
         // Have to create a new valid address too otherwise doctrine will fail
@@ -155,7 +157,7 @@ class ContactRepositoryTest extends KernelTestCase
         //check the contact id is the same as the returned id
         $this->assertEquals($contact->getId(), $id);
     }
-	
+
 	 //9c contact test
     public function testContactUpdate()
     {
@@ -182,7 +184,7 @@ class ContactRepositoryTest extends KernelTestCase
         $id = $repository->save($contact);
 
         //create replacement contact with same id
-        $contact->setFirstName("Phillip"); 
+        $contact->setFirstName("Phillip");
 
         $contact->setAddress($address);
 

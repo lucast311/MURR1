@@ -36,11 +36,13 @@ class LoadContactData implements FixtureInterface
             $contact = (new Contact())
                 ->setFirstName(uniqid()."Testy")
                 ->setLastName("McTest")
-                ->setOrganization("TestCorp LLC.")
+                ->setRole("Property Manager")
+                ->setCompanyName("TestCorp LLC.")
                 ->setPrimaryPhone("969-555-6969")
                 ->setPhoneExtention(696)
                 ->setEmailAddress("tmctest@testcorp.com")
                 ->setAddress($address);
+            
 
             // add the Contact to the database
             $obMan->persist($contact);
