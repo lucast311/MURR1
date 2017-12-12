@@ -126,13 +126,10 @@ class Contact
      */
     private $address;
 
-
-    //     * @Assert\Callback(methods={"checkCustomValidation"})
-    //public function checkCustomValidation(ExecutionContextInterface $context)
-    //{
-
-    //}
-
+    /**
+     * returns the options that a role can be 
+     * @return string[]
+     */
     public static function roleOptions()
     {
         return array('Property Manager' => 'Property Manager',
@@ -374,6 +371,11 @@ class Contact
         return $this->address;
     }
 
+    /**
+     * sets the company name
+     * @param mixed $companyName 
+     * @return Contact
+     */
     public function setCompanyName($companyName)
     {
         $this->companyName = $companyName;

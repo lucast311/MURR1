@@ -20,11 +20,19 @@ class contactAtLeastOneField extends Constraint
 {
     public $message = 'You must set the role of the contact and at least one other field'; 
 
+    /**
+     * Gets the message
+     * @return mixed
+     */
     public function getMessage()
     {
         return $this->message;
     }
 
+    /**
+     * the class that validates this
+     * @return string
+     */
     public function validatedBy()
     {
         return get_class($this).'Validator';

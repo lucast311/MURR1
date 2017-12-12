@@ -14,6 +14,12 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class ContactAtLeastOneFieldValidator extends ConstraintValidator
 {
+    /**
+     * Custom validator to ensure that a contact role and some other contact information 
+     * has been posted
+     * @param mixed $protocol - what called this validator 
+     * @param Constraint $contraint - the custom contraint 
+     */
     public function validate($protocol, Constraint $contraint)
     {
         // If the role is empty and all other roles are empty

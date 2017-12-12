@@ -9,7 +9,11 @@ use AppBundle\Entity\Contact;
  */
 class ContactRepository extends EntityRepository
 {
-
+    /**
+     * does the insert and update of contacts
+     * @param Contact $contact - the contact to add to the db 
+     * @return integer
+     */
     public function save(Contact $contact)
     {
         // get the entity manager

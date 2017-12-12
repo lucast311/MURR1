@@ -9,6 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use AppBundle\Entity\Contact;
 
+/**
+ * created by the CRUD
+ */
 class ContactType extends AbstractType
 {
     /**
