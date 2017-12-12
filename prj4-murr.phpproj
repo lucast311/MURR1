@@ -86,7 +86,7 @@
     <Compile Include="src\AppBundle\Services\SearchNarrower.php" />
     <Compile Include="src\AppBundle\Tests\Controller\ContactControllerTest.php" />
     <Compile Include="src\AppBundle\Tests\Controller\ContactSearchControllerTest.php" />
-    <Compile Include="src\AppBundle\Validator\Constraints\contactAtLeastOneField.php" />
+    <Compile Include="src\AppBundle\Validator\Constraints\ContactAtLeastOneField.php" />
     <Compile Include="src\AppBundle\Validator\Constraints\ContactAtLeastOneFieldValidator.php" />
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />

@@ -1,13 +1,5 @@
 <?php
-<<<<<<< HEAD
 
-namespace Tests\AppBundle\Controller;
-
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-class ContactControllerTest extends WebTestCase
-{
-=======
 namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -32,7 +24,7 @@ class ContactControllerTest extends WebTestCase
     }
 
 
->>>>>>> master
+
     /**
      * Story 9a
      * Tests the list action. Ensures that a table exists in the html with the right headers.
@@ -85,7 +77,7 @@ class ContactControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Country:")')->count());
     }
 
-<<<<<<< HEAD
+
     // story 9c tests
     public function testEditRedirect()
     {
@@ -116,7 +108,7 @@ class ContactControllerTest extends WebTestCase
     }
 }
 
-=======
+
     public function testAddActionSuccess()
     {
         //Create a client to go through the web page
@@ -344,7 +336,7 @@ class ContactControllerTest extends WebTestCase
 
 
 
-    /////////////////////////////////////////////////////
+
 
 
     /**
@@ -431,7 +423,7 @@ class ContactControllerTest extends WebTestCase
 
 
 
-    /////////////////////////////////////////////////////
+
 
 
     /**
@@ -450,4 +442,4 @@ class ContactControllerTest extends WebTestCase
         $this->em = null;//avoid memory meaks
     }
 }
->>>>>>> master
+

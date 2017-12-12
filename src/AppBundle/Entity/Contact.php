@@ -15,7 +15,7 @@ use AppBundle\Validator\Constraints as AcmeAssert;
  *
  * @ORM\Table(name="contact")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContactRepository")
- * @AcmeAssert\contactAtLeastOneField
+ * @AcmeAssert\ContactAtLeastOneField
  */
 class Contact
 {
@@ -34,7 +34,7 @@ class Contact
      * @ORM\Column(name="firstName", type="string", length=100, nullable=true)
      *
      *
-     * @Assert\Length(max=100 , maxMessage = "Length can't be more than 150 characters long.")
+     * @Assert\Length(max=100 , maxMessage = "Length can't be more than 100 characters long.")
      */
     private $firstName;
 
@@ -53,7 +53,7 @@ class Contact
      *
      * @ORM\Column(name="role", type="string", length=100, nullable=false)
      *
-     * @Assert\Choice(callback="getRoleOptions", message = "Please select only choices in the 'Role' dropdown box")
+     * @Assert\Choice(callback="roleOptions", message = "Please select only choices in the 'Role' dropdown box")
      */
     private $role;
 

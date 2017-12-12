@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraint;
  * 
  * @Annotation
  */
-class contactAtLeastOneField extends Constraint
+class ContactAtLeastOneField extends Constraint
 {
     public $message = 'You must set the role of the contact and at least one other field'; 
 
