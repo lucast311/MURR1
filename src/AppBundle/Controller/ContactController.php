@@ -20,7 +20,7 @@ class ContactController extends Controller
     /**
      * Lists all contact entities.
      *
-     * @Route("/", name="contact_index")
+     * @Route("/contact/", name="contact_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -37,7 +37,7 @@ class ContactController extends Controller
     /**
      * Creates a new contact entity.
      *
-     * @Route("/new", name="contact_new")
+     * @Route("/contact/new", name="contact_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -63,7 +63,7 @@ class ContactController extends Controller
     /**
      * Finds and displays a contact entity.
      *
-     * @Route("/{id}", name="contact_show")
+     * @Route("/contact/{id}", name="contact_show")
      * @Method("GET")
      */
     public function showAction(Contact $contact)
@@ -79,7 +79,7 @@ class ContactController extends Controller
     /**
      * Displays a form to edit an existing contact entity.
      *
-     * @Route("/{id}/edit", name="contact_edit")
+     * @Route("/contact/{id}/edit", name="contact_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Contact $contact)
@@ -104,7 +104,7 @@ class ContactController extends Controller
     /**
      * Deletes a contact entity.
      *
-     * @Route("/{id}", name="contact_delete")
+     * @Route("/contact/{id}", name="contact_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Contact $contact)
@@ -136,7 +136,7 @@ class ContactController extends Controller
             ->getForm()
         ;
     }
-	
+
 
     /**
      * Lists all contactSearch entities.
@@ -154,8 +154,6 @@ class ContactController extends Controller
 
             // cleanse the query
             $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
-
-            var_dump($cleanQuery);
 
             // get an entity manager
             $em = $this->getDoctrine()->getManager();

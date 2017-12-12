@@ -43,7 +43,7 @@ class AddressRepositoryTest extends KernelTestCase
         //get the repo for testing
         $repository = $this->em->getRepository(Address::class);
         //insert address into database
-        $id = $repository->insert($address);
+        $id = $repository->save($address);
         //assert the id is not null
         $this->assertNotNull($id);
         //check the contact id is the same as the returned id

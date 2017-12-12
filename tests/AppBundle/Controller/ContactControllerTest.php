@@ -129,7 +129,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = 'frank';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = 'murr123@gmail.com';
         $form['contact[fax]'] = '';
@@ -162,7 +162,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = 'frank';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = 'murr123@gmail.com';
         $form['contact[fax]'] = '';
@@ -194,7 +194,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = '';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = 'murr123@gmail.com';
         $form['contact[fax]'] = '';
@@ -226,7 +226,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = 'Frank';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = '';
         $form['contact[fax]'] = '';
@@ -258,7 +258,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = 'Frank';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = 'murr123@gmail.com';
         $form['contact[fax]'] = '';
@@ -291,7 +291,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = 'Frank';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = 'murr123@gmail.com';
         $form['contact[fax]'] = '';
@@ -324,7 +324,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = 'Frank';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = 'murr123@gmail.com';
         $form['contact[fax]'] = '';
@@ -369,7 +369,7 @@ class ContactControllerTest extends WebTestCase
         $repository->contactSearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{&quot;id&quot;:152,&quot;firstName&quot;:&quot;Jim&quot;,&quot;lastName&quot;:&quot;Jim&quot;,&quot;organization&quot;:null,&quot;primaryPhone&quot;:&quot;969-555-6969&quot;,&quot;phoneExtention&quot;:&quot;123&quot;,&quot;secondaryPhone&quot;:null,&quot;emailAddress&quot;:&quot;tmctest@testcorp.com&quot;,&quot;fax&quot;:null,&quot;address&quot;:152}]', $client->getResponse()->getContent());
+        $this->assertContains('[{&quot;id&quot;:152,&quot;firstName&quot;:&quot;Jim&quot;,&quot;lastName&quot;:&quot;Jim&quot;,&quot;organization&quot;:null,&quot;primaryPhone&quot;:&quot;969-555-6969&quot;,&quot;phoneExtension&quot;:&quot;123&quot;,&quot;secondaryPhone&quot;:null,&quot;emailAddress&quot;:&quot;tmctest@testcorp.com&quot;,&quot;fax&quot;:null,&quot;address&quot;:152}]', $client->getResponse()->getContent());
     }
 
     /**

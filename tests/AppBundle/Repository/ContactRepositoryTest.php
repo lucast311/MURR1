@@ -68,7 +68,7 @@ class ContactRepositoryTest extends KernelTestCase
         // Get the repository
         $repository = $this->em->getRepository(Contact::class);
         // Insert the contact
-        $repository->insert($contact);
+        $repository->save($contact);
 
         // query the database
         $contacts = $repository->getAll();
@@ -103,7 +103,7 @@ class ContactRepositoryTest extends KernelTestCase
         // Get the repository
         $repository = $this->em->getRepository(Contact::class);
         // Insert the contact and store the id
-        $id = $repository->insert($contact);
+        $id = $repository->save($contact);
 
         // query the database for the contact that was inserted
         $obtainedContact = $repository->getOne($id);
@@ -130,7 +130,7 @@ class ContactRepositoryTest extends KernelTestCase
     /**
      * Tests the insert functionality of the repository. Makes sure that data actaully gets inserted into the database properly
      */
-    public function testInsert()
+    public function testSave()
     {
         // Create a new object
         $contact = new Contact();
@@ -151,7 +151,7 @@ class ContactRepositoryTest extends KernelTestCase
         //Get the repository for testing
         $repository = $this->em->getRepository(Contact::class);
         //Call insert on the repositor and record the id of the new object
-        $id = $repository->insert($contact);
+        $id = $repository->save($contact);
         //Assert that the id was returned
         $this->assertNotNull($id);
         //check the contact id is the same as the returned id

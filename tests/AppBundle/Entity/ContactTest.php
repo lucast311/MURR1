@@ -142,19 +142,19 @@ class ContactTest extends TestCase
         $this->assertEquals(0, count($errors));
     }
 
-    public function testContactPhoneExtentionInvalid()
+    public function testContactPhoneExtensionInvalid()
     {
         // Make contact invalid
-        $this->contact->setPhoneExtention(6);
+        $this->contact->setPhoneExtension(6);
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
     }
 
-    public function testContactPhoneExtentionValid()
+    public function testContactPhoneExtensionValid()
     {
         // Make contact invalid
-        $this->contact->setPhoneExtention(6444);
+        $this->contact->setPhoneExtension(6444);
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 0 error
         $this->assertEquals(0, count($errors));

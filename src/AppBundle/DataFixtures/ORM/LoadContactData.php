@@ -39,10 +39,10 @@ class LoadContactData implements FixtureInterface
                 ->setRole("Property Manager")
                 ->setCompanyName("TestCorp LLC.")
                 ->setPrimaryPhone("969-555-6969")
-                ->setPhoneExtention(696)
+                ->setPhoneExtension(696)
                 ->setEmailAddress("tmctest@testcorp.com")
                 ->setAddress($address);
-            
+
 
             // add the Contact to the database
             $obMan->persist($contact);
@@ -67,8 +67,9 @@ class LoadContactData implements FixtureInterface
             $contact = (new Contact())
                 ->setFirstName("Bob")
                 ->setLastName("Jones")
+                ->setRole("Property Manager")
                 ->setPrimaryPhone("969-555-6969")
-                ->setPhoneExtention(123)
+                ->setPhoneExtension(123)
                 ->setEmailAddress("I@L.com")
                 ->setAddress($address);
 
@@ -91,10 +92,11 @@ class LoadContactData implements FixtureInterface
         $contact = (new Contact())
             ->setFirstName("Bob")
             ->setLastName("Frank")
-            ->setOrganization('Murr')
+            ->setRole("Property Manager")
+            ->setCompanyName('Murr')
             ->setsecondaryPhone("911-911-9111")
             ->setPrimaryPhone("306-921-3344")
-            ->setPhoneExtention(123)
+            ->setPhoneExtension(123)
             ->setEmailAddress("murr123@gmail.com");
 
         $obMan->persist($contact);
@@ -105,7 +107,8 @@ class LoadContactData implements FixtureInterface
             ->setFirstName("Jim")
             ->setLastName("Jim")
             ->setPrimaryPhone("969-555-6969")
-            ->setPhoneExtention(123)
+            ->setRole("Property Manager")
+            ->setPhoneExtension(123)
             ->setEmailAddress("tmctest@testcorp.com");
 
         $obMan->persist($contact);

@@ -16,7 +16,7 @@ class ContactTypeTest extends TypeTestCase
             'lastName' => 'Jone',
             'companyName' => 'MURR',
             'primaryPhone' => '3066659999',
-            'phoneExtention' => '9999',
+            'phoneExtension' => '9999',
             'secondaryPhone' => '5555555555',
             'emailAddress' => 'jimmy@jone.com',
             'fax' => '7894561232'

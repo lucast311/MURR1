@@ -17,8 +17,8 @@ class ContactType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('firstName')->add('lastName')
-            ->add('role', ChoiceType::class, array('choices' => Contact::getRoleOptions()))
-            ->add('companyName')->add('primaryPhone')->add('phoneExtention')->add('secondaryPhone')->add('emailAddress')->add('fax')->add('address');
+            ->add('role', ChoiceType::class, array('choices' => Contact::roleOptions()))
+            ->add('companyName')->add('primaryPhone')->add('phoneExtension')->add('secondaryPhone')->add('emailAddress')->add('fax')->add('address');
     }
 
     /**

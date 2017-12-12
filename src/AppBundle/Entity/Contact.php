@@ -80,11 +80,11 @@ class Contact
     /**
      * @var int
      *
-     * @ORM\Column(name="phoneExtention", type="string", nullable=true)
+     * @ORM\Column(name="phoneExtension", type="integer", nullable=true)
      *
-     * @Assert\Regex(pattern = "/^\d{4}$/", message = "Phone extention must be in the format of ####")
+     * @Assert\Regex(pattern = "/^\d{4}$/", message = "Phone Extension must be in the format of ####")
      */
-    private $phoneExtention;
+    private $phoneExtension;
 
     /**
      * @var string
@@ -133,7 +133,7 @@ class Contact
 
     //}
 
-    public static function getRoleOptions()
+    public static function roleOptions()
     {
         return array('Property Manager' => 'Property Manager',
                      'Property Manager Staff' => 'Property Manager Staff',
@@ -255,27 +255,27 @@ class Contact
     }
 
     /**
-     * Set phoneExtention
+     * Set phoneExtension
      *
-     * @param integer $phoneExtention
+     * @param integer $phoneExtension
      *
      * @return Contact
      */
-    public function setPhoneExtention($phoneExtention)
+    public function setPhoneExtension($phoneExtension)
     {
-        $this->phoneExtention = $phoneExtention;
+        $this->phoneExtension = $phoneExtension;
 
         return $this;
     }
 
     /**
-     * Get phoneExtention
+     * Get phoneExtension
      *
      * @return int
      */
     public function getPhoneExtension()
     {
-        return $this->phoneExtention;
+        return $this->phoneExtension;
     }
 
     /**
@@ -383,15 +383,5 @@ class Contact
     public function getCompanyName()
     {
         return $this->companyName;
-    }
-
-    /**
-     * Get phoneExtention
-     *
-     * @return string
-     */
-    public function getPhoneExtention()
-    {
-        return $this->phoneExtention;
     }
 }

@@ -49,7 +49,7 @@ class ContactRepository extends EntityRepository
         // Use the built in repository to find the specific contact by id
         return $this->getEntityManager()->getRepository(Contact::class)->findOneById($contactId);
     }
-	
+
 	/**
      * Search through the database and check if any records contain any of
      *  the passed in strings (array of strings) in any of their fields.
