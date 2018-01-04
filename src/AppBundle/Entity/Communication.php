@@ -8,7 +8,7 @@ use DateTime;
 /**
  * This class is responsible for modelling a communication between a user
  * and a contact
- * 
+ *
  * @ORM\Table(name="communication")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommunicationRepository")
  */
@@ -49,16 +49,25 @@ class Communication
      */
     private $medium;
 
-    /**
-     * @var int
-     * @ORM\Column(type="integer", nullable=true)
-     * @Assert\NotBlank(message="Please enter a contact")
-     * @Assert\Choice(callback="getContacts", message = "Please enter a contact")
-     */
-    private $contact;
+    ///**
+    // * @var int
+    // * @ORM\Column(type="integer", nullable=true)
+    // * @Assert\NotBlank(message="Please enter a contact")
+    // * @Assert\Choice(callback="getContacts", message = "Please enter a contact")
+    // */
+    //private $contact;
+
+    private $contactName;
+
+    private $contactEmail;
+
+    private $contactPhone;
 
     /**
-     * @var int
+     * @var Property
+     * 
+     * CHANGE ME FOR STORY 11b
+     * 
      * @ORM\Column(type="integer", nullable=true)
      * @Assert\NotBlank(message="Please select a property")
      * @Assert\Choice(callback="getProperties", message = "Please select a property")
@@ -183,34 +192,80 @@ class Communication
         return $this->medium;
     }
 
-    /**
-     * Set contact
-     *
-     * @param integer $contact
-     *
-     * @return Communication
-     */
-    public function setContact($contact)
-    {
-        $this->contact = $contact;
+    ///**
+    // * Set contact
+    // *
+    // * @param integer $contact
+    // *
+    // * @return Communication
+    // */
+    //public function setContact($contact)
+    //{
+    //    $this->contact = $contact;
 
-        return $this;
+    //    return $this;
+    //}
+
+    ///**
+    // * Get contact
+    // *
+    // * @return int
+    // */
+    //public function getContact()
+    //{
+    //    return $this->contact;
+    //}
+
+    /**
+     * Story 11b
+     * @param mixed $name
+     */
+    public function setContactName($name){
+
     }
 
     /**
-     * Get contact
-     *
-     * @return int
+     * Story 11b
      */
-    public function getContact()
-    {
-        return $this->contact;
+    public function getContactName(){
+
+    }
+
+    /**
+     * Story 11b
+     * @param mixed $email
+     */
+    public function setContactEmail($email){
+
+    }
+
+    /**
+     * Story 11b
+     */
+    public function getContactEmail(){
+
+    }
+
+    /**
+     * Story 11b
+     * @param mixed $phone
+     */
+    public function setContactPhone($phone){
+
+    }
+
+    /**
+     * Story 11b
+     * @param mixed $phone
+     */
+    public function getContactPhone(){
+
     }
 
     /**
      * Set property
      *
-     * @param integer $property
+     * @param Property $property
      *
      * @return Communication
      */

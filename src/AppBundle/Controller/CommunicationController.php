@@ -67,4 +67,13 @@ class CommunicationController extends Controller
     'added'=>$added]);
     }
 
+    /**
+     * Story 11b
+     *
+     * Summary of viewAction
+     * @param mixed $comId
+     */
+    public function viewAction($comId = null){
+
+    }
 }
