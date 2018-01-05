@@ -31,8 +31,9 @@ class CommunicationTypeTest extends TypeTestCase
           "date" => new DateTime("2017-10-05"),
           "type" => "phone",
           "medium" => "incoming",
-          "contact" => 1,
-          "property" => 1,
+          "contactName" => "John Smith",
+          "contactEmail" => "email@email.com",
+          "contactPhone" => "123-123-4567",
           "category" => "container",
           "description" => "Container has graffiti and needs to be cleaned. Action request made"
         );
@@ -58,10 +59,6 @@ class CommunicationTypeTest extends TypeTestCase
 
         $formResponse = $form->getData();
 
-        //For some reason within the unit tests it will not return the proper date,
-        //but the implementation does, and also there is another unit test
-        //whithin CommunicationControllerTest that proves this
-        $formResponse['date'] = new DateTime("2017-10-05");
 
         //make sure the form matches the objects data
         $this->assertEquals($formData, $formResponse);

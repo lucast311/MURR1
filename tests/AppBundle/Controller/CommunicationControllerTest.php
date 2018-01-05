@@ -4,6 +4,8 @@ namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Communication;
+use AppBundle\Entity\Property;
+use AppBundle\Entity\Address;
 //use Doctrine\Common\Persistence\ObjectRepository;
 
 class CommunicationControllerTest extends WebTestCase
@@ -17,12 +19,15 @@ class CommunicationControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add')->form();
 
         //set form values
-        $form['communication[date][year]'] = "2017";
-        $form['communication[date][month]'] = "10";
-        $form['communication[date][day]'] = "5";
+        //$form['communication[date][year]'] = "2017";
+        //$form['communication[date][month]'] = "10";
+        //$form['communication[date][day]'] = "5";
         $form['communication[type]']="phone";
         $form['communication[medium]']="incoming";
-        $form['communication[contact]']=1; //contact id
+        //$form['communication[contact]']=1; //contact id
+        $form['communication[contactName'] = "John Smith";
+        $form['communication[contactEmail'] = "email@email.com";
+        $form['communication[contactPhone'] = "123-123-4567";
         $form['communication[property]']=1; //property id
         $form['communication[category]']="container";
         $form["communication[description]"]="Container has graffiti and needs to be cleaned. Action request made";
@@ -41,68 +46,70 @@ class CommunicationControllerTest extends WebTestCase
         //$this->assertEmpty($form['communication[date][day]']->getValue());
         $this->assertEmpty($form['communication[type]']->getValue());
         $this->assertEmpty($form['communication[medium]']->getValue());
-        $this->assertEmpty($form['communication[contact]']->getValue());
+        $this->assertEmpty( $form['communication[contactName']->getValue());
+        $this->assertEmpty( $form['communication[contactEmail']->getValue());
+        $this->assertEmpty( $form['communication[contactPhone']->getValue());
         $this->assertEmpty($form['communication[property]']->getValue());
         $this->assertEmpty($form['communication[category]']->getValue());
         $this->assertEmpty($form['communication[description]']->getValue());
     }
 
-    public function testFutureDate()
-    {
+    //public function testFutureDate()
+    //{
 
-        $client = static::createClient();
+    //    $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication/new');
+    //    $crawler = $client->request('GET', '/communication/new');
 
-        $form = $crawler->selectButton('Add')->form();
+    //    $form = $crawler->selectButton('Add')->form();
 
-        //set form values
-        $form['communication[date][year]'] = "2019";
-        $form['communication[date][month]'] = "10";
-        $form['communication[date][day]'] = "5";
+    //    //set form values
+    //    $form['communication[date][year]'] = "2019";
+    //    $form['communication[date][month]'] = "10";
+    //    $form['communication[date][day]'] = "5";
 
-        $crawler = $client->submit($form);
+    //    $crawler = $client->submit($form);
 
-        $this->assertContains("Please select a current or past date",$client->getResponse()->getContent());
-    }
+    //    $this->assertContains("Please select a current or past date",$client->getResponse()->getContent());
+    //}
 
-    public function testEmptyDate()
-    {
-        $client = static::createClient();
+    //public function testEmptyDate()
+    //{
+    //    $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication/new');
+    //    $crawler = $client->request('GET', '/communication/new');
 
-        $form = $crawler->selectButton('Add')->form();
+    //    $form = $crawler->selectButton('Add')->form();
 
-        //set form values
-        //do not set date by removing the form fields
-        $form->remove('communication[date][year]');
-        $form->remove('communication[date][month]');
-        $form->remove('communication[date][day]');
+    //    //set form values
+    //    //do not set date by removing the form fields
+    //    $form->remove('communication[date][year]');
+    //    $form->remove('communication[date][month]');
+    //    $form->remove('communication[date][day]');
 
 
-        $crawler = $client->submit($form);
+    //    $crawler = $client->submit($form);
 
-        $this->assertContains("Please select a date",$client->getResponse()->getContent());
-    }
+    //    $this->assertContains("Please select a date",$client->getResponse()->getContent());
+    //}
 
-    public function testNonExistantDate()
-    {
-        $client = static::createClient();
+    //public function testNonExistantDate()
+    //{
+    //    $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication/new');
+    //    $crawler = $client->request('GET', '/communication/new');
 
-        $form = $crawler->selectButton('Add')->form();
+    //    $form = $crawler->selectButton('Add')->form();
 
-        //set form values
-        $form['communication[date][year]'] = "2017";
-        $form['communication[date][month]'] = "2";
-        $form['communication[date][day]'] = "30";
+    //    //set form values
+    //    $form['communication[date][year]'] = "2017";
+    //    $form['communication[date][month]'] = "2";
+    //    $form['communication[date][day]'] = "30";
 
-        $crawler = $client->submit($form);
+    //    $crawler = $client->submit($form);
 
-        $this->assertContains("Please select a valid date",$client->getResponse()->getContent());
-    }
+    //    $this->assertContains("Please select a valid date",$client->getResponse()->getContent());
+    //}
 
     public function testNoType()
     {
@@ -137,45 +144,45 @@ class CommunicationControllerTest extends WebTestCase
         $this->assertContains("Please select incoming or outgoing",$client->getResponse()->getContent());
     }
 
-    public function testBlankContact()
-    {
-        $client = static::createClient();
+    //public function testBlankContact()
+    //{
+    //    $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication/new');
+    //    $crawler = $client->request('GET', '/communication/new');
 
-        $form = $crawler->selectButton('Add')->form();
+    //    $form = $crawler->selectButton('Add')->form();
 
-        //set form values
-        $form['communication[contact]']=0; //blank contact ID
+    //    //set form values
+    //    $form['communication[contact]']=0; //blank contact ID
 
-        $crawler = $client->submit($form);
+    //    $crawler = $client->submit($form);
 
-        $this->assertContains("Please enter a contact",$client->getResponse()->getContent());
-    }
+    //    $this->assertContains("Please enter a contact",$client->getResponse()->getContent());
+    //}
 
-    public function testResidentContact()
-    {
-        $client = static::createClient();
+    //public function testResidentContact()
+    //{
+    //    $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication/new');
+    //    $crawler = $client->request('GET', '/communication/new');
 
-        $form = $crawler->selectButton('Add')->form();
+    //    $form = $crawler->selectButton('Add')->form();
 
-        //set form values
-        $form['communication[date][year]'] = "2017";
-        $form['communication[date][month]'] = "10";
-        $form['communication[date][day]'] = "5";
-        $form['communication[type]']="phone";
-        $form['communication[medium]']="incoming";
-        $form['communication[contact]']=-1; //identifier for a resident, will not be stored
-        $form['communication[property]']=1;
-        $form['communication[category]']="container";
-        $form["communication[description]"]="Container has graffiti and needs to be cleaned. Action request made";
+    //    //set form values
+    //    $form['communication[date][year]'] = "2017";
+    //    $form['communication[date][month]'] = "10";
+    //    $form['communication[date][day]'] = "5";
+    //    $form['communication[type]']="phone";
+    //    $form['communication[medium]']="incoming";
+    //    $form['communication[contact]']=-1; //identifier for a resident, will not be stored
+    //    $form['communication[property]']=1;
+    //    $form['communication[category]']="container";
+    //    $form["communication[description]"]="Container has graffiti and needs to be cleaned. Action request made";
 
-        $crawler = $client->submit($form);
+    //    $crawler = $client->submit($form);
 
-        $this->assertContains("Communication added successfully",$client->getResponse()->getContent());
-    }
+    //    $this->assertContains("Communication added successfully",$client->getResponse()->getContent());
+    //}
 
     public function testBlankProperty()
     {
@@ -252,22 +259,22 @@ class CommunicationControllerTest extends WebTestCase
         $this->assertContains("Please provide a brief description of the communication",$client->getResponse()->getContent());
     }
 
-    public function testShortDescription()
-    {
-        $client = static::createClient();
+    //public function testShortDescription()
+    //{
+    //    $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication/new');
+    //    $crawler = $client->request('GET', '/communication/new');
 
-        $form = $crawler->selectButton('Add')->form();
+    //    $form = $crawler->selectButton('Add')->form();
 
-        //set form values
-        $form['communication[description]']="Talked"; //description too short
+    //    //set form values
+    //    $form['communication[description]']="Talked"; //description too short
 
 
-        $crawler = $client->submit($form);
+    //    $crawler = $client->submit($form);
 
-        $this->assertContains("Please provide a description of 50 characters or more",$client->getResponse()->getContent());
-    }
+    //    $this->assertContains("Please provide a description of 50 characters or more",$client->getResponse()->getContent());
+    //}
 
     public function testLongDescription()
     {
@@ -279,11 +286,88 @@ class CommunicationControllerTest extends WebTestCase
 
 
         //set form values
-        $form['communication[description]']=str_repeat('a',2001);//generate a string that is too long
+        $form['communication[description]']=str_repeat('a',500);//generate a string that is too long
 
 
         $crawler = $client->submit($form);
 
-        $this->assertContains("Please keep the description under 2000 characters",$client->getResponse()->getContent());
+        $this->assertContains("Description must be 500 characters or less",$client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 11b
+     * Tests that you can view a communication entry with the proper information
+     */
+    public function testViewActionSuccess(){
+
+        //create a property for the communication
+        $property = new Property();
+        $property->setSiteId(1593843);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(54586);
+        $property->setNumUnits(5);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+
+        //create an address for the property
+        $address = new Address();
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E 1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+
+        //create a communication
+        $comm = new Communication();
+        $comm->setType("In Person");
+        $comm->setMedium("Incoming");
+        $comm->setContactName("John Smith");
+        $comm->setContactEmail("email@email.com");
+        $comm->setContactPhone("306-123-4567");
+        $comm->setProperty($property);
+        $comm->setCategory("Container");
+        $comm->setDescription("Bin will be moved to the eastern side of the building");
+
+        //create the client
+        $client = static::createClient();
+
+        //get the entity manager and make sure the communication exists
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $repo = $em->getRepository(Communication::class);
+
+        //insert the communication
+        $commId = $repo->insert($comm);
+
+        $crawler = $client->request("GET","/communication/view/$commId");
+
+        $response = $client->getResponse()->getContent();
+
+        //check that the page contains all the information from the object
+        $this->assertContains("In Person",$response);
+        $this->assertContains("Incoming",$response);
+        $this->assertContains("John Smith",$response);
+        $this->assertContains("email@email.com",$response);
+        $this->assertContains("306-715-0760",$response);
+        $this->assertContains("Container",$response);
+        $this->assertContains("Bin will be moved to the eastern side of the building",$response);
+        $this->assertContains("12 15th st east",$response);
+    }
+
+    /**
+     * Story 11b
+     * Tests that if an invalid ID is put in the request that it will fail
+     */
+    public function testViewBadId(){
+        //create a client to get to the page
+        $client = static::createClient();
+
+        //request the communication view page for a communication that does not exist
+        $crawler = $client->request("GET","communication/view/-5");
+
+        //assert that the correct error message appeared
+        $this->assertContains("The specified communication ID could not be found", $client->getResponse());
     }
 }

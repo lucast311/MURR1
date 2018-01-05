@@ -33,8 +33,5 @@ class CommunicationType extends AbstractType
             ->add('category', ChoiceType::class, array('label' => 'Category', 'choices' => array_merge( array('...' => '0'),Communication::getCategories()))) //add a category select box
             ->add('description', TextareaType::class, array('label' => 'Description')) //add a description text area
             ->add('add', SubmitType::class, array('label' => 'Add')); //add a submit button
-
-        
-
     }
 }
