@@ -297,68 +297,27 @@ class ContactControllerTest extends WebTestCase
 
 
 
-    /////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////
 
 
-    public function testSuccessfullyReceiveSearch()
+
+    // MOVED TESTS THAT USED TO BE HERE INTO ContactSearchAjax.php
+
+
+
+    /////////////////////////////////////////////////////////////////////
+
+
+    public function testSearchPageNotBroken()
     {
-        $repository = $this->em->getRepository(Contact::class);
-
+        // Create a client, and go to the search page for a contact
         $client = static::createClient();
 
-        $client->request('GET', '/contact/search/Jim');
+        // A crawler to check if the page contains a search field
+        $crawler = $client->request('GET', '/contact/search');
 
-        $queryStrings = array();
-        $queryStrings[] = 'Jim';
-
-        // query the database
-        $repository->contactSearch($queryStrings);
-
-        $this->assertContains('[{&quot;id&quot;:5,&quot;firstName&quot;:&quot;Jim&quot;,&quot;lastName&quot;:&quot;Jim&quot;,&quot;organization&quot;:null,&quot;primaryPhone&quot;:null,&quot;phoneExtention&quot;:null,&quot;secondaryPhone&quot;:null,&quot;emailAddress&quot;:null,&quot;fax&quot;:null,&quot;address&quot;:5}]', $client->getResponse()->getContent());
+        // Assert that the page contains both a Header, and a search field
+        $this->assertContains("Contact Search", $client->getResponse()->getContent());
+        $this->assertTrue($crawler->filter('input[type=search]')->first() != null);
     }
-
-    public function testQueryTooLong()
-    {
-        $repository = $this->em->getRepository(Contact::class);
-
-        $client = static::createClient();
-
-        $client->request('GET', '/contact/search/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones');
-
-        // query the database
-        $repository->contactSearch("Jim");
-
-        $this->assertContains('[{&quot;role&quot;:null}]', $client->getResponse()->getContent());
-    }
-
-    public function testChangerFunctionality()
-    {
-        $changer = new Changer();
-        $searchNarrower = new SearchNarrower();
-        $repository = $this->em->getRepository(Contact::class);
-
-        $client = static::createClient();
-
-        $client->request('GET', '/contact/search/Jim');
-
-        // query the database
-        $results = $repository->contactSearch("Jim");
-
-        $cleanQuery = array();
-        $cleanQuery[] = 'Bob';
-        $cleanQuery[] = 'Jones';
-
-        $narrowedSearches = $searchNarrower->narrowContacts($results, $cleanQuery);
-
-        $jsonFormat = $changer->ToJSON($results[0], $narrowedSearches[1][1]);
-
-        $this->assertTrue($results != $jsonFormat);
-    }
-
-
-
-    /////////////////////////////////////////////////////
-
-
-
 }

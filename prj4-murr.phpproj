@@ -58,6 +58,7 @@
     <Compile Include="app\AppKernel.php" />
     <Compile Include="bin\console" />
     <Compile Include="bin\symfony_requirements" />
+    <Compile Include="src\AppBundle\Ajax\ContactSearchAjax.php" />
     <Compile Include="src\AppBundle\Controller\CommunicationController.php" />
     <Compile Include="src\AppBundle\Controller\ContactController.php" />
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
@@ -84,9 +85,9 @@
     <Compile Include="src\AppBundle\Services\Cleaner.php" />
     <Compile Include="src\AppBundle\Services\SearchNarrower.php" />
     <Compile Include="src\ContactController.php" />
+    <Compile Include="tests\AppBundle\Ajax\ContactSearchAjaxTest.php" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\ContactControllerTest.php" />
-    <Compile Include="tests\AppBundle\Controller\ContactSearchControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\CSROOPsControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\EduMatFormControllerTest.php" />
     <Compile Include="tests\AppBundle\Entity\AddressTest.php" />
@@ -139,6 +140,7 @@
     <Folder Include="src\AppBundle\Entity" />
     <Folder Include="src\AppBundle\Form\Type" />
     <Folder Include="src\AppBundle\Form" />
+    <Folder Include="src\AppBundle\Ajax\" />
     <Folder Include="src\AppBundle\Repository" />
     <Folder Include="src\AppBundle" />
     <Folder Include="src" />
@@ -147,6 +149,7 @@
     <Folder Include="tests\AppBundle\Entity" />
     <Folder Include="tests\AppBundle\Form\Type" />
     <Folder Include="tests\AppBundle\Form" />
+    <Folder Include="tests\AppBundle\Ajax\" />
     <Folder Include="tests\AppBundle\Services\" />
     <Folder Include="tests\AppBundle\Repository" />
     <Folder Include="tests\AppBundle" />
