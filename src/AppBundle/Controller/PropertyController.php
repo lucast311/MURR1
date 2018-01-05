@@ -115,8 +115,21 @@ class PropertyController extends Controller
         $property = $em->getRepository(Property::class)->findOneById($propertyId);
 
         // Render the html and pass in the property
-        return $this->render('property/viewProperty.html.twig', array('property'=>$property, 
-            'propertyId'=>$propertyId, 
+        return $this->render('property/viewProperty.html.twig', array('property'=>$property,
+            'propertyId'=>$propertyId,
             'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId))));
+    }
+
+    /**
+     * Story 4d
+     * Lists all propertySearch entities.
+     * @param String $searchQuery
+     *
+     * @Route("/property/search/{searchQuery}", name="property_search")
+     * @Method("GET")
+     */
+    public function searchAction($searchQuery)
+    {
+        //CODESTUB
     }
 }
