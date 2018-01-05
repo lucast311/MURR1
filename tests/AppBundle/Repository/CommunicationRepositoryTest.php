@@ -27,22 +27,86 @@ class CommunicationRepositoryTest extends KernelTestCase
 
     public function testInsert()
     {
+        //create a property for the communication
+        $property = new Property();
+        $property->setSiteId(1593843);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(54586);
+        $property->setNumUnits(5);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+
+        //create an address for the property
+        $address = new Address();
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E 1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+
         //create a communication
-        $com = new Communication();
-        $com->setDate(new DateTime("2017-10-05"));
-        $com->setType("phone");
-        $com->setMedium("incoming");
-        $com->setContact(1);
-        $com->setProperty(1);
-        $com->setCategory("container");
-        $com->setDescription("Container has graffiti and needs to be cleaned. Action request made");
-        $com->setUser(1);
+        $comm = new Communication();
+        $comm->setType("In Person");
+        $comm->setMedium("Incoming");
+        $comm->setContactName("John Smith");
+        $comm->setContactEmail("email@email.com");
+        $comm->setContactPhone("306-123-4567");
+        $comm->setProperty($property);
+        $comm->setCategory("Container");
+        $comm->setDescription("Bin will be moved to the eastern side of the building");
 
         //add to database and return the ID
         $id = $this->em->getRepository(Communication::class)
-            ->insert($com);
+            ->insert($comm);
 
-        $this->assertEquals($id,$com->getId());
+        $this->assertEquals($id,$comm->getId());
+    }
+
+    public function testCurrentDateStored(){
+        //create a property for the communication
+        $property = new Property();
+        $property->setSiteId(1593843);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(54586);
+        $property->setNumUnits(5);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+
+        //create an address for the property
+        $address = new Address();
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E 1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+
+        //create a communication
+        $comm = new Communication();
+        $comm->setType("In Person");
+        $comm->setMedium("Incoming");
+        $comm->setContactName("John Smith");
+        $comm->setContactEmail("email@email.com");
+        $comm->setContactPhone("306-123-4567");
+        $comm->setProperty($property);
+        $comm->setCategory("Container");
+        $comm->setDescription("Bin will be moved to the eastern side of the building");
+
+
+        $repo = $this->em->getRepository(Communication::class);
+        $id = $repo->insert($comm);
+
+        $bbComm = $repo->findOneById($id);
+
+        $date = new DateTime('now');
+        $date->setTime(0,0,0);
+
+        $this->assertEquals(getDate($bbComm), $date);
     }
 
     /**

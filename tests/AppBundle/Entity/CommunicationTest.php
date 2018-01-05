@@ -51,8 +51,8 @@ class CommunicationTest extends TestCase
      */
     public function testContactNameValid()
     {
-        //Validate the Property
-        $errors = $this->validator->validate($this->property);
+        //Validate the communication
+        $errors = $this->validator->validate($this->comm);
         // Assert that there are no errors
         $this->assertEquals(0, count($errors));
     }
@@ -67,8 +67,8 @@ class CommunicationTest extends TestCase
         //make the contact 256 characters
         $this->comm->setContactName(str_repeat('a',256));
 
-        //Validate the Property
-        $errors = $this->validator->validate($this->property);
+        //Validate the communication
+        $errors = $this->validator->validate($this->comm);
         // Assert that there are errors
         $this->assertEquals(1, count($errors));
         $this->assertEquals('Contact name must be less than 255 characters',$errors[0]->getMessage());
@@ -84,8 +84,8 @@ class CommunicationTest extends TestCase
         //make the contact 255 characters
         $this->comm->setContactName(str_repeat('a',255));
 
-        //Validate the Property
-        $errors = $this->validator->validate($this->property);
+        //Validate the communication
+        $errors = $this->validator->validate($this->comm);
         // Assert that there are no errors
         $this->assertEquals(0, count($errors));
     }
@@ -100,8 +100,8 @@ class CommunicationTest extends TestCase
         //make the contact email 256 characters
         $this->comm->setContactEmail(str_repeat('a',256));
 
-        //Validate the Property
-        $errors = $this->validator->validate($this->property);
+        //Validate the communication
+        $errors = $this->validator->validate($this->comm);
         // Assert that there are errors
         $this->assertEquals(1, count($errors));
         $this->assertEquals('Contact email must be less than 255 characters',$errors[0]->getMessage());
@@ -117,8 +117,8 @@ class CommunicationTest extends TestCase
         //make the contact email 255 characters
         $this->comm->setContactEmail(str_repeat('a',255));
 
-        //Validate the Property
-        $errors = $this->validator->validate($this->property);
+        //Validate the communication
+        $errors = $this->validator->validate($this->comm);
         // Assert that there are no errors
         $this->assertEquals(0, count($errors));
     }
@@ -133,8 +133,8 @@ class CommunicationTest extends TestCase
         //make the contact phone invalid
         $this->comm->setContactPhone("123-123-123");
 
-        //Validate the Property
-        $errors = $this->validator->validate($this->property);
+        //Validate the communication
+        $errors = $this->validator->validate($this->comm);
         // Assert that there are errors
         $this->assertEquals(1, count($errors));
         $this->assertEquals('Contact phone number must be in the format of ###-###-####',$errors[0]->getMessage());
@@ -150,8 +150,53 @@ class CommunicationTest extends TestCase
         //make the contact email 255 characters
         $this->comm->setContactEmail(str_repeat('a',255));
 
-        //Validate the Property
-        $errors = $this->validator->validate($this->property);
+        //Validate the communication
+        $errors = $this->validator->validate($this->comm);
+        // Assert that there are no errors
+        $this->assertEquals(0, count($errors));
+    }
+
+    /**
+     * Story 11b
+     *
+     * Tests that the contact name can be blank
+     */
+    public function testNoContactName(){
+        //make contact name blank
+        $this->comm->setContactName(""); 
+
+        //Validate the communication
+        $errors = $this->validator->validate($this->comm);
+        // Assert that there are no errors
+        $this->assertEquals(0, count($errors));
+    }
+
+    /**
+     * Story 11b
+     *
+     * Tests that the contact email can be blank
+     */
+    public function testNoContactEmail(){
+        //make contact name blank
+        $this->comm->setContactEmail(""); 
+
+        //Validate the communication
+        $errors = $this->validator->validate($this->comm);
+        // Assert that there are no errors
+        $this->assertEquals(0, count($errors));
+    }
+
+    /**
+     * Story 11b
+     *
+     * Tests that the contact Phone can be blank
+     */
+    public function testNoContactPhone(){
+        //make contact name blank
+        $this->comm->setContactPhone(""); 
+
+        //Validate the communication
+        $errors = $this->validator->validate($this->comm);
         // Assert that there are no errors
         $this->assertEquals(0, count($errors));
     }

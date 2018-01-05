@@ -184,21 +184,21 @@ class CommunicationControllerTest extends WebTestCase
     //    $this->assertContains("Communication added successfully",$client->getResponse()->getContent());
     //}
 
-    public function testBlankProperty()
-    {
-        $client = static::createClient();
+    //public function testBlankProperty()
+    //{
+    //    $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication/new');
+    //    $crawler = $client->request('GET', '/communication/new');
 
-        $form = $crawler->selectButton('Add')->form();
+    //    $form = $crawler->selectButton('Add')->form();
 
-        //set form values
-        $form['communication[property]']=0; //blank property ID
+    //    //set form values
+    //    $form['communication[property]']=0; //blank property ID
 
-        $crawler = $client->submit($form);
+    //    $crawler = $client->submit($form);
 
-        $this->assertContains("Please select a property",$client->getResponse()->getContent());
-    }
+    //    $this->assertContains("Please select a property",$client->getResponse()->getContent());
+    //}
 
     public function testMultiOrNAProperty()
     {
@@ -294,6 +294,8 @@ class CommunicationControllerTest extends WebTestCase
         $this->assertContains("Description must be 500 characters or less",$client->getResponse()->getContent());
     }
 
+    
+
     /**
      * Story 11b
      * Tests that you can view a communication entry with the proper information
@@ -369,5 +371,20 @@ class CommunicationControllerTest extends WebTestCase
 
         //assert that the correct error message appeared
         $this->assertContains("The specified communication ID could not be found", $client->getResponse());
+    }
+
+    /**
+     * Story 11b
+     * Tests that if no ID is put in the request there will be an error message
+     */
+    public function testViewWOID(){
+        //create a client to get to the page
+        $client = static::createClient();
+
+        //request the communication view page for a communication that does not exist
+        $crawler = $client->request("GET","communication/view/-5");
+
+        //assert that the correct error message appeared
+        $this->assertContains("No commmuntication ID specified", $client->getResponse());
     }
 }
