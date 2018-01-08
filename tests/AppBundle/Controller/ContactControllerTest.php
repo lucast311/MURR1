@@ -1,10 +1,12 @@
 <?php
+
 namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Contact;
 use AppBundle\Services\Changer;
 use AppBundle\Services\SearchNarrower;
+use AppBundle\DataFixtures\ORM\LoadContactData;
 
 class ContactControllerTest extends WebTestCase
 {
@@ -16,7 +18,12 @@ class ContactControllerTest extends WebTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        $contactLoader = new LoadContactData();
+        $contactLoader->load($this->em);
     }
+
+
 
     /**
      * Story 9a
@@ -70,6 +77,38 @@ class ContactControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Country:")')->count());
     }
 
+
+    // story 9c tests
+    public function testEditRedirect()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+        //Request the contact edit page
+        $crawler = $client->request('GET','/contact/');
+        // Select the first button on the page that views the details for a contact
+        $link = $crawler->filter('a[href="/contact/1/edit"]')->eq(0)->link();
+        // Go there - should be viewing a specific contact after this
+        $crawler = $client->click($link);
+
+        $this->assertGreaterThan(0, $crawler->filter($("h1:contains(Contact Edit)")->count());
+    }
+
+    public function testEditSubmitRedirect()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+        //Request the contact edit page
+        $crawler = $client->request('GET','/contact/list/1/edit');
+        // Select the first button on the page that views the details for a contact
+        $link = $crawler->filter('a:contains("Edit")')->eq(0)->link();
+        // Go there - should be viewing a specific contact after this
+        $crawler = $client->click($link);
+
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("View contact")')->count());
+    }
+}
+
+
     public function testAddActionSuccess()
     {
         //Create a client to go through the web page
@@ -82,7 +121,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = 'frank';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = 'murr123@gmail.com';
         $form['contact[fax]'] = '';
@@ -115,7 +154,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = 'frank';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = 'murr123@gmail.com';
         $form['contact[fax]'] = '';
@@ -147,7 +186,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = '';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = 'murr123@gmail.com';
         $form['contact[fax]'] = '';
@@ -179,7 +218,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = 'Frank';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = '';
         $form['contact[fax]'] = '';
@@ -211,7 +250,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = 'Frank';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = 'murr123@gmail.com';
         $form['contact[fax]'] = '';
@@ -244,7 +283,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = 'Frank';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = 'murr123@gmail.com';
         $form['contact[fax]'] = '';
@@ -277,7 +316,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[lastName]'] = 'Frank';
         $form['contact[organization]'] = 'Murr';
         $form['contact[primaryPhone]'] = '306-921-3344';
-        $form['contact[phoneExtention]'] = '';
+        $form['contact[phoneExtension]'] = '';
         $form['contact[secondaryPhone]'] = '';
         $form['contact[emailAddress]'] = 'murr123@gmail.com';
         $form['contact[fax]'] = '';
@@ -297,27 +336,109 @@ class ContactControllerTest extends WebTestCase
 
 
 
-    /////////////////////////////////////////////////////////////////////
 
 
 
-    // MOVED TESTS THAT USED TO BE HERE INTO ContactSearchAjax.php
-
-
-
-    /////////////////////////////////////////////////////////////////////
-
-
-    public function testSearchPageNotBroken()
+    /**
+     * test that the query successfully returns records in JSON format
+     */
+    public function testSuccessfullyReceiveSearch()
     {
-        // Create a client, and go to the search page for a contact
+        // get a repository so we can query for data
+        $repository = $this->em->getRepository(Contact::class);
+
+        // create a client so we can view the page
         $client = static::createClient();
 
-        // A crawler to check if the page contains a search field
-        $crawler = $client->request('GET', '/contact/search');
+        // go to the page and search for 'Jim'
+        $client->request('GET', '/contact/search/Jim');
 
-        // Assert that the page contains both a Header, and a search field
-        $this->assertContains("Contact Search", $client->getResponse()->getContent());
-        $this->assertTrue($crawler->filter('input[type=search]')->first() != null);
+        // create an array so we can call the search
+        $queryStrings = array();
+        $queryStrings[] = 'Jim';
+
+        // query the database
+        $repository->contactSearch($queryStrings);
+
+        // assert that what we expect is actually returned
+        $this->assertContains('[{&quot;id&quot;:152,&quot;firstName&quot;:&quot;Jim&quot;,&quot;lastName&quot;:&quot;Jim&quot;,&quot;organization&quot;:null,&quot;primaryPhone&quot;:&quot;969-555-6969&quot;,&quot;phoneExtension&quot;:&quot;123&quot;,&quot;secondaryPhone&quot;:null,&quot;emailAddress&quot;:&quot;tmctest@testcorp.com&quot;,&quot;fax&quot;:null,&quot;address&quot;:152}]', $client->getResponse()->getContent());
+    }
+
+    /**
+     * test that the query to search on is too long
+     */
+    public function testQueryTooLong()
+    {
+        //// get a repository so we can query for data
+        //$repository = $this->em->getRepository(Contact::class);
+
+        // create a client so we can view the page
+        $client = static::createClient();
+
+        // go to the page and search for 'BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones'
+        $client->request('GET', '/contact/search/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones');
+
+        //// query the database
+        //$repository->contactSearch("Jim");
+
+        // assert that what we expect is actually returned
+        $this->assertContains('[{&quot;role&quot;:null}]', $client->getResponse()->getContent());
+    }
+
+    /**
+     * test that the Changer actually converts Entities into JSON string objects
+     */
+    public function testChangerFunctionality()
+    {
+        // create new Changer and SearchNarrower objects that will be used later
+        $changer = new Changer();
+        $searchNarrower = new SearchNarrower();
+
+        // get a repository so we can query for data
+        $repository = $this->em->getRepository(Contact::class);
+
+        // create a client so we can view the page
+        $client = static::createClient();
+
+        // go to the page and search for 'Jim'
+        $client->request('GET', '/contact/search/Jim');
+
+        // query the database
+        $results = $repository->contactSearch("Jim");
+
+        // create an array so we can narrow the records
+        $cleanQuery = array();
+        $cleanQuery[] = 'Bob';
+        $cleanQuery[] = 'Jones';
+
+        // narrow the results
+        $narrowedSearches = $searchNarrower->narrowContacts($results, $cleanQuery);
+
+        // convert to JSON string
+        $jsonFormat = $changer->ToJSON($results[0], $narrowedSearches[1][1]);
+
+        // Assert that the format that the search returns, is not the same as format returned by the Changer
+        $this->assertTrue($results != $jsonFormat);
+    }
+
+
+
+
+
+
+    /**
+     * (@inheritDoc)
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Address");
+        $stmt->execute();
+
+        $this->em->close();
+        $this->em = null;//avoid memory meaks
     }
 }
