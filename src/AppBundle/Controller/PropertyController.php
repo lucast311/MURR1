@@ -9,6 +9,10 @@ use AppBundle\Form\PropertyType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormError;
 use AppBundle\Repository\PropertyRepository;
+use AppBundle\Services\Cleaner;
+use AppBundle\Services\SearchNarrower;
+use AppBundle\Services\Changer;
+
 /**
  * Controller that contains methods for anything having to do with a property.
  */
@@ -120,6 +124,7 @@ class PropertyController extends Controller
             'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId))));
     }
 
+    
     /**
      * Story 4d
      * Lists all propertySearch entities.
@@ -127,9 +132,10 @@ class PropertyController extends Controller
      *
      * @Route("/property/search/{searchQuery}", name="property_search")
      * @Method("GET")
-     */
+     *//*
     public function searchAction($searchQuery)
     {
         //CODESTUB
     }
+    */
 }

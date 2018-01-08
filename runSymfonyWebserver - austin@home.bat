@@ -5,7 +5,7 @@ REM **************************************************
 REM Run this batch file in an existing symfony project folder
 REM **************************************************
 
-D:\PHP\v7.0\php bin\console server:run
+I:\PHP\v7.0\php bin\console server:run
 GOTO END
 REM *******************BETTER WAY**************************
 REM In Visual Studio

@@ -4,6 +4,10 @@ namespace Tests\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
+use AppBundle\Services\Changer;
+use AppBundle\Services\SearchNarrower;
+use AppBundle\DataFixtures\ORM\LoadPropertyData;
+
 
 class PropertyControllerTest extends WebTestCase
 {
@@ -179,7 +183,7 @@ class PropertyControllerTest extends WebTestCase
 
         //Submit the form
         $client->submit($form);
-        
+
         //$clientResponse = $crawler->filter("html:contains('View property')");
         //Make sure the form has the same values
         $clientResponse = $client->getResponse()->getContent();
@@ -407,6 +411,87 @@ class PropertyControllerTest extends WebTestCase
 
         // assert that the correct error message appeared
         $this->assertGreaterThan(0, $crawler->filter('html:contains("No property specified")')->count());
+    }
+
+
+
+    /**
+     * Story 4d
+     * test that the query successfully returns records in JSON format
+     */
+    public function testSuccessfullyReceiveSearch()
+    {
+        // get a repository so we can query for data
+        $repository = $this->em->getRepository(Property::class);
+
+        // create a client so we can view the page
+        $client = static::createClient();
+
+        // go to the page and search for 'Charlton'
+        $client->request('GET', '/property/search/Charlton');
+
+        // create an array so we can call the search
+        $queryStrings = array();
+        $queryStrings[] = 'Charlton';
+
+        // query the database
+        $repository->propertySearch($queryStrings);
+
+        // assert that what we expect is actually returned
+        $this->assertContains('TODO: FIGURE OUT HOW Charlton Arms WILL BE DISPLAYED IN JSON', $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 4d
+     * test that the query to search on is too long
+     */
+    public function testQueryTooLong()
+    {
+        // create a client so we can view the page
+        $client = static::createClient();
+
+        // go to the page and search for 'CharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArms'
+        $client->request('GET', '//search/CharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArms');
+
+        // assert that what we expect is actually returned
+        $this->assertContains('[{&quot;role&quot;:null}]', $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 4d
+     * test that the Changer actually converts Entities into JSON string objects
+     */
+    public function testChangerFunctionality()
+    {
+        // create new Changer and SearchNarrower objects that will be used later
+        $changer = new Changer();
+        $searchNarrower = new SearchNarrower();
+
+        // get a repository so we can query for data
+        $repository = $this->em->getRepository(Property::class);
+
+        // create a client so we can view the page
+        $client = static::createClient();
+
+        // go to the page and search for 'Charlton'
+        $client->request('GET', '/property/search/Charlton');
+
+        // query the database
+        $results = $repository->propertySearch("Charlton");
+
+        // create an array so we can narrow the records
+        $cleanQuery = array();
+        $cleanQuery[] = 'Charlton';
+        $cleanQuery[] = 'Arms';
+
+        // narrow the results
+        $narrowedSearches = $searchNarrower->narrowProperties($results, $cleanQuery);
+
+        // convert to JSON string
+        $jsonFormat = $changer->ToJSON($results[0], $narrowedSearches[1][1]);
+
+        // Assert that the format that the search returns, is not the same as format returned by the Changer
+        $this->assertTrue($results != $jsonFormat);
     }
 
     protected function tearDown()

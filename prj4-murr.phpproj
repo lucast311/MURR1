@@ -110,7 +110,6 @@
     <Compile Include="tests\AppBundle\Repository\AddressRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CommunicationRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\ContactRepositoryTest.php" />
-    <Compile Include="tests\AppBundle\Repository\ContactSearchRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CSROOPsRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\PropertyRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Services\ChangerTest.php" />
