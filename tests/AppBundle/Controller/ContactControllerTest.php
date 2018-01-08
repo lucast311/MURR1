@@ -421,8 +421,18 @@ class ContactControllerTest extends WebTestCase
         $this->assertTrue($results != $jsonFormat);
     }
 
+    public function testSearchPageNotBroken()
+    {
+        // Create a client, and go to the search page for a contact
+         $client = static::createClient();
 
+         // A crawler to check if the page contains a search field
+         $crawler = $client->request('GET', '/contact/search');
 
+         // Assert that the page contains both a Header, and a search field
+         $this->assertContains("Contact Search", $client->getResponse()->getContent());
+         $this->assertTrue($crawler->filter('input[type=search]')->first() != null);
+    }
 
 
 
