@@ -105,7 +105,7 @@ class ContactController extends Controller
      * @Route("/contact/search/{searchQuery}", name="contact_search")
      * @Method("GET")
      */
-    public function searchAction($searchQuery)
+    public function jsonSearchAction($searchQuery)
     {
         // if the string to query onn is less than or equal to 100 characters
         if(strlen($searchQuery) <= 100)
@@ -156,5 +156,11 @@ class ContactController extends Controller
         return $this->render('contactsearch/raw.html.twig', array(
                 'contactSearches' => '[{"role":null}]',
             ));
+    }
+
+
+    public function searchAction()
+    {
+        
     }
 }

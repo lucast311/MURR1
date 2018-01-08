@@ -154,9 +154,12 @@
     <Folder Include="uploads" />
     <Folder Include="web\bundles" />
     <Folder Include="web" />
+    <Folder Include="web\JavaScript\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\Resources\views\contactsearch\raw.html.twig" />
     <Content Include="app\Resources\views\contactsearch\show.html.twig" />
+    <Content Include="app\Resources\views\Contact\searchContact.html.twig" />
+    <Content Include="web\JavaScript\ContactSearch.js" />
   </ItemGroup>
 </Project>
