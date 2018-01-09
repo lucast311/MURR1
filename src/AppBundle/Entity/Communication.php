@@ -385,14 +385,14 @@ class Communication
         return array ('Container' => 'container', 'Collection' => 'collection', 'Misc.' => 'misc');
     }
 
-    /**
-     * This method will return the valid values for the Contacts field
-     * @return array
-     */
-    public static function getContacts()
-    {
-        return array ('Resident' => -1, 'Linda Smith' => 1, 'John Snow' => 2 );
-    }
+    ///**
+    // * This method will return the valid values for the Contacts field
+    // * @return array
+    // */
+    //public static function getContacts()
+    //{
+    //    return array ('Resident' => -1, 'Linda Smith' => 1, 'John Snow' => 2 );
+    //}
 
     /**
      * This method will return the valid values for the properties field

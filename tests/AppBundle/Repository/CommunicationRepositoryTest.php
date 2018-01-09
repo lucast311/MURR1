@@ -65,6 +65,10 @@ class CommunicationRepositoryTest extends KernelTestCase
         $this->assertEquals($id,$comm->getId());
     }
 
+    /**
+     * Story 11b
+     * Tests that the current date is being stored in the database
+     */
     public function testCurrentDateStored(){
         //create a property for the communication
         $property = new Property();

@@ -377,7 +377,7 @@ class CommunicationControllerTest extends WebTestCase
      * Story 11b
      * Tests that if no ID is put in the request there will be an error message
      */
-    public function testViewWOID(){
+    public function testViewNoID(){
         //create a client to get to the page
         $client = static::createClient();
 
