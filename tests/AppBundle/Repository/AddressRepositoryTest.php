@@ -43,11 +43,39 @@ class AddressRepositoryTest extends KernelTestCase
         //get the repo for testing
         $repository = $this->em->getRepository(Address::class);
         //insert address into database
-        $id = $repository->insert($address);
+        $id = $repository->save($address);
         //assert the id is not null
         $this->assertNotNull($id);
         //check the contact id is the same as the returned id
         $this->assertEquals($address->getId(), $id);
+    }
+	
+	//9c address test
+    public function testAddressUpdate()
+    {
+        // Create a new object
+        $address = new Address();
+
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+
+        //get the repo for testing
+        $repository = $this->em->getRepository(Address::class);
+        //insert address into database
+        $id = $repository->save($address);
+        //assert the id is not null
+
+        $address->setStreetAddress("12345 test street");
+
+        $repository->save($address);
+
+        $testAddress = $repository->getOne($address);
+        
+
+        $this->assertTrue($testAddress->getStreetAddress() === "12345 test street");
     }
 
 
@@ -62,5 +90,4 @@ class AddressRepositoryTest extends KernelTestCase
         $this->em->close();
         $this->em = null;//avoid memory meaks
     }
-
 }

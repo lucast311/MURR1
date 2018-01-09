@@ -34,7 +34,7 @@
         </tr>
         <tr>
             <td>Phone Extension:</td>
-            <td>{{contact.phoneExtention}}</td>
+            <td>{{contact.phoneExtension}}</td>
         </tr>
         <tr>
             <td>Email Address:</td>
@@ -70,5 +70,7 @@
 </div>
 
 <a href="{{path('contact_list')}}">Return</a>
+<a href="{{path('contact_Edit',{'contactId':contact.id}) }}">Edit</a>
+
 
 {% endblock %}

@@ -3,13 +3,19 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Validator\Constraints as AcmeAssert;
+
+//
+//
 
 /**
  * Contact
  *
  * @ORM\Table(name="contact")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContactRepository")
+ * @AcmeAssert\ContactAtLeastOneField
  */
 class Contact
 {
@@ -25,43 +31,48 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="firstName", type="string", length=50)
+     * @ORM\Column(name="firstName", type="string", length=100, nullable=true)
      *
-     * @Assert\NotBlank(message = "First name cannot be left blank")
      *
-     * @Assert\Length(max=50 , maxMessage = "Length can't be more than 50 characters long.")
+     * @Assert\Length(max=100 , maxMessage = "Length can't be more than 100 characters long.")
      */
     private $firstName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lastName", type="string", length=50)
+     * @ORM\Column(name="lastName", type="string", length=100, nullable=true)
      *
-     * @Assert\NotBlank(message = "Last name cannot be left blank")
      *
-     * @Assert\Length(max=50 , maxMessage = "Length can't be more than 50 characters long.")
+     * @Assert\Length(max=100 , maxMessage = "Length can't be more than 100 characters long.")
      */
     private $lastName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="organization", type="string", length=100, nullable=true)
+     * @ORM\Column(name="role", type="string", length=100, nullable=false)
      *
-     * @Assert\Length(max=100 , maxMessage = "Length can't be more than 100 characters long.")
+     * @Assert\Choice(callback="roleOptions", message = "Please select only choices in the 'Role' dropdown box")
      */
-    private $organization;
+    private $role;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="companyName", type="string", length=100, nullable=true)
+     *
+     * @Assert\Length(max=100 , maxMessage = "Company name can't be more than 100 characters long.")
+     */
+    private $companyName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="primaryPhone", type="string", length=12, nullable=true)
      *
-     * @Assert\NotBlank(message = "Primary phone cannot be left blank")
      *
      * @Assert\Regex(pattern = "/^\d{3}-\d{3}-\d{4}$/", message = "Phone number must be in the format of ###-###-####")
-     *
      *
      */
     private $primaryPhone;
@@ -69,11 +80,11 @@ class Contact
     /**
      * @var int
      *
-     * @ORM\Column(name="phoneExtention", type="integer", nullable=true)
+     * @ORM\Column(name="phoneExtension", type="integer", nullable=true)
      *
-     * @Assert\Regex(pattern = "/^\d{4}$/", message = "Phone extention must be in the format of ####")
+     * @Assert\Regex(pattern = "/^\d{4}$/", message = "Phone Extension must be in the format of ####")
      */
-    private $phoneExtention;
+    private $phoneExtension;
 
     /**
      * @var string
@@ -89,9 +100,7 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="emailAddress", type="string", length=100)
-     *
-     * @Assert\NotBlank(message = "Email address cannot be left blank")
+     * @ORM\Column(name="emailAddress", type="string", length=100, nullable=true)
      *
      * @Assert\Email(message = "Email must be in the format of 'Example@example.com'")
      */
@@ -114,9 +123,25 @@ class Contact
      * @ORM\JoinColumn(name="addressId", referencedColumnName="id")
      *
      * @Assert\Valid()
-     *
      */
     private $address;
+
+    /**
+     * returns the options that a role can be 
+     * @return string[]
+     */
+    public static function roleOptions()
+    {
+        return array('Property Manager' => 'Property Manager',
+                     'Property Manager Staff' => 'Property Manager Staff',
+                     'Onsite Staff' => 'Onsite Staff',
+                     'Owner' => 'Owner',
+                     'Landlord' => 'Landlord',
+                     'Condo President' => 'Condo President',
+                     'Condo Board Member' => 'Condo Board Member',
+                     'Mailing' => 'Mailing'
+            );
+    }
 
 
     /**
@@ -128,6 +153,7 @@ class Contact
     {
         return $this->id;
     }
+
 
     /**
      * Set firstName
@@ -178,27 +204,27 @@ class Contact
     }
 
     /**
-     * Set organization
+     * Set role
      *
-     * @param string $organization
+     * @param string $role
      *
      * @return Contact
      */
-    public function setOrganization($organization)
+    public function setRole($role)
     {
-        $this->organization = $organization;
+        $this->role = $role;
 
         return $this;
     }
 
     /**
-     * Get organization
+     * Get role
      *
      * @return string
      */
-    public function getOrganization()
+    public function getRole()
     {
-        return $this->organization;
+        return $this->role;
     }
 
     /**
@@ -226,27 +252,27 @@ class Contact
     }
 
     /**
-     * Set phoneExtention
+     * Set phoneExtension
      *
-     * @param integer $phoneExtention
+     * @param integer $phoneExtension
      *
      * @return Contact
      */
-    public function setPhoneExtention($phoneExtention)
+    public function setPhoneExtension($phoneExtension)
     {
-        $this->phoneExtention = $phoneExtention;
+        $this->phoneExtension = $phoneExtension;
 
         return $this;
     }
 
     /**
-     * Get phoneExtention
+     * Get phoneExtension
      *
      * @return int
      */
-    public function getPhoneExtention()
+    public function getPhoneExtension()
     {
-        return $this->phoneExtention;
+        return $this->phoneExtension;
     }
 
     /**
@@ -344,5 +370,20 @@ class Contact
     {
         return $this->address;
     }
-}
 
+    /**
+     * sets the company name
+     * @param mixed $companyName 
+     * @return Contact
+     */
+    public function setCompanyName($companyName)
+    {
+        $this->companyName = $companyName;
+        return $this;
+    }
+
+    public function getCompanyName()
+    {
+        return $this->companyName;
+    }
+}

@@ -33,15 +33,18 @@ class Address
      */
     private $streetAddress;
 
+
+
     /**
      * @var string
      *
      * @ORM\Column(name="postalCode", type="string", length=7)
      *
      * @Assert\NotBlank(message = "Postal code cannot be left blank")
-     *
-     * @Assert\Regex(pattern ="/[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ] [0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]/",
+     * @Assert\Regex(pattern ="/[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ] [0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]/", 
      * message = "A proper postal code must be entered in the form of L#L #L#")
+     *
+     *
      */
     private $postalCode;
 
@@ -70,11 +73,11 @@ class Address
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="string", length=100)
+     * @ORM\Column(name="country", type="string", length=40)
      *
      * @Assert\NotBlank(message = "Country cannot be left blank")
      *
-     * @Assert\Length(max=100 , maxMessage = "Length can't be more than 100 characters long.")
+     * @Assert\Length(max=40 , maxMessage = "Length can't be more than 100 characters long.")
      */
     private $country;
 
@@ -208,5 +211,9 @@ class Address
     {
         return $this->country;
     }
-}
 
+    public function __toString()
+    {
+        return $this->streetAddress;
+    }
+}

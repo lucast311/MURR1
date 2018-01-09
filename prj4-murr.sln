@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{A0786B88-2ADB-4C21-ABE8-AA2D79766269}") = "prj4-murr", "prj4-murr.phpproj", "{32713824-F964-41C2-AC6A-DDB668871CAB}"
+Project("{A0786B88-2ADB-4C21-ABE8-AA2D79766269}") = "prj4-murr", "prj4-murr.phpproj", "{76747655-A451-40A1-BEE5-3A459BED9A5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,8 +11,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{32713824-F964-41C2-AC6A-DDB668871CAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32713824-F964-41C2-AC6A-DDB668871CAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76747655-A451-40A1-BEE5-3A459BED9A5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76747655-A451-40A1-BEE5-3A459BED9A5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
