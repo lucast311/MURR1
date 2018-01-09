@@ -102,7 +102,7 @@ class ContactController extends Controller
     /**
      * Lists all contactSearch entities.
      *
-     * @Route("/contact/search/{searchQuery}", name="contact_search")
+     * @Route("/contact/jsonSearch/{searchQuery}", name="contact_jsonSearch")
      * @Method("GET")
      */
     public function jsonSearchAction($searchQuery)
