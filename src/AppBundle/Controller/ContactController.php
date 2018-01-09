@@ -158,9 +158,18 @@ class ContactController extends Controller
             ));
     }
 
-
+    /**
+     * story9i
+     * Front end for searching for a contact.
+     *
+     * @Route("/contact/search", name="contact_search")
+     * @Method("GET")
+     */
     public function searchAction()
     {
-        
+        // Render the twig with required data
+        return $this->render('Contact/searchContact.html.twig', array(
+            'jsonURL' => '/contact/jsonSearch'
+        ));
     }
 }

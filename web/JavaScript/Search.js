@@ -31,3 +31,5 @@ var onLoad = function () {
     // add an evnt handler to the search field
     $('#searchBox').change(viewModel.getResults);
 };
+
+$(onLoad);
