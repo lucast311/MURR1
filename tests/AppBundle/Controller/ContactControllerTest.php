@@ -90,7 +90,7 @@ class ContactControllerTest extends WebTestCase
         // Go there - should be viewing a specific contact after this
         $crawler = $client->click($link);
 
-        $this->assertGreaterThan(0, $crawler->filter($("h1:contains(Contact Edit)")->count());
+        $this->assertGreaterThan(0, $crawler->filter("h1:contains(Contact Edit)")->count());
     }
 
     public function testEditSubmitRedirect()
@@ -106,7 +106,7 @@ class ContactControllerTest extends WebTestCase
 
         $this->assertGreaterThan(0, $crawler->filter('html:contains("View contact")')->count());
     }
-}
+
 
 
     public function testAddActionSuccess()
