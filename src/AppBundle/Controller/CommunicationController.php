@@ -72,8 +72,22 @@ class CommunicationController extends Controller
      *
      * Summary of viewAction
      * @param mixed $comId
+     * @Route ("/communication/view/{comId}")
+     * @Route ("/communication/view/")
      */
     public function viewAction($comId = null){
+        // Get the entity manager
+        $em = $this->getDoctrine()->getManager();
+        // Get the specific Communication
+        $comm = $em->getRepository(Communication::class)->findOneById($comId);
+
+        $errorType = null;
+
+        if($comm == null) $errorType="notfound";
+        if($comId == null) $errorType="noid";
+
+        return $this->render('communication/viewComm.html.twig',
+            array('comm'=>$comm, 'errorType'=>$errorType));
 
     }
 }

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}View Communication{% endblock %}
+
+{% block body %}
+
+<h2>View Communication</h2>
+
+<div>
+    {% if errorType == "notfound"%}
+    <h2>The specified communication ID could not be found</h2>
+    {% elseif errorType == "noid" %}
+    <h2>No communication ID specified</h2>
+    {% else %}
+
+    <table>
+        <tr>
+            <td>Date:</td>
+            <td>{{comm.date}}</td>
+        </tr>
+        <tr>
+            <td>Type:</td>
+            <td>{{comm.type}}</td>
+        </tr>
+        <tr>
+            <td>Medium:</td>
+            <td>{{comm.medium}}</td>
+        </tr>
+        <tr>
+            <td>Contact Name:</td>
+            <td>{{comm.contactName}}</td>
+        </tr>
+        <tr>
+            <td>Contact Email:</td>
+            <td>{{comm.contactEmail}}</td>
+        </tr>
+        <tr>
+            <td>Contact Phone:</td>
+            <td>{{comm.contactPhone}}</td>
+        </tr>
+        <tr>
+            <td>Property:</td>
+            <td>{{comm.property.address.streetAddress}}</td>
+        </tr>
+        <tr>
+            <td>Category:</td>
+            <td>{{comm.category}}</td>
+        </tr>
+        <tr>
+            <td>Description:</td>
+            <td>{{comm.description}}</td>
+        </tr>
+    </table>
+
+    {% endif %}
+</div>
+
+{% endblock %}

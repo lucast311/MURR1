@@ -57,17 +57,36 @@ class Communication
     // */
     //private $contact;
 
+    /**
+     * Summary of $contactName
+     * @var mixed
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(max=255,
+     *                  maxMessage = "Contact name must be less than {{ limit }} characters")
+     */
     private $contactName;
-
+    /**
+     * Summary of $contactEmail
+     * @var mixed
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(max=255,
+     *                  maxMessage = "Contact email must be less than {{ limit }} characters")
+     * @Assert\Email(message = "Email must be in the format of 'Example@example.com'")
+     */
     private $contactEmail;
-
+    /**
+     * Summary of $contactPhone
+     * @var mixed
+     * @ORM\Column(type="string", length=12, nullable=true)
+     * @Assert\Regex(pattern = "/^\d{4}$/", message = "Phone Extension must be in the format of ####")
+     */
     private $contactPhone;
 
     /**
      * @var Property
-     * 
+     *
      * CHANGE ME FOR STORY 11b
-     * 
+     *
      * @ORM\Column(type="integer", nullable=true)
      * @Assert\NotBlank(message="Please select a property")
      * @Assert\Choice(callback="getProperties", message = "Please select a property")
@@ -221,14 +240,15 @@ class Communication
      * @param mixed $name
      */
     public function setContactName($name){
-
+        $this->contactName = $name;
+        return $this;
     }
 
     /**
      * Story 11b
      */
     public function getContactName(){
-
+        return $this->contactName;
     }
 
     /**
@@ -236,14 +256,15 @@ class Communication
      * @param mixed $email
      */
     public function setContactEmail($email){
-
+        $this->contactEmail = $email;
+        return $this;
     }
 
     /**
      * Story 11b
      */
     public function getContactEmail(){
-
+        return $this->contactEmail;
     }
 
     /**
@@ -251,7 +272,8 @@ class Communication
      * @param mixed $phone
      */
     public function setContactPhone($phone){
-
+        $this->contactPhone = $phone;
+        return $this;
     }
 
     /**
@@ -259,7 +281,7 @@ class Communication
      * @param mixed $phone
      */
     public function getContactPhone(){
-
+        return $this->contactPhone;
     }
 
     /**
