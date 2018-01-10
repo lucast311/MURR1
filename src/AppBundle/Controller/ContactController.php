@@ -19,6 +19,25 @@ use AppBundle\Services\Changer;
 class ContactController extends Controller
 {
     /**
+     * story9i
+     * Front end for searching for a contact.
+     *
+     * I have no clue why but DO NOT MOVE THIS TO THE BOTTOM OF THE FILE... if you
+     * do, the route breaks, I suspect it has something to do with the crud generated route
+     * for viewing a contact.
+     *
+     * @Route("/contact/search", name="contact_search")
+     * @Method("GET")
+     */
+    public function searchAction()
+    {
+        // Render the twig with required data
+        return $this->render('Contact/searchContact.html.twig', array(
+            'jsonURL' => '/contact/jsonsearch' // THIS SHOULD BE CHANGED TO BE DYNAMIC
+        ));
+    }
+
+    /**
      * Lists all contact entities.
      *
      * @Route("/contact/", name="contact_index")
@@ -202,31 +221,22 @@ class ContactController extends Controller
                 $jsonEncodedSearches .= "]";
 
                 // render the page passing to it the records returned from the query, after being converted to JSON format.
-                return $this->render('contactsearch/contactJSONSearches.html.twig', array(
+                $response =  $this->render('contactsearch/contactJSONSearches.html.twig', array(
                     'contactSearches' => $jsonEncodedSearches,
                 ));
+                // Set header to be json
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
             }
         }
 
         // Display a blank JSON object, the system will interpret this as nothing being returned
-        return $this->render('contactsearch/contactJSONSearches.html.twig', array(
+        $response = $this->render('contactsearch/contactJSONSearches.html.twig', array(
                 'contactSearches' => '[{"role":null}]',
             ));
-    }
-
-    /**
-     * story9i
-     * Front end for searching for a contact.
-     *
-     * @Route("/contact/search", name="contact_search")
-     * @Method("GET")
-     */
-    public function searchAction()
-    {
-        // Render the twig with required data
-        return $this->render('Contact/searchContact.html.twig', array(
-            'jsonURL' => '/contact/jsonSearch'
-        ));
+        // Set header to be json
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 }
 

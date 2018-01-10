@@ -11,25 +11,26 @@
         $.getJSON(page, function (jsonResults) {
             // Callback function
 
-            // Loop throup each result returned fromn the getJSON call
-            for (var i = 0; i < jsonResults.length; i++)
-            {
-                // push each result onto the observableArray
-                results.push(jsonResults[i]);
-            }
+            //// Loop throup each result returned fromn the getJSON call
+            //for (var i = 0; i < jsonResults.length; i++)
+            //{
+            //    // push each result onto the observableArray
+            //    results.push(jsonResults[i]);
+            //}
+            viewModel.results = ko.observableArray(jsonResults);
         });
     }
 };
 
 var onLoad = function () {
-    // get the results
-    viewModel.getResults();
+    // get the results - don't actaully off the bat or it will call the wrong url
+    //viewModel.getResults();
 
     // apply the bindings
     ko.applyBindings(viewModel);
 
-    // add an evnt handler to the search field
-    $('#searchBox').change(viewModel.getResults);
+    // add an event handler to the search field
+    $('#searchBox').keyup(viewModel.getResults);
 };
 
 $(onLoad);

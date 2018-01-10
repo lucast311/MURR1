@@ -350,7 +350,7 @@ class ContactControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'Jim'
-        $client->request('GET', '/contact/search/Jim');
+        $client->request('GET', '/contact/jsonsearch/Jim');
 
         // create an array so we can call the search
         $queryStrings = array();
@@ -375,7 +375,7 @@ class ContactControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones'
-        $client->request('GET', '/contact/search/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones');
+        $client->request('GET', '/contact/jsonsearch/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones');
 
         //// query the database
         //$repository->contactSearch("Jim");
@@ -400,7 +400,7 @@ class ContactControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'Jim'
-        $client->request('GET', '/contact/search/Jim');
+        $client->request('GET', '/contact/jsonsearch/Jim');
 
         // query the database
         $results = $repository->contactSearch("Jim");
