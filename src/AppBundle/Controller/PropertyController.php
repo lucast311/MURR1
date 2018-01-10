@@ -124,7 +124,6 @@ class PropertyController extends Controller
             'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId))));
     }
 
-    
     /**
      * Story 4d
      * Lists all propertySearch entities.
@@ -132,10 +131,11 @@ class PropertyController extends Controller
      *
      * @Route("/property/search/{searchQuery}", name="property_search")
      * @Method("GET")
-     *//*
+     */
+    /*
     public function searchAction($searchQuery)
     {
         //CODESTUB
     }
-    */
+     */
 }

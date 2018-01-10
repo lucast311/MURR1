@@ -37,5 +37,15 @@ class PropertyRepository extends EntityRepository
         return $property->getId();
     }
 
-
+    /** 
+     * Story 4d
+     * Search through the database and check if any records contain any of
+     *  the passed in strings (array of strings) in any of their fields.
+     * @param mixed $queryStrings an array of strings to query the database on
+     * @return array of searched entites returned from the queries
+     */
+    public function propertySearch($queryStrings)
+    {
+        
+    }
 }

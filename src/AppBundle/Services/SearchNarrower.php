@@ -133,4 +133,16 @@ class SearchNarrower
         // return the array of narrowed searches and the array of each searches object values
         return $allData;
     }
+
+    /**
+     * A method that will narrow down any passed in search results so we only
+     *  get back records that contain everything we wanted to find (only valid for Property searches).
+     * @param mixed $searchResults an array of all records initially returned from the query
+     * @param mixed $cleanQuery an array of each string we wanted to find
+     * @return array of narrowed search results
+     */
+    public function narrowProperties($searchResults, $cleanQuery)
+    {
+        return true;
+    }
 }
