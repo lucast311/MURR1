@@ -60,7 +60,7 @@ class CommunicationController extends Controller
 
     /**
      * Story 11b
-     *
+     * Controller responsible for viewing a communication
      * Summary of viewAction
      * @param mixed $comId
      * @Route ("/communication/view/{comId}")
@@ -72,11 +72,13 @@ class CommunicationController extends Controller
         // Get the specific Communication
         $comm = $em->getRepository(Communication::class)->findOneById($comId);
 
+        //variable that willl handle what type of error will be shown
         $errorType = null;
 
         if($comm == null) $errorType="notfound";
         if($comId == null) $errorType="noid";
 
+        //render the page
         return $this->render('communication/viewComm.html.twig',
             array('comm'=>$comm, 'errorType'=>$errorType));
 

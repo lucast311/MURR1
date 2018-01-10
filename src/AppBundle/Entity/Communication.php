@@ -45,7 +45,7 @@ class Communication
      * @var string
      * @ORM\Column(type="string", length=8)
      * @Assert\NotBlank(message="Please select incoming or outgoing")
-     * @Assert\Choice(callback="getMediums", message = "Please select incoming or outgoing")
+     * @Assert\Choice(callback="getMediums", message = "Please select a direction")
      */
     private $medium;
 
@@ -93,7 +93,7 @@ class Communication
     // */
 
     /**
-     * @ORM\ManyToOne(targetEntity="Property")
+     * @ORM\ManyToOne(targetEntity="Property", cascade={"persist"})
      * @ORM\JoinColumn(name="propertyId", referencedColumnName="id")
      * @var mixed
      */
@@ -112,7 +112,7 @@ class Communication
      * @ORM\Column(type="string", length=500)
      * @Assert\NotBlank(message="Please provide a brief description of the communication")
      * @Assert\Length(max = 500,
-     *                maxMessage = "Please keep the description under {{ limit }} characters")
+     *                maxMessage = "Description must be {{ limit }} characters or less")
      */
     private $description;
 

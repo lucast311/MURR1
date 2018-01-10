@@ -6,8 +6,9 @@ use PHPUnit\Framework\TestCase;
 use AppBundle\Entity\Communication;
 use AppBundle\Entity\Property;
 use DateTime;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class CommunicationTest extends TestCase
+class CommunicationTest extends KernelTestCase
 {
     private $comm;
     private $validator;

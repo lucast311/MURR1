@@ -4,6 +4,8 @@ namespace Tests\AppBundle\Repository;
 use AppBundle\Entity\Communication;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use DateTime;
+use AppBundle\Entity\Property;
+use AppBundle\Entity\Address;
 
 class CommunicationRepositoryTest extends KernelTestCase
 {

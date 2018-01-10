@@ -22,14 +22,14 @@ class CommunicationControllerTest extends WebTestCase
         //$form['communication[date][year]'] = "2017";
         //$form['communication[date][month]'] = "10";
         //$form['communication[date][day]'] = "5";
-        $form['communication[type]']="phone";
-        $form['communication[medium]']="incoming";
+        $form['communication[type]']="Phone";
+        $form['communication[medium]']="Incoming";
         //$form['communication[contact]']=1; //contact id
         $form['communication[contactName'] = "John Smith";
         $form['communication[contactEmail'] = "email@email.com";
         $form['communication[contactPhone'] = "123-123-4567";
         $form['communication[property]']=1; //property id
-        $form['communication[category]']="container";
+        $form['communication[category]']="Container";
         $form["communication[description]"]="Container has graffiti and needs to be cleaned. Action request made";
 
         $crawler = $client->submit($form);
@@ -141,7 +141,7 @@ class CommunicationControllerTest extends WebTestCase
 
         $crawler = $client->submit($form);
 
-        $this->assertContains("Please select incoming or outgoing",$client->getResponse()->getContent());
+        $this->assertContains("Please select a direction",$client->getResponse()->getContent());
     }
 
     //public function testBlankContact()
@@ -200,30 +200,30 @@ class CommunicationControllerTest extends WebTestCase
     //    $this->assertContains("Please select a property",$client->getResponse()->getContent());
     //}
 
-    public function testMultiOrNAProperty()
-    {
-        $client = static::createClient();
+    //public function testMultiOrNAProperty()
+    //{
+    //    $client = static::createClient();
 
-        $crawler = $client->request('GET', '/communication/new');
+    //    $crawler = $client->request('GET', '/communication/new');
 
-        $form = $crawler->selectButton('Add')->form();
+    //    $form = $crawler->selectButton('Add')->form();
 
-        //set form values
-        //set form values
-        $form['communication[date][year]'] = "2017";
-        $form['communication[date][month]'] = "10";
-        $form['communication[date][day]'] = "5";
-        $form['communication[type]']="phone";
-        $form['communication[medium]']="incoming";
-        $form['communication[contact]']=1; //contact id
-        $form['communication[property]']=-1; //multi-property or N/A property identifier
-        $form['communication[category]']="container";
-        $form["communication[description]"]="Container has graffiti and needs to be cleaned. Action request made";
+    //    //set form values
+    //    //set form values
+    //    $form['communication[date][year]'] = "2017";
+    //    $form['communication[date][month]'] = "10";
+    //    $form['communication[date][day]'] = "5";
+    //    $form['communication[type]']="Phone";
+    //    $form['communication[medium]']="Incoming";
+    //    $form['communication[contact]']=1; //contact id
+    //    $form['communication[property]']=-1; //multi-property or N/A property identifier
+    //    $form['communication[category]']="container";
+    //    $form["communication[description]"]="Container has graffiti and needs to be cleaned. Action request made";
 
-        $crawler = $client->submit($form);
+    //    $crawler = $client->submit($form);
 
-        $this->assertContains("Communication added successfully",$client->getResponse()->getContent());
-    }
+    //    $this->assertContains("Communication added successfully",$client->getResponse()->getContent());
+    //}
 
     public function testBlankCategory()
     {
@@ -294,7 +294,7 @@ class CommunicationControllerTest extends WebTestCase
         $this->assertContains("Description must be 500 characters or less",$client->getResponse()->getContent());
     }
 
-    
+
 
     /**
      * Story 11b
@@ -370,7 +370,7 @@ class CommunicationControllerTest extends WebTestCase
         $crawler = $client->request("GET","communication/view/-5");
 
         //assert that the correct error message appeared
-        $this->assertContains("The specified communication ID could not be found", $client->getResponse());
+        $this->assertContains("The specified communication ID could not be found", $client->getResponse()->getContent());
     }
 
     /**
@@ -385,6 +385,6 @@ class CommunicationControllerTest extends WebTestCase
         $crawler = $client->request("GET","communication/view/-5");
 
         //assert that the correct error message appeared
-        $this->assertContains("No commmuntication ID specified", $client->getResponse());
+        $this->assertContains("No commmuntication ID specified", $client->getResponse()->getContent());
     }
 }
