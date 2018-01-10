@@ -31,13 +31,13 @@ class CommunicationTest extends KernelTestCase
         $property->setNeighbourhoodId("O48");
 
         $this->comm = new Communication();
-        $this->comm->setType("phone");
-        $this->comm->setMedium("incoming");
+        $this->comm->setType("Phone");
+        $this->comm->setMedium("Incoming");
         $this->comm->setContactName("John Smith");
         $this->comm->setContactEmail("email@email.com");
         $this->comm->setContactPhone("306-123-4567");
         $this->comm->setProperty($property);
-        $this->comm->setCategory("container");
+        $this->comm->setCategory("Container");
         $this->comm->setDescription("Bin will be moved to the eastern side of the building");
 
         //$this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
@@ -99,7 +99,7 @@ class CommunicationTest extends KernelTestCase
     public function testContactEmailLengthBoundary()
     {
         //make the contact email 256 characters
-        $this->comm->setContactEmail(str_repeat('a',256));
+        $this->comm->setContactEmail('a@a.' . str_repeat('a',252));
 
         //Validate the communication
         $errors = $this->validator->validate($this->comm);
@@ -116,7 +116,7 @@ class CommunicationTest extends KernelTestCase
     public function testContactEmailLengthEdge()
     {
         //make the contact email 255 characters
-        $this->comm->setContactEmail(str_repeat('a',255));
+        $this->comm->setContactEmail('a@a.' . str_repeat('a',251));
 
         //Validate the communication
         $errors = $this->validator->validate($this->comm);
@@ -138,7 +138,7 @@ class CommunicationTest extends KernelTestCase
         $errors = $this->validator->validate($this->comm);
         // Assert that there are errors
         $this->assertEquals(1, count($errors));
-        $this->assertEquals('Contact phone number must be in the format of ###-###-####',$errors[0]->getMessage());
+        $this->assertEquals('Phone number must be in the format of ###-###-####',$errors[0]->getMessage());
     }
 
     /**
@@ -149,7 +149,7 @@ class CommunicationTest extends KernelTestCase
     public function testContactPhoneValid()
     {
         //make the contact email 255 characters
-        $this->comm->setContactEmail(str_repeat('a',255));
+        $this->comm->setContactPhone("123-123-1234");
 
         //Validate the communication
         $errors = $this->validator->validate($this->comm);
@@ -164,7 +164,7 @@ class CommunicationTest extends KernelTestCase
      */
     public function testNoContactName(){
         //make contact name blank
-        $this->comm->setContactName(""); 
+        $this->comm->setContactName("");
 
         //Validate the communication
         $errors = $this->validator->validate($this->comm);
@@ -179,7 +179,7 @@ class CommunicationTest extends KernelTestCase
      */
     public function testNoContactEmail(){
         //make contact name blank
-        $this->comm->setContactEmail(""); 
+        $this->comm->setContactEmail("");
 
         //Validate the communication
         $errors = $this->validator->validate($this->comm);
@@ -194,7 +194,7 @@ class CommunicationTest extends KernelTestCase
      */
     public function testNoContactPhone(){
         //make contact name blank
-        $this->comm->setContactPhone(""); 
+        $this->comm->setContactPhone("");
 
         //Validate the communication
         $errors = $this->validator->validate($this->comm);

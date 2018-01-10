@@ -108,7 +108,7 @@ class Property
     /**
      * @var Address
      *
-     * @ORM\ManyToOne(targetEntity="Address")
+     * @ORM\ManyToOne(targetEntity="Address",cascade={"persist"})
      * @ORM\JoinColumn(name="addressId", referencedColumnName="id")
      *
      * @Assert\Valid()

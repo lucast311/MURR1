@@ -39,7 +39,7 @@ class CommunicationController extends Controller
             $form = $this->createForm(CommunicationType::class, new Communication());
 
             //PLEASE RETURN TO ME WHEN USERS ARE IMPLEMENTED
-            $communication->setUser(1); //set the user ID
+            //$communication->setUser(1); //set the user ID
 
 
             //get the doctrine repository

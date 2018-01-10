@@ -44,7 +44,7 @@ class Communication
     /**
      * @var string
      * @ORM\Column(type="string", length=8)
-     * @Assert\NotBlank(message="Please select incoming or outgoing")
+     * @Assert\NotBlank(message="Please select a direction")
      * @Assert\Choice(callback="getMediums", message = "Please select a direction")
      */
     private $medium;
@@ -116,11 +116,11 @@ class Communication
      */
     private $description;
 
-    /**
-     * @var int
-     * @ORM\Column(type="integer")
-     */
-    private $user;
+    ///**
+    // * @var int
+    // * @ORM\Column(type="integer")
+    // */
+    //private $user;
 
     /**
      * Default constructor for a Communication object. This will just set the value of date to be today by default
@@ -358,29 +358,29 @@ class Communication
         return $this->description;
     }
 
-    /**
-     * Set user
-     *
-     * @param int $description
-     *
-     * @return Communication
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
+    ///**
+    // * Set user
+    // *
+    // * @param int $description
+    // *
+    // * @return Communication
+    // */
+    //public function setUser($user)
+    //{
+    //    $this->user = $user;
 
-        return $this;
-    }
+    //    return $this;
+    //}
 
-    /**
-     * Get user
-     *
-     * @return int
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
+    ///**
+    // * Get user
+    // *
+    // * @return int
+    // */
+    //public function getUser()
+    //{
+    //    return $this->user;
+    //}
 
     /**
      * This method will return the valid values for the medium field

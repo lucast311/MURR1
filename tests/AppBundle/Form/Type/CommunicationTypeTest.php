@@ -23,19 +23,21 @@ class CommunicationTypeTest extends TypeTestCase
 
     public function testSubmitValidData()
     {
+        //create a date to be applied to the data
+        $date = new DateTime('now');
+        $date->setTime(0,0,0);
+
         //form test
         $formData = array(
-          //"date[year]" => 2012, //TODO: COME BACK TO ME
-          //"date[month]" => 10, //TODO: COME BACK TO ME
-          //"date[day]" => 5, //TODO: COME BACK TO ME
-          "date" => new DateTime("2017-10-05"),
-          "type" => "phone",
-          "medium" => "incoming",
+          "date" => $date,
+          "type" => "Phone",
+          "medium" => "Incoming",
           "contactName" => "John Smith",
           "contactEmail" => "email@email.com",
           "contactPhone" => "123-123-4567",
-          "category" => "container",
-          "description" => "Container has graffiti and needs to be cleaned. Action request made"
+          "category" => "Container",
+          "description" => "Container has graffiti and needs to be cleaned. Action request made",
+          "property"=>null
         );
 
         //creates a form

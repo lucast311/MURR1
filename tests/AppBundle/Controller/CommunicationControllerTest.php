@@ -25,10 +25,10 @@ class CommunicationControllerTest extends WebTestCase
         $form['communication[type]']="Phone";
         $form['communication[medium]']="Incoming";
         //$form['communication[contact]']=1; //contact id
-        $form['communication[contactName'] = "John Smith";
-        $form['communication[contactEmail'] = "email@email.com";
-        $form['communication[contactPhone'] = "123-123-4567";
-        $form['communication[property]']=1; //property id
+        $form['communication[contactName]'] = "John Smith";
+        $form['communication[contactEmail]'] = "email@email.com";
+        $form['communication[contactPhone]'] = "123-123-4567";
+        //$form['communication[property]']=1; //property id
         $form['communication[category]']="Container";
         $form["communication[description]"]="Container has graffiti and needs to be cleaned. Action request made";
 
@@ -286,7 +286,7 @@ class CommunicationControllerTest extends WebTestCase
 
 
         //set form values
-        $form['communication[description]']=str_repeat('a',500);//generate a string that is too long
+        $form['communication[description]']=str_repeat('a',501);//generate a string that is too long
 
 
         $crawler = $client->submit($form);
@@ -382,9 +382,9 @@ class CommunicationControllerTest extends WebTestCase
         $client = static::createClient();
 
         //request the communication view page for a communication that does not exist
-        $crawler = $client->request("GET","communication/view/-5");
+        $crawler = $client->request("GET","communication/view/");
 
         //assert that the correct error message appeared
-        $this->assertContains("No commmuntication ID specified", $client->getResponse()->getContent());
+        $this->assertContains("No communication ID specified", $client->getResponse()->getContent());
     }
 }
