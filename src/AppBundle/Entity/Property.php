@@ -358,6 +358,10 @@ class Property
 
     public function setBuildings($buildings){}
 
+    public function __toString(){
+        return $this->address->__toString();
+    }
+
     /**
      * Returns an array of valid choices for the property status.
      * @return string[]

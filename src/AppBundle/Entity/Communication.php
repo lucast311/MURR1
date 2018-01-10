@@ -78,18 +78,24 @@ class Communication
      * Summary of $contactPhone
      * @var mixed
      * @ORM\Column(type="string", length=12, nullable=true)
-     * @Assert\Regex(pattern = "/^\d{4}$/", message = "Phone Extension must be in the format of ####")
+     * @Assert\Regex(pattern = "/^\d{3}-\d{3}-\d{4}$/", message = "Phone number must be in the format of ###-###-####")
      */
     private $contactPhone;
 
+    ///**
+    // * @var Property
+    // *
+    // * CHANGE ME FOR STORY 11b
+    // *
+    // * @ORM\Column(type="integer", nullable=true)
+    // * @Assert\NotBlank(message="Please select a property")
+    // * @Assert\Choice(callback="getProperties", message = "Please select a property")
+    // */
+
     /**
-     * @var Property
-     *
-     * CHANGE ME FOR STORY 11b
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     * @Assert\NotBlank(message="Please select a property")
-     * @Assert\Choice(callback="getProperties", message = "Please select a property")
+     * @ORM\ManyToOne(targetEntity="Property")
+     * @ORM\JoinColumn(name="propertyId", referencedColumnName="id")
+     * @var mixed
      */
     private $property;
 
@@ -103,13 +109,10 @@ class Communication
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=2000)
+     * @ORM\Column(type="string", length=500)
      * @Assert\NotBlank(message="Please provide a brief description of the communication")
-     * @Assert\Length(max = 2000,
-     *                min = 50,
-     *                maxMessage = "Please keep the description under {{ limit }} characters",
-     *                minMessage = "Please provide a description of {{ limit }} characters or more"
-     * )
+     * @Assert\Length(max = 500,
+     *                maxMessage = "Please keep the description under {{ limit }} characters")
      */
     private $description;
 
@@ -149,7 +152,6 @@ class Communication
     public function setDate($date)
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -386,7 +388,7 @@ class Communication
      */
     public static function getMediums()
     {
-        return array ('Incoming' => 'incoming', 'Outgoing' => 'outgoing');
+        return array ('Incoming' => 'Incoming', 'Outgoing' => 'Outgoing', 'Onsite' => 'Onsite');
     }
 
     /**
@@ -395,7 +397,7 @@ class Communication
      */
     public static function getTypes()
     {
-        return array ('In Person' => 'in person', 'Phone' => 'phone', 'Email' => 'email');
+        return array ('In Person' => 'In Person', 'Phone' => 'Phone', 'Email' => 'Email');
     }
 
     /**
@@ -404,7 +406,7 @@ class Communication
      */
     public static function getCategories()
     {
-        return array ('Container' => 'container', 'Collection' => 'collection', 'Misc.' => 'misc');
+        return array ('Container' => 'Container', 'Collection' => 'Collection', 'Misc' => 'Misc');
     }
 
     ///**
@@ -416,12 +418,12 @@ class Communication
     //    return array ('Resident' => -1, 'Linda Smith' => 1, 'John Snow' => 2 );
     //}
 
-    /**
-     * This method will return the valid values for the properties field
-     * @return array
-     */
-    public static function getProperties()
-    {
-        return array ('N/A' => -1, 'Multi-Property' => -2, '123 Fake St.' => 1, '456 Fake St.' => 2);
-    }
+    ///**
+    // * This method will return the valid values for the properties field
+    // * @return array
+    // */
+    //public static function getProperties()
+    //{
+    //    return array ('N/A' => -1, 'Multi-Property' => -2, '123 Fake St.' => 1, '456 Fake St.' => 2);
+    //}
 }

@@ -38,15 +38,6 @@ class CommunicationController extends Controller
             //create a new blank form to erase the old data
             $form = $this->createForm(CommunicationType::class, new Communication());
 
-            if($communication->getContact() <= 0) //if the communication ID is not a real ID
-            {
-                $communication->setContact(null);
-            }
-            if($communication->getProperty() <= 0)
-            {
-                $communication->setProperty(null);
-            }
-
             //PLEASE RETURN TO ME WHEN USERS ARE IMPLEMENTED
             $communication->setUser(1); //set the user ID
 

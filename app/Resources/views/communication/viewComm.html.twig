@@ -16,7 +16,7 @@
     <table>
         <tr>
             <td>Date:</td>
-            <td>{{comm.date}}</td>
+            <td>{{comm.date.format("Y-m-d")}}</td>
         </tr>
         <tr>
             <td>Type:</td>
@@ -40,7 +40,9 @@
         </tr>
         <tr>
             <td>Property:</td>
+            {% if comm.property != null %}
             <td>{{comm.property.address.streetAddress}}</td>
+            {% endif %}
         </tr>
         <tr>
             <td>Category:</td>
