@@ -13,10 +13,11 @@
 
 {% block body %}
 {# magic invisible div that allows us to pass information to the search script #}
-<div class="js-jsonpage" data-jsonpage="{{ jsonURL }}"></div>
+<div class="js-jsonpage" data-jsonpage="{{ path('contact_jsonsearch_empty') }}"></div>
 <h2>Contact Search</h2>
 <input type="search" id="searchBox" />
-<table>
+<div id="message"></div>
+<table hidden>
     <thead>
         <tr>
             <th>First Name</th>
@@ -28,11 +29,11 @@
     </thead>
     <tbody data-bind="foreach: results">
         <tr>
-            <td data-bind="value: firstName"></td>
-            <td data-bind="value: lastName"></td>
-            <td data-bind="value: companyName"></td>
-            <td data-bind="value: role"></td>
-            <td><a data-bind="href: {{ jsonURL }} + '/' + id">View</a></td>
+            <td data-bind="text: firstName"></td>
+            <td data-bind="text: lastName"></td>
+            <td data-bind="text: companyName"></td>
+            <td data-bind="text: role"></td>
+            <td><a data-bind="attr: {href: '{{ viewURL }}' + id}">View</a></td>
         </tr>
     </tbody>
 </table>

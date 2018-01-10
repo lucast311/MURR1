@@ -35,7 +35,7 @@ class ContactController extends Controller
     {
         // Render the twig with required data
         return $this->render('Contact/searchContact.html.twig', array(
-            'jsonURL' => '/contact/jsonsearch' // THIS SHOULD BE CHANGED TO BE DYNAMIC
+            'viewURL' => '/contact/' // THIS SHOULD BE CHANGED TO BE DYNAMIC
         ));
     }
 
@@ -162,14 +162,18 @@ class ContactController extends Controller
 
     /**
      * Lists all contactSearch entities.
-     *
+     * 
+     * @Route("/contact/jsonsearch/", name="contact_jsonsearch_empty")
      * @Route("/contact/jsonsearch/{searchQuery}", name="contact_jsonsearch")
      * @Method("GET")
      */
-    public function jsonSearchAction($searchQuery)
+    public function jsonSearchAction($searchQuery = "")
     {
+        // Clean the input
+        $searchQuery = htmlentities($searchQuery);
+
         // if the string to query onn is less than or equal to 100 characters
-        if(strlen($searchQuery) <= 100)
+        if(strlen($searchQuery) <= 100 && !empty($searchQuery))
         {
             // create a cleaner to cleanse the search query
             $cleaner = new Cleaner();
@@ -193,55 +197,13 @@ class ContactController extends Controller
             // look in the array of narrowed searches/values for the first element (this will be the array of narrowed searches)
             $narrowedResults = $searchedData[0];
 
-            // create a Changer to convert the narrowed searches to JSON format
-            $changer = new Changer();
-
-            // An open square bracket to denote the start of the JSON object string
-            $jsonEncodedSearches = "[";
-
-            // a counter to index into the array of narrowed results's data
-            $i = 0;
-
-            // foreach record in the array of narrowed results
-            foreach ($narrowedResults as $result)
-            {
-                // append the converted entity JSON string to the string we created above.
-                // the '$searchedData[1][$i]' is indexing into the current records field values
-                $jsonEncodedSearches .= $changer->ToJSON($result, $searchedData[1][$i]);
-
-                // increment our counter
-                $i++;
-            }
-
-            // chop off the last comma at the end of the JSON string
-            $jsonEncodedSearches = substr($jsonEncodedSearches,0,strlen($jsonEncodedSearches)-1);
-
-            // if the length of the JSON string is greater than 0
-            if(strlen($jsonEncodedSearches) > 0)
-            {
-                // close the square bracket (this is the end of the JSON object string)
-                $jsonEncodedSearches .= "]";
-
-                //var_dump($narrowedResults);
-
-                
-
-                // render the page passing to it the records returned from the query, after being converted to JSON format.
-                //$response = new JsonResponse($narrowedResults);
-
-                // Set header to be json
-                //$response->headers->set('Content-Type', 'application/json');
-                return $this->json($narrowedResults);
-            }
+            // Return the results as a json object
+            // NOTE: Serializer service needs to be enabled for this to work properly
+            return $this->json($narrowedResults);
         }
 
-        // Display a blank JSON object, the system will interpret this as nothing being returned
-        $response = $this->render('contactsearch/contactJSONSearches.html.twig', array(
-                'contactSearches' => '[{"role":null}]',
-            ));
-        // Set header to be json
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        // string over 100, return empty array.
+        return $this->json(array());
     }
 }
 
