@@ -142,7 +142,7 @@ class ContactController extends Controller
     /**
      * Lists all contactSearch entities.
      *
-     * @Route("/contact/jsonSearch/{searchQuery}", name="contact_jsonSearch")
+     * @Route("/contact/jsonsearch/{searchQuery}", name="contact_jsonsearch")
      * @Method("GET")
      */
     public function jsonSearchAction($searchQuery)
@@ -214,7 +214,7 @@ class ContactController extends Controller
             ));
     }
 
-     /**
+    /**
      * story9i
      * Front end for searching for a contact.
      *
@@ -229,3 +229,4 @@ class ContactController extends Controller
         ));
     }
 }
+

@@ -108,7 +108,6 @@ class ContactControllerTest extends WebTestCase
     }
 
 
-
     public function testAddActionSuccess()
     {
         //Create a client to go through the web page
@@ -421,7 +420,11 @@ class ContactControllerTest extends WebTestCase
         $this->assertTrue($results != $jsonFormat);
     }
 
-    public function testSearchPageNotBroken()
+    /**
+     * story 9i
+     * test that the search page is accessable and that there is the proper elements on screen.
+     */
+    public function testSearchPageAccessible()
     {
         // Create a client, and go to the search page for a contact
          $client = static::createClient();
@@ -452,3 +455,4 @@ class ContactControllerTest extends WebTestCase
         $this->em = null;//avoid memory meaks
     }
 }
+
