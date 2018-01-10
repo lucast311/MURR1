@@ -7,8 +7,10 @@
         var searchText = $('#searchBox').val();
         // Put the search box text after the page url
         page = page + "/" + searchText;
+		
+		alert("hi");
         // do a json call to the server to get the results
-        $.getJSON(page, function (jsonResults) {
+        $.getJSON(page, {}, function (jsonResults) {
             // Callback function
 
             //// Loop throup each result returned fromn the getJSON call
@@ -17,7 +19,10 @@
             //    // push each result onto the observableArray
             //    results.push(jsonResults[i]);
             //}
+			alert(jsonResults);
+			
             viewModel.results = ko.observableArray(jsonResults);
+            //[{ "id": 1, "firstName": "Jim", "lastName": "Jimson", "role": "Property Manager", "companyName": "123-456-7890", "primaryPhone": null, "phoneExtension": null, "secondaryPhone": null, "emailAddress": null, "fax": "SIAST", "address": 1 }]
         });
     }
 };

@@ -11,6 +11,8 @@ use AppBundle\Form\ContactType;
 use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\Services\Changer;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Controller that contains methods for anything having to do with a contact.
@@ -220,13 +222,16 @@ class ContactController extends Controller
                 // close the square bracket (this is the end of the JSON object string)
                 $jsonEncodedSearches .= "]";
 
+                //var_dump($narrowedResults);
+
+                
+
                 // render the page passing to it the records returned from the query, after being converted to JSON format.
-                $response =  $this->render('contactsearch/contactJSONSearches.html.twig', array(
-                    'contactSearches' => $jsonEncodedSearches,
-                ));
+                //$response = new JsonResponse($narrowedResults);
+
                 // Set header to be json
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
+                //$response->headers->set('Content-Type', 'application/json');
+                return $this->json($narrowedResults);
             }
         }
 
