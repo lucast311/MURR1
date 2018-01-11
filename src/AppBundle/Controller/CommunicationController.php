@@ -38,17 +38,8 @@ class CommunicationController extends Controller
             //create a new blank form to erase the old data
             $form = $this->createForm(CommunicationType::class, new Communication());
 
-            if($communication->getContact() <= 0) //if the communication ID is not a real ID
-            {
-                $communication->setContact(null);
-            }
-            if($communication->getProperty() <= 0)
-            {
-                $communication->setProperty(null);
-            }
-
             //PLEASE RETURN TO ME WHEN USERS ARE IMPLEMENTED
-            $communication->setUser(1); //set the user ID
+            //$communication->setUser(1); //set the user ID
 
 
             //get the doctrine repository
@@ -67,4 +58,29 @@ class CommunicationController extends Controller
     'added'=>$added]);
     }
 
+    /**
+     * Story 11b
+     * Controller responsible for viewing a communication
+     * Summary of viewAction
+     * @param mixed $comId
+     * @Route ("/communication/view/{comId}")
+     * @Route ("/communication/view/")
+     */
+    public function viewAction($comId = null){
+        // Get the entity manager
+        $em = $this->getDoctrine()->getManager();
+        // Get the specific Communication
+        $comm = $em->getRepository(Communication::class)->findOneById($comId);
+
+        //variable that willl handle what type of error will be shown
+        $errorType = null;
+
+        if($comm == null) $errorType="notfound";
+        if($comId == null) $errorType="noid";
+
+        //render the page
+        return $this->render('communication/viewComm.html.twig',
+            array('comm'=>$comm, 'errorType'=>$errorType));
+
+    }
 }

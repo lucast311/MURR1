@@ -3258,6 +3258,7 @@
     <Folder Include="web" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\Resources\views\communication\viewComm.html.twig" />
     <Content Include="app\sqlite.db" />
   </ItemGroup>
 </Project>

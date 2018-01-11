@@ -8,7 +8,7 @@ use DateTime;
 /**
  * This class is responsible for modelling a communication between a user
  * and a contact
- * 
+ *
  * @ORM\Table(name="communication")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommunicationRepository")
  */
@@ -44,24 +44,58 @@ class Communication
     /**
      * @var string
      * @ORM\Column(type="string", length=8)
-     * @Assert\NotBlank(message="Please select incoming or outgoing")
-     * @Assert\Choice(callback="getMediums", message = "Please select incoming or outgoing")
+     * @Assert\NotBlank(message="Please select a direction")
+     * @Assert\Choice(callback="getMediums", message = "Please select a direction")
      */
     private $medium;
 
-    /**
-     * @var int
-     * @ORM\Column(type="integer", nullable=true)
-     * @Assert\NotBlank(message="Please enter a contact")
-     * @Assert\Choice(callback="getContacts", message = "Please enter a contact")
-     */
-    private $contact;
+    ///**
+    // * @var int
+    // * @ORM\Column(type="integer", nullable=true)
+    // * @Assert\NotBlank(message="Please enter a contact")
+    // * @Assert\Choice(callback="getContacts", message = "Please enter a contact")
+    // */
+    //private $contact;
 
     /**
-     * @var int
-     * @ORM\Column(type="integer", nullable=true)
-     * @Assert\NotBlank(message="Please select a property")
-     * @Assert\Choice(callback="getProperties", message = "Please select a property")
+     * Summary of $contactName
+     * @var mixed
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(max=255,
+     *                  maxMessage = "Contact name must be less than {{ limit }} characters")
+     */
+    private $contactName;
+    /**
+     * Summary of $contactEmail
+     * @var mixed
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(max=255,
+     *                  maxMessage = "Contact email must be less than {{ limit }} characters")
+     * @Assert\Email(message = "Email must be in the format of 'Example@example.com'")
+     */
+    private $contactEmail;
+    /**
+     * Summary of $contactPhone
+     * @var mixed
+     * @ORM\Column(type="string", length=12, nullable=true)
+     * @Assert\Regex(pattern = "/^\d{3}-\d{3}-\d{4}$/", message = "Phone number must be in the format of ###-###-####")
+     */
+    private $contactPhone;
+
+    ///**
+    // * @var Property
+    // *
+    // * CHANGE ME FOR STORY 11b
+    // *
+    // * @ORM\Column(type="integer", nullable=true)
+    // * @Assert\NotBlank(message="Please select a property")
+    // * @Assert\Choice(callback="getProperties", message = "Please select a property")
+    // */
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Property", cascade={"persist"})
+     * @ORM\JoinColumn(name="propertyId", referencedColumnName="id")
+     * @var mixed
      */
     private $property;
 
@@ -75,21 +109,18 @@ class Communication
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=2000)
+     * @ORM\Column(type="string", length=500)
      * @Assert\NotBlank(message="Please provide a brief description of the communication")
-     * @Assert\Length(max = 2000,
-     *                min = 50,
-     *                maxMessage = "Please keep the description under {{ limit }} characters",
-     *                minMessage = "Please provide a description of {{ limit }} characters or more"
-     * )
+     * @Assert\Length(max = 500,
+     *                maxMessage = "Description must be {{ limit }} characters or less")
      */
     private $description;
 
-    /**
-     * @var int
-     * @ORM\Column(type="integer")
-     */
-    private $user;
+    ///**
+    // * @var int
+    // * @ORM\Column(type="integer")
+    // */
+    //private $user;
 
     /**
      * Default constructor for a Communication object. This will just set the value of date to be today by default
@@ -121,7 +152,6 @@ class Communication
     public function setDate($date)
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -183,34 +213,83 @@ class Communication
         return $this->medium;
     }
 
-    /**
-     * Set contact
-     *
-     * @param integer $contact
-     *
-     * @return Communication
-     */
-    public function setContact($contact)
-    {
-        $this->contact = $contact;
+    ///**
+    // * Set contact
+    // *
+    // * @param integer $contact
+    // *
+    // * @return Communication
+    // */
+    //public function setContact($contact)
+    //{
+    //    $this->contact = $contact;
 
+    //    return $this;
+    //}
+
+    ///**
+    // * Get contact
+    // *
+    // * @return int
+    // */
+    //public function getContact()
+    //{
+    //    return $this->contact;
+    //}
+
+    /**
+     * Story 11b
+     * @param mixed $name
+     */
+    public function setContactName($name){
+        $this->contactName = $name;
         return $this;
     }
 
     /**
-     * Get contact
-     *
-     * @return int
+     * Story 11b
      */
-    public function getContact()
-    {
-        return $this->contact;
+    public function getContactName(){
+        return $this->contactName;
+    }
+
+    /**
+     * Story 11b
+     * @param mixed $email
+     */
+    public function setContactEmail($email){
+        $this->contactEmail = $email;
+        return $this;
+    }
+
+    /**
+     * Story 11b
+     */
+    public function getContactEmail(){
+        return $this->contactEmail;
+    }
+
+    /**
+     * Story 11b
+     * @param mixed $phone
+     */
+    public function setContactPhone($phone){
+        $this->contactPhone = $phone;
+        return $this;
+    }
+
+    /**
+     * Story 11b
+     * @param mixed $phone
+     */
+    public function getContactPhone(){
+        return $this->contactPhone;
     }
 
     /**
      * Set property
      *
-     * @param integer $property
+     * @param Property $property
      *
      * @return Communication
      */
@@ -279,29 +358,29 @@ class Communication
         return $this->description;
     }
 
-    /**
-     * Set user
-     *
-     * @param int $description
-     *
-     * @return Communication
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
+    ///**
+    // * Set user
+    // *
+    // * @param int $description
+    // *
+    // * @return Communication
+    // */
+    //public function setUser($user)
+    //{
+    //    $this->user = $user;
 
-        return $this;
-    }
+    //    return $this;
+    //}
 
-    /**
-     * Get user
-     *
-     * @return int
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
+    ///**
+    // * Get user
+    // *
+    // * @return int
+    // */
+    //public function getUser()
+    //{
+    //    return $this->user;
+    //}
 
     /**
      * This method will return the valid values for the medium field
@@ -309,7 +388,7 @@ class Communication
      */
     public static function getMediums()
     {
-        return array ('Incoming' => 'incoming', 'Outgoing' => 'outgoing');
+        return array ('Incoming' => 'Incoming', 'Outgoing' => 'Outgoing', 'Onsite' => 'Onsite');
     }
 
     /**
@@ -318,7 +397,7 @@ class Communication
      */
     public static function getTypes()
     {
-        return array ('In Person' => 'in person', 'Phone' => 'phone', 'Email' => 'email');
+        return array ('In Person' => 'In Person', 'Phone' => 'Phone', 'Email' => 'Email');
     }
 
     /**
@@ -327,24 +406,24 @@ class Communication
      */
     public static function getCategories()
     {
-        return array ('Container' => 'container', 'Collection' => 'collection', 'Misc.' => 'misc');
+        return array ('Container' => 'Container', 'Collection' => 'Collection', 'Misc' => 'Misc');
     }
 
-    /**
-     * This method will return the valid values for the Contacts field
-     * @return array
-     */
-    public static function getContacts()
-    {
-        return array ('Resident' => -1, 'Linda Smith' => 1, 'John Snow' => 2 );
-    }
+    ///**
+    // * This method will return the valid values for the Contacts field
+    // * @return array
+    // */
+    //public static function getContacts()
+    //{
+    //    return array ('Resident' => -1, 'Linda Smith' => 1, 'John Snow' => 2 );
+    //}
 
-    /**
-     * This method will return the valid values for the properties field
-     * @return array
-     */
-    public static function getProperties()
-    {
-        return array ('N/A' => -1, 'Multi-Property' => -2, '123 Fake St.' => 1, '456 Fake St.' => 2);
-    }
+    ///**
+    // * This method will return the valid values for the properties field
+    // * @return array
+    // */
+    //public static function getProperties()
+    //{
+    //    return array ('N/A' => -1, 'Multi-Property' => -2, '123 Fake St.' => 1, '456 Fake St.' => 2);
+    //}
 }
