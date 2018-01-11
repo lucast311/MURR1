@@ -24,12 +24,12 @@ class CommunicationTypeTest extends TypeTestCase
     public function testSubmitValidData()
     {
         //create a date to be applied to the data
-        $date = new DateTime('now');
-        $date->setTime(0,0,0);
+        //$date = new DateTime('now');
+        //$date->setTime(0,0,0);
 
         //form test
         $formData = array(
-          "date" => $date,
+          //"date" => $date,
           "type" => "Phone",
           "medium" => "Incoming",
           "contactName" => "John Smith",

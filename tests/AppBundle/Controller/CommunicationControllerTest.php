@@ -46,9 +46,9 @@ class CommunicationControllerTest extends WebTestCase
         //$this->assertEmpty($form['communication[date][day]']->getValue());
         $this->assertEmpty($form['communication[type]']->getValue());
         $this->assertEmpty($form['communication[medium]']->getValue());
-        $this->assertEmpty( $form['communication[contactName']->getValue());
-        $this->assertEmpty( $form['communication[contactEmail']->getValue());
-        $this->assertEmpty( $form['communication[contactPhone']->getValue());
+        $this->assertEmpty( $form['communication[contactName]']->getValue());
+        $this->assertEmpty( $form['communication[contactEmail]']->getValue());
+        $this->assertEmpty( $form['communication[contactPhone]']->getValue());
         $this->assertEmpty($form['communication[property]']->getValue());
         $this->assertEmpty($form['communication[category]']->getValue());
         $this->assertEmpty($form['communication[description]']->getValue());
@@ -304,7 +304,7 @@ class CommunicationControllerTest extends WebTestCase
 
         //create a property for the communication
         $property = new Property();
-        $property->setSiteId(1593843);
+        $property->setSiteId(1593846);
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
@@ -352,7 +352,7 @@ class CommunicationControllerTest extends WebTestCase
         $this->assertContains("Incoming",$response);
         $this->assertContains("John Smith",$response);
         $this->assertContains("email@email.com",$response);
-        $this->assertContains("306-715-0760",$response);
+        $this->assertContains("306-123-4567",$response);
         $this->assertContains("Container",$response);
         $this->assertContains("Bin will be moved to the eastern side of the building",$response);
         $this->assertContains("12 15th st east",$response);
@@ -386,5 +386,22 @@ class CommunicationControllerTest extends WebTestCase
 
         //assert that the correct error message appeared
         $this->assertContains("No communication ID specified", $client->getResponse()->getContent());
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        // Delete all the things that were just inserted. Or literally everything.
+        $client = static::createClient();
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $stmt = $em->getConnection()->prepare('DELETE FROM Communication');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM Property');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM Address');
+        $stmt->execute();
+        $em->close();
+
     }
 }

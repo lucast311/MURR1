@@ -74,7 +74,7 @@ class CommunicationRepositoryTest extends KernelTestCase
     public function testCurrentDateStored(){
         //create a property for the communication
         $property = new Property();
-        $property->setSiteId(1593843);
+        $property->setSiteId(1593844);
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
@@ -107,12 +107,12 @@ class CommunicationRepositoryTest extends KernelTestCase
         $repo = $this->em->getRepository(Communication::class);
         $id = $repo->insert($comm);
 
-        $bbComm = $repo->findOneById($id);
+        $dbComm = $repo->findOneById($id);
 
         $date = new DateTime('now');
         $date->setTime(0,0,0);
 
-        $this->assertEquals(getDate($bbComm), $date);
+        $this->assertEquals($dbComm->getDate(), $date);
     }
 
     /**
@@ -122,7 +122,15 @@ class CommunicationRepositoryTest extends KernelTestCase
     {
         parent::tearDown();
 
+        // Delete everything out of the property table after inserting stuff
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Communication');
+        $stmt->execute();
+
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Property');
+        $stmt->execute();
+
         $this->em->close();
         $this->em = null; // avoid memory leaks
     }
+
 }
