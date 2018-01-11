@@ -23,18 +23,21 @@ class CommunicationTypeTest extends TypeTestCase
 
     public function testSubmitValidData()
     {
+        //create a date to be applied to the data
+        //$date = new DateTime('now');
+        //$date->setTime(0,0,0);
+
         //form test
         $formData = array(
-          //"date[year]" => 2012, //TODO: COME BACK TO ME
-          //"date[month]" => 10, //TODO: COME BACK TO ME
-          //"date[day]" => 5, //TODO: COME BACK TO ME
-          "date" => new DateTime("2017-10-05"),
-          "type" => "phone",
-          "medium" => "incoming",
-          "contact" => 1,
-          "property" => 1,
-          "category" => "container",
-          "description" => "Container has graffiti and needs to be cleaned. Action request made"
+          //"date" => $date,
+          "type" => "Phone",
+          "medium" => "Incoming",
+          "contactName" => "John Smith",
+          "contactEmail" => "email@email.com",
+          "contactPhone" => "123-123-4567",
+          "category" => "Container",
+          "description" => "Container has graffiti and needs to be cleaned. Action request made",
+          "property"=>null
         );
 
         //creates a form
@@ -58,10 +61,6 @@ class CommunicationTypeTest extends TypeTestCase
 
         $formResponse = $form->getData();
 
-        //For some reason within the unit tests it will not return the proper date,
-        //but the implementation does, and also there is another unit test
-        //whithin CommunicationControllerTest that proves this
-        $formResponse['date'] = new DateTime("2017-10-05");
 
         //make sure the form matches the objects data
         $this->assertEquals($formData, $formResponse);
