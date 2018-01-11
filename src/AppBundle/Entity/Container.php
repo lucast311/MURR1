@@ -70,6 +70,7 @@ class Container
      */
     private $size;
 
+
     /**
      * @var bool
      *

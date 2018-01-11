@@ -13,7 +13,7 @@ class ContainerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('pickUpInfo')->add('containerSerial')->add('locationDesc')->add('long')->add('lat')->add('type')->add('size')->add('isInaccessable')->add('reasonForInaccassability')->add('isContaminated')->add('isGraffiti');
+        $builder->add('pickUpInfo')->add('containerSerial')->add('locationDesc')->add('long')->add('lat')->add('type')->add('size')->add('isInaccessable')->add('reasonForInaccassability')->add('isContaminated');
     }
     
     /**

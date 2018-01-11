@@ -1,21 +1,21 @@
 <?php
-namespace tests\AppBundle\Entity; 
+namespace tests\AppBundle\Entity;
 
-use AppBundle\Entity\Container; 
-use PHPUnit\Framework\TestCase; 
+use AppBundle\Entity\Container;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
 
 class ContainerTest extends TestCase
 {
-    private $container; 
-    private $validator; 
+    private $container;
+    private $validator;
 
     protected function setUp()
     {
         // Create a new container and populate it with data
         $this->container = new Container();
         $this->container->setContainerSerial("XO6DEZM0");
-        $this->setLocationDescription("The bin is out in the back of the building.");
+        $this->container->setLocationDesc("The bin is out in the back of the building.");
         $this->container->setType("Recycle Bin");
         $this->container->setSize("6");
 
@@ -30,9 +30,9 @@ class ContainerTest extends TestCase
     {
         // Validate the container
         $error = $this->validator->validate($this->container);
-    
+
         // Assert sure their are 0 errors
-        $this->assertEquals(0, count($errors));
+        $this->assertEquals(0, count($error));
     }
 
     /**
@@ -72,7 +72,7 @@ class ContainerTest extends TestCase
     public function testContainerFailLocationDescriptionTooLong()
     {
         // Change the Location Description to be 251 characters
-        $this->container->setLocationDescription(str_repeat("a",251));
+        $this->container->setLocationDesc(str_repeat("a",251));
 
         // Attempt to validate the container
         $error = $this->validator->validate($this->container);
@@ -85,7 +85,7 @@ class ContainerTest extends TestCase
     public function testContainerPassLocationDescriptionOnBoundary()
     {
         // Change the Location Description to be 251 characters
-        $this->container->setLocationDescription(str_repeat("a",250));
+        $this->container->setLocationDesc(str_repeat("a",250));
 
         // Attempt to validate the container
         $error = $this->validator->validate($this->container);
@@ -121,6 +121,7 @@ class ContainerTest extends TestCase
         // Assert that the error message is correct
         $this->assertTrue("The size must be lower than 100 characters" === $error[0]->getMessage());
     }
+
     public function testContainerPassSizeOnBoundary()
     {
         // Change the Type to an invalid type
@@ -133,6 +134,32 @@ class ContainerTest extends TestCase
         $this->assertEquals(0, count($error));
     }
 
+    public function testContainerSerialNotBlank()
+    {
+        $this->container->setContainerSerial("");
+
+        $error = $this->validator->validate($this->container);
+
+        $this->assertEquals(1, count($error));
+    }
+
+    public function testContainerSerialNotNull()
+    {
+        $this->container->setContainerSerial(null);
+
+        $error = $this->validator->validate($this->container);
+
+        $this->assertEquals(1, count($error));
+    }
+
+    public function testContainerTypeNotNull()
+    {
+        $this->container->setType(null);
+
+        $error = $this->validator->validate($this->container);
+
+        $this->assertEquals(1, count($error));
+    }
 
 
 }
