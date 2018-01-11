@@ -35,7 +35,7 @@ class ContactController extends Controller
     {
         // Render the twig with required data
         return $this->render('Contact/searchContact.html.twig', array(
-            'viewURL' => '/contact/' // THIS SHOULD BE CHANGED TO BE DYNAMIC
+            'viewURL' => '/contact/' 
         ));
     }
 

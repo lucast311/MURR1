@@ -386,7 +386,7 @@ class ContactControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'Jim'
-        $client->request('GET', '/contact/search/Jim');
+        $client->request('GET', '/contact/jsonsearch/Jim');
 
         // create an array so we can call the search
         $queryStrings = array();
@@ -396,7 +396,7 @@ class ContactControllerTest extends WebTestCase
         $repository->contactSearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{&quot;id&quot;:152,&quot;firstName&quot;:&quot;Jim&quot;,&quot;lastName&quot;:&quot;Jim&quot;,&quot;role&quot;:&quot;Property Manager&quot;,&quot;companyName&quot;:&quot;969-555-6969&quot;,&quot;primaryPhone&quot;:&quot;123&quot;,&quot;phoneExtension&quot;:null,&quot;secondaryPhone&quot;:&quot;tmctest@testcorp.com&quot;,&quot;emailAddress&quot;:null,&quot;fax&quot;:null,&quot;address&quot;:152}]', $client->getResponse()->getContent());
+        $this->assertContains('[{"id":152,"firstName":"Jim","lastName":"Jim","role":"Property Manager","primaryPhone":"969-555-6969","phoneExtension":123,"secondaryPhone":null,"emailAddress":"tmctest@testcorp.com","fax":null,"address":null,"companyName":null}]', $client->getResponse()->getContent());
     }
 
     /**
@@ -411,13 +411,13 @@ class ContactControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones'
-        $client->request('GET', '/contact/search/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones');
+        $client->request('GET', '/contact/jsonsearch/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones');
 
         //// query the database
         //$repository->contactSearch("Jim");
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{&quot;role&quot;:null}]', $client->getResponse()->getContent());
+        $this->assertContains('[]', $client->getResponse()->getContent());
     }
 
     /**
@@ -436,7 +436,7 @@ class ContactControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'Jim'
-        $client->request('GET', '/contact/search/Jim');
+        $client->request('GET', '/contact/jsonsearch/Jim');
 
         // query the database
         $results = $repository->contactSearch("Jim");
@@ -457,7 +457,22 @@ class ContactControllerTest extends WebTestCase
     }
 
 
+    /**
+     * story 9i
+     * test that the search page is accessable and that there is the proper elements on screen.
+     */
+    public function testSearchPageAccessible()
+    {
+        // Create a client, and go to the search page for a contact
+        $client = static::createClient();
 
+        // A crawler to check if the page contains a search field
+        $crawler = $client->request('GET', '/contact/search');
+
+        // Assert that the page contains both a Header, and a search field
+        $this->assertContains("Contact Search", $client->getResponse()->getContent());
+        $this->assertTrue($crawler->filter('input[type=search]')->first() != null);
+    }
 
 
 
