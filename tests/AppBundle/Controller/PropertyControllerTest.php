@@ -179,7 +179,7 @@ class PropertyControllerTest extends WebTestCase
 
         //Submit the form
         $client->submit($form);
-        
+
         //$clientResponse = $crawler->filter("html:contains('View property')");
         //Make sure the form has the same values
         $clientResponse = $client->getResponse()->getContent();
@@ -408,6 +408,20 @@ class PropertyControllerTest extends WebTestCase
         // assert that the correct error message appeared
         $this->assertGreaterThan(0, $crawler->filter('html:contains("No property specified")')->count());
     }
+
+
+    public function testViewContainers()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+
+
+        //Request the property view page without specifying an id
+        $crawler = $client->request('GET',"/property/view/");
+
+    }
+
 
     protected function tearDown()
     {
