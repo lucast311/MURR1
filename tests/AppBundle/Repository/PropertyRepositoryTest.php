@@ -108,6 +108,10 @@ class PropertyRepositoryTest extends KernelTestCase
         $this->assertEquals('Inactive (Renovation)', $dbProperty->getPropertyStatus());
     }
 
+    public function testGetAllContainers()
+    {
+        
+    }
 
     //closes the memory mamnger
     /**
