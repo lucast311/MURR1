@@ -468,8 +468,7 @@ class PropertyControllerTest extends WebTestCase
         $repo = $em->getRepository(Container::class);
 
         //insert the container
-        $binId = $repo->save($container);
-
+        $repo->save($container);
 
         // Add the bin to an array that we will loop through and add to the property
         $bins = array($container);
