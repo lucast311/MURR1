@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Container</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ container.id }}</td>
+            </tr>
+            <tr>
+                <th>Pickupinfo</th>
+                <td>{{ container.pickUpInfo }}</td>
+            </tr>
+            <tr>
+                <th>Containerserial</th>
+                <td>{{ container.containerSerial }}</td>
+            </tr>
+            <tr>
+                <th>Locationdesc</th>
+                <td>{{ container.locationDesc }}</td>
+            </tr>
+            <tr>
+                <th>Long</th>
+                <td>{{ container.long }}</td>
+            </tr>
+            <tr>
+                <th>Lat</th>
+                <td>{{ container.lat }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ container.type }}</td>
+            </tr>
+            <tr>
+                <th>Size</th>
+                <td>{{ container.size }}</td>
+            </tr>
+            <tr>
+                <th>Isinaccessable</th>
+                <td>{% if container.isInaccessable %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Reasonforinaccassability</th>
+                <td>{{ container.reasonForInaccassability }}</td>
+            </tr>
+            <tr>
+                <th>Iscontaminated</th>
+                <td>{% if container.isContaminated %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Isgraffiti</th>
+                <td>{% if container.isGraffiti %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('container_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('container_edit', { 'id': container.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
