@@ -36,5 +36,7 @@ services:
 
 
     # Fixtures services
+    AppBundle\DataFixtures\ORM\LoadPropertyData:
+        tags: ['doctrine.fixture.orm']
     AppBundle\DataFixtures\ORM\LoadContactData:
-        tags: [doctrine.fixture.orm]
+        tags: ['doctrine.fixture.orm']

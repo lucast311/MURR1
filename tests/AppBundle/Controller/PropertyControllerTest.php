@@ -428,7 +428,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'Charlton'
-        $client->request('GET', '/property/search/Charlton');
+        $client->request('GET', '/property/jsonsearch/Charlton');
 
         // create an array so we can call the search
         $queryStrings = array();
@@ -451,7 +451,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'CharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArms'
-        $client->request('GET', '//search/CharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArms');
+        $client->request('GET', '/property/jsonsearch/CharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArms');
 
         // assert that what we expect is actually returned
         $this->assertContains('[{&quot;role&quot;:null}]', $client->getResponse()->getContent());
@@ -474,7 +474,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'Charlton'
-        $client->request('GET', '/property/search/Charlton');
+        $client->request('GET', '/property/jsonsearch/Charlton');
 
         // query the database
         $results = $repository->propertySearch("Charlton");

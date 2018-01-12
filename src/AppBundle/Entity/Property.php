@@ -10,7 +10,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="property")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PropertyRepository")
- *
  * @UniqueEntity(fields = {"siteId"}, message = "Site Id already exists")
  */
 class Property
@@ -346,17 +345,17 @@ class Property
         return $this->address;
     }
 
-    public function getContacts(){}
+    //public function getContacts(){}
 
-    public function setContacts($contacts){}
+    //public function setContacts($contacts){}
 
-    public function getBins(){}
+    //public function getBins(){}
 
-    public function setBins($bins){}
+    //public function setBins($bins){}
 
-    public function getBuildings(){}
+    //public function getBuildings(){}
 
-    public function setBuildings($buildings){}
+    //public function setBuildings($buildings){}
 
     /**
      * Returns an array of valid choices for the property status.

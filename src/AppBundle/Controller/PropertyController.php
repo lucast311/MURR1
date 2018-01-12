@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Property;
@@ -12,6 +13,8 @@ use AppBundle\Repository\PropertyRepository;
 use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\Services\Changer;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Controller that contains methods for anything having to do with a property.
@@ -127,15 +130,47 @@ class PropertyController extends Controller
     /**
      * Story 4d
      * Lists all propertySearch entities.
-     * @param String $searchQuery
      *
-     * @Route("/property/search/{searchQuery}", name="property_search")
+     * @Route("/property/jsonsearch/", name="property_jsonsearch_empty")
+     * @Route("/property/jsonsearch/{searchQuery}", name="property_jsonsearch")
      * @Method("GET")
      */
-    /*
-    public function searchAction($searchQuery)
+    public function jsonSearchAction($searchQuery)
     {
-        //CODESTUB
+        // Clean the input
+        $searchQuery = htmlentities($searchQuery);
+
+        // if the string to query onn is less than or equal to 100 characters
+        if(strlen($searchQuery) <= 100 && !empty($searchQuery))
+        {
+            // create a cleaner to cleanse the search query
+            $cleaner = new Cleaner();
+
+            // cleanse the query
+            $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
+
+            // get an entity manager
+            $em = $this->getDoctrine()->getManager();
+
+            // Use the repository to query for the records we want.
+            // Store those records into an array.
+            $propertySearches = $em->getRepository(Property::class)->propertySearch($cleanQuery);
+
+            // create a SearchNarrower to narrow down our searches
+            $searchNarrower = new SearchNarrower();
+
+            // narrow down our searches, and store their values along side their field values
+            $searchedData = $searchNarrower->narrowProperties($propertySearches, $cleanQuery);
+
+            // look in the array of narrowed searches/values for the first element (this will be the array of narrowed searches)
+            $narrowedResults = $searchedData[0];
+
+            // Return the results as a json object
+            // NOTE: Serializer service needs to be enabled for this to work properly
+            return $this->json($narrowedResults);
+        }
+
+        // string over 100, return empty array.
+        return $this->json(array());
     }
-     */
 }

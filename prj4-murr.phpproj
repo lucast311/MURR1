@@ -85,8 +85,6 @@
     <Compile Include="src\AppBundle\Services\Changer.php" />
     <Compile Include="src\AppBundle\Services\Cleaner.php" />
     <Compile Include="src\AppBundle\Services\SearchNarrower.php" />
-    <Compile Include="src\AppBundle\Tests\Controller\ContactControllerTest.php" />
-    <Compile Include="src\AppBundle\Tests\Controller\ContactSearchControllerTest.php" />
     <Compile Include="src\AppBundle\Validator\Constraints\ContactAtLeastOneField.php" />
     <Compile Include="src\AppBundle\Validator\Constraints\ContactAtLeastOneFieldValidator.php" />
     <Compile Include="src\AppBundle\AppBundle.php" />
@@ -1965,6 +1963,7 @@
     <Folder Include="app\Resources\views\Contact" />
     <Folder Include="app\Resources\views\contactsearch" />
     <Folder Include="app\Resources\views\default" />
+    <Folder Include="app\Resources\views\propertySearch\" />
     <Folder Include="app\Resources\views\oops" />
     <Folder Include="app\Resources\views\property" />
     <Folder Include="app\Resources\views" />
@@ -1979,8 +1978,6 @@
     <Folder Include="src\AppBundle\Form" />
     <Folder Include="src\AppBundle\Repository" />
     <Folder Include="src\AppBundle\Services" />
-    <Folder Include="src\AppBundle\Tests\Controller" />
-    <Folder Include="src\AppBundle\Tests" />
     <Folder Include="src\AppBundle\Validator\Constraints" />
     <Folder Include="src\AppBundle\Validator" />
     <Folder Include="src\AppBundle" />
@@ -3258,6 +3255,9 @@
     <Folder Include="web" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\Resources\views\propertySearch\propertyJSONSearches.html.twig" />
+    <Content Include="app\Resources\views\propertySearch\show.html.twig" />
+    <Content Include="app\Resources\views\property\searchProperty.html.twig" />
     <Content Include="app\sqlite.db" />
   </ItemGroup>
 </Project>

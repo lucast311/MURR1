@@ -37,7 +37,7 @@ class PropertyRepository extends EntityRepository
         return $property->getId();
     }
 
-    /** 
+    /**
      * Story 4d
      * Search through the database and check if any records contain any of
      *  the passed in strings (array of strings) in any of their fields.
@@ -46,6 +46,66 @@ class PropertyRepository extends EntityRepository
      */
     public function propertySearch($queryStrings)
     {
-        
+        // get the field names of both the Property and Address Entities.
+        $propertyClassProperties = $this->getClassMetadata('AppBundle:Property')->fieldNames;
+        $addressClassProperties = $this->getEntityManager()->getRepository('AppBundle:Address')->getClassMetadata()->fieldNames;
+
+        // shift off the id from the Contact (A user will never search based on this)
+        array_shift($propertyClassProperties);
+
+        // a variable to store the SQLite WHERE clause to query with
+        $searchStringProperties = '';
+        $searchStringAddresses = '';
+
+        //foreach field in the property
+        foreach($propertyClassProperties as $col=>$val)
+        {
+            // foreach string to query on
+            for ($i = 0; $i < sizeof($queryStrings); $i++)
+            {
+                // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
+                $searchStringProperties .= "LOWER(c.$val) LIKE '%{$queryStrings[$i]}%' OR ";
+            }
+        }
+
+        // Remove the unneeded ' OR ' from the end of the query string
+        $searchStringProperties = rtrim($searchStringProperties, ' OR ');
+
+        //foreach field in the Address
+        foreach($addressClassProperties as $col=>$val)
+        {
+            // foreach string to query on
+            for ($i = 0; $i < sizeof($queryStrings); $i++)
+            {
+                // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
+                $searchStringAddresses .= "LOWER(a.$val) LIKE '%{$queryStrings[$i]}%' OR ";
+            }
+        }
+
+        // Remove the unneeded ' OR ' from the end of the query string
+        $searchStringAddresses = rtrim($searchStringAddresses, ' OR ');
+
+        // set variables equal to the records returned from each of the two queries
+        $returnProperties = $this->getEntityManager()->createQuery(
+           "SELECT c FROM AppBundle:Property c WHERE $searchStringProperties"
+            )->getResult();
+
+        $returnAddresses = $this->getEntityManager()->createQuery(
+           "SELECT c, a FROM AppBundle:Contact c JOIN c.address a WHERE $searchStringAddresses"
+            )->getResult();
+
+        // foreach address returned
+        foreach($returnAddresses as $returnAddress)
+        {
+            // check if the address already exists in the array of contacts returned
+            if(!in_array($returnAddress,$returnProperties))
+            {
+                // combine the search results
+                $returnProperties[] = $returnAddress;
+            }
+        }
+
+        // return the results
+        return $returnProperties;
     }
 }
