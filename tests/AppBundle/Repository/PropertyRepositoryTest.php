@@ -5,7 +5,7 @@ namespace Tests\AppBundle\Repository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
-use AppBundle\DataFixtures\ORM\LoadAddressData;
+use AppBundle\DataFixtures\ORM\LoadPropertyData;
 use AppBundle\Services\SearchNarrower;
 
 class PropertyRepositoryTest extends KernelTestCase

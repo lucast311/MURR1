@@ -97,7 +97,7 @@ class LoadPropertyData implements FixtureInterface
 
         // create a single property
         $property = (new Property())
-            ->setSiteId(1593843)
+            ->setSiteId(6661488)
             ->setPropertyName("Charlton Arms")
             ->setPropertyType("Townhouse Condo")
             ->setPropertyStatus("Active")

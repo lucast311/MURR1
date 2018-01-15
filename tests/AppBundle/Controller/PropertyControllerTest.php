@@ -11,6 +11,19 @@ use AppBundle\DataFixtures\ORM\LoadPropertyData;
 
 class PropertyControllerTest extends WebTestCase
 {
+    private $em;
+
+    protected function setUp()
+    {
+        self::bootKernel();
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+
+        $propertyLoader = new LoadPropertyData();
+        $propertyLoader->load($this->em);
+    }
+
     /**
      *
      * This test will check that you can access the route, populate fields,
@@ -160,17 +173,16 @@ class PropertyControllerTest extends WebTestCase
         $address->setCity("Saskatoon");
         $address->setProvince("Saskatchewan");
         $address->setCountry("Canada");
+
         $property->setAddress($address);
 
         $client = static::createClient();
-
 
         //Get the entity manager and the repo so we can make sure a property exists before editing it
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $repo = $em->getRepository(Property::class);
         //insert the property
         $propertyId = $repo->save($property);
-
 
         $crawler = $client->request('GET', "/property/edit/$propertyId");
 
@@ -438,7 +450,8 @@ class PropertyControllerTest extends WebTestCase
         $repository->propertySearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('TODO: FIGURE OUT HOW Charlton Arms WILL BE DISPLAYED IN JSON', $client->getResponse()->getContent());
+        $this->assertTrue(false);
+        //$this->assertContains('TODO: FIGURE OUT HOW Charlton Arms WILL BE DISPLAYED IN JSON', $client->getResponse()->getContent());
     }
 
     /**

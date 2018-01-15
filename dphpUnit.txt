@@ -1,4 +1,211 @@
 
 PHPUnit 6.4.3 by Sebastian Bergmann and contributors.
 
-......
+
+.....................F................................FFE......  63 / 153 ( 41%)
+
+..........................R.................................... 126 / 153 ( 82%)
+
+..R.....W...EFW...........W                                     153 / 153 (100%)
+
+
+Time: 6.9 minutes, Memory: 40.00MB
+
+
+
+There were 2 errors:
+
+
+1) Tests\AppBundle\Controller\PropertyControllerTest::testChangerFunctionality
+
+Array to string conversion
+
+
+E:\Projects\prj4-murr\vendor\symfony\phpunit-bridge\DeprecationErrorHandler.php:105
+
+E:\Projects\prj4-murr\src\AppBundle\Services\SearchNarrower.php:183
+
+E:\Projects\prj4-murr\tests\AppBundle\Controller\PropertyControllerTest.php:501
+
+
+
+2) Tests\AppBundle\Repository\PropertyRepositoryTest::testSearchNarrowerFunctionality
+
+Array to string conversion
+
+
+E:\Projects\prj4-murr\vendor\symfony\phpunit-bridge\DeprecationErrorHandler.php:105
+
+E:\Projects\prj4-murr\src\AppBundle\Services\SearchNarrower.php:183
+
+E:\Projects\prj4-murr\tests\AppBundle\Repository\PropertyRepositoryTest.php:162
+
+
+
+--
+
+
+There were 3 warnings:
+
+
+1) Warning
+
+No tests found in class "Tests\AppBundle\Repository\ContactSearchRepositoryTest".
+
+
+
+2) Warning
+
+No tests found in class "Tests\AppBundle\Services\ChangerTest".
+
+
+
+3) Warning
+No tests found in class "Tests\AppBundle\Services\SearchNarrowerTest".
+
+
+
+--
+
+
+There were 4 failures:
+
+
+1) Tests\AppBundle\Controller\ContactControllerTest::testViewAction
+
+Failed asserting that 0 is greater than 0.
+
+
+E:\Projects\prj4-murr\tests\AppBundle\Controller\ContactControllerTest.php:83
+
+
+
+2) Tests\AppBundle\Controller\PropertyControllerTest::testSuccessfullyReceiveSearch
+
+Failed asserting that false is true.
+
+
+E:\Projects\prj4-murr\tests\AppBundle\Controller\PropertyControllerTest.php:453
+
+
+
+3) Tests\AppBundle\Controller\PropertyControllerTest::testQueryTooLong
+
+Failed asserting that '[]' contains "[{&quot;role&quot;:null}]".
+
+
+E:\Projects\prj4-murr\tests\AppBundle\Controller\PropertyControllerTest.php:470
+
+
+
+4) Tests\AppBundle\Repository\PropertyRepositoryTest::testSearchOnAddress
+
+Failed asserting that 0 matches expected 150.
+
+
+E:\Projects\prj4-murr\tests\AppBundle\Repository\PropertyRepositoryTest.php:185
+
+
+
+--
+
+
+There were 2 risky tests:
+
+
+1) tests\ApBundle\Entity\ContactTest::testContactEmailAddressInvalidOverBoundary
+
+This test did not perform any assertions
+
+
+2) Tests\AppBundle\Repository\ContactRepositoryTest::testGetOne
+
+This test did not perform any assertions
+
+
+
+ERRORS!
+Tests: 153, Assertions: 267, Errors: 2, Failures: 4, Warnings: 3, Risky: 2.
+
+
+Remaining deprecation notices (158)
+
+Setting the strict option of the Choice constraint to false is deprecated since version 3.2 and will be removed in 4.0: 152x
+    5x in CommunicationControllerTest::testMultiOrNAProperty from Tests\AppBundle\Controller
+    5x in CommunicationControllerTest::testFormSuccess from Tests\AppBundle\Controller
+    5x in CommunicationControllerTest::testResidentContact from Tests\AppBundle\Controller
+    4x in CommunicationControllerTest::testNoMedium from Tests\AppBundle\Controller
+    4x in PropertyControllerTest::testsiteIdDuplicate from Tests\AppBundle\Controller
+    4x in CommunicationControllerTest::testLongDescription from Tests\AppBundle\Controller
+    4x in CommunicationControllerTest::testBlankDescription from Tests\AppBundle\Controller
+    4x in CommunicationControllerTest::testBlankCategory from Tests\AppBundle\Controller
+    4x in CommunicationControllerTest::testBlankProperty from Tests\AppBundle\Controller
+    4x in CommunicationControllerTest::testBlankContact from Tests\AppBundle\Controller
+    4x in CommunicationControllerTest::testShortDescription from Tests\AppBundle\Controller
+    4x in CommunicationControllerTest::testNoType from Tests\AppBundle\Controller
+    4x in CommunicationControllerTest::testEmptyDate from Tests\AppBundle\Controller
+    4x in CommunicationControllerTest::testFutureDate from Tests\AppBundle\Controller
+    4x in CommunicationControllerTest::testNonExistantDate from Tests\AppBundle\Controller
+    2x in PropertyTest::testPropertyStatusLengthValid from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertySiteIdMissing from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertySiteIdInvalid from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyNameBlank from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyNameLengthValid from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyNameLengthInvalid from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyTypeInvalid from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyTypeLengthValid from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyTypeLengthInvalid from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyStatusInvalid from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyStructureIdBlank from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyStatusLengthInvalid from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyNeighbourhoodNameMissing from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyNeighbourhoodNameLengthValid from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyNeighbourhoodNameLengthInvalid from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyNeighbourhoodIdBlank from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyNumUnitsBlank from tests\ApBundle\Entity
+    2x in ContactTest::testContactblankform from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyNumUnitsInvalid from tests\ApBundle\Entity
+    2x in PropertyTest::testNeighbourhoodIdLengthInvalid from tests\ApBundle\Entity
+    2x in PropertyTest::testNeighbourhoodIdLengthValid from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyCorrect from tests\ApBundle\Entity
+    2x in PropertyTest::testPropertyStructureIdInvalid from tests\ApBundle\Entity
+    2x in CSROOPsControllerTest::testNewOOPsActionFailureNoSerial from tests\AppBundle\Controller
+    2x in CSROOPsControllerTest::testNewActionFailureBinSerialSmall from tests\AppBundle\Controller
+    2x in CSROOPsControllerTest::testNewActionFailureBinSerialBig from tests\AppBundle\Controller
+    2x in CSROOPsControllerTest::testNewActionSuccessImageUploadPng from tests\AppBundle\Controller
+    2x in CSROOPsControllerTest::testNewActionFailureDescriptionTooLong from tests\AppBundle\Controller
+    2x in PropertyControllerTest::testFormSuccess from Tests\AppBundle\Controller
+    2x in CSROOPsControllerTest::testNewOOPsActionSuccess from tests\AppBundle\Controller
+    2x in PropertyControllerTest::testErrorMessage from Tests\AppBundle\Controller
+    2x in PropertyControllerTest::testEditPropertySuccess from Tests\AppBundle\Controller
+    2x in PropertyControllerTest::testEditPropertyError from Tests\AppBundle\Controller
+    1x in ContactTest::testContactPhoneExtensionInvalid from tests\ApBundle\Entity
+    1x in ContactTest::testContactFirstNameOnBoundary from tests\ApBundle\Entity
+    1x in ContactControllerTest::testEditSubmitRedirect from Tests\AppBundle\Controller
+    1x in ContactControllerTest::testAddActionSuccess from Tests\AppBundle\Controller
+    1x in ContactTest::testContactCorrect from tests\ApBundle\Entity
+    1x in PropertyTest::testPropertyStatusMissing from tests\ApBundle\Entity
+    1x in ContactTest::testContactFirstNamevValid from tests\ApBundle\Entity
+    1x in ContactTest::testContactFirstNameOverBoundary from tests\ApBundle\Entity
+    1x in ContactTest::testContactPhoneExtensionValid from tests\ApBundle\Entity
+    1x in PropertyTest::testPropertyTypeBlank from tests\ApBundle\Entity
+    1x in ContactTest::testContactCampanyNameOnBoundary from tests\ApBundle\Entity
+    1x in ContactTest::testContactCampanyNameOverBoundary from tests\ApBundle\Entity
+    1x in ContactTest::testContactCampanyNameValid from tests\ApBundle\Entity
+    1x in ContactTest::testContactPrimaryPhoneInvalidTooLong from tests\ApBundle\Entity
+    1x in ContactTest::testContactSecondaryPhoneInvalid from tests\ApBundle\Entity
+    1x in ContactTest::testContactSecondaryPhonevalid from tests\ApBundle\Entity
+    1x in ContactTest::testContacthasmorethanroll from tests\ApBundle\Entity
+    1x in ContactTest::testContactMultipleErrors from tests\ApBundle\Entity
+    1x in ContactTest::testContactFaxInvalid from tests\ApBundle\Entity
+    1x in ContactTest::testContactEmailAddressvalid from tests\ApBundle\Entity
+    1x in ContactTest::testContactEmailAddressInvalidOnBoundary from tests\ApBundle\Entity
+    1x in ContactTest::testContactEmailAddressInvalid from tests\ApBundle\Entity
+    1x in ContactTest::testContactPrimaryPhoneValid from tests\ApBundle\Entity
+
+getEntityManager is deprecated since Symfony 2.1. Use getManager instead: 6x
+    2x in PropertyControllerTest::testEditPropertySuccess from Tests\AppBundle\Controller
+    2x in PropertyControllerTest::testEditPropertyError from Tests\AppBundle\Controller
+    1x in PropertyControllerTest::testEditPropetyNoId from Tests\AppBundle\Controller
+    1x in PropertyControllerTest::testEditPropertyBadId from Tests\AppBundle\Controller
+
