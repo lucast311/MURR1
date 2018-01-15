@@ -393,4 +393,14 @@ class Contact
     {
         return $this->companyName;
     }
+
+    public function getProperties()
+    {
+        
+    }
+
+    public function setProperties($properties)
+    {
+        
+    }
 }
