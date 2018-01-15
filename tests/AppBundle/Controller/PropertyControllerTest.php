@@ -453,6 +453,13 @@ class PropertyControllerTest extends WebTestCase
         $container->setIsContaminated(false);
         $container->setIsGraffiti(false);
 
+
+        // Add the bin to an array that we will loop through and add to the property
+        $bins = array($container);
+
+        // Link the container to the property
+        $property->setBins($bins);
+
         //Create a client to go through the web page
         $client = static::createClient();
 
@@ -463,18 +470,13 @@ class PropertyControllerTest extends WebTestCase
         //insert the property
         $propertyId = $repo->save($property);
 
-        //Get the entity manager and the repo so we can add our container to the database
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
-        $repo = $em->getRepository(Container::class);
+        ////Get the entity manager and the repo so we can add our container to the database
+        //$em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        //$repo = $em->getRepository(Container::class);
 
         //insert the container
-        $repo->save($container);
+        //$repo->save($container);
 
-        // Add the bin to an array that we will loop through and add to the property
-        $bins = array($container);
-
-        // Link the container to the property (THIS METHOD HAS NOT BEEN IMPLEMENTED YET)
-        $property->setBins($bins);
 
         //Request the property view page for the property that was just inserted
         $crawler = $client->request('GET',"/property/view/$propertyId");
@@ -495,9 +497,11 @@ class PropertyControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Bin")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("6 yd")')->count());
 
-        // I DON'T KNOW WHAT THESE VALUES SHOULD BE, SO I LEFT THEM BLANK FOR NOW
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("")')->count());
+        // Note: Some checks will need to be made in order to test if routes are displayed, once routes are implemented
+        //$this->assertGreaterThan(0, $crawler->filter('html:contains("")')->count());
+        //$this->assertGreaterThan(0, $crawler->filter('html:contains("")')->count());
+
+
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Active")')->count());
     }
 
@@ -540,8 +544,13 @@ class PropertyControllerTest extends WebTestCase
         //Request the property view page for the property that was just inserted
         $crawler = $client->request('GET',"/property/view/$propertyId");
 
-        // Assert that the view page does not contain a table
-        $this->assertTrue($crawler->filter('table.containers')->first() == null);
+        //Check that no container table headers exist on this page
+        $this->assertEquals(0, $crawler->filter('html:contains("Serial #")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Type")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Size")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Frequency")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Route(s)")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Bin Status")')->count());
 
         // Assert that the view page contains a message informing the user that there are no containers
         $this->assertGreaterThan(0, $crawler->filter('html:contains("No containers found for this property")')->count());
@@ -562,8 +571,16 @@ class PropertyControllerTest extends WebTestCase
         // Assert that the correct error message appeared
         $this->assertGreaterThan(0, $crawler->filter('html:contains("The specified property could not be found")')->count());
 
-        // Assert that the container table did not appear
-        $this->assertTrue($crawler->filter('table.containers')->first() == null);
+        //// Assert that the container table did not appear
+        //$this->assertTrue($crawler->filter('table.containers')->first() == null);
+
+        //Check that no container table headers exist on this page
+        $this->assertEquals(0, $crawler->filter('html:contains("Serial #")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Type")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Size")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Frequency")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Route(s)")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Bin Status")')->count());
     }
 
     /**
@@ -581,8 +598,16 @@ class PropertyControllerTest extends WebTestCase
         // Assert that the correct error message appeared
         $this->assertGreaterThan(0, $crawler->filter('html:contains("No property specified")')->count());
 
-        // Assert that the container table did not appear
-        $this->assertTrue($crawler->filter('table')->first() == null);
+        //// Assert that the container table did not appear
+        //$this->assertTrue($crawler->filter('table')->first() == null);
+
+        //Check that no container table headers exist on this page
+        $this->assertEquals(0, $crawler->filter('html:contains("Serial #")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Type")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Size")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Frequency")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Route(s)")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Bin Status")')->count());
     }
 
     protected function tearDown()
