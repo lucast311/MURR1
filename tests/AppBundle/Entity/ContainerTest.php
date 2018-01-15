@@ -90,7 +90,30 @@ class ContainerTest extends TestCase
         // Attempt to validate the container
         $error = $this->validator->validate($this->container);
 
-        // Assert that there is one error
+        // Assert that there are no errors
+        $this->assertEquals(0, count($error));
+    }
+
+    // Test that a description can actually be blank
+    public function testContainerPassLocationDescBlank()
+    {
+        $this->container->setLocationDesc("");
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there are no errors
+        $this->assertEquals(0, count($error));
+    }
+        // Test that a description can actually be blank
+    public function testContainerPassLocationReasonBlank()
+    {
+        $this->container->setReasonForInaccassability("");
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there are no errors
         $this->assertEquals(0, count($error));
     }
 
