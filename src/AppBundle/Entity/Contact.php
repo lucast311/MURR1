@@ -127,7 +127,14 @@ class Contact
     private $address;
 
     /**
-     * returns the options that a role can be 
+     * Contacts have many properties
+     * @ORM\ManyToMany(targetEntity="Property", mappedBy="contacts")
+     * @var Property[]
+     */
+    private $properties;
+
+    /**
+     * returns the options that a role can be
      * @return string[]
      */
     public static function roleOptions()
@@ -373,7 +380,7 @@ class Contact
 
     /**
      * sets the company name
-     * @param mixed $companyName 
+     * @param mixed $companyName
      * @return Contact
      */
     public function setCompanyName($companyName)
