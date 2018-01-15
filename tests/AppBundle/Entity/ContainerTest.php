@@ -49,7 +49,7 @@ class ContainerTest extends TestCase
         // Assert that there is one error
         $this->assertEquals(1, count($error));
         // Assert that the error message is correct
-        $this->assertTrue("The container serial must be below 50 characters." === $error[0]->getMessage());
+        $this->assertTrue("The container serial must be between 1 and 50 characters." === $error[0]->getMessage());
     }
     /**
         Tests that a container passes validation if the serial code is on the boundary
@@ -105,7 +105,7 @@ class ContainerTest extends TestCase
         // Assert that there is one error
         $this->assertEquals(1, count($error));
         // Assert that the error message is correct
-        $this->assertTrue("You must select a valid type!" === $error[0]->getMessage());
+        $this->assertTrue("You must select a valid container type!" === $error[0]->getMessage());
     }
 
     public function testContainerFailSizeTooLong()
@@ -141,6 +141,8 @@ class ContainerTest extends TestCase
         $error = $this->validator->validate($this->container);
 
         $this->assertEquals(1, count($error));
+        // Assert that the error message is correct
+        $this->assertTrue("The container serial must be between 1 and 50 characters." === $error[0]->getMessage());
     }
 
     public function testContainerSerialNotNull()
@@ -150,6 +152,9 @@ class ContainerTest extends TestCase
         $error = $this->validator->validate($this->container);
 
         $this->assertEquals(1, count($error));
+        
+        // Assert that the error message is correct
+        $this->assertTrue("The container serial must be between 1 and 50 characters." === $error[0]->getMessage());
     }
 
     public function testContainerTypeNotNull()
@@ -159,6 +164,10 @@ class ContainerTest extends TestCase
         $error = $this->validator->validate($this->container);
 
         $this->assertEquals(1, count($error));
+        
+        // Assert that the error message is correct
+        $this->assertTrue("You must select a valid container type!" === $error[0]->getMessage());
+        
     }
 
 
