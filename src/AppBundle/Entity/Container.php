@@ -99,6 +99,12 @@ class Container
      */
     private $isGraffiti;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Property", inversedBy="bins", cascade={"persist"})
+     * @ORM\JoinColumn(name="propertyID", referencedColumnName="id")
+     */
+    protected $property;
+
 
     /**
      * Get id

@@ -117,6 +117,10 @@ class Property
     private $address;
 
     private $contacts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Container",cascade={"persist"}, mappedBy="property")
+     */
     private $bins;
     private $buildings;
 
