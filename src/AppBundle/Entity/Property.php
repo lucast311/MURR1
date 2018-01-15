@@ -116,7 +116,14 @@ class Property
      */
     private $address;
 
+    /**
+     * Properties have many contacts
+     * @ORM\ManyToMany(targetEntity="Contact", inversedBy="properties")
+     * @ORM\JoinTable(name="ContactProperty")
+     * @var Contact[]
+     */
     private $contacts;
+
     private $bins;
     private $buildings;
 
@@ -346,9 +353,15 @@ class Property
         return $this->address;
     }
 
-    public function getContacts(){}
+    public function getContacts()
+    {
+        
+    }
 
-    public function setContacts($contacts){}
+    public function setContacts($contacts)
+    {
+        
+    }
 
     public function getBins(){}
 
@@ -395,4 +408,5 @@ class Property
             "Mixed Use Apartment Commercial"=>"Mixed Use Apartment Commercial"
         );
     }
+
 }
