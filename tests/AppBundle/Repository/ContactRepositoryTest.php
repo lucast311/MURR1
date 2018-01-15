@@ -285,7 +285,7 @@ class ContactRepositoryTest extends KernelTestCase
         //$results = $repo->contactSearch("Saskatoon");
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(150, sizeof($results));
+        $this->assertEquals(20, sizeof($results));
     }
 
     //closes the memory mamnger
