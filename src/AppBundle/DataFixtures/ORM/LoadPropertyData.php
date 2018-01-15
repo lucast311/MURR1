@@ -19,7 +19,6 @@ class LoadPropertyData implements FixtureInterface
         // create 10 Properties with the following data
         for($i=0;$i<10;$i++)
         {
-            /* property doesnt have an address yet
             //Address data
             $address = (new Address())
                 ->setStreetAddress("Test ST")
@@ -33,7 +32,7 @@ class LoadPropertyData implements FixtureInterface
 
             // add the address to the database
             $addressFixtureLoader->load($obMan);
-            */
+            
 
             // Property data
             $property = (new Property())
@@ -44,9 +43,8 @@ class LoadPropertyData implements FixtureInterface
                 ->setStructureId(54586)
                 ->setNumUnits(5)
                 ->setNeighbourhoodName("Sutherland")
-                ->setNeighbourhoodId("O48");
-                //->setAddress($address);
-
+                ->setNeighbourhoodId("O48")
+                ->setAddress($address);
 
             // add the Property to the database
             $obMan->persist($property);
@@ -58,7 +56,6 @@ class LoadPropertyData implements FixtureInterface
         // create 5 Properties with the following data
         for($i=0;$i<5;$i++)
         {
-            /* property doesnt have an address yet
             $address = (new Address())
                 ->setStreetAddress("12 15th st east")
                 ->setPostalCode('S0E1A0')
@@ -68,7 +65,7 @@ class LoadPropertyData implements FixtureInterface
 
             $addressFixtureLoader = new LoadAddressData($address);
             $addressFixtureLoader->load($obMan);
-            */
+            
 
             $property = (new Property())
                 ->setSiteId(2593843+$i)
@@ -78,26 +75,24 @@ class LoadPropertyData implements FixtureInterface
                 ->setStructureId(54586)
                 ->setNumUnits(5)
                 ->setNeighbourhoodName("Sutherland")
-                ->setNeighbourhoodId("O48");
-            //->setAddress($address)
+                ->setNeighbourhoodId("O48")
+                ->setAddress($address);
 
             $obMan->persist($property);
             $obMan->flush();
         }
 
-        /* property doesnt have an address yet
+        
         // create a single address
         $address = (new Address())
             ->setStreetAddress("12 15th st east")
             ->setPostalCode("S0E 1A0")
             ->setCity("Saskatoon")
             ->setProvince("Saskatchewan")
-            ->setCountry("Canada")
-            ->setAddress($address);
+            ->setCountry("Canada");
 
         $addressFixtureLoader = new LoadAddressData($address);
         $addressFixtureLoader->load($obMan);
-        */
 
 
         // create a single property
@@ -109,7 +104,8 @@ class LoadPropertyData implements FixtureInterface
             ->setStructureId(54586)
             ->setNumUnits(5)
             ->setNeighbourhoodName("Sutherland")
-            ->setNeighbourhoodId("O48");
+            ->setNeighbourhoodId("O48")
+            ->setAddress($address);
 
         $obMan->persist($property);
         $obMan->flush();

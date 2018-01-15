@@ -105,7 +105,7 @@ class Property
     private $neighbourhoodId;
 
     /**
-     * @var Address
+     * @var \stdClass
      *
      * @ORM\ManyToOne(targetEntity="Address")
      * @ORM\JoinColumn(name="addressId", referencedColumnName="id")
@@ -322,9 +322,9 @@ class Property
     }
 
     /**
-     * Set address
+     * Set address Reference
      *
-     * @param Address $address
+     * @param \stdClass $addressReference
      *
      * @return Property
      */
@@ -336,9 +336,9 @@ class Property
     }
 
     /**
-     * Get address
+     * Get addressReference
      *
-     * @return Address
+     * @return \stdClass
      */
     public function getAddress()
     {

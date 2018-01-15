@@ -26,19 +26,19 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[siteId]'] = 1593843;
-        $form['property[propertyName]'] = 'Charlton Arms';
-        $form['property[propertyType]'] = 'Townhouse Condo';
-        $form['property[propertyStatus]'] = 'Active';
-        $form['property[structureId]'] = 54586;
-        $form['property[numUnits]'] = 5;
-        $form['property[neighbourhoodName]'] = 'Sutherland';
-        $form['property[neighbourhoodId]'] = 'O48';
-        $form['property[address][streetAddress]'] = '123 Main Street';
-        $form['property[address][postalCode]'] = 'S7N 0R7';
-        $form['property[address][city]'] = 'Saskatoon';
-        $form['property[address][province]'] = 'Saskatchewan';
-        $form['property[address][country]'] = 'Canada';
+        $form['appbundle_property[siteId]'] = 1593843;
+        $form['appbundle_property[propertyName]'] = 'Charlton Arms';
+        $form['appbundle_property[propertyType]'] = 'Townhouse Condo';
+        $form['appbundle_property[propertyStatus]'] = 'Active';
+        $form['appbundle_property[structureId]'] = 54586;
+        $form['appbundle_property[numUnits]'] = 5;
+        $form['appbundle_property[neighbourhoodName]'] = 'Sutherland';
+        $form['appbundle_property[neighbourhoodId]'] = 'O48';
+        $form['appbundle_property[address][streetAddress]'] = '123 Main Street';
+        $form['appbundle_property[address][postalCode]'] = 'S7N 0R7';
+        $form['appbundle_property[address][city]'] = 'Saskatoon';
+        $form['appbundle_property[address][province]'] = 'Saskatchewan';
+        $form['appbundle_property[address][country]'] = 'Canada';
 
         //Remove the property from the database if it already exists so we can insert this one
         //$em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -57,19 +57,19 @@ class PropertyControllerTest extends WebTestCase
 
         //test that all fields are now empty
         //$this->assertEmpty($form['communication[date][year]']->getValue());
-        $this->assertEmpty($form['property[siteId]']-> getValue());
-        $this->assertEmpty($form['property[propertyName]']-> getValue());
-        $this->assertEmpty($form['property[propertyType]']-> getValue());
-        $this->assertEmpty($form['property[propertyStatus]']-> getValue());
-        $this->assertEmpty($form['property[structureId]']-> getValue());
-        $this->assertEmpty($form['property[numUnits]']-> getValue());
-        $this->assertEmpty($form['property[neighbourhoodName]']-> getValue());
-        $this->assertEmpty($form['property[neighbourhoodId]']-> getValue());
-        $this->assertEmpty($form['property[address][streetAddress]']-> getValue());
-        $this->assertEmpty($form['property[address][postalCode]']-> getValue());
-        $this->assertEquals($form['property[address][city]']-> getValue(),"Saskatoon");
-        $this->assertEquals($form['property[address][province]']-> getValue(),"Saskatchewan");
-        $this->assertEquals($form['property[address][country]']-> getValue(),"Canada");
+        $this->assertEmpty($form['appbundle_property[siteId]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[propertyName]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[propertyType]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[propertyStatus]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[structureId]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[numUnits]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[neighbourhoodName]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[neighbourhoodId]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[address][streetAddress]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[address][postalCode]']-> getValue());
+        $this->assertEquals($form['appbundle_property[address][city]']-> getValue(),"Saskatoon");
+        $this->assertEquals($form['appbundle_property[address][province]']-> getValue(),"Saskatchewan");
+        $this->assertEquals($form['appbundle_property[address][country]']-> getValue(),"Canada");
     }
 
     /**
@@ -84,19 +84,19 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[siteId]'] = 1593843;
-        $form['property[propertyName]'] = 'Charlton Arms';
-        $form['property[propertyType]'] = 'Townhouse Condo';
-        $form['property[propertyStatus]'] = 'Active';
-        $form['property[structureId]'] = 54586;
-        $form['property[numUnits]'] = 5;
-        $form['property[neighbourhoodName]'] = '';
-        $form['property[neighbourhoodId]'] = 'O48';
-        $form['property[address][streetAddress]'] = '123 Main Street';
-        $form['property[address][postalCode]'] = 'S7N 0R7';
-        $form['property[address][city]'] = 'Saskatoon';
-        $form['property[address][province]'] = 'Saskatchewan';
-        $form['property[address][country]'] = 'Canada';
+        $form['appbundle_property[siteId]'] = 1593843;
+        $form['appbundle_property[propertyName]'] = 'Charlton Arms';
+        $form['appbundle_property[propertyType]'] = 'Townhouse Condo';
+        $form['appbundle_property[propertyStatus]'] = 'Active';
+        $form['appbundle_property[structureId]'] = 54586;
+        $form['appbundle_property[numUnits]'] = 5;
+        $form['appbundle_property[neighbourhoodName]'] = '';
+        $form['appbundle_property[neighbourhoodId]'] = 'O48';
+        $form['appbundle_property[address][streetAddress]'] = '123 Main Street';
+        $form['appbundle_property[address][postalCode]'] = 'S7N 0R7';
+        $form['appbundle_property[address][city]'] = 'Saskatoon';
+        $form['appbundle_property[address][province]'] = 'Saskatchewan';
+        $form['appbundle_property[address][country]'] = 'Canada';
 
         $crawler = $client->submit($form);
 
@@ -118,19 +118,19 @@ class PropertyControllerTest extends WebTestCase
             $form = $crawler->selectButton('Submit')->form();
 
             //set form values
-            $form['property[siteId]'] = 1593843;
-            $form['property[propertyName]'] = 'Charlton Arms';
-            $form['property[propertyType]'] = 'Townhouse Condo';
-            $form['property[propertyStatus]'] = 'Active';
-            $form['property[structureId]'] = 54586;
-            $form['property[numUnits]'] = 5;
-            $form['property[neighbourhoodName]'] = 'Sutherland';
-            $form['property[neighbourhoodId]'] = 'O48';
-            $form['property[address][streetAddress]'] = '123 Main Street';
-            $form['property[address][postalCode]'] = 'S7N 0R7';
-            $form['property[address][city]'] = 'Saskatoon';
-            $form['property[address][province]'] = 'Saskatchewan';
-            $form['property[address][country]'] = 'Canada';
+            $form['appbundle_property[siteId]'] = 1593843;
+            $form['appbundle_property[propertyName]'] = 'Charlton Arms';
+            $form['appbundle_property[propertyType]'] = 'Townhouse Condo';
+            $form['appbundle_property[propertyStatus]'] = 'Active';
+            $form['appbundle_property[structureId]'] = 54586;
+            $form['appbundle_property[numUnits]'] = 5;
+            $form['appbundle_property[neighbourhoodName]'] = 'Sutherland';
+            $form['appbundle_property[neighbourhoodId]'] = 'O48';
+            $form['appbundle_property[address][streetAddress]'] = '123 Main Street';
+            $form['appbundle_property[address][postalCode]'] = 'S7N 0R7';
+            $form['appbundle_property[address][city]'] = 'Saskatoon';
+            $form['appbundle_property[address][province]'] = 'Saskatchewan';
+            $form['appbundle_property[address][country]'] = 'Canada';
 
             $crawler = $client->submit($form);
         }
@@ -177,7 +177,7 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[propertyName]'] = "Charlton Legs";
+        $form['appbundle_property[propertyName]'] = "Charlton Legs";
 
         $client->followRedirects(true);
 
@@ -255,20 +255,20 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[siteId]'] = 1593844;
+        $form['appbundle_property[siteId]'] = 1593844;
         //Change the property name to test if it is staying on the page
-        $form['property[propertyName]'] = 'Charlton Armies';
-        $form['property[propertyType]'] = 'Townhouse Condo';
-        $form['property[propertyStatus]'] = 'Active';
-        $form['property[structureId]'] = 54586;
-        $form['property[numUnits]'] = -5;
-        $form['property[neighbourhoodName]'] = 'Sutherland';
-        $form['property[neighbourhoodId]'] = 'O48';
-        $form['property[address][streetAddress]'] = '123 Main Street';
-        $form['property[address][postalCode]'] = 'S7N 0R7';
-        $form['property[address][city]'] = 'Saskatoon';
-        $form['property[address][province]'] = 'Saskatchewan';
-        $form['property[address][country]'] = 'Canada';
+        $form['appbundle_property[propertyName]'] = 'Charlton Armies';
+        $form['appbundle_property[propertyType]'] = 'Townhouse Condo';
+        $form['appbundle_property[propertyStatus]'] = 'Active';
+        $form['appbundle_property[structureId]'] = 54586;
+        $form['appbundle_property[numUnits]'] = -5;
+        $form['appbundle_property[neighbourhoodName]'] = 'Sutherland';
+        $form['appbundle_property[neighbourhoodId]'] = 'O48';
+        $form['appbundle_property[address][streetAddress]'] = '123 Main Street';
+        $form['appbundle_property[address][postalCode]'] = 'S7N 0R7';
+        $form['appbundle_property[address][city]'] = 'Saskatoon';
+        $form['appbundle_property[address][province]'] = 'Saskatchewan';
+        $form['appbundle_property[address][country]'] = 'Canada';
 
         $crawler = $client->submit($form);
 
