@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Container
@@ -24,14 +25,15 @@ class Container
     /**
      * @var int
      *
-     * @ORM\Column(name="PickUpInfo", type="integer", nullable=true)
+     * @ORM\Column(name="PickUpInfo", type="string", nullable=true)
+     * @Assert\Choice(callback="getFrequencyChoices", message = "Please select frequency type")
      */
-    private $pickUpInfo;
+    private $frequency;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ContainerSerial", type="string", length=50)
+     * @ORM\Column(name="ContainerSerial", type="string", length=50, unique=true)
      */
     private $containerSerial;
 
@@ -60,6 +62,7 @@ class Container
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=50)
+     * @Assert\Choice(callback="getTypeOptions", message = "Please select bin Type")
      */
     private $type;
 
@@ -70,34 +73,40 @@ class Container
      */
     private $size;
 
-
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="isInaccessable", type="boolean", nullable=true)
+     * @var string
+     * @ORM\Column(name="status", type="string", length=50)
+     * @Assert\Choice(callback="getStatusChoices", message = "Please select bin status")
      */
-    private $isInaccessable;
+    private $status;
+
+    ///**
+    // * @var bool
+    // *
+    // * @ORM\Column(name="isInaccessable", type="boolean", nullable=true)
+    // */
+    //private $isInaccessable;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="reasonForInaccassability", type="string", length=255, nullable=true)
+     * @ORM\Column(name="reasonForStatus", type="string", length=255, nullable=true)
      */
-    private $reasonForInaccassability;
+    private $reasonForStatus;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="isContaminated", type="boolean", nullable=true)
-     */
-    private $isContaminated;
+    ///**
+    // * @var bool
+    // *
+    // * @ORM\Column(name="isContaminated", type="boolean", nullable=true)
+    // */
+    //private $isContaminated;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="isGraffiti", type="boolean", nullable=true)
-     */
-    private $isGraffiti;
+    ///**
+    // * @var bool
+    // *
+    // * @ORM\Column(name="isGraffiti", type="boolean", nullable=true)
+    // */
+    //private $isGraffiti;
 
 
     /**
@@ -119,7 +128,7 @@ class Container
      */
     public function setPickUpInfo($pickUpInfo)
     {
-        $this->pickUpInfo = $pickUpInfo;
+        $this->frequency = $pickUpInfo;
 
         return $this;
     }
@@ -131,7 +140,7 @@ class Container
      */
     public function getPickUpInfo()
     {
-        return $this->pickUpInfo;
+        return $this->frequency;
     }
 
     /**
@@ -372,6 +381,69 @@ class Container
     public function getIsGraffiti()
     {
         return $this->isGraffiti;
+    }
+
+    public function setFrequency($frequency)
+    {
+        $this->frequency = $frequency;
+        return $this;
+    }
+
+    public function getFrequency()
+    {
+        return $this->frequency;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setReasonForStatus($reasonForStatus)
+    {
+        $this->reasonForStatus = $reasonForStatus;
+        return $this;
+    }
+
+    public function getReasonForStatus()
+    {
+        return $this->reasonForStatus;
+    }
+
+    /**
+     * Gets the choices available for the Type attribute
+     *
+     * @return array
+     */
+
+    public static function getTypeChoices()
+    {
+        return array('Bin' => 'Bin',
+                     'Recycling Bin' => 'Recycling Bin',
+                     'Garbage Bin' => 'Garbage Bin');
+    }
+
+    public static function getStatusChoices()
+    {
+        return array('Active' => 'Active',
+                     'Inaccessable' => 'Inaccessable',
+                     'Contaminated' => 'Contaminated',
+                     'Damage' => 'Damage',
+                     'Graffiti' => 'Graffiti');
+    }
+
+    public static function getFrequencyChoices()
+    {
+        return array('Monthly' => 'Monthly',
+                     'Weekly' => 'Weekly',
+                     'Bi-weekly' => 'Bi-weekly',
+                     'Bi-monthly' => 'Bi-monthly');
     }
 }
 
