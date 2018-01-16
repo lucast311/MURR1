@@ -393,14 +393,20 @@ class Contact
     {
         return $this->companyName;
     }
-
+    /**
+     * gets the associated properties
+     * @return Property[]
+     */
     public function getProperties()
     {
-        
+        return $this->properties;
     }
-
+    /**
+     * Sets the associated properties
+     * @param Property[] $properties 
+     */
     public function setProperties($properties)
     {
-        
+        $this->properties = $properties;
     }
 }

@@ -352,15 +352,21 @@ class Property
     {
         return $this->address;
     }
-
+    /**
+     * Gets associated contacts
+     * @return Contact[]
+     */
     public function getContacts()
     {
-        
+        return $this->contacts;
     }
-
+    /**
+     * Sets associated contacts
+     * @param Contact[] $contacts 
+     */
     public function setContacts($contacts)
     {
-        
+        $this->contacts = $contacts;
     }
 
     public function getBins(){}
