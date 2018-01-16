@@ -13,6 +13,12 @@ use AppBundle\Services\SearchNarrower;
 use AppBundle\Services\Changer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 
 /**
  * Controller that contains methods for anything having to do with a contact.
@@ -35,7 +41,7 @@ class ContactController extends Controller
     {
         // Render the twig with required data
         return $this->render('Contact/searchContact.html.twig', array(
-            'viewURL' => '/contact/' 
+            'viewURL' => '/contact/'
         ));
     }
 
@@ -162,7 +168,7 @@ class ContactController extends Controller
 
     /**
      * Lists all contactSearch entities.
-     * 
+     *
      * @Route("/contact/jsonsearch/", name="contact_jsonsearch_empty")
      * @Route("/contact/jsonsearch/{searchQuery}", name="contact_jsonsearch")
      * @Method("GET")
@@ -199,7 +205,13 @@ class ContactController extends Controller
 
             // Return the results as a json object
             // NOTE: Serializer service needs to be enabled for this to work properly
-            return $this->json($narrowedResults);
+            $encoder = new JsonEncoder();
+            $normalizer = new ObjectNormalizer();
+            $normalizer->setIgnoredAttributes(array("properties"));
+            $serializer = new Serializer(array($normalizer), array($encoder));
+
+            return JsonResponse::fromJsonString($serializer->serialize($narrowedResults, 'json'));
+
         }
 
         // string over 100, return empty array.

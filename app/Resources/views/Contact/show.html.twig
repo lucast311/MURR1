@@ -45,6 +45,26 @@
                 <th>Fax:</th>
                 <td>{{ contact.fax }}</td>
             </tr>
+            <tr>
+                <td>Street Address:</td>
+                <td>{{contact.address.streetAddress}}</td>
+            </tr>
+            <tr>
+                <td>Postal Code:</td>
+                <td>{{contact.address.postalCode}}</td>
+            </tr>
+            <tr>
+                <td>City:</td>
+                <td>{{contact.address.city}}</td>
+            </tr>
+            <tr>
+                <td>Province:</td>
+                <td>{{contact.address.province}}</td>
+            </tr>
+            <tr>
+                <td>Country:</td>
+                <td>{{contact.address.country}}</td>
+            </tr>
         </tbody>
     </table>
 
