@@ -4,6 +4,7 @@ namespace tests\AppBundle\Entity;
 use AppBundle\Entity\Container;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
+use AppBundle\Entity\Property; 
 
 class ContainerTest extends TestCase
 {

@@ -7,17 +7,16 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Pickupinfo</th>
-                <th>Containerserial</th>
-                <th>Locationdesc</th>
+                <th>Frequency</th>
+                <th>Container Serial</th>
+                <th>Location Desc</th>
                 <th>Long</th>
                 <th>Lat</th>
                 <th>Type</th>
                 <th>Size</th>
-                <th>Isinaccessable</th>
-                <th>Reasonforinaccassability</th>
-                <th>Iscontaminated</th>
-                <th>Isgraffiti</th>
+                <th>Status</th>
+                <th>reason For Status</th>
+                <th>Property</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -25,17 +24,17 @@
         {% for container in containers %}
             <tr>
                 <td><a href="{{ path('container_show', { 'id': container.id }) }}">{{ container.id }}</a></td>
-                <td>{{ container.pickUpInfo }}</td>
+                <td>{{ container.frequency }}</td>
                 <td>{{ container.containerSerial }}</td>
                 <td>{{ container.locationDesc }}</td>
                 <td>{{ container.long }}</td>
                 <td>{{ container.lat }}</td>
                 <td>{{ container.type }}</td>
                 <td>{{ container.size }}</td>
-                <td>{% if container.isInaccessable %}Yes{% else %}No{% endif %}</td>
-                <td>{{ container.reasonForInaccassability }}</td>
-                <td>{% if container.isContaminated %}Yes{% else %}No{% endif %}</td>
-                <td>{% if container.isGraffiti %}Yes{% else %}No{% endif %}</td>
+                <td>{{ container.status}}</td>
+                {#<td>{{container.property}}</td>#}
+                <td>{{ container.reasonForStatus }}</td>
+                
                 <td>
                     <ul>
                         <li>

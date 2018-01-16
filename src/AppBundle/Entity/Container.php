@@ -26,7 +26,7 @@ class Container
      * @var int
      *
      * @ORM\Column(name="frequency", type="string", nullable=true)
-     * @Assert\Choice(callback="getFrequencyChoices", message = "Please select frequency type")
+     * @Assert\Choice(callback="FrequencyChoices", message = "Please select frequency type")
      */
     private $frequency;
 
@@ -62,7 +62,7 @@ class Container
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=50)
-     * @Assert\Choice(callback="getTypeOptions", message = "Please select bin Type")
+     * @Assert\Choice(callback="TypeChoices", message = "Please select bin Type")
      */
     private $type;
 
@@ -76,7 +76,7 @@ class Container
     /**
      * @var string
      * @ORM\Column(name="status", type="string", length=50)
-     * @Assert\Choice(callback="getStatusChoices", message = "Please select bin status")
+     * @Assert\Choice(callback="StatusChoices", message = "Please select bin status")
      */
     private $status;
 
@@ -92,6 +92,14 @@ class Container
      * @ORM\JoinColumn(name="propertyID", referencedColumnName="id")
      */
     protected $property;
+
+    /**
+     * Summary of structure
+     * 
+     * @ORM\ManyToOne(targetEntity="Structure", 
+     * @var int
+     */
+    protected $structureId;
 
     /**
      * Get id
