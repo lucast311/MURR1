@@ -4,6 +4,7 @@ namespace Tests\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
+use AppBundle\Entity\Container;
 
 class PropertyControllerTest extends WebTestCase
 {
@@ -179,7 +180,7 @@ class PropertyControllerTest extends WebTestCase
 
         //Submit the form
         $client->submit($form);
-        
+
         //$clientResponse = $crawler->filter("html:contains('View property')");
         //Make sure the form has the same values
         $clientResponse = $client->getResponse()->getContent();
@@ -407,6 +408,206 @@ class PropertyControllerTest extends WebTestCase
 
         // assert that the correct error message appeared
         $this->assertGreaterThan(0, $crawler->filter('html:contains("No property specified")')->count());
+    }
+
+    /**
+     * Story 4h
+     * Tests that the list of containers appears when a user views a property that has containers associated with it
+     */
+    public function testViewContainers()
+    {
+        //Create a new property to ensure that there is one to view in the database
+        $property = new Property();
+        $property->setSiteId(55555555);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(885412);
+        $property->setNumUnits(12);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("123 Sutherland land");
+        $address->setPostalCode("S7N 3K5");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+
+
+        // WE WILL NEED TO GO INTO PROPERTY AND ADD FUNCTIONALITY TO THE setBins($bins) METHOD
+        // IF WE DON'T, THEN WE HAVE NO WAY OF LINKING A PROPERTY TO A LIST OF BINS IN THE CODE
+
+
+        $container = new Container();
+        $container->setContainerSerial("W114-320-001");
+        $container->setType("Bin");
+        $container->setSize("6 yd");
+
+        // HOW DOES setPickUpInfo() WORK. IT SAYS THAT IT TAKES IN AN INTEGER IN THE ENTITY CLASS.
+        $container->setPickUpInfo();
+
+        $container->setIsInaccessable(true);
+        $container->setIsContaminated(false);
+        $container->setIsGraffiti(false);
+
+
+        // Add the bin to an array that we will loop through and add to the property
+        $bins = array($container);
+
+        // Link the container to the property
+        $property->setBins($bins);
+
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //Get the entity manager and the repo so we can make sure a property exists before editing it
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $repo = $em->getRepository(Property::class);
+
+        //insert the property
+        $propertyId = $repo->save($property);
+
+        ////Get the entity manager and the repo so we can add our container to the database
+        //$em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        //$repo = $em->getRepository(Container::class);
+
+        //insert the container
+        //$repo->save($container);
+
+
+        //Request the property view page for the property that was just inserted
+        $crawler = $client->request('GET',"/property/view/$propertyId");
+
+        // Assert that the page contains a table
+        $this->assertTrue($crawler->filter('table.containers')->first() != null);
+
+        // Assert that the table contains all the proper headers
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Serial #")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Type")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Size")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Frequency")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Route(s)")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Bin Status")')->count());
+
+        // Assert that the table contains all the proper data
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("W114-320-001")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Bin")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("6 yd")')->count());
+
+        // Note: Some checks will need to be made in order to test if routes are displayed, once routes are implemented
+        //$this->assertGreaterThan(0, $crawler->filter('html:contains("")')->count());
+        //$this->assertGreaterThan(0, $crawler->filter('html:contains("")')->count());
+
+
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Active")')->count());
+    }
+
+    /**
+     * Story 4h
+     * Tests that the list of containers does not appear when a user views a property that has no containers associated with it
+     */
+    public function testViewNoContainers()
+    {
+        //Create a new property to ensure that there is one to view in the database
+        $property = new Property();
+        $property->setSiteId(55555555);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(885412);
+        $property->setNumUnits(12);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("123 Sutherland land");
+        $address->setPostalCode("S7N 3K5");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //Get the entity manager and the repo so we can make sure a property exists before editing it
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $repo = $em->getRepository(Property::class);
+
+        //insert the property
+        $propertyId = $repo->save($property);
+
+        //Request the property view page for the property that was just inserted
+        $crawler = $client->request('GET',"/property/view/$propertyId");
+
+        //Check that no container table headers exist on this page
+        $this->assertEquals(0, $crawler->filter('html:contains("Serial #")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Type")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Size")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Frequency")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Route(s)")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Bin Status")')->count());
+
+        // Assert that the view page contains a message informing the user that there are no containers
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("No containers found for this property")')->count());
+    }
+
+    /**
+     * Story 4h
+     * Tests that the list of containers does not appear when a user views a property with an ivalid id
+     */
+    public function testViewInvalidPropertyId()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //Request the property view page for a property that does not exist
+        $crawler = $client->request('GET',"/property/view/-5");
+
+        // Assert that the correct error message appeared
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("The specified property could not be found")')->count());
+
+        //// Assert that the container table did not appear
+        //$this->assertTrue($crawler->filter('table.containers')->first() == null);
+
+        //Check that no container table headers exist on this page
+        $this->assertEquals(0, $crawler->filter('html:contains("Serial #")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Type")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Size")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Frequency")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Route(s)")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Bin Status")')->count());
+    }
+
+    /**
+     * Story 4h
+     * Tests that the list of containers does not appear when a user views a property without specifying an id
+     */
+    public function testViewNoPropertyId()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //Request the property view page for a property that does not exist
+        $crawler = $client->request('GET',"/property/view");
+
+        // Assert that the correct error message appeared
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("No property specified")')->count());
+
+        //// Assert that the container table did not appear
+        //$this->assertTrue($crawler->filter('table')->first() == null);
+
+        //Check that no container table headers exist on this page
+        $this->assertEquals(0, $crawler->filter('html:contains("Serial #")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Type")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Size")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Frequency")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Route(s)")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Bin Status")')->count());
     }
 
     protected function tearDown()

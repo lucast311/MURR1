@@ -108,8 +108,72 @@ class PropertyRepositoryTest extends KernelTestCase
         $this->assertEquals('Inactive (Renovation)', $dbProperty->getPropertyStatus());
     }
 
+    ///**
+    // * Story 4h
+    // * Tests that the getAllContainers method in the PropertyRepository returns a list of containers for a property given a property id
+    // */
+    //public function testGetAllContainers()
+    //{
+    //    // Create a valid property
+    //    $property = new Property();
+    //    $property->setSiteId(1593844);
+    //    $property->setPropertyName("Charlton Arms");
+    //    $property->setPropertyType("Townhouse Condo");
+    //    $property->setPropertyStatus("Active");
+    //    $property->setStructureId(54586);
+    //    $property->setNumUnits(5);
+    //    $property->setNeighbourhoodName("Sutherland");
+    //    $property->setNeighbourhoodId("O48");
+
+    //    // Have to create a new valid address too otherwise doctrine will fail
+    //    $address = new Address();
+    //    $address->setStreetAddress("12 15th st east");
+    //    $address->setPostalCode("S0E1A0");
+    //    $address->setCity("Saskatoon");
+    //    $address->setProvince("Saskatchewan");
+    //    $address->setCountry("Canada");
+    //    $property->setAddress($address);
+
+
+    //    // WE WILL NEED TO GO INTO PROPERTY AND ADD FUNCTIONALITY TO THE setBins($bins) METHOD
+    //    // IF WE DON'T, THEN WE HAVE NO WAY OF LINKING A PROPERTY TO A LIST OF BINS IN THE CODE
+
+
+    //    $container = new Container();
+    //    $container->setContainerSerial("W114-320-001");
+    //    $container->setType("Bin");
+    //    $container->setSize("6 yd");
+
+    //    // HOW DOES setPickUpInfo() WORK. IT SAYS THAT IT TAKES IN AN INTEGER IN THE ENTITY CLASS.
+    //    $container->setPickUpInfo();
+
+    //    $container->setIsInaccessable(true);
+    //    $container->setIsContaminated(false);
+    //    $container->setIsGraffiti(false);
+
+    //    // Get the repository
+    //    $repository = $this->em->getRepository(Property::class);
+
+    //    // Insert the property
+    //    $propertyId = $repository->save($property);
+
+    //    // Insert the container
+    //    $repository->save($container);
+
+    //    // Add the bin to an array that we will loop through and add to the property
+    //    $bins = array($container);
+
+    //    // Link the container to the property (THIS METHOD HAS NOT BEEN IMPLEMENTED YET)
+    //    $property->setBins($bins);
+
+    //    //Call getAllContainers to get an array of all containers associated to that property
+    //    $propertyBins = $repository->getAllContainers($propertyId);
+
+    //    $this->assertTrue($propertyBins == $bins);
+    //}
 
     //closes the memory mamnger
+
     /**
      * (@inheritDoc)
      */

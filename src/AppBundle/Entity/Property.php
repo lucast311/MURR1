@@ -117,6 +117,10 @@ class Property
     private $address;
 
     private $contacts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Container",cascade={"persist"}, mappedBy="property")
+     */
     private $bins;
     private $buildings;
 
@@ -350,9 +354,23 @@ class Property
 
     public function setContacts($contacts){}
 
-    public function getBins(){}
+    /**
+     * Returns all of the conatiners for this property
+     * @return array of container entities
+     */
+    public function getBins(){
+        return $this->bins;
+    }
 
-    public function setBins($bins){}
+    /**
+     * Takes in an array of container entities and applys them to this property
+     * @param array $bins Collection of container entities
+     * @return Property the current instance of Property
+     */
+    public function setBins($bins){
+        $this->bins = $bins;
+        return $this;
+    }
 
     public function getBuildings(){}
 

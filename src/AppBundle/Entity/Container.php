@@ -94,6 +94,12 @@ class Container
      */
     private $reasonForStatus;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Property", inversedBy="bins", cascade={"persist"})
+     * @ORM\JoinColumn(name="propertyID", referencedColumnName="id")
+     */
+    protected $property;
+
     ///**
     // * @var bool
     // *
