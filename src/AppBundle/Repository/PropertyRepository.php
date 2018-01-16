@@ -91,7 +91,7 @@ class PropertyRepository extends EntityRepository
             )->getResult();
 
         $returnAddresses = $this->getEntityManager()->createQuery(
-           "SELECT c, a FROM AppBundle:Contact c JOIN c.address a WHERE $searchStringAddresses"
+           "SELECT c, a FROM AppBundle:Property c JOIN c.address a WHERE $searchStringAddresses"
             )->getResult();
 
         // foreach address returned

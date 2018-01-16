@@ -165,6 +165,8 @@ class PropertyController extends Controller
             // look in the array of narrowed searches/values for the first element (this will be the array of narrowed searches)
             $narrowedResults = $searchedData[0];
 
+            var_dump($narrowedResults);
+
             // Return the results as a json object
             // NOTE: Serializer service needs to be enabled for this to work properly
             return $this->json($narrowedResults);

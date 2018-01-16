@@ -51,6 +51,8 @@ class ContactControllerTest extends WebTestCase
      */
     public function testViewAction()
     {
+
+        /*
         //create a contact to insert
         $contact = new Contact();
         $contact->setFirstName("Ashton");
@@ -69,15 +71,16 @@ class ContactControllerTest extends WebTestCase
         $address->setCountry("Canada");
 
         $contact->setAddress($address);
+        */
 
-        $repository = $this->em->getRepository(Contact::class);
+        //$repository = $this->em->getRepository(Contact::class);
          //save contact to database
-        $id = $repository->save($contact);
+        //$id = $repository->save($contact);
 
         //Create a client to go through the web page
         $client = static::createClient();
         //Request the contact view contact page for this contact
-        $crawler = $client->request('GET',"/contact/$id");
+        $crawler = $client->request('GET',"/contact/1");
 
         // Assert that all the proper labels are on the page
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Firstname:")')->count());

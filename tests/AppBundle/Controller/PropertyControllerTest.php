@@ -467,13 +467,15 @@ class PropertyControllerTest extends WebTestCase
         $client->request('GET', '/property/jsonsearch/CharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArms');
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{&quot;role&quot;:null}]', $client->getResponse()->getContent());
+        $this->assertContains('[]', $client->getResponse()->getContent());
     }
 
     /**
+     * ----DEPRECATED----
      * Story 4d
      * test that the Changer actually converts Entities into JSON string objects
      */
+    /* CHANGER HAS BEEN DEPRECATED
     public function testChangerFunctionality()
     {
         // create new Changer and SearchNarrower objects that will be used later
@@ -506,6 +508,7 @@ class PropertyControllerTest extends WebTestCase
         // Assert that the format that the search returns, is not the same as format returned by the Changer
         $this->assertTrue($results != $jsonFormat);
     }
+    */
 
     protected function tearDown()
     {

@@ -158,6 +158,8 @@ class PropertyRepositoryTest extends KernelTestCase
         // query the database
         $results = $repo->propertySearch($cleanQuery);
 
+        //var_dump($results);
+
         // narrow the searches so we only return exactlly what we want
         $narrowedSearches = $searchNarrower->narrowProperties($results, $cleanQuery);
 

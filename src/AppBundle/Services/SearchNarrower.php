@@ -136,7 +136,7 @@ class SearchNarrower
     }
 
     /**
-     * Story_4d
+     * Story_4d // basically the same as narrowProperties
      * A method that will narrow down any passed in search results so we only
      *  get back records that contain everything we wanted to find (only valid for Property searches).
      * @param mixed $searchResults an array of all records initially returned from the query
@@ -153,6 +153,8 @@ class SearchNarrower
 
         // an array to store the values of the returned objects
         $objectValues = array();
+
+        //var_dump($searchResults);
 
         // foreach result in the passed in array of search results
         foreach ($searchResults as $result)
@@ -173,19 +175,19 @@ class SearchNarrower
                         $objectValues[] = $result->getId();
                     }
                     // check if the method is for the Address (remove this "else if" if you do not have a join in your entity)
-                    //else if(strpos($method, 'getAddress')===0)
-                    //{
+                    else if($method == 'getAddress' || $method == 'getStatuses' || $method == 'getTypes')
+                    {
 
-                    //}
+                    }
                     else
                     {
+                        //var_dump($method);
                         // call the getter method and store the value returned
                         $objectValues[] = call_user_func([$result, $method]) == null ? 'null' : '"'.call_user_func([$result, $method]).'"';
                     }
                 }
             }
-            
-            /* no address in property
+
             // re-set the $methods array witrh the Addresses methods
             $methods = get_class_methods(get_class(new Address()));
 
@@ -208,7 +210,6 @@ class SearchNarrower
                     }
                 }
             }
-            */
 
             // a variable to store the values of the current Entity
             $currData = '';
