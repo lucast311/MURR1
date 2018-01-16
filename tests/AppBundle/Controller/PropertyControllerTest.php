@@ -446,9 +446,6 @@ class PropertyControllerTest extends WebTestCase
         $container->setType("Bin");
         $container->setSize("6 yd");
 
-        // HOW DOES setPickUpInfo() WORK. IT SAYS THAT IT TAKES IN AN INTEGER IN THE ENTITY CLASS.
-        $container->setPickUpInfo();
-
         $container->setIsInaccessable(true);
         $container->setIsContaminated(false);
         $container->setIsGraffiti(false);

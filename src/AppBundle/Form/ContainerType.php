@@ -15,14 +15,14 @@ class ContainerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('Frequency', ChoiceType::class, array('choices'=>Container::getFrequencyChoices()))
+        $builder->add('Frequency', ChoiceType::class, array('choices'=>Container::FrequencyChoices()))
             ->add('containerSerial')
             ->add('locationDesc')
             ->add('long')
             ->add('lat')
-            ->add('type', ChoiceType::class, array('choices'=>Container::getTypeChoices()))
+            ->add('type', ChoiceType::class, array('choices'=>Container::TypeChoices()))
             ->add('size')
-            ->add('status', ChoiceType::class, array('choices'=>Container::getStatusChoices()))
+            ->add('status', ChoiceType::class, array('choices'=>Container::StatusChoices()))
             ->add('reasonForStatus');
     }
 

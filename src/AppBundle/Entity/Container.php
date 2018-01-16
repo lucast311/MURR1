@@ -25,7 +25,7 @@ class Container
     /**
      * @var int
      *
-     * @ORM\Column(name="PickUpInfo", type="string", nullable=true)
+     * @ORM\Column(name="frequency", type="string", nullable=true)
      * @Assert\Choice(callback="getFrequencyChoices", message = "Please select frequency type")
      */
     private $frequency;
@@ -80,13 +80,6 @@ class Container
      */
     private $status;
 
-    ///**
-    // * @var bool
-    // *
-    // * @ORM\Column(name="isInaccessable", type="boolean", nullable=true)
-    // */
-    //private $isInaccessable;
-
     /**
      * @var string
      *
@@ -100,21 +93,6 @@ class Container
      */
     protected $property;
 
-    ///**
-    // * @var bool
-    // *
-    // * @ORM\Column(name="isContaminated", type="boolean", nullable=true)
-    // */
-    //private $isContaminated;
-
-    ///**
-    // * @var bool
-    // *
-    // * @ORM\Column(name="isGraffiti", type="boolean", nullable=true)
-    // */
-    //private $isGraffiti;
-
-
     /**
      * Get id
      *
@@ -123,30 +101,6 @@ class Container
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set pickUpInfo
-     *
-     * @param integer $pickUpInfo
-     *
-     * @return Container
-     */
-    public function setPickUpInfo($pickUpInfo)
-    {
-        $this->frequency = $pickUpInfo;
-
-        return $this;
-    }
-
-    /**
-     * Get pickUpInfo
-     *
-     * @return int
-     */
-    public function getPickUpInfo()
-    {
-        return $this->frequency;
     }
 
     /**
@@ -293,102 +247,6 @@ class Container
         return $this->size;
     }
 
-    /**
-     * Set isInaccessable
-     *
-     * @param boolean $isInaccessable
-     *
-     * @return Container
-     */
-    public function setIsInaccessable($isInaccessable)
-    {
-        $this->isInaccessable = $isInaccessable;
-
-        return $this;
-    }
-
-    /**
-     * Get isInaccessable
-     *
-     * @return bool
-     */
-    public function getIsInaccessable()
-    {
-        return $this->isInaccessable;
-    }
-
-    /**
-     * Set reasonForInaccassability
-     *
-     * @param string $reasonForInaccassability
-     *
-     * @return Container
-     */
-    public function setReasonForInaccassability($reasonForInaccassability)
-    {
-        $this->reasonForInaccassability = $reasonForInaccassability;
-
-        return $this;
-    }
-
-    /**
-     * Get reasonForInaccassability
-     *
-     * @return string
-     */
-    public function getReasonForInaccassability()
-    {
-        return $this->reasonForInaccassability;
-    }
-
-    /**
-     * Set isContaminated
-     *
-     * @param boolean $isContaminated
-     *
-     * @return Container
-     */
-    public function setIsContaminated($isContaminated)
-    {
-        $this->isContaminated = $isContaminated;
-
-        return $this;
-    }
-
-    /**
-     * Get isContaminated
-     *
-     * @return bool
-     */
-    public function getIsContaminated()
-    {
-        return $this->isContaminated;
-    }
-
-    /**
-     * Set isGraffiti
-     *
-     * @param boolean $isGraffiti
-     *
-     * @return Container
-     */
-    public function setIsGraffiti($isGraffiti)
-    {
-        $this->isGraffiti = $isGraffiti;
-
-        return $this;
-    }
-
-    /**
-     * Get isGraffiti
-     *
-     * @return bool
-     */
-    public function getIsGraffiti()
-    {
-        return $this->isGraffiti;
-    }
-
     public function setFrequency($frequency)
     {
         $this->frequency = $frequency;
@@ -427,15 +285,14 @@ class Container
      *
      * @return array
      */
-
-    public static function getTypeChoices()
+    public static function TypeChoices()
     {
         return array('Bin' => 'Bin',
                      'Recycling Bin' => 'Recycling Bin',
                      'Garbage Bin' => 'Garbage Bin');
     }
 
-    public static function getStatusChoices()
+    public static function StatusChoices()
     {
         return array('Active' => 'Active',
                      'Inaccessable' => 'Inaccessable',
@@ -444,7 +301,7 @@ class Container
                      'Graffiti' => 'Graffiti');
     }
 
-    public static function getFrequencyChoices()
+    public static function FrequencyChoices()
     {
         return array('Monthly' => 'Monthly',
                      'Weekly' => 'Weekly',
