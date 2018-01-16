@@ -46,7 +46,7 @@ class ContainerControllerTest extends WebTestCase
         //    0,
         //    $crawler->filter('html:contains("Contact has been successfully added")')->count()
         //    );
-        $this->assertContains('Redirecting to /contact', $client->getResponse()->getContent());
+        $this->assertContains('Redirecting to /container', $client->getResponse()->getContent());
 
     }
 }
