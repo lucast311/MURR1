@@ -91,12 +91,12 @@ class Container
      * @ORM\ManyToOne(targetEntity="Property", inversedBy="bins", cascade={"persist"})
      * @ORM\JoinColumn(name="propertyID", referencedColumnName="id")
      */
-    protected $property;
+    //protected $property;
 
     /**
      * Summary of structure
      * 
-     * @ORM\ManyToOne(targetEntity="Structure", 
+     * @ORM\ManyToOne(targetEntity="Structure", inversedBy="container", cascade={"persist"})
      * @var int
      */
     protected $structureId;

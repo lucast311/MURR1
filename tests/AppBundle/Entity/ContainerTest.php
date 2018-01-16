@@ -19,7 +19,7 @@ class ContainerTest extends TestCase
         $this->container->setLocationDesc("The bin is out in the back of the building.");
         $this->container->setType("Recycle Bin");
         $this->container->setSize("6");
-        $this->container->property =  new Property();
+        $this->container->setStatus("Active");
 
         // Get a validator
         $this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();

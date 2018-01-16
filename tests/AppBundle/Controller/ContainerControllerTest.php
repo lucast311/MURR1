@@ -36,7 +36,7 @@ class ContainerControllerTest extends WebTestCase
         //select the form and add values to it.
         $form = $crawler->selectButton('Create')->form();
         $form['appbundle_container[containerSerial]'] = 'testSerial';
-        $form['appbundle_container[type]'] = 'bin';
+        $form['appbundle_container[type]'] = 'Bin';
         $form['appbundle_container[size]'] = '6';
 
         //crawler submits the form

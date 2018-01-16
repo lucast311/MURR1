@@ -446,10 +446,6 @@ class PropertyControllerTest extends WebTestCase
         $container->setType("Bin");
         $container->setSize("6 yd");
 
-        $container->setIsInaccessable(true);
-        $container->setIsContaminated(false);
-        $container->setIsGraffiti(false);
-
 
         // Add the bin to an array that we will loop through and add to the property
         $bins = array($container);
