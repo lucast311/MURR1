@@ -110,26 +110,9 @@
                 <td>{{container.containerSerial}}</td>
                 <td>{{container.type}}</td>
                 <td>{{container.size}}</td>
-                <td></td>
+                <td>{{container.frequency}}</td>
                 <td> <!--Routes will be shown here later--></td>
-                <td>
-                    {% if container.isInaccessable or container.isGraffiti or container.isContaminated %}
-
-                        {% if container.isInaccessable %}
-                            Inaccessable <br />
-                        {% endif %}
-                        {% if container.isGraffiti %}
-                            Graffiti<br />
-                        {% endif %}
-                        {% if container.isContaminated %}
-                            Contaminated<br />
-                        {% endif %}
-
-                    {% else %}
-                    Active
-                    {% endif %}
-                    
-                </td>
+                <td>{{container.status}}</td>
             </tr>
             {% endfor %}
             </tbody>
