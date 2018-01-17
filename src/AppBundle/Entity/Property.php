@@ -116,13 +116,10 @@ class Property
      */
     private $address;
 
-    private $contacts;
-
     /**
      * @ORM\OneToMany(targetEntity="Container",cascade={"persist"}, mappedBy="property")
      */
     private $bins;
-    private $buildings;
 
     /**
      * Get id
@@ -350,10 +347,6 @@ class Property
         return $this->address;
     }
 
-    public function getContacts(){}
-
-    public function setContacts($contacts){}
-
     /**
      * Returns all of the conatiners for this property
      * @return array of container entities
@@ -371,10 +364,6 @@ class Property
         $this->bins = $bins;
         return $this;
     }
-
-    public function getBuildings(){}
-
-    public function setBuildings($buildings){}
 
     public function __toString(){
         return $this->address->__toString();
