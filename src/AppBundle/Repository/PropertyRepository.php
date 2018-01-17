@@ -37,5 +37,16 @@ class PropertyRepository extends EntityRepository
         return $property->getId();
     }
 
+    ///**
+    // * STORY 4h
+    // * Takes an integer property id and returns an array of all containers associated
+    // * with that property. The property id should be greater than 0.
+    // * @param Property $property the property to find containers for
+    // * @return mixed the array of containers associated with that property
+    // */
+    //public function getAllContainers(int $propertyId)
+    //{
+
+    //}
 
 }
