@@ -17,7 +17,7 @@ class ContainerTest extends TestCase
         $this->container = new Container();
         $this->container->setContainerSerial("XO6DEZM0");
         $this->container->setLocationDesc("The bin is out in the back of the building.");
-        $this->container->setType("Recycle Bin");
+        $this->container->setType("Bin");
         $this->container->setSize("6");
         $this->container->setStatus("Active");
 
@@ -100,17 +100,6 @@ class ContainerTest extends TestCase
     public function testContainerPassLocationDescBlank()
     {
         $this->container->setLocationDesc("");
-
-        // Attempt to validate the container
-        $error = $this->validator->validate($this->container);
-
-        // Assert that there are no errors
-        $this->assertEquals(0, count($error));
-    }
-        // Test that a description can actually be blank
-    public function testContainerPassLocationReasonBlank()
-    {
-        $this->container->setReasonForInaccassability("");
 
         // Attempt to validate the container
         $error = $this->validator->validate($this->container);

@@ -119,7 +119,7 @@ class Property
     private $contacts;
 
     /**
-     * @ORM\OneToMany(targetEntity="Container",cascade={"persist"}, mappedBy="property")
+     * /@ORM\OneToMany(targetEntity="Container", cascade={"persist"}, mappedBy="property")
      */
     private $bins;
     private $buildings;
