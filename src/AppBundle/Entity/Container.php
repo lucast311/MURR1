@@ -37,26 +37,7 @@ class Container
      */
     private $containerSerial;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="LocationDesc", type="string", length=255, nullable=true)
-     */
-    private $locationDesc;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Long", type="string", length=100, nullable=true)
-     */
-    private $long;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lat", type="string", length=100, nullable=true)
-     */
-    private $lat;
+    
 
     /**
      * @var string
@@ -87,12 +68,7 @@ class Container
     // */
     //private $isInaccessable;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="reasonForStatus", type="string", length=255, nullable=true)
-     */
-    private $reasonForStatus;
+    
 
     /**
      * @ORM\ManyToOne(targetEntity="Property", inversedBy="bins", cascade={"persist"})
@@ -125,29 +101,7 @@ class Container
         return $this->id;
     }
 
-    /**
-     * Set pickUpInfo
-     *
-     * @param integer $pickUpInfo
-     *
-     * @return Container
-     */
-    public function setPickUpInfo($pickUpInfo)
-    {
-        $this->frequency = $pickUpInfo;
 
-        return $this;
-    }
-
-    /**
-     * Get pickUpInfo
-     *
-     * @return int
-     */
-    public function getPickUpInfo()
-    {
-        return $this->frequency;
-    }
 
     /**
      * Set containerSerial
@@ -173,77 +127,7 @@ class Container
         return $this->containerSerial;
     }
 
-    /**
-     * Set locationDesc
-     *
-     * @param string $locationDesc
-     *
-     * @return Container
-     */
-    public function setLocationDesc($locationDesc)
-    {
-        $this->locationDesc = $locationDesc;
 
-        return $this;
-    }
-
-    /**
-     * Get locationDesc
-     *
-     * @return string
-     */
-    public function getLocationDesc()
-    {
-        return $this->locationDesc;
-    }
-
-    /**
-     * Set long
-     *
-     * @param string $long
-     *
-     * @return Container
-     */
-    public function setLong($long)
-    {
-        $this->long = $long;
-
-        return $this;
-    }
-
-    /**
-     * Get long
-     *
-     * @return string
-     */
-    public function getLong()
-    {
-        return $this->long;
-    }
-
-    /**
-     * Set lat
-     *
-     * @param string $lat
-     *
-     * @return Container
-     */
-    public function setLat($lat)
-    {
-        $this->lat = $lat;
-
-        return $this;
-    }
-
-    /**
-     * Get lat
-     *
-     * @return string
-     */
-    public function getLat()
-    {
-        return $this->lat;
-    }
 
     /**
      * Set type
@@ -293,101 +177,6 @@ class Container
         return $this->size;
     }
 
-    /**
-     * Set isInaccessable
-     *
-     * @param boolean $isInaccessable
-     *
-     * @return Container
-     */
-    public function setIsInaccessable($isInaccessable)
-    {
-        $this->isInaccessable = $isInaccessable;
-
-        return $this;
-    }
-
-    /**
-     * Get isInaccessable
-     *
-     * @return bool
-     */
-    public function getIsInaccessable()
-    {
-        return $this->isInaccessable;
-    }
-
-    /**
-     * Set reasonForInaccassability
-     *
-     * @param string $reasonForInaccassability
-     *
-     * @return Container
-     */
-    public function setReasonForInaccassability($reasonForInaccassability)
-    {
-        $this->reasonForInaccassability = $reasonForInaccassability;
-
-        return $this;
-    }
-
-    /**
-     * Get reasonForInaccassability
-     *
-     * @return string
-     */
-    public function getReasonForInaccassability()
-    {
-        return $this->reasonForInaccassability;
-    }
-
-    /**
-     * Set isContaminated
-     *
-     * @param boolean $isContaminated
-     *
-     * @return Container
-     */
-    public function setIsContaminated($isContaminated)
-    {
-        $this->isContaminated = $isContaminated;
-
-        return $this;
-    }
-
-    /**
-     * Get isContaminated
-     *
-     * @return bool
-     */
-    public function getIsContaminated()
-    {
-        return $this->isContaminated;
-    }
-
-    /**
-     * Set isGraffiti
-     *
-     * @param boolean $isGraffiti
-     *
-     * @return Container
-     */
-    public function setIsGraffiti($isGraffiti)
-    {
-        $this->isGraffiti = $isGraffiti;
-
-        return $this;
-    }
-
-    /**
-     * Get isGraffiti
-     *
-     * @return bool
-     */
-    public function getIsGraffiti()
-    {
-        return $this->isGraffiti;
-    }
 
     public function setFrequency($frequency)
     {
@@ -411,16 +200,6 @@ class Container
         return $this->status;
     }
 
-    public function setReasonForStatus($reasonForStatus)
-    {
-        $this->reasonForStatus = $reasonForStatus;
-        return $this;
-    }
-
-    public function getReasonForStatus()
-    {
-        return $this->reasonForStatus;
-    }
 
     /**
      * Gets the choices available for the Type attribute

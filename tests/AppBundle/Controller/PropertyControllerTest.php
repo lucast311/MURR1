@@ -474,19 +474,19 @@ class PropertyControllerTest extends WebTestCase
         $this->assertTrue($crawler->filter('table.containers')->first() != null);
 
         // Assert that the table contains all the proper headers
-        $this->assertGreaterThan(0, $crawler->filter('table.conatiners:contains("Serial #")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.conatiners:contains("Type")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.conatiners:contains("Size")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.conatiners:contains("Frequency")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.conatiners:contains("Route(s)")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.conatiners:contains("Bin Status")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Serial #")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Type")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Size")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Frequency")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Route(s)")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Bin Status")')->count());
 
         // Assert that the table contains all the proper data
-        $this->assertGreaterThan(0, $crawler->filter('table.conatiners:contains("W114-320-001")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.conatiners:contains("Bin")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.conatiners:contains("6 yd")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.conatiners:contains("Weekly")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.conatiners:contains("Active")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("W114-320-001")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Bin")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("6 yd")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Weekly")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Active")')->count());
 
         // Note: Some checks will need to be made in order to test if routes are displayed, once routes are implemented
         //$this->assertGreaterThan(0, $crawler->filter('html:contains("")')->count());
@@ -533,12 +533,12 @@ class PropertyControllerTest extends WebTestCase
         $crawler = $client->request('GET',"/property/view/$propertyId");
 
         //Check that no container table headers exist on this page
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Serial #")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Type")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Size")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Frequency")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Route(s)")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Bin Status")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Serial #")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Type")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Size")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Frequency")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Route(s)")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Bin Status")')->count());
 
         // Assert that the view page contains a message informing the user that there are no containers
         $this->assertGreaterThan(0, $crawler->filter('html:contains("No containers found for this property")')->count());
@@ -563,12 +563,12 @@ class PropertyControllerTest extends WebTestCase
         //$this->assertTrue($crawler->filter('table.containers')->first() == null);
 
         //Check that no container table headers exist on this page
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Serial #")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Type")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Size")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Frequency")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Route(s)")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Bin Status")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Serial #")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Type")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Size")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Frequency")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Route(s)")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Bin Status")')->count());
     }
 
     /**
@@ -590,12 +590,12 @@ class PropertyControllerTest extends WebTestCase
         //$this->assertTrue($crawler->filter('table')->first() == null);
 
         //Check that no container table headers exist on this page
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Serial #")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Type")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Size")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Frequency")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Route(s)")')->count());
-        $this->assertEquals(0, $crawler->filter('table.conatiners:contains("Bin Status")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Serial #")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Type")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Size")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Frequency")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Route(s)")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Bin Status")')->count());
     }
 
     protected function tearDown()

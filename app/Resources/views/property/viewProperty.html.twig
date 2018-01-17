@@ -93,30 +93,30 @@
 
         {% else %}
         
-        <table class="containers" border="1">
-            <thead>
-                <tr>
-                    <th>Serial #</th>
-                    <th>Type</th>
-                    <th>Size</th>
-                    <th>Frequency</th>
-                    <th>Route(s)</th>
-                    <th>Bin Status</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for container in property.bins %}
-            <tr>
-                <td>{{container.containerSerial}}</td>
-                <td>{{container.type}}</td>
-                <td>{{container.size}}</td>
-                <td>{{container.frequency}}</td>
-                <td> <!--Routes will be shown here later--></td>
-                <td>{{container.status}}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+            <table class="containers" border="1">
+                <thead>
+                    <tr>
+                        <th>Serial #</th>
+                        <th>Type</th>
+                        <th>Size</th>
+                        <th>Frequency</th>
+                        <th>Route(s)</th>
+                        <th>Bin Status</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                    {% for container in property.bins %}
+                    <tr>
+                        <td>{{container.containerSerial}}</td>
+                        <td>{{container.type}}</td>
+                        <td>{{container.size}}</td>
+                        <td>{{container.frequency}}</td>
+                        <td> <!--Routes will be shown here later--></td>
+                        <td>{{container.status}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+            </table>
 
         {% endif %}
     {% endif %}
