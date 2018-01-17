@@ -6,45 +6,58 @@
     <table>
         <tbody>
             <tr>
-                <th>Id:</th>
-                <td>{{ contact.id }}</td>
-            </tr>
-            <tr>
-                <th>First Name:</th>
+                <td>First Name:</td>
                 <td>{{ contact.firstName }}</td>
             </tr>
             <tr>
-                <th>Last Name:</th>
+                <td>Last Name:</td>
                 <td>{{ contact.lastName }}</td>
             </tr>
             <tr>
-                <th>Role:</th>
+                <td>Role:</td>
                 <td>{{ contact.role }}</td>
             </tr>
             <tr>
-                <th>Company Name:</th>
+                <td>Company Name:</td>
                 <td>{{ contact.companyName }}</td>
             </tr>
             <tr>
-                <th>Primary Phone:</th>
+                <td>Primary Phone:</td>
                 <td>{{ contact.primaryPhone }}</td>
             </tr>
             <tr>
-                <th>Phone Extension:</th>
+                <td>Phone Extension:</td>
                 <td>{{ contact.phoneExtension }}</td>
             </tr>
             <tr>
-                <th>Secondary Phone:</th>
+                <td>Secondary Phone:</td>
                 <td>{{ contact.secondaryPhone }}</td>
             </tr>
             <tr>
-                <th>Email Address:</th>
+                <td>Email Address:</td>
                 <td>{{ contact.emailAddress }}</td>
             </tr>
             <tr>
-                <th>Fax:</th>
+                <td>Fax:</td>
                 <td>{{ contact.fax }}</td>
             </tr>
+            {% if contact.address is empty%}
+            <tr>
+                <td>Street Address:</td>
+            </tr>
+            <tr>
+                <td>Postal Code:</td>
+            </tr>
+            <tr>
+                <td>City:</td>
+            </tr>
+            <tr>
+                <td>Province:</td>
+            </tr>
+            <tr>
+                <td>Country:</td>
+            </tr>
+            {%else%}
             <tr>
                 <td>Street Address:</td>
                 <td>{{contact.address.streetAddress}}</td>
@@ -65,6 +78,7 @@
                 <td>Country:</td>
                 <td>{{contact.address.country}}</td>
             </tr>
+            {%endif%}
         </tbody>
     </table>
 

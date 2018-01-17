@@ -128,10 +128,11 @@ class Contact
 
     /**
      * Contacts have many properties
-     * @ORM\ManyToMany(targetEntity="Property", mappedBy="contacts")
+     * @ORM\ManyToMany(targetEntity="Property", mappedBy="contacts", cascade={"persist"})
      * @var Property[]
      */
     private $properties;
+
 
     /**
      * returns the options that a role can be

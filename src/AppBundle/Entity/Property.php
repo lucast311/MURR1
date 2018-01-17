@@ -118,7 +118,7 @@ class Property
 
     /**
      * Properties have many contacts
-     * @ORM\ManyToMany(targetEntity="Contact", inversedBy="properties")
+     * @ORM\ManyToMany(targetEntity="Contact", inversedBy="properties", cascade={"persist"})
      * @ORM\JoinTable(name="ContactProperty")
      * @var Contact[]
      */
@@ -362,7 +362,7 @@ class Property
     }
     /**
      * Sets associated contacts
-     * @param Contact[] $contacts 
+     * @param Contact[] $contacts
      */
     public function setContacts($contacts)
     {

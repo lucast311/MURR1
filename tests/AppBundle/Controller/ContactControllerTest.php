@@ -397,7 +397,7 @@ class ContactControllerTest extends WebTestCase
         $repository->contactSearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{"id":22,"firstName":"Jim","lastName":"Jim","role":"Property Manager","primaryPhone":"969-555-6969","phoneExtension":123,"secondaryPhone":null,"emailAddress":"tmctest@testcorp.com","fax":null,"address":null,"companyName":null,"properties":null}]', $client->getResponse()->getContent());
+        $this->assertContains('[{"id":22,"firstName":"Jim","lastName":"Jim","role":"Property Manager","primaryPhone":"969-555-6969","phoneExtension":123,"secondaryPhone":null,"emailAddress":"tmctest@testcorp.com","fax":null,"address":null,"companyName":null}]', $client->getResponse()->getContent());
     }
 
     /**
@@ -634,6 +634,7 @@ class ContactControllerTest extends WebTestCase
         $propertiesArray = array();
         for ($i = 0; $i < 15; $i++)
         {
+            $property->setSiteId($i);
         	$propertiesArray[] = $property;
         }
 
@@ -652,7 +653,7 @@ class ContactControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/contact/$id");
 
         // Make sure there are 15 properties listed
-        $this->assertEquals(15, $crawler->filter('html:contains("1593843")')->count());
+        $this->assertEquals(15, $crawler->filter('html:contains("Charlton Arms")')->count());
     }
 
     /**
