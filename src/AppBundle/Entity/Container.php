@@ -95,11 +95,18 @@ class Container
 
     /**
      * Summary of structure
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="Structure", inversedBy="container", cascade={"persist"})
      * @var int
      */
     protected $structureId;
+
+    /**
+     *@ORM\Column(name="augmentation", type="string", length=255, nullable=true)
+     *
+     * @var string
+     */
+    private $augmentation;
 
     /**
      * Get id
@@ -288,6 +295,17 @@ class Container
         return $this->reasonForStatus;
     }
 
+    public function setAugmentation($augmentation)
+    {
+        $this->augmentation = $augmentation;
+        return $this;
+    }
+
+    public function getAugmentation()
+    {
+        return $this->augmentation;
+    }
+
     /**
      * Gets the choices available for the Type attribute
      *
@@ -296,8 +314,7 @@ class Container
     public static function TypeChoices()
     {
         return array('Bin' => 'Bin',
-                     'Recycling Bin' => 'Recycling Bin',
-                     'Garbage Bin' => 'Garbage Bin');
+                     'Cart'=>'Cart');
     }
 
     public static function StatusChoices()
@@ -313,8 +330,7 @@ class Container
     {
         return array('Monthly' => 'Monthly',
                      'Weekly' => 'Weekly',
-                     'Bi-weekly' => 'Bi-weekly',
-                     'Bi-monthly' => 'Bi-monthly');
+                     'Twice weekly' => 'Twice weekly');
     }
 }
 

@@ -22,6 +22,7 @@ class ContainerType extends AbstractType
             ->add('lat')
             ->add('type', ChoiceType::class, array('choices'=>Container::TypeChoices()))
             ->add('size')
+            ->add('augmentation')
             ->add('status', ChoiceType::class, array('choices'=>Container::StatusChoices()))
             ->add('reasonForStatus');
     }
