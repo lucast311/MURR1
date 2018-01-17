@@ -450,8 +450,8 @@ class PropertyControllerTest extends WebTestCase
         $repository->propertySearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertTrue(false);
-        //$this->assertContains('TODO: FIGURE OUT HOW Charlton Arms WILL BE DISPLAYED IN JSON', $client->getResponse()->getContent());
+        //$this->assertTrue(false);
+        $this->assertContains('[{"id":1,"siteId":3593843,"propertyName":"Charlton Arms","propertyType":"Townhouse Condo","propertyStatus":"Active","structureId":54586,"numUnits":5,', $client->getResponse()->getContent());
     }
 
     /**
