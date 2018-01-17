@@ -80,7 +80,7 @@ class ContactRepository extends EntityRepository
             for ($i = 0; $i < sizeof($queryStrings); $i++)
             {
                 // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
-                $searchStringContacts .= "LOWER(c.$val) LIKE '%$queryStrings[$i]%' OR ";
+                $searchStringContacts .= "LOWER(c.$val) LIKE '%{$queryStrings[$i]}%' OR ";
             }
         }
 
@@ -94,7 +94,7 @@ class ContactRepository extends EntityRepository
             for ($i = 0; $i < sizeof($queryStrings); $i++)
             {
                 // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
-                $searchStringAddresses .= "LOWER(a.$val) LIKE '%$queryStrings[$i]%' OR ";
+                $searchStringAddresses .= "LOWER(a.$val) LIKE '%{$queryStrings[$i]}%' OR ";
             }
         }
 

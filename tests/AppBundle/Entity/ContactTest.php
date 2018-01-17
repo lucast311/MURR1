@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\ApBundle\Entity;
+namespace tests\AppBundle\Entity;
 
 use AppBundle\Entity\Contact;
 use PHPUnit\Framework\TestCase;

@@ -1,5 +1,5 @@
 <?php
-namespace tests\ApBundle\Entity;
+namespace tests\AppBundle\Entity;
 
 use AppBundle\Entity\Address;
 use PHPUnit\Framework\TestCase;

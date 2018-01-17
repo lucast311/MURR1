@@ -85,6 +85,8 @@
     <Compile Include="src\AppBundle\Services\Changer.php" />
     <Compile Include="src\AppBundle\Services\Cleaner.php" />
     <Compile Include="src\AppBundle\Services\SearchNarrower.php" />
+    <Compile Include="src\AppBundle\Tests\Controller\ContactControllerTest.php" />
+    <Compile Include="src\AppBundle\Tests\Controller\ContactSearchControllerTest.php" />
     <Compile Include="src\AppBundle\Validator\Constraints\ContactAtLeastOneField.php" />
     <Compile Include="src\AppBundle\Validator\Constraints\ContactAtLeastOneFieldValidator.php" />
     <Compile Include="src\AppBundle\AppBundle.php" />
@@ -109,6 +111,7 @@
     <Compile Include="tests\AppBundle\Repository\AddressRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CommunicationRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\ContactRepositoryTest.php" />
+    <Compile Include="tests\AppBundle\Repository\ContactSearchRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CSROOPsRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\PropertyRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Services\ChangerTest.php" />
@@ -3253,11 +3256,14 @@
     <Folder Include="var" />
     <Folder Include="web\bundles" />
     <Folder Include="web" />
+    <Folder Include="web\JavaScript\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\Resources\views\propertySearch\propertyJSONSearches.html.twig" />
     <Content Include="app\Resources\views\propertySearch\show.html.twig" />
     <Content Include="app\Resources\views\property\searchProperty.html.twig" />
+    <Content Include="app\Resources\views\Contact\searchContact.html.twig" />
     <Content Include="app\sqlite.db" />
+    <Content Include="web\JavaScript\Search.js" />
   </ItemGroup>
 </Project>

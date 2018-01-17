@@ -36,12 +36,20 @@ class ContactControllerTest extends WebTestCase
         //Request the contact add page
         $crawler = $client->request('GET','/contact/');
 
+        //$this->assertGreaterThan(0, $crawler->filter('table')->count());
+
+        //$this->assertGreaterThan(0, $crawler->filter('html:contains("First Name")')->count());
+        //$this->assertGreaterThan(0, $crawler->filter('html:contains("Last Name")')->count());
+        //$this->assertGreaterThan(0, $crawler->filter('html:contains("Company Name")')->count());
+        //$this->assertGreaterThan(0, $crawler->filter('html:contains("Primary Phone")')->count());
         $response = $client->getResponse()->getContent();
 
-        $this->assertcontains("Firstname", $response);
-        $this->assertcontains("Lastname", $response);
-        $this->assertcontains("Companyname", $response);
-        $this->assertcontains("Primaryphone", $response);
+
+
+        $this->assertcontains("First Name", $response);
+        $this->assertcontains("Last Name", $response);
+        $this->assertcontains("Company Name", $response);
+        $this->assertcontains("Primary Phone", $response);
     }
 
     /**
@@ -51,8 +59,6 @@ class ContactControllerTest extends WebTestCase
      */
     public function testViewAction()
     {
-
-        /*
         //create a contact to insert
         $contact = new Contact();
         $contact->setFirstName("Ashton");
@@ -71,25 +77,29 @@ class ContactControllerTest extends WebTestCase
         $address->setCountry("Canada");
 
         $contact->setAddress($address);
-        */
 
-        //$repository = $this->em->getRepository(Contact::class);
+        $repository = $this->em->getRepository(Contact::class);
          //save contact to database
-        //$id = $repository->save($contact);
+        $id = $repository->save($contact);
 
         //Create a client to go through the web page
         $client = static::createClient();
         //Request the contact view contact page for this contact
-        $crawler = $client->request('GET',"/contact/1");
+        $crawler = $client->request('GET',"/contact/$id");
+
+        //// Select the first button on the page that views the details for a contact
+        //$link = $crawler->filter('a:contains("View")')->eq(0)->link();
+        //// Go there - should be viewing a specific contact after this
+        //$crawler = $client->click($link);
 
         // Assert that all the proper labels are on the page
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Firstname:")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Lastname:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("First Name:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Last Name:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Role:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Primary Phone:")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Secondaryphone:")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("PhoneExtension:")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Emailaddress:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Secondary Phone:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Phone Extension:")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Email Address:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Fax:")')->count());
         //$this->assertGreaterThan(0, $crawler->filter('html:contains("Street Address:")')->count());
         //$this->assertGreaterThan(0, $crawler->filter('html:contains("Postal Code:")')->count());
@@ -120,6 +130,9 @@ class ContactControllerTest extends WebTestCase
         $client = static::createClient();
         //Request the contact edit page
         $crawler = $client->request('GET','/contact/1/edit');
+        //$link = $crawler->filter('a:contains("Edit")')->eq(0)->link();
+        //// Go there - should be viewing a specific contact after this
+        //$crawler = $client->click($link);
 
         $form = $crawler->selectButton('Submit')->form();
 
@@ -150,6 +163,12 @@ class ContactControllerTest extends WebTestCase
         //crawler submits the form
         $crawler = $client->submit($form);
         //check for the success message
+        //$this->assertGreaterThan(
+        //    0,
+        //    $crawler->filter('html:contains("Contact has been successfully added")')->count()
+        //    );
+        $this->assertContains('Redirecting to /contact', $client->getResponse()->getContent());
+
 
         $this->assertContains('Redirecting to /contact', $client->getResponse()->getContent());
 
@@ -365,7 +384,7 @@ class ContactControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'Jim'
-        $client->request('GET', '/contact/search/Jim');
+        $client->request('GET', '/contact/jsonsearch/Jim');
 
         // create an array so we can call the search
         $queryStrings = array();
@@ -375,7 +394,7 @@ class ContactControllerTest extends WebTestCase
         $repository->contactSearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{&quot;id&quot;:152,&quot;firstName&quot;:&quot;Jim&quot;,&quot;lastName&quot;:&quot;Jim&quot;,&quot;role&quot;:&quot;Property Manager&quot;,&quot;companyName&quot;:&quot;969-555-6969&quot;,&quot;primaryPhone&quot;:&quot;123&quot;,&quot;phoneExtension&quot;:null,&quot;secondaryPhone&quot;:&quot;tmctest@testcorp.com&quot;,&quot;emailAddress&quot;:null,&quot;fax&quot;:null,&quot;address&quot;:152}]', $client->getResponse()->getContent());
+        $this->assertContains('[{"id":152,"firstName":"Jim","lastName":"Jim","role":"Property Manager","primaryPhone":"969-555-6969","phoneExtension":123,"secondaryPhone":null,"emailAddress":"tmctest@testcorp.com","fax":null,"address":null,"companyName":null}]', $client->getResponse()->getContent());
     }
 
     /**
@@ -390,13 +409,13 @@ class ContactControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones'
-        $client->request('GET', '/contact/search/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones');
+        $client->request('GET', '/contact/jsonsearch/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones');
 
         //// query the database
         //$repository->contactSearch("Jim");
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{&quot;role&quot;:null}]', $client->getResponse()->getContent());
+        $this->assertContains('[]', $client->getResponse()->getContent());
     }
 
     /**
@@ -415,7 +434,7 @@ class ContactControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'Jim'
-        $client->request('GET', '/contact/search/Jim');
+        $client->request('GET', '/contact/jsonsearch/Jim');
 
         // query the database
         $results = $repository->contactSearch("Jim");
@@ -436,7 +455,22 @@ class ContactControllerTest extends WebTestCase
     }
 
 
+    /**
+     * story 9i
+     * test that the search page is accessable and that there is the proper elements on screen.
+     */
+    public function testSearchPageAccessible()
+    {
+        // Create a client, and go to the search page for a contact
+        $client = static::createClient();
 
+        // A crawler to check if the page contains a search field
+        $crawler = $client->request('GET', '/contact/search');
+
+        // Assert that the page contains both a Header, and a search field
+        $this->assertContains("Contact Search", $client->getResponse()->getContent());
+        $this->assertTrue($crawler->filter('input[type=search]')->first() != null);
+    }
 
 
 

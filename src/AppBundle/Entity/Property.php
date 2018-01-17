@@ -105,9 +105,9 @@ class Property
     private $neighbourhoodId;
 
     /**
-     * @var \stdClass
+     * @var Address
      *
-     * @ORM\ManyToOne(targetEntity="Address")
+     * @ORM\ManyToOne(targetEntity="Address",cascade={"persist"})
      * @ORM\JoinColumn(name="addressId", referencedColumnName="id")
      *
      * @Assert\Valid()
@@ -322,9 +322,9 @@ class Property
     }
 
     /**
-     * Set address Reference
+     * Set address
      *
-     * @param \stdClass $addressReference
+     * @param Address $address
      *
      * @return Property
      */
@@ -336,9 +336,9 @@ class Property
     }
 
     /**
-     * Get addressReference
+     * Get address
      *
-     * @return \stdClass
+     * @return Address
      */
     public function getAddress()
     {
@@ -356,6 +356,10 @@ class Property
     //public function getBuildings(){}
 
     //public function setBuildings($buildings){}
+
+    public function __toString(){
+        return $this->address->__toString();
+    }
 
     /**
      * Returns an array of valid choices for the property status.
