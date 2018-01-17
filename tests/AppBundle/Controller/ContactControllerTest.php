@@ -502,7 +502,7 @@ class ContactControllerTest extends WebTestCase
 
         //Create a new property to ensure that there is one to edit in the database
         $property = new Property();
-        $property->setSiteId(1593843);
+        $property->setSiteId(7894854);
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
@@ -531,6 +531,8 @@ class ContactControllerTest extends WebTestCase
 
         // A crawler to check if the page contains a search field
         $crawler = $client->request('GET', "/contact/$id");
+
+        var_dump($crawler->html());
 
         //check if the headings appear
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Site Id")')->count());
@@ -613,7 +615,7 @@ class ContactControllerTest extends WebTestCase
 
         //Create a new property to ensure that there is one to edit in the database
         $property = new Property();
-        $property->setSiteId(1593843);
+        $property->setSiteId(999989);
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
@@ -663,9 +665,11 @@ class ContactControllerTest extends WebTestCase
     {
         parent::tearDown();
 
-        $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact");
+        //$stmt = $this->em->getConnection()->prepare("DELETE FROM Contact");
         $stmt->execute();
-        $stmt = $this->em->getConnection()->prepare("DELETE FROM Address");
+        //$stmt = $this->em->getConnection()->prepare("DELETE FROM Address");
+        $stmt->execute();
+        //$stmt = $this->em->getConnection()->prepare("DELETE FROM Property");
         $stmt->execute();
 
         $this->em->close();
