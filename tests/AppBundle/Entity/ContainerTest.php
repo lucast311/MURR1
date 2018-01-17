@@ -4,7 +4,7 @@ namespace tests\AppBundle\Entity;
 use AppBundle\Entity\Container;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
-use AppBundle\Entity\Property; 
+use AppBundle\Entity\Property;
 
 class ContainerTest extends TestCase
 {
@@ -177,7 +177,7 @@ class ContainerTest extends TestCase
         $error = $this->validator->validate($this->container);
 
         $this->assertEquals(1, count($error));
-        
+
         // Assert that the error message is correct
         $this->assertTrue("The container serial must be between 1 and 50 characters." === $error[0]->getMessage());
     }
@@ -189,13 +189,58 @@ class ContainerTest extends TestCase
         $error = $this->validator->validate($this->container);
 
         $this->assertEquals(1, count($error));
-        
+
         // Assert that the error message is correct
         $this->assertTrue("You must select a valid container type!" === $error[0]->getMessage());
     }
 
     public function testContainerPassProperty()
     {
+    }
+
+    public function testAugmentationIsCorrectSize()
+    {
+        $this->container->setAugmentation(str_repeat('a',50));
+
+        $error = $this->validator->validate($this->container);
+
+        $this->assertEquals(0, count($error));
+    }
+
+    public function testAugmentationIsCorrectSizeBoundary()
+    {
+        $this->container->setAugmentation(str_repeat('a',254));
+
+        $error = $this->validator->validate($this->container);
+
+        $this->assertEquals(0, count($error));
+    }
+
+    public function testAugmentationIsCorrectSizeExact()
+    {
+        $this->container->setAugmentation(str_repeat('a',255));
+
+        $error = $this->validator->validate($this->container);
+
+        $this->assertEquals(0, count($error));
+    }
+
+    public function testAugmentationIsIncorrectSizeBoundary()
+    {
+        $this->container->setAugmentation(str_repeat('a',256));
+
+        $error = $this->validator->validate($this->container);
+
+        $this->assertEquals(1, count($error));
+    }
+
+    public function testAugmentationIsIncorrectSize()
+    {
+        $this->container->setAugmentation(str_repeat('a',300));
+
+        $error = $this->validator->validate($this->container);
+
+        $this->assertEquals(1, count($error));
     }
 
 
