@@ -518,6 +518,7 @@ class ContactControllerTest extends WebTestCase
         $address->setProvince("Saskatchewan");
         $address->setCountry("Canada");
         $property->setAddress($address);
+        $property->setContacts(array($contact));
 
         //add the property to the contact
         $contact->setProperties(array($property));
@@ -532,8 +533,6 @@ class ContactControllerTest extends WebTestCase
         // A crawler to check if the page contains a search field
         $crawler = $client->request('GET', "/contact/$id");
 
-        var_dump($crawler->html());
-
         //check if the headings appear
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Site Id")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Street Address")')->count());
@@ -542,7 +541,7 @@ class ContactControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Type")')->count());
 
         //assert that the associated data shows up
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("1593843")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("7894854")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("12 15th st east")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Sutherland")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("5")')->count());
@@ -613,30 +612,32 @@ class ContactControllerTest extends WebTestCase
 
         $contact->setAddress($address);
 
-        //Create a new property to ensure that there is one to edit in the database
-        $property = new Property();
-        $property->setSiteId(999989);
-        $property->setPropertyName("Charlton Arms");
-        $property->setPropertyType("Townhouse Condo");
-        $property->setPropertyStatus("Active");
-        $property->setStructureId(54586);
-        $property->setNumUnits(5);
-        $property->setNeighbourhoodName("Sutherland");
-        $property->setNeighbourhoodId("O48");
-        // Have to create a new valid address too otherwise doctrine will fail
-        $address = new Address();
-        $address->setStreetAddress("12 15th st east");
-        $address->setPostalCode("S0E 1A0");
-        $address->setCity("Saskatoon");
-        $address->setProvince("Saskatchewan");
-        $address->setCountry("Canada");
-        $property->setAddress($address);
+
+
 
         // Create the property 15 times
         $propertiesArray = array();
         for ($i = 0; $i < 15; $i++)
         {
+            //Create a new property to ensure that there is one to edit in the database
+            $property = new Property();
             $property->setSiteId($i);
+            $property->setPropertyName("Charlton Arms");
+            $property->setPropertyType("Townhouse Condo");
+            $property->setPropertyStatus("Active");
+            $property->setStructureId(54586);
+            $property->setNumUnits(5);
+            $property->setNeighbourhoodName("Sutherland");
+            $property->setNeighbourhoodId("O48");
+            // Have to create a new valid address too otherwise doctrine will fail
+            $address = new Address();
+            $address->setStreetAddress("12 15th st east");
+            $address->setPostalCode("S0E 1A0");
+            $address->setCity("Saskatoon");
+            $address->setProvince("Saskatchewan");
+            $address->setCountry("Canada");
+            $property->setAddress($address);
+            $property->setContacts(array($contact));
         	$propertiesArray[] = $property;
         }
 
@@ -655,7 +656,7 @@ class ContactControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/contact/$id");
 
         // Make sure there are 15 properties listed
-        $this->assertEquals(15, $crawler->filter('html:contains("Charlton Arms")')->count());
+        $this->assertEquals(15, $crawler->filter('td:contains("Sutherland")')->count());
     }
 
     /**
@@ -665,11 +666,13 @@ class ContactControllerTest extends WebTestCase
     {
         parent::tearDown();
 
-        //$stmt = $this->em->getConnection()->prepare("DELETE FROM Contact");
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact");
         $stmt->execute();
-        //$stmt = $this->em->getConnection()->prepare("DELETE FROM Address");
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Address");
         $stmt->execute();
-        //$stmt = $this->em->getConnection()->prepare("DELETE FROM Property");
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Property");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM ContactProperty");
         $stmt->execute();
 
         $this->em->close();
