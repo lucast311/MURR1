@@ -32,7 +32,7 @@ class ContainerRepositoryTest extends KernelTestCase
         $container->setContainerSerial("testSerial"); 
         $container->setType("Bin"); 
         $container->setSize("6");
-        // $container->property = ;
+        $container->setStatus("setStatus");
 
         $repo = $this->em->getRepository(Container::class); 
 

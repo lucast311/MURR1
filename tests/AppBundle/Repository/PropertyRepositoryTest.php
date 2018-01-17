@@ -53,6 +53,11 @@ class PropertyRepositoryTest extends KernelTestCase
 
         $property->setAddress($address);
 
+        $container = new Container();
+        $container->setStatus("Active");
+
+        $property->setAddress($container);
+
         //Get the repository for testing
         $repository = $this->em->getRepository(Property::class);
         //Call insert on the repository and record the id of the new object
@@ -87,6 +92,11 @@ class PropertyRepositoryTest extends KernelTestCase
         $address->setProvince("Saskatchewan");
         $address->setCountry("Canada");
         $property->setAddress($address);
+
+        $container = new Container();
+        $container->setStatus("Active");
+
+        $property->setAddress($container);
 
         //get the repository
         $repository = $this->em->getRepository(Property::class);
