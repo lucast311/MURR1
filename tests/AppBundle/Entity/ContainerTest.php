@@ -21,6 +21,7 @@ class ContainerTest extends TestCase
         $this->container->setSize("6");
         $this->container->setStatus("Active");
 
+
         // Get a validator
         $this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
     }

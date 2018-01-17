@@ -44,16 +44,16 @@ class ContainerRepositoryTest extends KernelTestCase
      /**
      * (@inheritDoc)
      */
-    //protected function tearDown()
-    //{
-    //    parent::tearDown();
+    protected function tearDown()
+    {
+        parent::tearDown();
 
-    //    // Delete everything out of the property table after inserting stuff
-    //    $stmt = $this->em->getConnection()->prepare('DELETE FROM Container');
-    //    $stmt->execute();
+        // Delete everything out of the property table after inserting stuff
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Container');
+        $stmt->execute();
 
-    //    $this->em->close();
-    //    $this->em = null; //avoid memory meaks
-    //}
+        $this->em->close();
+        $this->em = null; //avoid memory meaks
+    }
 
 }
