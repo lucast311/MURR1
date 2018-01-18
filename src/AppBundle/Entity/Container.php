@@ -351,6 +351,10 @@ class Container
                      'Cart'=>'Cart');
     }
 
+    /**
+     * Get the choices for the Status in the its dropdown
+     * @return string[]
+     */
     public static function StatusChoices()
     {
         return array('Active' => 'Active',
@@ -360,6 +364,10 @@ class Container
                      'Graffiti' => 'Graffiti');
     }
 
+    /**
+     *  Get the choices for the Frequency in the its dropdown
+     * @return string[]
+     */
     public static function FrequencyChoices()
     {
         return array('Monthly' => 'Monthly',
