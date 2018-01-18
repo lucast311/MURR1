@@ -95,6 +95,7 @@ class Container
      * @var string
      *
      * @ORM\Column(name="reasonForStatus", type="string", length=255, nullable=true)
+     * @Assert\Length(max="255", maxMessage="Can only be 255 characters")
      */
     private $reasonForStatus;
 

@@ -5,6 +5,7 @@ use AppBundle\Entity\Container;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
 use AppBundle\Entity\Property;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 class ContainerTest extends TestCase
 {
@@ -109,6 +110,7 @@ class ContainerTest extends TestCase
         $this->assertEquals(0, count($error));
     }
 
+    //test that the type is invalid
     public function testContainerFailInvalidType()
     {
         // Change the Type to an invalid type
@@ -119,10 +121,9 @@ class ContainerTest extends TestCase
 
         // Assert that there is one error
         $this->assertEquals(1, count($error));
-        // Assert that the error message is correct
-        //$this->assertTrue("You must select a valid container type!" === $error[0]->getMessage());
     }
 
+    //test the length of Size is too long
     public function testContainerFailSizeTooLong()
     {
         // Change the Type to an invalid type
@@ -133,10 +134,9 @@ class ContainerTest extends TestCase
 
         // Assert that there is one error
         $this->assertEquals(1, count($error));
-        // Assert that the error message is correct
-        //$this->assertTrue("The size must be lower than 100 characters" === $error[0]->getMessage());
     }
 
+    //test the size is exactly 100 and passes
     public function testContainerPassSizeOnBoundary()
     {
         // Change the Type to an invalid type
@@ -149,6 +149,7 @@ class ContainerTest extends TestCase
         $this->assertEquals(0, count($error));
     }
 
+    //Test that the Serial number isn't blank
     public function testContainerSerialNotBlank()
     {
         $this->container->setContainerSerial("");
@@ -156,10 +157,9 @@ class ContainerTest extends TestCase
         $error = $this->validator->validate($this->container);
 
         $this->assertEquals(1, count($error));
-        // Assert that the error message is correct
-        //$this->assertTrue("The container serial must be between 1 and 50 characters." === $error[0]->getMessage());
     }
 
+    //test that the serial is not null
     public function testContainerSerialNotNull()
     {
         $this->container->setContainerSerial(null);
@@ -167,11 +167,9 @@ class ContainerTest extends TestCase
         $error = $this->validator->validate($this->container);
 
         $this->assertEquals(2, count($error));
-
-        // Assert that the error message is correct
-        //$this->assertTrue("The container serial must be between 1 and 50 characters." === $error[0]->getMessage());
     }
 
+    //test that the type is not null
     public function testContainerTypeNotNull()
     {
         $this->container->setType(null);
@@ -179,15 +177,9 @@ class ContainerTest extends TestCase
         $error = $this->validator->validate($this->container);
 
         $this->assertEquals(1, count($error));
-
-        // Assert that the error message is correct
-        //$this->assertTrue("You must select a valid container type!" === $error[0]->getMessage());
     }
 
-    public function testContainerPassProperty()
-    {
-    }
-
+    //test the augmentation is exactly 50 characters
     public function testAugmentationIsCorrectSize()
     {
         $this->container->setAugmentation(str_repeat('a',50));
@@ -197,6 +189,7 @@ class ContainerTest extends TestCase
         $this->assertEquals(0, count($error));
     }
 
+    //test that the augmentation is one less tha max (255)
     public function testAugmentationIsCorrectSizeBoundary()
     {
         $this->container->setAugmentation(str_repeat('a',254));
@@ -206,6 +199,7 @@ class ContainerTest extends TestCase
         $this->assertEquals(0, count($error));
     }
 
+    //test that the augmentation is exactly the maximum (255)
     public function testAugmentationIsCorrectSizeExact()
     {
         $this->container->setAugmentation(str_repeat('a',255));
@@ -215,6 +209,7 @@ class ContainerTest extends TestCase
         $this->assertEquals(0, count($error));
     }
 
+    //test augmentation is one over exact
     public function testAugmentationIsIncorrectSizeBoundary()
     {
         $this->container->setAugmentation(str_repeat('a',256));
@@ -224,6 +219,7 @@ class ContainerTest extends TestCase
         $this->assertEquals(1, count($error));
     }
 
+    //test augmentation fails over the maximum
     public function testAugmentationIsIncorrectSize()
     {
         $this->container->setAugmentation(str_repeat('a',300));
@@ -231,6 +227,32 @@ class ContainerTest extends TestCase
         $error = $this->validator->validate($this->container);
 
         $this->assertEquals(1, count($error));
+    }
+
+    //test container fails for reason being too long
+    public function testContainerFailReasonForStatusTooLong()
+    {
+        
+        $this->container->setReasonForStatus(str_repeat("a",260));
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there is one error
+        $this->assertEquals(1, count($error));
+    }
+
+    //test Reason for status passes by beuing exactly maximum
+    public function testContainerPassReasonForStatusOnBoundary()
+    {
+
+        $this->container->setSize(str_repeat("a",255));
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there are 0 errors
+        $this->assertEquals(0, count($error));
     }
 
 
