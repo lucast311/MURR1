@@ -130,6 +130,12 @@ class Property
     private $bins;
 
     /**
+     * Holds a list of communications for this property
+     * @var Communication[]
+     */
+    private $communications;
+
+    /**
      * Get id
      *
      * @return int
@@ -387,6 +393,23 @@ class Property
     public function setBins($bins){
         $this->bins = $bins;
         return $this;
+    }
+
+    /**
+     * Retrieves all the communications for this property
+     */
+    public function getCommunications()
+    {
+        
+    }
+
+    /**
+     * Allows you to set the communications for this property
+     * @param mixed $communications 
+     */
+    public function setCommunications($communications)
+    {
+        
     }
 
     public function __toString(){
