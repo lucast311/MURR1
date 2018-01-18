@@ -15,6 +15,9 @@ use AppBundle\Services\SearchNarrower;
 use AppBundle\Services\Changer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Controller that contains methods for anything having to do with a property.
@@ -165,11 +168,16 @@ class PropertyController extends Controller
             // look in the array of narrowed searches/values for the first element (this will be the array of narrowed searches)
             $narrowedResults = $searchedData[0];
 
-            //var_dump($narrowedResults);
+            $encoder = new JsonEncoder();
+            $normalizer = new ObjectNormalizer();
+            $normalizer->setIgnoredAttributes(array("contacts", "bins", "buildings",
+                "__initializer__", "__cloner__", "__isInitialized__")); //idk why i need these ones, but I do..
+            $serializer = new Serializer(array($normalizer), array($encoder));
+
 
             // Return the results as a json object
             // NOTE: Serializer service needs to be enabled for this to work properly
-            return $this->json($narrowedResults);
+            return JsonResponse::fromJsonString($serializer->serialize($narrowedResults, 'json'));
         }
 
         // string over 100, return empty array.
