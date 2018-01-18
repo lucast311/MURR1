@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use AppBundle\Entity\Container; 
+use AppBundle\Entity\Container;
 
 class ContainerType extends AbstractType
 {
@@ -15,16 +15,16 @@ class ContainerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('frequency', ChoiceType::class, array('choices'=>Container::FrequencyChoices()))
-            ->add('containerSerial')
-            ->add('locationDesc')
-            ->add('long')
-            ->add('lat')
+        $builder            ->add('containerSerial')
             ->add('type', ChoiceType::class, array('choices'=>Container::TypeChoices()))
             ->add('size')
             ->add('augmentation')
             ->add('status', ChoiceType::class, array('choices'=>Container::StatusChoices()))
-            ->add('reasonForStatus');
+            ->add('reasonForStatus')
+            ->add('frequency', ChoiceType::class, array('choices'=>Container::FrequencyChoices()))
+            ->add('locationDesc')
+            ->add('long')
+            ->add('lat');
     }
 
     /**
