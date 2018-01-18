@@ -3273,6 +3273,5 @@
     <Content Include="app\Resources\views\container\index.html.twig" />
     <Content Include="app\Resources\views\container\new.html.twig" />
     <Content Include="app\Resources\views\container\show.html.twig" />
-    <Content Include="app\sqlite.db" />
   </ItemGroup>
 </Project>
