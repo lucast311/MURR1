@@ -16,7 +16,7 @@ class LoadContactData implements FixtureInterface
     public function load(ObjectManager $obMan)
     {
         // create 100 Contacts with the following data
-        for($i=0;$i<100;$i++)
+        for($i=0;$i<10;$i++)
         {
             // Address data
             $address = (new Address())
@@ -52,7 +52,7 @@ class LoadContactData implements FixtureInterface
         }
 
         // create 50 Contacts with the following data
-        for($i=0;$i<50;$i++)
+        for($i=0;$i<10;$i++)
         {
             $address = (new Address())
                 ->setStreetAddress("12 15th st east")

@@ -61,6 +61,8 @@ class Container
      * @ORM\Column(name="lat", type="string", length=100, nullable=true)
      */
     private $lat;
+    
+
 
     /**
      * @var string
@@ -86,12 +88,23 @@ class Container
      */
     private $status;
 
+<<<<<<< HEAD
     /**
      * @var string
      *
      * @ORM\Column(name="reasonForStatus", type="string", length=255, nullable=true)
      */
     private $reasonForStatus;
+=======
+    ///**
+    // * @var bool
+    // *
+    // * @ORM\Column(name="isInaccessable", type="boolean", nullable=true)
+    // */
+    //private $isInaccessable;
+
+    
+>>>>>>> master
 
     /**
      * Summary of structure
@@ -107,6 +120,7 @@ class Container
      */
     protected $property;
 
+<<<<<<< HEAD
     /**
      *@ORM\Column(name="augmentation", type="string", length=255, nullable=true)
      *@Assert\Length(max=255, maxMessage="Size must be less than 255")
@@ -124,6 +138,9 @@ class Container
     {
         return $this->id;
     }
+=======
+
+>>>>>>> master
 
     /**
      * Set containerSerial
@@ -149,77 +166,7 @@ class Container
         return $this->containerSerial;
     }
 
-    /**
-     * Set locationDesc
-     *
-     * @param string $locationDesc
-     *
-     * @return Container
-     */
-    public function setLocationDesc($locationDesc)
-    {
-        $this->locationDesc = $locationDesc;
 
-        return $this;
-    }
-
-    /**
-     * Get locationDesc
-     *
-     * @return string
-     */
-    public function getLocationDesc()
-    {
-        return $this->locationDesc;
-    }
-
-    /**
-     * Set long
-     *
-     * @param string $long
-     *
-     * @return Container
-     */
-    public function setLong($long)
-    {
-        $this->long = $long;
-
-        return $this;
-    }
-
-    /**
-     * Get long
-     *
-     * @return string
-     */
-    public function getLong()
-    {
-        return $this->long;
-    }
-
-    /**
-     * Set lat
-     *
-     * @param string $lat
-     *
-     * @return Container
-     */
-    public function setLat($lat)
-    {
-        $this->lat = $lat;
-
-        return $this;
-    }
-
-    /**
-     * Get lat
-     *
-     * @return string
-     */
-    public function getLat()
-    {
-        return $this->lat;
-    }
 
     /**
      * Set type
@@ -269,6 +216,10 @@ class Container
         return $this->size;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     public function setFrequency($frequency)
     {
         $this->frequency = $frequency;
@@ -291,16 +242,6 @@ class Container
         return $this->status;
     }
 
-    public function setReasonForStatus($reasonForStatus)
-    {
-        $this->reasonForStatus = $reasonForStatus;
-        return $this;
-    }
-
-    public function getReasonForStatus()
-    {
-        return $this->reasonForStatus;
-    }
 
     public function setAugmentation($augmentation)
     {

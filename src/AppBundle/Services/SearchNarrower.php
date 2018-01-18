@@ -51,7 +51,7 @@ class SearchNarrower
                         $objectValues[] = $result->getId();
                     }
                     // check if the method is for the Address (remove this "else if" if you do not have a join in your entity)
-                    else if(strpos($method, 'getAddress')===0)
+                    else if(strpos($method, 'getAddress')===0 || strpos($method, 'getProperties')===0 || strpos($method, 'getContacts')===0)
                     {
 
                     }
