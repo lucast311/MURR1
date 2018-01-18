@@ -34,6 +34,9 @@ class Container
      * @var string
      *
      * @ORM\Column(name="ContainerSerial", type="string", length=50, unique=true)
+     * @Assert\Length(max=50, maxMessage="Length cannot be more than 50 characters")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private $containerSerial;
 
@@ -41,6 +44,7 @@ class Container
      * @var string
      *
      * @ORM\Column(name="LocationDesc", type="string", length=255, nullable=true)
+     * @Assert\Length(max=255, maxMessage="Length cannot be more than 255 characters")
      */
     private $locationDesc;
 
@@ -63,6 +67,7 @@ class Container
      *
      * @ORM\Column(name="type", type="string", length=50)
      * @Assert\Choice(callback="TypeChoices", message = "Please select bin Type")
+     * @Assert\NotNull()
      */
     private $type;
 
@@ -70,6 +75,7 @@ class Container
      * @var string
      *
      * @ORM\Column(name="size", type="string", length=100)
+     * @Assert\Length(max=100, maxMessage="Size can only be 100 characters")
      */
     private $size;
 
@@ -96,7 +102,14 @@ class Container
     protected $structureId;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Property", inversedBy="bins", cascade={"persist"})
+     * @ORM\JoinColumn(name="propertyID", referencedColumnName="id")
+     */
+    protected $property;
+
+    /**
      *@ORM\Column(name="augmentation", type="string", length=255, nullable=true)
+     *@Assert\Length(max=255, maxMessage="Size must be less than 255")
      *
      * @var string
      */

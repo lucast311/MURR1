@@ -29,13 +29,18 @@ class ContainerControllerTest extends WebTestCase
 
     public function testAddActionSuccess()
     {
+        //$container = new Container();
+        //$container->setContainerSerial('testSerialController');
+        //$repo = $this->em->getRepository(Container::class);
+        //$repo->remove($container);
+
         //Create a client to go through the web page
         $client = static::createClient();
         //Reques the contact add page
         $crawler = $client->request('GET','/container/new');
         //select the form and add values to it.
         $form = $crawler->selectButton('Create')->form();
-        $form['appbundle_container[containerSerial]'] = 'testSerial';
+        $form['appbundle_container[containerSerial]'] = 'testSerialController' + time();
         $form['appbundle_container[frequency]'] = 'Weekly';
         $form['appbundle_container[locationDesc]'] = 'Near backdoor';
         $form['appbundle_container[type]'] = 'Bin';
@@ -54,6 +59,7 @@ class ContainerControllerTest extends WebTestCase
         //    $crawler->filter('html:contains("Contact has been successfully added")')->count()
         //    );
         $this->assertContains('Redirecting to /container', $client->getResponse()->getContent());
+
 
     }
 }
