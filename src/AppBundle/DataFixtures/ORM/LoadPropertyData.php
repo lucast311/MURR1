@@ -17,7 +17,7 @@ class LoadPropertyData implements FixtureInterface
     public function load(ObjectManager $obMan)
     {
         // create 10 Properties with the following data
-        for($i=0;$i<10;$i++)
+        for($i=0;$i<9;$i++)
         {
             //Address data
             $address = (new Address())
@@ -32,7 +32,7 @@ class LoadPropertyData implements FixtureInterface
 
             // add the address to the database
             $addressFixtureLoader->load($obMan);
-            
+
 
             // Property data
             $property = (new Property())
@@ -65,7 +65,7 @@ class LoadPropertyData implements FixtureInterface
 
             $addressFixtureLoader = new LoadAddressData($address);
             $addressFixtureLoader->load($obMan);
-            
+
 
             $property = (new Property())
                 ->setSiteId(2593843+$i)
@@ -82,7 +82,7 @@ class LoadPropertyData implements FixtureInterface
             $obMan->flush();
         }
 
-        
+
         // create a single address
         $address = (new Address())
             ->setStreetAddress("12 15th st east")
@@ -100,6 +100,34 @@ class LoadPropertyData implements FixtureInterface
             ->setSiteId(6661488)
             ->setPropertyName("Charlton Arms")
             ->setPropertyType("Townhouse Condo")
+            ->setPropertyStatus("Active")
+            ->setStructureId(54586)
+            ->setNumUnits(5)
+            ->setNeighbourhoodName("Sutherland")
+            ->setNeighbourhoodId("O48")
+            ->setAddress($address);
+
+        $obMan->persist($property);
+        $obMan->flush();
+
+
+        // create a single address
+        $address = (new Address())
+            ->setStreetAddress("12 15th st east")
+            ->setPostalCode("S0E 1A0")
+            ->setCity("Saskatoon")
+            ->setProvince("Saskatchewan")
+            ->setCountry("Canada");
+
+        $addressFixtureLoader = new LoadAddressData($address);
+        $addressFixtureLoader->load($obMan);
+
+
+        // create a single property
+        $property = (new Property())
+            ->setSiteId(6661489)
+            ->setPropertyName("Charlton Legs")
+            ->setPropertyType("House")
             ->setPropertyStatus("Active")
             ->setStructureId(54586)
             ->setNumUnits(5)
