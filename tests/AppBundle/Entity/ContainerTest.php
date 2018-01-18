@@ -6,14 +6,17 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
 use AppBundle\Entity\Property;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class ContainerTest extends TestCase
+class ContainerTest extends KernelTestCase
 {
     private $container;
     private $validator;
 
     protected function setUp()
     {
+        self::bootKernel();
+
         // Create a new container and populate it with data
         $this->container = new Container();
         $this->container->setContainerSerial("XO6DEZM0");
@@ -24,7 +27,7 @@ class ContainerTest extends TestCase
 
 
         // Get a validator
-        $this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
+        $this->validator = static::$kernel->getContainer()->get("validator");
     }
 
     /**
@@ -232,7 +235,7 @@ class ContainerTest extends TestCase
     //test container fails for reason being too long
     public function testContainerFailReasonForStatusTooLong()
     {
-        
+
         $this->container->setReasonForStatus(str_repeat("a",260));
 
         // Attempt to validate the container
@@ -246,7 +249,7 @@ class ContainerTest extends TestCase
     public function testContainerPassReasonForStatusOnBoundary()
     {
 
-        $this->container->setSize(str_repeat("a",255));
+        $this->container->setReasonForStatus(str_repeat("a",255));
 
         // Attempt to validate the container
         $error = $this->validator->validate($this->container);
