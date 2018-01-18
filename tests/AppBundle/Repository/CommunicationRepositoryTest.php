@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use DateTime;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
+use AppBundle\Services\SearchNarrower;
 
 class CommunicationRepositoryTest extends KernelTestCase
 {
@@ -113,6 +114,77 @@ class CommunicationRepositoryTest extends KernelTestCase
         $date->setTime(0,0,0);
 
         $this->assertEquals($dbComm->getDate(), $date);
+    }
+
+    /**
+     * Story 11c
+     * Test that a communication object is returned
+     */
+    public function testCommunicationObjectsReturned()
+    {
+        // get a repository to search with
+        $repo = $this->em->getRepository(Communication::class);
+
+        // create an array with values to search with
+        $searches = array();
+        $searches[] = 'Collection';
+
+        // query the database
+        $results = $repo->contactSearch($searches);
+
+        // create a new ReflectionClass object, using the returned object at index 0
+        //$resultReflection = new \ReflectionClass(get_class($results[0]));
+
+        // Assert that the name of the Reflection object is 'Communication'
+        //$this->assertTrue($resultReflection->getShortName() == 'Communication');
+
+        $this->AssertTrue(is_a($results[0][0],Communication::class));
+    }
+
+    /**
+     * Story 11c
+     * test that the search narrower functions
+     */
+    public function testSearchNarrowerFunctionality()
+    {
+        // create a new SearchNarrower to be used later
+        $searchNarrower = new SearchNarrower();
+
+        // get a repository to search with
+        $repo = $this->em->getRepository(Contact::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = 'Collection';
+        $cleanQuery[] = 'Resident';
+
+        // query the database
+        $results = $repo->CommunicationSearch($cleanQuery);
+
+        // narrow the searches so we only return exactlly what we want
+        $narrowedSearches = $searchNarrower->narrowCommunication($results, $cleanQuery);
+
+        // Assert that the size of the initial query is greater than the size of the narrowed query
+        $this->assertTrue(sizeof($narrowedSearches[0]) < sizeof($results));
+    }
+
+    /**
+     * test that the search will work when an Date is specified
+     */
+    public function testSearchOnDate()
+    {
+        // create a new SearchNarrower to be used later
+        $repo = $this->em->getRepository(Communication::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = '2018-01-01';
+
+        // query the database
+        $results = $repo->CommunicationSearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(1, sizeof($results));
     }
 
     /**

@@ -388,6 +388,48 @@ class CommunicationControllerTest extends WebTestCase
         $this->assertContains("No communication ID specified", $client->getResponse()->getContent());
     }
 
+    /**
+     * Story 11c
+     * Test that special characters can be entered into the database
+     */
+    public function testSearchSpecialCharactersSuccess()
+    {
+        // get a repository so we can query for data
+        $repository = $this->em->getRepository(Communication::class);
+
+        // create a client so we can view the page
+        $client = static::createClient();
+
+        // go to the page and search for 'Jim'
+        $client->request('GET', '/communication/jsonsearch/Multi-purpose');
+
+        // create an array so we can call the search
+        $queryStrings = array();
+        $queryStrings[] = 'Multi-purpose';
+
+        // query the database
+        $repository->contactSearch($queryStrings);
+
+        // assert that what we expect is actually returned
+        $this->assertContains('[{"id":22,"date":"2018-01-03","type":"Phone","medium":"Incoming","category":"Resident","propertyID":1,"description":"It\'s a bin","contactName":"Ken","contactEmail":"email@email.com","contactPhone":"111-111-1111"}]', $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 11c
+     * test that the query to search on is too long
+     */
+    public function testQueryTooLong()
+    {
+        // create a client so we can view the page
+        $client = static::createClient();
+
+        // go to the page and search for 'BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones'
+        $client->request('GET', '/Communication/jsonsearch/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJo');
+
+        // assert that what we expect is actually returned
+        $this->assertContains('[]', $client->getResponse()->getContent());
+    }
+
     protected function tearDown()
     {
         parent::tearDown();
