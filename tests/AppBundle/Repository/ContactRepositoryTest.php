@@ -261,7 +261,10 @@ class ContactRepositoryTest extends KernelTestCase
         //$cleanQuery[] = 'Jones';
 
         // narrow the searches so we only return exactlly what we want
+        //var_dump($results);
+        //var_dump("____________");
         $narrowedSearches = $searchNarrower->narrowContacts($results, $cleanQuery);
+        //var_dump($narrowedSearches);
 
         // Assert that the size of the initial query is greater than the size of the narrowed query
         $this->assertTrue(sizeof($narrowedSearches[0]) < sizeof($results));

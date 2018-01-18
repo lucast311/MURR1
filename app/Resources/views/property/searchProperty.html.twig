@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Property Search{% endblock %}
+
+{% block javascripts %}
+{# include jQuery and Knockout to make the search script work #}
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    
+{# include the search javasript #}
+<script type="text/javascript" src="{{ asset('JavaScript/Search.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+{# magic invisible div that allows us to pass information to the search script #}
+<div class="js-jsonpage" data-jsonpage="{{ path('property_jsonsearch_empty') }}"></div>
+<h2>Property Search</h2>
+<input type="search" id="searchBox" maxlength="100" />
+<div id="message"></div>
+<table hidden>
+    <thead>
+        <tr>
+            <th>Site ID</th>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Structure Id</th>
+            <th>Units</th>
+            <th>Neighborhood</th>
+          {#<th>Address??</th>#}
+            <th>View</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: results">
+        <tr>
+            <td data-bind="text: siteId"></td>
+            <td data-bind="text: propertyName"></td>
+            <td data-bind="text: propertyType"></td>
+            <td data-bind="text: propertyStatus"></td>
+            <td data-bind="text: structureId"></td>
+            <td data-bind="text: numUnits"></td>
+            <td data-bind="text: neighborhoodName"></td>
+            <td><a data-bind="attr: {href: '{{ viewURL }}' + id}">View</a></td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

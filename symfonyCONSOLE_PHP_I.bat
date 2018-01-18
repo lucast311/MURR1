@@ -1,0 +1,1 @@
+I:\PHP\v7.0\php "%~dp0bin\console" %*

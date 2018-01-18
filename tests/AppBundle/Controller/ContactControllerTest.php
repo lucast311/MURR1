@@ -25,8 +25,6 @@ class ContactControllerTest extends WebTestCase
         $contactLoader->load($this->em);
     }
 
-
-
     /**
      * Story 9a
      * Tests the list action. Ensures that a table exists in the html with the right headers.
@@ -39,10 +37,8 @@ class ContactControllerTest extends WebTestCase
         //Request the contact add page
         $crawler = $client->request('GET','/contact/');
 
-        // Assert that a table exists
         //$this->assertGreaterThan(0, $crawler->filter('table')->count());
 
-        // Assert that the table has the proper headings
         //$this->assertGreaterThan(0, $crawler->filter('html:contains("First Name")')->count());
         //$this->assertGreaterThan(0, $crawler->filter('html:contains("Last Name")')->count());
         //$this->assertGreaterThan(0, $crawler->filter('html:contains("Company Name")')->count());
@@ -135,7 +131,6 @@ class ContactControllerTest extends WebTestCase
         $client = static::createClient();
         //Request the contact edit page
         $crawler = $client->request('GET','/contact/1/edit');
-        // Select the first button on the page that views the details for a contact
         //$link = $crawler->filter('a:contains("Edit")')->eq(0)->link();
         //// Go there - should be viewing a specific contact after this
         //$crawler = $client->click($link);
@@ -173,6 +168,9 @@ class ContactControllerTest extends WebTestCase
         //    0,
         //    $crawler->filter('html:contains("Contact has been successfully added")')->count()
         //    );
+        $this->assertContains('Redirecting to /contact', $client->getResponse()->getContent());
+
+
         $this->assertContains('Redirecting to /contact', $client->getResponse()->getContent());
 
     }

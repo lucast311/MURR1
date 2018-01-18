@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Propertysearch</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ propertySearch.id }}</td>
+            </tr>
+            <tr>
+                <th>Searchquery</th>
+                <td>{{ propertySearch.searchQuery }}</td>
+            </tr>
+            <tr>
+                <th>Results</th>
+                <td>{{ propertySearch.results }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            {#<a href="{{ path('') }}">Back to the list</a>  no list currently exists for property#}
+        </li>
+    </ul>
+{% endblock %}

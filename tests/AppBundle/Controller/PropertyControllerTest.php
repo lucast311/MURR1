@@ -6,8 +6,25 @@ use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
 use AppBundle\Entity\Container;
 
+use AppBundle\Services\SearchNarrower;
+use AppBundle\DataFixtures\ORM\LoadPropertyData;
+
+
 class PropertyControllerTest extends WebTestCase
 {
+    private $em;
+
+    protected function setUp()
+    {
+        self::bootKernel();
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+
+        $propertyLoader = new LoadPropertyData();
+        $propertyLoader->load($this->em);
+    }
+
     /**
      *
      * This test will check that you can access the route, populate fields,
@@ -152,10 +169,10 @@ class PropertyControllerTest extends WebTestCase
         $address->setCity("Saskatoon");
         $address->setProvince("Saskatchewan");
         $address->setCountry("Canada");
+
         $property->setAddress($address);
 
         $client = static::createClient();
-
 
         //Get the entity manager and the repo so we can make sure a property exists before editing it
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -163,13 +180,12 @@ class PropertyControllerTest extends WebTestCase
         //insert the property
         $propertyId = $repo->save($property);
 
-
         $crawler = $client->request('GET', "/property/edit/$propertyId");
 
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[propertyName]'] = "Charlton Legs";
+        $form['appbundle_property[propertyName]'] = "Charlton Legs";
 
         $client->followRedirects(true);
 
@@ -246,7 +262,7 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[siteId]'] = 1593844;
+        $form['appbundle_property[siteId]'] = 1593844;
         //Change the property name to test if it is staying on the page
         $form['property[propertyName]'] = 'Charlton Armies';
         $form['property[propertyType]'] = 'Townhouse Condo';
@@ -398,6 +414,51 @@ class PropertyControllerTest extends WebTestCase
 
         // assert that the correct error message appeared
         $this->assertGreaterThan(0, $crawler->filter('html:contains("No property specified")')->count());
+    }
+
+
+
+    /**
+     * Story 4d
+     * test that the query successfully returns records in JSON format
+     */
+    public function testSuccessfullyReceiveSearch()
+    {
+        // get a repository so we can query for data
+        $repository = $this->em->getRepository(Property::class);
+
+        // create a client so we can view the page
+        $client = static::createClient();
+
+        // go to the page and search for 'Charlton'
+        $client->request('GET', '/property/jsonsearch/Charlton');
+
+        // create an array so we can call the search
+        $queryStrings = array();
+        $queryStrings[] = 'Charlton';
+
+        // query the database
+        $repository->propertySearch($queryStrings);
+
+        // assert that what we expect is actually returned
+        //$this->assertTrue(false);
+        $this->assertContains('[{"id":1,"siteId":3593843,"propertyName":"Charlton Arms","propertyType":"Townhouse Condo","propertyStatus":"Active","structureId":54586,"numUnits":5,', $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 4d
+     * test that the query to search on is too long
+     */
+    public function testQueryTooLong()
+    {
+        // create a client so we can view the page
+        $client = static::createClient();
+
+        // go to the page and search for 'CharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArms'
+        $client->request('GET', '/property/jsonsearch/CharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArms');
+
+        // assert that what we expect is actually returned
+        $this->assertContains('[]', $client->getResponse()->getContent());
     }
 
     /**
