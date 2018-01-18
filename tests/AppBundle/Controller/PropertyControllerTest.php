@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
 use AppBundle\Entity\Container;
+use AppBundle\Entity\Communication;
 
 class PropertyControllerTest extends WebTestCase
 {
@@ -596,6 +597,80 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEquals(0, $crawler->filter('table.containers:contains("Frequency")')->count());
         $this->assertEquals(0, $crawler->filter('table.containers:contains("Route(s)")')->count());
         $this->assertEquals(0, $crawler->filter('table.containers:contains("Bin Status")')->count());
+    }
+
+    public function testViewAssociatedCommunicationsSuccess()
+    {
+        //Create a new property to ensure that there is one to view in the database
+        $property = new Property();
+        $property->setSiteId(55555555);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(885412);
+        $property->setNumUnits(12);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("123 Sutherland land");
+        $address->setPostalCode("S7N 3K5");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+
+        // Create a new communication
+        $communication = new Communication();
+        $communication->setType("Phone");
+        $communication->setMedium("Incoming");
+        $communication->setContactName("John Smith");
+        $communication->setContactEmail("email@email.com");
+        $communication->setContactPhone("306-123-4567");
+        $communication->setProperty($property);
+        $communication->setCategory("Container");
+        $communication->setDescription("Bin will be moved to the eastern side of the building");
+
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //Get the entity manager and the repo so we can make sure a property exists before editing it
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $repo = $em->getRepository(Property::class);
+
+        //insert the property
+        $propertyId = $repo->save($property);
+
+        //Request the property view page for the property that was just inserted
+        $crawler = $client->request('GET',"/property/view/$propertyId");
+
+        // Assert that the page contains a table
+        $this->assertTrue($crawler->filter('table.containers')->first() != null);
+
+        // Get the id of the communication
+        $commID = $communication->getId();
+        $commDate = $communication->getDate()->format("dd-mmm-yyyy");
+
+        // Assert that the table contains all the proper headers
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("CommID")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Date")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Type")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Direction")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Name")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Phone")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Email")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Notes")')->count());
+
+        // Assert that the table contains all the proper data
+        $this->assertGreaterThan(0, $crawler->filter("table.communications:contains('$commID')")->count());
+        $this->assertGreaterThan(0, $crawler->filter("table.communications:contains('$commDate')")->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Type")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Direction")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Name")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Phone")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Email")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Notes")')->count());
     }
 
     protected function tearDown()
