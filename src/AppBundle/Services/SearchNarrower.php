@@ -24,6 +24,8 @@ class SearchNarrower
      */
     public function narrowContacts($searchResults, $cleanQuery)
     {
+        $gettersToAvoid = array('getAddress','getProperties','getContacts');
+
         // an array for the narrowed results
         $narrowedResults= array();
 
@@ -52,11 +54,7 @@ class SearchNarrower
                         $objectValues[] = $result->getId();
                     }
                     // check if the method is for the Address (remove this "else if" if you do not have a join in your entity)
-                    else if( ($method == 'getAddress') || ($method == 'getProperties') || ($method == 'getContacts') )
-                    {
-
-                    }
-                    else
+                    else if(!in_array($method, $gettersToAvoid))
                     {
                         // call the getter method and store the value returned
                         $objectValues[] = call_user_func([$result, $method]) == null ? 'null' : '"'.call_user_func([$result, $method]).'"';
@@ -145,6 +143,8 @@ class SearchNarrower
      */
     public function narrowProperties($searchResults, $cleanQuery)
     {
+        $gettersToAvoid = array('getAddress','getStatuses','getTypes','getContacts', 'getBins');
+
         // an array for the narrowed results
         $narrowedResults= array();
 
@@ -175,13 +175,8 @@ class SearchNarrower
                         $objectValues[] = $result->getId();
                     }
                     // check if the method is for the Address (remove this "else if" if you do not have a join in your entity)
-                    else if( ($method == 'getAddress') || ($method == 'getStatuses') || ($method == 'getTypes') || ($method == 'getContacts') || ($method == 'getBins') )
+                    else if(!in_array($method, $gettersToAvoid))
                     {
-
-                    }
-                    else
-                    {
-                        //var_dump($method);
                         // call the getter method and store the value returned
                         $objectValues[] = call_user_func([$result, $method]) == null ? 'null' : '"'.call_user_func([$result, $method]).'"';
                     }
