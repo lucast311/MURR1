@@ -115,9 +115,18 @@ class Property
      */
     private $address;
 
+
+    /**
+     * Properties have many contacts
+     * @ORM\ManyToMany(targetEntity="Contact", inversedBy="properties", cascade={"persist"})
+     * @ORM\JoinTable(name="ContactProperty")
+     * @var Contact[]
+     */
     private $contacts;
+    /**
+     * @ORM\OneToMany(targetEntity="Container",cascade={"persist"}, mappedBy="property")
+     */
     private $bins;
-    private $buildings;
 
     /**
      * Get id
@@ -344,18 +353,44 @@ class Property
     {
         return $this->address;
     }
+    /**
+     * Gets associated contacts
+     * @return Contact[]
+     */
+    public function getContacts()
+    {
+        return $this->contacts;
+    }
+    /**
+     * Sets associated contacts
+     * @param Contact[] $contacts
+     */
+    public function setContacts($contacts)
+    {
+        $this->contacts = $contacts;
+    }
 
-    //public function getContacts(){}
+    /**
+     * Returns all of the conatiners for this property
+     * @return array of container entities
+     */
+    public function getBins(){
+        return $this->bins;
+    }
 
-    //public function setContacts($contacts){}
+    /**
+     * Takes in an array of container entities and applys them to this property
+     * @param array $bins Collection of container entities
+     * @return Property the current instance of Property
+     */
+    public function setBins($bins){
+        $this->bins = $bins;
+        return $this;
+    }
 
-    //public function getBins(){}
+    public function getBuildings(){}
 
-    //public function setBins($bins){}
-
-    //public function getBuildings(){}
-
-    //public function setBuildings($buildings){}
+    public function setBuildings($buildings){}
 
     public function __toString(){
         return $this->address->__toString();

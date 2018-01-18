@@ -5,8 +5,11 @@ namespace Tests\AppBundle\Repository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
+<<<<<<< HEAD
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
 use AppBundle\Services\SearchNarrower;
+=======
+>>>>>>> master
 
 class PropertyRepositoryTest extends KernelTestCase
 {
@@ -27,9 +30,12 @@ class PropertyRepositoryTest extends KernelTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+<<<<<<< HEAD
 
         $propertyLoader = new LoadPropertyData();
         $propertyLoader->load($this->em);
+=======
+>>>>>>> master
     }
 
     /**
@@ -113,7 +119,7 @@ class PropertyRepositoryTest extends KernelTestCase
         $this->assertEquals('Inactive (Renovation)', $dbProperty->getPropertyStatus());
     }
 
-
+<<<<<<< HEAD
 
     /**
      * story 4d
@@ -190,6 +196,9 @@ class PropertyRepositoryTest extends KernelTestCase
         $this->assertEquals(16, sizeof($results));
     }
 
+
+    //closes the memory mamnger
+=======
     ///**
     // * Story 4h
     // * Tests that the getAllContainers method in the PropertyRepository returns a list of containers for a property given a property id
@@ -256,6 +265,7 @@ class PropertyRepositoryTest extends KernelTestCase
 
     //closes the memory mamnger
 
+>>>>>>> master
     /**
      * (@inheritDoc)
      */
@@ -266,8 +276,11 @@ class PropertyRepositoryTest extends KernelTestCase
         // Delete everything out of the property table after inserting stuff
         $stmt = $this->em->getConnection()->prepare('DELETE FROM Property');
         $stmt->execute();
+<<<<<<< HEAD
         $stmt = $this->em->getConnection()->prepare("DELETE FROM Address");
         $stmt->execute();
+=======
+>>>>>>> master
 
         $this->em->close();
         $this->em = null;//avoid memory meaks

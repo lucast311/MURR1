@@ -127,6 +127,9 @@ class Contact
     private $address;
 
     /**
+<<<<<<< HEAD
+     * returns the options that a role can be 
+=======
      * Contacts have many properties
      * @ORM\ManyToMany(targetEntity="Property", mappedBy="contacts", cascade={"persist"})
      * @var Property[]
@@ -136,6 +139,7 @@ class Contact
 
     /**
      * returns the options that a role can be
+>>>>>>> master
      * @return string[]
      */
     public static function roleOptions()
@@ -381,7 +385,11 @@ class Contact
 
     /**
      * sets the company name
+<<<<<<< HEAD
+     * @param mixed $companyName 
+=======
      * @param mixed $companyName
+>>>>>>> master
      * @return Contact
      */
     public function setCompanyName($companyName)
@@ -394,6 +402,8 @@ class Contact
     {
         return $this->companyName;
     }
+<<<<<<< HEAD
+=======
     /**
      * gets the associated properties
      * @return Property[]
@@ -410,4 +420,5 @@ class Contact
     {
         $this->properties = $properties;
     }
+>>>>>>> master
 }

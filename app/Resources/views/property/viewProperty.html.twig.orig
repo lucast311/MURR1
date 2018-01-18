@@ -3,6 +3,8 @@
 {% block title %}View Property{% endblock %}
 
 {% block body %}
+<<<<<<< HEAD
+=======
         <style>
             .containers{
                 border-collapse: collapse;
@@ -20,6 +22,7 @@
                 padding: 5px;
             }
         </style>
+>>>>>>> master
 
 <h2>View Property</h2>
 
@@ -86,6 +89,8 @@
     </table>
 
     <button onclick="window.location.href ='{{editPath}}'">Edit</button>
+<<<<<<< HEAD
+=======
 
     <h1>Container Info</h1>
         {% if property.bins is empty %}
@@ -119,6 +124,7 @@
             </table>
 
         {% endif %}
+>>>>>>> master
     {% endif %}
 </div>
 

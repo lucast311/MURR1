@@ -8,6 +8,7 @@ use AppBundle\Services\Changer;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadContactData;
 use AppBundle\Entity\Address;
+use AppBundle\Entity\Property;
 
 class ContactControllerTest extends WebTestCase
 {
@@ -394,7 +395,7 @@ class ContactControllerTest extends WebTestCase
         $repository->contactSearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{"id":152,"firstName":"Jim","lastName":"Jim","role":"Property Manager","primaryPhone":"969-555-6969","phoneExtension":123,"secondaryPhone":null,"emailAddress":"tmctest@testcorp.com","fax":null,"address":null,"companyName":null}]', $client->getResponse()->getContent());
+        $this->assertContains('[{"id":22,"firstName":"Jim","lastName":"Jim","role":"Property Manager","primaryPhone":"969-555-6969","phoneExtension":123,"secondaryPhone":null,"emailAddress":"tmctest@testcorp.com","fax":null,"address":null,"companyName":null}]', $client->getResponse()->getContent());
     }
 
     /**
@@ -472,7 +473,189 @@ class ContactControllerTest extends WebTestCase
         $this->assertTrue($crawler->filter('input[type=search]')->first() != null);
     }
 
+    /**
+     * Story 9h
+     * test that properties are associated and displayed
+     */
+    public function testViewPropertyAssociationSuccess()
+    {
+        //create a contact to insert
+        $contact = new Contact();
+        $contact->setFirstName("Ashton");
+        $contact->setLastName("South");
+        $contact->setCompanyName("COSMO!");
+        $contact->setRole("Property Manager");
+        $contact->setprimaryPhone("306-345-8932");
+        $contact->setEmailAddress("south@gmail.com");
 
+        //create an address to add for the contact
+        $address = new Address();
+        $address->setStreetAddress("123 Main Street");
+        $address->setPostalCode("S7N 3K5");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+
+        $contact->setAddress($address);
+
+        //Create a new property to ensure that there is one to edit in the database
+        $property = new Property();
+        $property->setSiteId(7894854);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(54586);
+        $property->setNumUnits(5);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E 1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+        $property->setContacts(array($contact));
+
+        //add the property to the contact
+        $contact->setProperties(array($property));
+
+        $repository = $this->em->getRepository(Contact::class);
+        //save contact to database
+        $id = $repository->save($contact);
+
+        // Create a client,
+        $client = static::createClient();
+
+        // A crawler to check if the page contains a search field
+        $crawler = $client->request('GET', "/contact/$id");
+
+        //check if the headings appear
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Site Id")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Street Address")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Neighbourhood")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Number of Units")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Type")')->count());
+
+        //assert that the associated data shows up
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("7894854")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("12 15th st east")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Sutherland")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("5")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Townhouse Condo")')->count());
+    }
+
+    /**
+     * Story 9h
+     * test that there are no associated properties, and the proper message is displayed
+     */
+    public function testViewPropertyNoAssociations()
+    {
+        //create a contact to insert
+        $contact = new Contact();
+        $contact->setFirstName("Ashton");
+        $contact->setLastName("South");
+        $contact->setCompanyName("COSMO!");
+        $contact->setRole("Property Manager");
+        $contact->setprimaryPhone("306-345-8932");
+        $contact->setEmailAddress("south@gmail.com");
+
+        //create an address to add for the contact
+        $address = new Address();
+        $address->setStreetAddress("123 Main Street");
+        $address->setPostalCode("S7N 3K5");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+
+        $contact->setAddress($address);
+
+        $repository = $this->em->getRepository(Contact::class);
+        //save contact to database
+        $id = $repository->save($contact);
+
+        // Create a client,
+        $client = static::createClient();
+
+        // A crawler to check if the page contains a search field
+        $crawler = $client->request('GET', "/contact/$id");
+
+        //check if the headings appear
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("No associated properties")')->count());
+    }
+
+    /**
+     * Story 9h
+     * test that properties are associated and displayed
+     */
+    public function testViewPropertyMultipleAssociationSuccess()
+    {
+        //create a contact to insert
+        $contact = new Contact();
+        $contact->setFirstName("Ashton");
+        $contact->setLastName("South");
+        $contact->setCompanyName("COSMO!");
+        $contact->setRole("Property Manager");
+        $contact->setprimaryPhone("306-345-8932");
+        $contact->setEmailAddress("south@gmail.com");
+
+        //create an address to add for the contact
+        $address = new Address();
+        $address->setStreetAddress("123 Main Street");
+        $address->setPostalCode("S7N 3K5");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+
+        $contact->setAddress($address);
+
+
+
+
+        // Create the property 15 times
+        $propertiesArray = array();
+        for ($i = 0; $i < 15; $i++)
+        {
+            //Create a new property to ensure that there is one to edit in the database
+            $property = new Property();
+            $property->setSiteId($i);
+            $property->setPropertyName("Charlton Arms");
+            $property->setPropertyType("Townhouse Condo");
+            $property->setPropertyStatus("Active");
+            $property->setStructureId(54586);
+            $property->setNumUnits(5);
+            $property->setNeighbourhoodName("Sutherland");
+            $property->setNeighbourhoodId("O48");
+            // Have to create a new valid address too otherwise doctrine will fail
+            $address = new Address();
+            $address->setStreetAddress("12 15th st east");
+            $address->setPostalCode("S0E 1A0");
+            $address->setCity("Saskatoon");
+            $address->setProvince("Saskatchewan");
+            $address->setCountry("Canada");
+            $property->setAddress($address);
+            $property->setContacts(array($contact));
+        	$propertiesArray[] = $property;
+        }
+
+
+        //add the properties to the contact
+        $contact->setProperties($propertiesArray);
+
+        $repository = $this->em->getRepository(Contact::class);
+        //save contact to database
+        $id = $repository->save($contact);
+
+        // Create a client,
+        $client = static::createClient();
+
+        // A crawler to check if the page contains a search field
+        $crawler = $client->request('GET', "/contact/$id");
+
+        // Make sure there are 15 properties listed
+        $this->assertEquals(15, $crawler->filter('td:contains("Sutherland")')->count());
+    }
 
     /**
      * (@inheritDoc)
@@ -484,6 +667,10 @@ class ContactControllerTest extends WebTestCase
         $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact");
         $stmt->execute();
         $stmt = $this->em->getConnection()->prepare("DELETE FROM Address");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Property");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM ContactProperty");
         $stmt->execute();
 
         $this->em->close();

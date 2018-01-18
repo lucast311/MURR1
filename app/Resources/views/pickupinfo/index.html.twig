@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Pickupinfos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>String</th>
+                <th>Dayofweek</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pickupInfo in pickupInfos %}
+            <tr>
+                <td><a href="{{ path('pickupinfo_show', { 'id': pickupInfo.id }) }}">{{ pickupInfo.id }}</a></td>
+                <td>{{ pickupInfo.string }}</td>
+                <td>{{ pickupInfo.dayOfWeek }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('pickupinfo_show', { 'id': pickupInfo.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('pickupinfo_edit', { 'id': pickupInfo.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('pickupinfo_new') }}">Create a new pickupInfo</a>
+        </li>
+    </ul>
+{% endblock %}

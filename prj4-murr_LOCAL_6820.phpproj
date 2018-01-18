@@ -58,11 +58,9 @@
     <Compile Include="bin\symfony_requirements" />
     <Compile Include="src\AppBundle\Controller\CommunicationController.php" />
     <Compile Include="src\AppBundle\Controller\ContactController.php" />
-    <Compile Include="src\AppBundle\Controller\ContainerController.php" />
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
     <Compile Include="src\AppBundle\Controller\EduMatFormController.php" />
     <Compile Include="src\AppBundle\Controller\OOPsController.php" />
-    <Compile Include="src\AppBundle\Controller\PickupInfoController.php" />
     <Compile Include="src\AppBundle\Controller\PropertyController.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadAddressData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContactData.php" />
@@ -70,13 +68,9 @@
     <Compile Include="src\AppBundle\Entity\Address.php" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
     <Compile Include="src\AppBundle\Entity\Contact.php" />
-    <Compile Include="src\AppBundle\Entity\Container.php" />
     <Compile Include="src\AppBundle\Entity\EduMat.php" />
     <Compile Include="src\AppBundle\Entity\OOPs.php" />
-    <Compile Include="src\AppBundle\Entity\PickupInfo.php" />
     <Compile Include="src\AppBundle\Entity\Property.php" />
-    <Compile Include="src\AppBundle\Form\ContainerType.php" />
-    <Compile Include="src\AppBundle\Form\PickupInfoType.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
     <Compile Include="src\AppBundle\Form\ContactType.php" />
@@ -85,10 +79,8 @@
     <Compile Include="src\AppBundle\Repository\AddressRepository.php" />
     <Compile Include="src\AppBundle\Repository\CommunicationRepository.php" />
     <Compile Include="src\AppBundle\Repository\ContactRepository.php" />
-    <Compile Include="src\AppBundle\Repository\ContainerRepository.php" />
     <Compile Include="src\AppBundle\Repository\EduMatRepository.php" />
     <Compile Include="src\AppBundle\Repository\OOPsRepository.php" />
-    <Compile Include="src\AppBundle\Repository\PickupInfoRepository.php" />
     <Compile Include="src\AppBundle\Repository\PropertyRepository.php" />
     <Compile Include="src\AppBundle\Services\Changer.php" />
     <Compile Include="src\AppBundle\Services\Cleaner.php" />
@@ -102,18 +94,14 @@
     <Compile Include="src\ContactController.php" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\ContactControllerTest.php" />
-    <Compile Include="tests\AppBundle\Controller\ContainerControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\CSROOPsControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\EduMatFormControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\PropertyControllerTest.php" />
     <Compile Include="tests\AppBundle\Entity\AddressTest.php" />
-    <Compile Include="tests\AppBundle\Entity\BinTest.php" />
     <Compile Include="tests\AppBundle\Entity\CommunicationTest.php" />
     <Compile Include="tests\AppBundle\Entity\ContactTest.php" />
-    <Compile Include="tests\AppBundle\Entity\ContainerTest.php" />
     <Compile Include="tests\AppBundle\Entity\CSROOPsCreationTest.php" />
     <Compile Include="tests\AppBundle\Entity\PropertyTest.php" />
-    <Compile Include="tests\AppBundle\Form\BinForm.php" />
     <Compile Include="tests\AppBundle\Form\Type\CommunicationTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\AddOOPsForm.php" />
     <Compile Include="tests\AppBundle\Form\AddressTypeTest.php" />
@@ -124,7 +112,6 @@
     <Compile Include="tests\AppBundle\Repository\CommunicationRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\ContactRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\ContactSearchRepositoryTest.php" />
-    <Compile Include="tests\AppBundle\Repository\ContainerRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CSROOPsRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\PropertyRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Services\ChangerTest.php" />
@@ -1994,8 +1981,6 @@
     <Folder Include="src\AppBundle\Form" />
     <Folder Include="src\AppBundle\Repository" />
     <Folder Include="src\AppBundle\Services" />
-    <Folder Include="src\AppBundle\Tests\Controller" />
-    <Folder Include="src\AppBundle\Tests" />
     <Folder Include="src\AppBundle\Validator\Constraints" />
     <Folder Include="src\AppBundle\Validator" />
     <Folder Include="src\AppBundle" />
@@ -3278,7 +3263,6 @@
     <Content Include="app\Resources\views\propertySearch\show.html.twig" />
     <Content Include="app\Resources\views\property\searchProperty.html.twig" />
     <Content Include="app\Resources\views\Contact\searchContact.html.twig" />
-    <Content Include="app\Resources\views\communication\viewComm.html.twig" />
     <Content Include="app\sqlite.db" />
     <Content Include="web\JavaScript\Search.js" />
   </ItemGroup>

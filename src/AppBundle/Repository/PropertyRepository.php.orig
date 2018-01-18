@@ -37,6 +37,7 @@ class PropertyRepository extends EntityRepository
         return $property->getId();
     }
 
+<<<<<<< HEAD
     /**
      * Story 4d
      * Search through the database and check if any records contain any of
@@ -108,7 +109,7 @@ class PropertyRepository extends EntityRepository
         // return the results
         return $returnProperties;
     }
-
+=======
     ///**
     // * STORY 4h
     // * Takes an integer property id and returns an array of all containers associated
@@ -120,4 +121,6 @@ class PropertyRepository extends EntityRepository
     //{
 
     //}
+
+>>>>>>> master
 }

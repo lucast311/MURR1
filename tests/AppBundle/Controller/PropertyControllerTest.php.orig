@@ -4,8 +4,8 @@ namespace Tests\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
-use AppBundle\Entity\Container;
-
+<<<<<<< HEAD
+use AppBundle\Services\Changer;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
 
@@ -25,6 +25,12 @@ class PropertyControllerTest extends WebTestCase
         $propertyLoader->load($this->em);
     }
 
+=======
+use AppBundle\Entity\Container;
+
+class PropertyControllerTest extends WebTestCase
+{
+>>>>>>> master
     /**
      *
      * This test will check that you can access the route, populate fields,
@@ -40,6 +46,7 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
+<<<<<<< HEAD
         $form['appbundle_property[siteId]'] = 1593843;
         $form['appbundle_property[propertyName]'] = 'Charlton Arms';
         $form['appbundle_property[propertyType]'] = 'Townhouse Condo';
@@ -53,6 +60,21 @@ class PropertyControllerTest extends WebTestCase
         $form['appbundle_property[address][city]'] = 'Saskatoon';
         $form['appbundle_property[address][province]'] = 'Saskatchewan';
         $form['appbundle_property[address][country]'] = 'Canada';
+=======
+        $form['property[siteId]'] = 1593843;
+        $form['property[propertyName]'] = 'Charlton Arms';
+        $form['property[propertyType]'] = 'Townhouse Condo';
+        $form['property[propertyStatus]'] = 'Active';
+        $form['property[structureId]'] = 54586;
+        $form['property[numUnits]'] = 5;
+        $form['property[neighbourhoodName]'] = 'Sutherland';
+        $form['property[neighbourhoodId]'] = 'O48';
+        $form['property[address][streetAddress]'] = '123 Main Street';
+        $form['property[address][postalCode]'] = 'S7N 0R7';
+        $form['property[address][city]'] = 'Saskatoon';
+        $form['property[address][province]'] = 'Saskatchewan';
+        $form['property[address][country]'] = 'Canada';
+>>>>>>> master
 
         //Remove the property from the database if it already exists so we can insert this one
         //$em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -71,6 +93,7 @@ class PropertyControllerTest extends WebTestCase
 
         //test that all fields are now empty
         //$this->assertEmpty($form['communication[date][year]']->getValue());
+<<<<<<< HEAD
         $this->assertEmpty($form['appbundle_property[siteId]']-> getValue());
         $this->assertEmpty($form['appbundle_property[propertyName]']-> getValue());
         $this->assertEmpty($form['appbundle_property[propertyType]']-> getValue());
@@ -84,6 +107,21 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEquals($form['appbundle_property[address][city]']-> getValue(),"Saskatoon");
         $this->assertEquals($form['appbundle_property[address][province]']-> getValue(),"Saskatchewan");
         $this->assertEquals($form['appbundle_property[address][country]']-> getValue(),"Canada");
+=======
+        $this->assertEmpty($form['property[siteId]']-> getValue());
+        $this->assertEmpty($form['property[propertyName]']-> getValue());
+        $this->assertEmpty($form['property[propertyType]']-> getValue());
+        $this->assertEmpty($form['property[propertyStatus]']-> getValue());
+        $this->assertEmpty($form['property[structureId]']-> getValue());
+        $this->assertEmpty($form['property[numUnits]']-> getValue());
+        $this->assertEmpty($form['property[neighbourhoodName]']-> getValue());
+        $this->assertEmpty($form['property[neighbourhoodId]']-> getValue());
+        $this->assertEmpty($form['property[address][streetAddress]']-> getValue());
+        $this->assertEmpty($form['property[address][postalCode]']-> getValue());
+        $this->assertEquals($form['property[address][city]']-> getValue(),"Saskatoon");
+        $this->assertEquals($form['property[address][province]']-> getValue(),"Saskatchewan");
+        $this->assertEquals($form['property[address][country]']-> getValue(),"Canada");
+>>>>>>> master
     }
 
     /**
@@ -98,6 +136,7 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
+<<<<<<< HEAD
         $form['appbundle_property[siteId]'] = 1593843;
         $form['appbundle_property[propertyName]'] = 'Charlton Arms';
         $form['appbundle_property[propertyType]'] = 'Townhouse Condo';
@@ -111,6 +150,21 @@ class PropertyControllerTest extends WebTestCase
         $form['appbundle_property[address][city]'] = 'Saskatoon';
         $form['appbundle_property[address][province]'] = 'Saskatchewan';
         $form['appbundle_property[address][country]'] = 'Canada';
+=======
+        $form['property[siteId]'] = 1593843;
+        $form['property[propertyName]'] = 'Charlton Arms';
+        $form['property[propertyType]'] = 'Townhouse Condo';
+        $form['property[propertyStatus]'] = 'Active';
+        $form['property[structureId]'] = 54586;
+        $form['property[numUnits]'] = 5;
+        $form['property[neighbourhoodName]'] = '';
+        $form['property[neighbourhoodId]'] = 'O48';
+        $form['property[address][streetAddress]'] = '123 Main Street';
+        $form['property[address][postalCode]'] = 'S7N 0R7';
+        $form['property[address][city]'] = 'Saskatoon';
+        $form['property[address][province]'] = 'Saskatchewan';
+        $form['property[address][country]'] = 'Canada';
+>>>>>>> master
 
         $crawler = $client->submit($form);
 
@@ -132,6 +186,7 @@ class PropertyControllerTest extends WebTestCase
             $form = $crawler->selectButton('Submit')->form();
 
             //set form values
+<<<<<<< HEAD
             $form['appbundle_property[siteId]'] = 1593843;
             $form['appbundle_property[propertyName]'] = 'Charlton Arms';
             $form['appbundle_property[propertyType]'] = 'Townhouse Condo';
@@ -145,6 +200,21 @@ class PropertyControllerTest extends WebTestCase
             $form['appbundle_property[address][city]'] = 'Saskatoon';
             $form['appbundle_property[address][province]'] = 'Saskatchewan';
             $form['appbundle_property[address][country]'] = 'Canada';
+=======
+            $form['property[siteId]'] = 1593843;
+            $form['property[propertyName]'] = 'Charlton Arms';
+            $form['property[propertyType]'] = 'Townhouse Condo';
+            $form['property[propertyStatus]'] = 'Active';
+            $form['property[structureId]'] = 54586;
+            $form['property[numUnits]'] = 5;
+            $form['property[neighbourhoodName]'] = 'Sutherland';
+            $form['property[neighbourhoodId]'] = 'O48';
+            $form['property[address][streetAddress]'] = '123 Main Street';
+            $form['property[address][postalCode]'] = 'S7N 0R7';
+            $form['property[address][city]'] = 'Saskatoon';
+            $form['property[address][province]'] = 'Saskatchewan';
+            $form['property[address][country]'] = 'Canada';
+>>>>>>> master
 
             $crawler = $client->submit($form);
         }
@@ -174,23 +244,38 @@ class PropertyControllerTest extends WebTestCase
         $address->setCity("Saskatoon");
         $address->setProvince("Saskatchewan");
         $address->setCountry("Canada");
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         $property->setAddress($address);
 
         $client = static::createClient();
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
         //Get the entity manager and the repo so we can make sure a property exists before editing it
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $repo = $em->getRepository(Property::class);
         //insert the property
         $propertyId = $repo->save($property);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
         $crawler = $client->request('GET', "/property/edit/$propertyId");
 
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
+<<<<<<< HEAD
         $form['appbundle_property[propertyName]'] = "Charlton Legs";
+=======
+        $form['property[propertyName]'] = "Charlton Legs";
+>>>>>>> master
 
         $client->followRedirects(true);
 
@@ -268,6 +353,7 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
+<<<<<<< HEAD
         $form['appbundle_property[siteId]'] = 1593844;
         //Change the property name to test if it is staying on the page
         $form['appbundle_property[propertyName]'] = 'Charlton Armies';
@@ -282,6 +368,22 @@ class PropertyControllerTest extends WebTestCase
         $form['appbundle_property[address][city]'] = 'Saskatoon';
         $form['appbundle_property[address][province]'] = 'Saskatchewan';
         $form['appbundle_property[address][country]'] = 'Canada';
+=======
+        $form['property[siteId]'] = 1593844;
+        //Change the property name to test if it is staying on the page
+        $form['property[propertyName]'] = 'Charlton Armies';
+        $form['property[propertyType]'] = 'Townhouse Condo';
+        $form['property[propertyStatus]'] = 'Active';
+        $form['property[structureId]'] = 54586;
+        $form['property[numUnits]'] = -5;
+        $form['property[neighbourhoodName]'] = 'Sutherland';
+        $form['property[neighbourhoodId]'] = 'O48';
+        $form['property[address][streetAddress]'] = '123 Main Street';
+        $form['property[address][postalCode]'] = 'S7N 0R7';
+        $form['property[address][city]'] = 'Saskatoon';
+        $form['property[address][province]'] = 'Saskatchewan';
+        $form['property[address][country]'] = 'Canada';
+>>>>>>> master
 
         $crawler = $client->submit($form);
 
@@ -426,6 +528,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("No property specified")')->count());
     }
 
+<<<<<<< HEAD
 
 
     /**
@@ -510,7 +613,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertTrue($results != $jsonFormat);
     }
     */
-
+=======
     /**
      * Story 4h
      * Tests that the list of containers appears when a user views a property that has containers associated with it
@@ -698,6 +801,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEquals(0, $crawler->filter('table.containers:contains("Route(s)")')->count());
         $this->assertEquals(0, $crawler->filter('table.containers:contains("Bin Status")')->count());
     }
+>>>>>>> master
 
     protected function tearDown()
     {
@@ -708,8 +812,11 @@ class PropertyControllerTest extends WebTestCase
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $stmt = $em->getConnection()->prepare('DELETE FROM Property');
         $stmt->execute();
+<<<<<<< HEAD
+=======
         $stmt = $em->getConnection()->prepare('DELETE FROM Container');
         $stmt->execute();
+>>>>>>> master
         $stmt = $em->getConnection()->prepare('DELETE FROM Address');
         $stmt->execute();
         $em->close();
