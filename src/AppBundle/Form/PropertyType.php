@@ -30,7 +30,6 @@ class PropertyType extends AbstractType
             ->add('propertyName', TextType::class, array('required'=>false))
             ->add('propertyType', ChoiceType::class, array('choices'=>Property::getTypes(), 'required'=>false, 'invalid_message' => 'Invalid property type'))
             ->add('propertyStatus', ChoiceType::class, array('choices'=>array_merge( array('...' => ""),Property::getStatuses()), 'invalid_message' => 'Invalid property status'))
-            ->add('structureId', IntegerType::class, array('required'=>false))
             ->add('numUnits', IntegerType::class)
             ->add('neighbourhoodName', TextType::class)
             ->add('neighbourhoodId', TextType::class, array('required'=>false));

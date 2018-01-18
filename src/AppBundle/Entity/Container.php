@@ -97,13 +97,7 @@ class Container
     private $reasonForStatus;
 
 
-    /**
-     * Summary of structure
-     *
-     * @ORM\ManyToOne(targetEntity="Structure", inversedBy="container", cascade={"persist"})
-     * @var int
-     */
-    protected $structureId;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="Property", inversedBy="bins", cascade={"persist"})
@@ -212,6 +206,30 @@ class Container
     public function setLong($long)
     {
         $this->long = $long;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getProperty()
+    {
+        return $this->property;
+    }
+
+    /**
+     * Set long
+     *
+     * @param string $long
+     *
+     * @return Container
+     */
+    public function setProperty($property)
+    {
+        $this->property = $property;
 
         return $this;
     }

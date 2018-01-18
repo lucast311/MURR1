@@ -27,7 +27,6 @@ class PropertyControllerTest extends WebTestCase
         $form['property[propertyName]'] = 'Charlton Arms';
         $form['property[propertyType]'] = 'Townhouse Condo';
         $form['property[propertyStatus]'] = 'Active';
-        $form['property[structureId]'] = 54586;
         $form['property[numUnits]'] = 5;
         $form['property[neighbourhoodName]'] = 'Sutherland';
         $form['property[neighbourhoodId]'] = 'O48';
@@ -58,7 +57,6 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEmpty($form['property[propertyName]']-> getValue());
         $this->assertEmpty($form['property[propertyType]']-> getValue());
         $this->assertEmpty($form['property[propertyStatus]']-> getValue());
-        $this->assertEmpty($form['property[structureId]']-> getValue());
         $this->assertEmpty($form['property[numUnits]']-> getValue());
         $this->assertEmpty($form['property[neighbourhoodName]']-> getValue());
         $this->assertEmpty($form['property[neighbourhoodId]']-> getValue());
@@ -85,7 +83,6 @@ class PropertyControllerTest extends WebTestCase
         $form['property[propertyName]'] = 'Charlton Arms';
         $form['property[propertyType]'] = 'Townhouse Condo';
         $form['property[propertyStatus]'] = 'Active';
-        $form['property[structureId]'] = 54586;
         $form['property[numUnits]'] = 5;
         $form['property[neighbourhoodName]'] = '';
         $form['property[neighbourhoodId]'] = 'O48';
@@ -119,7 +116,6 @@ class PropertyControllerTest extends WebTestCase
             $form['property[propertyName]'] = 'Charlton Arms';
             $form['property[propertyType]'] = 'Townhouse Condo';
             $form['property[propertyStatus]'] = 'Active';
-            $form['property[structureId]'] = 54586;
             $form['property[numUnits]'] = 5;
             $form['property[neighbourhoodName]'] = 'Sutherland';
             $form['property[neighbourhoodId]'] = 'O48';
@@ -146,7 +142,6 @@ class PropertyControllerTest extends WebTestCase
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
-        $property->setStructureId(54586);
         $property->setNumUnits(5);
         $property->setNeighbourhoodName("Sutherland");
         $property->setNeighbourhoodId("O48");
@@ -223,7 +218,6 @@ class PropertyControllerTest extends WebTestCase
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
-        $property->setStructureId(54586);
         $property->setNumUnits(5);
         $property->setNeighbourhoodName("Sutherland");
         $property->setNeighbourhoodId("O48");
@@ -257,7 +251,6 @@ class PropertyControllerTest extends WebTestCase
         $form['property[propertyName]'] = 'Charlton Armies';
         $form['property[propertyType]'] = 'Townhouse Condo';
         $form['property[propertyStatus]'] = 'Active';
-        $form['property[structureId]'] = 54586;
         $form['property[numUnits]'] = -5;
         $form['property[neighbourhoodName]'] = 'Sutherland';
         $form['property[neighbourhoodId]'] = 'O48';
@@ -321,7 +314,6 @@ class PropertyControllerTest extends WebTestCase
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
-        $property->setStructureId(54586);
         $property->setNumUnits(5);
         $property->setNeighbourhoodName("Sutherland");
         $property->setNeighbourhoodId("O48");
@@ -352,7 +344,6 @@ class PropertyControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Property Name:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Property Type:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Property Status:")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Structure Id:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Num Units:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Neighbourhood Name:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Neighbourhood Id:")')->count());
@@ -367,7 +358,6 @@ class PropertyControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Charlton Arms")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Townhouse Condo")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Active")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("54586")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("5")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Sutherland")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("O48")')->count());
@@ -422,7 +412,6 @@ class PropertyControllerTest extends WebTestCase
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
-        $property->setStructureId(885412);
         $property->setNumUnits(12);
         $property->setNeighbourhoodName("Sutherland");
         $property->setNeighbourhoodId("O48");
@@ -445,10 +434,7 @@ class PropertyControllerTest extends WebTestCase
         $container->setContainerSerial("W114-320-001");
         $container->setType("Bin");
         $container->setSize("6 yd");
-
-        $container->setIsInaccessable(true);
-        $container->setIsContaminated(false);
-        $container->setIsGraffiti(false);
+        $container->setStatus("Active");
 
 
         // Add the bin to an array that we will loop through and add to the property
@@ -494,6 +480,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Bin")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("6 yd")')->count());
 
+
         // Note: Some checks will need to be made in order to test if routes are displayed, once routes are implemented
         //$this->assertGreaterThan(0, $crawler->filter('html:contains("")')->count());
         //$this->assertGreaterThan(0, $crawler->filter('html:contains("")')->count());
@@ -514,7 +501,6 @@ class PropertyControllerTest extends WebTestCase
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
-        $property->setStructureId(885412);
         $property->setNumUnits(12);
         $property->setNeighbourhoodName("Sutherland");
         $property->setNeighbourhoodId("O48");
@@ -542,12 +528,12 @@ class PropertyControllerTest extends WebTestCase
         $crawler = $client->request('GET',"/property/view/$propertyId");
 
         //Check that no container table headers exist on this page
-        $this->assertEquals(0, $crawler->filter('html:contains("Serial #")')->count());
-        $this->assertEquals(0, $crawler->filter('html:contains("Type")')->count());
-        $this->assertEquals(0, $crawler->filter('html:contains("Size")')->count());
-        $this->assertEquals(0, $crawler->filter('html:contains("Frequency")')->count());
-        $this->assertEquals(0, $crawler->filter('html:contains("Route(s)")')->count());
-        $this->assertEquals(0, $crawler->filter('html:contains("Bin Status")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Serial #")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Type")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Size")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Frequency")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Route(s)")')->count());
+        $this->assertEquals(0, $crawler->filter('table.containers:contains("Bin Status")')->count());
 
         // Assert that the view page contains a message informing the user that there are no containers
         $this->assertGreaterThan(0, $crawler->filter('html:contains("No containers found for this property")')->count());
