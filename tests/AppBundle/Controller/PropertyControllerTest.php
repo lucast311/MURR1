@@ -646,6 +646,10 @@ class PropertyControllerTest extends WebTestCase
         //insert the property
         $propertyId = $repo->save($property);
 
+        // Save the communication too
+        $repo = $em->getRepository(Communication::class);
+        $repo->insert($communication);
+
         //Request the property view page for the property that was just inserted
         $crawler = $client->request('GET',"/property/view/$propertyId");
 
@@ -672,7 +676,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Phone")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Incoming")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("John Smith")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("#06-123-4567")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("306-123-4567")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("email@email.com")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Bin will be moved to the eastern side of the building")')->count());
     }
@@ -783,6 +787,14 @@ class PropertyControllerTest extends WebTestCase
         $address->setCountry("Canada");
         $property->setAddress($address);
 
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //Get the entity manager and the repo
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+
+        $repo = $em->getRepository(Communication::class);
+
         // Create 15 new communications on this property
         for ($i = 0; $i < 15; $i++)
         {
@@ -795,13 +807,10 @@ class PropertyControllerTest extends WebTestCase
             $communication->setProperty($property);
             $communication->setCategory("Container");
             $communication->setDescription("Bin will be moved to the eastern side of the building");
+            // Save it
+            $repo->insert($communication);
         }
 
-        //Create a client to go through the web page
-        $client = static::createClient();
-
-        //Get the entity manager and the repo so we can make sure a property exists before editing it
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $repo = $em->getRepository(Property::class);
 
         //insert the property

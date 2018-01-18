@@ -131,6 +131,7 @@ class Property
 
     /**
      * Holds a list of communications for this property
+     * @ORM\OneToMany(targetEntity="Communication", cascade={"persist"}, mappedBy="property")
      * @var Communication[]
      */
     private $communications;
@@ -397,19 +398,22 @@ class Property
 
     /**
      * Retrieves all the communications for this property
+     * @return Communication[]
      */
     public function getCommunications()
     {
-        
+        return $this->communications;
     }
 
     /**
      * Allows you to set the communications for this property
-     * @param mixed $communications 
+     * @param mixed $communications
+     * @return Property
      */
     public function setCommunications($communications)
     {
-        
+        $this->communications = $communications;
+        return $this;
     }
 
     public function __toString(){
