@@ -472,46 +472,6 @@ class PropertyControllerTest extends WebTestCase
     }
 
     /**
-     * ----DEPRECATED----
-     * Story 4d
-     * test that the Changer actually converts Entities into JSON string objects
-     */
-    /* CHANGER HAS BEEN DEPRECATED
-    public function testChangerFunctionality()
-    {
-        // create new Changer and SearchNarrower objects that will be used later
-        $changer = new Changer();
-        $searchNarrower = new SearchNarrower();
-
-        // get a repository so we can query for data
-        $repository = $this->em->getRepository(Property::class);
-
-        // create a client so we can view the page
-        $client = static::createClient();
-
-        // go to the page and search for 'Charlton'
-        $client->request('GET', '/property/jsonsearch/Charlton');
-
-        // query the database
-        $results = $repository->propertySearch("Charlton");
-
-        // create an array so we can narrow the records
-        $cleanQuery = array();
-        $cleanQuery[] = 'Charlton';
-        $cleanQuery[] = 'Arms';
-
-        // narrow the results
-        $narrowedSearches = $searchNarrower->narrowProperties($results, $cleanQuery);
-
-        // convert to JSON string
-        $jsonFormat = $changer->ToJSON($results[0], $narrowedSearches[1][1]);
-
-        // Assert that the format that the search returns, is not the same as format returned by the Changer
-        $this->assertTrue($results != $jsonFormat);
-    }
-    */
-
-    /**
      * Story 4h
      * Tests that the list of containers appears when a user views a property that has containers associated with it
      */

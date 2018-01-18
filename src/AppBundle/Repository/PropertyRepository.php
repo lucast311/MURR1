@@ -50,7 +50,7 @@ class PropertyRepository extends EntityRepository
         $propertyClassProperties = $this->getClassMetadata('AppBundle:Property')->fieldNames;
         $addressClassProperties = $this->getEntityManager()->getRepository('AppBundle:Address')->getClassMetadata()->fieldNames;
 
-        // shift off the id from the Contact (A user will never search based on this)
+        // shift off the id from the Property (A user will never search based on this)
         array_shift($propertyClassProperties);
 
         // a variable to store the SQLite WHERE clause to query with

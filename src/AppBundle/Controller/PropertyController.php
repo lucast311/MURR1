@@ -138,7 +138,7 @@ class PropertyController extends Controller
      * @Route("/property/jsonsearch/{searchQuery}", name="property_jsonsearch")
      * @Method("GET")
      */
-    public function jsonSearchAction($searchQuery)
+    public function jsonSearchAction($searchQuery = "")
     {
         // Clean the input
         $searchQuery = htmlentities($searchQuery);

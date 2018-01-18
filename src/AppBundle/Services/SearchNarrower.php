@@ -6,8 +6,7 @@ use AppBundle\Entity\Contact;
 use AppBundle\Entity\Address;
 use AppBundle\Entity\Property;
 /**
- * Searcher short summary.
- *
+ * TODO::
  * Searcher description.
  *
  * @version 1.0
