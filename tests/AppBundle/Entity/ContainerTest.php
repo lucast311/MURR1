@@ -411,7 +411,7 @@ class ContainerTest extends KernelTestCase
         //run through each option and check that they are valid
         foreach ($testOptions as $tester)
         {
-            $this->container->setStatus($tester);
+            $this->container->setFrequency($tester);
             $error = $this->validator->validate($this->container);
             $this->assertEquals(0, count($error));
         }
@@ -422,7 +422,7 @@ class ContainerTest extends KernelTestCase
     public function testInvalidFrequencyOptions()
     {
 
-        $this->container->setStatus("Not a valid option");
+        $this->container->setFrequency("Not a valid option");
         $error = $this->validator->validate($this->container);
         $this->assertEquals(1, count($error));
 
