@@ -63,7 +63,14 @@ class Property
      */
     private $propertyStatus;
 
-   
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="structureId", type="integer", nullable=true)
+     *
+     * @Assert\GreaterThan(value = 0, message = "Please specify a valid Structure ID")
+     */
+    private $structureId;
 
     /**
      * @var int
@@ -227,7 +234,29 @@ class Property
         return $this->propertyStatus;
     }
 
-   
+    /**
+     * Set structureId
+     *
+     * @param int $structureId
+     *
+     * @return Property
+     */
+    public function setStructureId($structureId)
+    {
+        $this->structureId = $structureId;
+
+        return $this;
+    }
+
+    /**
+     * Get structureId
+     *
+     * @return int
+     */
+    public function getStructureId()
+    {
+        return $this->structureId;
+    }
 
     /**
      * Set numUnits

@@ -44,6 +44,7 @@ class PropertyControllerTest extends WebTestCase
         $form['property[propertyName]'] = 'Charlton Arms';
         $form['property[propertyType]'] = 'Townhouse Condo';
         $form['property[propertyStatus]'] = 'Active';
+        $form['appbundle_property[structureId]'] = 54586;
         $form['property[numUnits]'] = 5;
         $form['property[neighbourhoodName]'] = 'Sutherland';
         $form['property[neighbourhoodId]'] = 'O48';
@@ -74,6 +75,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEmpty($form['property[propertyName]']-> getValue());
         $this->assertEmpty($form['property[propertyType]']-> getValue());
         $this->assertEmpty($form['property[propertyStatus]']-> getValue());
+
         $this->assertEmpty($form['property[numUnits]']-> getValue());
         $this->assertEmpty($form['property[neighbourhoodName]']-> getValue());
         $this->assertEmpty($form['property[neighbourhoodId]']-> getValue());
@@ -100,6 +102,7 @@ class PropertyControllerTest extends WebTestCase
         $form['property[propertyName]'] = 'Charlton Arms';
         $form['property[propertyType]'] = 'Townhouse Condo';
         $form['property[propertyStatus]'] = 'Active';
+        $form['appbundle_property[structureId]'] = 54586;
         $form['property[numUnits]'] = 5;
         $form['property[neighbourhoodName]'] = '';
         $form['property[neighbourhoodId]'] = 'O48';
@@ -133,6 +136,7 @@ class PropertyControllerTest extends WebTestCase
             $form['property[propertyName]'] = 'Charlton Arms';
             $form['property[propertyType]'] = 'Townhouse Condo';
             $form['property[propertyStatus]'] = 'Active';
+            $form['appbundle_property[structureId]'] = 54586;
             $form['property[numUnits]'] = 5;
             $form['property[neighbourhoodName]'] = 'Sutherland';
             $form['property[neighbourhoodId]'] = 'O48';
@@ -159,6 +163,7 @@ class PropertyControllerTest extends WebTestCase
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
+        $form['appbundle_property[structureId]'] = 54586;
         $property->setNumUnits(5);
         $property->setNeighbourhoodName("Sutherland");
         $property->setNeighbourhoodId("O48");
@@ -234,6 +239,7 @@ class PropertyControllerTest extends WebTestCase
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
+        $property->setStructureId(54586);
         $property->setNumUnits(5);
         $property->setNeighbourhoodName("Sutherland");
         $property->setNeighbourhoodId("O48");
@@ -267,6 +273,7 @@ class PropertyControllerTest extends WebTestCase
         $form['property[propertyName]'] = 'Charlton Armies';
         $form['property[propertyType]'] = 'Townhouse Condo';
         $form['property[propertyStatus]'] = 'Active';
+        $form['appbundle_property[structureId]'] = 54586;
         $form['property[numUnits]'] = -5;
         $form['property[neighbourhoodName]'] = 'Sutherland';
         $form['property[neighbourhoodId]'] = 'O48';
