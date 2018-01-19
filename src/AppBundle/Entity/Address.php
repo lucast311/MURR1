@@ -34,7 +34,6 @@ class Address
     private $streetAddress;
 
 
-
     /**
      * @var string
      *

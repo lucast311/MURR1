@@ -5,6 +5,8 @@ namespace Tests\AppBundle\Repository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
+use AppBundle\DataFixtures\ORM\LoadPropertyData;
+use AppBundle\Services\SearchNarrower;
 
 class PropertyRepositoryTest extends KernelTestCase
 {
@@ -25,6 +27,9 @@ class PropertyRepositoryTest extends KernelTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        $propertyLoader = new LoadPropertyData();
+        $propertyLoader->load($this->em);
     }
 
     /**
@@ -108,6 +113,79 @@ class PropertyRepositoryTest extends KernelTestCase
         $this->assertEquals('Inactive (Renovation)', $dbProperty->getPropertyStatus());
     }
 
+
+
+    /**
+     * story 4d
+     * test that Property objects are returned by the search
+     */
+    public function testPropertyObjectsReturned()
+    {
+        // get a repository to search with
+        $repo = $this->em->getRepository(Property::class);
+
+        // create an array with values to search with
+        $searches = array();
+        $searches[] = 'Charlton';
+        $searches[] = 'Arms';
+
+        // query the database
+        $results = $repo->propertySearch($searches);
+
+        // create a new ReflectionClass object, using the returned object at index 0
+        $resultReflection = new \ReflectionClass(get_class($results[0]));
+
+        // Assert that the name of the Reflection object is 'Property'
+        $this->assertTrue($resultReflection->getShortName() == 'Property');
+    }
+
+    /**
+     * Story 4d
+     * test that the SearchNarrower actually reduces rthe number of results from the initial query
+     */
+    public function testSearchNarrowerFunctionality()
+    {
+        // create a new SearchNarrower to be used later
+        $searchNarrower = new SearchNarrower();
+
+        // get a repository to search with
+        $repo = $this->em->getRepository(Property::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = 'Charlton';
+        $cleanQuery[] = 'Townhouse';
+
+        // query the database
+        $results = $repo->propertySearch($cleanQuery);
+
+        // narrow the searches so we only return exactlly what we want
+        $narrowedSearches = $searchNarrower->narrowProperties($results, $cleanQuery);
+
+        // Assert that the size of the initial query is greater than the size of the narrowed query
+        $this->assertTrue(sizeof($narrowedSearches[0]) < sizeof($results));
+    }
+
+    /**
+     * Story 4d
+     * test that the search will work when an Address is specified
+     */
+    public function testSearchOnAddress()
+    {
+        // create a new SearchNarrower to be used later
+        $repo = $this->em->getRepository(Property::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = 'Saskatoon';
+
+        // query the database
+        $results = $repo->propertySearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(16, sizeof($results));
+    }
+
     ///**
     // * Story 4h
     // * Tests that the getAllContainers method in the PropertyRepository returns a list of containers for a property given a property id
@@ -183,6 +261,8 @@ class PropertyRepositoryTest extends KernelTestCase
 
         // Delete everything out of the property table after inserting stuff
         $stmt = $this->em->getConnection()->prepare('DELETE FROM Property');
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Address");
         $stmt->execute();
 
         $this->em->close();

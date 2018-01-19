@@ -66,6 +66,7 @@
     <Compile Include="src\AppBundle\Controller\PropertyController.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadAddressData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContactData.php" />
+    <Compile Include="src\AppBundle\DataFixtures\ORM\LoadPropertyData.php" />
     <Compile Include="src\AppBundle\Entity\Address.php" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
     <Compile Include="src\AppBundle\Entity\Contact.php" />
@@ -1978,6 +1979,7 @@
     <Folder Include="app\Resources\views\Contact" />
     <Folder Include="app\Resources\views\contactsearch" />
     <Folder Include="app\Resources\views\default" />
+    <Folder Include="app\Resources\views\propertySearch\" />
     <Folder Include="app\Resources\views\oops" />
     <Folder Include="app\Resources\views\property" />
     <Folder Include="app\Resources\views" />
@@ -3269,9 +3271,15 @@
     <Folder Include="var" />
     <Folder Include="web\bundles" />
     <Folder Include="web" />
+    <Folder Include="web\JavaScript\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\Resources\views\propertySearch\propertyJSONSearches.html.twig" />
+    <Content Include="app\Resources\views\propertySearch\show.html.twig" />
+    <Content Include="app\Resources\views\property\searchProperty.html.twig" />
+    <Content Include="app\Resources\views\Contact\searchContact.html.twig" />
     <Content Include="app\Resources\views\communication\viewComm.html.twig" />
     <Content Include="app\sqlite.db" />
+    <Content Include="web\JavaScript\Search.js" />
   </ItemGroup>
 </Project>
