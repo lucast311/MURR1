@@ -24,6 +24,7 @@ use Symfony\Component\Serializer\Serializer;
  */
 class PropertyController extends Controller
 {
+    public $property; 
     /**
      * Story 4a
      * Handles the adding of a property.
