@@ -389,14 +389,43 @@ class ContainerTest extends KernelTestCase
 
     }
 
-    
+
     public function testInvalidStatusOptions()
-    {     
+    {
 
         $this->container->setStatus("Not a valid option");
         $error = $this->validator->validate($this->container);
         $this->assertEquals(1, count($error));
-        
+
+
+    }
+
+    //frequency tests
+     public function testValidFrequencyOptions()
+    {
+        //$validOptions = Container::StatusChoices();
+
+        //all the valid test options
+        $testOptions = array('Monthly', 'Weekly', 'Twice weekly');
+
+        //run through each option and check that they are valid
+        foreach ($testOptions as $tester)
+        {
+            $this->container->setStatus($tester);
+            $error = $this->validator->validate($this->container);
+            $this->assertEquals(0, count($error));
+        }
+
+    }
+
+
+    public function testInvalidFrequencyOptions()
+    {
+
+        $this->container->setStatus("Not a valid option");
+        $error = $this->validator->validate($this->container);
+        $this->assertEquals(1, count($error));
+
 
     }
 
