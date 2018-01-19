@@ -258,6 +258,148 @@ class ContainerTest extends KernelTestCase
         $this->assertEquals(0, count($error));
     }
 
+    //lat tests
+    public function testLatitudeMaxBoundary()
+    {
+        $this->container->setLat(90);
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there are 0 errors
+        $this->assertEquals(0, count($error));
+    }
+
+    public function testLatitudeMaxBoundaryInvalid()
+    {
+        $this->container->setLat(100);
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there are 0 errors
+        $this->assertEquals(1, count($error));
+    }
+
+    public function testLatitudeMinBoundary()
+    {
+        $this->container->setLat(-90);
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there are 0 errors
+        $this->assertEquals(0, count($error));
+    }
+
+    public function testLatitudeMinBoundaryInvalid()
+    {
+        $this->container->setLat(-100);
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there are 0 errors
+        $this->assertEquals(1, count($error));
+    }
+
+    public function testLatitudeValid()
+    {
+        $this->container->setLat(0);
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there are 0 errors
+        $this->assertEquals(0, count($error));
+    }
+
+    //long tests
+
+    public function testLongitudeMaxBoundary()
+    {
+        $this->container->setLong(180);
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there are 0 errors
+        $this->assertEquals(0, count($error));
+    }
+
+    public function testLongitudeMaxBoundaryInvalid()
+    {
+        $this->container->setLong(200);
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there are 0 errors
+        $this->assertEquals(1, count($error));
+    }
+
+    public function testLongitudeMinBoundary()
+    {
+        $this->container->setLong(-180);
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there are 0 errors
+        $this->assertEquals(0, count($error));
+    }
+
+    public function testLongitudeMinBoundaryInvalid()
+    {
+        $this->container->setLong(-200);
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there are 0 errors
+        $this->assertEquals(1, count($error));
+    }
+
+    public function testLongitudeValid()
+    {
+        $this->container->setLong(0);
+
+        // Attempt to validate the container
+        $error = $this->validator->validate($this->container);
+
+        // Assert that there are 0 errors
+        $this->assertEquals(0, count($error));
+    }
+
+    //status tests
+    public function testValidStatusOptions()
+    {
+        //$validOptions = Container::StatusChoices();
+
+        //all the valid test options
+        $testOptions = array('Active', 'Inaccessable', 'Contaminated', 'Damage', 'Graffiti');
+
+        //run through each option and check that they are valid
+        foreach ($testOptions as $tester)
+        {
+            $this->container->setStatus($tester);
+            $error = $this->validator->validate($this->container);
+            $this->assertEquals(0, count($error));
+        }
+
+    }
+
+    
+    public function testInvalidStatusOptions()
+    {     
+
+        $this->container->setStatus("Not a valid option");
+        $error = $this->validator->validate($this->container);
+        $this->assertEquals(1, count($error));
+        
+
+    }
+
 
 }
 

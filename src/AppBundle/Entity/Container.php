@@ -53,14 +53,16 @@ class Container
     /**
      * @var string
      *
-     * @ORM\Column(name="Long", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Long", type="float", length=100, nullable=true)
+     * @Assert\Range(min=-180,max=180,minMessage="Longitude must be more than -90", maxMessage="Longitude must be lower than 90")
      */
     private $long;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lat", type="string", length=100, nullable=true)
+     * @ORM\Column(name="lat", type="float", nullable=true)
+     * @Assert\Range(min=-90,max=90,minMessage="Latitude must be more than -90", maxMessage="Lattitude must be lower than 90")
      */
     private $lat;
 
