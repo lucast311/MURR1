@@ -28,4 +28,9 @@ class CommunicationRepository extends EntityRepository
 
         return $communication->getId(); //return the set ID
     }
+
+    /**
+     * Story 11c
+     * 
+     */
 }

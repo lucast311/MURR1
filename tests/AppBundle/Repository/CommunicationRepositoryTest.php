@@ -169,16 +169,273 @@ class CommunicationRepositoryTest extends KernelTestCase
     }
 
     /**
+     * Story 11c
      * test that the search will work when an Date is specified
      */
     public function testSearchOnDate()
     {
+        // create a communication to search for in the test
+        $communication = new Communication();
+        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setType("Phone");
+        $communication->setMedium("Incoming");
+        $communication->setCategory("Collection");
+        $communication->setDescription("It's a bin");
+
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
 
         // create an array with values to search with
         $cleanQuery = array();
         $cleanQuery[] = '2018-01-01';
+
+        // query the database
+        $results = $repo->CommunicationSearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(1, sizeof($results));
+    }
+
+    /**
+     * Story 11c
+     * test that the search will work when an Type is specified
+     */
+    public function testSearchOnType()
+    {
+        // create a communication to search for in the test
+        $communication = new Communication();
+        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setType("Phone");
+        $communication->setMedium("Incoming");
+        $communication->setCategory("Collection");
+        $communication->setDescription("It's a bin");
+
+        // create a new SearchNarrower to be used later
+        $repo = $this->em->getRepository(Communication::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = 'Phone';
+
+        // query the database
+        $results = $repo->CommunicationSearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(1, sizeof($results));
+    }
+
+    /**
+     * Story 11c
+     * test that the search will work when an Medium is specified
+     */
+    public function testSearchOnMedium()
+    {
+        // create a communication to search for in the test
+        $communication = new Communication();
+        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setType("Phone");
+        $communication->setMedium("Incoming");
+        $communication->setCategory("Collection");
+        $communication->setDescription("It's a bin");
+
+        // create a new SearchNarrower to be used later
+        $repo = $this->em->getRepository(Communication::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = 'Incoming';
+
+        // query the database
+        $results = $repo->CommunicationSearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(1, sizeof($results));
+    }
+
+    /**
+     * Story 11c
+     * test that the search will work when an Contact Name is specified
+     */
+    public function testSearchOnContactName()
+    {
+        // create a communication to search for in the test
+        $communication = new Communication();
+        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setType("Phone");
+        $communication->setMedium("Incoming");
+        $communication->setCategory("Collection");
+        $communication->setDescription("It's a bin");
+        $communication->setContactName("Ken");
+
+        // create a new SearchNarrower to be used later
+        $repo = $this->em->getRepository(Communication::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = 'Ken';
+
+        // query the database
+        $results = $repo->CommunicationSearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(1, sizeof($results));
+    }
+
+    /**
+     * Story 11c
+     * test that the search will work when an Contact Email is specified
+     */
+    public function testSearchOnContactEmail()
+    {
+        // create a communication to search for in the test
+        $communication = new Communication();
+        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setType("Phone");
+        $communication->setMedium("Incoming");
+        $communication->setCategory("Collection");
+        $communication->setDescription("It's a bin");
+        $communication->setContactEmail("email@email.com");
+
+        // create a new SearchNarrower to be used later
+        $repo = $this->em->getRepository(Communication::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = 'email@email.com';
+
+        // query the database
+        $results = $repo->CommunicationSearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(1, sizeof($results));
+    }
+
+    /**
+     * Story 11c
+     * test that the search will work when an Contact Phone is specified
+     */
+    public function testSearchOnContactPhone()
+    {
+        // create a communication to search for in the test
+        $communication = new Communication();
+        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setType("Phone");
+        $communication->setMedium("Incoming");
+        $communication->setCategory("Collection");
+        $communication->setDescription("It's a bin");
+        $communication->setContactPhone("111-111-1111");
+
+        // create a new SearchNarrower to be used later
+        $repo = $this->em->getRepository(Communication::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = '111-111-1111';
+
+        // query the database
+        $results = $repo->CommunicationSearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(1, sizeof($results));
+    }
+
+    /**
+     * Story 11c
+     * test that the search will work when an Property is specified
+     */
+    public function testSearchOnProperty()
+    {
+        // create an address to add for the property
+        $address = new Address();
+        $address->setStreetAddress("123 Main Street");
+        $address->setPostalCode("S7N 3K5");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+
+        // create an address to add for the communication
+        $property = new Property();
+        $property->setSiteId(123);
+        $property->setPropertyName("123 Fake Street");
+        $property->setPropertyType("Townhouse Apartment");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(1);
+        $property->setNumUnits(1);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("2");
+        $property->setAddress($address);
+
+        // create a communication to search for in the test
+        $communication = new Communication();
+        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setType("Phone");
+        $communication->setMedium("Incoming");
+        $communication->setCategory("Collection");
+        $communication->setDescription("It's a bin");
+        $communication->setProperty($property);
+
+        // create a new SearchNarrower to be used later
+        $repo = $this->em->getRepository(Communication::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = '123 Fake Street';
+
+        // query the database
+        $results = $repo->CommunicationSearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(1, sizeof($results));
+    }
+
+    /**
+     * Story 11c
+     * test that the search will work when an Category is specified
+     */
+    public function testSearchOnCategory()
+    {
+        // create a communication to search for in the test
+        $communication = new Communication();
+        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setType("Phone");
+        $communication->setMedium("Incoming");
+        $communication->setCategory("Collection");
+        $communication->setDescription("It's a bin");
+
+        // create a new SearchNarrower to be used later
+        $repo = $this->em->getRepository(Communication::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = 'Collection';
+
+        // query the database
+        $results = $repo->CommunicationSearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(1, sizeof($results));
+    }
+
+    /**
+     * Story 11c
+     * test that the search will work when an Description is specified
+     */
+    public function testSearchOnDescription()
+    {
+        // create a communication to search for in the test
+        $communication = new Communication();
+        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setType("Phone");
+        $communication->setMedium("Incoming");
+        $communication->setCategory("Collection");
+        $communication->setDescription("It's a bin");
+
+        // create a new SearchNarrower to be used later
+        $repo = $this->em->getRepository(Communication::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = "It's a bin";
 
         // query the database
         $results = $repo->CommunicationSearch($cleanQuery);

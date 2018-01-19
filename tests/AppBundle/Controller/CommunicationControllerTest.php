@@ -411,7 +411,7 @@ class CommunicationControllerTest extends WebTestCase
         $repository->contactSearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{"id":22,"date":"2018-01-03","type":"Phone","medium":"Incoming","category":"Resident","propertyID":1,"description":"It\'s a bin","contactName":"Ken","contactEmail":"email@email.com","contactPhone":"111-111-1111"}]', $client->getResponse()->getContent());
+        $this->assertContains('[{"id":1,"date":"2018-01-03","type":"Phone","medium":"Incoming","category":"Resident","propertyID":1,"description":"It\'s a bin","contactName":"Ken","contactEmail":"email@email.com","contactPhone":"111-111-1111"}]', $client->getResponse()->getContent());
     }
 
     /**
