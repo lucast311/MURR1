@@ -83,4 +83,14 @@ class CommunicationController extends Controller
             array('comm'=>$comm, 'errorType'=>$errorType));
 
     }
+
+    /**
+     * Story 11c
+     * Summary of jsonSearchAction
+     * @param mixed $searchQuery
+     */
+    public function jsonSearchAction($searchQuery = "")
+    {
+
+    }
 }
