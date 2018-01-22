@@ -137,7 +137,7 @@ class ContactTest extends TestCase
         $errors = $this->validator->validate($this->contact);
         // Assert that there is 0 error
         $this->assertEquals(0, count($errors));
-   
+
     }
 
     public function testContactEmailAddressInvalid()
@@ -163,7 +163,9 @@ class ContactTest extends TestCase
                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                                          aaaaaa@aaaa.com");
-
+        $errors = $this->validator->validate($this->contact);
+        // Assert that there is 0 error
+        $this->assertEquals(0, count($errors));
     }
 
 
@@ -184,7 +186,7 @@ class ContactTest extends TestCase
         // Assert that there is 1 error
         $this->assertEquals(1, count($errors));
     }
-	
+
 
 
     public function testContactMultipleErrors()
@@ -223,7 +225,7 @@ class ContactTest extends TestCase
         // Assert that there is 1 error
         $this->assertTrue("You must set the role of the contact and at least one other field" === $errors[0]->getMessage());
         $this->assertEquals("Please select only choices in the 'Role' dropdown box", $errors[1]->getMessage());
-        $this->assertEquals(2, count($errors));   
+        $this->assertEquals(2, count($errors));
 
 
         $this->contact->setFirstName("");

@@ -607,7 +607,7 @@ class PropertyControllerTest extends WebTestCase
     {
         //Create a new property to ensure that there is one to view in the database
         $property = new Property();
-        $property->setSiteId(55555555);
+        $property->setSiteId(55555556);
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
@@ -628,7 +628,12 @@ class PropertyControllerTest extends WebTestCase
         //Create a client to go through the web page
         $client = static::createClient();
 
+        //Get the entity manager and the repo so we can make sure a property exists before adding a communication
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $repo = $em->getRepository(Property::class);
 
+        //insert the property
+        $propertyId = $repo->save($property);
 
         // Create a new communication
         $communication = new Communication();
@@ -637,25 +642,21 @@ class PropertyControllerTest extends WebTestCase
         $communication->setContactName("John Smith");
         $communication->setContactEmail("email@email.com");
         $communication->setContactPhone("306-123-4567");
-        //$communication->setProperty($property);
+        $communication->setProperty($property);
         $communication->setCategory("Container");
         $communication->setDescription("Bin will be moved to the eastern side of the building");
 
-        //// Save the communication too
-        //$repo = $em->getRepository(Communication::class);
-        //$repo->insert($communication);
+        //$property->setCommunications(array($communication));
 
-        //Get the entity manager and the repo so we can make sure a property exists before adding a communication
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
-        $repo = $em->getRepository(Property::class);
+        // Save the communication too
+        $repo = $em->getRepository(Communication::class);
+        $repo->insert($communication);
 
-        //insert the property
-        $propertyId = $repo->save($property);
-
+        // You have to create the client a second time or the page won't be up to date...
+        $client = static::createClient();
 
         //Request the property view page for the property that was just inserted
         $crawler = $client->request('GET',"/property/view/$propertyId");
-
 
         // Get the id of the communication
         $commID = $communication->getId();
@@ -820,13 +821,15 @@ class PropertyControllerTest extends WebTestCase
         //insert the property
         $propertyId = $repo->save($property);
 
+        // You have to create the client a second time or the page won't be up to date...
+        $client = static::createClient();
+
         //Request the property view page for the property that was just inserted
         $crawler = $client->request('GET',"/property/view/$propertyId");
 
 
         // Assert that the table contains 15 rows of data
-        //$this->assertEquals(15, $crawler->filter("table.communications tbody tr")->count());
-        $this->assertContains("John Smith",$crawler->filter("table"));
+        $this->assertEquals(15, $crawler->filter("table.communications tbody tr")->count());
     }
 
     protected function tearDown()
@@ -841,6 +844,8 @@ class PropertyControllerTest extends WebTestCase
         $stmt = $em->getConnection()->prepare('DELETE FROM Container');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Address');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM Communication');
         $stmt->execute();
         $em->close();
 
