@@ -30,7 +30,6 @@ class PropertyTypeTest extends TypeTestCase
             'propertyName' => 'Cosmo House',
             'propertyType' => 'Townhouse Condo',
             'propertyStatus' => 'Active',
-            'structureId' => 9999,
             'numUnits' => 12,
             'neighbourhoodName' => 'Sutherland',
             'neighbourhoodId' => 'O33'

@@ -4,12 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Container
  *
  * @ORM\Table(name="container")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContainerRepository")
+ * @UniqueEntity(fields = {"containerSerial"}, message = "Serial already exists")
  */
 class Container
 {
@@ -25,8 +27,8 @@ class Container
     /**
      * @var int
      *
-     * @ORM\Column(name="PickUpInfo", type="string", nullable=true)
-     * @Assert\Choice(callback="getFrequencyChoices", message = "Please select frequency type")
+     * @ORM\Column(name="frequency", type="string", nullable=true)
+     * @Assert\Choice(callback="FrequencyChoices", message = "Please select frequency type")
      */
     private $frequency;
 
@@ -34,16 +36,44 @@ class Container
      * @var string
      *
      * @ORM\Column(name="ContainerSerial", type="string", length=50, unique=true)
+     * @Assert\Length(max=50, maxMessage="Length cannot be more than 50 characters")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private $containerSerial;
 
-    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="LocationDesc", type="string", length=255, nullable=true)
+     * @Assert\Length(max=255, maxMessage="Length cannot be more than 255 characters")
+     */
+    private $locationDesc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="Long", type="float", length=100, nullable=true)
+     * @Assert\Range(min=-180,max=180,minMessage="Longitude must be more than -90", maxMessage="Longitude must be lower than 90")
+     */
+    private $long;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lat", type="float", nullable=true)
+     * @Assert\Range(min=-90,max=90,minMessage="Latitude must be more than -90", maxMessage="Lattitude must be lower than 90")
+     */
+    private $lat;
+
+
 
     /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=50)
-     * @Assert\Choice(callback="getTypeOptions", message = "Please select bin Type")
+     * @Assert\Choice(callback="TypeChoices", message = "Please select bin Type")
+     * @Assert\NotNull()
      */
     private $type;
 
@@ -51,24 +81,28 @@ class Container
      * @var string
      *
      * @ORM\Column(name="size", type="string", length=100)
+     * @Assert\Length(max=100, maxMessage="Size can only be 100 characters")
      */
     private $size;
 
     /**
      * @var string
      * @ORM\Column(name="status", type="string", length=50)
-     * @Assert\Choice(callback="getStatusChoices", message = "Please select bin status")
+     * @Assert\Choice(callback="StatusChoices", message = "Please select bin status")
      */
     private $status;
 
-    ///**
-    // * @var bool
-    // *
-    // * @ORM\Column(name="isInaccessable", type="boolean", nullable=true)
-    // */
-    //private $isInaccessable;
 
-    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reasonForStatus", type="string", length=255, nullable=true)
+     * @Assert\Length(max="255", maxMessage="Can only be 255 characters")
+     */
+    private $reasonForStatus;
+
+
+
 
     /**
      * @ORM\ManyToOne(targetEntity="Property", inversedBy="bins", cascade={"persist"})
@@ -76,20 +110,14 @@ class Container
      */
     protected $property;
 
-    ///**
-    // * @var bool
-    // *
-    // * @ORM\Column(name="isContaminated", type="boolean", nullable=true)
-    // */
-    //private $isContaminated;
 
-    ///**
-    // * @var bool
-    // *
-    // * @ORM\Column(name="isGraffiti", type="boolean", nullable=true)
-    // */
-    //private $isGraffiti;
-
+    /**
+     *@ORM\Column(name="augmentation", type="string", length=255, nullable=true)
+     *@Assert\Length(max=255, maxMessage="Size must be less than 255")
+     *
+     * @var string
+     */
+    private $augmentation;
 
     /**
      * Get id
@@ -100,8 +128,6 @@ class Container
     {
         return $this->id;
     }
-
-
 
     /**
      * Set containerSerial
@@ -127,7 +153,29 @@ class Container
         return $this->containerSerial;
     }
 
+    /**
+     * Set locationDesc
+     *
+     * @param string $locationDesc
+     *
+     * @return Container
+     */
+    public function setLocationDesc($locationDesc)
+    {
+        $this->locationDesc = $locationDesc;
 
+        return $this;
+    }
+
+    /**
+     * Get locationDesc
+     *
+     * @return string
+     */
+    public function getLocationDesc()
+    {
+        return $this->locationDesc;
+    }
 
     /**
      * Set type
@@ -151,6 +199,89 @@ class Container
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set long
+     *
+     * @param string $long
+     *
+     * @return Container
+     */
+    public function setLong($long)
+    {
+        $this->long = $long;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getProperty()
+    {
+        return $this->property;
+    }
+
+    /**
+     * Set long
+     *
+     * @param string $long
+     *
+     * @return Container
+     */
+    public function setProperty($property)
+    {
+        $this->property = $property;
+
+        return $this;
+    }
+
+    /**
+     * Get long
+     *
+     * @return string
+     */
+    public function getLong()
+    {
+        return $this->long;
+    }
+
+    /**
+     * Set lat
+     *
+     * @param string $lat
+     *
+     * @return Container
+     */
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Get lat
+     *
+     * @return string
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    public function setReasonForStatus($reasonForStatus)
+    {
+        $this->reasonForStatus = $reasonForStatus;
+        return $this;
+    }
+
+    public function getReasonForStatus()
+    {
+        return $this->reasonForStatus;
     }
 
     /**
@@ -178,6 +309,8 @@ class Container
     }
 
 
+
+
     public function setFrequency($frequency)
     {
         $this->frequency = $frequency;
@@ -201,20 +334,33 @@ class Container
     }
 
 
+    public function setAugmentation($augmentation)
+    {
+        $this->augmentation = $augmentation;
+        return $this;
+    }
+
+    public function getAugmentation()
+    {
+        return $this->augmentation;
+    }
+
     /**
      * Gets the choices available for the Type attribute
      *
      * @return array
      */
-
-    public static function getTypeChoices()
+    public static function TypeChoices()
     {
         return array('Bin' => 'Bin',
-                     'Recycling Bin' => 'Recycling Bin',
-                     'Garbage Bin' => 'Garbage Bin');
+                     'Cart'=>'Cart');
     }
 
-    public static function getStatusChoices()
+    /**
+     * Get the choices for the Status in the its dropdown
+     * @return string[]
+     */
+    public static function StatusChoices()
     {
         return array('Active' => 'Active',
                      'Inaccessable' => 'Inaccessable',
@@ -223,12 +369,15 @@ class Container
                      'Graffiti' => 'Graffiti');
     }
 
-    public static function getFrequencyChoices()
+    /**
+     *  Get the choices for the Frequency in the its dropdown
+     * @return string[]
+     */
+    public static function FrequencyChoices()
     {
         return array('Monthly' => 'Monthly',
                      'Weekly' => 'Weekly',
-                     'Bi-weekly' => 'Bi-weekly',
-                     'Bi-monthly' => 'Bi-monthly');
+                     'Twice weekly' => 'Twice weekly');
     }
 }
 

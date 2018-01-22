@@ -7,8 +7,25 @@ use AppBundle\Entity\Address;
 use AppBundle\Entity\Container;
 use AppBundle\Entity\Communication;
 
+use AppBundle\Services\SearchNarrower;
+use AppBundle\DataFixtures\ORM\LoadPropertyData;
+
+
 class PropertyControllerTest extends WebTestCase
 {
+    private $em;
+
+    protected function setUp()
+    {
+        self::bootKernel();
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+
+        $propertyLoader = new LoadPropertyData();
+        $propertyLoader->load($this->em);
+    }
+
     /**
      *
      * This test will check that you can access the route, populate fields,
@@ -24,19 +41,20 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[siteId]'] = 1593843;
-        $form['property[propertyName]'] = 'Charlton Arms';
-        $form['property[propertyType]'] = 'Townhouse Condo';
-        $form['property[propertyStatus]'] = 'Active';
-        $form['property[structureId]'] = 54586;
-        $form['property[numUnits]'] = 5;
-        $form['property[neighbourhoodName]'] = 'Sutherland';
-        $form['property[neighbourhoodId]'] = 'O48';
-        $form['property[address][streetAddress]'] = '123 Main Street';
-        $form['property[address][postalCode]'] = 'S7N 0R7';
-        $form['property[address][city]'] = 'Saskatoon';
-        $form['property[address][province]'] = 'Saskatchewan';
-        $form['property[address][country]'] = 'Canada';
+        $form['appbundle_property[siteId]'] = 1593843;
+        $form['appbundle_property[propertyName]'] = 'Charlton Arms';
+        $form['appbundle_property[propertyType]'] = 'Townhouse Condo';
+        $form['appbundle_property[propertyStatus]'] = 'Active';
+        $form['appbundle_property[structureId]'] = 54586;
+        $form['appbundle_property[numUnits]'] = 5;
+        $form['appbundle_property[neighbourhoodName]'] = 'Sutherland';
+        $form['appbundle_property[neighbourhoodId]'] = 'O48';
+        $form['appbundle_property[address][streetAddress]'] = '123 Main Street';
+        $form['appbundle_property[address][postalCode]'] = 'S7N 0R7';
+        $form['appbundle_property[address][city]'] = 'Saskatoon';
+        $form['appbundle_property[address][province]'] = 'Saskatchewan';
+        $form['appbundle_property[address][country]'] = 'Canada';
+
 
         //Remove the property from the database if it already exists so we can insert this one
         //$em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -55,19 +73,19 @@ class PropertyControllerTest extends WebTestCase
 
         //test that all fields are now empty
         //$this->assertEmpty($form['communication[date][year]']->getValue());
-        $this->assertEmpty($form['property[siteId]']-> getValue());
-        $this->assertEmpty($form['property[propertyName]']-> getValue());
-        $this->assertEmpty($form['property[propertyType]']-> getValue());
-        $this->assertEmpty($form['property[propertyStatus]']-> getValue());
-        $this->assertEmpty($form['property[structureId]']-> getValue());
-        $this->assertEmpty($form['property[numUnits]']-> getValue());
-        $this->assertEmpty($form['property[neighbourhoodName]']-> getValue());
-        $this->assertEmpty($form['property[neighbourhoodId]']-> getValue());
-        $this->assertEmpty($form['property[address][streetAddress]']-> getValue());
-        $this->assertEmpty($form['property[address][postalCode]']-> getValue());
-        $this->assertEquals($form['property[address][city]']-> getValue(),"Saskatoon");
-        $this->assertEquals($form['property[address][province]']-> getValue(),"Saskatchewan");
-        $this->assertEquals($form['property[address][country]']-> getValue(),"Canada");
+        $this->assertEmpty($form['appbundle_property[siteId]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[propertyName]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[propertyType]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[propertyStatus]']-> getValue());
+
+        $this->assertEmpty($form['appbundle_property[numUnits]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[neighbourhoodName]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[neighbourhoodId]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[address][streetAddress]']-> getValue());
+        $this->assertEmpty($form['appbundle_property[address][postalCode]']-> getValue());
+        $this->assertEquals($form['appbundle_property[address][city]']-> getValue(),"Saskatoon");
+        $this->assertEquals($form['appbundle_property[address][province]']-> getValue(),"Saskatchewan");
+        $this->assertEquals($form['appbundle_property[address][country]']-> getValue(),"Canada");
     }
 
     /**
@@ -82,19 +100,19 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[siteId]'] = 1593843;
-        $form['property[propertyName]'] = 'Charlton Arms';
-        $form['property[propertyType]'] = 'Townhouse Condo';
-        $form['property[propertyStatus]'] = 'Active';
-        $form['property[structureId]'] = 54586;
-        $form['property[numUnits]'] = 5;
-        $form['property[neighbourhoodName]'] = '';
-        $form['property[neighbourhoodId]'] = 'O48';
-        $form['property[address][streetAddress]'] = '123 Main Street';
-        $form['property[address][postalCode]'] = 'S7N 0R7';
-        $form['property[address][city]'] = 'Saskatoon';
-        $form['property[address][province]'] = 'Saskatchewan';
-        $form['property[address][country]'] = 'Canada';
+        $form['appbundle_property[siteId]'] = 1593843;
+        $form['appbundle_property[propertyName]'] = 'Charlton Arms';
+        $form['appbundle_property[propertyType]'] = 'Townhouse Condo';
+        $form['appbundle_property[propertyStatus]'] = 'Active';
+        $form['appbundle_property[structureId]'] = 54586;
+        $form['appbundle_property[numUnits]'] = 5;
+        $form['appbundle_property[neighbourhoodName]'] = '';
+        $form['appbundle_property[neighbourhoodId]'] = 'O48';
+        $form['appbundle_property[address][streetAddress]'] = '123 Main Street';
+        $form['appbundle_property[address][postalCode]'] = 'S7N 0R7';
+        $form['appbundle_property[address][city]'] = 'Saskatoon';
+        $form['appbundle_property[address][province]'] = 'Saskatchewan';
+        $form['appbundle_property[address][country]'] = 'Canada';
 
         $crawler = $client->submit($form);
 
@@ -116,19 +134,19 @@ class PropertyControllerTest extends WebTestCase
             $form = $crawler->selectButton('Submit')->form();
 
             //set form values
-            $form['property[siteId]'] = 1593843;
-            $form['property[propertyName]'] = 'Charlton Arms';
-            $form['property[propertyType]'] = 'Townhouse Condo';
-            $form['property[propertyStatus]'] = 'Active';
-            $form['property[structureId]'] = 54586;
-            $form['property[numUnits]'] = 5;
-            $form['property[neighbourhoodName]'] = 'Sutherland';
-            $form['property[neighbourhoodId]'] = 'O48';
-            $form['property[address][streetAddress]'] = '123 Main Street';
-            $form['property[address][postalCode]'] = 'S7N 0R7';
-            $form['property[address][city]'] = 'Saskatoon';
-            $form['property[address][province]'] = 'Saskatchewan';
-            $form['property[address][country]'] = 'Canada';
+            $form['appbundle_property[siteId]'] = 1593843;
+            $form['appbundle_property[propertyName]'] = 'Charlton Arms';
+            $form['appbundle_property[propertyType]'] = 'Townhouse Condo';
+            $form['appbundle_property[propertyStatus]'] = 'Active';
+            $form['appbundle_property[structureId]'] = 54586;
+            $form['appbundle_property[numUnits]'] = 5;
+            $form['appbundle_property[neighbourhoodName]'] = 'Sutherland';
+            $form['appbundle_property[neighbourhoodId]'] = 'O48';
+            $form['appbundle_property[address][streetAddress]'] = '123 Main Street';
+            $form['appbundle_property[address][postalCode]'] = 'S7N 0R7';
+            $form['appbundle_property[address][city]'] = 'Saskatoon';
+            $form['appbundle_property[address][province]'] = 'Saskatchewan';
+            $form['appbundle_property[address][country]'] = 'Canada';
 
             $crawler = $client->submit($form);
         }
@@ -147,7 +165,7 @@ class PropertyControllerTest extends WebTestCase
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
-        $property->setStructureId(54586);
+        $form['appbundle_property[structureId]'] = 54586;
         $property->setNumUnits(5);
         $property->setNeighbourhoodName("Sutherland");
         $property->setNeighbourhoodId("O48");
@@ -158,10 +176,10 @@ class PropertyControllerTest extends WebTestCase
         $address->setCity("Saskatoon");
         $address->setProvince("Saskatchewan");
         $address->setCountry("Canada");
+
         $property->setAddress($address);
 
         $client = static::createClient();
-
 
         //Get the entity manager and the repo so we can make sure a property exists before editing it
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -169,13 +187,12 @@ class PropertyControllerTest extends WebTestCase
         //insert the property
         $propertyId = $repo->save($property);
 
-
         $crawler = $client->request('GET', "/property/edit/$propertyId");
 
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[propertyName]'] = "Charlton Legs";
+        $form['appbundle_property[propertyName]'] = "Charlton Legs";
 
         $client->followRedirects(true);
 
@@ -253,20 +270,20 @@ class PropertyControllerTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form();
 
         //set form values
-        $form['property[siteId]'] = 1593844;
+        $form['appbundle_property[siteId]'] = 1593844;
         //Change the property name to test if it is staying on the page
-        $form['property[propertyName]'] = 'Charlton Armies';
-        $form['property[propertyType]'] = 'Townhouse Condo';
-        $form['property[propertyStatus]'] = 'Active';
-        $form['property[structureId]'] = 54586;
-        $form['property[numUnits]'] = -5;
-        $form['property[neighbourhoodName]'] = 'Sutherland';
-        $form['property[neighbourhoodId]'] = 'O48';
-        $form['property[address][streetAddress]'] = '123 Main Street';
-        $form['property[address][postalCode]'] = 'S7N 0R7';
-        $form['property[address][city]'] = 'Saskatoon';
-        $form['property[address][province]'] = 'Saskatchewan';
-        $form['property[address][country]'] = 'Canada';
+        $form['appbundle_property[propertyName]'] = 'Charlton Armies';
+        $form['appbundle_property[propertyType]'] = 'Townhouse Condo';
+        $form['appbundle_property[propertyStatus]'] = 'Active';
+        $form['appbundle_property[structureId]'] = 54586;
+        $form['appbundle_property[numUnits]'] = -5;
+        $form['appbundle_property[neighbourhoodName]'] = 'Sutherland';
+        $form['appbundle_property[neighbourhoodId]'] = 'O48';
+        $form['appbundle_property[address][streetAddress]'] = '123 Main Street';
+        $form['appbundle_property[address][postalCode]'] = 'S7N 0R7';
+        $form['appbundle_property[address][city]'] = 'Saskatoon';
+        $form['appbundle_property[address][province]'] = 'Saskatchewan';
+        $form['appbundle_property[address][country]'] = 'Canada';
 
         $crawler = $client->submit($form);
 
@@ -322,7 +339,6 @@ class PropertyControllerTest extends WebTestCase
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
-        $property->setStructureId(54586);
         $property->setNumUnits(5);
         $property->setNeighbourhoodName("Sutherland");
         $property->setNeighbourhoodId("O48");
@@ -353,7 +369,6 @@ class PropertyControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Property Name:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Property Type:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Property Status:")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Structure Id:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Num Units:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Neighbourhood Name:")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Neighbourhood Id:")')->count());
@@ -368,7 +383,6 @@ class PropertyControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Charlton Arms")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Townhouse Condo")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Active")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("54586")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("5")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Sutherland")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("O48")')->count());
@@ -411,6 +425,51 @@ class PropertyControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("No property specified")')->count());
     }
 
+
+
+    /**
+     * Story 4d
+     * test that the query successfully returns records in JSON format
+     */
+    public function testSuccessfullyReceiveSearch()
+    {
+        // get a repository so we can query for data
+        $repository = $this->em->getRepository(Property::class);
+
+        // create a client so we can view the page
+        $client = static::createClient();
+
+        // go to the page and search for 'Charlton'
+        $client->request('GET', '/property/jsonsearch/Charlton');
+
+        // create an array so we can call the search
+        $queryStrings = array();
+        $queryStrings[] = 'Charlton';
+
+        // query the database
+        $repository->propertySearch($queryStrings);
+
+        // assert that what we expect is actually returned
+        //$this->assertTrue(false);
+        $this->assertContains('[{"id":1,"siteId":3593843,"propertyName":"Charlton Arms","propertyType":"Townhouse Condo","propertyStatus":"Active","structureId":54586,"numUnits":5,', $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 4d
+     * test that the query to search on is too long
+     */
+    public function testQueryTooLong()
+    {
+        // create a client so we can view the page
+        $client = static::createClient();
+
+        // go to the page and search for 'CharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArms'
+        $client->request('GET', '/property/jsonsearch/CharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArms');
+
+        // assert that what we expect is actually returned
+        $this->assertContains('[]', $client->getResponse()->getContent());
+    }
+
     /**
      * Story 4h
      * Tests that the list of containers appears when a user views a property that has containers associated with it
@@ -423,7 +482,6 @@ class PropertyControllerTest extends WebTestCase
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
-        $property->setStructureId(885412);
         $property->setNumUnits(12);
         $property->setNeighbourhoodName("Sutherland");
         $property->setNeighbourhoodId("O48");
@@ -437,12 +495,17 @@ class PropertyControllerTest extends WebTestCase
         $address->setCountry("Canada");
         $property->setAddress($address);
 
+
+        // WE WILL NEED TO GO INTO PROPERTY AND ADD FUNCTIONALITY TO THE setBins($bins) METHOD
+        // IF WE DON'T, THEN WE HAVE NO WAY OF LINKING A PROPERTY TO A LIST OF BINS IN THE CODE
+
+
         $container = new Container();
         $container->setContainerSerial("W114-320-001");
         $container->setType("Bin");
         $container->setSize("6 yd");
-        $container->setFrequency("Weekly");
         $container->setStatus("Active");
+
 
         // Add the bin to an array that we will loop through and add to the property
         $bins = array($container);
@@ -475,23 +538,25 @@ class PropertyControllerTest extends WebTestCase
         $this->assertTrue($crawler->filter('table.containers')->first() != null);
 
         // Assert that the table contains all the proper headers
-        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Serial #")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Type")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Size")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Frequency")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Route(s)")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Bin Status")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Serial #")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Type")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Size")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Frequency")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Route(s)")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Bin Status")')->count());
 
         // Assert that the table contains all the proper data
-        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("W114-320-001")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Bin")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("6 yd")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Weekly")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.containers:contains("Active")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("W114-320-001")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Bin")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("6 yd")')->count());
+
 
         // Note: Some checks will need to be made in order to test if routes are displayed, once routes are implemented
         //$this->assertGreaterThan(0, $crawler->filter('html:contains("")')->count());
         //$this->assertGreaterThan(0, $crawler->filter('html:contains("")')->count());
+
+
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Active")')->count());
     }
 
     /**
@@ -506,7 +571,6 @@ class PropertyControllerTest extends WebTestCase
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
-        $property->setStructureId(885412);
         $property->setNumUnits(12);
         $property->setNeighbourhoodName("Sutherland");
         $property->setNeighbourhoodId("O48");

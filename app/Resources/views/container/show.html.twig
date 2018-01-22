@@ -10,11 +10,11 @@
                 <td>{{ container.id }}</td>
             </tr>
             <tr>
-                <th>Pickupinfo</th>
-                <td>{{ container.pickUpInfo }}</td>
+                <th>Frequency</th>
+                <td>{{ container.frequency }}</td>
             </tr>
             <tr>
-                <th>Containerserial</th>
+                <th>Container Serial</th>
                 <td>{{ container.containerSerial }}</td>
             </tr>
             <tr>
@@ -38,21 +38,23 @@
                 <td>{{ container.size }}</td>
             </tr>
             <tr>
-                <th>Isinaccessable</th>
-                <td>{% if container.isInaccessable %}Yes{% else %}No{% endif %}</td>
+                <th>Augmentation</th>
+                <td>{{ container.augmentation }}</td>
             </tr>
             <tr>
-                <th>Reasonforinaccassability</th>
-                <td>{{ container.reasonForInaccassability }}</td>
+                <th>Status</th>
+                <td>{{ container.status }}</td>
             </tr>
             <tr>
-                <th>Iscontaminated</th>
-                <td>{% if container.isContaminated %}Yes{% else %}No{% endif %}</td>
+                <th>Reason for status</th>
+                <td>{{ container.reasonForStatus }}</td>
             </tr>
             <tr>
-                <th>Isgraffiti</th>
-                <td>{% if container.isGraffiti %}Yes{% else %}No{% endif %}</td>
+                <th>Property</th>
+                <td>{{ container.property }}</td>
             </tr>
+
+
         </tbody>
     </table>
 

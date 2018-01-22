@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Property;
@@ -9,11 +10,21 @@ use AppBundle\Form\PropertyType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormError;
 use AppBundle\Repository\PropertyRepository;
+use AppBundle\Services\Cleaner;
+use AppBundle\Services\SearchNarrower;
+use AppBundle\Services\Changer;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
+
 /**
  * Controller that contains methods for anything having to do with a property.
  */
 class PropertyController extends Controller
 {
+    public $property; 
     /**
      * Story 4a
      * Handles the adding of a property.
@@ -115,8 +126,62 @@ class PropertyController extends Controller
         $property = $em->getRepository(Property::class)->findOneById($propertyId);
 
         // Render the html and pass in the property
-        return $this->render('property/viewProperty.html.twig', array('property'=>$property, 
-            'propertyId'=>$propertyId, 
+        return $this->render('property/viewProperty.html.twig', array('property'=>$property,
+            'propertyId'=>$propertyId,
             'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId))));
+    }
+
+    /**
+     * Story 4d
+     * Lists all propertySearch entities.
+     *
+     * @Route("/property/jsonsearch/", name="property_jsonsearch_empty")
+     * @Route("/property/jsonsearch/{searchQuery}", name="property_jsonsearch")
+     * @Method("GET")
+     */
+    public function jsonSearchAction($searchQuery = "")
+    {
+        // Clean the input
+        $searchQuery = htmlentities($searchQuery);
+
+        // if the string to query onn is less than or equal to 100 characters
+        if(strlen($searchQuery) <= 100 && !empty($searchQuery))
+        {
+            // create a cleaner to cleanse the search query
+            $cleaner = new Cleaner();
+
+            // cleanse the query
+            $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
+
+            // get an entity manager
+            $em = $this->getDoctrine()->getManager();
+
+            // Use the repository to query for the records we want.
+            // Store those records into an array.
+            $propertySearches = $em->getRepository(Property::class)->propertySearch($cleanQuery);
+
+            // create a SearchNarrower to narrow down our searches
+            $searchNarrower = new SearchNarrower();
+
+            // narrow down our searches, and store their values along side their field values
+            $searchedData = $searchNarrower->narrowProperties($propertySearches, $cleanQuery);
+
+            // look in the array of narrowed searches/values for the first element (this will be the array of narrowed searches)
+            $narrowedResults = $searchedData[0];
+
+            $encoder = new JsonEncoder();
+            $normalizer = new ObjectNormalizer();
+            $normalizer->setIgnoredAttributes(array("contacts", "bins", "buildings",
+                "__initializer__", "__cloner__", "__isInitialized__")); //idk why i need these ones, but I do..
+            $serializer = new Serializer(array($normalizer), array($encoder));
+
+
+            // Return the results as a json object
+            // NOTE: Serializer service needs to be enabled for this to work properly
+            return JsonResponse::fromJsonString($serializer->serialize($narrowedResults, 'json'));
+        }
+
+        // string over 100, return empty array.
+        return $this->json(array());
     }
 }

@@ -45,7 +45,6 @@ class PropertyType extends AbstractType
 
         // Add a submit button
         $builder->add('Submit', SubmitType::class);
-
     }
 
 
@@ -60,5 +59,13 @@ class PropertyType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => Property::class
         ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'appbundle_property';
     }
 }

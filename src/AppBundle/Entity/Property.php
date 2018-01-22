@@ -10,7 +10,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="property")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PropertyRepository")
- *
  * @UniqueEntity(fields = {"siteId"}, message = "Site Id already exists")
  */
 class Property
@@ -453,5 +452,4 @@ class Property
             "Mixed Use Apartment Commercial"=>"Mixed Use Apartment Commercial"
         );
     }
-
 }
