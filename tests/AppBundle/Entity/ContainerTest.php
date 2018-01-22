@@ -421,12 +421,9 @@ class ContainerTest extends KernelTestCase
 
     public function testInvalidFrequencyOptions()
     {
-
         $this->container->setFrequency("Not a valid option");
         $error = $this->validator->validate($this->container);
         $this->assertEquals(1, count($error));
-
-
     }
 
 

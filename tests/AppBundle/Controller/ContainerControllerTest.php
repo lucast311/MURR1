@@ -59,7 +59,45 @@ class ContainerControllerTest extends WebTestCase
         //    $crawler->filter('html:contains("Contact has been successfully added")')->count()
         //    );
         $this->assertContains('Redirecting to /container', $client->getResponse()->getContent());
+    }
+
+    /**
+     * 12c - tests that the user can navigate to the container edit page
+     */
+    public function testEditRedirection()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+        //Request the contact edit page
+        $crawler = $client->request('GET','/container/');
+        // Select the first button on the page that views the details for a contact
+        $link = $crawler->filter('a[href="/container/1/edit"]')->eq(0)->link();
+        // Go there - should be viewing a specific contact after this
+        $crawler = $client->click($link);
+
+        $this->assertGreaterThan(0, $crawler->filter(("h1:contains(Container Edit)"))->count());
 
 
     }
+
+    /**
+     * 12c - test that the page loads the list page after the submit button in clicked
+     */
+    public function testEditSubmitRedirect()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+        //Request the contact edit page
+        $crawler = $client->request('GET','/container/1/edit');
+        //$link = $crawler->filter('a:contains("Edit")')->eq(0)->link();
+        //// Go there - should be viewing a specific contact after this
+        //$crawler = $client->click($link);
+
+        $form = $crawler->selectButton('Save')->form();
+
+        $crawler = $client->submit($form);
+
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Container")')->count());
+    }
+
 }
