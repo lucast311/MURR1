@@ -14,7 +14,7 @@ class CommunicationRepository extends EntityRepository
     /**
      * This method will insert a single communication object into the database and
      * return its ID
-     * @param Communication $communication 
+     * @param Communication $communication
      * @return integer
      */
     public function insert(Communication $communication)
@@ -31,6 +31,13 @@ class CommunicationRepository extends EntityRepository
 
     /**
      * Story 11c
-     * 
+     * A function that will take in an array of strings that will be used to
+     *  search for communication entities in the database.
+     * @param array $queryString - an array of strings to query for
+     * @return array of searched entites returned from the queries
      */
+    public function communicationSearch($queryString)
+    {
+
+    }
 }

@@ -401,7 +401,7 @@ class CommunicationControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'Jim'
-        $client->request('GET', '/communication/jsonsearch/Multi-purpose');
+        $client->request('GET', '/communication/jsonsearch/Ken');
 
         // create an array so we can call the search
         $queryStrings = array();
@@ -423,7 +423,7 @@ class CommunicationControllerTest extends WebTestCase
         // create a client so we can view the page
         $client = static::createClient();
 
-        // go to the page and search for 'BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones'
+        // go to the page and search for a string that is 501 characters long
         $client->request('GET', '/Communication/jsonsearch/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJo');
 
         // assert that what we expect is actually returned

@@ -122,6 +122,14 @@ class CommunicationRepositoryTest extends KernelTestCase
      */
     public function testCommunicationObjectsReturned()
     {
+        // create a communication to search for in the test
+        $communication = new Communication();
+        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setType("Phone");
+        $communication->setMedium("Incoming");
+        $communication->setCategory("Collection");
+        $communication->setDescription("It's a bin");
+
         // get a repository to search with
         $repo = $this->em->getRepository(Communication::class);
 
@@ -130,7 +138,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $searches[] = 'Collection';
 
         // query the database
-        $results = $repo->contactSearch($searches);
+        $results = $repo->communicationSearch($searches);
 
         // create a new ReflectionClass object, using the returned object at index 0
         //$resultReflection = new \ReflectionClass(get_class($results[0]));
@@ -147,22 +155,32 @@ class CommunicationRepositoryTest extends KernelTestCase
      */
     public function testSearchNarrowerFunctionality()
     {
+        // create a communication to search for in the test
+        $communication = new Communication();
+        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setType("Phone");
+        $communication->setMedium("Incoming");
+        $communication->setCategory("Collection");
+        $communication->setDescription("It's a bin");
+        $communication->setContactName("Ken");
+
         // create a new SearchNarrower to be used later
         $searchNarrower = new SearchNarrower();
 
         // get a repository to search with
-        $repo = $this->em->getRepository(Contact::class);
+        $repo = $this->em->getRepository(Communication::class);
 
         // create an array with values to search with
         $cleanQuery = array();
         $cleanQuery[] = 'Collection';
-        $cleanQuery[] = 'Resident';
+        $cleanQuery[] = 'Ken';
 
         // query the database
-        $results = $repo->CommunicationSearch($cleanQuery);
+        $results = $repo->communicationSearch($cleanQuery);
 
         // narrow the searches so we only return exactlly what we want
-        $narrowedSearches = $searchNarrower->narrowCommunication($results, $cleanQuery);
+        $narrowedSearches = $searchNarrower->narrower($communication);
+        //$narrowedSearches = $searchNarrower->narrowCommunication($results, $cleanQuery);
 
         // Assert that the size of the initial query is greater than the size of the narrowed query
         $this->assertTrue(sizeof($narrowedSearches[0]) < sizeof($results));
@@ -456,6 +474,9 @@ class CommunicationRepositoryTest extends KernelTestCase
         $stmt->execute();
 
         $stmt = $this->em->getConnection()->prepare('DELETE FROM Property');
+        $stmt->execute();
+
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Address');
         $stmt->execute();
 
         $this->em->close();

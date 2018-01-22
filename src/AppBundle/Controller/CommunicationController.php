@@ -86,8 +86,14 @@ class CommunicationController extends Controller
 
     /**
      * Story 11c
-     * Summary of jsonSearchAction
-     * @param mixed $searchQuery
+     * A function that will take in a string to separate, and then pass
+     *  into the repository as an array. It will then narrow the results further,
+     *  and display those results to a page containing a json header.
+     * @param string $searchQuery - the string to split apart into the individual search queries.
+     *
+     * @Route("/communication/jsonsearch/", name="communication_jsonsearch_empty")
+     * @Route("/communication/jsonsearch/{searchQuery}", name="communication_jsonsearch")
+     * @Method("GET")
      */
     public function jsonSearchAction($searchQuery = "")
     {

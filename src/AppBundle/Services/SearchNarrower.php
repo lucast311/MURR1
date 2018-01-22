@@ -18,10 +18,12 @@ class SearchNarrower
      * This method will be the general narrower that will handle all the main narrower functionality.
      * Will narrow down any passed in search results so we only
      * get back records that contain everything we wanted to find.
-     * @param mixed $entity
-     * @return array of narrowed search results
+     * @param mixed $entity - the type of entity that we are searching for.
+     * @param array $searchResults - an array of all records initially returned from the query.
+     * @param mixed $cleanQuery - an array of each string we wanted to find.
+     * @return array - of narrowed search results
      */
-    public function narrower($entity)
+    public function narrower($entity, $searchResults, $cleanQuery)
     {
 
     }
@@ -266,11 +268,11 @@ class SearchNarrower
     }
 
     /**
-     * Story11c // basically the same as narrowProperties
-     * A method that will narrow down any passed in search results so we only
+     * Story11c
+     * A helper method that will narrow down any passed in search results so we only
      *  get back records that contain everything we wanted to find (only valid for Communication searches).
-     * @param mixed $searchResults an array of all records initially returned from the query
-     * @param mixed $cleanQuery an array of each string we wanted to find
+     * @param array $searchResults an array of all records initially returned from the query
+     * @param array $cleanQuery an array of each string we wanted to find
      * @return array of narrowed search results
      */
     public function narrowCommunications($searchResults, $cleanQuery)
