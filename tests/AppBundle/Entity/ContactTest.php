@@ -164,8 +164,8 @@ class ContactTest extends TestCase
                                          aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                                          aaaaaa@aaaa.com");
         $errors = $this->validator->validate($this->contact);
-        // Assert that there is 0 error
-        $this->assertEquals(0, count($errors));
+        // Assert that there is 1 error
+        $this->assertEquals(1, count($errors));
     }
 
 
