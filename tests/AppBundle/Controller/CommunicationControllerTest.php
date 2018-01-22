@@ -10,6 +10,16 @@ use AppBundle\Entity\Address;
 
 class CommunicationControllerTest extends WebTestCase
 {
+    private $em;
+
+    protected function setUp()
+    {
+        self::bootKernel();
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+    }
+
     public function testFormSuccess()
     {
         $client = static::createClient();
@@ -401,14 +411,14 @@ class CommunicationControllerTest extends WebTestCase
         $client = static::createClient();
 
         // go to the page and search for 'Jim'
-        $client->request('GET', '/communication/jsonsearch/Ken');
+        $client->request('GET', '/communication/jsonsearch/Multi-purpose');
 
         // create an array so we can call the search
         $queryStrings = array();
         $queryStrings[] = 'Multi-purpose';
 
         // query the database
-        $repository->contactSearch($queryStrings);
+        $repository->communicationSearch($queryStrings);
 
         // assert that what we expect is actually returned
         $this->assertContains('[{"id":1,"date":"2018-01-03","type":"Phone","medium":"Incoming","category":"Resident","propertyID":1,"description":"It\'s a bin","contactName":"Ken","contactEmail":"email@email.com","contactPhone":"111-111-1111"}]', $client->getResponse()->getContent());
@@ -425,6 +435,22 @@ class CommunicationControllerTest extends WebTestCase
 
         // go to the page and search for a string that is 501 characters long
         $client->request('GET', '/Communication/jsonsearch/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJo');
+
+        // assert that what we expect is actually returned
+        $this->assertContains('[]', $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 11c
+     * test that the query to search on is empty
+     */
+    public function testQueryEmpty()
+    {
+        // create a client so we can view the page
+        $client = static::createClient();
+
+        // go to the page and search for a string that is empty
+        $client->request('GET', '/Communication/jsonsearch/');
 
         // assert that what we expect is actually returned
         $this->assertContains('[]', $client->getResponse()->getContent());

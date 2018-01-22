@@ -116,6 +116,19 @@ class CommunicationRepositoryTest extends KernelTestCase
         $this->assertEquals($dbComm->getDate(), $date);
     }
 
+
+
+
+
+
+    // ADD SETUP FUNCTION AT THE TOP OF THE PAGE THAT ADDS ALL RECORDS TO SEARCH FOR
+
+
+
+
+
+
+
     /**
      * Story 11c
      * Test that a communication object is returned
@@ -179,7 +192,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $results = $repo->communicationSearch($cleanQuery);
 
         // narrow the searches so we only return exactlly what we want
-        $narrowedSearches = $searchNarrower->narrower($communication);
+        $narrowedSearches = $searchNarrower->narrower($communication, $results, $cleanQuery);
         //$narrowedSearches = $searchNarrower->narrowCommunication($results, $cleanQuery);
 
         // Assert that the size of the initial query is greater than the size of the narrowed query
