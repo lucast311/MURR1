@@ -120,6 +120,12 @@ class Container
     private $augmentation;
 
     /**
+     * @ORM\OneToOne(targetEntity="Structure", inversedBy="bins", cascade={"persist"})
+     * @ORM\JoinColumn(name="structureId", referencedColumnName="id")
+     */
+    private $structure;
+
+    /**
      * Get id
      *
      * @return int
