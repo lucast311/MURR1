@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Container edit</h1>
-
+    <h1>Edit Container {{container.containerSerial}}</h1>
+    {% form_theme edit_form 'form_table_layout.html.twig'  %}
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
         <input type="submit" value="Save" />

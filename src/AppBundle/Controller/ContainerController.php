@@ -81,16 +81,20 @@ class ContainerController extends Controller
      */
     public function editAction(Request $request, Container $container)
     {
+        //generate the necessary forms
         $deleteForm = $this->createDeleteForm($container);
-        $editForm = $this->createForm('AppBundle\Form\ContainerType', $container);
+        $editForm = $this->createForm('AppBundle\Form\ContainerEditType', $container);
         $editForm->handleRequest($request);
 
+        //if the form is valid and submitted, edit the container
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('container_edit', array('id' => $container->getId()));
+            //redirect to the display page for this edited container
+            return $this->redirectToRoute('container_show', array('id' => $container->getId()));
         }
 
+        //render the page
         return $this->render('container/edit.html.twig', array(
             'container' => $container,
             'edit_form' => $editForm->createView(),

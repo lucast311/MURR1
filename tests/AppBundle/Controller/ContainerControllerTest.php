@@ -66,16 +66,28 @@ class ContainerControllerTest extends WebTestCase
      */
     public function testEditRedirection()
     {
+        //create a container to insert into the database
+        $container = new Container();
+        $container->setContainerSerial('123456')
+            ->setSize("6 yd");
+
+        //get entity manager and repo
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $repo = $em->getRepository(Container::class);
+
+        //save the container
+        $repo->save($container);
+
         //Create a client to go through the web page
         $client = static::createClient();
         //Request the contact edit page
         $crawler = $client->request('GET','/container/');
         // Select the first button on the page that views the details for a contact
-        $link = $crawler->filter('a[href="/container/1/edit"]')->eq(0)->link();
+        $link = $crawler->filter('a[href="/container/1"]')->eq(0)->link();
         // Go there - should be viewing a specific contact after this
         $crawler = $client->click($link);
 
-        $this->assertGreaterThan(0, $crawler->filter(("h1:contains(Container Edit)"))->count());
+        $this->assertGreaterThan(0, $crawler->filter(("h1:contains(Edit Container)"))->count());
 
 
     }
@@ -120,6 +132,19 @@ class ContainerControllerTest extends WebTestCase
         //ensure property and structure do appear on page
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Property")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Structure")')->count());
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        // Delete all the things that were just inserted. Or literally everything.
+        $client = static::createClient();
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $stmt = $em->getConnection()->prepare('DELETE FROM Container');
+        $stmt->execute();
+        $em->close();
+
     }
 
 }
