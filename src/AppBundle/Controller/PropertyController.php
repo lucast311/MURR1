@@ -192,11 +192,10 @@ class PropertyController extends Controller
 
             $encoder = new JsonEncoder();
             $normalizer = new ObjectNormalizer();
-            $normalizer->setIgnoredAttributes(array("contacts", "bins", "buildings",
-            "__initializer__", "__cloner__", "__isInitialized__" )); //idk why i need these ones, but I do..
+            $normalizer->setIgnoredAttributes(array("contacts", "bins", "buildings","communications",
+                "__initializer__", "__cloner__", "__isInitialized__")); //idk why i need these ones, but I do..
             $serializer = new Serializer(array($normalizer), array($encoder));
 
-            
 
             // Return the results as a json object
             // NOTE: Serializer service needs to be enabled for this to work properly
