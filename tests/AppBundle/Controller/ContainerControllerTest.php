@@ -69,9 +69,13 @@ class ContainerControllerTest extends WebTestCase
         //create a container to insert into the database
         $container = new Container();
         $container->setContainerSerial('123456')
+            ->setType("Bin")
+            ->setStatus("Active")
+            ->setFrequency("Weekly")
             ->setSize("6 yd");
 
         //get entity manager and repo
+        $client = static::createClient();
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $repo = $em->getRepository(Container::class);
 
@@ -83,33 +87,49 @@ class ContainerControllerTest extends WebTestCase
         //Request the contact edit page
         $crawler = $client->request('GET','/container/');
         // Select the first button on the page that views the details for a contact
-        $link = $crawler->filter('a[href="/container/1"]')->eq(0)->link();
+        $link = $crawler->filter('a[href="/container/1/edit"]')->eq(0)->link();
         // Go there - should be viewing a specific contact after this
         $crawler = $client->click($link);
 
-        $this->assertGreaterThan(0, $crawler->filter(("h1:contains(Edit Container)"))->count());
+        $this->assertGreaterThan(0, $crawler->filter(("h1:contains('Edit Container 123456')"))->count());
 
 
     }
 
     /**
-     * 12c - test that the page loads the list page after the submit button in clicked
+     * 12c - test that the page loads the view page after the submit button in clicked
      */
     public function testEditSubmitRedirect()
     {
-        //Create a client to go through the web page
+        //create a container to insert into the database
+        $container = new Container();
+        $container->setContainerSerial('123456')
+            ->setType("Bin")
+            ->setStatus("Active")
+            ->setFrequency("Weekly")
+            ->setSize("6 yd");
+
+        //get entity manager and repo
         $client = static::createClient();
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $repo = $em->getRepository(Container::class);
+
+        //save the container
+        $repo->save($container);
+
+
         //Request the contact edit page
         $crawler = $client->request('GET','/container/1/edit');
         //$link = $crawler->filter('a:contains("Edit")')->eq(0)->link();
-        //// Go there - should be viewing a specific contact after this
+        // Go there - should be viewing a specific contact after this
         //$crawler = $client->click($link);
 
-        $form = $crawler->selectButton('Save')->form();
+        $form = $crawler->selectButton("Save")->form();
 
         $crawler = $client->submit($form);
+        $crawler = $client->request('GET', '/container/1'); 
 
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Container")')->count());
+        $this->assertGreaterThan(0, $crawler->filter("html:contains('Container')")->count());
     }
 
     /**
