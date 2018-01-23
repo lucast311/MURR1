@@ -432,7 +432,7 @@ class ContainerTest extends KernelTestCase
      */
     public function testValidPropertyIsInt()
     {
-        $testOptions = array("Not valid", 'n', 12.5, 0, new Property());
+        $testOptions = array("Not valid", 'n', 12.5, 0,500, new Property());
         foreach ($testOptions as $testVal)
         {
         	$this->container->setProperty($testVal);
@@ -451,7 +451,7 @@ class ContainerTest extends KernelTestCase
      */
     public function testValidStructureIsInt()
     {
-        $testOptions = array("Not valid", 'n', 12.5, 0, new Structure());
+        $testOptions = array("Not valid", 'n', 12.5, 0,500, new Structure());
         foreach ($testOptions as $testVal)
         {
         	$this->container->setStructure($testVal);
