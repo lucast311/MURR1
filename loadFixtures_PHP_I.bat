@@ -1,1 +1,0 @@
-.\symfonyCONSOLE_PHP_I.bat doctrine:fixtures:load
