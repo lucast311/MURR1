@@ -32,14 +32,17 @@ class PropertyController extends Controller
      *
      * I have no clue why but DO NOT MOVE THIS TO THE BOTTOM OF THE FILE... if you
      * do, the route breaks, I suspect it has something to do with the crud generated route
-     * for viewing a contact.
+     * for viewing a property.
      *
      * @Route("/property/search", name="property_search")
      * @Method("GET")
      */
     public function searchAction()
     {
-
+        // Render the twig with required data
+        return $this->render('property/searchProperty.html.twig', array(
+            'viewURL' => '/property/'
+        ));
     }
 
 
@@ -190,9 +193,10 @@ class PropertyController extends Controller
             $encoder = new JsonEncoder();
             $normalizer = new ObjectNormalizer();
             $normalizer->setIgnoredAttributes(array("contacts", "bins", "buildings",
-                "__initializer__", "__cloner__", "__isInitialized__")); //idk why i need these ones, but I do..
+            "__initializer__", "__cloner__", "__isInitialized__" )); //idk why i need these ones, but I do..
             $serializer = new Serializer(array($normalizer), array($encoder));
 
+            
 
             // Return the results as a json object
             // NOTE: Serializer service needs to be enabled for this to work properly
