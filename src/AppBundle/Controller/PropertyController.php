@@ -41,7 +41,7 @@ class PropertyController extends Controller
     {
         // Render the twig with required data
         return $this->render('property/searchProperty.html.twig', array(
-            'viewURL' => '/property/'
+            'viewURL' => '/property/view/'
         ));
     }
 
