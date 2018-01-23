@@ -36,8 +36,64 @@ class CommunicationRepository extends EntityRepository
      * @param array $queryString - an array of strings to query for
      * @return array of searched entites returned from the queries
      */
-    public function communicationSearch($queryString)
+    public function communicationSearch($queryStrings)
     {
+        // get the field names of both the Communication, Property, Address, Contact, and Container Entities.
+        $communicationClassProperties = $this->getClassMetadata('AppBundle:Communication')->fieldNames;
+        $propertyClassProperties = $this->getClassMetadata('AppBundle:Property')->fieldNames;
+        $addressClassProperties = $this->getClassMetadata('AppBundle:Address')->fieldNames;
+        $contactClassProperties = $this->getClassMetadata('AppBundle:Contact')->fieldNames;
+        $containerClassProperties = $this->getClassMetadata('AppBundle:Container')->fieldNames;
 
+        $classPropertiesArray = array($communicationClassProperties, $propertyClassProperties,
+            $addressClassProperties, $contactClassProperties, $containerClassProperties);
+
+        foreach ($classPropertiesArray as $array)
+        {
+            // shift off the id of each entity
+        	array_shift($array);
+        }
+
+        // a variable to store the SQLite WHERE clause to query with
+        $stringsForSearches = array($searchStringCommunication = '', $searchStringProperty = '',
+            $searchStringAddress = '', $searchStringContact = '', $searchStringContainer = '');
+
+
+        foreach ($stringsForClassProperties as $string)
+        {
+        	$string .= $this->searchHelper($classPropertiesArray, $queryStrings);
+        }
+
+
+        // this is the query we tested
+        // remember to add a property to the database with the siteId 555, and
+        //  a communication with the date 2018-01-01
+
+        //SELECT * FROM Communication c LEFT OUTER JOIN Property p ON c.propertyId = p.id
+        //LEFT OUTER JOIN Address a ON p.addressId = a.id
+        //LEFT OUTER JOIN ContactProperty cp ON cp.property_id = p.id
+        //LEFT OUTER JOIN Contact co ON cp.contact_id = co.id
+        //WHERE c.date LIKE '%2018-01-01%' OR p.siteId LIKE '%555%'
+    }
+
+    public function searchHelper($classProperties, $queryStrings)
+    {
+        $searchString = '';
+
+        //foreach field in the list of passed in claas properties
+        foreach($classProperties as $col=>$val)
+        {
+            // foreach string to query on
+            for ($i = 0; $i < sizeof($queryStrings); $i++)
+            {
+                // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
+                $searchString .= "LOWER(c.$val) LIKE '%{$queryStrings[$i]}%' OR ";
+            }
+        }
+
+        // Remove the unneeded ' OR ' from the end of the query string
+        $searchString = rtrim($searchString, ' OR ');
+
+        return $searchString;
     }
 }

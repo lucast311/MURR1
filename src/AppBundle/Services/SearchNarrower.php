@@ -49,8 +49,8 @@ class SearchNarrower
                         // call getId and store its value in the array created above
                         $objectValues[] = $result->getId();
                     }
-                    //else check if the method returns a string, int, or null.
-                    //if so save that value to an array of strings.
+                    // else check if the method returns a string, int, or null.
+                    // if so save that value to an array of strings.
                     else if($type = call_user_func([$result, $method]))
                     {
                         switch($type)
@@ -58,7 +58,8 @@ class SearchNarrower
                             case is_null($type):
                                 $objectValues[] = 'null';
                                 break;
-                            //int or string
+
+                            // int or string
                             case is_int($type):
                             case is_string($type):
                                 $objectValues[] = '"'.$type.'"';
@@ -69,8 +70,61 @@ class SearchNarrower
 
                     }
                 }
+
+
+
+
+
+
+                // Helpers go here
+                $this->narrowContacts($searchResults, $cleanQuery);
+                $this->narrowProperties($searchResults, $cleanQuery);
+                $this->narrowCommunications($searchResults, $cleanQuery);
+
+
+
+
+
+
+
+
+                // a variable to store the values of the current Entity
+                $currData = '';
+
+                // populate the $currdata string with the values from the array of object values
+                foreach($objectValues as $value)
+                {
+                    $currData .= $value;
+                }
+
+                // a variable that will store the number of $cleanQuery's the current record has
+                $found = 0;
+
+                // foreach separate string to query on in the passed in string
+                foreach ($cleanQuery as $query)
+                {
+                    // if the data to search for exists in the current record (check lowercase for case insensitive checks)
+                    if(strpos(strtolower($currData), strtolower($query)) > 0)
+                    {
+                        // increment found
+                        $found++;
+                    }
+                }
+
+                // if $found is equal the the size of the $cleanQuery array
+                if($found == sizeof($cleanQuery))
+                {
+                    // add the current record to the end of the array of narrowed searches
+                    $narrowedResults[] = $result;
+                }
+
+                // Re-set the value of $objectValues so that future loops don't append old data to look for
+                $objectValues = array();
             }
         }
+
+        // return the array of narrowed searches and the array of each searches object values
+        return $narrowedResults;
     }
 
     /**
