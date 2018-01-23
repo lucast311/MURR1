@@ -15,6 +15,7 @@ use AppBundle\Form\ContainerType;
  */
 class ContainerTypeTest extends TypeTestCase
 {
+    
     public function testContainerForm()
     {
         $formData = array(

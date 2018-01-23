@@ -120,7 +120,7 @@ class Container
     private $augmentation;
 
     /**
-     * @ORM\OneToOne(targetEntity="Structure", inversedBy="bins", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Structure", inversedBy="bins", cascade={"persist"})
      * @ORM\JoinColumn(name="structureId", referencedColumnName="id")
      */
     private $structure;
@@ -314,9 +314,6 @@ class Container
         return $this->size;
     }
 
-
-
-
     public function setFrequency($frequency)
     {
         $this->frequency = $frequency;
@@ -349,6 +346,17 @@ class Container
     public function getAugmentation()
     {
         return $this->augmentation;
+    }
+
+    public function setStructure($structure)
+    {
+        $this->structure = $structure;
+        return $this;
+    }
+
+    public function getStructure()
+    {
+        return $this->structure; 
     }
 
     /**

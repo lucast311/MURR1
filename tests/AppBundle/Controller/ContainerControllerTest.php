@@ -100,4 +100,26 @@ class ContainerControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Container")')->count());
     }
 
+    /**
+     * 12c - tests that the fields to add property and structure appear in the edit page and not
+     *  the add page
+     */
+    public function testPropertyAndStructureAreInEditAndNotAdd()
+    {
+        //create client
+        $client = static::createClient();
+
+        //request add page first
+        $crawler = $client->request('GET','/container/new');
+        //test that property and structure do not appear on page
+        $this->assertEquals(0, $crawler->filter('html:contains("Property")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Structure")')->count());
+
+        //request edit page
+        $crawler = $client->request('GET','/container/1/edit');
+        //ensure property and structure do appear on page
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Property")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Structure")')->count());
+    }
+
 }

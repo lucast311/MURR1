@@ -2,6 +2,7 @@
 namespace tests\AppBundle\Entity;
 
 use AppBundle\Entity\Container;
+use AppBundle\Entity\Structure;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
 use AppBundle\Entity\Property;
@@ -418,12 +419,49 @@ class ContainerTest extends KernelTestCase
 
     }
 
-
+    //test that the frquency can only be valiud options
     public function testInvalidFrequencyOptions()
     {
         $this->container->setFrequency("Not a valid option");
         $error = $this->validator->validate($this->container);
         $this->assertEquals(1, count($error));
+    }
+
+    /**
+     * 12c - test that the property can only be an int
+     */
+    public function testValidPropertyIsInt()
+    {
+        $testOptions = array("Not valid", 'n', 12.5, 0, new Property());
+        foreach ($testOptions as $testVal)
+        {
+        	$this->container->setProperty($testVal);
+            $error = $this->validator->validate($this->container);
+            $this->assertGreaterThan(0, count($error));
+        }
+
+        $this->container->setProperty(1);
+        $error = $this->validator->validate($this->container);
+        $this->assertEquals(0, count($error));
+
+    }
+
+    /**
+     * 12c - test that the property can only be an int
+     */
+    public function testValidStructureIsInt()
+    {
+        $testOptions = array("Not valid", 'n', 12.5, 0, new Structure());
+        foreach ($testOptions as $testVal)
+        {
+        	$this->container->setStructure($testVal);
+            $error = $this->validator->validate($this->container);
+            $this->assertGreaterThan(0, count($error));
+        }
+
+        $this->container->setStructure(1);
+        $error = $this->validator->validate($this->container);
+        $this->assertEquals(0, count($error));
     }
 
 
