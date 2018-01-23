@@ -84,6 +84,37 @@
 
     <button onclick="window.location.href ='{{editPath}}'">Edit</button>
 
+    <h1>Property Contacts</h1>
+    {% if property.contacts is empty %}
+    <h2>No associated contacts</h2>
+
+    {% else %}
+        
+        <table class="contacts associations" border="1">
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Organization</th>
+                </tr>
+            </thead>
+                <tbody>
+                {% for contact in property.contacts %}
+                <tr>
+                    <td>{{contact.role}}</td>
+                    <td>{{contact.firstName}} {{contact.lastName}}</td>
+                    <td>{{contact.primaryPhone}}</td>
+                    <td>{{contact.emailAddress}}</td>
+                    <td>{{contact.companyName}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+        </table>
+
+    {% endif %}
+
     <h1>Container Info</h1>
         {% if property.bins is empty %}
         <h2>No containers found for this property</h2>

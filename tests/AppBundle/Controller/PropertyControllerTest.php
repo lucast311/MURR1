@@ -966,7 +966,7 @@ class PropertyControllerTest extends WebTestCase
 
         // Assert that the table contains all the proper data
         $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Property Manager")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Ashiton South")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Ashton South")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("306-345-8932")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("south@gmail.com")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("COSMO!")')->count());
@@ -1084,7 +1084,7 @@ class PropertyControllerTest extends WebTestCase
         {
             //create a contact to insert
             $contact = new Contact();
-            $contact->setFirstName("Ashton");
+            $contact->setFirstName("Ashton" + uniqid());
             $contact->setLastName("South");
             $contact->setCompanyName("COSMO!");
             $contact->setRole("Property Manager");
