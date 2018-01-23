@@ -1084,7 +1084,7 @@ class PropertyControllerTest extends WebTestCase
         {
             //create a contact to insert
             $contact = new Contact();
-            $contact->setFirstName("Ashton" + uniqid());
+            $contact->setFirstName("Ashton" . uniqid());
             $contact->setLastName("South");
             $contact->setCompanyName("COSMO!");
             $contact->setRole("Property Manager");
@@ -1140,6 +1140,8 @@ class PropertyControllerTest extends WebTestCase
         $stmt = $em->getConnection()->prepare('DELETE FROM Address');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Communication');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM ContactProperty');
         $stmt->execute();
         $em->close();
 
