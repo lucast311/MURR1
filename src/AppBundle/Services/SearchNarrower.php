@@ -25,7 +25,52 @@ class SearchNarrower
      */
     public function narrower($entity, $searchResults, $cleanQuery)
     {
+        // an array for the narrowed results
+        $narrowedResults= array();
 
+        // an array to store the values of the returned objects
+        $objectValues = array();
+
+        // foreach result in the passed in array of search results
+        foreach ($searchResults as $result)
+        {
+            // get all methods in the contact class
+            $methods = get_class_methods(get_class($result));
+
+            // for each method in the entity you are searching for
+            foreach ($methods as $method)
+            {
+                // check if the method is a getter
+                if(strpos($method, 'get')===0)
+                {
+                    // check if the method is for the id
+                    if(strpos($method, 'getId')===0)
+                    {
+                        // call getId and store its value in the array created above
+                        $objectValues[] = $result->getId();
+                    }
+                    //else check if the method returns a string, int, or null.
+                    //if so save that value to an array of strings.
+                    else if($type = call_user_func([$result, $method]))
+                    {
+                        switch($type)
+                        {
+                            case is_null($type):
+                                $objectValues[] = 'null';
+                                break;
+                            //int or string
+                            case is_int($type):
+                            case is_string($type):
+                                $objectValues[] = '"'.$type.'"';
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }
+                }
+            }
+        }
     }
 
     /**
