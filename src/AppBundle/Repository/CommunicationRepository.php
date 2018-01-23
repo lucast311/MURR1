@@ -23,8 +23,9 @@ class CommunicationRepository extends EntityRepository
         $em->persist($communication); //prepare the object to be inserted (creates an ID)
         $em->flush(); //add to database
 
-        $em->close(); //close communication
-        $em = null; //set to null as a best practice
+        // DON'T CLOSE IT IT WILL BREAK
+        //$em->close(); //close communication
+        //$em = null; //set to null as a best practice
 
         return $communication->getId(); //return the set ID
     }

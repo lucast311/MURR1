@@ -142,7 +142,7 @@ class SearchNarrower
      */
     public function narrowProperties($searchResults, $cleanQuery)
     {
-        $gettersToAvoid = array('getAddress','getStatuses','getTypes','getContacts', 'getBins');
+        $gettersToAvoid = array('getAddress','getStatuses','getTypes','getContacts', 'getBins','getCommunications');
 
         // an array for the narrowed results
         $narrowedResults= array();
