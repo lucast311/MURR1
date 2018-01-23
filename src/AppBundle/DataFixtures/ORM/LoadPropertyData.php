@@ -130,7 +130,7 @@ class LoadPropertyData implements FixtureInterface
             ->setPropertyType("House")
             ->setPropertyStatus("Active")
             ->setStructureId(54586)
-            ->setNumUnits(5)
+            ->setNumUnits(10)
             ->setNeighbourhoodName("Sutherland")
             ->setNeighbourhoodId("O48")
             ->setAddress($address);

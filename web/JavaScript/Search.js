@@ -41,6 +41,11 @@ var onLoad = function () {
     // apply the bindings
     ko.applyBindings(viewModel);
 
+    /*
+        Every time a key is pressed in the search box this event will check if timeOutInst is set.
+        If it is set then we call clearTimeout to cancel the timeout function and set it to be null
+        After this we call the setTimeout function to send an ajax call in 400 ms.
+    */
     $('#searchBox').keyup(function () {
         if (timeOutInst != null) {
             clearTimeout(timeOutInst);
