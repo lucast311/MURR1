@@ -662,6 +662,27 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEquals(0, $crawler->filter('table.containers:contains("Bin Status")')->count());
     }
 
+
+    /**
+     * Story 4f
+     * test that the search page is accessable and that there is the proper elements on screen.
+     */
+    public function testSearchPageAccessible()
+    {
+        // Create a client, and go to the search page for a property
+        $client = static::createClient();
+
+        // A crawler to check if the page contains a search field
+        $crawler = $client->request('GET', '/property/search');
+
+        // Assert that the page contains both a Header, and a search field
+        $this->assertContains("Property Search", $client->getResponse()->getContent());
+        $this->assertTrue($crawler->filter('input[type=search]')->first() != null);
+    }
+
+    /**
+     * (@inheritDoc)
+     */
     protected function tearDown()
     {
         parent::tearDown();

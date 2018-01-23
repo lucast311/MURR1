@@ -24,7 +24,25 @@ use Symfony\Component\Serializer\Serializer;
  */
 class PropertyController extends Controller
 {
-    public $property; 
+    public $property;
+
+    /**
+     * story4f
+     * Front end for searching for a property.
+     *
+     * I have no clue why but DO NOT MOVE THIS TO THE BOTTOM OF THE FILE... if you
+     * do, the route breaks, I suspect it has something to do with the crud generated route
+     * for viewing a contact.
+     *
+     * @Route("/property/search", name="property_search")
+     * @Method("GET")
+     */
+    public function searchAction()
+    {
+
+    }
+
+
     /**
      * Story 4a
      * Handles the adding of a property.
