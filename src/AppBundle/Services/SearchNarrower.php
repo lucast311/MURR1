@@ -28,14 +28,83 @@ class SearchNarrower
         // an array for the narrowed results
         $narrowedResults= array();
 
-        // an array to store the values of the returned objects
+        // a variable to store the values of the record
+        $recordData = '';
+
+        // get the name of the entity we are searching for
+        $entityName = get_class($entity);
+
+        // see what entity we are using, and call the appropriate helper method
+        switch($entityName)
+        {
+            case "AppBundle\Entity\Communication":
+                $recordData .= $this->narrowerHelper($entity, $searchResults, $cleanQuery);
+                $recordData .= $this->narrowerHelper(new Contact(), $searchResults, $cleanQuery);
+                $recordData .= $this->narrowerHelper(new Property(), $searchResults, $cleanQuery);
+
+                // add narrowAddress
+
+
+                break;
+            case "AppBundle\Entity\Contact":
+                $objectValues[] = $this->narrowProperties($searchResults, $cleanQuery);
+
+                // add narrowAddress
+
+
+                break;
+            case "AppBundle\Entity\Property":
+                $objectValues[] = $this->narrowContacts($searchResults, $cleanQuery);
+
+                // add narrowAddress
+
+
+                break;
+            default:
+                break;
+        }
+
+        // a variable that will store the number of $cleanQuery's the current record has
+        $found = 0;
+
+        // foreach separate string to query on in the passed in string
+        foreach ($cleanQuery as $query)
+        {
+            // if the data to search for exists in the current record (check lowercase for case insensitive checks)
+            if(strpos(strtolower($recordData), strtolower($query)) > 0)
+            {
+                // increment found
+                $found++;
+            }
+        }
+
+        // if $found is equal the the size of the $cleanQuery array
+        if($found == sizeof($cleanQuery))
+        {
+            // add the current record to the end of the array of narrowed searches
+            $narrowedResults[] = $result;
+        }
+
+        // Re-set the value of $objectValues so that future loops don't append old data to look for
+        $objectValues = array();
+
+        // return the array of narrowed searches and the array of each searches object values
+        return $narrowedResults;
+    }
+
+    public function narrowerHelper($currEntity, $searchResults, $cleanQuery)
+    {
+        // an array of arrys to store the values of the returned objects
         $objectValues = array();
 
         // foreach result in the passed in array of search results
         foreach ($searchResults as $result)
         {
             // get all methods in the contact class
-            $methods = get_class_methods(get_class($result));
+            $methods = get_class_methods(get_class($currEntity));
+
+            // array top store the object values of the object to search for
+            $searchedObjectValues = array();
 
             // for each method in the entity you are searching for
             foreach ($methods as $method)
@@ -47,7 +116,7 @@ class SearchNarrower
                     if(strpos($method, 'getId')===0)
                     {
                         // call getId and store its value in the array created above
-                        $objectValues[] = $result->getId();
+                        $searchedObjectValues = $result->getId();
                     }
                     // else check if the method returns a string, int, or null.
                     // if so save that value to an array of strings.
@@ -56,88 +125,37 @@ class SearchNarrower
                         switch($type)
                         {
                             case is_null($type):
-                                $objectValues[] = 'null';
+                                $searchedObjectValues = 'null';
                                 break;
 
                             // int or string
                             case is_int($type):
                             case is_string($type):
-                                $objectValues[] = '"'.$type.'"';
+                                $searchedObjectValues = '"'.$type.'"';
                                 break;
                             default:
                                 break;
                         }
-
                     }
                 }
 
-
-                $entityName = get_class($entity);
-
-
-                switch($entityName)
-                {
-                    case "AppBundle\Entity\Communication":
-                        $this->narrowCommunications($searchResults, $cleanQuery);
-                        break;
-                    case "AppBundle\Entity\Contact":
-                        $this->narrowContacts($searchResults, $cleanQuery);
-                        break;
-                    case "AppBundle\Entity\Property":
-                        $this->narrowProperties($searchResults, $cleanQuery);
-                        break;
-                    default:
-                        break;
-                }
-                // Helpers go here
-                $this->narrowContacts($searchResults, $cleanQuery);
-                $this->narrowProperties($searchResults, $cleanQuery);
-                $this->narrowCommunications($searchResults, $cleanQuery);
-
-
-
-
-
-
-
+                $objectValues[] = $searchedObjectValues;
 
                 // a variable to store the values of the current Entity
                 $currData = '';
 
-                // populate the $currdata string with the values from the array of object values
-                foreach($objectValues as $value)
+                // populate the $currdata string with the values from the array of entity object value arrays
+                foreach($objectValues as $entityObjectValues)
                 {
-                    $currData .= $value;
-                }
-
-                // a variable that will store the number of $cleanQuery's the current record has
-                $found = 0;
-
-                // foreach separate string to query on in the passed in string
-                foreach ($cleanQuery as $query)
-                {
-                    // if the data to search for exists in the current record (check lowercase for case insensitive checks)
-                    if(strpos(strtolower($currData), strtolower($query)) > 0)
+                    foreach ($entityObjectValues as $value)
                     {
-                        // increment found
-                        $found++;
+                    	$currData .= $value;
                     }
                 }
-
-                // if $found is equal the the size of the $cleanQuery array
-                if($found == sizeof($cleanQuery))
-                {
-                    // add the current record to the end of the array of narrowed searches
-                    $narrowedResults[] = $result;
-                }
-
-                // Re-set the value of $objectValues so that future loops don't append old data to look for
-                $objectValues = array();
             }
         }
 
-        // return the array of narrowed searches and the array of each searches object values
-        return $narrowedResults;
+
     }
 
     /**
@@ -147,115 +165,146 @@ class SearchNarrower
      * @param mixed $cleanQuery an array of each string we wanted to find
      * @return array of narrowed search results
      */
+    //public function narrowContacts($searchResults, $cleanQuery)
+    //{
+    //    $gettersToAvoid = array('getAddress','getProperties','getContacts');
+
+    //    // an array for the narrowed results
+    //    $narrowedResults= array();
+
+    //    // an array for the values for each of the narrowed results
+    //    $valuesFromResults = array();
+
+    //    // an array to store the values of the returned objects
+    //    $objectValues = array();
+
+    //    // foreach result in the passed in array of search results
+    //    foreach ($searchResults as $result)
+    //    {
+    //        // get all methods in the contact class
+    //        $methods = get_class_methods(get_class(new Contact()));
+
+    //        // for each method in the entity you are searching for
+    //        foreach ($methods as $method)
+    //        {
+    //            // check if the method is a getter
+    //            if(strpos($method, 'get')===0)
+    //            {
+    //                // check if the method is for the id
+    //                if(strpos($method, 'getId')===0)
+    //                {
+    //                    // call getId and store its value in the array created above
+    //                    $objectValues[] = $result->getId();
+    //                }
+    //                // check if the method is for the Address (remove this "else if" if you do not have a join in your entity)
+    //                else if(!in_array($method, $gettersToAvoid))
+    //                {
+    //                    // call the getter method and store the value returned
+    //                    $objectValues[] = call_user_func([$result, $method]) == null ? 'null' : '"'.call_user_func([$result, $method]).'"';
+    //                }
+    //            }
+    //        }
+
+    //        // re-set the $methods array witrh the Addresses methods
+    //        $methods = get_class_methods(get_class(new Address()));
+
+    //        // foreach method in Address
+    //        foreach ($methods as $method)
+    //        {
+    //            // check if the method is a getter
+    //            if(strpos($method, 'get')===0)
+    //            {
+    //                // check if the method is for the id
+    //                if(strpos($method, 'getId')===0)
+    //                {
+    //                    // call getId and store its value in the array created above
+    //                    $objectValues[] = $result->getId();
+    //                }
+    //                else if($result->getAddress() != null)
+    //                {
+    //                    // call the getter method and store the value returned
+    //                    $objectValues[] = call_user_func([$result->getAddress(), $method]) == null ? 'null' : '"'.call_user_func([$result->getAddress(), $method]).'"';
+    //                }
+    //            }
+    //        }
+
+    //        // a variable to store the values of the current Entity
+    //        $currData = '';
+
+    //        // populate the $currdata string with the values from the array of object values
+    //        foreach($objectValues as $value)
+    //        {
+    //            $currData .= $value;
+    //        }
+
+    //        // a variable that will store the number of $cleanQuery's the current record has
+    //        $found = 0;
+
+    //        // foreach separate string to query on in the passed in string
+    //        foreach ($cleanQuery as $query)
+    //        {
+    //            // if the data to search for exists in the current record (check lowercase for case insensitive checks)
+    //            if(strpos(strtolower($currData), strtolower($query)) > 0)
+    //            {
+    //                // increment found
+    //                $found++;
+    //            }
+    //        }
+
+    //        // if $found is equal the the size of the $cleanQuery array
+    //        if($found == sizeof($cleanQuery))
+    //        {
+    //            // add the current record to the end of the array of narrowed searches
+    //            $narrowedResults[] = $result;
+
+    //            // add the current entities object values to the array of narrowed searches values
+    //            $valuesFromResults[] = $objectValues;
+    //        }
+
+    //        // Re-set the value of $objectValues so that future loops don't append old data to look for
+    //        $objectValues = array();
+    //    }
+
+    //    // an array to store all data gathered in this method
+    //    $allData = array();
+
+    //    // add both array's generated in this method to the array to return
+    //    $allData[] = $narrowedResults;
+    //    $allData[] = $valuesFromResults;
+
+    //    // return the array of narrowed searches and the array of each searches object values
+    //    return $allData;
+    //}
     public function narrowContacts($searchResults, $cleanQuery)
     {
         $gettersToAvoid = array('getAddress','getProperties','getContacts');
 
-        // an array for the narrowed results
-        $narrowedResults= array();
+        // get all methods in the contact class
+        $methods = get_class_methods(get_class(new Contact()));
 
-        // an array for the values for each of the narrowed results
-        $valuesFromResults = array();
-
-        // an array to store the values of the returned objects
-        $objectValues = array();
-
-        // foreach result in the passed in array of search results
-        foreach ($searchResults as $result)
+        // for each method in the entity you are searching for
+        foreach ($methods as $method)
         {
-            // get all methods in the contact class
-            $methods = get_class_methods(get_class(new Contact()));
-
-            // for each method in the entity you are searching for
-            foreach ($methods as $method)
+            // check if the method is a getter
+            if(strpos($method, 'get')===0)
             {
-                // check if the method is a getter
-                if(strpos($method, 'get')===0)
+                // check if the method is for the id
+                if(strpos($method, 'getId')===0)
                 {
-                    // check if the method is for the id
-                    if(strpos($method, 'getId')===0)
-                    {
-                        // call getId and store its value in the array created above
-                        $objectValues[] = $result->getId();
-                    }
-                    // check if the method is for the Address (remove this "else if" if you do not have a join in your entity)
-                    else if(!in_array($method, $gettersToAvoid))
-                    {
-                        // call the getter method and store the value returned
-                        $objectValues[] = call_user_func([$result, $method]) == null ? 'null' : '"'.call_user_func([$result, $method]).'"';
-                    }
+                    // call getId and store its value in the array created above
+                    $objectValues[] = $result->getId();
+                }
+                // check if the method is for the Address (remove this "else if" if you do not have a join in your entity)
+                else if(!in_array($method, $gettersToAvoid))
+                {
+                    // call the getter method and store the value returned
+                    $objectValues[] = call_user_func([$result, $method]) == null ? 'null' : '"'.call_user_func([$result, $method]).'"';
                 }
             }
-
-            // re-set the $methods array witrh the Addresses methods
-            $methods = get_class_methods(get_class(new Address()));
-
-            // foreach method in Address
-            foreach ($methods as $method)
-            {
-                // check if the method is a getter
-                if(strpos($method, 'get')===0)
-                {
-                    // check if the method is for the id
-                    if(strpos($method, 'getId')===0)
-                    {
-                        // call getId and store its value in the array created above
-                        $objectValues[] = $result->getId();
-                    }
-                    else if($result->getAddress() != null)
-                    {
-                        // call the getter method and store the value returned
-                        $objectValues[] = call_user_func([$result->getAddress(), $method]) == null ? 'null' : '"'.call_user_func([$result->getAddress(), $method]).'"';
-                    }
-                }
-            }
-
-            // a variable to store the values of the current Entity
-            $currData = '';
-
-            // populate the $currdata string with the values from the array of object values
-            foreach($objectValues as $value)
-            {
-                $currData .= $value;
-            }
-
-            // a variable that will store the number of $cleanQuery's the current record has
-            $found = 0;
-
-            // foreach separate string to query on in the passed in string
-            foreach ($cleanQuery as $query)
-            {
-                // if the data to search for exists in the current record (check lowercase for case insensitive checks)
-                if(strpos(strtolower($currData), strtolower($query)) > 0)
-                {
-                    // increment found
-                    $found++;
-                }
-            }
-
-            // if $found is equal the the size of the $cleanQuery array
-            if($found == sizeof($cleanQuery))
-            {
-                // add the current record to the end of the array of narrowed searches
-                $narrowedResults[] = $result;
-
-                // add the current entities object values to the array of narrowed searches values
-                $valuesFromResults[] = $objectValues;
-            }
-
-            // Re-set the value of $objectValues so that future loops don't append old data to look for
-            $objectValues = array();
         }
 
-        // an array to store all data gathered in this method
-        $allData = array();
-
-        // add both array's generated in this method to the array to return
-        $allData[] = $narrowedResults;
-        $allData[] = $valuesFromResults;
-
         // return the array of narrowed searches and the array of each searches object values
-        return $allData;
+        return $objectValues;
     }
 
     /**
@@ -266,6 +315,118 @@ class SearchNarrower
      * @param mixed $cleanQuery an array of each string we wanted to find
      * @return array of narrowed search results
      */
+    //public function narrowProperties($searchResults, $cleanQuery)
+    //{
+    //    $gettersToAvoid = array('getAddress','getStatuses','getTypes','getContacts', 'getBins');
+
+    //    // an array for the narrowed results
+    //    $narrowedResults= array();
+
+    //    // an array for the values for each of the narrowed results
+    //    $valuesFromResults = array();
+
+    //    // an array to store the values of the returned objects
+    //    $objectValues = array();
+
+    //    //var_dump($searchResults);
+
+    //    // foreach result in the passed in array of search results
+    //    foreach ($searchResults as $result)
+    //    {
+    //        // get all methods in the property class
+    //        $methods = get_class_methods(get_class(new Property()));
+
+    //        // for each method in the entity you are searching for
+    //        foreach ($methods as $method)
+    //        {
+    //            // check if the method is a getter
+    //            if(strpos($method, 'get')===0)
+    //            {
+    //                // check if the method is for the id
+    //                if(strpos($method, 'getId')===0)
+    //                {
+    //                    // call getId and store its value in the array created above
+    //                    $objectValues[] = $result->getId();
+    //                }
+    //                // check if the method is for the Address (remove this "else if" if you do not have a join in your entity)
+    //                else if(!in_array($method, $gettersToAvoid))
+    //                {
+    //                    // call the getter method and store the value returned
+    //                    $objectValues[] = call_user_func([$result, $method]) == null ? 'null' : '"'.call_user_func([$result, $method]).'"';
+    //                }
+    //            }
+    //        }
+
+    //        // re-set the $methods array witrh the Addresses methods
+    //        $methods = get_class_methods(get_class(new Address()));
+
+    //        // foreach method in Address
+    //        foreach ($methods as $method)
+    //        {
+    //            // check if the method is a getter
+    //            if(strpos($method, 'get')===0)
+    //            {
+    //                // check if the method is for the id
+    //                if(strpos($method, 'getId')===0)
+    //                {
+    //                    // call getId and store its value in the array created above
+    //                    $objectValues[] = $result->getId();
+    //                }
+    //                else if($result->getAddress() != null)
+    //                {
+    //                    // call the getter method and store the value returned
+    //                    $objectValues[] = call_user_func([$result->getAddress(), $method]) == null ? 'null' : '"'.call_user_func([$result->getAddress(), $method]).'"';
+    //                }
+    //            }
+    //        }
+
+    //        // a variable to store the values of the current Entity
+    //        $currData = '';
+
+    //        // populate the $currdata string with the values from the array of object values
+    //        foreach($objectValues as $value)
+    //        {
+    //            $currData .= $value;
+    //        }
+
+    //        // a variable that will store the number of $cleanQuery's the current record has
+    //        $found = 0;
+
+    //        // foreach separate string to query on in the passed in string
+    //        foreach ($cleanQuery as $query)
+    //        {
+    //            // if the data to search for exists in the current record (check lowercase for case insensitive checks)
+    //            if(strpos(strtolower($currData), strtolower($query)) > 0)
+    //            {
+    //                // increment found
+    //                $found++;
+    //            }
+    //        }
+
+    //        // if $found is equal the the size of the $cleanQuery array
+    //        if($found == sizeof($cleanQuery))
+    //        {
+    //            // add the current record to the end of the array of narrowed searches
+    //            $narrowedResults[] = $result;
+
+    //            // add the current entities object values to the array of narrowed searches values
+    //            $valuesFromResults[] = $objectValues;
+    //        }
+
+    //        // Re-set the value of $objectValues so that future loops don't append old data to look for
+    //        $objectValues = array();
+    //    }
+
+    //    // an array to store all data gathered in this method
+    //    $allData = array();
+
+    //    // add both array's generated in this method to the array to return
+    //    $allData[] = $narrowedResults;
+    //    $allData[] = $valuesFromResults;
+
+    //    // return the array of narrowed searches and the array of each searches object values
+    //    return $allData;
+    //}
     public function narrowProperties($searchResults, $cleanQuery)
     {
         $gettersToAvoid = array('getAddress','getStatuses','getTypes','getContacts', 'getBins');
