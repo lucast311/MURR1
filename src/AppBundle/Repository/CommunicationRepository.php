@@ -55,25 +55,28 @@ class CommunicationRepository extends EntityRepository
         }
 
         // a variable to store the SQLite WHERE clause to query with
-        $stringsForSearches = array($searchStringCommunication = '', $searchStringProperty = '',
-            $searchStringAddress = '', $searchStringContact = '', $searchStringContainer = '');
+        //$stringsForSearches = array($searchStringCommunication = '', $searchStringProperty = '',
+            //$searchStringAddress = '', $searchStringContact = '', $searchStringContainer = '');
 
+        $classPropertiesString = "";
 
-        foreach ($stringsForClassProperties as $string)
+        foreach ($classPropertiesArray as $classProperties)
         {
-        	$string .= $this->searchHelper($classPropertiesArray, $queryStrings);
+        	$classPropertiesString .= $this->searchHelper($classProperties, $queryStrings);
         }
 
 
         // this is the query we tested
         // remember to add a property to the database with the siteId 555, and
         //  a communication with the date 2018-01-01
-
-        //SELECT * FROM Communication c LEFT OUTER JOIN Property p ON c.propertyId = p.id
-        //LEFT OUTER JOIN Address a ON p.addressId = a.id
-        //LEFT OUTER JOIN ContactProperty cp ON cp.property_id = p.id
-        //LEFT OUTER JOIN Contact co ON cp.contact_id = co.id
-        //WHERE c.date LIKE '%2018-01-01%' OR p.siteId LIKE '%555%'
+        return $this->getEntityManager()->createQuery(
+        "SELECT c, p, a, cp, co FROM AppBundle:Communication c
+        LEFT OUTER JOIN AppBundle:Property p ON c.propertyId = p.id
+        LEFT OUTER JOIN AppBundle:Address a ON p.addressId = a.id
+        LEFT OUTER JOIN AppBundle:ContactProperty cp ON cp.property_id = p.id
+        LEFT OUTER JOIN AppBundle:Contact co ON cp.contact_id = co.id
+        WHERE $classPropertiesString"
+        )->getResult();
     }
 
     public function searchHelper($classProperties, $queryStrings)

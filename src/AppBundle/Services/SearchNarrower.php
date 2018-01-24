@@ -72,10 +72,23 @@ class SearchNarrower
                 }
 
 
+                $entityName = get_class($entity);
 
 
-
-
+                switch($entityName)
+                {
+                    case "AppBundle\Entity\Communication":
+                        $this->narrowCommunications($searchResults, $cleanQuery);
+                        break;
+                    case "AppBundle\Entity\Contact":
+                        $this->narrowContacts($searchResults, $cleanQuery);
+                        break;
+                    case "AppBundle\Entity\Property":
+                        $this->narrowProperties($searchResults, $cleanQuery);
+                        break;
+                    default:
+                        break;
+                }
                 // Helpers go here
                 $this->narrowContacts($searchResults, $cleanQuery);
                 $this->narrowProperties($searchResults, $cleanQuery);
