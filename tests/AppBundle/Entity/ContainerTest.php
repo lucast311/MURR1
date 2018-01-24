@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Validation;
 use AppBundle\Entity\Property;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use AppBundle\Entity\Address;
 
 class ContainerTest extends KernelTestCase
 {
@@ -419,47 +420,60 @@ class ContainerTest extends KernelTestCase
 
     }
 
-    //test that the frquency can only be valiud options
-    public function testInvalidFrequencyOptions()
-    {
-        $this->container->setFrequency("Not a valid option");
-        $error = $this->validator->validate($this->container);
-        $this->assertEquals(1, count($error));
+     //test that the frquency can only be valiud options
+     public function testInvalidFrequencyOptions()
+     {
+         $this->container->setFrequency("Not a valid option");
+         $error = $this->validator->validate($this->container);
+         $this->assertEquals(1, count($error));
+     }
+
+     /**
+      * 12c - test that the property can only be an int
+      */
+     public function testValidProperty()
+     {
+         //create a property to be put on the container
+         $property = new Property();
+         $property->setSiteId(1593843);
+         $property->setPropertyName("Charlton Arms");
+         $property->setPropertyType("Townhouse Condo");
+         $property->setPropertyStatus("Active");
+         $property->setNumUnits(5);
+         $property->setNeighbourhoodName("Sutherland");
+         $property->setNeighbourhoodId("O48");
+         //create an address for the property
+         $address = new Address();
+         $address->setStreetAddress("123 Main Street");
+         $address->setPostalCode("S7N 3K5");
+         $address->setCity("Saskatoon");
+         $address->setProvince("Saskatchewan");
+         $address->setCountry("Canada");
+
+         //set the address on the property
+         $property->setAddress($address);
+
+         //set the property on the container
+         $this->container->setProperty($property);
+
+         //Check that the container does not have any errors with this property
+         $error = $this->validator->validate($this->container);
+         $this->assertEquals(0,count($error));
     }
 
     /**
      * 12c - test that the property can only be an int
      */
-    public function testValidPropertyIsInt()
+    public function testValidStructure()
     {
-        $testOptions = array("Not valid", 'n', 12.5, 0,500, new Property());
-        foreach ($testOptions as $testVal)
-        {
-        	$this->container->setProperty($testVal);
-            $error = $this->validator->validate($this->container);
-            $this->assertGreaterThan(0, count($error));
-        }
+        //Create a structure to put the container on
+        $structure = new Structure();
+        $structure->getDescription("Test structure");
 
-        $this->container->setProperty(1);
-        $error = $this->validator->validate($this->container);
-        $this->assertEquals(0, count($error));
+        //assign the structure to the container
+        $this->container->setStructure($structure);
 
-    }
-
-    /**
-     * 12c - test that the property can only be an int
-     */
-    public function testValidStructureIsInt()
-    {
-        $testOptions = array("Not valid", 'n', 12.5, 0,500, new Structure());
-        foreach ($testOptions as $testVal)
-        {
-        	$this->container->setStructure($testVal);
-            $error = $this->validator->validate($this->container);
-            $this->assertGreaterThan(0, count($error));
-        }
-
-        $this->container->setStructure(1);
+        //Check that there are no errors on the container
         $error = $this->validator->validate($this->container);
         $this->assertEquals(0, count($error));
     }

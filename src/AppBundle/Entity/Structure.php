@@ -93,5 +93,10 @@ class Structure
     {
         return $this->description;
     }
+
+    public function __toString()
+    {
+        return "" . $this->id;
+    }
 }
 

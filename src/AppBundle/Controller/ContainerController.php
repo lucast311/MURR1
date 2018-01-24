@@ -79,26 +79,40 @@ class ContainerController extends Controller
      * @Route("/{id}/edit", name="container_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Container $container)
+    public function editAction(Request $request, $id=null)
     {
-        //generate the necessary forms
-        $deleteForm = $this->createDeleteForm($container);
-        $editForm = $this->createForm('AppBundle\Form\ContainerEditType', $container);
-        $editForm->handleRequest($request);
 
-        //if the form is valid and submitted, edit the container
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        $repo = $this->getDoctrine()->getEntityManager()->getRepository(Container::class);
+        $container = $repo->findOneById($id);
 
-            //redirect to the display page for this edited container
-            return $this->redirectToRoute('container_show', array('id' => $container->getId()));
+        if($container != null)
+        {
+            //generate the necessary forms
+            $deleteForm = $this->createDeleteForm($container);
+            $editForm = $this->createForm('AppBundle\Form\ContainerEditType', $container);
+            $editForm->handleRequest($request);
+
+            //if the form is valid and submitted, edit the container
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                //redirect to the display page for this edited container
+                return $this->redirectToRoute('container_show', array('id' => $container->getId()));
+            }
+
+            //render the page
+            return $this->render('container/edit.html.twig', array(
+                'container' => $container,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+                'invalid_id_error' => false
+            ));
         }
 
-        //render the page
+        //This point will only be reached if the container is null, meaning we will be displaying an error
         return $this->render('container/edit.html.twig', array(
             'container' => $container,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'invalid_id_error' => true
         ));
     }
 
