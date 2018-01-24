@@ -56,6 +56,7 @@
     <Compile Include="app\AppKernel.php" />
     <Compile Include="bin\console" />
     <Compile Include="bin\symfony_requirements" />
+    <Compile Include="src\AppBundle\Controller\SecurityController.php" />
     <Compile Include="src\AppBundle\Controller\CommunicationController.php" />
     <Compile Include="src\AppBundle\Controller\ContactController.php" />
     <Compile Include="src\AppBundle\Controller\ContainerController.php" />
