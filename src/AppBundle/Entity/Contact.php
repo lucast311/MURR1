@@ -119,7 +119,7 @@ class Contact
     /**
      * @var \stdClass
      *
-     * @ORM\ManyToOne(targetEntity="Address")
+     * @ORM\ManyToOne(targetEntity="Address", cascade={"persist"})
      * @ORM\JoinColumn(name="addressId", referencedColumnName="id")
      *
      * @Assert\Valid()
@@ -404,7 +404,7 @@ class Contact
     }
     /**
      * Sets the associated properties
-     * @param Property[] $properties 
+     * @param Property[] $properties
      */
     public function setProperties($properties)
     {

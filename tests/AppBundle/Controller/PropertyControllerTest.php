@@ -9,6 +9,7 @@ use AppBundle\Entity\Communication;
 
 use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
+use AppBundle\Entity\Contact;
 
 
 class PropertyControllerTest extends WebTestCase
@@ -896,6 +897,254 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEquals(15, $crawler->filter("table.communications tbody tr")->count());
     }
 
+    /**
+     * Story 4j
+     *  This tests that a list of contacts can be viewed for a property
+     */
+    public function testViewAssociatedContactsSuccess()
+    {
+        //create a contact to insert
+        $contact = new Contact();
+        $contact->setFirstName("Ashton");
+        $contact->setLastName("South");
+        $contact->setCompanyName("COSMO!");
+        $contact->setRole("Property Manager");
+        $contact->setprimaryPhone("306-345-8932");
+        $contact->setEmailAddress("south@gmail.com");
+
+        //create an address to add for the contact
+        $address = new Address();
+        $address->setStreetAddress("123 Main Street");
+        $address->setPostalCode("S7N 3K5");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+
+        $contact->setAddress($address);
+
+        //Create a new property to ensure that there is one to edit in the database
+        $property = new Property();
+        $property->setSiteId(7894854);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setNumUnits(5);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("12 15th st east");
+        $address->setPostalCode("S0E 1A0");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+        $property->setContacts(array($contact));
+
+        //add the property to the contact
+        $contact->setProperties(array($property));
+
+        $repository = $this->em->getRepository(Property::class);
+        //save property to database
+        $id = $repository->save($property);
+
+        // You have to create the client
+        $client = static::createClient();
+
+        //Request the property view page for the property that was just inserted
+        $crawler = $client->request('GET',"/property/view/$id");
+
+        //Check that there is no error message
+        $this->assertNotContains("No associated contacts", $client->getResponse()->getContent());
+
+        // Assert that the table contains all the proper headers
+        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Role")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Name")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Phone")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Email")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Organization")')->count());
+
+        // Assert that the table contains all the proper data
+        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Property Manager")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Ashton South")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("306-345-8932")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("south@gmail.com")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("COSMO!")')->count());
+    }
+
+    /**
+     * Story 4j
+     *  This tests that an error message will show up if a property has no contacts, and makes sure
+     *  that there is no table to display
+     */
+    public function testNoAssociatedContacts()
+    {
+        //Create a new property to ensure that there is one to view in the database
+        $property = new Property();
+        $property->setSiteId(55555555);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(885412);
+        $property->setNumUnits(12);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("123 Sutherland land");
+        $address->setPostalCode("S7N 3K5");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+
+
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //Get the entity manager and the repo so we can make sure a property exists before editing it
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $repo = $em->getRepository(Property::class);
+
+        //insert the property
+        $propertyId = $repo->save($property);
+
+        //Request the property view page for the property that was just inserted
+        $crawler = $client->request('GET',"/property/view/$propertyId");
+
+
+        // Assert that the table does not have any headers
+        $this->assertEquals(0, $crawler->filter('table.contacts:contains("Role")')->count());
+        $this->assertEquals(0, $crawler->filter('table.contacts:contains("Name")')->count());
+        $this->assertEquals(0, $crawler->filter('table.contacts:contains("Phone")')->count());
+        $this->assertEquals(0, $crawler->filter('table.contacts:contains("Email")')->count());
+        $this->assertEquals(0, $crawler->filter('table.contacts:contains("Organization")')->count());
+
+        //Assert that the error message is on the page
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("No associated contacts")')->count());
+    }
+
+    /**
+     * Story 4j
+     * Tests that the list of contacts does not appear when a user views a property with an ivalid id
+     */
+    public function testViewContactsInvalidPropertyId()
+    {
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //Request the property view page for a property that does not exist
+        $crawler = $client->request('GET',"/property/view/-5");
+
+
+        //Check that no contact table headers exist on this page
+        $this->assertEquals(0, $crawler->filter('table.contacts:contains("Role")')->count());
+        $this->assertEquals(0, $crawler->filter('table.contacts:contains("Name")')->count());
+        $this->assertEquals(0, $crawler->filter('table.contacts:contains("Phone")')->count());
+        $this->assertEquals(0, $crawler->filter('table.contacts:contains("Email")')->count());
+        $this->assertEquals(0, $crawler->filter('table.contacts:contains("Organization")')->count());
+    }
+
+    /**
+     * Story 4j
+     * Test to make sure that multiple contacts can appear
+     */
+    public function testViewContactsMany()
+    {
+        //Create a new property to ensure that there is one to view in the database
+        $property = new Property();
+        $property->setSiteId(55555555);
+        $property->setPropertyName("Charlton Arms");
+        $property->setPropertyType("Townhouse Condo");
+        $property->setPropertyStatus("Active");
+        $property->setStructureId(885412);
+        $property->setNumUnits(12);
+        $property->setNeighbourhoodName("Sutherland");
+        $property->setNeighbourhoodId("O48");
+
+        // Have to create a new valid address too otherwise doctrine will fail
+        $address = new Address();
+        $address->setStreetAddress("123 Sutherland land");
+        $address->setPostalCode("S7N 3K5");
+        $address->setCity("Saskatoon");
+        $address->setProvince("Saskatchewan");
+        $address->setCountry("Canada");
+        $property->setAddress($address);
+
+        //Create a client to go through the web page
+        $client = static::createClient();
+
+        //Get the entity manager and the repo
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+
+        $contactsArray = array();
+        // Create 15 new contacts on this property
+        for ($i = 0; $i < 15; $i++)
+        {
+            //create a contact to insert
+            $contact = new Contact();
+            $contact->setFirstName("Ashton" . uniqid());
+            $contact->setLastName("South");
+            $contact->setCompanyName("COSMO!");
+            $contact->setRole("Property Manager");
+            $contact->setprimaryPhone("306-345-8932");
+            $contact->setEmailAddress("south@gmail.com");
+            $contact->setProperties(array($property));
+
+            //create an address to add for the contact
+            $address = new Address();
+            $address->setStreetAddress("123 Main Street");
+            $address->setPostalCode("S7N 3K5");
+            $address->setCity("Saskatoon");
+            $address->setProvince("Saskatchewan");
+            $address->setCountry("Canada");
+
+            $contact->setAddress($address);
+            // add the contact to the array
+            $contactsArray[] = $contact;
+        }
+
+        // associate the contacts with the property.
+        $property->setContacts($contactsArray);
+
+        $repo = $em->getRepository(Property::class);
+
+        //insert the property
+        $propertyId = $repo->save($property);
+
+        // You have to create the client a second time or the page won't be up to date...
+        $client = static::createClient();
+
+        //Request the property view page for the property that was just inserted
+        $crawler = $client->request('GET',"/property/view/$propertyId");
+
+
+        // Assert that the table contains 15 rows of data
+        $this->assertEquals(15, $crawler->filter("table.contacts tbody tr")->count());
+    }
+
+
+    /**
+     * Story 4f
+     * test that the search page is accessable and that there is the proper elements on screen.
+     */
+    public function testSearchPageAccessible()
+    {
+        // Create a client, and go to the search page for a property
+        $client = static::createClient();
+
+        // A crawler to check if the page contains a search field
+        $crawler = $client->request('GET', '/property/search');
+
+        // Assert that the page contains both a Header, and a search field
+        $this->assertContains("Property Search", $client->getResponse()->getContent());
+        $this->assertTrue($crawler->filter('input[type=search]')->first() != null);
+    }
+
+    /**
+     * (@inheritDoc)
+     */
     protected function tearDown()
     {
         parent::tearDown();
@@ -910,6 +1159,8 @@ class PropertyControllerTest extends WebTestCase
         $stmt = $em->getConnection()->prepare('DELETE FROM Address');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Communication');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM ContactProperty');
         $stmt->execute();
         $em->close();
 
