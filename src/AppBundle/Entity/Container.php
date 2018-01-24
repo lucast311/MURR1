@@ -82,6 +82,7 @@ class Container
      *
      * @ORM\Column(name="size", type="string", length=100)
      * @Assert\Length(max=100, maxMessage="Size can only be 100 characters")
+      *@Assert\NotNull(message="Please indicate a size for the container")
      */
     private $size;
 
@@ -356,7 +357,7 @@ class Container
 
     public function getStructure()
     {
-        return $this->structure; 
+        return $this->structure;
     }
 
     /**

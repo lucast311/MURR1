@@ -91,7 +91,7 @@ class ContainerControllerTest extends WebTestCase
         // Go there - should be viewing a specific contact after this
         $crawler = $client->click($link);
 
-        $this->assertGreaterThan(0, $crawler->filter(("h1:contains('Edit Container 123456')"))->count());
+        $this->assertContains('Edit Container 123456', $client->getResponse()->getContent());
 
 
     }
@@ -127,9 +127,9 @@ class ContainerControllerTest extends WebTestCase
         $form = $crawler->selectButton("Save")->form();
 
         $crawler = $client->submit($form);
-        $crawler = $client->request('GET', '/container/1'); 
+        $crawler = $client->request('GET', '/container/1');
 
-        $this->assertGreaterThan(0, $crawler->filter("html:contains('Container')")->count());
+        $this->assertGreaterThan('Container', $client->getResponse()->getContent());
     }
 
     /**
@@ -146,6 +146,19 @@ class ContainerControllerTest extends WebTestCase
         //test that property and structure do not appear on page
         $this->assertEquals(0, $crawler->filter('html:contains("Property")')->count());
         $this->assertEquals(0, $crawler->filter('html:contains("Structure")')->count());
+
+        //create a container to insert into the database
+        $container = new Container();
+        $container->setContainerSerial('123456')
+            ->setType("Bin")
+            ->setStatus("Active")
+            ->setFrequency("Weekly")
+            ->setSize("6 yd");
+
+        //get entity manager and repo
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $repo = $em->getRepository(Container::class);
+        $repo->save($container); 
 
         //request edit page
         $crawler = $client->request('GET','/container/1/edit');

@@ -1,11 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Edit Container 
-        {% if not invalid_id_error %}
-            {{container.containerSerial}}
-        {% endif %}
-    </h1>
+    <h1>Edit Container{% if not invalid_id_error %} {{container.containerSerial}}{% endif %}</h1>
+    
 {% if invalid_id_error %}
     <h2>Container does not exist</h2>
 {% else %}
