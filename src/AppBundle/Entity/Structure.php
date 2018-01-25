@@ -22,18 +22,25 @@ class Structure
     private $id;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="property", type="integer", nullable=true)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="property", type="string", length=255)
      */
     private $property;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     * @ORM\Column(name="address", type="string", length=255, nullable=true)
      */
-    private $description;
+    private $address;
 
 
     /**
@@ -44,30 +51,6 @@ class Structure
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set property
-     *
-     * @param integer $property
-     *
-     * @return Structure
-     */
-    public function setProperty($property)
-    {
-        $this->property = $property;
-
-        return $this;
-    }
-
-    /**
-     * Get property
-     *
-     * @return int
-     */
-    public function getProperty()
-    {
-        return $this->property;
     }
 
     /**
@@ -94,9 +77,52 @@ class Structure
         return $this->description;
     }
 
-    public function __toString()
+    /**
+     * Set property
+     *
+     * @param string $property
+     *
+     * @return Structure
+     */
+    public function setProperty($property)
     {
-        return "" . $this->id;
+        $this->property = $property;
+
+        return $this;
+    }
+
+    /**
+     * Get property
+     *
+     * @return string
+     */
+    public function getProperty()
+    {
+        return $this->property;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     *
+     * @return Structure
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
     }
 }
 
