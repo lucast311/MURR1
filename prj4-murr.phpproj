@@ -66,6 +66,7 @@
     <Compile Include="src\AppBundle\Controller\PropertyController.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadAddressData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContactData.php" />
+    <Compile Include="src\AppBundle\DataFixtures\ORM\LoadUserData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadPropertyData.php" />
     <Compile Include="src\AppBundle\Entity\Address.php" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
@@ -75,6 +76,7 @@
     <Compile Include="src\AppBundle\Entity\OOPs.php" />
     <Compile Include="src\AppBundle\Entity\Property.php" />
     <Compile Include="src\AppBundle\Entity\Structure.php" />
+    <Compile Include="src\AppBundle\Entity\User.php" />
     <Compile Include="src\AppBundle\Form\ContainerType.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
@@ -89,6 +91,7 @@
     <Compile Include="src\AppBundle\Repository\OOPsRepository.php" />
     <Compile Include="src\AppBundle\Repository\PropertyRepository.php" />
     <Compile Include="src\AppBundle\Repository\StructureRepository.php" />
+    <Compile Include="src\AppBundle\Repository\UserRepository.php" />
     <Compile Include="src\AppBundle\Services\Changer.php" />
     <Compile Include="src\AppBundle\Services\Cleaner.php" />
     <Compile Include="src\AppBundle\Services\SearchNarrower.php" />
@@ -105,6 +108,7 @@
     <Compile Include="tests\AppBundle\Controller\CSROOPsControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\EduMatFormControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\PropertyControllerTest.php" />
+    <Compile Include="tests\AppBundle\Controller\SecurityControllerTest.php" />
     <Compile Include="tests\AppBundle\Entity\AddressTest.php" />
     <Compile Include="tests\AppBundle\Entity\CommunicationTest.php" />
     <Compile Include="tests\AppBundle\Entity\ContactTest.php" />
