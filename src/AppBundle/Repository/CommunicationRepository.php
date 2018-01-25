@@ -40,13 +40,15 @@ class CommunicationRepository extends EntityRepository
     {
         // get the field names of both the Communication, Property, Address, Contact, and Container Entities.
         $communicationClassProperties = $this->getClassMetadata('AppBundle:Communication')->fieldNames;
-        $propertyClassProperties = $this->getClassMetadata('AppBundle:Property')->fieldNames;
-        $addressClassProperties = $this->getClassMetadata('AppBundle:Address')->fieldNames;
-        $contactClassProperties = $this->getClassMetadata('AppBundle:Contact')->fieldNames;
-        $containerClassProperties = $this->getClassMetadata('AppBundle:Container')->fieldNames;
+        $propertyClassProperties = $this->getEntityManager()->getRepository('AppBundle:Property')->getClassMetadata()->fieldNames;
+        $addressClassProperties = $this->getEntityManager()->getRepository('AppBundle:Address')->getClassMetadata()->fieldNames;
+        $contactClassProperties = $this->getEntityManager()->getRepository('AppBundle:Contact')->getClassMetadata()->fieldNames;
+        $containerClassProperties = $this->getEntityManager()->getRepository('AppBundle:Container')->getClassMetadata()->fieldNames;
 
         $classPropertiesArray = array($communicationClassProperties, $propertyClassProperties,
             $addressClassProperties, $contactClassProperties, $containerClassProperties);
+
+        $classNames = array('c', 'p', 'a', 'co', 'con');
 
         foreach ($classPropertiesArray as $array)
         {
@@ -60,26 +62,32 @@ class CommunicationRepository extends EntityRepository
 
         $classPropertiesString = "";
 
+        $classCounter = 0;
         foreach ($classPropertiesArray as $classProperties)
         {
-        	$classPropertiesString .= $this->searchHelper($classProperties, $queryStrings);
+        	$classPropertiesString .= $this->searchHelper($classProperties, $queryStrings, $classNames[$classCounter++]);
+            var_dump($classPropertiesString);
         }
 
-
-        // this is the query we tested
-        // remember to add a property to the database with the siteId 555, and
-        //  a communication with the date 2018-01-01
-        return $this->getEntityManager()->createQuery(
-        "SELECT c, p, a, cp, co FROM AppBundle:Communication c
-        LEFT OUTER JOIN AppBundle:Property p ON c.propertyId = p.id
-        LEFT OUTER JOIN AppBundle:Address a ON p.addressId = a.id
-        LEFT OUTER JOIN AppBundle:ContactProperty cp ON cp.property_id = p.id
-        LEFT OUTER JOIN AppBundle:Contact co ON cp.contact_id = co.id
+        // The query that defines all the joins on communications to search for,
+        //  and links them together based on id's
+        $test = $this->getEntityManager()->createQuery(
+        "SELECT c, p, a, co FROM AppBundle:Communication c
+        LEFT OUTER JOIN AppBundle:Property p WITH c.propertyId = p.id
+        LEFT OUTER JOIN AppBundle:Address a WITH p.addressId = a.id
+        LEFT OUTER JOIN AppBundle:Contact co WITH co.propertyId = p.id
+        LEFT OUTER JOIN AppBundle:Container con WITH con.property = p.id
         WHERE $classPropertiesString"
         )->getResult();
+
+        var_dump(sizeof($test));
+
+        return $test;
+
+        //LEFT OUTER JOIN AppBundle:ContactProperty cp WITH cp.property_id = p.id
     }
 
-    public function searchHelper($classProperties, $queryStrings)
+    public function searchHelper($classProperties, $queryStrings, $class)
     {
         $searchString = '';
 
@@ -90,7 +98,7 @@ class CommunicationRepository extends EntityRepository
             for ($i = 0; $i < sizeof($queryStrings); $i++)
             {
                 // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
-                $searchString .= "LOWER(c.$val) LIKE '%{$queryStrings[$i]}%' OR ";
+                $searchString .= "LOWER($class.$val) LIKE '%{$queryStrings[$i]}%' OR ";
             }
         }
 
