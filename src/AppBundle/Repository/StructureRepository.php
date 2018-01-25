@@ -3,7 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Structure; 
+use AppBundle\Entity\Structure;
 
 /**
  * StructureRepository short summary.
@@ -25,5 +25,15 @@ class StructureRepository extends EntityRepository
         //Close the entity manager
         // return the id of the new contact in the database
         return $structure->getId();
+    }
+
+    public function remove(Structure $structure)
+    {
+        $em = $this->getEntityManager();
+        // persist the new contact in the database
+        $em->remove($structure);
+        // flush them to the database
+        $em->flush();
+        //Close the entity manager
     }
 }

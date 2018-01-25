@@ -23,9 +23,7 @@ class ContainerRepositoryTest extends KernelTestCase
 
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
-            ->getManager();
-
-        
+            ->getManager();        
 
     }
 
