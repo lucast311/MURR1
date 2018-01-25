@@ -158,13 +158,109 @@ class ContainerControllerTest extends WebTestCase
         //get entity manager and repo
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $repo = $em->getRepository(Container::class);
-        $repo->save($container); 
+        $repo->save($container);
 
         //request edit page
         $crawler = $client->request('GET','/container/1/edit');
         //ensure property and structure do appear on page
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Property")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Structure")')->count());
+    }
+
+    /**
+     * Story 12b
+     * Tests that you are able to view a container successfully with the proper information
+     */
+    public function testViewContainerSuccess(){
+        //create a container to be inserted into the database
+        $contanier = new Container();
+        $contanier->setFrequency('Weekly')
+            ->setContainerSerial('123456')
+            ->setLocationDesc("South side of building")
+            ->setLong(87)
+            ->setLat(88)
+            ->setType("Cart")
+            ->setSize("6 yd")
+            ->setAugmentation("Wheels")
+            ->setStatus("Active")
+            ->setReasonForStatus("Everything normal");
+
+        //create client
+        $client = static::createClient();
+
+        //Get the entity manager and repo for containers
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $repo = $em->getRepository(Container::class);
+
+        //save the container
+        $id = $repo->save($contanier);
+
+        //Go to the containers page
+        $crawler = $client->request('GET',"/container/$id/edit");
+
+        //get the content to check
+        $content = $client->getResponse()->getContent();
+
+        //assert that all the assigned values are on the page
+        $this->assertContains('123456',$content);
+        $this->assertContains('Weekly',$content);
+        $this->assertContains('South side of building',$content);
+        $this->assertContains('87',$content);
+        $this->assertContains('88',$content);
+        $this->assertContains('Cart',$content);
+        $this->assertContains('6 yd',$content);
+        $this->assertContains('Wheels',$content);
+        $this->assertContains('Active',$content);
+        $this->assertContains('Everything normal',$content);
+
+        //Check that the valid labels are on the page
+        //check that the field labels are not on the page
+        $this->assertContains('Id:',$content);
+        $this->assertContains('Frequency:',$content);
+        $this->assertContains('Container Serial:',$content);
+        $this->assertContains('Location Description:',$content);
+        $this->assertContains('Longitude:',$content);
+        $this->assertContains('Latitude:',$content);
+        $this->assertContains('Type:',$content);
+        $this->assertContains('Size:',$content);
+        $this->assertContains('Augmentation:',$content);
+        $this->assertContains('Status:',$content);
+        $this->assertContains('Reason for status:',$content);
+        $this->assertContains('Property:',$content);
+        $this->assertContains('Structure:',$content);
+    }
+
+    /**
+     * Story 12b
+     * Tests that if you go to an invalid container that an error message appears
+     */
+    public function testViewContainerFailure(){
+        //create client
+        $client = static::createClient();
+
+        $crawler = $client->request("GET","/container/NotAnId");
+
+        //get the content to check
+        $content = $client->getResponse()->getContent();
+
+        //check that the error message is on the page
+        $this->assertContains("Container does not exist",$content);
+
+        //check that the field labels are not on the page
+        $this->assertNotContains('Id:',$content);
+        $this->assertNotContains('Frequency:',$content);
+        $this->assertNotContains('Container Serial:',$content);
+        $this->assertNotContains('Location Description:',$content);
+        $this->assertNotContains('Longitude:',$content);
+        $this->assertNotContains('Latitude:',$content);
+        $this->assertNotContains('Type:',$content);
+        $this->assertNotContains('Size:',$content);
+        $this->assertNotContains('Augmentation:',$content);
+        $this->assertNotContains('Status:',$content);
+        $this->assertNotContains('Reason for status:',$content);
+        $this->assertNotContains('Property:',$content);
+        $this->assertNotContains('Structure:',$content);
+
     }
 
     protected function tearDown()
