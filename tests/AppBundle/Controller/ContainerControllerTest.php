@@ -12,7 +12,7 @@ use AppBundle\Entity\Container;
  * ContainerControllerTest description.
  *
  * @version 1.0
- * @author cst201
+ * @author Team MURR
  */
 class ContainerControllerTest extends WebTestCase
 {
@@ -196,7 +196,7 @@ class ContainerControllerTest extends WebTestCase
         $id = $repo->save($contanier);
 
         //Go to the containers page
-        $crawler = $client->request('GET',"/container/$id/edit");
+        $crawler = $client->request('GET',"/container/$id");
 
         //get the content to check
         $content = $client->getResponse()->getContent();

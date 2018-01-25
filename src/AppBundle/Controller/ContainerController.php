@@ -63,14 +63,26 @@ class ContainerController extends Controller
      * @Route("/{id}", name="container_show")
      * @Method("GET")
      */
-    public function showAction(Container $container)
+    public function showAction($id=null)
     {
-        $deleteForm = $this->createDeleteForm($container);
+        $repo = $this->getDoctrine()->getEntityManager()->getRepository(Container::class);
+        $container = $repo->findOneById($id);
 
-        return $this->render('container/show.html.twig', array(
+        if ($container != null)
+        {
+            $deleteForm = $this->createDeleteForm($container);
+
+            return $this->render('container/show.html.twig', array(
             'container' => $container,
             'delete_form' => $deleteForm->createView(),
-        ));
+            'invalid_id_error'=>false
+            ));	
+        }
+
+            return $this->render('container/show.html.twig', array(
+                'invalid_id_error'=>true
+            ));	
+
     }
 
     /**
