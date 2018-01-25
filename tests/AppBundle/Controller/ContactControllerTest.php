@@ -14,6 +14,9 @@ class ContactControllerTest extends WebTestCase
 {
     private $em;
 
+    /**
+     * (@inheritDoc)
+     */
     protected function setUp()
     {
         self::bootKernel();
