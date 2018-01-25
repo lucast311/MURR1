@@ -118,6 +118,9 @@ class Property
 
     /**
      * Properties have many contacts
+     * 
+     * We need to replace this many to many with a one to one
+     * 
      * @ORM\ManyToMany(targetEntity="Contact", inversedBy="properties", cascade={"persist"})
      * @ORM\JoinTable(name="ContactProperty")
      * @var Contact[]

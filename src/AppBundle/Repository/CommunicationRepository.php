@@ -69,20 +69,23 @@ class CommunicationRepository extends EntityRepository
             var_dump($classPropertiesString);
         }
 
+        // Remove the unneeded ' OR ' from the end of the query string
+        $classPropertiesString = rtrim($classPropertiesString, ' OR ');
+
+        var_dump(substr($classPropertiesString, 1400));
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
-        $test = $this->getEntityManager()->createQuery(
+        return $this->getEntityManager()->createQuery(
         "SELECT c, p, a, co FROM AppBundle:Communication c
-        LEFT OUTER JOIN AppBundle:Property p WITH c.propertyId = p.id
-        LEFT OUTER JOIN AppBundle:Address a WITH p.addressId = a.id
-        LEFT OUTER JOIN AppBundle:Contact co WITH co.propertyId = p.id
+        LEFT OUTER JOIN AppBundle:Property p WITH c.property = p.id
+        LEFT OUTER JOIN AppBundle:Address a WITH p.address = a.id
+        LEFT OUTER JOIN AppBundle:Contact co WITH co.properties = p.contacts
         LEFT OUTER JOIN AppBundle:Container con WITH con.property = p.id
         WHERE $classPropertiesString"
         )->getResult();
 
-        var_dump(sizeof($test));
 
-        return $test;
+
 
         //LEFT OUTER JOIN AppBundle:ContactProperty cp WITH cp.property_id = p.id
     }
@@ -101,9 +104,6 @@ class CommunicationRepository extends EntityRepository
                 $searchString .= "LOWER($class.$val) LIKE '%{$queryStrings[$i]}%' OR ";
             }
         }
-
-        // Remove the unneeded ' OR ' from the end of the query string
-        $searchString = rtrim($searchString, ' OR ');
 
         return $searchString;
     }
