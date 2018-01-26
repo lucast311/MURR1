@@ -60,19 +60,19 @@ class CommunicationRepository extends EntityRepository
         //$stringsForSearches = array($searchStringCommunication = '', $searchStringProperty = '',
             //$searchStringAddress = '', $searchStringContact = '', $searchStringContainer = '');
 
-        $classPropertiesString = "";
+        $classPropertiesString = $this->searchHelper($classPropertiesArray, $queryStrings, $classNames);
 
-        $classCounter = 0;
-        foreach ($classPropertiesArray as $classProperties)
-        {
-        	$classPropertiesString .= $this->searchHelper($classProperties, $queryStrings, $classNames[$classCounter++]);
-            var_dump($classPropertiesString);
-        }
+        //$classCounter = 0;
+        //foreach ($classPropertiesArray as $classProperties)
+        //{
+        //    $classPropertiesString .= $this->searchHelper($classProperties, $queryStrings, $classNames[$classCounter++]);
+        //}
 
         // Remove the unneeded ' OR ' from the end of the query string
-        $classPropertiesString = rtrim($classPropertiesString, ' OR ');
+        //$classPropertiesString = rtrim($classPropertiesString, ' OR ');
 
-        var_dump(substr($classPropertiesString, 1400));
+        //var_dump(substr($classPropertiesString, 1400));
+
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
         return $this->getEntityManager()->createQuery(
@@ -90,20 +90,40 @@ class CommunicationRepository extends EntityRepository
         //LEFT OUTER JOIN AppBundle:ContactProperty cp WITH cp.property_id = p.id
     }
 
-    public function searchHelper($classProperties, $queryStrings, $class)
+    /**
+     * Story 11c
+     * 
+     * Function to help the repository search functions. Will create a string by looping
+     *  through a class properties array which catains relevent entity information, and
+     *  append the relevent query information to it. Then return the string.
+     * @param mixed $classProperties
+     * @param mixed $queryStrings
+     * @param mixed $class
+     * @return string
+     */
+    public function searchHelper($classPropertiesArray, $queryStrings, $class)
     {
+        $classCounter = 0;
         $searchString = '';
 
-        //foreach field in the list of passed in claas properties
-        foreach($classProperties as $col=>$val)
+        foreach ($classPropertiesArray as $classProperties)
         {
-            // foreach string to query on
-            for ($i = 0; $i < sizeof($queryStrings); $i++)
+            //foreach field in the list of passed in claas properties
+            foreach($classProperties as $col=>$val)
             {
-                // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
-                $searchString .= "LOWER($class.$val) LIKE '%{$queryStrings[$i]}%' OR ";
+                // foreach string to query on
+                for ($i = 0; $i < sizeof($queryStrings); $i++)
+                {
+                    // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
+                    $searchString .= "LOWER($class[$classCounter].$val) LIKE '%{$queryStrings[$i]}%' OR ";
+
+                }
             }
+            $classCounter++;
         }
+
+        // Remove the unneeded ' OR ' from the end of the query string
+        $searchString = rtrim($searchString, ' OR ');
 
         return $searchString;
     }

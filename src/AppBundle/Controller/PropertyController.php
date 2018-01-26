@@ -163,10 +163,10 @@ class PropertyController extends Controller
             $searchNarrower = new SearchNarrower();
 
             // narrow down our searches, and store their values along side their field values
-            $searchedData = $searchNarrower->narrowProperties($propertySearches, $cleanQuery);
+            $searchedData = $searchNarrower->narrower(new Property(), $propertySearches, $cleanQuery);
 
             // look in the array of narrowed searches/values for the first element (this will be the array of narrowed searches)
-            $narrowedResults = $searchedData[0];
+            //$narrowedResults = $searchedData[0];
 
             $encoder = new JsonEncoder();
             $normalizer = new ObjectNormalizer();
@@ -177,7 +177,7 @@ class PropertyController extends Controller
 
             // Return the results as a json object
             // NOTE: Serializer service needs to be enabled for this to work properly
-            return JsonResponse::fromJsonString($serializer->serialize($narrowedResults, 'json'));
+            return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
         }
 
         // string over 100, return empty array.
