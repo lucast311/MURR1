@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\Type\CommunicationType;
 use AppBundle\Entity\Communication;
+use AppBundle\Entity\Contact;
+use AppBundle\Entity\Property;
+use AppBundle\Entity\Address;
 use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -129,8 +132,11 @@ class CommunicationController extends Controller
             // create a SearchNarrower to narrow down our searches
             $searchNarrower = new SearchNarrower();
 
+            //An array of entities that represents the joins to the entity
+            $communicationJoins = array(new Communication(), new Contact(), new Property(), new Address());
+
             // narrow down our searches, and store their values along side their field values
-            $searchedData = $searchNarrower->narrower(new Communication(), $communicationSearches, $cleanQuery);
+            $searchedData = $searchNarrower->narrower($communicationSearches, $cleanQuery, $communicationJoins);
 
             // Return the results as a json object
             // NOTE: Serializer service needs to be enabled for this to work properly

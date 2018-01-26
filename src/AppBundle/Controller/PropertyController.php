@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
+use AppBundle\Entity\Contact;
+use AppBundle\Entity\Communication;
+use AppBundle\Entity\Container;
 use AppBundle\Form\PropertyType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormError;
@@ -162,8 +165,11 @@ class PropertyController extends Controller
             // create a SearchNarrower to narrow down our searches
             $searchNarrower = new SearchNarrower();
 
+            //An array of entities that represents the joins to the entity
+            $propertyJoins = array(new Property(), new Address(), new Contact(), new Communication(), new Container());
+
             // narrow down our searches, and store their values along side their field values
-            $searchedData = $searchNarrower->narrower(new Property(), $propertySearches, $cleanQuery);
+            $searchedData = $searchNarrower->narrower($propertySearches, $cleanQuery, $propertyJoins);
 
             // look in the array of narrowed searches/values for the first element (this will be the array of narrowed searches)
             //$narrowedResults = $searchedData[0];

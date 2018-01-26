@@ -4,6 +4,7 @@ namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Communication;
+use AppBundle\Services\SearchHelper;
 
 /**
  * This class will be responsible with interacting with the database
@@ -45,33 +46,24 @@ class CommunicationRepository extends EntityRepository
         $contactClassProperties = $this->getEntityManager()->getRepository('AppBundle:Contact')->getClassMetadata()->fieldNames;
         $containerClassProperties = $this->getEntityManager()->getRepository('AppBundle:Container')->getClassMetadata()->fieldNames;
 
+        //Add all of the class properties arrays to one array
         $classPropertiesArray = array($communicationClassProperties, $propertyClassProperties,
             $addressClassProperties, $contactClassProperties, $containerClassProperties);
 
+        //an array of abbreviations to be used in the query. These represent each join
         $classNames = array('c', 'p', 'a', 'co', 'con');
 
+        // shift off the id of each entity
         foreach ($classPropertiesArray as $array)
         {
-            // shift off the id of each entity
         	array_shift($array);
         }
 
-        // a variable to store the SQLite WHERE clause to query with
-        //$stringsForSearches = array($searchStringCommunication = '', $searchStringProperty = '',
-            //$searchStringAddress = '', $searchStringContact = '', $searchStringContainer = '');
+        //create a searchHelper instance
+        $searchHelper = new SearchHelper();
 
-        $classPropertiesString = $this->searchHelper($classPropertiesArray, $queryStrings, $classNames);
-
-        //$classCounter = 0;
-        //foreach ($classPropertiesArray as $classProperties)
-        //{
-        //    $classPropertiesString .= $this->searchHelper($classProperties, $queryStrings, $classNames[$classCounter++]);
-        //}
-
-        // Remove the unneeded ' OR ' from the end of the query string
-        //$classPropertiesString = rtrim($classPropertiesString, ' OR ');
-
-        //var_dump(substr($classPropertiesString, 1400));
+        //call the searchHelper service to return the class properties string
+        $classPropertiesString = $searchHelper->searchHelper($classPropertiesArray, $queryStrings, $classNames);
 
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
@@ -84,47 +76,6 @@ class CommunicationRepository extends EntityRepository
         WHERE $classPropertiesString"
         )->getResult();
 
-
-
-
-        //LEFT OUTER JOIN AppBundle:ContactProperty cp WITH cp.property_id = p.id
     }
 
-    /**
-     * Story 11c
-     * 
-     * Function to help the repository search functions. Will create a string by looping
-     *  through a class properties array which catains relevent entity information, and
-     *  append the relevent query information to it. Then return the string.
-     * @param mixed $classProperties
-     * @param mixed $queryStrings
-     * @param mixed $class
-     * @return string
-     */
-    public function searchHelper($classPropertiesArray, $queryStrings, $class)
-    {
-        $classCounter = 0;
-        $searchString = '';
-
-        foreach ($classPropertiesArray as $classProperties)
-        {
-            //foreach field in the list of passed in claas properties
-            foreach($classProperties as $col=>$val)
-            {
-                // foreach string to query on
-                for ($i = 0; $i < sizeof($queryStrings); $i++)
-                {
-                    // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
-                    $searchString .= "LOWER($class[$classCounter].$val) LIKE '%{$queryStrings[$i]}%' OR ";
-
-                }
-            }
-            $classCounter++;
-        }
-
-        // Remove the unneeded ' OR ' from the end of the query string
-        $searchString = rtrim($searchString, ' OR ');
-
-        return $searchString;
-    }
 }

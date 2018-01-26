@@ -25,47 +25,20 @@ class SearchNarrower
      * @param mixed $cleanQuery - an array of each string we wanted to find.
      * @return array - of narrowed search results
      */
-    public function narrower($entity, $searchResults, $cleanQuery)
+    public function narrower($searchResults, $cleanQuery, $entityJoins)
     {
         // an array for the narrowed results
         $narrowedResults= array();
 
         // a variable to store the values of the record
         $recordData = '';
-
-        // get the name of the entity we are searching for
-        $entityName = get_class($entity);
-
-        //Arrays to store the different joined entities for each searchable entity.
-        //Add a new array when you add a new search
-        $communicationJoins = array($entity, new Contact(), new Property(), new Address());
-        $contactJoins = array($entity, new Property(), new Address());
-        $propertyJoins = array($entity, new Address(), new Contact(), new Communication(), new Container());
-
         $joinCounter = 0;
 
         // foreach result in the passed in array of search results
         foreach ($searchResults as $result)
         {
-            // see what entity we are using, and call the appropriate helper method
-            switch($entityName)
-            {
-                case "AppBundle\Entity\Communication":
-                    $recordData .= $this->narrowerHelper($communicationJoins[$joinCounter++], $result);
+            $recordData .= $this->narrowerHelper($entityJoins[$joinCounter++], $result);
 
-                    break;
-                case "AppBundle\Entity\Contact":
-                    $recordData .= $this->narrowerHelper($contactJoins[$joinCounter++], $result);
-
-                    break;
-                case "AppBundle\Entity\Property":
-                    $recordData .= $this->narrowerHelper($propertyJoins[$joinCounter++], $result);
-
-                    break;
-                default:
-                    break;
-            }
-            // a variable that will store the number of $cleanQuery's the current record has
             $found = 0;
 
             // foreach separate string to query on in the passed in string
@@ -90,9 +63,11 @@ class SearchNarrower
     }
 
     /**
-     * Summary of narrowerHelper
-     * @param mixed $currEntity 
-     * @param mixed $result 
+     * Story 11b
+     *
+     * Function that creates a string of the record data
+     * @param mixed $currEntity
+     * @param mixed $result
      * @return string
      */
     public function narrowerHelper($currEntity, $result)
@@ -112,32 +87,37 @@ class SearchNarrower
             // check if the method is a getter
             if(strpos($method, 'get')===0)
             {
-                // check if the method is for the id
-                if(strpos($method, 'getId')===0)
-                {
-                    // call getId and store its value in the array created above
-                    $objectValues = $result->getId();
-                }
-                // else check if the method returns a string, int, or null.
-                // if so save that value to an array of strings.
-                else if($type = call_user_func([$result, $method]))
-                {
-                    switch($type)
-                    {
-                        case is_null($type):
-                            $objectValues = 'null';
-                            break;
 
-                        // int or string
-                        case is_int($type):
-                        case is_string($type):
-                            $objectValues = '"'.$type.'"';
-                            break;
-                        default:
-                            break;
+                if(!is_null($result)) //added by austin, mightve broken something
+                {
+                    // check if the method is for the id
+                    if(strpos($method, 'getId')===0)
+                    {
+                        // call getId and store its value in the array created above
+                        if(!is_null($result)) $objectValues[] = $result->getId();
+                    }
+                    // else check if the method returns a string, int, or null.
+                    // if so save that value to an array of strings.
+                    else if($type = call_user_func([$result, $method]))
+                    {
+                        switch($type)
+                        {
+                            case is_null($type):
+                                $objectValues[] = 'null';
+                                break;
+
+                            // int or string
+                            case is_int($type):
+                            case is_string($type):
+                                $objectValues[] = '"'.$type.'"';
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }
+            //var_dump($objectValues);
             // populate the $currdata string with the values from the array of entity object value arrays
             foreach($objectValues as $value)
             {

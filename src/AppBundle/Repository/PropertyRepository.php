@@ -3,6 +3,7 @@ namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Property;
+use AppBundle\Services\SearchHelper;
 
 
 class PropertyRepository extends EntityRepository
@@ -50,123 +51,34 @@ class PropertyRepository extends EntityRepository
         $propertyClassProperties = $this->getClassMetadata('AppBundle:Property')->fieldNames;
         $addressClassProperties = $this->getEntityManager()->getRepository('AppBundle:Address')->getClassMetadata()->fieldNames;
 
+        //Add all of the class properties arrays to one array
         $classPropertiesArray = array($propertyClassProperties, $addressClassProperties);
 
+        //an array of abbreviations to be used in the query. These represent each join
         $classNames = array('p', 'a');
 
+        // shift off the id of each entity
         foreach ($classPropertiesArray as $array)
         {
-            // shift off the id of each entity
         	array_shift($array);
         }
 
-        $classPropertiesString = $this->searchHelper($classPropertiesArray, $queryStrings, $classNames);
+        //create a searchHelper instance
+        $searchHelper = new SearchHelper();
 
-        //// shift off the id from the Property (A user will never search based on this)
-        //array_shift($propertyClassProperties);
-
-        //// a variable to store the SQLite WHERE clause to query with
-        //$searchStringProperties = '';
-        //$searchStringAddresses = '';
-
-        ////foreach field in the property
-        //foreach($propertyClassProperties as $col=>$val)
-        //{
-        //    // foreach string to query on
-        //    for ($i = 0; $i < sizeof($queryStrings); $i++)
-        //    {
-        //        // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
-        //        $searchStringProperties .= "LOWER(c.$val) LIKE '%{$queryStrings[$i]}%' OR ";
-        //    }
-        //}
-
-        //// Remove the unneeded ' OR ' from the end of the query string
-        //$searchStringProperties = rtrim($searchStringProperties, ' OR ');
-
-        ////foreach field in the Address
-        //foreach($addressClassProperties as $col=>$val)
-        //{
-        //    // foreach string to query on
-        //    for ($i = 0; $i < sizeof($queryStrings); $i++)
-        //    {
-        //        // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
-        //        $searchStringAddresses .= "LOWER(a.$val) LIKE '%{$queryStrings[$i]}%' OR ";
-        //    }
-        //}
-
-        //// Remove the unneeded ' OR ' from the end of the query string
-        //$searchStringAddresses = rtrim($searchStringAddresses, ' OR ');
-
-        //// set variables equal to the records returned from each of the two queries
-        //$returnProperties = $this->getEntityManager()->createQuery(
-        //   "SELECT c FROM AppBundle:Property c WHERE $searchStringProperties"
-        //    )->getResult();
-
-        //$returnAddresses = $this->getEntityManager()->createQuery(
-        //   "SELECT c, a FROM AppBundle:Property c JOIN c.address a WHERE $searchStringAddresses"
-        //    )->getResult();
-
-        //// foreach address returned
-        //foreach($returnAddresses as $returnAddress)
-        //{
-        //    // check if the address already exists in the array of contacts returned
-        //    if(!in_array($returnAddress,$returnProperties))
-        //    {
-        //        // combine the search results
-        //        $returnProperties[] = $returnAddress;
-        //    }
-        //}
-
-        //// return the results
-        //return $returnProperties;
+        //call the searchHelper service to return the class properties string
+        $classPropertiesString = $searchHelper->searchHelper($classPropertiesArray, $queryStrings, $classNames);
 
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
         return $this->getEntityManager()->createQuery(
-        "SELECT c, p, a, co FROM AppBundle:Property p 
+        "SELECT c, p, a, co FROM AppBundle:Property p
         LEFT OUTER JOIN AppBundle:Address a WITH p.address = a.id
         WHERE $classPropertiesString"
         )->getResult();
 
     }
 
-    /**
-     * Story 11c
-     *
-     * Function to help the repository search functions. Will create a string by looping
-     *  through a class properties array which catains relevent entity information, and
-     *  append the relevent query information to it. Then return the string.
-     * @param mixed $classProperties
-     * @param mixed $queryStrings
-     * @param mixed $class
-     * @return string
-     */
-    public function searchHelper($classPropertiesArray, $queryStrings, $class)
-    {
-        $classCounter = 0;
-        $searchString = '';
-
-        foreach ($classPropertiesArray as $classProperties)
-        {
-            //foreach field in the list of passed in claas properties
-            foreach($classProperties as $col=>$val)
-            {
-                // foreach string to query on
-                for ($i = 0; $i < sizeof($queryStrings); $i++)
-                {
-                    // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
-                    $searchString .= "LOWER($class[$classCounter].$val) LIKE '%{$queryStrings[$i]}%' OR ";
-
-                }
-            }
-            $classCounter++;
-        }
-
-        // Remove the unneeded ' OR ' from the end of the query string
-        $searchString = rtrim($searchString, ' OR ');
-
-        return $searchString;
-    }
 
     ///**
     // * STORY 4h

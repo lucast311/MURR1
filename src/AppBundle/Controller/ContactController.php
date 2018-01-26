@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Contact;
 use AppBundle\Entity\Address;
+use AppBundle\Entity\Property;
 use AppBundle\Form\ContactType;
 use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
@@ -197,8 +198,11 @@ class ContactController extends Controller
             // create a SearchNarrower to narrow down our searches
             $searchNarrower = new SearchNarrower();
 
+            //An array of entities that represents the joins to the entity
+            $contactJoins = array(new Contact(), new Address());
+
             // narrow down our searches, and store their values along side their field values
-            $searchedData = $searchNarrower->narrower(new Contact(), $contactSearches, $cleanQuery);
+            $searchedData = $searchNarrower->narrower($contactSearches, $cleanQuery, $contactJoins);
 
             // look in the array of narrowed searches/values for the first element (this will be the array of narrowed searches)
             //$narrowedResults = $searchedData[0];
