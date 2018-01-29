@@ -146,7 +146,10 @@ class User implements UserInterface, \Serializable
      *
      * @return string[]
      */
-    public function getRoles(){}
+    public function getRoles()
+    {
+        return array($this->role);
+    }
 
 
     /**
@@ -204,18 +207,40 @@ class User implements UserInterface, \Serializable
      *
      * @return string
      */
-    public function getSalt(){}
+    public function getSalt()
+    {
+        // Return null, because we use bcrypt, it handles salts internally
+        return null;
+    }
 
     /**
      * Erases the credentials
      *
      */
-    public function eraseCredentials(){}
+    public function eraseCredentials()
+    {
+        // Erase any sensitive information here. Currently there is none.
+    }
 
     /** @see \Serializable::serialize() */
-    public function serialize(){}
+    public function serialize()
+    {
+        // Return an array of the important stuff
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password
+            ));
+    }
 
     /** @see \Serializable::unserialize() */
-    public function unserialize($serialized){}
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+        ) = unserialize($serialized);
+    }
 }
 
