@@ -73,6 +73,8 @@
     <Compile Include="src\AppBundle\Entity\EduMat.php" />
     <Compile Include="src\AppBundle\Entity\OOPs.php" />
     <Compile Include="src\AppBundle\Entity\Property.php" />
+    <Compile Include="src\AppBundle\Entity\Route.php" />
+    <Compile Include="src\AppBundle\Entity\RoutePickup.php" />
     <Compile Include="src\AppBundle\Entity\Structure.php" />
     <Compile Include="src\AppBundle\Form\ContainerType.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
@@ -87,6 +89,8 @@
     <Compile Include="src\AppBundle\Repository\EduMatRepository.php" />
     <Compile Include="src\AppBundle\Repository\OOPsRepository.php" />
     <Compile Include="src\AppBundle\Repository\PropertyRepository.php" />
+    <Compile Include="src\AppBundle\Repository\RoutePickupRepository.php" />
+    <Compile Include="src\AppBundle\Repository\RouteRepository.php" />
     <Compile Include="src\AppBundle\Repository\StructureRepository.php" />
     <Compile Include="src\AppBundle\Services\Changer.php" />
     <Compile Include="src\AppBundle\Services\Cleaner.php" />
