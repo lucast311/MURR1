@@ -10,6 +10,8 @@ use AppBundle\Entity\Communication;
 use AppBundle\Entity\Contact;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
+use AppBundle\Entity\Container;
+use AppBundle\Entity\ContactProperty;
 use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -133,7 +135,9 @@ class CommunicationController extends Controller
             $searchNarrower = new SearchNarrower();
 
             //An array of entities that represents the joins to the entity
-            $communicationJoins = array(new Communication(), new Contact(), new Property(), new Address());
+            $communicationJoins = array(new Communication(), new Property(), new Address(), new ContactProperty(), new Contact(), new Container());
+
+            //$communicationJoins = array(new Communication(), new Property());
 
             // narrow down our searches, and store their values along side their field values
             $searchedData = $searchNarrower->narrower($communicationSearches, $cleanQuery, $communicationJoins);

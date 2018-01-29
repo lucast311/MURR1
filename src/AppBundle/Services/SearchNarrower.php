@@ -37,6 +37,7 @@ class SearchNarrower
         // foreach result in the passed in array of search results
         foreach ($searchResults as $result)
         {
+            var_dump($entityJoins[$joinCounter]);
             $recordData .= $this->narrowerHelper($entityJoins[$joinCounter++], $result);
 
             $found = 0;

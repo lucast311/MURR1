@@ -41,7 +41,7 @@ class SearchHelper
 
                 }
             }
-            var_dump($searchString);
+           // var_dump($searchString);
             $classCounter++;
         }
 

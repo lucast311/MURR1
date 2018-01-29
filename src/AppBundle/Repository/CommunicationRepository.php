@@ -51,8 +51,11 @@ class CommunicationRepository extends EntityRepository
         $classPropertiesArray = array($communicationClassProperties, $propertyClassProperties,
             $addressClassProperties, $contactClassProperties, $containerClassProperties, $contactPropertyClassProperties);
 
+        //$classPropertiesArray = array($communicationClassProperties, $propertyClassProperties);
+
         //an array of abbreviations to be used in the query. These represent each join
-        $classNames = array('c', 'p', 'a', 'co', 'cp', 'con');
+        $classNames = array('c', 'p', 'a', 'co', 'con', 'cp');
+        //$classNames = array('c', 'p', 'a');
 
         // shift off the id of each entity
         foreach ($classPropertiesArray as $array)
@@ -69,7 +72,7 @@ class CommunicationRepository extends EntityRepository
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
         return $this->getEntityManager()->createQuery(
-        "SELECT c, p, a, co, cp FROM AppBundle:Communication c
+        "SELECT c, p, a, co, con, cp FROM AppBundle:Communication c
         LEFT OUTER JOIN AppBundle:Property p WITH c.property = p.id
         LEFT OUTER JOIN AppBundle:Address a WITH p.address = a.id
         LEFT OUTER JOIN AppBundle:ContactProperty cp WITH cp.propertyId = p.id
@@ -77,6 +80,8 @@ class CommunicationRepository extends EntityRepository
         LEFT OUTER JOIN AppBundle:Container con WITH con.property = p.id
         WHERE $classPropertiesString"
         )->getResult();
+
+
 
     }
 
