@@ -22,8 +22,13 @@ class SecurityController extends Controller
      */
     public function loginAction(Request $request, AuthenticationUtils $authUtils)
     {
+        //makes sure logged in users cant access the log in page
+        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+        {
+            return $this->redirect('/');
+        }
+        
         // Apparently the checking of the user is magic, and symfony handles this automatically in the background. Simply render the form and handle errors.
-
         // get the login error, if there is one
         $error = $authUtils->getLastAuthenticationError();
 

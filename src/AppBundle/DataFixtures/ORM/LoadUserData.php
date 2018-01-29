@@ -9,17 +9,24 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class LoadUserData implements FixtureInterface
 {
+    private $encoder;
+    //dependency injection because load wont inject a UserPasswordEncoderInterface automatically
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     /**
      * Story_15a
      * @param ObjectManager $obMan the object manager
      */
-    public function load(ObjectManager $obMan, UserPasswordEncoderInterface $encoder)
+    public function load(ObjectManager $obMan)//UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
         $user->setUsername("admin");
         // Make sure you encode the password
-        $user->setPassword($encoder->encodePassword($user, "password"));
-        $user->setRole("ADMIN");
+        $user->setPassword($this->encoder->encodePassword($user, "password"));
+        $user->setRole("ROLE_ADMIN");
 
         // add the Property to the database
         $obMan->persist($user);

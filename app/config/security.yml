@@ -1,6 +1,9 @@
 # To get started with security, check out the documentation:
 # https://symfony.com/doc/current/security.html
 security:
+    access_control:
+    - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/, roles: ROLE_ADMIN }
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
@@ -12,14 +15,14 @@ security:
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
+            ##DEFAULT
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
         main:
             anonymous: ~
-
-             pattern: ^/
-             provider: db_provider
+            pattern: ^/
+            provider: db_provider
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security/form_login_setup.html
