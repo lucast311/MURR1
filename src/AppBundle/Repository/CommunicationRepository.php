@@ -45,13 +45,14 @@ class CommunicationRepository extends EntityRepository
         $addressClassProperties = $this->getEntityManager()->getRepository('AppBundle:Address')->getClassMetadata()->fieldNames;
         $contactClassProperties = $this->getEntityManager()->getRepository('AppBundle:Contact')->getClassMetadata()->fieldNames;
         $containerClassProperties = $this->getEntityManager()->getRepository('AppBundle:Container')->getClassMetadata()->fieldNames;
+        $contactPropertyClassProperties = $this->getEntityManager()->getRepository('AppBundle:ContactProperty')->getClassMetadata()->fieldNames;
 
         //Add all of the class properties arrays to one array
         $classPropertiesArray = array($communicationClassProperties, $propertyClassProperties,
-            $addressClassProperties, $contactClassProperties, $containerClassProperties);
+            $addressClassProperties, $contactClassProperties, $containerClassProperties, $contactPropertyClassProperties);
 
         //an array of abbreviations to be used in the query. These represent each join
-        $classNames = array('c', 'p', 'a', 'co', 'con');
+        $classNames = array('c', 'p', 'a', 'co', 'cp', 'con');
 
         // shift off the id of each entity
         foreach ($classPropertiesArray as $array)
@@ -68,10 +69,11 @@ class CommunicationRepository extends EntityRepository
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
         return $this->getEntityManager()->createQuery(
-        "SELECT c, p, a, co FROM AppBundle:Communication c
+        "SELECT c, p, a, co, cp FROM AppBundle:Communication c
         LEFT OUTER JOIN AppBundle:Property p WITH c.property = p.id
         LEFT OUTER JOIN AppBundle:Address a WITH p.address = a.id
-        LEFT OUTER JOIN AppBundle:Contact co WITH co.properties = p.contacts
+        LEFT OUTER JOIN AppBundle:ContactProperty cp WITH cp.propertyId = p.id
+        LEFT OUTER JOIN AppBundle:Contact co WITH co.id = cp.contactId
         LEFT OUTER JOIN AppBundle:Container con WITH con.property = p.id
         WHERE $classPropertiesString"
         )->getResult();
