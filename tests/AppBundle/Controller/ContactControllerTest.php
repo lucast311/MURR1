@@ -24,6 +24,11 @@ class ContactControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
 
+        /*$this->client = static::createClient(array(), array(
+    'PHP_AUTH_USER' => 'username',
+    'PHP_AUTH_PW'   => 'pa$$word',
+));*/
+
         $contactLoader = new LoadContactData();
         $contactLoader->load($this->em);
     }
