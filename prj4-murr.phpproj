@@ -103,6 +103,7 @@
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\.htaccess" />
     <Compile Include="src\ContactController.php" />
+    <Compile Include="tests\AppBundle\Controller\CollectionHistoryControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\CommunicationControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\ContactControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\ContainerControllerTest.php" />
@@ -110,6 +111,7 @@
     <Compile Include="tests\AppBundle\Controller\EduMatFormControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\PropertyControllerTest.php" />
     <Compile Include="tests\AppBundle\Entity\AddressTest.php" />
+    <Compile Include="tests\AppBundle\Entity\CollectionHistoryTest.php" />
     <Compile Include="tests\AppBundle\Entity\CommunicationTest.php" />
     <Compile Include="tests\AppBundle\Entity\ContactTest.php" />
     <Compile Include="tests\AppBundle\Entity\ContainerTest.php" />

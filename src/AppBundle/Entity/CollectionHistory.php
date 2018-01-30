@@ -123,5 +123,7 @@ class CollectionHistory
     {
         return $this->notes;
     }
+
+
 }
 
