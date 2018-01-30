@@ -10,12 +10,18 @@ use AppBundle\DataFixtures\ORM\LoadUserData;
  */
 class EduMatFormControllerTest extends WebTestCase
 {
+    private $em;
+
     /**
      * (@inheritDoc)
      */
     protected function setUp()
     {
         self::bootKernel();
+
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
 
         // Load the admin user into the database so they can log in
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
@@ -30,7 +36,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testSuccess()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -61,7 +67,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testNameLengthEqualMax()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -90,7 +96,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testNameLengthOneLessThenMax()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -119,7 +125,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testNameLengthOne()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -148,7 +154,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testNameCharacters()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -175,7 +181,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testNameSpaces()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -200,7 +206,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testDescLengthEqualMax()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -229,7 +235,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testDescLengthOneLessThanMax()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -258,7 +264,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testDescLengthOne()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -287,7 +293,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testDescLengthZero()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -316,7 +322,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testRecipientLengthEqualMax()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -345,7 +351,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testRecipientLengthOneLessThanMax()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -374,7 +380,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testRecipientLengthOne()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -403,7 +409,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testRecipientCharacters()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -428,7 +434,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testRecipientSpaces()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');
@@ -452,7 +458,7 @@ class EduMatFormControllerTest extends WebTestCase
     public function testRequired()
     {
         // create a client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // create a crawler that will act like a user (enter data, then submit)
         $crawler = $client->request("GET",'EduMatForm');

@@ -11,12 +11,17 @@ use AppBundle\DataFixtures\ORM\LoadUserData;
 
 class CommunicationControllerTest extends WebTestCase
 {
+    private $em;
+
     /**
      * (@inheritDoc)
      */
     protected function setUp()
     {
         self::bootKernel();
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
 
         // Load the admin user into the database so they can log in
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');

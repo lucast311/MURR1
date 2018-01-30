@@ -27,7 +27,7 @@ class SecurityController extends Controller
         {
             return $this->redirect('/');
         }
-        
+
         // Apparently the checking of the user is magic, and symfony handles this automatically in the background. Simply render the form and handle errors.
         // get the login error, if there is one
         $error = $authUtils->getLastAuthenticationError();
@@ -40,5 +40,17 @@ class SecurityController extends Controller
             'last_username' => $lastUsername,
             'error'         => $error,
         ));
+    }
+
+    /**
+     * Story 15a
+     * Handles the dummy restricted access page
+     *
+     * @Route("/forbidden", name="forbidden")
+     *
+     */
+    public function forbiddenAction()
+    {
+        return $this->redirect('/');
     }
 }

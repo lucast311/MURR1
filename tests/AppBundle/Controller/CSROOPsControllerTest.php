@@ -15,13 +15,17 @@ use AppBundle\DataFixtures\ORM\LoadUserData;
  */
 class CSROOPsControllerTest extends WebTestCase
 {
-
+    private $em;
     /**
      * (@inheritDoc)
      */
     protected function setUp()
     {
         self::bootKernel();
+
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
 
         // Load the admin user into the database so they can log in
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
@@ -34,7 +38,7 @@ class CSROOPsControllerTest extends WebTestCase
     {
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
         //Reques the contact add page
@@ -55,7 +59,7 @@ class CSROOPsControllerTest extends WebTestCase
     {
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
         //Reques the contact add page
@@ -78,7 +82,7 @@ class CSROOPsControllerTest extends WebTestCase
     {
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
         //Reques the contact add page
@@ -101,7 +105,7 @@ class CSROOPsControllerTest extends WebTestCase
     {
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
         //Reques the contact add page
@@ -124,7 +128,7 @@ class CSROOPsControllerTest extends WebTestCase
     public function testNewActionSuccessImageUploadPng()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
         //Reques the contact add page
@@ -147,7 +151,7 @@ class CSROOPsControllerTest extends WebTestCase
     public function testNewActionFailureImageUpload()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
 
@@ -179,7 +183,7 @@ class CSROOPsControllerTest extends WebTestCase
     {
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
         //Reques the contact add page
