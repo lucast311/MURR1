@@ -22,14 +22,14 @@ class RoutePickup
     private $id;
 
     /**
-     * @var \stdClass
+     * @var Route
      *
      * @ORM\Column(name="route", type="object")
      */
     private $route;
 
     /**
-     * @var \stdClass
+     * @var Container
      *
      * @ORM\Column(name="container", type="object")
      */
@@ -56,7 +56,7 @@ class RoutePickup
     /**
      * Set route
      *
-     * @param \stdClass $route
+     * @param Route $route
      *
      * @return RoutePickup
      */
@@ -70,7 +70,7 @@ class RoutePickup
     /**
      * Get route
      *
-     * @return \stdClass
+     * @return Route
      */
     public function getRoute()
     {
@@ -80,7 +80,7 @@ class RoutePickup
     /**
      * Set container
      *
-     * @param \stdClass $container
+     * @param Container $container
      *
      * @return RoutePickup
      */
@@ -94,7 +94,7 @@ class RoutePickup
     /**
      * Get container
      *
-     * @return \stdClass
+     * @return Container
      */
     public function getContainer()
     {
