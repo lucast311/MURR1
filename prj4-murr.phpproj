@@ -56,6 +56,7 @@
     <Compile Include="app\AppKernel.php" />
     <Compile Include="bin\console" />
     <Compile Include="bin\symfony_requirements" />
+    <Compile Include="src\AppBundle\Controller\CollectionHistoryController.php" />
     <Compile Include="src\AppBundle\Controller\CommunicationController.php" />
     <Compile Include="src\AppBundle\Controller\ContactController.php" />
     <Compile Include="src\AppBundle\Controller\ContainerController.php" />
@@ -67,6 +68,7 @@
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContactData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadPropertyData.php" />
     <Compile Include="src\AppBundle\Entity\Address.php" />
+    <Compile Include="src\AppBundle\Entity\CollectionHistory.php" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
     <Compile Include="src\AppBundle\Entity\Contact.php" />
     <Compile Include="src\AppBundle\Entity\Container.php" />
@@ -74,6 +76,8 @@
     <Compile Include="src\AppBundle\Entity\OOPs.php" />
     <Compile Include="src\AppBundle\Entity\Property.php" />
     <Compile Include="src\AppBundle\Entity\Structure.php" />
+    <Compile Include="src\AppBundle\Form\CollectionHistoryType.php" />
+    <Compile Include="src\AppBundle\Form\ContainerEditType.php" />
     <Compile Include="src\AppBundle\Form\ContainerType.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
@@ -81,6 +85,7 @@
     <Compile Include="src\AppBundle\Form\OOPsType.php" />
     <Compile Include="src\AppBundle\Form\PropertyType.php" />
     <Compile Include="src\AppBundle\Repository\AddressRepository.php" />
+    <Compile Include="src\AppBundle\Repository\CollectionHistoryRepository.php" />
     <Compile Include="src\AppBundle\Repository\CommunicationRepository.php" />
     <Compile Include="src\AppBundle\Repository\ContactRepository.php" />
     <Compile Include="src\AppBundle\Repository\ContainerRepository.php" />
