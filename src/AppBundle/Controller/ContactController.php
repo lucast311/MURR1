@@ -198,11 +198,8 @@ class ContactController extends Controller
             // create a SearchNarrower to narrow down our searches
             $searchNarrower = new SearchNarrower();
 
-            //An array of entities that represents the joins to the entity
-            $contactJoins = array(new Contact(), new Address());
-
             // narrow down our searches, and store their values along side their field values
-            $searchedData = $searchNarrower->narrower($contactSearches, $cleanQuery, $contactJoins);
+            $searchedData = $searchNarrower->narrower($contactSearches, $cleanQuery);
 
             // look in the array of narrowed searches/values for the first element (this will be the array of narrowed searches)
             //$narrowedResults = $searchedData[0];

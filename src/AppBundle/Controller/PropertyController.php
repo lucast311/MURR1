@@ -165,11 +165,8 @@ class PropertyController extends Controller
             // create a SearchNarrower to narrow down our searches
             $searchNarrower = new SearchNarrower();
 
-            //An array of entities that represents the joins to the entity
-            $propertyJoins = array(new Property(), new Address(), new Contact(), new Communication(), new Container());
-
             // narrow down our searches, and store their values along side their field values
-            $searchedData = $searchNarrower->narrower($propertySearches, $cleanQuery, $propertyJoins);
+            $searchedData = $searchNarrower->narrower($propertySearches, $cleanQuery);
 
             // look in the array of narrowed searches/values for the first element (this will be the array of narrowed searches)
             //$narrowedResults = $searchedData[0];

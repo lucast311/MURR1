@@ -25,21 +25,23 @@ class SearchNarrower
      * @param mixed $cleanQuery - an array of each string we wanted to find.
      * @return array - of narrowed search results
      */
-    public function narrower($searchResults, $cleanQuery, $entityJoins)
+    public function narrower($searchResults, $cleanQuery)
     {
         // an array for the narrowed results
         $narrowedResults= array();
 
         // a variable to store the values of the record
         $recordData = '';
-        $joinCounter = 0;
 
         var_dump($searchResults);
 
         // foreach result in the passed in array of search results
         foreach ($searchResults as $result)
         {
-            $recordData .= $this->narrowerHelper($entityJoins[$joinCounter++], $result);
+            //for($i = 0; $i < sizeof($entityJoins); $i++)
+            //{
+            $recordData .= $this->narrowerHelper(get_class($result), $result);
+            //}
 
             $found = 0;
 
@@ -78,7 +80,8 @@ class SearchNarrower
         $objectValues = array();
 
         // get all methods in the contact class
-        $methods = get_class_methods(get_class($currEntity));
+        //$methods = get_class_methods(get_class($currEntity));
+        $methods = get_class_methods($currEntity);
 
         // a variable to store the values of the current Entity
         $currData = '';
@@ -96,7 +99,7 @@ class SearchNarrower
                     if(strpos($method, 'getId')===0)
                     {
                         // call getId and store its value in the array created above
-                        $objectValues[] = $result->getId();
+                        $objectValues[] = '"'.$result->getId().'"';
                     }
                     // else check if the method returns a string, int, or null.
                     // if so save that value to an array of strings.

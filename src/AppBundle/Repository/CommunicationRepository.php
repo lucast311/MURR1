@@ -76,7 +76,7 @@ class CommunicationRepository extends EntityRepository
 
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
-        return $this->getEntityManager()->createQuery(
+        $test = $this->getEntityManager()->createQuery(
         "SELECT c, p, a, co, con, cp FROM AppBundle:Communication c
         LEFT OUTER JOIN AppBundle:Property p WITH c.property = p.id
         LEFT OUTER JOIN AppBundle:Address a WITH p.address = a.id
@@ -86,7 +86,9 @@ class CommunicationRepository extends EntityRepository
         WHERE $classPropertiesString"
         )->getResult();
 
+        var_dump($test);
 
+        return $test;
 
     }
 

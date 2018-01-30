@@ -70,10 +70,13 @@ class ContactRepository extends EntityRepository
         //Add all of the class properties arrays to one array
         $classPropertiesArray = array($contactClassProperties, $addressClassProperties);
 
+        $count = 0;
         // shift off the id of each entity
         foreach ($classPropertiesArray as $array)
         {
             array_shift($array);
+            $classPropertiesArray[$count] = $array;
+            $count++;
         }
 
         //an array of abbreviations to be used in the query. These represent each join
