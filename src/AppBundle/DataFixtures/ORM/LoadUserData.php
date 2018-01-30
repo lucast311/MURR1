@@ -24,6 +24,7 @@ class LoadUserData implements FixtureInterface
     {
         $user = new User();
         $user->setUsername("admin");
+
         // Make sure you encode the password
         $user->setPassword($this->encoder->encodePassword($user, "password"));
         $user->setRole("ROLE_ADMIN");

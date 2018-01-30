@@ -5,6 +5,7 @@ namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Container;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 
 /**
  * ContainerControllerTest short summary.
@@ -24,6 +25,12 @@ class ContainerControllerTest extends WebTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        // Load the admin user into the database so they can log in
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
 
     }
 
@@ -158,7 +165,7 @@ class ContainerControllerTest extends WebTestCase
         //get entity manager and repo
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $repo = $em->getRepository(Container::class);
-        $repo->save($container); 
+        $repo->save($container);
 
         //request edit page
         $crawler = $client->request('GET','/container/1/edit');
@@ -175,6 +182,8 @@ class ContainerControllerTest extends WebTestCase
         $client = static::createClient();
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $stmt = $em->getConnection()->prepare('DELETE FROM Container');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM Address');
         $stmt->execute();
         $em->close();
 

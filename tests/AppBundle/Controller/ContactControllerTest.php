@@ -9,6 +9,7 @@ use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadContactData;
 use AppBundle\Entity\Address;
 use AppBundle\Entity\Property;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 
 class ContactControllerTest extends WebTestCase
 {
@@ -24,13 +25,14 @@ class ContactControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
 
-        /*$this->client = static::createClient(array(), array(
-    'PHP_AUTH_USER' => 'username',
-    'PHP_AUTH_PW'   => 'pa$$word',
-));*/
-
         $contactLoader = new LoadContactData();
         $contactLoader->load($this->em);
+
+        // Load the admin user into the database so they can log in
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
     }
 
     /**
@@ -677,6 +679,8 @@ class ContactControllerTest extends WebTestCase
         $stmt = $this->em->getConnection()->prepare("DELETE FROM Property");
         $stmt->execute();
         $stmt = $this->em->getConnection()->prepare("DELETE FROM ContactProperty");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Address');
         $stmt->execute();
 
         $this->em->close();

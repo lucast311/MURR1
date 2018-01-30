@@ -10,6 +10,7 @@ use AppBundle\Entity\Communication;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
 use AppBundle\Entity\Contact;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 
 
 class PropertyControllerTest extends WebTestCase
@@ -25,6 +26,12 @@ class PropertyControllerTest extends WebTestCase
 
         $propertyLoader = new LoadPropertyData();
         $propertyLoader->load($this->em);
+
+        // Load the admin user into the database so they can log in
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
     }
 
     /**
@@ -1161,6 +1168,8 @@ class PropertyControllerTest extends WebTestCase
         $stmt = $em->getConnection()->prepare('DELETE FROM Communication');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM ContactProperty');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM Address');
         $stmt->execute();
         $em->close();
 

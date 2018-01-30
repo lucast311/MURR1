@@ -3,12 +3,27 @@ namespace tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\EduMat;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 
 /**
  * story14a_csr_user_creates_new_educational_material - Tests
  */
 class EduMatFormControllerTest extends WebTestCase
 {
+    /**
+     * (@inheritDoc)
+     */
+    protected function setUp()
+    {
+        self::bootKernel();
+
+        // Load the admin user into the database so they can log in
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
+    }
+
     /**
      * test a successful submit
      */
@@ -460,6 +475,20 @@ class EduMatFormControllerTest extends WebTestCase
         $this->assertCount(2, $crawler->filter('li'));
     }
 
-    
+    /**
+     * (@inheritDoc)
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM User");
+        $stmt->execute();
+
+        $this->em->close();
+        $this->em = null; //avoid memory meaks
+    }
+
+
 
 }

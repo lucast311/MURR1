@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\User;
 use AppBundle\DataFixtures\ORM\LoadUserData;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityControllerTest extends WebTestCase
 {
@@ -20,7 +21,9 @@ class SecurityControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
 
-        $userLoader = new LoadUserData();
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
         $userLoader->load($this->em);
     }
 
@@ -184,6 +187,8 @@ class SecurityControllerTest extends WebTestCase
         parent::tearDown();
 
         $stmt = $this->em->getConnection()->prepare("DELETE FROM User");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Address');
         $stmt->execute();
 
         $this->em->close();

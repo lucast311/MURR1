@@ -20,9 +20,6 @@ security:
             security: false
 
         main:
-            #for test authentication
-            http_basic: ~
-
             anonymous: ~
             pattern: ^/
             provider: db_provider
