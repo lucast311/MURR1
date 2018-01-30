@@ -57,10 +57,13 @@ class CommunicationRepository extends EntityRepository
         $classNames = array('c', 'p', 'a', 'co', 'con', 'cp');
         //$classNames = array('c', 'p', 'a');
 
+        $count = 0;
         // shift off the id of each entity
         foreach ($classPropertiesArray as $array)
         {
-        	array_shift($array);
+            array_shift($array);
+            $classPropertiesArray[$count] = $array;
+            $count++;
         }
 
         //create a searchHelper instance
@@ -68,6 +71,8 @@ class CommunicationRepository extends EntityRepository
 
         //call the searchHelper service to return the class properties string
         $classPropertiesString = $searchHelper->searchHelper($classPropertiesArray, $queryStrings, $classNames);
+
+        //var_dump($classPropertiesString);
 
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's

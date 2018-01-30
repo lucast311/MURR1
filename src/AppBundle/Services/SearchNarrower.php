@@ -34,10 +34,11 @@ class SearchNarrower
         $recordData = '';
         $joinCounter = 0;
 
+        var_dump($searchResults);
+
         // foreach result in the passed in array of search results
         foreach ($searchResults as $result)
         {
-            var_dump($entityJoins[$joinCounter]);
             $recordData .= $this->narrowerHelper($entityJoins[$joinCounter++], $result);
 
             $found = 0;
@@ -95,7 +96,7 @@ class SearchNarrower
                     if(strpos($method, 'getId')===0)
                     {
                         // call getId and store its value in the array created above
-                        if(!is_null($result)) $objectValues[] = $result->getId();
+                        $objectValues[] = $result->getId();
                     }
                     // else check if the method returns a string, int, or null.
                     // if so save that value to an array of strings.

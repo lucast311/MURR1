@@ -73,7 +73,7 @@ class ContactRepository extends EntityRepository
         // shift off the id of each entity
         foreach ($classPropertiesArray as $array)
         {
-        	array_shift($array);
+            array_shift($array);
         }
 
         //an array of abbreviations to be used in the query. These represent each join

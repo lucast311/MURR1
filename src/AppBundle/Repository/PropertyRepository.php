@@ -60,7 +60,7 @@ class PropertyRepository extends EntityRepository
         // shift off the id of each entity
         foreach ($classPropertiesArray as $array)
         {
-        	array_shift($array);
+            array_shift($array);
         }
 
         //create a searchHelper instance
