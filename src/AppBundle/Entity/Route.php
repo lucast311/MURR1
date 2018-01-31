@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="route")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RouteRepository")
+ * @UniqueEntity(fields = {"routeId"}, message = "Route ID Already exists")
  */
 class Route
 {
@@ -25,13 +26,15 @@ class Route
      * @var int
      *
      * @ORM\Column(name="routeId", type="integer", unique=true)
+     * @Assert\NotNull(message="Please specify a route ID")
+     * @Assert\GreaterThan(value=0, message="Route ID must be a value greater than 0")
      */
     private $routeId;
 
     /**
      * @var array
      *
-     * @ORM\Column(name="pickups", type="array", nullable=true)
+     * @ORM\OneToMany(targetEntity="RoutePickup",cascade={"persist"}, mappedBy="route")
      */
     private $pickups;
 

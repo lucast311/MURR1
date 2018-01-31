@@ -24,14 +24,15 @@ class RoutePickup
     /**
      * @var Route
      *
-     * @ORM\Column(name="route", type="object")
+     * @ORM\ManyToOne(targetEntity="Route", inversedBy="pickups", cascade={"persist"})
+     * @ORM\JoinColumn(name="routeId", referencedColumnName="id")
      */
     private $route;
 
     /**
      * @var Container
-     *
-     * @ORM\Column(name="container", type="object")
+     * @ORM\ManyToOne(targetEntity="Container", cascade={"persist"})
+     * @ORM\JoinColumn(name="containerId", referencedColumnName="id")
      */
     private $container;
 
@@ -39,6 +40,7 @@ class RoutePickup
      * @var int
      *
      * @ORM\Column(name="pickupOrder", type="integer")
+     * @Assert\NotNull(message="Please specify a pickup order")
      */
     private $pickupOrder;
 
