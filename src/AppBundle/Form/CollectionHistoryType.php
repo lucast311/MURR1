@@ -13,7 +13,7 @@ class CollectionHistoryType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('containerId')->add('notCollected')->add('notes');
+        $builder->add('containerId')->add('dateCollected')->add('notCollected')->add('notes');
     }
     
     /**

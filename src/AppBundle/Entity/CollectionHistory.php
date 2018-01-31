@@ -44,6 +44,14 @@ class CollectionHistory
      */
     private $notes;
 
+    /**
+     * @var \Date
+     *
+     * @ORM\Column(name="dateCollected", type="date", nullable=false)
+     */
+    private $dateCollected;
+
+
 
     /**
      * Get id
@@ -125,6 +133,28 @@ class CollectionHistory
     public function getNotes()
     {
         return $this->notes;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDateCollected()
+    {
+        return $this->dateCollected;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Communication
+     */
+    public function setDateCollected($dateCollected)
+    {
+        $this->dateCollected = $dateCollected;
     }
 
 

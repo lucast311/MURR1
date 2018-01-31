@@ -50,7 +50,7 @@ class CollectionHistoryTest extends KernelTestCase
         $notValidData = array( "Not Valid", 'c');
         foreach($notValidData as $tester)
         {
-            //var_dump($tester); 
+            //var_dump($tester);
             $this->collectionHistory->setNotCollected($tester);
             $error = $this->validator->validate($this->collectionHistory);
             $this->assertGreaterThan(0, count($error));
@@ -107,6 +107,16 @@ class CollectionHistoryTest extends KernelTestCase
     public function testNotesIsInvalid()
     {
         $this->collectionHistory->setNotes(str_repeat('a',300));
+        $error = $this->validator->validate($this->collectionHistory);
+        $this->assertEquals(1, count($error));
+    }
+
+    /**
+     * 18a - test that the data cannot be in the future
+     */
+    public function testDateCannotBeFuture()
+    {
+        $this->collectionHistory->setDateCollected('3000 01 01');
         $error = $this->validator->validate($this->collectionHistory);
         $this->assertEquals(1, count($error));
     }
