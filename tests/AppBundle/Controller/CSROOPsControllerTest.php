@@ -3,6 +3,7 @@ namespace tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 
 /**
  * CSROOPsControllerTest short summary.
@@ -14,11 +15,30 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class CSROOPsControllerTest extends WebTestCase
 {
+    private $em;
+    /**
+     * (@inheritDoc)
+     */
+    protected function setUp()
+    {
+        self::bootKernel();
+
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+
+        // Load the admin user into the database so they can log in
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
+    }
+
     public function testNewOOPsActionSuccess()
     {
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
         //Reques the contact add page
@@ -31,7 +51,7 @@ class CSROOPsControllerTest extends WebTestCase
         //$form['form[imageFile]'] = 'N;';
 
         $crawler = $client->submit($form);
-        $this->assertNotContains("Create OOPs Notice",$client->getResponse()->getContent()); 
+        $this->assertNotContains("Create OOPs Notice",$client->getResponse()->getContent());
         //$this->assertContains("Communication added successfully",$client->getResponse()->getContent());
     }
 
@@ -39,7 +59,7 @@ class CSROOPsControllerTest extends WebTestCase
     {
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
         //Reques the contact add page
@@ -62,7 +82,7 @@ class CSROOPsControllerTest extends WebTestCase
     {
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
         //Reques the contact add page
@@ -85,7 +105,7 @@ class CSROOPsControllerTest extends WebTestCase
     {
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
         //Reques the contact add page
@@ -108,7 +128,7 @@ class CSROOPsControllerTest extends WebTestCase
     public function testNewActionSuccessImageUploadPng()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
         //Reques the contact add page
@@ -131,7 +151,7 @@ class CSROOPsControllerTest extends WebTestCase
     public function testNewActionFailureImageUpload()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
 
@@ -163,7 +183,7 @@ class CSROOPsControllerTest extends WebTestCase
     {
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
         //Reques the contact add page
@@ -183,6 +203,20 @@ isisczppkwnavzarusagtlywqocxktvlnudzpeouldjmrayuqtsqqxdd';
         0,
         $crawler->filter('html:contains("Please enter a valid description with less than 250 characters")')->count()
         );
+    }
+
+    /**
+     * (@inheritDoc)
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM User");
+        $stmt->execute();
+
+        $this->em->close();
+        $this->em = null; //avoid memory meaks
     }
 
 }

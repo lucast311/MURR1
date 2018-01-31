@@ -15,9 +15,9 @@ web_profiler:
 swiftmailer:
     disable_delivery: true
 
-#doctrine:
-#    dbal:
-#        driver:  pdo_sqlite
-#        path: :memory:
-#        memory:  true
-#        charset: UTF8
+
+#enable http basic authentication, but ONLY FOR THE TESTS.
+security:
+    firewalls:
+        main:
+            http_basic: ~
