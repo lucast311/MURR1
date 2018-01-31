@@ -21,13 +21,3 @@ security:
     firewalls:
         main:
             http_basic: ~
-            #15a
-            anonymous: ~
-            pattern: ^/
-            provider: db_provider
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security/form_login_setup.html
-            form_login: 
-                login_path: login
-                check_path: login
