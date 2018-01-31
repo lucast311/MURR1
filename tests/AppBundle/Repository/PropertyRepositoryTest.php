@@ -158,10 +158,10 @@ class PropertyRepositoryTest extends KernelTestCase
         $results = $repo->propertySearch($cleanQuery);
 
         // narrow the searches so we only return exactlly what we want
-        $narrowedSearches = $searchNarrower->narrowProperties($results, $cleanQuery);
+        $narrowedSearches = $searchNarrower->narrower($results, $cleanQuery, new Property());
 
         // Assert that the size of the initial query is greater than the size of the narrowed query
-        $this->assertTrue(sizeof($narrowedSearches[0]) < sizeof($results));
+        $this->assertTrue(sizeof($narrowedSearches) < sizeof($results));
     }
 
     /**

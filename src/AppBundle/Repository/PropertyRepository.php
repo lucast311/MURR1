@@ -72,7 +72,7 @@ class PropertyRepository extends EntityRepository
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
         return $this->getEntityManager()->createQuery(
-        "SELECT c, p, a, co FROM AppBundle:Property p
+        "SELECT p, a FROM AppBundle:Property p
         LEFT OUTER JOIN AppBundle:Address a WITH p.address = a.id
         WHERE $classPropertiesString"
         )->getResult();

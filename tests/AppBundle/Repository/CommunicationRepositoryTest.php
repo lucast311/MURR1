@@ -139,7 +139,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
-        $communication->setDescription("It's a bin");
+        $communication->setDescription("Its a bin");
 
         // get a repository to search with
         $repo = $this->em->getRepository(Communication::class);
@@ -157,7 +157,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         // Assert that the name of the Reflection object is 'Communication'
         //$this->assertTrue($resultReflection->getShortName() == 'Communication');
 
-        $this->AssertTrue(is_a($results[0][0],Communication::class));
+        $this->AssertTrue(is_a($results[0],Communication::class));
     }
 
     /**
@@ -172,7 +172,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
-        $communication->setDescription("It's a bin");
+        $communication->setDescription("Its a bin");
         $communication->setContactName("Ken");
 
         // create a new SearchNarrower to be used later
@@ -190,11 +190,11 @@ class CommunicationRepositoryTest extends KernelTestCase
         $results = $repo->communicationSearch($cleanQuery);
 
         // narrow the searches so we only return exactlly what we want
-        $narrowedSearches = $searchNarrower->narrower($communication, $results, $cleanQuery);
+        $narrowedSearches = $searchNarrower->narrower($results, $cleanQuery, new Communication());
         //$narrowedSearches = $searchNarrower->narrowCommunication($results, $cleanQuery);
 
         // Assert that the size of the initial query is greater than the size of the narrowed query
-        $this->assertTrue(sizeof($narrowedSearches[0]) < sizeof($results));
+        $this->assertTrue(sizeof($narrowedSearches) < sizeof($results));
     }
 
     /**
@@ -209,7 +209,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
-        $communication->setDescription("It's a bin");
+        $communication->setDescription("Its a bin");
 
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
@@ -237,7 +237,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
-        $communication->setDescription("It's a bin");
+        $communication->setDescription("Its a bin");
 
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
@@ -265,7 +265,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
-        $communication->setDescription("It's a bin");
+        $communication->setDescription("Its a bin");
 
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
@@ -293,7 +293,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
-        $communication->setDescription("It's a bin");
+        $communication->setDescription("Its a bin");
         $communication->setContactName("Ken");
 
         // create a new SearchNarrower to be used later
@@ -322,7 +322,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
-        $communication->setDescription("It's a bin");
+        $communication->setDescription("Its a bin");
         $communication->setContactEmail("email@email.com");
 
         // create a new SearchNarrower to be used later
@@ -351,7 +351,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
-        $communication->setDescription("It's a bin");
+        $communication->setDescription("Its a bin");
         $communication->setContactPhone("111-111-1111");
 
         // create a new SearchNarrower to be used later
@@ -400,7 +400,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
-        $communication->setDescription("It's a bin");
+        $communication->setDescription("Its a bin");
         $communication->setProperty($property);
 
         // create a new SearchNarrower to be used later
@@ -429,7 +429,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
-        $communication->setDescription("It's a bin");
+        $communication->setDescription("Its a bin");
 
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
@@ -457,14 +457,14 @@ class CommunicationRepositoryTest extends KernelTestCase
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
-        $communication->setDescription("It's a bin");
+        $communication->setDescription("Its a bin");
 
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
 
         // create an array with values to search with
         $cleanQuery = array();
-        $cleanQuery[] = "It's a bin";
+        $cleanQuery[] = "Its a bin";
 
         // query the database
         $results = $repo->CommunicationSearch($cleanQuery);

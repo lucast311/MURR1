@@ -1160,7 +1160,7 @@ class PropertyControllerTest extends WebTestCase
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Communication');
         $stmt->execute();
-        $stmt = $em->getConnection()->prepare('DELETE FROM ContactProperty');
+        $stmt = $em->getConnection()->prepare('DELETE FROM Contact_Property');
         $stmt->execute();
         $em->close();
 
