@@ -61,8 +61,8 @@ class SecurityControllerTest extends WebTestCase
 
         // Fill out the login form
         // Might need appbundle_
-        $form['user[username]'] = "admin";
-        $form['user[password]'] = 'password';
+        $form['_username'] = "admin";
+        $form['_password'] = 'password';
         // Submit the login form
         $crawler = $client->submit($form);
 
@@ -78,25 +78,26 @@ class SecurityControllerTest extends WebTestCase
     {
         // Create client
         $client = static::createClient();
+        $client->followRedirects(true);
+
         // Go to a bad page
         $crawler = $client->request('GET', '/contact/new');
 
         // Assert that the user was actually redirected
-        $this->assertTrue($client->getResponse() instanceof RedirectResponse);
-        $this->assertTrue($client->getResponse()->isRedirect('/login'));
+        $this->assertContains("/login", $client->getHistory()->current()->getUri());
 
         // Select the login form
         $form = $crawler->selectButton('Log In')->form();
 
         // Fill out the login form
         // Might need appbundle_
-        $form['user[username]'] = "admin";
-        $form['user[password]'] = 'password';
+        $form['_username'] = "admin";
+        $form['_password'] = 'password';
         // Submit the login form
         $crawler = $client->submit($form);
 
         // Assert that we were redirected to the initially requested page
-        $this->assertRegExp('/\/contact\/new$/', $client->getResponse()->headers->get('location'));
+        $this->assertContains("/contact/new", $client->getHistory()->current()->getUri());
     }
 
     /**
@@ -114,8 +115,8 @@ class SecurityControllerTest extends WebTestCase
 
         // Fill out the login form
         // Might need appbundle_
-        $form['user[username]'] = "admin";
-        $form['user[password]'] = 'password';
+        $form['_username'] = "admin";
+        $form['_password'] = 'password';
         // Submit the login form
         $crawler = $client->submit($form);
 
@@ -135,6 +136,7 @@ class SecurityControllerTest extends WebTestCase
     {
         // Create client
         $client = static::createClient();
+        $client->followRedirects(true);
         // Go to the login page
         $crawler = $client->request('GET', '/login');
         // Select the login form
@@ -142,15 +144,16 @@ class SecurityControllerTest extends WebTestCase
 
         // Fill out the login form
         // Might need appbundle_
-        $form['user[username]'] = "admin3";
-        $form['user[password]'] = 'asdfdf';
+        $form['_username'] = "admin3";
+        $form['_password'] = 'asdfdf';
         // Submit the login form
         $crawler = $client->submit($form);
 
         // Assert that we are still at the login page
-        $this->assertRegExp('/\/login$/', $client->getResponse()->headers->get('location'));
+        $this->assertContains("/login", $client->getHistory()->current()->getUri());
+
         // Assert that the error message is on the screen
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Invalid credentials")')->count());
+        $this->assertcontains("Invalid credentials.", $client->getResponse()->getContent());
     }
 
     /**
@@ -161,6 +164,7 @@ class SecurityControllerTest extends WebTestCase
     {
         // Create client
         $client = static::createClient();
+        $client->followRedirects(true);
         // Go to the login page
         $crawler = $client->request('GET', '/login');
         // Select the login form
@@ -168,15 +172,20 @@ class SecurityControllerTest extends WebTestCase
 
         // Fill out the login form
         // Might need appbundle_
-        $form['user[username]'] = "admin";
-        $form['user[password]'] = 'password';
+        $form['_username'] = "admin";
+        $form['_password'] = 'password';
         // Submit the login form
         $crawler = $client->submit($form);
 
         // Now that we are logged in, try to go to the forbidden page
         $crawler = $client->request('GET', '/forbidden');
         // Assert that there is an error on the page
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("You do not have permission to access this resource")')->count());
+        // this is the symfony dev profile error page
+        $this->assertcontains("HTTP 403", $client->getResponse()->getContent());
+
+        //make sure that our custom error can be viewed
+        $crawler = $client->request('GET', '/_error/403');
+        $this->assertcontains("You do not have permission to access this resource.", $client->getResponse()->getContent());
     }
 
     /**
