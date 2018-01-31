@@ -25,7 +25,7 @@ class SearchNarrower
      * @param mixed $cleanQuery - an array of each string we wanted to find.
      * @return array - of narrowed search results
      */
-    public function narrower($searchResults, $cleanQuery)
+    public function narrower($searchResults, $cleanQuery, $entity)
     {
         // an array for the narrowed results
         $narrowedResults= array();
@@ -33,15 +33,12 @@ class SearchNarrower
         // a variable to store the values of the record
         $recordData = '';
 
-        var_dump($searchResults);
+        //var_dump($searchResults);
 
         // foreach result in the passed in array of search results
         foreach ($searchResults as $result)
         {
-            //for($i = 0; $i < sizeof($entityJoins); $i++)
-            //{
             $recordData .= $this->narrowerHelper(get_class($result), $result);
-            //}
 
             $found = 0;
 
@@ -55,11 +52,15 @@ class SearchNarrower
                     $found++;
                 }
             }
+
             // if $found is equal the the size of the $cleanQuery array
             if($found == sizeof($cleanQuery))
             {
                 // add the current record to the end of the array of narrowed searches
-                $narrowedResults[] = $result;
+                if(get_class($result) === get_class($entity))
+                {
+                    $narrowedResults[] = $result;
+                }
             }
         }
         // return the array of narrowed searches and the array of each searches object values

@@ -199,7 +199,7 @@ class ContactController extends Controller
             $searchNarrower = new SearchNarrower();
 
             // narrow down our searches, and store their values along side their field values
-            $searchedData = $searchNarrower->narrower($contactSearches, $cleanQuery);
+            $searchedData = $searchNarrower->narrower($contactSearches, $cleanQuery, new Contact());
 
             // look in the array of narrowed searches/values for the first element (this will be the array of narrowed searches)
             //$narrowedResults = $searchedData[0];

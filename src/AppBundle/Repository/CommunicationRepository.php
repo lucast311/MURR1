@@ -86,7 +86,7 @@ class CommunicationRepository extends EntityRepository
         WHERE $classPropertiesString"
         )->getResult();
 
-        var_dump($test);
+        //var_dump($test);
 
         return $test;
 

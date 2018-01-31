@@ -137,8 +137,7 @@ class CommunicationController extends Controller
             //$communicationJoins = array(new Communication(), new Property());
 
             // narrow down our searches, and store their values along side their field values
-            $searchedData = $searchNarrower->narrower($communicationSearches, $cleanQuery);
-
+            $searchedData = $searchNarrower->narrower($communicationSearches, $cleanQuery, new Communication());
             // Return the results as a json object
             // NOTE: Serializer service needs to be enabled for this to work properly
             $encoder = new JsonEncoder();
