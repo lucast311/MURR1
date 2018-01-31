@@ -93,7 +93,7 @@ class Communication
     // */
 
     /**
-     * @ORM\ManyToOne(targetEntity="Property", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Property", cascade={"persist"}, inversedBy="communications")
      * @ORM\JoinColumn(name="propertyId", referencedColumnName="id")
      * @var mixed
      */

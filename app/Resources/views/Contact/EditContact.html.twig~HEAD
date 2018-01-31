@@ -1,9 +1,0 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Edit Contact{% endblock %}
-
-{% block body %}
-
-<h2>Edit Contact</h2>
-
-{% endblock %}

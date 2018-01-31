@@ -179,7 +179,7 @@ class ContactController extends Controller
         // Clean the input
         $searchQuery = htmlentities($searchQuery);
 
-        // if the string to query onn is less than or equal to 100 characters
+        // if the string to query on is less than or equal to 100 characters
         if(strlen($searchQuery) <= 100 && !empty($searchQuery))
         {
             // create a cleaner to cleanse the search query

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Structures list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Property</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for structure in structures %}
+            <tr>
+                <td><a href="{{ path('structure_show', { 'id': structure.id }) }}">{{ structure.id }}</a></td>
+                <td>{{ structure.property }}</td>
+                <td>{{ structure.description }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('structure_show', { 'id': structure.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('structure_edit', { 'id': structure.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('structure_new') }}">Create a new structure</a>
+        </li>
+    </ul>
+{% endblock %}

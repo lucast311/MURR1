@@ -128,6 +128,13 @@ class Property
     private $bins;
 
     /**
+     * Holds a list of communications for this property
+     * @ORM\OneToMany(targetEntity="Communication", cascade={"persist"}, mappedBy="property")
+     * @var Communication[]
+     */
+    private $communications;
+
+    /**
      * Get id
      *
      * @return int
@@ -387,9 +394,25 @@ class Property
         return $this;
     }
 
-    public function getBuildings(){}
+    /**
+     * Retrieves all the communications for this property
+     * @return Communication[]
+     */
+    public function getCommunications()
+    {
+        return $this->communications;
+    }
 
-    public function setBuildings($buildings){}
+    /**
+     * Allows you to set the communications for this property
+     * @param mixed $communications
+     * @return Property
+     */
+    public function setCommunications($communications)
+    {
+        $this->communications = $communications;
+        return $this;
+    }
 
     public function __toString(){
         return $this->address->__toString();

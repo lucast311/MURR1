@@ -6,14 +6,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PickupInfoType extends AbstractType
+class StructureType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('string')->add('dayOfWeek');
+        $builder->add('property')->add('description');
     }
     
     /**
@@ -22,7 +22,7 @@ class PickupInfoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\PickupInfo'
+            'data_class' => 'AppBundle\Entity\Structure'
         ));
     }
 
@@ -31,7 +31,7 @@ class PickupInfoType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_pickupinfo';
+        return 'appbundle_structure';
     }
 
 

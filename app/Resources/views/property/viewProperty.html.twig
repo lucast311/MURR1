@@ -4,19 +4,19 @@
 
 {% block body %}
         <style>
-            .containers{
+            .associations{
                 border-collapse: collapse;
             }
 
-            .containers, .containers th, .containers td{
+            .associations, .associations th, .associations td{
                 border:none;
             }
             
-            .containers  tbody>tr{
+            .associations  tbody>tr{
                 border: 1px solid black!important;
             }
 
-            .containers td, .containers th{
+            .associations td, .associations th{
                 padding: 5px;
             }
         </style>
@@ -47,10 +47,7 @@
             <td>Property Status:</td>
             <td>{{property.propertyStatus}}</td>
         </tr>
-        <tr>
-            <td>Structure Id:</td>
-            <td>{{property.structureId}}</td>
-        </tr>
+       
         <tr>
             <td>Num Units:</td>
             <td>{{property.numUnits}}</td>
@@ -87,13 +84,44 @@
 
     <button onclick="window.location.href ='{{editPath}}'">Edit</button>
 
+    <h1>Property Contacts</h1>
+    {% if property.contacts is empty %}
+    <h2>No associated contacts</h2>
+
+    {% else %}
+        
+        <table class="contacts associations" border="1">
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Organization</th>
+                </tr>
+            </thead>
+                <tbody>
+                {% for contact in property.contacts %}
+                <tr>
+                    <td>{{contact.role}}</td>
+                    <td>{{contact.firstName}} {{contact.lastName}}</td>
+                    <td>{{contact.primaryPhone}}</td>
+                    <td>{{contact.emailAddress}}</td>
+                    <td>{{contact.companyName}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+        </table>
+
+    {% endif %}
+
     <h1>Container Info</h1>
         {% if property.bins is empty %}
         <h2>No containers found for this property</h2>
 
         {% else %}
         
-            <table class="containers" border="1">
+            <table class="containers associations" border="1">
                 <thead>
                     <tr>
                         <th>Serial #</th>
@@ -113,6 +141,43 @@
                         <td>{{container.frequency}}</td>
                         <td> <!--Routes will be shown here later--></td>
                         <td>{{container.status}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+            </table>
+
+        {% endif %}
+
+        <h1>Communications</h1>
+        {% if property.communications is empty %}
+        <h2>No communication entries found for this property</h2>
+
+        {% else %}
+        
+        <table class="communications associations" border="1">
+                <thead>
+                    <tr>
+                        <th>CommID</th>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Direction</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                    {% for communication in property.communications %}
+                    <tr>
+                        <td>{{communication.id}}</td>
+                        <td>{{communication.date.format("Y-m-d")}}</td>
+                        <td>{{communication.type}}</td>
+                        <td>{{communication.medium}}</td>
+                        <td>{{communication.contactName}}</td>
+                        <td>{{communication.contactPhone}}</td>
+                        <td>{{communication.contactEmail}}</td>
+                        <td>{{communication.description}}</td>
                     </tr>
                     {% endfor %}
                     </tbody>

@@ -25,4 +25,14 @@ class ContainerRepository extends EntityRepository
         return $container->getId();
     }
 
+    public function remove(Container $container)
+    {
+        $em = $this->getEntityManager();
+        // persist the new contact in the database
+        $em->remove($container);
+        // flush them to the database
+        $em->flush();
+        //Close the entity manager
+    }
+
 }

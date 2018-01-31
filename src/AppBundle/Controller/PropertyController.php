@@ -27,6 +27,28 @@ use Symfony\Component\Serializer\Serializer;
  */
 class PropertyController extends Controller
 {
+    public $property;
+
+    /**
+     * story4f
+     * Front end for searching for a property.
+     *
+     * I have no clue why but DO NOT MOVE THIS TO THE BOTTOM OF THE FILE... if you
+     * do, the route breaks, I suspect it has something to do with the crud generated route
+     * for viewing a property.
+     *
+     * @Route("/property/search", name="property_search")
+     * @Method("GET")
+     */
+    public function searchAction()
+    {
+        // Render the twig with required data
+        return $this->render('property/searchProperty.html.twig', array(
+            'viewURL' => '/property/view/'
+        ));
+    }
+
+
     /**
      * Story 4a
      * Handles the adding of a property.
@@ -173,7 +195,7 @@ class PropertyController extends Controller
 
             $encoder = new JsonEncoder();
             $normalizer = new ObjectNormalizer();
-            $normalizer->setIgnoredAttributes(array("contacts", "bins", "buildings",
+            $normalizer->setIgnoredAttributes(array("contacts", "bins", "buildings","communications",
                 "__initializer__", "__cloner__", "__isInitialized__")); //idk why i need these ones, but I do..
             $serializer = new Serializer(array($normalizer), array($encoder));
 

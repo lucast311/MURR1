@@ -1,21 +1,29 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Container edit</h1>
-
+    <h1>Edit Container{% if not invalid_id_error %} {{container.containerSerial}}{% endif %}</h1>
+    
+{% if invalid_id_error %}
+    <h2>Container does not exist</h2>
+{% else %}
+    {% form_theme edit_form 'form_table_layout.html.twig'  %}
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+        <input type="submit" value="Save" />
     {{ form_end(edit_form) }}
+{% endif %}
+
 
     <ul>
         <li>
             <a href="{{ path('container_index') }}">Back to the list</a>
         </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
+        {% if not invalid_id_error %}
+            <li>
+                {{ form_start(delete_form) }}
+                    <input type="submit" value="Delete">
+                {{ form_end(delete_form) }}
+            </li>
+        {% endif %}
     </ul>
 {% endblock %}

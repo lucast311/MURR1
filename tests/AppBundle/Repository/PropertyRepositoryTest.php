@@ -43,7 +43,6 @@ class PropertyRepositoryTest extends KernelTestCase
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
-        $property->setStructureId(54586);
         $property->setNumUnits(5);
         $property->setNeighbourhoodName("Sutherland");
         $property->setNeighbourhoodId("O48");
@@ -80,7 +79,6 @@ class PropertyRepositoryTest extends KernelTestCase
         $property->setPropertyName("Charlton Arms");
         $property->setPropertyType("Townhouse Condo");
         $property->setPropertyStatus("Active");
-        $property->setStructureId(54586);
         $property->setNumUnits(5);
         $property->setNeighbourhoodName("Sutherland");
         $property->setNeighbourhoodId("O48");

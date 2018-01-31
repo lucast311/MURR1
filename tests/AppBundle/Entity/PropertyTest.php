@@ -20,7 +20,6 @@ class PropertyTest extends KernelTestCase
         $this->property->setPropertyName("Charlton Arms");
         $this->property->setPropertyType("Townhouse Condo");
         $this->property->setPropertyStatus("Active");
-        $this->property->setStructureId(54586);
         $this->property->setNumUnits(5);
         $this->property->setNeighbourhoodName("Sutherland");
         $this->property->setNeighbourhoodId("O48");
@@ -366,30 +365,5 @@ class PropertyTest extends KernelTestCase
         $this->assertEquals('Please specify the number of units',$errors[0]->getMessage());
     }
 
-    /**
-     * Make the structure ID blank and check if there are no errors
-     */
-    public function testPropertyStructureIdBlank()
-    {
-        // Make the property structure id blank
-        $this->property->setStructureId(null);
-        // Validate the property
-        $errors = $this->validator->validate($this->property);
-        // Assert that there is 0 error
-        $this->assertEquals(0, count($errors));
-    }
-
-    /**
-     * Make the structure ID invalid and check if there are errors
-     */
-    public function testPropertyStructureIdInvalid()
-    {
-        // Make the property structure id blank
-        $this->property->setStructureId(-1);
-        // Validate the property
-        $errors = $this->validator->validate($this->property);
-        // Assert that there is 1 error
-        $this->assertEquals(1, count($errors));
-        $this->assertEquals('Please specify a valid Structure ID',$errors[0]->getMessage());
-    }
+   
 }
