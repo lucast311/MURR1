@@ -1,5 +1,7 @@
 <?php
+namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * RoutePickupType short summary.
@@ -11,5 +13,7 @@ use Symfony\Component\Form\AbstractType;
  */
 class RoutePickupType extends AbstractType
 {
+    public function buildForm(FormBuilderInterface $builder, array $options){
 
+    }
 }

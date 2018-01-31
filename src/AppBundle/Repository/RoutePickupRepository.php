@@ -17,4 +17,8 @@ class RoutePickupRepository extends \Doctrine\ORM\EntityRepository
     public function save(RoutePickup $routePickup){
         
     }
+
+    public function updateOrders($routeId, $startAt, $increment=true){
+        
+    }
 }

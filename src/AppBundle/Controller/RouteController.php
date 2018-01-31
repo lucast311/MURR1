@@ -1,4 +1,5 @@
 <?php
+namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\BrowserKit\Request;
 
@@ -27,9 +28,9 @@ class RouteController extends Controller
 
     /**
      * Story 22b
-     * Handles the saving of a route after it has been changed
+     * Handles the adding of a routePickup to a route
      */
-    function saveRouteAction(Request $request){
-        
+    function addRoutePickupAction(Request $request){
+
     }
 }

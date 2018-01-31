@@ -20,9 +20,23 @@ class RoutePickupTypeTest extends TypeTestCase
      */
     public function testSubmitData()
     {
+
+        //create a route for the form data
+        $route = new Route();
+        $route->setRouteId(1001);
+
+        //specify a container for the form data
+        $container = new Container();
+        $container->setContainerSerial("X11111");
+        $container->setType("Bin");
+        $container->setSize("6");
+        $container->setStatus("Active");
+
         // The data that will be "submitted" to the form
         $formData = array(
-            'pickupOrder' => 51,
+            'pickupOrder' => 1,
+            'container'=>$container,
+            'route'=>$route
         );
 
         //create a new form
@@ -39,9 +53,9 @@ class RoutePickupTypeTest extends TypeTestCase
         //submit the data
         $form->submit($formData);
 
-        // New container and routes need to be create for the routePickup
-        $object->setContainer(new Container());
-        $object->setRoute(new Route());
+        //// New container and routes need to be create for the routePickup
+        //$object->setContainer(new Container());
+        //$object->setRoute(new Route());
 
         //Make sure the from doesent throw exceptions
         $this->assertTrue($form->isSynchronized());

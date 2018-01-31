@@ -63,6 +63,7 @@
     <Compile Include="src\AppBundle\Controller\EduMatFormController.php" />
     <Compile Include="src\AppBundle\Controller\OOPsController.php" />
     <Compile Include="src\AppBundle\Controller\PropertyController.php" />
+    <Compile Include="src\AppBundle\Controller\RouteController.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadAddressData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContactData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadPropertyData.php" />
@@ -77,6 +78,7 @@
     <Compile Include="src\AppBundle\Entity\RoutePickup.php" />
     <Compile Include="src\AppBundle\Entity\Structure.php" />
     <Compile Include="src\AppBundle\Form\ContainerType.php" />
+    <Compile Include="src\AppBundle\Form\RoutePickupType.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
     <Compile Include="src\AppBundle\Form\ContactType.php" />
@@ -108,13 +110,17 @@
     <Compile Include="tests\AppBundle\Controller\CSROOPsControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\EduMatFormControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\PropertyControllerTest.php" />
+    <Compile Include="tests\AppBundle\Controller\RouteControllerTest.php" />
     <Compile Include="tests\AppBundle\Entity\AddressTest.php" />
     <Compile Include="tests\AppBundle\Entity\CommunicationTest.php" />
     <Compile Include="tests\AppBundle\Entity\ContactTest.php" />
     <Compile Include="tests\AppBundle\Entity\ContainerTest.php" />
     <Compile Include="tests\AppBundle\Entity\CSROOPsCreationTest.php" />
     <Compile Include="tests\AppBundle\Entity\PropertyTest.php" />
+    <Compile Include="tests\AppBundle\Entity\RoutePickupTest.php" />
+    <Compile Include="tests\AppBundle\Entity\RouteTest.php" />
     <Compile Include="tests\AppBundle\Form\ContainerTypeTest.php" />
+    <Compile Include="tests\AppBundle\Form\RoutePickupTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\Type\CommunicationTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\AddOOPsForm.php" />
     <Compile Include="tests\AppBundle\Form\AddressTypeTest.php" />
@@ -128,6 +134,8 @@
     <Compile Include="tests\AppBundle\Repository\ContainerRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CSROOPsRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\PropertyRepositoryTest.php" />
+    <Compile Include="tests\AppBundle\Repository\RoutePickupRepositoryTest.php" />
+    <Compile Include="tests\AppBundle\Repository\RouteRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Services\ChangerTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
