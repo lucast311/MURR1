@@ -71,6 +71,9 @@ class CollectionHistoryTest extends KernelTestCase
         $this->assertEquals(0, count($error));
     }
 
+    /**
+     * 18a - test that notes is valid at the boundry of 249/250
+     */
     public function testNotesIsValidBoundary()
     {
         $this->collectionHistory->setNotes(str_repeat('a',249));
@@ -78,6 +81,9 @@ class CollectionHistoryTest extends KernelTestCase
         $this->assertEquals(0, count($error));
     }
 
+    /**
+     * 18a - test notes is valid at being exactly 250
+     */
     public function testNotesIsValidExact()
     {
         $this->collectionHistory->setNotes(str_repeat('a',250));
@@ -85,6 +91,9 @@ class CollectionHistoryTest extends KernelTestCase
         $this->assertEquals(0, count($error));
     }
 
+    /**
+     * 18a - Test notes is invalid by being 1 over max, 251/250
+     */
     public function testNotesIsInvalidBoundary()
     {
         $this->collectionHistory->setNotes(str_repeat('a',251));
@@ -92,6 +101,9 @@ class CollectionHistoryTest extends KernelTestCase
         $this->assertEquals(0, count($error));
     }
 
+    /**
+     * 18a - test notes is invalid length at 300 characters
+     */
     public function testNotesIsInvalid()
     {
         $this->collectionHistory->setNotes(str_repeat('a',300));

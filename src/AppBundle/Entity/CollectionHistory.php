@@ -31,6 +31,7 @@ class CollectionHistory
      * @var bool
      *
      * @ORM\Column(name="notCollected", type="boolean", nullable=true)
+     * @Assert\Type("bool")
      */
     private $notCollected;
 
@@ -38,6 +39,7 @@ class CollectionHistory
      * @var string
      *
      * @ORM\Column(name="notes", type="string", length=250, nullable=true)
+     * @Assert\Length(max=250, maxMessage="Notes can only be less than 250 characters")
      */
     private $notes;
 

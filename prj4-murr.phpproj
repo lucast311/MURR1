@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Name>prj4-murr</Name>
@@ -117,6 +118,7 @@
     <Compile Include="tests\AppBundle\Entity\ContainerTest.php" />
     <Compile Include="tests\AppBundle\Entity\CSROOPsCreationTest.php" />
     <Compile Include="tests\AppBundle\Entity\PropertyTest.php" />
+    <Compile Include="tests\AppBundle\Form\CollectionHistoryTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\ContainerTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\Type\CommunicationTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\AddOOPsForm.php" />
@@ -125,6 +127,7 @@
     <Compile Include="tests\AppBundle\Form\CSROOPsFormTest.php" />
     <Compile Include="tests\AppBundle\Form\PropertyTypeTest.php" />
     <Compile Include="tests\AppBundle\Repository\AddressRepositoryTest.php" />
+    <Compile Include="tests\AppBundle\Repository\CollectionHistoryRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CommunicationRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\ContactRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\ContactSearchRepositoryTest.php" />
