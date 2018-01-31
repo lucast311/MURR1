@@ -2,6 +2,7 @@
 
 {% block body %}
     <h1>Collectionhistory creation</h1>
+    {% form_theme form 'form_table_layout.html.twig'  %}
 
     {{ form_start(form) }}
         {{ form_widget(form) }}

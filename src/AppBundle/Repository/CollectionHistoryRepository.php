@@ -2,6 +2,9 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\EntityRepository;
+use AppBundle\Entity\CollectionHistory;
+
 /**
  * CollectionHistoryRepository
  *
@@ -10,4 +13,25 @@ namespace AppBundle\Repository;
  */
 class CollectionHistoryRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function save(CollectionHistory $collectionHistory)
+    {
+        $em = $this->getEntityManager();
+        // persist the new contact in the database
+        $em->persist($collectionHistory);
+        // flush them to the database
+        $em->flush();
+        //Close the entity manager
+        // return the id of the new contact in the database
+        return $collectionHistory->getId();
+    }
+
+    public function remove(CollectionHistory $collectionHistory)
+    {
+        $em = $this->getEntityManager();
+        // persist the new contact in the database
+        $em->remove($collectionHistory);
+        // flush them to the database
+        $em->flush();
+        //Close the entity manager
+    }
 }

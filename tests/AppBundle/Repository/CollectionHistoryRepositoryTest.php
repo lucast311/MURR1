@@ -3,6 +3,9 @@ namespace Tests\AppBundle\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\CollectionHistory;
+
+use AppBundle\Entity\Container;
+
 /**
  * CollectionHistoryRepositoryTest short summary.
  *
@@ -30,11 +33,17 @@ class CollectionHistoryRepositoryTest extends KernelTestCase
      */
     public function testSave()
     {
+
+        $container = new Container();
+        $container->setContainerSerial('18aTestRepo' . time());
+        $container->setSize('6 yds');
+        $container->setType('bin');
+        $container->setStatus('Active'); 
+
         $collectionHistory = new CollectionHistory();
-        $collectionHistory->setContainerSerial("testSerialRepo");
-        $collectionHistory->setType("Bin");
-        $collectionHistory->setSize("6");
-        $collectionHistory->setStatus("Active");
+        $collectionHistory->setContainerId($container->getId());
+        $collectionHistory->setNotCollected(false);
+        $collectionHistory->setNotes("Success");
 
         $repo = $this->em->getRepository(CollectionHistory::class);
 

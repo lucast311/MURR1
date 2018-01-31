@@ -33,20 +33,24 @@ class CollectionHistoryControllerTest extends WebTestCase
         $client = static::createClient();
 
         $container = new Container();
-        $container->setContainerSerial('18aTest');
+        $container->setContainerSerial('18aTestController' . time());
         $container->setSize('6 yds');
+        $container->setType('bin');
+        $container->setStatus('Active');
 
-        $containerRepo = $em->getRepository(Container::class);
+        $containerRepo = $this->em->getRepository(Container::class);
         $containerRepo->save($container);
 
         $crawler = $client->request('GET', '/collectionhistory/new');
 
         $form = $crawler->selectButton('Create')->form();
-        $form['appbundle_collectionhistory[containerId]'] = '18aTest';
+        $form['appbundle_collectionhistory[containerId]'] = 1;
         $form['appbundle_collectionhistory[notCollected]'] = false;
         $form['appbundle_collectionhistory[notes]'] = 'Collected successfully';
 
         $crawler = $client->submit($form);
-        $this->assertContains('Test1', $client->getResponse()->getContent());
+        $this->assertContains('Redirecting to /collectionhistory/', $client->getResponse()->getContent());
+
+        $containerRepo->remove($container);
     }
 }

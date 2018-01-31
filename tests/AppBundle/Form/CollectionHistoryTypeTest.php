@@ -28,7 +28,7 @@ class CollectionHistoryTypeTest extends TypeTestCase
             'notes' => 'Success'
         );
 
-        $form = $this->factory->create(CollectionHistory::class, new CollectionHistory());
+        $form = $this->factory->create(CollectionHistoryType::class, new CollectionHistory());
 
         $object = new CollectionHistory();
 
