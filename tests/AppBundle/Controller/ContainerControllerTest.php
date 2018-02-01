@@ -5,6 +5,7 @@ namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Container;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 
 /**
  * ContainerControllerTest short summary.
@@ -25,6 +26,12 @@ class ContainerControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
 
+        // Load the admin user into the database so they can log in
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
+
     }
 
     public function testAddActionSuccess()
@@ -35,7 +42,7 @@ class ContainerControllerTest extends WebTestCase
         //$repo->remove($container);
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         //Reques the contact add page
         $crawler = $client->request('GET','/container/new');
         //select the form and add values to it.
@@ -75,7 +82,7 @@ class ContainerControllerTest extends WebTestCase
             ->setSize("6 yd");
 
         //get entity manager and repo
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $repo = $em->getRepository(Container::class);
 
@@ -83,7 +90,7 @@ class ContainerControllerTest extends WebTestCase
         $repo->save($container);
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         //Request the contact edit page
         $crawler = $client->request('GET','/container/');
         // Select the first button on the page that views the details for a contact
@@ -110,7 +117,7 @@ class ContainerControllerTest extends WebTestCase
             ->setSize("6 yd");
 
         //get entity manager and repo
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $repo = $em->getRepository(Container::class);
 
@@ -139,7 +146,7 @@ class ContainerControllerTest extends WebTestCase
     public function testPropertyAndStructureAreInEditAndNotAdd()
     {
         //create client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //request add page first
         $crawler = $client->request('GET','/container/new');
@@ -268,9 +275,13 @@ class ContainerControllerTest extends WebTestCase
         parent::tearDown();
 
         // Delete all the things that were just inserted. Or literally everything.
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $stmt = $em->getConnection()->prepare('DELETE FROM Container');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM Address');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();
         $em->close();
 

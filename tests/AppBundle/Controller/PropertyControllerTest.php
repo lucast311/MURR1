@@ -10,6 +10,7 @@ use AppBundle\Entity\Communication;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
 use AppBundle\Entity\Contact;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 
 
 class PropertyControllerTest extends WebTestCase
@@ -25,6 +26,12 @@ class PropertyControllerTest extends WebTestCase
 
         $propertyLoader = new LoadPropertyData();
         $propertyLoader->load($this->em);
+
+        // Load the admin user into the database so they can log in
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
     }
 
     /**
@@ -35,7 +42,7 @@ class PropertyControllerTest extends WebTestCase
      */
     public function testFormSuccess()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         $crawler = $client->request('GET', '/property/add');
 
@@ -94,7 +101,7 @@ class PropertyControllerTest extends WebTestCase
      */
     public function testErrorMessage()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         $crawler = $client->request('GET', '/property/add');
 
@@ -125,7 +132,7 @@ class PropertyControllerTest extends WebTestCase
      */
     public function testsiteIdDuplicate()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         $crawler = $client->request('GET', '/property/add');
 
@@ -180,7 +187,7 @@ class PropertyControllerTest extends WebTestCase
 
         $property->setAddress($address);
 
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Get the entity manager and the repo so we can make sure a property exists before editing it
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -256,7 +263,7 @@ class PropertyControllerTest extends WebTestCase
         $property->setAddress($address);
 
 
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Get the entity manager and the repo so we can make sure a property exists before editing it
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -302,7 +309,7 @@ class PropertyControllerTest extends WebTestCase
      */
     public function testEditPropetyNoId(){
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //request the property edit page without specifying an ID
         $crawler = $client->request('GET', "/property/edit/");
@@ -318,7 +325,7 @@ class PropertyControllerTest extends WebTestCase
     public function testEditPropertyBadId()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //request the property edit page without specifying an ID
         $crawler = $client->request('GET', "/property/edit/-5");
@@ -353,7 +360,7 @@ class PropertyControllerTest extends WebTestCase
         $property->setAddress($address);
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Get the entity manager and the repo so we can make sure a property exists before editing it
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -401,7 +408,7 @@ class PropertyControllerTest extends WebTestCase
     public function testViewBadId()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for a property that does not exist
         $crawler = $client->request('GET',"/property/view/-5");
@@ -417,7 +424,7 @@ class PropertyControllerTest extends WebTestCase
     public function testViewNoId()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page without specifying an id
         $crawler = $client->request('GET',"/property/view/");
@@ -438,7 +445,7 @@ class PropertyControllerTest extends WebTestCase
         $repository = $this->em->getRepository(Property::class);
 
         // create a client so we can view the page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // go to the page and search for 'Charlton'
         $client->request('GET', '/property/jsonsearch/Charlton');
@@ -462,7 +469,7 @@ class PropertyControllerTest extends WebTestCase
     public function testQueryTooLong()
     {
         // create a client so we can view the page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // go to the page and search for 'CharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArms'
         $client->request('GET', '/property/jsonsearch/CharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArmsCharltonArms');
@@ -515,7 +522,7 @@ class PropertyControllerTest extends WebTestCase
         $property->setBins($bins);
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Get the entity manager and the repo so we can make sure a property exists before editing it
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -586,7 +593,7 @@ class PropertyControllerTest extends WebTestCase
         $property->setAddress($address);
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Get the entity manager and the repo so we can make sure a property exists before editing it
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -617,7 +624,7 @@ class PropertyControllerTest extends WebTestCase
     public function testViewInvalidPropertyId()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for a property that does not exist
         $crawler = $client->request('GET',"/property/view/-5");
@@ -644,7 +651,7 @@ class PropertyControllerTest extends WebTestCase
     public function testViewNoPropertyId()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for a property that does not exist
         $crawler = $client->request('GET',"/property/view");
@@ -691,7 +698,7 @@ class PropertyControllerTest extends WebTestCase
         $property->setAddress($address);
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Get the entity manager and the repo so we can make sure a property exists before adding a communication
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -718,7 +725,7 @@ class PropertyControllerTest extends WebTestCase
         $repo->insert($communication);
 
         // You have to create the client a second time or the page won't be up to date...
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for the property that was just inserted
         $crawler = $client->request('GET',"/property/view/$propertyId");
@@ -780,7 +787,7 @@ class PropertyControllerTest extends WebTestCase
 
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Get the entity manager and the repo so we can make sure a property exists before editing it
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -814,7 +821,7 @@ class PropertyControllerTest extends WebTestCase
     public function testViewCommunicationsInvalidPropertyId()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for a property that does not exist
         $crawler = $client->request('GET',"/property/view/-5");
@@ -858,7 +865,7 @@ class PropertyControllerTest extends WebTestCase
         $property->setAddress($address);
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Get the entity manager and the repo
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -887,7 +894,7 @@ class PropertyControllerTest extends WebTestCase
         $propertyId = $repo->save($property);
 
         // You have to create the client a second time or the page won't be up to date...
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for the property that was just inserted
         $crawler = $client->request('GET',"/property/view/$propertyId");
@@ -949,7 +956,7 @@ class PropertyControllerTest extends WebTestCase
         $id = $repository->save($property);
 
         // You have to create the client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for the property that was just inserted
         $crawler = $client->request('GET',"/property/view/$id");
@@ -1001,7 +1008,7 @@ class PropertyControllerTest extends WebTestCase
 
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Get the entity manager and the repo so we can make sure a property exists before editing it
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -1032,7 +1039,7 @@ class PropertyControllerTest extends WebTestCase
     public function testViewContactsInvalidPropertyId()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for a property that does not exist
         $crawler = $client->request('GET',"/property/view/-5");
@@ -1073,7 +1080,7 @@ class PropertyControllerTest extends WebTestCase
         $property->setAddress($address);
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Get the entity manager and the repo
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -1114,7 +1121,7 @@ class PropertyControllerTest extends WebTestCase
         $propertyId = $repo->save($property);
 
         // You have to create the client a second time or the page won't be up to date...
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for the property that was just inserted
         $crawler = $client->request('GET',"/property/view/$propertyId");
@@ -1132,7 +1139,7 @@ class PropertyControllerTest extends WebTestCase
     public function testSearchPageAccessible()
     {
         // Create a client, and go to the search page for a property
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // A crawler to check if the page contains a search field
         $crawler = $client->request('GET', '/property/search');
@@ -1150,7 +1157,7 @@ class PropertyControllerTest extends WebTestCase
         parent::tearDown();
 
         // Delete all the things that were just inserted. Or literally everything.
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $stmt = $em->getConnection()->prepare('DELETE FROM Property');
         $stmt->execute();
@@ -1161,6 +1168,8 @@ class PropertyControllerTest extends WebTestCase
         $stmt = $em->getConnection()->prepare('DELETE FROM Communication');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Contact_Property');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();
         $em->close();
 
