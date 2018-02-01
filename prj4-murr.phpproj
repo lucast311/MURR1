@@ -132,6 +132,7 @@
     <Compile Include="tests\AppBundle\Services\ChangerTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
+    <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
     <Compile Include="var\cache\dev\doctrine\orm\Proxies\__CG__AppBundleEntityAddress.php" />
     <Compile Include="var\cache\dev\pools\4xgj6XummP\+\5\KtszP7xMmjGcXxpXfSie" />
     <Compile Include="var\cache\dev\pools\4xgj6XummP\+\6\5iGcYEK0TmkUcESiZHLP" />
@@ -2015,6 +2016,7 @@
     <Folder Include="tests\AppBundle\Services" />
     <Folder Include="tests\AppBundle" />
     <Folder Include="tests" />
+    <Folder Include="tests\Mink\" />
     <Folder Include="var\cache\dev\doctrine\orm\Proxies" />
     <Folder Include="var\cache\dev\doctrine\orm" />
     <Folder Include="var\cache\dev\doctrine" />
