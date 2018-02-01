@@ -67,15 +67,15 @@ class CommunicationRepository extends EntityRepository
             $count++;
         }
 
-        // create a communication to search for in the test
-        $communication = new Communication();
-        $communication->setDate(new DateTime("2018-01-01"));
-        $communication->setType("Phone");
-        $communication->setMedium("Incoming");
-        $communication->setCategory("Collection");
-        $communication->setDescription("Its a bin");
+        //// create a communication to search for in the test
+        //$communication = new Communication();
+        //$communication->setDate("2018-01-01");
+        //$communication->setType("Phone");
+        //$communication->setMedium("Incoming");
+        //$communication->setCategory("Collection");
+        //$communication->setDescription("Its a bin");
 
-        self::insert($communication);
+        //self::insert($communication);
 
         //create a searchHelper instance
         $searchHelper = new SearchHelper();

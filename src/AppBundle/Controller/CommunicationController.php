@@ -143,8 +143,10 @@ class CommunicationController extends Controller
             // NOTE: Serializer service needs to be enabled for this to work properly
             $encoder = new JsonEncoder();
             $normalizer = new ObjectNormalizer();
-            $normalizer->setIgnoredAttributes(array("properties"));
-            $serializer = new Serializer(array(new DateTimeNormalizer(), $normalizer), array($encoder));
+            $normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
+            $normalizer->setIgnoredAttributes(array("property"));
+
+            $serializer = new Serializer(array($normalizer), array($encoder));
 
             return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
         }

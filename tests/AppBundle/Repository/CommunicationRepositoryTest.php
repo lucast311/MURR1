@@ -135,7 +135,7 @@ class CommunicationRepositoryTest extends KernelTestCase
     {
         // create a communication to search for in the test
         $communication = new Communication();
-        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setDate("2018-01-01");
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
@@ -170,7 +170,7 @@ class CommunicationRepositoryTest extends KernelTestCase
     {
         // create a communication to search for in the test
         $communication1 = new Communication();
-        $communication1->setDate(new DateTime("2018-01-01"));
+        $communication1->setDate("2018-01-01");
         $communication1->setType("Phone");
         $communication1->setMedium("Incoming");
         $communication1->setCategory("Collection");
@@ -179,7 +179,7 @@ class CommunicationRepositoryTest extends KernelTestCase
 
         // create a communication to search for in the test
         $communication2 = new Communication();
-        $communication2->setDate(new DateTime("2018-01-01"));
+        $communication2->setDate("2018-01-01");
         $communication2->setType("Phone");
         $communication2->setMedium("Incoming");
         $communication2->setCategory("Collection");
@@ -220,7 +220,7 @@ class CommunicationRepositoryTest extends KernelTestCase
     {
         // create a communication to search for in the test
         $communication = new Communication();
-        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setDate("2018-01-01");
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
@@ -250,7 +250,7 @@ class CommunicationRepositoryTest extends KernelTestCase
     {
         // create a communication to search for in the test
         $communication = new Communication();
-        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setDate("2018-01-01");
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
@@ -280,7 +280,7 @@ class CommunicationRepositoryTest extends KernelTestCase
     {
         // create a communication to search for in the test
         $communication = new Communication();
-        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setDate("2018-01-01");
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
@@ -310,7 +310,7 @@ class CommunicationRepositoryTest extends KernelTestCase
     {
         // create a communication to search for in the test
         $communication = new Communication();
-        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setDate("2018-01-01");
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
@@ -341,7 +341,7 @@ class CommunicationRepositoryTest extends KernelTestCase
     {
         // create a communication to search for in the test
         $communication = new Communication();
-        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setDate("2018-01-01");
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
@@ -372,7 +372,7 @@ class CommunicationRepositoryTest extends KernelTestCase
     {
         // create a communication to search for in the test
         $communication = new Communication();
-        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setDate("2018-01-01");
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
@@ -423,7 +423,7 @@ class CommunicationRepositoryTest extends KernelTestCase
 
         // create a communication to search for in the test
         $communication = new Communication();
-        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setDate("2018-01-01");
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
@@ -454,7 +454,7 @@ class CommunicationRepositoryTest extends KernelTestCase
     {
         // create a communication to search for in the test
         $communication = new Communication();
-        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setDate("2018-01-01");
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
@@ -484,7 +484,7 @@ class CommunicationRepositoryTest extends KernelTestCase
     {
         // create a communication to search for in the test
         $communication = new Communication();
-        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setDate("2018-01-01");
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Collection");
