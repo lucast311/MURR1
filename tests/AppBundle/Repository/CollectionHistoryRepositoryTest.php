@@ -44,6 +44,7 @@ class CollectionHistoryRepositoryTest extends KernelTestCase
         $collectionHistory->setContainerId($container->getId());
         $collectionHistory->setNotCollected(false);
         $collectionHistory->setNotes("Success");
+        $collectionHistory->setDateCollected('2018 2 1'); 
 
         $repo = $this->em->getRepository(CollectionHistory::class);
 

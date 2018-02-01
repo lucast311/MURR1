@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Date; 
 
 /**
  * CollectionHistory
@@ -25,6 +26,7 @@ class CollectionHistory
     /**
      * @ORM\ManyToOne(targetEntity="Container", inversedBy="ContainerSerial", cascade={"persist"})
      * @ORM\JoinColumn(name="ContainerID", referencedColumnName="id")
+     * @Assert\NotBlank(message="Please select a bin")
      */
     private $containerId;
 
@@ -45,9 +47,12 @@ class CollectionHistory
     private $notes;
 
     /**
-     * @var \Date
+     * @var \DateTime
      *
-     * @ORM\Column(name="dateCollected", type="date", nullable=false)
+     * @ORM\Column(name="dateCollected", type="datetime", nullable=false)
+     * @Assert\NotBlank(message="Please enter the date collected")
+     * @Assert\LessThanOrEqual("today", message="Date cannot be a date in the future")
+     * @Assert\Date(message="Please select a valid date")
      */
     private $dateCollected;
 
@@ -138,7 +143,7 @@ class CollectionHistory
     /**
      * Get date
      *
-     * @return \DateTime
+     * @return \Date
      */
     public function getDateCollected()
     {
@@ -148,13 +153,15 @@ class CollectionHistory
     /**
      * Set date
      *
-     * @param \DateTime $date
+     * @param \DateTime $dateCollected
      *
-     * @return Communication
+     * @return CollectionHistory
      */
     public function setDateCollected($dateCollected)
     {
         $this->dateCollected = $dateCollected;
+
+        return $this;
     }
 
 

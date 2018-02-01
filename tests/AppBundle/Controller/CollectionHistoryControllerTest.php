@@ -4,6 +4,7 @@ namespace  Tests\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\CollectionHistory;
 use AppBundle\Entity\Container;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 /**
 	* CollectionHistoryControllerTest short summary.
 	*
@@ -23,6 +24,11 @@ class CollectionHistoryControllerTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
 
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
+
     }
 
     /**
@@ -30,7 +36,7 @@ class CollectionHistoryControllerTest extends WebTestCase
      */
     public function testAddActionSuccess()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         $container = new Container();
         $container->setContainerSerial('18aTestController' . time());
@@ -46,11 +52,25 @@ class CollectionHistoryControllerTest extends WebTestCase
         $form = $crawler->selectButton('Create')->form();
         $form['appbundle_collectionhistory[containerId]'] = 1;
         $form['appbundle_collectionhistory[notCollected]'] = false;
+        $form['appbundle_collectionhistory[dateCollected]'] = '2017 1 1';
         $form['appbundle_collectionhistory[notes]'] = 'Collected successfully';
 
         $crawler = $client->submit($form);
         $this->assertContains('Redirecting to /collectionhistory/', $client->getResponse()->getContent());
 
         $containerRepo->remove($container);
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM User");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM collection_history');
+        $stmt->execute();
+
+        $this->em->close();
+        $this->em = null; //avoid memory meaks
     }
 }
