@@ -151,6 +151,8 @@ class CommunicationRepositoryTest extends KernelTestCase
         // query the database
         $results = $repo->communicationSearch($searches);
 
+        $repo->insert($communication);
+
         // create a new ReflectionClass object, using the returned object at index 0
         //$resultReflection = new \ReflectionClass(get_class($results[0]));
 
@@ -214,6 +216,8 @@ class CommunicationRepositoryTest extends KernelTestCase
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
 
+        $repo->insert($communication);
+
         // create an array with values to search with
         $cleanQuery = array();
         $cleanQuery[] = '2018-01-01';
@@ -242,6 +246,8 @@ class CommunicationRepositoryTest extends KernelTestCase
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
 
+        $repo->insert($communication);
+
         // create an array with values to search with
         $cleanQuery = array();
         $cleanQuery[] = 'Phone';
@@ -269,6 +275,8 @@ class CommunicationRepositoryTest extends KernelTestCase
 
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
+
+        $repo->insert($communication);
 
         // create an array with values to search with
         $cleanQuery = array();
@@ -299,6 +307,8 @@ class CommunicationRepositoryTest extends KernelTestCase
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
 
+        $repo->insert($communication);
+
         // create an array with values to search with
         $cleanQuery = array();
         $cleanQuery[] = 'Ken';
@@ -328,6 +338,8 @@ class CommunicationRepositoryTest extends KernelTestCase
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
 
+        $repo->insert($communication);
+
         // create an array with values to search with
         $cleanQuery = array();
         $cleanQuery[] = 'email@email.com';
@@ -356,6 +368,8 @@ class CommunicationRepositoryTest extends KernelTestCase
 
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
+
+        $repo->insert($communication);
 
         // create an array with values to search with
         $cleanQuery = array();
@@ -406,6 +420,8 @@ class CommunicationRepositoryTest extends KernelTestCase
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
 
+        $repo->insert($communication);
+
         // create an array with values to search with
         $cleanQuery = array();
         $cleanQuery[] = '123 Fake Street';
@@ -434,6 +450,8 @@ class CommunicationRepositoryTest extends KernelTestCase
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
 
+        $repo->insert($communication);
+
         // create an array with values to search with
         $cleanQuery = array();
         $cleanQuery[] = 'Collection';
@@ -461,6 +479,8 @@ class CommunicationRepositoryTest extends KernelTestCase
 
         // create a new SearchNarrower to be used later
         $repo = $this->em->getRepository(Communication::class);
+
+        $repo->insert($communication);
 
         // create an array with values to search with
         $cleanQuery = array();
