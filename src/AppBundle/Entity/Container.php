@@ -394,5 +394,9 @@ class Container
                      'Weekly' => 'Weekly',
                      'Twice weekly' => 'Twice weekly');
     }
+
+    public function __toString(){
+        return $this->containerSerial;
+    }
 }
 

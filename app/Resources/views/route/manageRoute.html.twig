@@ -17,15 +17,15 @@
     <h2>Route does not exist</h2>
     {% else %}
 
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
     <table>
         <thead>
             <tr>
                 <th>Pickup Order</th>
-            </tr>
-            <tr>
                 <th>Container Serial</th>
-            </tr>
-            <tr>
                 <th>Property</th>
             </tr>
         </thead>
@@ -33,11 +33,7 @@
             {% for rp in route.pickups %}
                 <tr>
                     <td>{{ rp.pickupOrder }}</td>
-                </tr>
-                <tr>
                     <td>{{ rp.container.containerSerial }}</td>
-                </tr>
-                <tr>
                     <td> {{ rp.container.property }}</td>
                 </tr>
             {% endfor %}

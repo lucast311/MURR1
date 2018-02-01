@@ -6,6 +6,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\RoutePickup;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 /**
  * RoutePickupType short summary.
@@ -20,7 +21,7 @@ class RoutePickupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options){
         $builder
             ->add('container',null,array('invalid_message' => 'Please select a container to add', 'attr' => array('placeholder' => '...')))
-            ->add('pickupOrder', NumberType::Class)
+            ->add('pickupOrder', IntegerType::Class)
             ->add('Add', SubmitType::class);
     }
 
