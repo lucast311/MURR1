@@ -144,14 +144,14 @@ class CommunicationRepositoryTest extends KernelTestCase
         // get a repository to search with
         $repo = $this->em->getRepository(Communication::class);
 
+        $repo->insert($communication);
+
         // create an array with values to search with
         $searches = array();
         $searches[] = 'Collection';
 
         // query the database
         $results = $repo->communicationSearch($searches);
-
-        $repo->insert($communication);
 
         // create a new ReflectionClass object, using the returned object at index 0
         //$resultReflection = new \ReflectionClass(get_class($results[0]));
@@ -169,19 +169,31 @@ class CommunicationRepositoryTest extends KernelTestCase
     public function testSearchNarrowerFunctionality()
     {
         // create a communication to search for in the test
-        $communication = new Communication();
-        $communication->setDate(new DateTime("2018-01-01"));
-        $communication->setType("Phone");
-        $communication->setMedium("Incoming");
-        $communication->setCategory("Collection");
-        $communication->setDescription("Its a bin");
-        $communication->setContactName("Ken");
+        $communication1 = new Communication();
+        $communication1->setDate(new DateTime("2018-01-01"));
+        $communication1->setType("Phone");
+        $communication1->setMedium("Incoming");
+        $communication1->setCategory("Collection");
+        $communication1->setDescription("Its a bin");
+        $communication1->setContactName("Ken");
+
+        // create a communication to search for in the test
+        $communication2 = new Communication();
+        $communication2->setDate(new DateTime("2018-01-01"));
+        $communication2->setType("Phone");
+        $communication2->setMedium("Incoming");
+        $communication2->setCategory("Collection");
+        $communication2->setDescription("Its a bin");
+        $communication2->setContactName("Steve");
 
         // create a new SearchNarrower to be used later
         $searchNarrower = new SearchNarrower();
 
         // get a repository to search with
         $repo = $this->em->getRepository(Communication::class);
+
+        $repo->insert($communication1);
+        $repo->insert($communication2);
 
         // create an array with values to search with
         $cleanQuery = array();
@@ -193,6 +205,7 @@ class CommunicationRepositoryTest extends KernelTestCase
 
         // narrow the searches so we only return exactlly what we want
         $narrowedSearches = $searchNarrower->narrower($results, $cleanQuery, new Communication());
+
         //$narrowedSearches = $searchNarrower->narrowCommunication($results, $cleanQuery);
 
         // Assert that the size of the initial query is greater than the size of the narrowed query

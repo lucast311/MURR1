@@ -442,7 +442,7 @@ class ContactControllerTest extends WebTestCase
     //    $repository = $this->em->getRepository(Contact::class);
 
         // create a client so we can view the page
-        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        //$client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
     //    // go to the page and search for 'Jim'
     //    $client->request('GET', '/contact/jsonsearch/Jim');

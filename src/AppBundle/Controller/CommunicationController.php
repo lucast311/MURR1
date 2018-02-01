@@ -16,6 +16,7 @@ use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -143,7 +144,7 @@ class CommunicationController extends Controller
             $encoder = new JsonEncoder();
             $normalizer = new ObjectNormalizer();
             $normalizer->setIgnoredAttributes(array("properties"));
-            $serializer = new Serializer(array($normalizer), array($encoder));
+            $serializer = new Serializer(array(new DateTimeNormalizer(), $normalizer), array($encoder));
 
             return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
         }

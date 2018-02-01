@@ -5,6 +5,7 @@ namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Communication;
 use AppBundle\Services\SearchHelper;
+use DateTime;
 
 /**
  * This class will be responsible with interacting with the database
@@ -65,6 +66,16 @@ class CommunicationRepository extends EntityRepository
             $classPropertiesArray[$count] = $array;
             $count++;
         }
+
+        // create a communication to search for in the test
+        $communication = new Communication();
+        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setType("Phone");
+        $communication->setMedium("Incoming");
+        $communication->setCategory("Collection");
+        $communication->setDescription("Its a bin");
+
+        self::insert($communication);
 
         //create a searchHelper instance
         $searchHelper = new SearchHelper();
