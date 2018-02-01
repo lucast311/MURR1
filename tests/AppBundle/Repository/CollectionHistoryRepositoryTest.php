@@ -3,6 +3,7 @@ namespace Tests\AppBundle\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\CollectionHistory;
+use \DateTime; 
 
 use AppBundle\Entity\Container;
 
@@ -44,7 +45,7 @@ class CollectionHistoryRepositoryTest extends KernelTestCase
         $collectionHistory->setContainerId($container->getId());
         $collectionHistory->setNotCollected(false);
         $collectionHistory->setNotes("Success");
-        $collectionHistory->setDateCollected('2018 2 1'); 
+        $collectionHistory->setDateCollected(new DateTime('2018-2-1'));  
 
         $repo = $this->em->getRepository(CollectionHistory::class);
 

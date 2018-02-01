@@ -50,9 +50,13 @@ class CollectionHistoryControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/collectionhistory/new');
 
         $form = $crawler->selectButton('Create')->form();
+
         $form['appbundle_collectionhistory[containerId]'] = 1;
         $form['appbundle_collectionhistory[notCollected]'] = false;
-        $form['appbundle_collectionhistory[dateCollected]'] = '2017 1 1';
+        //var_dump($form['appbundle_collectionhistory']);
+        $form['appbundle_collectionhistory[dateCollected][year]'] = '2017';
+        $form['appbundle_collectionhistory[dateCollected][month]'] = '1';
+        $form['appbundle_collectionhistory[dateCollected][day]'] = '1';
         $form['appbundle_collectionhistory[notes]'] = 'Collected successfully';
 
         $crawler = $client->submit($form);

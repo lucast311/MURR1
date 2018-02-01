@@ -29,7 +29,7 @@ class CollectionHistoryTest extends KernelTestCase
         $this->collectionHistory->setContainerId(1);
         $this->collectionHistory->setNotCollected(false);
         $this->collectionHistory->setNotes('Successfully pickedup');
-        $this->collectionHistory->setDateCollected(new DateTime('now'));
+        $this->collectionHistory->setDateCollected(new DateTime("2015-1-1"));
 
         $this->validator = static::$kernel->getContainer()->get("validator");
 
@@ -41,7 +41,6 @@ class CollectionHistoryTest extends KernelTestCase
     public function testCollectionHistoryAdded()
     {
         $error = $this->validator->validate($this->collectionHistory);
-        var_dump($error); 
         $this->assertEquals(0, count($error));
     }
 
@@ -119,7 +118,7 @@ class CollectionHistoryTest extends KernelTestCase
      */
     public function testDateCannotBeFuture()
     {
-        $this->collectionHistory->setDateCollected(new DateTime('2020 1 1'));
+        $this->collectionHistory->setDateCollected(new DateTime('2020-1-1'));
         $error = $this->validator->validate($this->collectionHistory);
         $this->assertEquals(1, count($error));
     }
