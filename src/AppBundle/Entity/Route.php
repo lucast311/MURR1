@@ -36,6 +36,7 @@ class Route
      * @var array
      *
      * @ORM\OneToMany(targetEntity="RoutePickup",cascade={"persist"}, mappedBy="route")
+     * @ORM\OrderBy({"pickupOrder" = "ASC"})
      */
     private $pickups;
 

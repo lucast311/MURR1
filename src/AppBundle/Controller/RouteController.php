@@ -60,7 +60,12 @@ class RouteController extends Controller
                 }
 
                 //Add custom error to form
-                if($serialExists) $form->addError(new FormError('This container already exists in this route'));
+                if($serialExists){
+                    $form->addError(new FormError('This container already exists in this route'));
+                }
+                else{
+                    
+                }
 
 
             }
