@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Route Management{% endblock %}
+
+{% block body %}
+
+<h2>Route {% if not invalid_id_error %}{{ route.routeId }}{% endif %}</h2>
+
+<div>
+    {#{% if propertyId == "not_specified"%}
+    <h2>No property specified</h2>
+    {% elseif property is empty %}
+    <h2>The specified property could not be found</h2>
+    {% else %}#}
+
+    {% if invalid_id_error %}
+    <h2>Route does not exist</h2>
+    {% else %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Pickup Order</th>
+            </tr>
+            <tr>
+                <th>Container Serial</th>
+            </tr>
+            <tr>
+                <th>Property</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rp in route.pickups %}
+                <tr>
+                    <td>{{ rp.pickupOrder }}</td>
+                </tr>
+                <tr>
+                    <td>{{ rp.container.containerSerial }}</td>
+                </tr>
+                <tr>
+                    <td> {{ rp.container.property }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

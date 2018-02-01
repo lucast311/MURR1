@@ -1989,6 +1989,7 @@
     <Folder Include="app\Resources\views\contactsearch" />
     <Folder Include="app\Resources\views\container\" />
     <Folder Include="app\Resources\views\default" />
+    <Folder Include="app\Resources\views\route\" />
     <Folder Include="app\Resources\views\propertySearch\" />
     <Folder Include="app\Resources\views\oops" />
     <Folder Include="app\Resources\views\property" />
@@ -3289,6 +3290,7 @@
     <Content Include="app\Resources\views\property\searchProperty.html.twig" />
     <Content Include="app\Resources\views\Contact\searchContact.html.twig" />
     <Content Include="app\Resources\views\communication\viewComm.html.twig" />
+    <Content Include="app\Resources\views\route\manageRoute.html.twig" />
     <Content Include="app\sqlite.db" />
     <Content Include="web\JavaScript\Search.js" />
   </ItemGroup>

@@ -12,8 +12,19 @@ namespace AppBundle\Repository;
 use AppBundle\Entity\Route;
 class RouteRepository extends \Doctrine\ORM\EntityRepository
 {
-
+    /**
+     * Takes in a route and saves it into the database
+     * @param Route $route the route to be saved
+     * @return integer the ID of the saved route
+     */
     public function save(Route $route){
-
+        $em = $this->getEntityManager();
+        // persist the new contact in the database
+        $em->persist($route);
+        // flush them to the database
+        $em->flush();
+        //Close the entity manager
+        // return the id of the new contact in the database
+        return $route->getId();
     }
 }
