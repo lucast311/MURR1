@@ -6,13 +6,33 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Communication;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 //use Doctrine\Common\Persistence\ObjectRepository;
 
 class CommunicationControllerTest extends WebTestCase
 {
+    private $em;
+
+    /**
+     * (@inheritDoc)
+     */
+    protected function setUp()
+    {
+        self::bootKernel();
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+
+        // Load the admin user into the database so they can log in
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
+    }
+
     public function testFormSuccess()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         $crawler = $client->request('GET', '/communication/new');
 
@@ -57,7 +77,7 @@ class CommunicationControllerTest extends WebTestCase
     //public function testFutureDate()
     //{
 
-    //    $client = static::createClient();
+    //    $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
     //    $crawler = $client->request('GET', '/communication/new');
 
@@ -75,7 +95,7 @@ class CommunicationControllerTest extends WebTestCase
 
     //public function testEmptyDate()
     //{
-    //    $client = static::createClient();
+    //    $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
     //    $crawler = $client->request('GET', '/communication/new');
 
@@ -95,7 +115,7 @@ class CommunicationControllerTest extends WebTestCase
 
     //public function testNonExistantDate()
     //{
-    //    $client = static::createClient();
+    //    $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
     //    $crawler = $client->request('GET', '/communication/new');
 
@@ -113,7 +133,7 @@ class CommunicationControllerTest extends WebTestCase
 
     public function testNoType()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         $crawler = $client->request('GET', '/communication/new');
 
@@ -129,7 +149,7 @@ class CommunicationControllerTest extends WebTestCase
 
     public function testNoMedium()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         $crawler = $client->request('GET', '/communication/new');
 
@@ -146,7 +166,7 @@ class CommunicationControllerTest extends WebTestCase
 
     //public function testBlankContact()
     //{
-    //    $client = static::createClient();
+    //    $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
     //    $crawler = $client->request('GET', '/communication/new');
 
@@ -162,7 +182,7 @@ class CommunicationControllerTest extends WebTestCase
 
     //public function testResidentContact()
     //{
-    //    $client = static::createClient();
+    //    $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
     //    $crawler = $client->request('GET', '/communication/new');
 
@@ -186,7 +206,7 @@ class CommunicationControllerTest extends WebTestCase
 
     //public function testBlankProperty()
     //{
-    //    $client = static::createClient();
+    //    $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
     //    $crawler = $client->request('GET', '/communication/new');
 
@@ -202,7 +222,7 @@ class CommunicationControllerTest extends WebTestCase
 
     //public function testMultiOrNAProperty()
     //{
-    //    $client = static::createClient();
+    //    $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
     //    $crawler = $client->request('GET', '/communication/new');
 
@@ -227,7 +247,7 @@ class CommunicationControllerTest extends WebTestCase
 
     public function testBlankCategory()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         $crawler = $client->request('GET', '/communication/new');
 
@@ -244,7 +264,7 @@ class CommunicationControllerTest extends WebTestCase
 
     public function testBlankDescription()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         $crawler = $client->request('GET', '/communication/new');
 
@@ -261,7 +281,7 @@ class CommunicationControllerTest extends WebTestCase
 
     //public function testShortDescription()
     //{
-    //    $client = static::createClient();
+    //    $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
     //    $crawler = $client->request('GET', '/communication/new');
 
@@ -278,7 +298,7 @@ class CommunicationControllerTest extends WebTestCase
 
     public function testLongDescription()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         $crawler = $client->request('GET', '/communication/new');
 
@@ -333,7 +353,7 @@ class CommunicationControllerTest extends WebTestCase
         $comm->setDescription("Bin will be moved to the eastern side of the building");
 
         //create the client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //get the entity manager and make sure the communication exists
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -363,7 +383,7 @@ class CommunicationControllerTest extends WebTestCase
      */
     public function testViewBadId(){
         //create a client to get to the page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //request the communication view page for a communication that does not exist
         $crawler = $client->request("GET","communication/view/-5");
@@ -378,7 +398,7 @@ class CommunicationControllerTest extends WebTestCase
      */
     public function testViewNoID(){
         //create a client to get to the page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //request the communication view page for a communication that does not exist
         $crawler = $client->request("GET","communication/view/");
@@ -392,13 +412,15 @@ class CommunicationControllerTest extends WebTestCase
         parent::tearDown();
 
         // Delete all the things that were just inserted. Or literally everything.
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $stmt = $em->getConnection()->prepare('DELETE FROM Communication');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Property');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Address');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();
         $em->close();
 
