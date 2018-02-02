@@ -2,10 +2,12 @@
 
 namespace AppBundle\Entity;
 
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Validator\Constraints as AcmeAssert;
+
 
 //
 //
@@ -128,7 +130,7 @@ class Contact
 
     /**
      * Contacts have many properties
-     * 
+     *
      * @var Property[]
      */
     private $properties;

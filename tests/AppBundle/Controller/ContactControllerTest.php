@@ -4,6 +4,7 @@ namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Contact;
+use AppBundle\Entity\ContactProperty;
 use AppBundle\Services\Changer;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadContactData;
@@ -527,18 +528,32 @@ class ContactControllerTest extends WebTestCase
         $property->setAddress($address);
         $property->setContacts(array($contact));
 
+
+
         //add the property to the contact
         $contact->setProperties(array($property));
 
-        $repository = $this->em->getRepository(Contact::class);
+        $contactRepository = $this->em->getRepository(Contact::class);
         //save contact to database
-        $id = $repository->save($contact);
+        $contactId = $contactRepository->save($contact);
+
+        $propertyRepository = $this->em->getRepository(Property::class);
+        //save contact to database
+        $propertyId = $propertyRepository->save($property);
+
+        $contactProperty = new ContactProperty();
+        $contactProperty->setPropertyId($propertyId);
+        $contactProperty->setContactId($contactId);
+
+        $contactPropertyRepository = $this->em->getRepository(ContactProperty::class);
+        //save contact to database
+        $contactPropertyRepository->save($contactProperty);
 
         // Create a client,
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // A crawler to check if the page contains a search field
-        $crawler = $client->request('GET', "/contact/$id");
+        $crawler = $client->request('GET', "/contact/$contactId");
 
         //check if the headings appear
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Site Id")')->count());

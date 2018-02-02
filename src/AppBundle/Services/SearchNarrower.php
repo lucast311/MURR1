@@ -30,14 +30,13 @@ class SearchNarrower
         // an array for the narrowed results
         $narrowedResults= array();
 
-        // a variable to store the values of the record
-        $recordData = '';
-
         //var_dump($searchResults);
 
         // foreach result in the passed in array of search results
         foreach ($searchResults as $result)
         {
+            // a variable to store the values of the record
+            $recordData = '';
             $recordData .= $this->narrowerHelper(get_class($result), $result);
 
             $found = 0;
@@ -56,6 +55,7 @@ class SearchNarrower
             // if $found is equal the the size of the $cleanQuery array
             if($found == sizeof($cleanQuery))
             {
+
                 // add the current record to the end of the array of narrowed searches
                 if(get_class($result) === get_class($entity))
                 {
