@@ -40,3 +40,5 @@ services:
         tags: ['doctrine.fixture.orm']
     AppBundle\DataFixtures\ORM\LoadContactData:
         tags: ['doctrine.fixture.orm']
+    AppBundle\DataFixtures\ORM\LoadRouteData:
+        tags: ['doctrine.fixture.orm']

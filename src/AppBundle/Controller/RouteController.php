@@ -91,6 +91,7 @@ class RouteController extends Controller
                     //refresh the route to display the new data
                     //And since the pickups are set to cascade refresh it will reload them too
                     $em->refresh($route);
+                    //$route = $routeRepo->findOneById($routeId);
                 }
 
 

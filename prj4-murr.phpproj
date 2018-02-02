@@ -66,7 +66,10 @@
     <Compile Include="src\AppBundle\Controller\RouteController.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadAddressData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContactData.php" />
+    <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContainerData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadPropertyData.php" />
+    <Compile Include="src\AppBundle\DataFixtures\ORM\LoadRouteData.php" />
+    <Compile Include="src\AppBundle\DataFixtures\ORM\LoadRoutePickupData.php" />
     <Compile Include="src\AppBundle\Entity\Address.php" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
     <Compile Include="src\AppBundle\Entity\Contact.php" />

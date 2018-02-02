@@ -46,17 +46,6 @@ class LoadRouteData implements FixtureInterface
         $containerFixtureLoader = new LoadContainerData($containers[1]);
         $containerFixtureLoader->load($obMan);
 
-        $containers[] = (new Container())
-            ->setContainerSerial("5W4G8UX")
-            ->setSize("YUGE")
-            ->setType("Cart")
-            ->setStatus("Active");
-
-        // call the Constructor that will add a container to the database
-        $containerFixtureLoader = new LoadContainerData($containers[2]);
-        $containerFixtureLoader->load($obMan);
-
-
         //Property Data
 
         // create a single address
@@ -87,8 +76,11 @@ class LoadRouteData implements FixtureInterface
         $propertyFixtureLoader->load($obMan);
 
         //generate route data
+        //TODO:
         $route = (new Route())
-            ->setRouteId(1001);
+            //->setPickups
+            //WHAT THE HECK NEEDS SETTING
+            ;
 
         //generate RoutePickup data
         $routePickups[] = (new RoutePickup())
