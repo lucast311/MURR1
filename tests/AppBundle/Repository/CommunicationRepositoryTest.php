@@ -7,6 +7,7 @@ use DateTime;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
 use AppBundle\Services\SearchNarrower;
+use AppBundle\DataFixtures\ORM\LoadCommunicationData;
 
 class CommunicationRepositoryTest extends KernelTestCase
 {
@@ -25,6 +26,9 @@ class CommunicationRepositoryTest extends KernelTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        //$communicationLoader = new LoadCommunicationData();
+        //$communicationLoader->load($this->em);
     }
 
 
@@ -109,9 +113,9 @@ class CommunicationRepositoryTest extends KernelTestCase
         $dbComm = $repo->findOneById($id);
 
         $date = new DateTime('now');
-        $date->setTime(0,0,0);
+        $dateString = $date->format('Y-m-d');
 
-        $this->assertEquals($dbComm->getDate(), $date);
+        $this->assertEquals($dbComm->getDate(), $dateString);
     }
 
 

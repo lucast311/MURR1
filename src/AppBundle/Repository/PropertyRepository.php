@@ -71,12 +71,26 @@ class PropertyRepository extends EntityRepository
 
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
-        return $this->getEntityManager()->createQuery(
+        $records = $this->getEntityManager()->createQuery(
         "SELECT p, a FROM AppBundle:Property p
         LEFT OUTER JOIN AppBundle:Address a WITH p.address = a.id
         WHERE $classPropertiesString"
         )->getResult();
 
+        // remove any NULL values from the array (NULL values are represented by non-propety objects)
+        $records = array_filter($records);
+
+        $propObjects = array();
+
+        foreach ($records as $record)
+        {
+        	if(get_class($record) == "AppBundle\Entity\Property")
+            {
+                $propObjects[] = $record;
+            }
+        }
+
+        return $propObjects;
     }
 
 

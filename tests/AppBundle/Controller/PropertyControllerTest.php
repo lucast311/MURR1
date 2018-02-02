@@ -732,7 +732,7 @@ class PropertyControllerTest extends WebTestCase
 
         // Get the id of the communication
         $commID = $communication->getId();
-        $commDate = $communication->getDate()->format("Y-m-d");
+        $commDate = $communication->getDate();
 
         //Check that there is no error message
         $this->assertNotContains("No communication entries found for this property", $client->getResponse()->getContent());

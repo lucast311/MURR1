@@ -422,7 +422,7 @@ class CommunicationControllerTest extends WebTestCase
 
         // create a communication to search for in the test
         $communication = new Communication();
-        $communication->setDate(new DateTime("2018-01-01"));
+        $communication->setDate("2018-01-01");
         $communication->setType("Phone");
         $communication->setMedium("Incoming");
         $communication->setCategory("Multi-purpose");

@@ -9,6 +9,19 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadPropertyData implements FixtureInterface
 {
+    public $property;
+
+    /**
+     * Story22b Note: this constructor was added to allow loading individual properties
+     * A constructor that sets the attribute the property passed in
+     * @param mixed $property the property entity passed in
+     */
+    public function __construct($property = null)
+    {
+        // set the property attribute
+        $this->property = $property;
+    }
+
     /**
      * Story_4d Note: i commented out address stuff.. properties should have addresses, right?
      * A fixture method to create Properties in the database for testing
@@ -16,59 +29,90 @@ class LoadPropertyData implements FixtureInterface
      */
     public function load(ObjectManager $obMan)
     {
-        // create 10 Properties with the following data
-        for($i=0;$i<9;$i++)
+        if(is_null($this->property))
         {
-            //Address data
-            $address = (new Address())
-                ->setStreetAddress("Test ST")
-                ->setPostalCode('T3S 3TS')
-                ->setCity('Saskatoon')
-                ->setProvince('Saskatchetest')
-                ->setCountry('Testnada');
+            // create 10 Properties with the following data
+            for($i=0;$i<9;$i++)
+            {
+                //Address data
+                $address = (new Address())
+                    ->setStreetAddress("Test ST")
+                    ->setPostalCode('T3S 3TS')
+                    ->setCity('Saskatoon')
+                    ->setProvince('Saskatchetest')
+                    ->setCountry('Testnada');
 
-            // call the Constructor that will add an address to the database
-            $addressFixtureLoader = new LoadAddressData($address);
+                // call the Constructor that will add an address to the database
+                $addressFixtureLoader = new LoadAddressData($address);
 
-            // add the address to the database
-            $addressFixtureLoader->load($obMan);
+                // add the address to the database
+                $addressFixtureLoader->load($obMan);
 
 
-            // Property data
-            $property = (new Property())
-                ->setSiteId((3593843+$i))
-                ->setPropertyName("Charlton Arms")
-                ->setPropertyType("Townhouse Condo")
-                ->setPropertyStatus("Active")
-                ->setStructureId(54586)
-                ->setNumUnits(5)
-                ->setNeighbourhoodName("Sutherland")
-                ->setNeighbourhoodId("O48")
-                ->setAddress($address);
+                // Property data
+                $this->property = (new Property())
+                    ->setSiteId((3593843+$i))
+                    ->setPropertyName("Charlton Arms")
+                    ->setPropertyType("Townhouse Condo")
+                    ->setPropertyStatus("Active")
+                    ->setStructureId(54586)
+                    ->setNumUnits(5)
+                    ->setNeighbourhoodName("Sutherland")
+                    ->setNeighbourhoodId("O48")
+                    ->setAddress($address);
 
-            // add the Property to the database
-            $obMan->persist($property);
+                // add the Property to the database
+                $obMan->persist($this->property);
 
-            // flush the database connection
-            $obMan->flush();
-        }
+                // flush the database connection
+                $obMan->flush();
+            }
 
-        // create 5 Properties with the following data
-        for($i=0;$i<5;$i++)
-        {
+            // create 5 Properties with the following data
+            for($i=0;$i<5;$i++)
+            {
+                $address = (new Address())
+                    ->setStreetAddress("12 15th st east")
+                    ->setPostalCode('S0E1A0')
+                    ->setCity('Saskatoon')
+                    ->setProvince('Saskatchewan')
+                    ->setCountry('Canada');
+
+                $addressFixtureLoader = new LoadAddressData($address);
+                $addressFixtureLoader->load($obMan);
+
+
+                $this->property = (new Property())
+                    ->setSiteId(2593843+$i)
+                    ->setPropertyName("Charlton Arms")
+                    ->setPropertyType("Townhouse Condo")
+                    ->setPropertyStatus("Active")
+                    ->setStructureId(54586)
+                    ->setNumUnits(5)
+                    ->setNeighbourhoodName("Sutherland")
+                    ->setNeighbourhoodId("O48")
+                    ->setAddress($address);
+
+                $obMan->persist($this->property);
+                $obMan->flush();
+            }
+
+
+            // create a single address
             $address = (new Address())
                 ->setStreetAddress("12 15th st east")
-                ->setPostalCode('S0E1A0')
-                ->setCity('Saskatoon')
-                ->setProvince('Saskatchewan')
-                ->setCountry('Canada');
+                ->setPostalCode("S0E 1A0")
+                ->setCity("Saskatoon")
+                ->setProvince("Saskatchewan")
+                ->setCountry("Canada");
 
             $addressFixtureLoader = new LoadAddressData($address);
             $addressFixtureLoader->load($obMan);
 
 
-            $property = (new Property())
-                ->setSiteId(2593843+$i)
+            // create a single property
+            $this->property = (new Property())
+                ->setSiteId(6661488)
                 ->setPropertyName("Charlton Arms")
                 ->setPropertyType("Townhouse Condo")
                 ->setPropertyStatus("Active")
@@ -78,64 +122,36 @@ class LoadPropertyData implements FixtureInterface
                 ->setNeighbourhoodId("O48")
                 ->setAddress($address);
 
-            $obMan->persist($property);
+            $obMan->persist($this->property);
             $obMan->flush();
+
+
+            // create a single address
+            $address = (new Address())
+                ->setStreetAddress("12 15th st east")
+                ->setPostalCode("S0E 1A0")
+                ->setCity("Saskatoon")
+                ->setProvince("Saskatchewan")
+                ->setCountry("Canada");
+
+            $addressFixtureLoader = new LoadAddressData($address);
+            $addressFixtureLoader->load($obMan);
+
+
+            // create a single property
+            $this->property = (new Property())
+                ->setSiteId(6661489)
+                ->setPropertyName("Charlton Legs")
+                ->setPropertyType("House")
+                ->setPropertyStatus("Active")
+                ->setStructureId(54586)
+                ->setNumUnits(10)
+                ->setNeighbourhoodName("Sutherland")
+                ->setNeighbourhoodId("O48")
+                ->setAddress($address);
         }
 
-
-        // create a single address
-        $address = (new Address())
-            ->setStreetAddress("12 15th st east")
-            ->setPostalCode("S0E 1A0")
-            ->setCity("Saskatoon")
-            ->setProvince("Saskatchewan")
-            ->setCountry("Canada");
-
-        $addressFixtureLoader = new LoadAddressData($address);
-        $addressFixtureLoader->load($obMan);
-
-
-        // create a single property
-        $property = (new Property())
-            ->setSiteId(6661488)
-            ->setPropertyName("Charlton Arms")
-            ->setPropertyType("Townhouse Condo")
-            ->setPropertyStatus("Active")
-            ->setStructureId(54586)
-            ->setNumUnits(5)
-            ->setNeighbourhoodName("Sutherland")
-            ->setNeighbourhoodId("O48")
-            ->setAddress($address);
-
-        $obMan->persist($property);
-        $obMan->flush();
-
-
-        // create a single address
-        $address = (new Address())
-            ->setStreetAddress("12 15th st east")
-            ->setPostalCode("S0E 1A0")
-            ->setCity("Saskatoon")
-            ->setProvince("Saskatchewan")
-            ->setCountry("Canada");
-
-        $addressFixtureLoader = new LoadAddressData($address);
-        $addressFixtureLoader->load($obMan);
-
-
-        // create a single property
-        $property = (new Property())
-            ->setSiteId(6661489)
-            ->setPropertyName("Charlton Legs")
-            ->setPropertyType("House")
-            ->setPropertyStatus("Active")
-            ->setStructureId(54586)
-            ->setNumUnits(10)
-            ->setNeighbourhoodName("Sutherland")
-            ->setNeighbourhoodId("O48")
-            ->setAddress($address);
-
-        $obMan->persist($property);
+        $obMan->persist($this->property);
         $obMan->flush();
     }
 }

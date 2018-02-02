@@ -90,12 +90,26 @@ class ContactRepository extends EntityRepository
 
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
-        return $this->getEntityManager()->createQuery(
+        $records = $this->getEntityManager()->createQuery(
         "SELECT co, a FROM AppBundle:Contact co
         LEFT OUTER JOIN AppBundle:Address a WITH co.address = a.id
         WHERE $classPropertiesString"
         )->getResult();
 
+        // remove any NULL values from the array (NULL values are represented by non-contact objects)
+        $records = array_filter($records);
+
+        $contactObjects = array();
+
+        foreach ($records as $record)
+        {
+            if(get_class($record) == "AppBundle\Entity\Contact")
+            {
+                $contactObjects[] = $record;
+            }
+        }
+
+        return $contactObjects;
     }
 
 }
