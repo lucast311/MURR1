@@ -16,8 +16,8 @@ class LoadContainerData implements FixtureInterface
      */
     public function __construct($container)
     {
-        // set the container attribute
-        $this->container = $container;
+        //// set the container attribute
+        //$this->container = $container;
     }
 
     /**
@@ -26,10 +26,10 @@ class LoadContainerData implements FixtureInterface
      */
     public function load(ObjectManager $obMan)
     {
-        // persist the container object set in the constructor to the database
-        $obMan->persist($this->container);
+        //// persist the container object set in the constructor to the database
+        //$obMan->persist($this->container);
 
-        // flush the database connection
-        $obMan->flush();
+        //// flush the database connection
+        //$obMan->flush();
     }
 }

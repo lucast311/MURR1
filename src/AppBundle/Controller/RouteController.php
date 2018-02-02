@@ -33,10 +33,12 @@ class RouteController extends Controller
      */
     function manageRouteAction(Request $request, $routeId=null){
 
+        $em = $this->getDoctrine()->getEntityManager();
+
         //NOTE THE USE OF THE USING STATEMENT TO MAKE CONTAINER ROUTE A SHORTCUT TO ROUTE
         //Otherwise there is conflicts between the route annotations and the route class
-        $repo = $this->getDoctrine()->getEntityManager()->getRepository(ContainerRoute::class);
-        $route = $repo->findOneById($routeId);
+        $routeRepo = $em->getRepository(ContainerRoute::class);
+        $route = $routeRepo->findOneById($routeId);
 
         if($route != null){
             //Create the routePickupForm
@@ -64,7 +66,31 @@ class RouteController extends Controller
                     $form->addError(new FormError('This container already exists in this route'));
                 }
                 else{
-                    
+                    //get the last pickup, they are already ordered
+                    $pickups = $route->getPickups();
+                    $lastRp = $pickups[count($pickups)-1];
+
+                    $repo = $this->getDoctrine()->getEntityManager()->getRepository(RoutePickup::class);
+
+                    //If there is no last pickup, this pickup needs to go first
+                    if($lastRp == null){
+
+                        $rp->setPickupOrder(1);
+                    }//If the added pickup order is greater than the last by more than 1, set it to be the last one
+                    else if ($rp->getPickupOrder() >= $lastRp->getPickupOrder() + 1){
+                        $rp->setPickupOrder($lastRp->getPickupOrder() + 1);
+                    }
+                    else { //The rp is being inserted in the middle of the list
+                        //Increment every route pickup that will be after the current route pickup
+                        $repo->updateOrders($routeId, $rp->getPickupOrder(), true);
+                    }
+                    //set this pickup on the current route
+                    $rp->setRoute($route);
+                    $repo->save($rp);
+
+                    //refresh the route to display the new data
+                    //And since the pickups are set to cascade refresh it will reload them too
+                    $em->refresh($route);
                 }
 
 

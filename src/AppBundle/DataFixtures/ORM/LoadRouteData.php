@@ -20,7 +20,7 @@ class LoadRouteData implements FixtureInterface
      * A fixture method to create Routes in the database for testing
      * @param ObjectManager $obMan the object manager
      */
-    //public function load(ObjectManager $obMan)
+    public function load(ObjectManager $obMan)
     {
         // create 2 Route with the following data
 

@@ -25,7 +25,7 @@ class RoutePickup
     /**
      * @var Route
      *
-     * @ORM\ManyToOne(targetEntity="Route", inversedBy="pickups", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Route", inversedBy="pickups", cascade={"persist","refresh"})
      * @ORM\JoinColumn(name="routeId", referencedColumnName="id")
      */
     private $route;

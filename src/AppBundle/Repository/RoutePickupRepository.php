@@ -40,7 +40,7 @@ class RoutePickupRepository extends \Doctrine\ORM\EntityRepository
 
         $em = $this->getEntityManager();
 
-        $query = $em->createQuery("UPDATE App\Entity\RoutePickup p SET p.pickupOrder = p.pickupOrder + :increment WHERE p.routeId = :routeId AND p.pickupOrder >= :startAt")
+        $query = $em->createQuery("UPDATE AppBundle\Entity\RoutePickup p SET p.pickupOrder = p.pickupOrder + :increment WHERE IDENTITY(p.route) = :routeId AND p.pickupOrder >= :startAt")
             ->setParameter('routeId',$routeId)
             ->setParameter('startAt',$startAt)
             ->setParameter('increment', $increment ? 1 : -1);

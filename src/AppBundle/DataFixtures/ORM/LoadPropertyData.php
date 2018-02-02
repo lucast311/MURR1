@@ -16,7 +16,7 @@ class LoadPropertyData implements FixtureInterface
      * A constructor that sets the attribute the property passed in
      * @param mixed $property the property entity passed in
      */
-    public function __construct($property)
+    public function __construct($property=null)
     {
         // set the property attribute
         $this->property = $property;
