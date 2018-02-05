@@ -9,11 +9,15 @@ use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadContactData;
 use AppBundle\Entity\Address;
 use AppBundle\Entity\Property;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 
 class ContactControllerTest extends WebTestCase
 {
     private $em;
 
+    /**
+     * (@inheritDoc)
+     */
     protected function setUp()
     {
         self::bootKernel();
@@ -23,6 +27,12 @@ class ContactControllerTest extends WebTestCase
 
         $contactLoader = new LoadContactData();
         $contactLoader->load($this->em);
+
+        // Load the admin user into the database so they can log in
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
     }
 
     /**
@@ -32,7 +42,7 @@ class ContactControllerTest extends WebTestCase
     public function testListAction()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
         //Request the contact add page
         $crawler = $client->request('GET','/contact/');
@@ -84,7 +94,7 @@ class ContactControllerTest extends WebTestCase
         $id = $repository->save($contact);
 
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         //Request the contact view contact page for this contact
         $crawler = $client->request('GET',"/contact/$id");
 
@@ -114,7 +124,7 @@ class ContactControllerTest extends WebTestCase
     public function testEditRedirect()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         //Request the contact edit page
         $crawler = $client->request('GET','/contact/');
         // Select the first button on the page that views the details for a contact
@@ -128,7 +138,7 @@ class ContactControllerTest extends WebTestCase
     public function testEditSubmitRedirect()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         //Request the contact edit page
         $crawler = $client->request('GET','/contact/1/edit');
         //$link = $crawler->filter('a:contains("Edit")')->eq(0)->link();
@@ -147,7 +157,7 @@ class ContactControllerTest extends WebTestCase
     public function testAddActionSuccess()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/new');
         //select the form and add values to it.
@@ -179,7 +189,7 @@ class ContactControllerTest extends WebTestCase
     public function testAddActionFailurefName()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/add');
         //select the form and add values to it.
@@ -211,7 +221,7 @@ class ContactControllerTest extends WebTestCase
     public function testAddActionFailurelName()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/add');
         //select the form and add values to it.
@@ -243,7 +253,7 @@ class ContactControllerTest extends WebTestCase
     public function testAddActionFailureEmailAddress()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/add');
         //select the form and add values to it.
@@ -275,7 +285,7 @@ class ContactControllerTest extends WebTestCase
     public function testAddActionFailurePostalCode()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/add');
         //select the form and add values to it.
@@ -308,7 +318,7 @@ class ContactControllerTest extends WebTestCase
     public function testAddActionFailureProvince()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/add');
         //select the form and add values to it.
@@ -341,7 +351,7 @@ class ContactControllerTest extends WebTestCase
     public function testAddActionFailureCountry()
     {
         //Create a client to go through the web page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/add');
         //select the form and add values to it.
@@ -382,7 +392,7 @@ class ContactControllerTest extends WebTestCase
         $repository = $this->em->getRepository(Contact::class);
 
         // create a client so we can view the page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // go to the page and search for 'Jim'
         $client->request('GET', '/contact/jsonsearch/Jim');
@@ -407,7 +417,7 @@ class ContactControllerTest extends WebTestCase
         //$repository = $this->em->getRepository(Contact::class);
 
         // create a client so we can view the page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // go to the page and search for 'BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones'
         $client->request('GET', '/contact/jsonsearch/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJones');
@@ -432,7 +442,7 @@ class ContactControllerTest extends WebTestCase
         $repository = $this->em->getRepository(Contact::class);
 
         // create a client so we can view the page
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // go to the page and search for 'Jim'
         $client->request('GET', '/contact/jsonsearch/Jim');
@@ -463,7 +473,7 @@ class ContactControllerTest extends WebTestCase
     public function testSearchPageAccessible()
     {
         // Create a client, and go to the search page for a contact
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // A crawler to check if the page contains a search field
         $crawler = $client->request('GET', '/contact/search');
@@ -525,7 +535,7 @@ class ContactControllerTest extends WebTestCase
         $id = $repository->save($contact);
 
         // Create a client,
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // A crawler to check if the page contains a search field
         $crawler = $client->request('GET', "/contact/$id");
@@ -575,7 +585,7 @@ class ContactControllerTest extends WebTestCase
         $id = $repository->save($contact);
 
         // Create a client,
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // A crawler to check if the page contains a search field
         $crawler = $client->request('GET', "/contact/$id");
@@ -646,7 +656,7 @@ class ContactControllerTest extends WebTestCase
         $id = $repository->save($contact);
 
         // Create a client,
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // A crawler to check if the page contains a search field
         $crawler = $client->request('GET', "/contact/$id");
@@ -669,6 +679,8 @@ class ContactControllerTest extends WebTestCase
         $stmt = $this->em->getConnection()->prepare("DELETE FROM Property");
         $stmt->execute();
         $stmt = $this->em->getConnection()->prepare("DELETE FROM ContactProperty");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();
 
         $this->em->close();
