@@ -11,6 +11,7 @@ use AppBundle\DataFixtures\ORM\LoadContactData;
 use AppBundle\Entity\Address;
 use AppBundle\Entity\Property;
 use AppBundle\DataFixtures\ORM\LoadUserData;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class ContactControllerTest extends WebTestCase
 {
@@ -526,12 +527,12 @@ class ContactControllerTest extends WebTestCase
         $address->setProvince("Saskatchewan");
         $address->setCountry("Canada");
         $property->setAddress($address);
-        $property->setContacts(array($contact));
+        $property->setContacts(new ArrayCollection(array($contact)));
 
 
 
         //add the property to the contact
-        $contact->setProperties(array($property));
+        $contact->setProperties(new ArrayCollection(array($property)));
 
         $contactRepository = $this->em->getRepository(Contact::class);
         //save contact to database
@@ -658,8 +659,8 @@ class ContactControllerTest extends WebTestCase
             $address->setProvince("Saskatchewan");
             $address->setCountry("Canada");
             $property->setAddress($address);
-            $property->setContacts(array($contact));
-        	$propertiesArray[] = $property;
+            $property->setContacts(new ArrayCollection(array($contact)));
+        	$propertiesArray = new ArrayCollection(array($property));
         }
 
 

@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Validator\Constraints as AcmeAssert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 //
@@ -130,11 +131,16 @@ class Contact
 
     /**
      * Contacts have many properties
-     *
-     * @var Property[]
+     *@ORM\ManyToMany(targetEntity="Property", inversedBy="contacts", cascade={"persist"})
+     *@ORM\JoinTable(name="contact_properties")
+     *@var ArrayCollection
      */
     private $properties;
 
+    public function __construct()
+    {
+        $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * returns the options that a role can be
@@ -398,7 +404,7 @@ class Contact
     }
     /**
      * gets the associated properties
-     * @return Property[]
+     * @return ArrayCollection
      */
     public function getProperties()
     {
@@ -406,7 +412,7 @@ class Contact
     }
     /**
      * Sets the associated properties
-     * @param Property[] $properties
+     * @param ArrayCollection $properties
      */
     public function setProperties($properties)
     {

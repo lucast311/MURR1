@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Property
  *
@@ -118,8 +119,8 @@ class Property
 
     /**
      * Properties have many contacts
-     * 
-     * @var Contact[]
+     * @ORM\ManyToMany(targetEntity="Contact", mappedBy="properties", cascade={"persist"})
+     *@var ArrayCollection
      */
     private $contacts;
     /**
@@ -134,6 +135,11 @@ class Property
      */
     private $communications;
 
+    public function __construct()
+    {
+        $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * Get id
      *
@@ -143,6 +149,8 @@ class Property
     {
         return $this->id;
     }
+
+
 
     /**
      * Set site id
@@ -361,7 +369,7 @@ class Property
     }
     /**
      * Gets associated contacts
-     * @return Contact[]
+     * @return ArrayCollection
      */
     public function getContacts()
     {
@@ -369,7 +377,7 @@ class Property
     }
     /**
      * Sets associated contacts
-     * @param Contact[] $contacts
+     * @param ArrayCollection $contacts
      */
     public function setContacts($contacts)
     {
