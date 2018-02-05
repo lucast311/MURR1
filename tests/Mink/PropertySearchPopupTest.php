@@ -19,7 +19,7 @@ class PropertySearchPopupTest extends WebTestCase
         $this->driver = new ChromeDriver("http://localhost:9222",null, "localhost:8000");
         // Create a session and pass it the driver
         $this->session = new Session($this->driver);
-        
+
         //Log the user in
         // Start the session
         $this->session->start();
@@ -33,10 +33,13 @@ class PropertySearchPopupTest extends WebTestCase
         $page->findById("password")->setValue("password");
         // Submit the form
         $page->find('named', array('id_or_name', "login"))->submit();
-        
-
     }
 
+    /**
+     * Story 4e
+     * Tests all functionality related to the advanced property search on the communication page.
+     * Ensures the button is there, that it functions correctly, and that the chosen property is set in the search box.
+     */
     public function testCommunicationPropertyAdvancedSearch()
     {
         // Start up a new session
@@ -80,6 +83,28 @@ class PropertySearchPopupTest extends WebTestCase
 
         // Get the select box now and check that it has the right property in it
         $this->assertEquals($page->find('named', array('id', "communication_property"))->getValue(), "Charlton Arms");
+    }
+
+    /**
+     * Story 4e
+     * This will test the functionality of the basic search box.
+     * Checks that you can type in the select box and pick the proper result.
+     */
+    public function testCommunicationPropertySimpleSearch()
+    {
+        // Navigate to the new communication page
+        $this->session->visit('http://localhost:8000/communication/new');
+        // Get the page
+        $page = $this->session->getPage();
+        // Check that the select box contains a specific property
+        $this->assertNotNull($page->find('named', array('content', "Charlton Legs")));
+        // Get the search box for the drop down and search for something to narrow the results
+        $page->find('named', array('id', "select2-search__field"))->setValue("Charlton Arms");
+        // Now assert that the property is gone
+        $this->assertNull($page->find('named', array('content', "Charlton Legs")));
+        // Assert that the searched for property is still there
+        $this->assertNotNull($page->find('named', array('content', "Charlton Arms")));
+
     }
 
     protected function tearDown()
