@@ -86,7 +86,7 @@ class PropertySearchPopupTest extends WebTestCase
     }
 
     /**
-     * Story 4e
+     * Story 4e 
      * This will test the functionality of the basic search box.
      * Checks that you can type in the select box and pick the proper result.
      */
@@ -110,6 +110,6 @@ class PropertySearchPopupTest extends WebTestCase
     protected function tearDown()
     {
         // After the test has been run, make sure to restart the session so you don't run into problems
-        $this->session->restart();
+        $this->session->stop();
     }
 }
