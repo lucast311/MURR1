@@ -3291,6 +3291,7 @@
     <Content Include="app\Resources\views\communication\viewComm.html.twig" />
     <Content Include="app\Resources\views\security\login.html.twig" />
     <Content Include="app\sqlite.db" />
+    <Content Include="web\JavaScript\PropertySearchPopup.js" />
     <Content Include="web\JavaScript\Search.js" />
   </ItemGroup>
 </Project>

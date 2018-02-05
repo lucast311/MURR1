@@ -56,4 +56,12 @@ var onLoad = function () {
     });//viewModel.getResults);
 };
 
+/**
+ * Sends the chosen entity back to the parent paged
+ */
+function postValue()
+{
+
+}
+
 $(onLoad);
