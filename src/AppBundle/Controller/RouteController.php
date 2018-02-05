@@ -83,6 +83,14 @@ class RouteController extends Controller
                     else { //The rp is being inserted in the middle of the list
                         //Increment every route pickup that will be after the current route pickup
                         $repo->updateOrders($routeId, $rp->getPickupOrder(), true);
+
+                        //Refresh all the pickups because they may have been changed
+                        foreach ($pickups as $pickup)
+                        {
+                        	$em->refresh($pickup);
+                        }
+                        
+                        
                     }
                     //set this pickup on the current route
                     $rp->setRoute($route);
@@ -91,7 +99,6 @@ class RouteController extends Controller
                     //refresh the route to display the new data
                     //And since the pickups are set to cascade refresh it will reload them too
                     $em->refresh($route);
-                    //$route = $routeRepo->findOneById($routeId);
                 }
 
 

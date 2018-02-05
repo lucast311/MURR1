@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * RoutePickup
  *
- * @ORM\Table(name="route_pickup")
+ * @ORM\Table(name="RoutePickup")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RoutePickupRepository")
  */
 class RoutePickup

@@ -4,6 +4,26 @@
 
 {% block body %}
 
+<style>
+    form[name^="appbundle_routepickup"] div{
+        display: inline-block;
+        padding: 5px;
+    }
+
+    form[name^="appbundle_routepickup"]{
+        display: inline-block;
+        border: 1px solid black;
+    }
+
+    .route_pickups th, .route_pickups td{
+        padding: 5px;
+    }
+
+    .route_pickups tbody{
+        outline: 1px solid black;
+    }
+</style>
+
 <h2>Route {% if not invalid_id_error %}{{ route.routeId }}{% endif %}</h2>
 
 <div>
@@ -18,10 +38,13 @@
     {% else %}
 
     {{ form_start(form) }}
+    <div>
+        <h3>Add Container:</h3>
+    </div>
     {{ form_widget(form) }}
     {{ form_end(form) }}
 
-    <table>
+    <table class="route_pickups">
         <thead>
             <tr>
                 <th>Pickup Order</th>

@@ -56,7 +56,7 @@ class RouteControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/route/1');
 
         $form = $crawler->selectButton('Add')->form();
-        $form["appbundle_routepickup[pickuporder]"] = 1;
+        $form["appbundle_routepickup[pickupOrder]"] = 1;
         $form["appbundle_routepickup[container]"] = 1; //select the first container in the list
 
         $crawler = $client->submit($form);
@@ -117,7 +117,7 @@ class RouteControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/route/1');
 
         $form = $crawler->selectButton('Add')->form();
-        $form["appbundle_routepickup[pickuporder]"] = 1; //set the pickup order to be 1 instead of the other container previously inserted
+        $form["appbundle_routepickup[pickupOrder]"] = 1; //set the pickup order to be 1 instead of the other container previously inserted
         $form["appbundle_routepickup[container]"] = 2; //select the second container in the list
 
         $crawler = $client->submit($form);
@@ -158,7 +158,7 @@ class RouteControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/route/1');
 
         $form = $crawler->selectButton('Add')->form();
-        $form["appbundle_routepickup[pickuporder]"] = 1000; //put a pickup order much farther beyond the number of bins
+        $form["appbundle_routepickup[pickupOrder]"] = 1000; //put a pickup order much farther beyond the number of bins
         $form["appbundle_routepickup[container]"] = 1; //select the first container in the list
 
         $crawler = $client->submit($form);
@@ -209,7 +209,7 @@ class RouteControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/route/1');
 
         $form = $crawler->selectButton('Add')->form();
-        $form["appbundle_routepickup[pickuporder]"] = 1; 
+        $form["appbundle_routepickup[pickupOrder]"] = 1;
         $form["appbundle_routepickup[container]"] = 1; //select the first container in the list so that it is attempting to add it again
 
         $crawler = $client->submit($form);
@@ -226,11 +226,11 @@ class RouteControllerTest extends WebTestCase
         parent::tearDown();
         $client = static::createClient();
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $stmt = $em->getConnection()->prepare('DELETE FROM RoutePickup');
+        $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Route');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Container');
-        $stmt->execute();
-        $stmt = $em->getConnection()->prepare('DELETE FROM RoutePickup');
         $stmt->execute();
     }
 

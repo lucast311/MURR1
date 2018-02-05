@@ -3,6 +3,9 @@ use Symfony\Component\Form\Test\TypeTestCase;
 use AppBundle\Entity\RoutePickup;
 use AppBundle\Entity\Container;
 use AppBundle\Entity\Route;
+use AppBundle\Form\RoutePickupType;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 
 /**
  * RoutePickupTypeTest short summary.
@@ -14,6 +17,16 @@ use AppBundle\Entity\Route;
  */
 class RoutePickupTypeTest extends TypeTestCase
 {
+
+    /**
+     * This method is required to allow the test to run
+     * @return ValidatorExtension[]
+     */
+    protected function getExtensions()
+    {
+        return array(new ValidatorExtension(Validation::createValidator()));
+    }
+
     /**
      * Story 22b
      * Tests that the form class can be created and submit data

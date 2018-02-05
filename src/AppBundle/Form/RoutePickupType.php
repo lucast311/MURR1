@@ -43,6 +43,6 @@ class RoutePickupType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_property';
+        return 'appbundle_routepickup';
     }
 }

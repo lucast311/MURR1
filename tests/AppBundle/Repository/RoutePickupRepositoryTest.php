@@ -118,9 +118,9 @@ class RoutePickupRepositoryTest extends KernelTestCase
         $repository->save($routePickup2);
 
         //Update the orders of the containers
-        $repo->updateOrders($route->getId(), 1, true);
+        $repository->updateOrders($route->getId(), 1, true);
 
-        $RPs = $repo->findBy(array(),array('pickupOrder'=>'ASC'));
+        $RPs = $repository->findBy(array(),array('pickupOrder'=>'ASC'));
 
         $curOrder = 2; //the orders should start at 2 because we incremented at 1
 
