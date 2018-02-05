@@ -32,7 +32,7 @@ class RouteControllerTest extends WebTestCase
     public function testAddRoute(){
         //create a route to add the pickup to
         $route = new Route();
-        $route->setRouteId(1001);
+        $route->setRouteId(1002);
 
         //Get the repository for the route
         $repository = $this->em->getRepository(Route::class);
@@ -162,7 +162,6 @@ class RouteControllerTest extends WebTestCase
         $form["appbundle_routepickup[container]"] = 1; //select the first container in the list
 
         $crawler = $client->submit($form);
-
 
         //check that the containers row has the pickup order of 1
         $this->assertContains("1", $crawler->filter("table tr:contains('X222222')")->html());

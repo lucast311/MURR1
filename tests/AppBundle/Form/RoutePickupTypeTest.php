@@ -33,10 +33,9 @@ class RoutePickupTypeTest extends TypeTestCase
      */
     public function testSubmitData()
     {
-
         //create a route for the form data
-        $route = new Route();
-        $route->setRouteId(1001);
+        //$route = new Route();
+        //$route->setRouteId(1001);
 
         //specify a container for the form data
         $container = new Container();
@@ -48,8 +47,7 @@ class RoutePickupTypeTest extends TypeTestCase
         // The data that will be "submitted" to the form
         $formData = array(
             'pickupOrder' => 1,
-            'container'=>$container,
-            'route'=>$route
+            'container'=>$container
         );
 
         //create a new form

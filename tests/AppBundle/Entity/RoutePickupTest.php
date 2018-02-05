@@ -65,7 +65,7 @@ class RoutePickupTest extends KernelTestCase
 
         // Assert sure their are 1 errors
         $this->assertEquals(1, count($error));
-        $this->assertEquals('Pickup order must not be greater than 0',$error[0]->getMessage());
+        $this->assertEquals('Pickup order must be greater than 0',$error[0]->getMessage());
     }
 
     /**
@@ -80,7 +80,7 @@ class RoutePickupTest extends KernelTestCase
 
         // Assert sure their are 1 errors
         $this->assertEquals(1, count($error));
-        $this->assertEquals('Pickup order must not be greater than 0',$error[0]->getMessage());
+        $this->assertEquals('Pickup order must be greater than 0',$error[0]->getMessage());
     }
 
     /**

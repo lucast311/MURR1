@@ -27,6 +27,7 @@ class RoutePickup
      *
      * @ORM\ManyToOne(targetEntity="Route", inversedBy="pickups", cascade={"persist","refresh"})
      * @ORM\JoinColumn(name="routeId", referencedColumnName="id")
+     * @Assert\NotNull(message="Please specify a route")
      */
     private $route;
 
@@ -34,6 +35,7 @@ class RoutePickup
      * @var Container
      * @ORM\ManyToOne(targetEntity="Container", cascade={"persist"})
      * @ORM\JoinColumn(name="containerId", referencedColumnName="id")
+     * @Assert\NotNull(message="Please specify a container")
      */
     private $container;
 
@@ -42,6 +44,7 @@ class RoutePickup
      *
      * @ORM\Column(name="pickupOrder", type="integer")
      * @Assert\NotNull(message="Please specify a pickup order")
+     * @Assert\GreaterThan(value=0, message="Pickup order must be greater than 0")
      */
     private $pickupOrder;
 

@@ -122,7 +122,9 @@ class RoutePickupRepositoryTest extends KernelTestCase
 
         $RPs = $repository->findBy(array(),array('pickupOrder'=>'ASC'));
 
-        $curOrder = 2; //the orders should start at 2 because we incremented at 1
+        $curOrder = 1; //the orders should start at 1
+
+        $this->assertEquals(2, count($RPs));// check that there are 2 route pickups
 
         foreach ($RPs as $rp)
         {

@@ -52,7 +52,7 @@ class RouteTest extends KernelTestCase
 
         // Assert sure their are 1 errors
         $this->assertEquals(1, count($error));
-        $this->assertEquals('Route id must not be negative',$error[0]->getMessage());
+        $this->assertEquals('Route ID must be a value greater than 0',$error[0]->getMessage());
     }
 
     /**

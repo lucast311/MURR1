@@ -41,8 +41,9 @@ class RouteController extends Controller
         $route = $routeRepo->findOneById($routeId);
 
         if($route != null){
-            //Create the routePickupForm
-            $rp = new RoutePickup();
+            //Create the routePickupForm and set its route
+            $rp = (new RoutePickup())
+                ->setRoute($route);
             $form = $this->createForm(RoutePickupType::class, $rp);
 
             $form->handleRequest($request);
@@ -93,15 +94,13 @@ class RouteController extends Controller
                         
                     }
                     //set this pickup on the current route
-                    $rp->setRoute($route);
+                    //$rp->setRoute($route);
                     $repo->save($rp);
 
                     //refresh the route to display the new data
                     //And since the pickups are set to cascade refresh it will reload them too
                     $em->refresh($route);
                 }
-
-
             }
 
             return $this->render('route/manageRoute.html.twig',
