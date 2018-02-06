@@ -37,8 +37,10 @@ class PropertyController extends Controller
      * @Route("/property/search", name="property_search")
      * @Method("GET")
      */
-    public function searchAction()
+    public function searchAction(Request $request)
     {
+        // Get if it is a popup or not
+        $isPopup = ($request->query->get("isPopup")) ? true : false;
         // Render the twig with required data
         return $this->render('property/searchProperty.html.twig', array(
             'viewURL' => '/property/view/'
