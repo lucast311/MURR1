@@ -114,7 +114,7 @@ class CollectionHistoryTest extends KernelTestCase
     }
 
     /**
-     * 18a - test that the data cannot be in the future
+     * 18a - test that the date cannot be in the future
      */
     public function testDateCannotBeFuture()
     {

@@ -42,7 +42,7 @@ class CollectionHistoryTypeTest extends TypeTestCase
         //submit the data
         $form->submit($formData);
 
-        //Make sure the from doesent through exceptions
+        //Make sure the from doesen't throw exceptions
         $this->assertTrue($form->isSynchronized());
         //Check that the from contains the objects info.
         $this->assertEquals($object,$form->getData());
