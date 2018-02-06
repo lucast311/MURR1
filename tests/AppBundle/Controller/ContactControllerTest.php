@@ -529,7 +529,9 @@ class ContactControllerTest extends WebTestCase
         $property->setAddress($address);
         $property->setContacts(new ArrayCollection(array($contact)));
 
-
+        $propertyRepository = $this->em->getRepository(Property::class);
+        //save contact to database
+        $propertyRepository->save($property);
 
         //add the property to the contact
         $contact->setProperties(new ArrayCollection(array($property)));
@@ -537,18 +539,6 @@ class ContactControllerTest extends WebTestCase
         $contactRepository = $this->em->getRepository(Contact::class);
         //save contact to database
         $contactId = $contactRepository->save($contact);
-
-        $propertyRepository = $this->em->getRepository(Property::class);
-        //save contact to database
-        $propertyId = $propertyRepository->save($property);
-
-        $contactProperty = new ContactProperty();
-        $contactProperty->setPropertyId($propertyId);
-        $contactProperty->setContactId($contactId);
-
-        $contactPropertyRepository = $this->em->getRepository(ContactProperty::class);
-        //save contact to database
-        $contactPropertyRepository->save($contactProperty);
 
         // Create a client,
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
@@ -640,6 +630,7 @@ class ContactControllerTest extends WebTestCase
 
         // Create the property 15 times
         $propertiesArray = array();
+
         for ($i = 0; $i < 15; $i++)
         {
             //Create a new property to ensure that there is one to edit in the database
@@ -660,22 +651,25 @@ class ContactControllerTest extends WebTestCase
             $address->setCountry("Canada");
             $property->setAddress($address);
             $property->setContacts(new ArrayCollection(array($contact)));
-        	$propertiesArray = new ArrayCollection(array($property));
+            $propertiesArray[] = $property;
+
+            $propertyRepository = $this->em->getRepository(Property::class);
+            //save contact to database
+            $propertyRepository->save($property);
         }
 
+        //add the property to the contact
+        $contact->setProperties(new ArrayCollection($propertiesArray));
 
-        //add the properties to the contact
-        $contact->setProperties($propertiesArray);
-
-        $repository = $this->em->getRepository(Contact::class);
+        $contactRepository = $this->em->getRepository(Contact::class);
         //save contact to database
-        $id = $repository->save($contact);
+        $contactId = $contactRepository->save($contact);
 
         // Create a client,
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         // A crawler to check if the page contains a search field
-        $crawler = $client->request('GET', "/contact/$id");
+        $crawler = $client->request('GET', "/contact/$contactId");
 
         // Make sure there are 15 properties listed
         $this->assertEquals(15, $crawler->filter('td:contains("Sutherland")')->count());

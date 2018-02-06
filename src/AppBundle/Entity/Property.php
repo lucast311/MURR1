@@ -131,7 +131,7 @@ class Property
     /**
      * Holds a list of communications for this property
      * @ORM\OneToMany(targetEntity="Communication", cascade={"persist"}, mappedBy="property")
-     * @var Communication[]
+     * @var ArrayCollection
      */
     private $communications;
 
@@ -404,7 +404,7 @@ class Property
 
     /**
      * Retrieves all the communications for this property
-     * @return Communication[]
+     * @return ArrayCollection
      */
     public function getCommunications()
     {
@@ -413,7 +413,7 @@ class Property
 
     /**
      * Allows you to set the communications for this property
-     * @param mixed $communications
+     * @param ArrayCollection $communications
      * @return Property
      */
     public function setCommunications($communications)

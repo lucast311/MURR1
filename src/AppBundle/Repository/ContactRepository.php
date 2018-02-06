@@ -4,6 +4,7 @@ namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Contact;
 use AppBundle\Services\SearchHelper;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 /**
  * Handles querying the database for information related to contacts
@@ -23,8 +24,19 @@ class ContactRepository extends EntityRepository
         $em->persist($contact);
         // get the address out of the contact and persist it too
         $em->persist($contact->getAddress());
-        // flush them to the database
-        $em->flush();
+
+
+
+        try
+        {
+            // flush them to the database
+            $em->flush();
+        }
+        catch (UniqueConstraintViolationException $e)
+        {
+
+        }
+
         //Close the entity manager
         // return the id of the new contact in the database
         return $contact->getId();

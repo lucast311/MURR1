@@ -6,6 +6,7 @@ use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
 use AppBundle\Entity\Container;
 use AppBundle\Entity\Communication;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
@@ -718,7 +719,7 @@ class PropertyControllerTest extends WebTestCase
         $communication->setCategory("Container");
         $communication->setDescription("Bin will be moved to the eastern side of the building");
 
-        //$property->setCommunications(array($communication));
+        $property->setCommunications(new ArrayCollection(array($communication)));
 
         // Save the communication too
         $repo = $em->getRepository(Communication::class);
