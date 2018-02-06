@@ -21,7 +21,12 @@ function onLoad()
 function advancedSearch()
 {
     // Open a popup window to the search page
-    window.open('/property/search', "_blank","width=800, height=600");
+    window.open('/property/search?isPopup=true', "_blank","width=800, height=600");
+}
+
+function receiveSelection(id)
+{
+    alert("YOU PICKED " + id);
 }
 
 $(onLoad);//when the page is done loading, run the onLoad function

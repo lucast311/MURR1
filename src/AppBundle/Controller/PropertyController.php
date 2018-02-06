@@ -40,10 +40,11 @@ class PropertyController extends Controller
     public function searchAction(Request $request)
     {
         // Get if it is a popup or not
-        $isPopup = ($request->query->get("isPopup")) ? true : false;
+        $isPopup = ($request->query->get("isPopup")) == "true" ? true : false;
         // Render the twig with required data
         return $this->render('property/searchProperty.html.twig', array(
-            'viewURL' => '/property/view/'
+            'viewURL' => '/property/view/',
+            'isPopup' => $isPopup
         ));
     }
 
