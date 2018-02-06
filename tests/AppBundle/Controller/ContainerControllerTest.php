@@ -147,6 +147,7 @@ class ContainerControllerTest extends WebTestCase
     {
         //create client
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
 
         //request add page first
         $crawler = $client->request('GET','/container/new');
@@ -193,7 +194,8 @@ class ContainerControllerTest extends WebTestCase
             ->setReasonForStatus("Everything normal");
 
         //create client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects();
 
         //Get the entity manager and repo for containers
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
@@ -243,7 +245,8 @@ class ContainerControllerTest extends WebTestCase
      */
     public function testViewContainerFailure(){
         //create client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
 
         $crawler = $client->request("GET","/container/NotAnId");
 

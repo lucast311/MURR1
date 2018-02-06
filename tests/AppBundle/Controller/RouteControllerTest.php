@@ -3,6 +3,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Route;
 use AppBundle\Entity\Container;
 use AppBundle\Entity\RoutePickup;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 
 /**
  * RouteControllerTest short summary.
@@ -23,6 +24,12 @@ class RouteControllerTest extends WebTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        // Load the admin user into the database so they can log in
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
     }
 
     /**
@@ -51,7 +58,8 @@ class RouteControllerTest extends WebTestCase
         $repo->save($container);
 
         //get the client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
 
         $crawler = $client->request('GET', '/route/1');
 
@@ -112,7 +120,7 @@ class RouteControllerTest extends WebTestCase
 
 
         //get the client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         $crawler = $client->request('GET', '/route/1');
 
@@ -153,7 +161,7 @@ class RouteControllerTest extends WebTestCase
         $repo->save($container);
 
         //get the client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         $crawler = $client->request('GET', '/route/1');
 
@@ -203,7 +211,7 @@ class RouteControllerTest extends WebTestCase
         $repo->save($rp);
 
         //get the client
-        $client = static::createClient();
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         $crawler = $client->request('GET', '/route/1');
 
@@ -230,6 +238,8 @@ class RouteControllerTest extends WebTestCase
         $stmt = $em->getConnection()->prepare('DELETE FROM Route');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Container');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();
     }
 

@@ -90,8 +90,8 @@ class RouteController extends Controller
                         {
                         	$em->refresh($pickup);
                         }
-                        
-                        
+
+
                     }
                     //set this pickup on the current route
                     //$rp->setRoute($route);
@@ -100,6 +100,10 @@ class RouteController extends Controller
                     //refresh the route to display the new data
                     //And since the pickups are set to cascade refresh it will reload them too
                     $em->refresh($route);
+
+                    //Wipe the form by creating a new one
+                    $rp = new RoutePickup();
+                    $form = $this->createForm(RoutePickupType::class, $rp);
                 }
             }
 
