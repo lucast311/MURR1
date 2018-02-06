@@ -29,7 +29,7 @@ class PropertyRepository extends EntityRepository
 
         try
         {
-            // flush them to the database
+             //flush them to the database
             $em->flush();
         }
         catch (UniqueConstraintViolationException $e)

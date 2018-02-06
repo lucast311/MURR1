@@ -625,9 +625,6 @@ class ContactControllerTest extends WebTestCase
 
         $contact->setAddress($address);
 
-
-
-
         // Create the property 15 times
         $propertiesArray = array();
 

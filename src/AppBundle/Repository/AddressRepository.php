@@ -14,6 +14,7 @@ class AddressRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $em->persist($address);
+
         $em->flush();
 
         return $address->getId();
