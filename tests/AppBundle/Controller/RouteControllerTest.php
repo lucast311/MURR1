@@ -336,6 +336,22 @@ class RouteControllerTest extends WebTestCase
     }
 
     /**
+     * Story22c
+     * Tests that if you try and request a removal of a non-existant pickup you'll be brought to an error page
+     */
+    public function testRemoveRoutePickupNonexistant(){
+        //get the client
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        //Request a removal of the RoutePickup with the ID of the RoutePickup to be removed
+        //This pickup does not exist
+        $client->request('GET', '/route/removecontainer/2092');
+
+        //Check that the client is on the error page
+        $this->assertContains("The specified container could not be removed from this route",$client->getResponse()->getContent());
+    }
+    /**
      * (@inheritDoc)
      */
     protected function tearDown()

@@ -4,17 +4,34 @@ require_once 'vendor/autoload.php';
 use DMore\ChromeDriver\ChromeDriver;
 use Behat\Mink\Session;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
+use AppBundle\Entity\Route;
+use AppBundle\Entity\Container;
+use AppBundle\Entity\RoutePickup;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 /**
- * This test uses mink for browser based front-end testing of the javascript used in story 4e
+ * This test uses mink for browser based front-end testing of the javascript used in story 22c
  */
 class RoutePickupRemoveTest extends WebTestCase
 {
     private $driver;
     private $session;
+    private $em;
 
     protected function setUp()
     {
+
+        self::bootKernel();
+        //get a reference to the entity manager
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+
+        // Load the admin user into the database so they can log in
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
+
         // Create a driver
         $this->driver = new ChromeDriver("http://localhost:9222",null, "localhost:8000");
         // Create a session and pass it the driver
@@ -33,61 +50,151 @@ class RoutePickupRemoveTest extends WebTestCase
         $page->findById("password")->setValue("password");
         // Submit the form
         $page->find('named', array('id_or_name', "login"))->submit();
+
+
     }
 
     /**
-     * Story 4e
-     * Tests all functionality related to the advanced property search on the communication page.
-     * Ensures the button is there, that it functions correctly, and that the chosen property is set in the search box.
+     * Story 22c
+     * Tests that when the delete button is clicked on a routePickup, it changes to prompt if the user is sure they want to delete
      */
-    public function testCommunicationPropertyAdvancedSearch()
-    {
-        // Start up a new session
-        //$this->session = new Session($this->driver);
-        //$this->session->start();
-        // Navigate to the new communication page
-        $this->session->visit('http://localhost:8000/communication/new');
+    public function testDeleteRoutePickupButtonAccept(){
+        //create a route to add the pickup to
+        $route = new Route();
+        $route->setRouteId(1001);
+
+        //Get the repository for the route
+        $repository = $this->em->getRepository(Route::class);
+        //Call insert on the repository for the route
+        $repository->save($route);
+
+        //specify a container for routePickup
+        $container = new Container();
+        $container->setContainerSerial("X11111");
+        $container->setType("Bin");
+        $container->setSize("6");
+        $container->setStatus("Active");
+
+        //save the container
+        $repo = $this->em->getRepository(Container::class);
+        $repo->save($container);
+
+        //Create a route pickup for this container
+        $rp = new RoutePickup();
+        $rp->setPickupOrder(1);
+        $rp->setRoute($route);
+        $rp->setContainer($container);
+
+        //save the route pickup
+        $repo = $this->em->getRepository(RoutePickup::class);
+        $repo->save($rp);
+
+
+        //Now that data exists, go to the page
+        //start up a new session
+        $this->session->visit('http://localhost:8000/route/1');
         // Get the page
         $page = $this->session->getPage();
-        // find and assert that there is an advanced search button
-        $advancedSearchBtn = $page->find('named', array('button', "Advanced Search"));
-        $this->assertNotNull($advancedSearchBtn);
-        $this->assertEquals($advancedSearchBtn->getText(), "Advanced Search");
 
-        // Click on the advanced search button
-        $advancedSearchBtn->click();
+        //Find the button with the ID of rmb1 (remove button 1)
+        $rmButton = $page->find("css","#rmb1");
+        $rmButton->click();
 
-        // NOTE: may need to switch to popup window here, unsure how Mink handles the popup.
+        //Find the form with the ID of rmf1 (remove form 1)
+        $rmForm = $page->find("css","#rmf1");
 
-        // Assert that the search page information exists
-        $page = $this->session->getPage(); // May not need this
-        // Search box
-        $this->assertNotNull($page->find('named', array('id', "searchBox")));
-        // Table headers
-        $this->assertNotNull($page->find('named', array('content', "Site ID")));
-        $this->assertNotNull($page->find('named', array('content', "Property")));
-        $this->assertNotNull($page->find('named', array('content', "Type")));
-        $this->assertNotNull($page->find('named', array('content', "Status")));
-        $this->assertNotNull($page->find('named', array('content', "Structure Id")));
-        $this->assertNotNull($page->find('named', array('content', "Units")));
-        $this->assertNotNull($page->find('named', array('content', "Neighbourhood")));
+        $this->assertContains("Are you sure?", $rmForm->getHtml()); //check that the form says "Are you sure?"
 
-        // Search for a property
-        $page->find('named', array('id', "searchBox"))->setValue("Charlton Arms");
+        //find the button with the ID of rmba1 (Remove button accept 1)
+        $acceptBtn = $page->find('css','#rmba1');
+        $acceptBtn->click();
 
-        // click the first link for one of the results
-        $page->find('named', array('content', "Select"))->click();
+        //get the list of containers
+        $list = $page->find("css","table");
 
-        // May have to refresh the page, may not
-        $page = $this->session->getPage(); // May not need this
+        //check that the list is now missing the container
+        $this->assertNotContains("X11111", $list->getHtml());
+    }
 
-        // Get the select box now and check that it has the right property in it
-        $this->assertEquals($page->find('named', array('id', "communication_property"))->getValue(), "Charlton Arms");
+    /**
+     * Story 22c
+     * Tests that when the delete button is clicked on a routePickup, it changes to prompt if the user is sure they want to delete
+     */
+    public function testDeleteRoutePickupButtonDecline(){
+        //create a route to add the pickup to
+        $route = new Route();
+        $route->setRouteId(1001);
+
+        //Get the repository for the route
+        $repository = $this->em->getRepository(Route::class);
+        //Call insert on the repository for the route
+        $repository->save($route);
+
+        //specify a container for routePickup
+        $container = new Container();
+        $container->setContainerSerial("X11111");
+        $container->setType("Bin");
+        $container->setSize("6");
+        $container->setStatus("Active");
+
+        //save the container
+        $repo = $this->em->getRepository(Container::class);
+        $repo->save($container);
+
+        //Create a route pickup for this container
+        $rp = new RoutePickup();
+        $rp->setPickupOrder(1);
+        $rp->setRoute($route);
+        $rp->setContainer($container);
+
+        //save the route pickup
+        $repo = $this->em->getRepository(RoutePickup::class);
+        $repo->save($rp);
+
+
+        //Now that data exists, go to the page
+        //start up a new session
+        $this->session->visit('http://localhost:8000/route/1');
+        // Get the page
+        $page = $this->session->getPage();
+
+        //Find the button with the ID of rmb1 (remove button 1)
+        $rmButton = $page->find("css","#rmb1");
+        $rmButton->click();
+
+        //Find the form with the ID of rmf1 (remove form 1)
+        $rmForm = $page->find("css","#rmf1");
+
+        $this->assertContains("Are you sure?", $rmForm->getHtml()); //check that the form says "Are you sure?"
+
+        //find the button with the ID of rmba1 (Remove button cancel 1)
+        $acceptBtn = $page->find('css','#rmbc1');
+        $acceptBtn->click();
+
+        //check that the message is gone
+        $this->assertNotContains("Are you sure?", $rmForm->getHtml());
+
+        //get the list of containers
+        $list = $page->find("css","table");
+        //check that the list still has the container
+        $this->assertContains("X11111", $list->getHtml());
     }
 
     protected function tearDown()
     {
+        parent::tearDown();
         // After the test has been run, make sure to restart the session so you don't run into problems
         $this->session->stop();
+
+        //Now wipe the database
+        $em = $this->em;
+        $stmt = $em->getConnection()->prepare('DELETE FROM RoutePickup');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM Route');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM Container');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM User');
+        $stmt->execute();
     }
 }
