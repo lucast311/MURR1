@@ -27,15 +27,15 @@ class PropertyRepository extends EntityRepository
         $em->persist($property->getAddress());
 
 
-        try
-        {
+        //try
+        //{
              //flush them to the database
             $em->flush();
-        }
-        catch (UniqueConstraintViolationException $e)
-        {
+        //}
+        //catch (UniqueConstraintViolationException $e)
+        //{
 
-        }
+        //}
 
         //DO NOT CLOSE THE ENTITY MANAGER
         //The repo will not regenerate a new one
