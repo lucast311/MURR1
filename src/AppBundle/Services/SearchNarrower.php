@@ -30,8 +30,6 @@ class SearchNarrower
         // an array for the narrowed results
         $narrowedResults= array();
 
-        //var_dump($searchResults);
-
         // foreach result in the passed in array of search results
         foreach ($searchResults as $result)
         {
@@ -93,7 +91,6 @@ class SearchNarrower
             // check if the method is a getter
             if(strpos($method, 'get')===0)
             {
-
                 if(!is_null($result)) //added by austin, mightve broken something
                 {
                     // check if the method is for the id
@@ -106,6 +103,7 @@ class SearchNarrower
                     // if so save that value to an array of strings.
                     else if($type = call_user_func([$result, $method]))
                     {
+                        var_dump($type);
                         switch($type)
                         {
                             case is_null($type):
@@ -123,13 +121,16 @@ class SearchNarrower
                     }
                 }
             }
-            //var_dump($objectValues);
-            // populate the $currdata string with the values from the array of entity object value arrays
-            foreach($objectValues as $value)
-            {
-                $currData .= $value;
-            }
         }
+
+        // populate the $currdata string with the values from the array of entity object value arrays
+        foreach($objectValues as $value)
+        {
+            $currData .= $value;
+        }
+
+        var_dump($currData);
+        var_dump($objectValues);
 
         return $currData;
     }

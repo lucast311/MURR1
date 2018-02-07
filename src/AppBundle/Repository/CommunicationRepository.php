@@ -43,20 +43,22 @@ class CommunicationRepository extends EntityRepository
         // get the field names of both the Communication, Property, Address, Contact, and Container Entities.
         $communicationClassProperties = $this->getClassMetadata('AppBundle:Communication')->fieldNames;
         $propertyClassProperties = $this->getEntityManager()->getRepository('AppBundle:Property')->getClassMetadata()->fieldNames;
-        $addressClassProperties = $this->getEntityManager()->getRepository('AppBundle:Address')->getClassMetadata()->fieldNames;
-        $contactClassProperties = $this->getEntityManager()->getRepository('AppBundle:Contact')->getClassMetadata()->fieldNames;
-        $containerClassProperties = $this->getEntityManager()->getRepository('AppBundle:Container')->getClassMetadata()->fieldNames;
+        //$addressClassProperties = $this->getEntityManager()->getRepository('AppBundle:Address')->getClassMetadata()->fieldNames;
+        //$contactClassProperties = $this->getEntityManager()->getRepository('AppBundle:Contact')->getClassMetadata()->fieldNames;
+        //$containerClassProperties = $this->getEntityManager()->getRepository('AppBundle:Container')->getClassMetadata()->fieldNames;
        // $contactPropertyClassProperties = $this->getEntityManager()->getRepository('AppBundle:ContactProperty')->getClassMetadata()->fieldNames;
 
         //Add all of the class properties arrays to one array
-        $classPropertiesArray = array($communicationClassProperties, $propertyClassProperties,
-            $addressClassProperties, $contactClassProperties, $containerClassProperties);
+        //$classPropertiesArray = array($communicationClassProperties, $propertyClassProperties,
+        //    $addressClassProperties, $contactClassProperties, $containerClassProperties);
+
+        $classPropertiesArray = array($communicationClassProperties, $propertyClassProperties);
 
         //$classPropertiesArray = array($communicationClassProperties, $propertyClassProperties);
 
         //an array of abbreviations to be used in the query. These represent each join
-        $classNames = array('c', 'p', 'a', 'co', 'con');
-        //$classNames = array('c', 'p', 'a');
+        //$classNames = array('c', 'p', 'a', 'co', 'con');
+        $classNames = array('c', 'p');
 
         // count variable to step through the $classPropertiesArray
         $count = 0;
@@ -102,13 +104,14 @@ class CommunicationRepository extends EntityRepository
 
         $qb->select('c, p')
             ->from('AppBundle:Communication', 'c')
-            ->leftJoin('c.property', 'p', 'WITH', 'p.id = c.property')
+            ->Join('c.property', 'p', 'WITH', 'p.id = c.property')
             //->leftJoin('p.address', 'a', 'WITH', 'a.id = p.address')
             //->leftJoin('p.contacts', 'co')
             //->leftJoin('p.bins', 'con', 'WITH', 'con.property = p.id')
             ->where($classPropertiesString);
 
         $records = $qb->getQuery()->getResult();
+
         // remove any NULL values from the array (NULL values are represented by non-communication objects)
         $records = array_filter($records);
 
@@ -122,6 +125,7 @@ class CommunicationRepository extends EntityRepository
             }
         }
 
+        var_dump($records);
 
         return $commObjects;
 

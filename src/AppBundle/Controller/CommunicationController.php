@@ -128,6 +128,14 @@ class CommunicationController extends Controller
             // get an entity manager
             $em = $this->getDoctrine()->getManager();
 
+
+
+
+            $test = array(new Communication(), new Property());
+
+
+
+
             // Use the repository to query for the records we want.
             // Store those records into an array.
             $communicationSearches = $em->getRepository(Communication::class)->communicationSearch($cleanQuery);
@@ -139,6 +147,7 @@ class CommunicationController extends Controller
 
             // narrow down our searches, and store their values along side their field values
             $searchedData = $searchNarrower->narrower($communicationSearches, $cleanQuery, new Communication());
+
             // Return the results as a json object
             // NOTE: Serializer service needs to be enabled for this to work properly
             $encoder = new JsonEncoder();
