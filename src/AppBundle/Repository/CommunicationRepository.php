@@ -46,16 +46,16 @@ class CommunicationRepository extends EntityRepository
         $addressClassProperties = $this->getEntityManager()->getRepository('AppBundle:Address')->getClassMetadata()->fieldNames;
         $contactClassProperties = $this->getEntityManager()->getRepository('AppBundle:Contact')->getClassMetadata()->fieldNames;
         $containerClassProperties = $this->getEntityManager()->getRepository('AppBundle:Container')->getClassMetadata()->fieldNames;
-        $contactPropertyClassProperties = $this->getEntityManager()->getRepository('AppBundle:ContactProperty')->getClassMetadata()->fieldNames;
+       // $contactPropertyClassProperties = $this->getEntityManager()->getRepository('AppBundle:ContactProperty')->getClassMetadata()->fieldNames;
 
         //Add all of the class properties arrays to one array
         $classPropertiesArray = array($communicationClassProperties, $propertyClassProperties,
-            $addressClassProperties, $contactClassProperties, $containerClassProperties, $contactPropertyClassProperties);
+            $addressClassProperties, $contactClassProperties, $containerClassProperties);
 
         //$classPropertiesArray = array($communicationClassProperties, $propertyClassProperties);
 
         //an array of abbreviations to be used in the query. These represent each join
-        $classNames = array('c', 'p', 'a', 'co', 'con', 'cp');
+        $classNames = array('c', 'p', 'a', 'co', 'con');
         //$classNames = array('c', 'p', 'a');
 
         // count variable to step through the $classPropertiesArray
@@ -87,16 +87,28 @@ class CommunicationRepository extends EntityRepository
 
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
-        $records = $this->getEntityManager()->createQuery(
-        "SELECT c, p, a, co, con, cp FROM AppBundle:Communication c
-        LEFT OUTER JOIN AppBundle:Property p WITH c.property = p.id
-        LEFT OUTER JOIN AppBundle:Address a WITH p.address = a.id
-        LEFT OUTER JOIN AppBundle:ContactProperty cp WITH cp.propertyId = p.id
-        LEFT OUTER JOIN AppBundle:Contact co WITH co.id = cp.contactId
-        LEFT OUTER JOIN AppBundle:Container con WITH con.property = p.id
-        WHERE $classPropertiesString"
-        )->getResult();
+        //$records = $this->getEntityManager()->createQuery(
+        //"SELECT c, p, a, co, con, cp FROM AppBundle:Communication c
+        //LEFT OUTER JOIN AppBundle:Property p WITH c.property = p.id
+        //LEFT OUTER JOIN AppBundle:Address a WITH p.address = a.id
+        //LEFT OUTER JOIN AppBundle:ContactProperty cp WITH cp.propertyId = p.id
+        //LEFT OUTER JOIN AppBundle:Contact co WITH co.id = cp.contactId
+        //LEFT OUTER JOIN AppBundle:Container con WITH con.property = p.id
+        //WHERE $classPropertiesString"
+        //)->getResult();
 
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('c, p')
+            ->from('AppBundle:Communication', 'c')
+            ->leftJoin('c.property', 'p', 'WITH', 'p.id = c.property')
+            //->leftJoin('p.address', 'a', 'WITH', 'a.id = p.address')
+            //->leftJoin('p.contacts', 'co')
+            //->leftJoin('p.bins', 'con', 'WITH', 'con.property = p.id')
+            ->where($classPropertiesString);
+
+        $records = $qb->getQuery()->getResult();
         // remove any NULL values from the array (NULL values are represented by non-communication objects)
         $records = array_filter($records);
 
