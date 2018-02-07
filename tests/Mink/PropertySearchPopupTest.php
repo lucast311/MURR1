@@ -33,6 +33,8 @@ class PropertySearchPopupTest extends WebTestCase
         $page->findById("password")->setValue("password");
         // Submit the form
         $page->find('named', array('id_or_name', "login"))->submit();
+        // Wait for the page to load before trying to browse elsewhere
+        $this->session->wait(10000, "document.readyState === 'complete'");
     }
 
     /**
@@ -45,6 +47,7 @@ class PropertySearchPopupTest extends WebTestCase
         // Start up a new session
         //$this->session = new Session($this->driver);
         //$this->session->start();
+
         // Navigate to the new communication page
         $this->session->visit('http://localhost:8000/communication/new');
         // Get the page
@@ -86,7 +89,7 @@ class PropertySearchPopupTest extends WebTestCase
     }
 
     /**
-     * Story 4e 
+     * Story 4e
      * This will test the functionality of the basic search box.
      * Checks that you can type in the select box and pick the proper result.
      */
@@ -109,7 +112,7 @@ class PropertySearchPopupTest extends WebTestCase
 
     protected function tearDown()
     {
-        // After the test has been run, make sure to restart the session so you don't run into problems
+        // After the test has been run, make sure to stop the session so you don't run into problems
         $this->session->stop();
     }
 }

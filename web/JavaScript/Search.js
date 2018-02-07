@@ -63,6 +63,7 @@ var onLoad = function () {
 };
 
 /**
+ * Story 4e
  * Sends the chosen entity back to the parent page
  */
 function postValue()

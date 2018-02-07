@@ -1,6 +1,7 @@
 ﻿
 
 /**
+ * Story 4e
  * The onLoad function that loads the select2 library 
  */
 function onLoad()
@@ -16,7 +17,8 @@ function onLoad()
 }
 
 /**
- * handler for the advanced search button and handles information passed back 
+ * Story 4e
+ * handler for the advanced search button to trigger a popup
  */
 function advancedSearch()
 {
@@ -24,9 +26,15 @@ function advancedSearch()
     window.open('/property/search?isPopup=true', "_blank","width=800, height=600");
 }
 
+/**
+ * Story 4e
+ * This is called by the popup to tell this page which item was picked. This page updates the select box with the picked value.
+ * @param {any} id the id of the selected item
+ */
 function receiveSelection(id)
 {
-    alert("YOU PICKED " + id);
+    // Obtain the select box and set it's value to be the recieved id. Need to trigger change for Select2 to update itself.
+    $("#communication_property").val(id).trigger('change');
 }
 
 $(onLoad);//when the page is done loading, run the onLoad function
