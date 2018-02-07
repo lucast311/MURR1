@@ -21,7 +21,9 @@
     },
     "require": {
         "php": ">=5.5.9",
+        "behat/mink": "^1.7",
         "dfridrich/php-mime-type": "^2.0",
+        "dmore/chrome-mink-driver": "^2.6",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",

@@ -120,16 +120,13 @@ class RouteController extends Controller
 
     }
 
-    ///**
-    // * Story 22b
-    // * Handles the adding of a routePickup to a route
-    // */
-    //function addRoutePickupAction(RoutePickup $rp){
-
-
-    //    return $this->render('route/manageRoute.html.twig',
-    //        array('form'=>$form->createView(),
-    //        'route'=>$route,
-    //        'invalid_id_error'=>false));
-    //}
+    /**
+     * Story 22c
+     * Controller action responsible for removing a pickup from a route
+     * @param mixed $id The ID of the route pickup to be removed. Posted from a form.
+     */
+    public function deleteRoutePickupAction($id){
+        
+    }
+    
 }

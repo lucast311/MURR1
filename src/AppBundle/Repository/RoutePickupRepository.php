@@ -47,4 +47,13 @@ class RoutePickupRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->execute();
     }
+
+    /**
+     * Story 22c
+     * @param mixed $id ID of the routePickup to be removed
+     * Removes a route pickup with the specified ID
+     */
+    public function remove($id){
+        
+    }
 }
