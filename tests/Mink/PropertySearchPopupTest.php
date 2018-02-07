@@ -55,15 +55,19 @@ class PropertySearchPopupTest extends WebTestCase
         // find and assert that there is an advanced search button
         $advancedSearchBtn = $page->find('named', array('button', "Advanced Search"));
         $this->assertNotNull($advancedSearchBtn);
-        $this->assertEquals($advancedSearchBtn->getText(), "Advanced Search");
+        $this->assertEquals($advancedSearchBtn->getValue(), "Advanced Search");
 
         // Click on the advanced search button
         $advancedSearchBtn->click();
+        // Calls the javascript associated with the button
+        //$this->session->executeScript("advancedSearch()");
 
+        
+        //$this->session->wait(1000);
         // NOTE: may need to switch to popup window here, unsure how Mink handles the popup.
 
         // Assert that the search page information exists
-        $page = $this->session->getPage(); // May not need this
+        //$page = $this->session->getPage(); // May not need this
         // Search box
         $this->assertNotNull($page->find('named', array('id', "searchBox")));
         // Table headers
