@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * RouteController short summary.
@@ -124,9 +125,39 @@ class RouteController extends Controller
      * Story 22c
      * Controller action responsible for removing a pickup from a route
      * @param mixed $id The ID of the route pickup to be removed. Posted from a form.
+     *
+     * @Route("/route/removecontainer/{id}", name="route_pickup_removal")
      */
-    public function deleteRoutePickupAction($id){
-        
+    public function deleteRoutePickupAction($id=null){
+
+        //Get the EM and the repos
+        $em = $this->getDoctrine()->getEntityManager();
+        $repo = $em->getRepository(RoutePickup::class);
+
+        //Get the pickup that will be removed
+        $pickup = $repo->findOneById($id);
+
+        //If the pickup actually existed
+        if($pickup != null)
+        {
+            //store the routeId for redirection
+            $routeId = $pickup->getRoute()->getId();
+            //store the pickup order so that we can decrement everything after it
+            $pickupOrder = $pickup->getPickupOrder();
+
+            //remove the pickup
+            $repo->remove($pickup);
+
+            //Decrement starting at the pickup that was removed
+            $repo->updateOrders($routeId, $pickupOrder, false);
+
+            //redirect back to the route that the container was on
+            return $this->redirectToRoute("route_manage",array("routeId" =>$routeId));
+        }
+        else
+        {
+            return new Response("The specified container could not be removed from this route");
+        }
     }
-    
+
 }
