@@ -41,6 +41,8 @@ class PropertySearchPopupTest extends WebTestCase
      * Story 4e
      * Tests all functionality related to the advanced property search on the communication page.
      * Ensures the button is there, that it functions correctly, and that the chosen property is set in the search box.
+     * 
+     * HEY! This test will not run if popups are not allowed in chrome. GO ALLOW POPUPS IN CHROME.
      */
     public function testCommunicationPropertyAdvancedSearch()
     {
@@ -59,15 +61,16 @@ class PropertySearchPopupTest extends WebTestCase
 
         // Click on the advanced search button
         $advancedSearchBtn->click();
-        // Calls the javascript associated with the button
-        //$this->session->executeScript("advancedSearch()");
 
-        
-        //$this->session->wait(1000);
-        // NOTE: may need to switch to popup window here, unsure how Mink handles the popup.
+        // Get the names of all the windows
+        $windowNames = $this->session->getWindowNames();
+        // Switch to the first window in the array (seems to always be the popup)
+        $this->session->switchToWindow($windowNames[0]);
+        // WAIT for the page to load, otherwise it will be empty when mink tries to use it.
+        $this->session->wait(1000);
+        // Re-get the page, since we are in a new window
+        $page = $this->session->getPage();
 
-        // Assert that the search page information exists
-        //$page = $this->session->getPage(); // May not need this
         // Search box
         $this->assertNotNull($page->find('named', array('id', "searchBox")));
         // Table headers
