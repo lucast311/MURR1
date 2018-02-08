@@ -37,7 +37,7 @@ class SearchNarrower
 
             // a variable to store the values of the record
             $recordData = '';
-            $recordData .= $this->narrowerHelper(get_class($result), $result);
+            $recordData .= $this->narrowerHelper(get_class($result), $result, array());
 
             //var_dump($recordData);
 
@@ -77,63 +77,100 @@ class SearchNarrower
      * @param mixed $result
      * @return string
      */
-    public function narrowerHelper($currEntity, $result)
+    public function narrowerHelper($currEntity, $result, $array)
     {
         // an array of arrys to store the values of the returned objects
         $objectValues = array();
 
-        // get all methods in the contact class
-        //$methods = get_class_methods(get_class($currEntity));
-        $methods = get_class_methods($currEntity);
-
         // a variable to store the values of the current Entity
         $currData = '';
 
-        // for each method in the entity you are searching for
-        foreach ($methods as $method)
+        var_dump($currEntity);
+        var_dump($array);
+
+        if(!in_array($currEntity, $array))
         {
-            // check if the method is a getter
-            if(strpos($method, 'get')===0)
+
+            // get all methods in the contact class
+            //$methods = get_class_methods(get_class($currEntity));
+            $methods = get_class_methods($currEntity);
+
+            // for each method in the entity you are searching for
+            foreach ($methods as $method)
             {
-                if(!is_null($result)) //added by austin, mightve broken something
+                // check if the method is a getter
+                if(strpos($method, 'get')===0)
                 {
-                    // check if the method is for the id
-                    if(strpos($method, 'getId')===0)
+                    if(!is_null($result)) //added by austin, mightve broken something
                     {
-                        // call getId and store its value in the array created above
-                        $objectValues[] = '"'.$result->getId().'"';
-                    }
-                    // else check if the method returns a string, int, or null.
-                    // if so save that value to an array of strings.
-                    else if($type = call_user_func([$result, $method]))
-                    {
-                        //var_dump($type);
-                        switch($type)
+                        // check if the method is for the id
+                        if(strpos($method, 'getId')===0)
                         {
-                            case is_null($type):
-                                $objectValues[] = 'null';
-                                break;
+                            // call getId and store its value in the array created above
+                            $objectValues[] = '"'.$result->getId().'"';
+                        }
+                        // else check if the method returns a string, int, or null.
+                        // if so save that value to an array of strings.
+                        else if($type = call_user_func([$result, $method]))
+                        {
+                            //var_dump($type);
+                            switch($type)
+                            {
+                                case is_null($type):
+                                    $objectValues[] = 'null';
 
-                            // int or string
-                            case is_int($type):
-                            case is_string($type):
-                                $objectValues[] = '"'.$type.'"';
-                                break;
-                            case is_object($type) && in_array(get_class($type), array("AppBundle\Entity\Communication", "AppBundle\Entity\Property", "AppBundle\Entity\Address", "AppBundle\Entity\Contact", "AppBundle\Entity\Container",  "Doctrine\ORM\PersistentCollection")):
-                                if(get_class($type) == "Doctrine\ORM\PersistentCollection")
-                                {
-                                    $test = $type->toArray();
+                                    if(!in_array($currEntity, $array))
+                                    {
+                                        $array[] = get_class($type);
+                                    }
 
-                                    var_dump($test);
-                                }
-                                $currData .= $this->narrowerHelper(get_class($type), $type);
-                                break;
-                            default:
-                                break;
+                                    break;
+
+                                // int or string
+                                case is_int($type):
+                                case is_string($type):
+                                    $objectValues[] = '"'.$type.'"';
+
+                                    if(!in_array($currEntity, $array))
+                                    {
+                                        $array[] = get_class($type);
+                                    }
+
+                                    break;
+                                case is_object($type) && get_class($type) == "Doctrine\ORM\PersistentCollection":
+                                    $persistentEntities = $type->toArray();
+
+                                    foreach ($persistentEntities as $entity)
+                                    {
+                                    	$currData .= $this->narrowerHelper(get_class($entity), $entity, $array);
+                                    }
+
+                                    $array[] = $persistentEntities[0]->get_class($type);
+
+                                case is_object($type) && in_array(get_class($type), array("AppBundle\Entity\Communication", "AppBundle\Entity\Property", "AppBundle\Entity\Address", "AppBundle\Entity\Contact", "AppBundle\Entity\Container",  "Doctrine\ORM\PersistentCollection")):
+                                    //if(get_class($type) == "Doctrine\ORM\PersistentCollection")
+                                    //{
+                                    //    $test = $type->toArray();
+
+                                    //    var_dump($test);
+                                    //}
+                                    if(!in_array($currEntity, $array))
+                                    {
+                                        $array[] = get_class($type);
+                                    }
+                                    $currData .= $this->narrowerHelper(get_class($type), $type, $array);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 }
             }
+        }
+        else
+        {
+
         }
 
         // populate the $currdata string with the values from the array of entity object value arrays
