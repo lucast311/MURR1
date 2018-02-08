@@ -95,6 +95,10 @@ class SearchNarrower
             //$methods = get_class_methods(get_class($currEntity));
             $methods = get_class_methods($currEntity);
 
+            if(!in_array($result, $array))
+            {
+                $array[] = get_class($result);
+            }
             // for each method in the entity you are searching for
             foreach ($methods as $method)
             {
@@ -119,10 +123,10 @@ class SearchNarrower
                                 case is_null($type):
                                     $objectValues[] = 'null';
 
-                                    if(!in_array($currEntity, $array))
-                                    {
-                                        $array[] = get_class($type);
-                                    }
+                                    //if(!in_array($currEntity, $array))
+                                    //{
+                                    //    $array[] = get_class($type);
+                                    //}
 
                                     break;
 
@@ -131,10 +135,10 @@ class SearchNarrower
                                 case is_string($type):
                                     $objectValues[] = '"'.$type.'"';
 
-                                    if(!in_array($currEntity, $array))
-                                    {
-                                        $array[] = get_class($type);
-                                    }
+                                    //if(!in_array($currEntity, $array))
+                                    //{
+                                    //    $array[] = get_class($type);
+                                    //}
 
                                     break;
                                 case is_object($type) && get_class($type) == "Doctrine\ORM\PersistentCollection":
@@ -154,10 +158,10 @@ class SearchNarrower
 
                                     //    var_dump($test);
                                     //}
-                                    if(!in_array($currEntity, $array))
-                                    {
-                                        $array[] = get_class($type);
-                                    }
+                                    //if(!in_array($result, $array))
+                                    //{
+                                    //    $array[] = get_class($result);
+                                    //}
                                     $currData .= $this->narrowerHelper(get_class($type), $type, $array);
                                     break;
                                 default:
