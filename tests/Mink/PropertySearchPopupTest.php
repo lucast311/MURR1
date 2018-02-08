@@ -41,7 +41,7 @@ class PropertySearchPopupTest extends WebTestCase
      * Story 4e
      * Tests all functionality related to the advanced property search on the communication page.
      * Ensures the button is there, that it functions correctly, and that the chosen property is set in the search box.
-     * 
+     *
      * HEY! This test will not run if popups are not allowed in chrome. GO ALLOW POPUPS IN CHROME.
      */
     public function testCommunicationPropertyAdvancedSearch()
@@ -64,12 +64,18 @@ class PropertySearchPopupTest extends WebTestCase
 
         // Get the names of all the windows
         $windowNames = $this->session->getWindowNames();
+        // Take note of this current window so we can return to it later
+        $originalWindow = $this->session->getWindowName();
+
+        // Create a temporary session to deal with the popup
+        $popupSession = new Session($this->driver);
+
         // Switch to the first window in the array (seems to always be the popup)
-        $this->session->switchToWindow($windowNames[0]);
+        $popupSession->switchToWindow($windowNames[0]);
         // WAIT for the page to load, otherwise it will be empty when mink tries to use it.
-        $this->session->wait(1000);
+        $popupSession->wait(1000);
         // Re-get the page, since we are in a new window
-        $page = $this->session->getPage();
+        $page = $popupSession->getPage();
 
         // Search box
         $this->assertNotNull($page->find('named', array('id', "searchBox")));
@@ -85,11 +91,29 @@ class PropertySearchPopupTest extends WebTestCase
         // Search for a property
         $page->find('named', array('id', "searchBox"))->setValue("Charlton Arms");
 
-        // click the first link for one of the results
-        $page->find('named', array('content', "Select"))->click();
+        // Emulate a keyup to trigger the event that normally does a search.
+        // Don't know why, it doesn't matter what character you press as it doesn't seem to go in the box anyways.
+        $page->find('named', array('id', "searchBox"))->keyPress("s");
 
-        // May have to refresh the page, may not
-        $page = $this->session->getPage(); // May not need this
+        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
+        $popupSession->wait(5000);
+
+        // click the first link for one of the results
+        //$page->findLink("Select")->click();
+        $page->find('named', array('link', "Select"))->click();
+
+
+        $page = $this->session->getPage();
+
+
+        var_dump($originalWindow);
+        var_dump($this->session->getWindowNames());
+
+
+        // Switch back to the original window
+        $this->session->switchToWindow($originalWindow);
+        // Refresh the page content so it reflects the window
+        $page = $this->session->getPage();
 
         // Get the select box now and check that it has the right property in it
         $this->assertEquals($page->find('named', array('id', "communication_property"))->getValue(), "Charlton Arms");
