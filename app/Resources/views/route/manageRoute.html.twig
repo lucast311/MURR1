@@ -3,7 +3,8 @@
 {% block title %}Route Management{% endblock %}
 
 {% block body %}
-
+<!-- Link in custom script that uses the delete prompts-->
+<script type="text/javascript" src="../../js/DeletePrompt.js"></script>
 <style>
     form[name^="appbundle_routepickup"] div{
         display: inline-block;
@@ -21,6 +22,14 @@
 
     .route_pickups tbody{
         outline: 1px solid black;
+    }
+
+    .red{
+        color: red;
+    }
+
+    .green{
+        color: green;
     }
 </style>
 
@@ -58,10 +67,49 @@
                     <td>{{ rp.pickupOrder }}</td>
                     <td>{{ rp.container.containerSerial }}</td>
                     <td> {{ rp.container.property }}</td>
+                    <td>
+                        <!-- Removal form. Data-ID is to hold the ID of the current routePickup-->
+                        <form id="rmf{{ rp.id}}" data-id="{{rp.id}}" method="post" action="{{ path('route_pickup_removal', { 'id': rp.id })}}">
+                            <!-- Specify button type so it doesn't automatically submit-->
+                            <!-- Button that prompts the message, rmb-->
+                            <button type="button" id="rmb{{ rp.id}}" class="rmb">
+                                <i class="fas fa-times red"></i>
+                            </button>
+                            <!-- Span to hold the "Are you sure?" message-->
+                            <span id="rmmsg{{rp.id}}">
+                            </span>
+
+                            <!-- Accept button, rmba-->
+                            <button type="submit" id="rmba{{ rp.id}}" class="rmba" hidden="hidden">
+                                <i class="fas fa-check green"></i>
+                            </button>
+                            <!-- Cancel button, rmbc-->
+                            <button type="button" id="rmbc{{ rp.id}}" class="rmbc" hidden="hidden">
+                                <i class="fas fa-times red"></i>
+                            </button>
+                            
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+    <!-- This script is responsible for calling functions to handle the delete forms-->
+    <script type="text/javascript">
+        //set an event handler on the remove buttons that will call the custom method on the DeletePrompt.js Script
+        $('.rmb').click(function (event) {
+            clickedBtn = event.target;
+            //get the ID that is stored in the form that this current button is in
+            //This is the ID of the routePickup that was clicked
+            id = clickedBtn.parent().attr('data-id');
+
+            console.log(clickedBtn.parent().children())
+
+            //call the prompt delete and pass in the necessary html things from the page
+            promptDelete($("#rmmsg" + id), "Are you sure?", clickedBtn,
+                $("#rmba" + id), $("#rmbc" + id));
+        });
+    </script>
     {% endif %}
 </div>
 {% endblock %}
