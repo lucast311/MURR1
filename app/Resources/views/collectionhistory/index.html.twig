@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Collection Histories list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Containerid</th>
+                <th>Notcollected</th>
+                <th>Notes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for collectionHistory in collectionHistories %}
+            <tr>
+                <td><a href="{{ path('collectionhistory_show', { 'id': collectionHistory.id }) }}">{{ collectionHistory.id }}</a></td>
+                <td>{{ collectionHistory.containerId }}</td>
+                <td>{% if collectionHistory.notCollected %}Yes{% else %}No{% endif %}</td>
+                <td>{{ collectionHistory.notes }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('collectionhistory_show', { 'id': collectionHistory.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('collectionhistory_edit', { 'id': collectionHistory.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('collectionhistory_new') }}">Create a new collectionHistory</a>
+        </li>
+    </ul>
+{% endblock %}
