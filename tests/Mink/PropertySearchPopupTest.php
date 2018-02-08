@@ -4,6 +4,8 @@ require_once 'vendor/autoload.php';
 use DMore\ChromeDriver\ChromeDriver;
 use Behat\Mink\Session;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use AppBundle\DataFixtures\ORM\LoadUserData;
+use AppBundle\DataFixtures\ORM\LoadPropertyData;
 
 /**
  * This test uses mink for browser based front-end testing of the javascript used in story 4e
@@ -12,9 +14,25 @@ class PropertySearchPopupTest extends WebTestCase
 {
     private $driver;
     private $session;
+    private $em;
 
     protected function setUp()
     {
+        // Load the user fixture so you can actually log in
+        self::bootKernel();
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+
+        // Also load in the properties so there is something to search for
+        $propertyLoader = new LoadPropertyData();
+        $propertyLoader->load($this->em);
+
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
+
         // Create a driver
         $this->driver = new ChromeDriver("http://localhost:9222",null, "localhost:8000");
         // Create a session and pass it the driver
@@ -59,17 +77,25 @@ class PropertySearchPopupTest extends WebTestCase
         $this->assertNotNull($advancedSearchBtn);
         $this->assertEquals($advancedSearchBtn->getValue(), "Advanced Search");
 
-        // Click on the advanced search button
-        $advancedSearchBtn->click();
-
         // Get the names of all the windows
         $windowNames = $this->session->getWindowNames();
         // Take note of this current window so we can return to it later
         $originalWindow = $this->session->getWindowName();
-        // Switch to the first window in the array (seems to always be the popup)
-        $this->session->switchToWindow($windowNames[0]);
+
+        // Click on the advanced search button
+        $advancedSearchBtn->click();
+
         // WAIT for the page to load, otherwise it will be empty when mink tries to use it.
         $this->session->wait(1000);
+
+        // Get the names of all the windows AGAIN, so we can figure out which one is new
+        $newWindowNames = $this->session->getWindowNames();
+        // Figure out which is new. The only new window should be at position 0 in the resulting array
+        $popupWindowArray = array_diff($newWindowNames, $windowNames);
+
+        // Switch to the first window in the array (seems to always be the popup)
+        $this->session->switchToWindow($popupWindowArray[0]);
+
         // Re-get the page, since we are in a new window
         $page = $this->session->getPage();
 
@@ -140,5 +166,15 @@ class PropertySearchPopupTest extends WebTestCase
     {
         // After the test has been run, make sure to stop the session so you don't run into problems
         $this->session->stop();
+
+        // Delete the user from the database
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM User");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Property');
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Address');
+        $stmt->execute();
+        $this->em->close();
+        $this->em = null; //avoid memory meaks
     }
 }
