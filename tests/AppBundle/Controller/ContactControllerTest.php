@@ -407,7 +407,7 @@ class ContactControllerTest extends WebTestCase
         $repository->contactSearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{"id":22,"firstName":"Jim","lastName":"Jim","role":"Property Manager","primaryPhone":"969-555-6969","phoneExtension":123,"secondaryPhone":null,"emailAddress":"tmctest@testcorp.com","fax":null,"address":null,"companyName":null}]', $client->getResponse()->getContent());
+        $this->assertContains('[{"id":22,"firstName":"Jim","lastName":"Jim","role":"Property Manager","primaryPhone":"969-555-6969","phoneExtension":123,"secondaryPhone":null,"emailAddress":"tmctest@testcorp.com","fax":null,"companyName":null}]', $client->getResponse()->getContent());
     }
 
     /**

@@ -129,11 +129,7 @@ class CommunicationController extends Controller
             $em = $this->getDoctrine()->getManager();
 
 
-
-
-            $test = array(new Communication(), new Property());
-
-
+            $communicationJoins = array(new Communication(), new Property());
 
 
             // Use the repository to query for the records we want.
@@ -143,8 +139,6 @@ class CommunicationController extends Controller
             // create a SearchNarrower to narrow down our searches
             $searchNarrower = new SearchNarrower();
 
-            //$communicationJoins = array(new Communication(), new Property());
-
             // narrow down our searches, and store their values along side their field values
             $searchedData = $searchNarrower->narrower($communicationSearches, $cleanQuery, new Communication());
 
@@ -152,13 +146,17 @@ class CommunicationController extends Controller
             // NOTE: Serializer service needs to be enabled for this to work properly
             $encoder = new JsonEncoder();
             $normalizer = new ObjectNormalizer();
-            $normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
-            $normalizer->setIgnoredAttributes(array("property"));
 
+            // We used to get a circular reference error. This line prevents it.
+            $normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
+
+            // Don't display the 'property' data as JSON. Makes it more human readable.
+            $normalizer->setIgnoredAttributes(array("property"));
             $serializer = new Serializer(array($normalizer), array($encoder));
 
             return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
         }
+
         // string over 100, return empty array.
         return $this->json(array());
     }

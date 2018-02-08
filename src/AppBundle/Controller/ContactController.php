@@ -208,7 +208,9 @@ class ContactController extends Controller
             // NOTE: Serializer service needs to be enabled for this to work properly
             $encoder = new JsonEncoder();
             $normalizer = new ObjectNormalizer();
-            $normalizer->setIgnoredAttributes(array("properties"));
+
+            // Don't display the 'properties' data or the 'address' data as JSON. Makes it more human readable.
+            $normalizer->setIgnoredAttributes(array("properties", "address"));
             $serializer = new Serializer(array($normalizer), array($encoder));
 
             return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
@@ -219,4 +221,3 @@ class ContactController extends Controller
         return $this->json(array());
     }
 }
-

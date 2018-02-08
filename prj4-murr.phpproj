@@ -65,6 +65,7 @@
     <Compile Include="src\AppBundle\Controller\OOPsController.php" />
     <Compile Include="src\AppBundle\Controller\PropertyController.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadAddressData.php" />
+    <Compile Include="src\AppBundle\DataFixtures\ORM\LoadCommunicationData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContactData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadUserData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadPropertyData.php" />

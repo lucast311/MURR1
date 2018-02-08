@@ -33,9 +33,13 @@ class SearchNarrower
         // foreach result in the passed in array of search results
         foreach ($searchResults as $result)
         {
+            //var_dump($result);
+
             // a variable to store the values of the record
             $recordData = '';
             $recordData .= $this->narrowerHelper(get_class($result), $result);
+
+            //var_dump($recordData);
 
             $found = 0;
 
@@ -103,7 +107,7 @@ class SearchNarrower
                     // if so save that value to an array of strings.
                     else if($type = call_user_func([$result, $method]))
                     {
-                        var_dump($type);
+                        //var_dump($type);
                         switch($type)
                         {
                             case is_null($type):
@@ -114,6 +118,9 @@ class SearchNarrower
                             case is_int($type):
                             case is_string($type):
                                 $objectValues[] = '"'.$type.'"';
+                                break;
+                            case is_object($type) && in_array(get_class($type), array("AppBundle\Entity\Communication", "AppBundle\Entity\Property", "AppBundle\Entity\Address", "AppBundle\Entity\Contact", "AppBundle\Entity\Container")):
+                                $currData .= $this->narrowerHelper(get_class($type), $type);
                                 break;
                             default:
                                 break;
@@ -129,8 +136,8 @@ class SearchNarrower
             $currData .= $value;
         }
 
-        var_dump($currData);
-        var_dump($objectValues);
+        //var_dump($currData);
+        //var_dump($objectValues);
 
         return $currData;
     }
