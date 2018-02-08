@@ -119,7 +119,13 @@ class SearchNarrower
                             case is_string($type):
                                 $objectValues[] = '"'.$type.'"';
                                 break;
-                            case is_object($type) && in_array(get_class($type), array("AppBundle\Entity\Communication", "AppBundle\Entity\Property", "AppBundle\Entity\Address", "AppBundle\Entity\Contact", "AppBundle\Entity\Container")):
+                            case is_object($type) && in_array(get_class($type), array("AppBundle\Entity\Communication", "AppBundle\Entity\Property", "AppBundle\Entity\Address", "AppBundle\Entity\Contact", "AppBundle\Entity\Container",  "Doctrine\ORM\PersistentCollection")):
+                                if(get_class($type) == "Doctrine\ORM\PersistentCollection")
+                                {
+                                    $test = $type->toArray();
+
+                                    var_dump($test);
+                                }
                                 $currData .= $this->narrowerHelper(get_class($type), $type);
                                 break;
                             default:
