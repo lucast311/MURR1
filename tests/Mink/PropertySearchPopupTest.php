@@ -66,16 +66,12 @@ class PropertySearchPopupTest extends WebTestCase
         $windowNames = $this->session->getWindowNames();
         // Take note of this current window so we can return to it later
         $originalWindow = $this->session->getWindowName();
-
-        // Create a temporary session to deal with the popup
-        $popupSession = new Session($this->driver);
-
         // Switch to the first window in the array (seems to always be the popup)
-        $popupSession->switchToWindow($windowNames[0]);
+        $this->session->switchToWindow($windowNames[0]);
         // WAIT for the page to load, otherwise it will be empty when mink tries to use it.
-        $popupSession->wait(1000);
+        $this->session->wait(1000);
         // Re-get the page, since we are in a new window
-        $page = $popupSession->getPage();
+        $page = $this->session->getPage();
 
         // Search box
         $this->assertNotNull($page->find('named', array('id', "searchBox")));
@@ -96,27 +92,23 @@ class PropertySearchPopupTest extends WebTestCase
         $page->find('named', array('id', "searchBox"))->keyPress("s");
 
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $popupSession->wait(5000);
+        $this->session->wait(5000);
 
         // click the first link for one of the results
-        //$page->findLink("Select")->click();
-        $page->find('named', array('link', "Select"))->click();
-
-
-        $page = $this->session->getPage();
-
-
-        var_dump($originalWindow);
-        var_dump($this->session->getWindowNames());
-
+        $selectLink = $page->find('named', array('link', "Select"));
+        // Before we click the link, take the id of the property we clicked.
+        $id = $selectLink->getAttribute("data-id");
+        //Click the link
+        $selectLink->click();
 
         // Switch back to the original window
         $this->session->switchToWindow($originalWindow);
+
         // Refresh the page content so it reflects the window
         $page = $this->session->getPage();
 
-        // Get the select box now and check that it has the right property in it
-        $this->assertEquals($page->find('named', array('id', "communication_property"))->getValue(), "Charlton Arms");
+        // Get the select box now and check that it has the right property in it (based on the id of the property that was clicked originally)
+        $this->assertEquals($page->find('named', array('id', "communication_property"))->getValue(), $id);
     }
 
     /**
@@ -130,14 +122,17 @@ class PropertySearchPopupTest extends WebTestCase
         $this->session->visit('http://localhost:8000/communication/new');
         // Get the page
         $page = $this->session->getPage();
+        // Click on the select box so it opens
+        $page->find('css', ".select2-selection, .select2-selection--single")->click();
         // Check that the select box contains a specific property
-        $this->assertNotNull($page->find('named', array('content', "Charlton Legs")));
+        $this->assertContains("Charlton Legs", $page->find('css', ".select2-results")->getHtml());
         // Get the search box for the drop down and search for something to narrow the results
-        $page->find('named', array('id', "select2-search__field"))->setValue("Charlton Arms");
+        $page->find('css', ".select2-search__field")->setValue("Charlton Arms");
         // Now assert that the property is gone
-        $this->assertNull($page->find('named', array('content', "Charlton Legs")));
+        $this->assertNotContains("Charlton Legs", $page->find('css', ".select2-results")->getHtml());
+
         // Assert that the searched for property is still there
-        $this->assertNotNull($page->find('named', array('content', "Charlton Arms")));
+        $this->assertContains("Charlton Arms", $page->find('css', ".select2-results")->getHtml());
 
     }
 

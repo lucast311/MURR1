@@ -73,7 +73,9 @@ function postValue()
     // Send the information back to the parent page
     opener.receiveSelection(id);
     // Close the window
-    window.close();
+    // This beautiful delay is just long enough to make Mink not crash when it clicks the link, but the user won't notice it :)
+    setTimeout(function () { window.close(); }, 10);
+    //window.close();
 }
 
 $(onLoad);
