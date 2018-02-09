@@ -211,7 +211,7 @@ class RouteControllerTest extends WebTestCase
         $repo->save($rp);
 
         //get the client
-        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW' => 'password'));
 
         $crawler = $client->request('GET', '/route/1');
 
@@ -224,6 +224,31 @@ class RouteControllerTest extends WebTestCase
         //Check that the required error message is on the page
         $this->assertContains("This container already exists in this route", $client->getResponse()->getContent());
     }
+
+
+    /**
+     * Story 22a
+     * Tests that you can import a route from a csv
+     */
+    public function testImportRoute(){
+        //get the client
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW' => 'password'));
+        $client->followRedirects(true);
+
+        $crawler = $client->request('GET', '/route/import');
+
+        $form = $crawler->selectButton('Upload')->form();
+        /*$form["appbundle_route[pickupOrder]"] = 1;
+        $form["appbundle_routepickup[container]"] = 1; //select the first container in the list
+
+        $crawler = $client->submit($form);
+
+        //check that the containers serial is on the page
+        $this->assertContains("X123456",$client->getResponse()->getContent());
+        //check that the table contains the serial
+        $this->assertContains("X123456", $crawler->filter("table")->html());*/
+    }
+
 
     /**
      * (@inheritDoc)
