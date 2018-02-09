@@ -37,7 +37,6 @@ class RoutePickupRemoveTest extends WebTestCase
         $stmt->execute();
 
 
-        // Load the admin user into the database so they can log in
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
 
         $userLoader = new LoadUserData($encoder);
@@ -61,6 +60,8 @@ class RoutePickupRemoveTest extends WebTestCase
         $page->findById("password")->setValue("password");
         // Submit the form
         $page->find('named', array('id_or_name', "login"))->submit();
+        // Wait for the page to load before trying to browse elsewhere
+        $this->session->wait(10000, "document.readyState === 'complete'");
 
 
     }
@@ -174,16 +175,21 @@ class RoutePickupRemoveTest extends WebTestCase
         $rmButton->click();
 
         //Find the form with the ID of rmf1 (remove form 1)
-        $rmForm = $page->find("css","#rmf1");
+        //$rmForm = $page->find("css","#rmf1");
 
-        $this->assertContains("Are you sure?", $rmForm->getHtml()); //check that the form says "Are you sure?"
+        //get the span that would hold the error message
+        $errMsg = $page->find("css","#rmmsg1");
+
+        $this->assertContains("Are you sure?", $errMsg->getHtml()); //check that the form says "Are you sure?"
 
         //find the button with the ID of rmba1 (Remove button cancel 1)
         $acceptBtn = $page->find('css','#rmbc1');
         $acceptBtn->click();
 
+
+
         //check that the message is gone
-        $this->assertNotContains("Are you sure?", $rmForm->getHtml());
+        $this->assertNotContains("Are you sure?", $errMsg->getHtml());
 
         //get the list of containers
         $list = $page->find("css","table");

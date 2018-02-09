@@ -176,7 +176,7 @@ class RoutePickupRepositoryTest extends KernelTestCase
         $repository->remove($routePickup);
 
         //make sure that the routePickup could not be found in the database now
-        $this->assertNull($repository->findById($id));
+        $this->assertNull($repository->findOneById($id));
     }
 
 
@@ -227,7 +227,7 @@ class RoutePickupRepositoryTest extends KernelTestCase
         $repository->updateOrders($route->getId(), 2, false);
 
         //get the routePickups now
-        $RPs = $repository->findBy(array(),array('pickupOrder'=>'DESC'));
+        $RPs = $repository->findBy(array(),array('pickupOrder'=>'ASC'));
 
         $curOrder = 1; //there should only be orders 1 and 2 now.
 
@@ -235,6 +235,8 @@ class RoutePickupRepositoryTest extends KernelTestCase
 
         foreach ($RPs as $rp)
         {
+            //refresh the entity so the data is up-to-date
+            $this->em->refresh($rp);
         	$this->assertEquals($curOrder++,$rp->getPickupOrder()); //check that the pickup order is 1 lower now
         }
 
