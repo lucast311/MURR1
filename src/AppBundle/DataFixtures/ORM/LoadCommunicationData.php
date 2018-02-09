@@ -44,9 +44,76 @@ class LoadCommunicationData implements FixtureInterface
         {
             //custom, independant autoloaded fixtures
 
-            //////////////////// Loading a property
 
-            // create a single address
+            // Story 11c - For controller test
+            $this->communication = (new Communication())
+                ->setDate("2018-01-01")
+                ->setType("Phone")
+                ->setMedium("Incoming")
+                ->setCategory("Multi-purpose")
+                ->setDescription("Its a bin");
+
+            $obMan->persist($this->communication);
+            $obMan->flush();
+
+
+            // Story 11c - for most repository tests
+            $address = (new Address())
+                ->setStreetAddress("123 Main Street")
+                ->setPostalCode("S7N 3K5")
+                ->setCity("Saskatoon")
+                ->setProvince("Saskatchewan")
+                ->setCountry("Canada");
+
+            $addressFixtureLoader = new LoadAddressData($address);
+            $addressFixtureLoader->load($obMan);
+
+            $property = (new Property())
+                ->setSiteId(123)
+                ->setPropertyName("123 Fake Street")
+                ->setPropertyType("Townhouse Apartment")
+                ->setPropertyStatus("Active")
+                ->setStructureId(1)
+                ->setNumUnits(1)
+                ->setNeighbourhoodName("Sutherland")
+                ->setNeighbourhoodId("2")
+                ->setAddress($address);
+
+            $propertyFixtureLoader = new LoadPropertyData($property);
+            $propertyFixtureLoader->load($obMan);
+
+            $this->communication = (new Communication())
+                ->setDate("2018-01-01")
+                ->setType("Phone")
+                ->setMedium("Incoming")
+                ->setCategory("Collection")
+                ->setDescription("Its a bin")
+                ->setContactName("Ken")
+                ->setContactEmail("email@email.com")
+                ->setContactPhone("111-111-1111")
+                ->setProperty($property);
+
+            $obMan->persist($this->communication);
+            $obMan->flush();
+
+
+            // Story 11c - test SearchNarrower works
+            $this->communication = (new Communication())
+                ->setDate("2018-01-01")
+                ->setType("Phone")
+                ->setMedium("Incoming")
+                ->setCategory("Collection")
+                ->setDescription("Its a bin")
+                ->setContactName("Steve")
+                ->setContactEmail("email@email.com")
+                ->setContactPhone("111-111-1111");
+
+            $obMan->persist($this->communication);
+            $obMan->flush();
+
+
+            // Story 11c - test that a communication can be searched
+            //  based on a non-communication field it it is associated.
             $address = (new Address())
                 ->setStreetAddress("123 Fake St")
                 ->setPostalCode("A1A 1A1")
@@ -57,8 +124,7 @@ class LoadCommunicationData implements FixtureInterface
             $addressFixtureLoader = new LoadAddressData($address);
             $addressFixtureLoader->load($obMan);
 
-            // create a single property
-            $property = (new Property())
+            $property1 = (new Property())
                 ->setSiteId(69696961)
                 ->setPropertyName("Cosmo")
                 ->setPropertyType("Townhouse Condo")
@@ -68,40 +134,127 @@ class LoadCommunicationData implements FixtureInterface
                 ->setNeighbourhoodName("Sutherland")
                 ->setNeighbourhoodId("O48")
                 ->setAddress($address);
-            //$property->setContacts(new ArrayCollection(array($contact)));
 
-            $propertyFixtureLoader = new LoadPropertyData($property);
+            $propertyFixtureLoader = new LoadPropertyData($property1);
             $propertyFixtureLoader->load($obMan);
 
-            // create a single address
+            $property2 = (new Property())
+                ->setSiteId(69696962)
+                ->setPropertyName("SIAST")
+                ->setPropertyType("House")
+                ->setPropertyStatus("Active")
+                ->setStructureId(100)
+                ->setNumUnits(20)
+                ->setNeighbourhoodName("Test")
+                ->setNeighbourhoodId("666")
+                ->setAddress($address);
+
+            $propertyFixtureLoader = new LoadPropertyData($property2);
+            $propertyFixtureLoader->load($obMan);
+
             $contact = (new Contact())
-                ->setFirstName("Ken")
+                ->setFirstName("Test")
                 ->setLastName("Kenson")
                 ->setRole("Property Manager")
                 ->setCompanyName("Cosmo")
-                ->setPrimaryPhone("111-111-1111")
+                ->setPrimaryPhone("222-222-2222")
                 ->setPhoneExtension(111)
-                ->setEmailAddress("email@email.com")
+                ->setEmailAddress("email@email.ca")
                 ->setAddress($address);
-            $contact->setProperties(new ArrayCollection(array($property)));
+            $contact->setProperties(new ArrayCollection(array($property1, $property2)));
 
             $contactFixtureLoader = new LoadContactData($contact);
             $contactFixtureLoader->load($obMan);
 
-            ////////////////////////////////
-
-            // create a communication to search for in the test
             $this->communication = (new Communication())
-                ->setDate("2018-01-01")
-                ->setType("Phone")
-                ->setMedium("Incoming")
-                ->setCategory("Collection")
-                ->setDescription("Its a bin")
-                ->setProperty($property);
+                ->setDate("Test")
+                ->setType("Test")
+                ->setMedium("Test")
+                ->setCategory("Test")
+                ->setDescription("Test")
+                ->setProperty($property1);
 
-            // persist the container object set in the constructor to the database
             $obMan->persist($this->communication);
-            // flush the database connection
+            $obMan->flush();
+
+
+
+
+
+
+
+
+            // None of the tests check for this data.
+            // This is a remnant of when we were testing on the web-page.
+
+            //// create a single address
+            //$address = (new Address())
+            //    ->setStreetAddress("123 Fake St")
+            //    ->setPostalCode("A1A 1A1")
+            //    ->setCity("Saskatoon")
+            //    ->setProvince("Saskatchewan")
+            //    ->setCountry("Canada");
+
+            //$addressFixtureLoader = new LoadAddressData($address);
+            //$addressFixtureLoader->load($obMan);
+
+            //// create a single property
+            //$property1 = (new Property())
+            //    ->setSiteId(69696961)
+            //    ->setPropertyName("Cosmo")
+            //    ->setPropertyType("Townhouse Condo")
+            //    ->setPropertyStatus("Active")
+            //    ->setStructureId(94)
+            //    ->setNumUnits(1)
+            //    ->setNeighbourhoodName("Sutherland")
+            //    ->setNeighbourhoodId("O48")
+            //    ->setAddress($address);
+
+            //$propertyFixtureLoader = new LoadPropertyData($property1);
+            //$propertyFixtureLoader->load($obMan);
+
+            //// create a single property
+            //$property2 = (new Property())
+            //    ->setSiteId(69696962)
+            //    ->setPropertyName("SIAST")
+            //    ->setPropertyType("House")
+            //    ->setPropertyStatus("Active")
+            //    ->setStructureId(100)
+            //    ->setNumUnits(20)
+            //    ->setNeighbourhoodName("Test")
+            //    ->setNeighbourhoodId("666")
+            //    ->setAddress($address);
+
+            //$propertyFixtureLoader = new LoadPropertyData($property2);
+            //$propertyFixtureLoader->load($obMan);
+
+            //// create a single address
+            //$contact = (new Contact())
+            //    ->setFirstName("Ken")
+            //    ->setLastName("Kenson")
+            //    ->setRole("Property Manager")
+            //    ->setCompanyName("Cosmo")
+            //    ->setPrimaryPhone("111-111-1111")
+            //    ->setPhoneExtension(111)
+            //    ->setEmailAddress("email@email.com")
+            //    ->setAddress($address);
+            //$contact->setProperties(new ArrayCollection(array($property1, $property2)));
+
+            //$contactFixtureLoader = new LoadContactData($contact);
+            //$contactFixtureLoader->load($obMan);
+
+            //// create a communication to search for in the test
+            //$this->communication = (new Communication())
+            //    ->setDate("2018-01-01")
+            //    ->setType("Phone")
+            //    ->setMedium("Incoming")
+            //    ->setCategory("Collection")
+            //    ->setDescription("Its a bin")
+            //    ->setProperty($property1);
+
+            //// persist the container object set in the constructor to the database
+            //$obMan->persist($this->communication);
+            //// flush the database connection
             $obMan->flush();
         }
         else

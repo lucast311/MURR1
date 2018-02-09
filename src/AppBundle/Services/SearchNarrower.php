@@ -2,11 +2,11 @@
 
 namespace AppBundle\Services;
 
-use AppBundle\Entity\Contact;
-use AppBundle\Entity\Address;
-use AppBundle\Entity\Property;
-use AppBundle\Entity\Communication;
-use AppBundle\Entity\Container;
+//use AppBundle\Entity\Contact;
+//use AppBundle\Entity\Address;
+//use AppBundle\Entity\Property;
+//use AppBundle\Entity\Communication;
+//use AppBundle\Entity\Container;
 /**
  * TODO::
  * Searcher description.
@@ -20,7 +20,8 @@ class SearchNarrower
      * This method will be the general narrower that will handle all the main narrower functionality.
      * Will narrow down any passed in search results so we only
      * get back records that contain everything we wanted to find.
-     * @param mixed $entity - the type of entity that we are searching for.
+     * @param mixed $entity - the type of entity that we are searching for. I think that this is redundant,
+     *                          and we might be able to remove it when we implement QueryBuilder in the other searches.
      * @param array $searchResults - an array of all records initially returned from the query.
      * @param mixed $cleanQuery - an array of each string we wanted to find.
      * @return array - of narrowed search results
@@ -33,14 +34,15 @@ class SearchNarrower
         // foreach result in the passed in array of search results
         foreach ($searchResults as $result)
         {
-            //var_dump($result);
+            $array = array();
 
             // a variable to store the values of the record
             $recordData = '';
-            $recordData .= $this->narrowerHelper(get_class($result), $result, array());
 
-            //var_dump($recordData);
+            // call a helper method to return the string of values from the current result
+            $recordData .= $this->narrowerHelper($result, $array);
 
+            // a variable to indicate the number of query strings that were found in the string of result data
             $found = 0;
 
             // foreach separate string to query on in the passed in string
@@ -73,11 +75,12 @@ class SearchNarrower
      * Story 11b
      *
      * Function that creates a string of the record data
-     * @param mixed $currEntity
-     * @param mixed $result
-     * @return string
+     * @param mixed $result - the current Entity we are looking at
+     * @param mixed $array - the array that acts as our base case. We pass it by reference
+     *                          so we don't lose any values when we recurse back up.
+     * @return string - of all the values for the current object, and any objects it's linked to.
      */
-    public function narrowerHelper($currEntity, $result, $array)
+    public function narrowerHelper($result, &$array)
     {
         // an array of arrys to store the values of the returned objects
         $objectValues = array();
@@ -85,20 +88,18 @@ class SearchNarrower
         // a variable to store the values of the current Entity
         $currData = '';
 
-        var_dump($currEntity);
-        var_dump($array);
+        $currEntity = get_class($result);
 
         if(!in_array($currEntity, $array))
         {
-
             // get all methods in the contact class
-            //$methods = get_class_methods(get_class($currEntity));
             $methods = get_class_methods($currEntity);
 
-            if(!in_array($result, $array))
+            if(!in_array($currEntity, $array))
             {
-                $array[] = get_class($result);
+                $array[] = $currEntity;
             }
+
             // for each method in the entity you are searching for
             foreach ($methods as $method)
             {
@@ -111,58 +112,37 @@ class SearchNarrower
                         if(strpos($method, 'getId')===0)
                         {
                             // call getId and store its value in the array created above
-                            $objectValues[] = '"'.$result->getId().'"';
+                            $currData .= '"'.$result->getId().'"';
                         }
                         // else check if the method returns a string, int, or null.
                         // if so save that value to an array of strings.
                         else if($type = call_user_func([$result, $method]))
                         {
-                            //var_dump($type);
                             switch($type)
                             {
                                 case is_null($type):
-                                    $objectValues[] = 'null';
-
-                                    //if(!in_array($currEntity, $array))
-                                    //{
-                                    //    $array[] = get_class($type);
-                                    //}
-
+                                    $currData .= 'null';
                                     break;
-
                                 // int or string
                                 case is_int($type):
                                 case is_string($type):
-                                    $objectValues[] = '"'.$type.'"';
-
-                                    //if(!in_array($currEntity, $array))
-                                    //{
-                                    //    $array[] = get_class($type);
-                                    //}
-
+                                    $currData .= '"'.$type.'"';
                                     break;
-                                case is_object($type) && get_class($type) == "Doctrine\ORM\PersistentCollection":
+                                case is_object($type) && get_class($type) == "Doctrine\ORM\PersistentCollection" && !in_array(($type->toArray()), $array):
                                     $persistentEntities = $type->toArray();
 
                                     foreach ($persistentEntities as $entity)
                                     {
-                                    	$currData .= $this->narrowerHelper(get_class($entity), $entity, $array);
+                                    	$currData .= $this->narrowerHelper($entity, $array);
                                     }
 
-                                    $array[] = $persistentEntities[0]->get_class($type);
-
-                                case is_object($type) && in_array(get_class($type), array("AppBundle\Entity\Communication", "AppBundle\Entity\Property", "AppBundle\Entity\Address", "AppBundle\Entity\Contact", "AppBundle\Entity\Container",  "Doctrine\ORM\PersistentCollection")):
-                                    //if(get_class($type) == "Doctrine\ORM\PersistentCollection")
-                                    //{
-                                    //    $test = $type->toArray();
-
-                                    //    var_dump($test);
-                                    //}
-                                    //if(!in_array($result, $array))
-                                    //{
-                                    //    $array[] = get_class($result);
-                                    //}
-                                    $currData .= $this->narrowerHelper(get_class($type), $type, $array);
+                                    if(!in_array($currEntity, $array))
+                                    {
+                                        $array[] = $currEntity;
+                                    }
+                                    break;
+                                case is_object($type) && in_array(get_class($type), array("AppBundle\Entity\Communication", "AppBundle\Entity\Property", "AppBundle\Entity\Address", "AppBundle\Entity\Contact", "AppBundle\Entity\Container", "Proxies\__CG__\AppBundle\Entity\Address")):
+                                    $currData .= $this->narrowerHelper($type, $array);
                                     break;
                                 default:
                                     break;
@@ -172,19 +152,12 @@ class SearchNarrower
                 }
             }
         }
-        else
-        {
-
-        }
 
         // populate the $currdata string with the values from the array of entity object value arrays
         foreach($objectValues as $value)
         {
             $currData .= $value;
         }
-
-        //var_dump($currData);
-        //var_dump($objectValues);
 
         return $currData;
     }
@@ -328,8 +301,6 @@ class SearchNarrower
 
     //    // an array to store the values of the returned objects
     //    $objectValues = array();
-
-    //    //var_dump($searchResults);
 
     //    // foreach result in the passed in array of search results
     //    foreach ($searchResults as $result)

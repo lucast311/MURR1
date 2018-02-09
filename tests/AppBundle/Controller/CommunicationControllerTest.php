@@ -7,6 +7,7 @@ use AppBundle\Entity\Communication;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
 use AppBundle\DataFixtures\ORM\LoadUserData;
+use AppBundle\DataFixtures\ORM\LoadCommunicationData;
 use DateTime;
 //use Doctrine\Common\Persistence\ObjectRepository;
 
@@ -29,6 +30,9 @@ class CommunicationControllerTest extends WebTestCase
 
         $userLoader = new LoadUserData($encoder);
         $userLoader->load($this->em);
+
+        $communicationLoader = new LoadCommunicationData();
+        $communicationLoader->load($this->em);
     }
 
     public function testFormSuccess()
@@ -420,15 +424,15 @@ class CommunicationControllerTest extends WebTestCase
         // create a client so we can view the page
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
-        // create a communication to search for in the test
-        $communication = new Communication();
-        $communication->setDate("2018-01-01");
-        $communication->setType("Phone");
-        $communication->setMedium("Incoming");
-        $communication->setCategory("Multi-purpose");
-        $communication->setDescription("Its a bin");
+        //// create a communication to search for in the test
+        //$communication = new Communication();
+        //$communication->setDate("2018-01-01");
+        //$communication->setType("Phone");
+        //$communication->setMedium("Incoming");
+        //$communication->setCategory("Multi-purpose");
+        //$communication->setDescription("Its a bin");
 
-        $repository->insert($communication);
+        //$repository->insert($communication);
 
         // go to the page and search for 'Jim'
         $client->request('GET', '/communication/jsonsearch/Multi-purpose');

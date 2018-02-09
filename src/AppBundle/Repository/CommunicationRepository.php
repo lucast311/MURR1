@@ -125,8 +125,6 @@ class CommunicationRepository extends EntityRepository
             }
         }
 
-        var_dump($records);
-
         return $commObjects;
 
     }

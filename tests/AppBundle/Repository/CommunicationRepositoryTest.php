@@ -27,8 +27,8 @@ class CommunicationRepositoryTest extends KernelTestCase
             ->get('doctrine')
             ->getManager();
 
-        //$communicationLoader = new LoadCommunicationData();
-        //$communicationLoader->load($this->em);
+        $communicationLoader = new LoadCommunicationData();
+        $communicationLoader->load($this->em);
     }
 
 
@@ -118,37 +118,14 @@ class CommunicationRepositoryTest extends KernelTestCase
         $this->assertEquals($dbComm->getDate(), $dateString);
     }
 
-
-
-
-
-
-    // ADD SETUP FUNCTION AT THE TOP OF THE PAGE THAT ADDS ALL RECORDS TO SEARCH FOR
-
-
-
-
-
-
-
     /**
      * Story 11c
      * Test that a communication object is returned
      */
     public function testCommunicationObjectsReturned()
     {
-        // create a communication to search for in the test
-        $communication = new Communication();
-        $communication->setDate("2018-01-01");
-        $communication->setType("Phone");
-        $communication->setMedium("Incoming");
-        $communication->setCategory("Collection");
-        $communication->setDescription("Its a bin");
-
         // get a repository to search with
         $repo = $this->em->getRepository(Communication::class);
-
-        $repo->insert($communication);
 
         // create an array with values to search with
         $searches = array();
@@ -168,36 +145,35 @@ class CommunicationRepositoryTest extends KernelTestCase
 
     /**
      * Story 11c
+     * test that a communication can be searched for using only one specified string
+     */
+    public function testSearchByOnlyOneField()
+    {
+        // create a new Repository to be used later
+        $repo = $this->em->getRepository(Communication::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = '2018-01-01';
+
+        // query the database
+        $results = $repo->CommunicationSearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(3, sizeof($results));
+    }
+
+    /**
+     * Story 11c
      * test that the search narrower functions
      */
     public function testSearchNarrowerFunctionality()
     {
-        // create a communication to search for in the test
-        $communication1 = new Communication();
-        $communication1->setDate("2018-01-01");
-        $communication1->setType("Phone");
-        $communication1->setMedium("Incoming");
-        $communication1->setCategory("Collection");
-        $communication1->setDescription("Its a bin");
-        $communication1->setContactName("Ken");
-
-        // create a communication to search for in the test
-        $communication2 = new Communication();
-        $communication2->setDate("2018-01-01");
-        $communication2->setType("Phone");
-        $communication2->setMedium("Incoming");
-        $communication2->setCategory("Collection");
-        $communication2->setDescription("Its a bin");
-        $communication2->setContactName("Steve");
-
-        // create a new SearchNarrower to be used later
+        // create a new Repository to be used later
         $searchNarrower = new SearchNarrower();
 
         // get a repository to search with
         $repo = $this->em->getRepository(Communication::class);
-
-        $repo->insert($communication1);
-        $repo->insert($communication2);
 
         // create an array with values to search with
         $cleanQuery = array();
@@ -222,18 +198,8 @@ class CommunicationRepositoryTest extends KernelTestCase
      */
     public function testSearchOnDate()
     {
-        // create a communication to search for in the test
-        $communication = new Communication();
-        $communication->setDate("2018-01-01");
-        $communication->setType("Phone");
-        $communication->setMedium("Incoming");
-        $communication->setCategory("Collection");
-        $communication->setDescription("Its a bin");
-
-        // create a new SearchNarrower to be used later
+        // create a new Repository to be used later
         $repo = $this->em->getRepository(Communication::class);
-
-        $repo->insert($communication);
 
         // create an array with values to search with
         $cleanQuery = array();
@@ -243,7 +209,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $results = $repo->CommunicationSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals(3, sizeof($results));
     }
 
     /**
@@ -252,18 +218,8 @@ class CommunicationRepositoryTest extends KernelTestCase
      */
     public function testSearchOnType()
     {
-        // create a communication to search for in the test
-        $communication = new Communication();
-        $communication->setDate("2018-01-01");
-        $communication->setType("Phone");
-        $communication->setMedium("Incoming");
-        $communication->setCategory("Collection");
-        $communication->setDescription("Its a bin");
-
-        // create a new SearchNarrower to be used later
+        // create a new Repository to be used later
         $repo = $this->em->getRepository(Communication::class);
-
-        $repo->insert($communication);
 
         // create an array with values to search with
         $cleanQuery = array();
@@ -273,7 +229,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $results = $repo->CommunicationSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals(3, sizeof($results));
     }
 
     /**
@@ -282,18 +238,8 @@ class CommunicationRepositoryTest extends KernelTestCase
      */
     public function testSearchOnMedium()
     {
-        // create a communication to search for in the test
-        $communication = new Communication();
-        $communication->setDate("2018-01-01");
-        $communication->setType("Phone");
-        $communication->setMedium("Incoming");
-        $communication->setCategory("Collection");
-        $communication->setDescription("Its a bin");
-
-        // create a new SearchNarrower to be used later
+        // create a new Repository to be used later
         $repo = $this->em->getRepository(Communication::class);
-
-        $repo->insert($communication);
 
         // create an array with values to search with
         $cleanQuery = array();
@@ -303,7 +249,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $results = $repo->CommunicationSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals(3, sizeof($results));
     }
 
     /**
@@ -312,19 +258,8 @@ class CommunicationRepositoryTest extends KernelTestCase
      */
     public function testSearchOnContactName()
     {
-        // create a communication to search for in the test
-        $communication = new Communication();
-        $communication->setDate("2018-01-01");
-        $communication->setType("Phone");
-        $communication->setMedium("Incoming");
-        $communication->setCategory("Collection");
-        $communication->setDescription("Its a bin");
-        $communication->setContactName("Ken");
-
-        // create a new SearchNarrower to be used later
+        // create a new Repository to be used later
         $repo = $this->em->getRepository(Communication::class);
-
-        $repo->insert($communication);
 
         // create an array with values to search with
         $cleanQuery = array();
@@ -334,7 +269,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $results = $repo->CommunicationSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals(2, sizeof($results));
     }
 
     /**
@@ -343,19 +278,8 @@ class CommunicationRepositoryTest extends KernelTestCase
      */
     public function testSearchOnContactEmail()
     {
-        // create a communication to search for in the test
-        $communication = new Communication();
-        $communication->setDate("2018-01-01");
-        $communication->setType("Phone");
-        $communication->setMedium("Incoming");
-        $communication->setCategory("Collection");
-        $communication->setDescription("Its a bin");
-        $communication->setContactEmail("email@email.com");
-
-        // create a new SearchNarrower to be used later
+        // create a new Repository to be used later
         $repo = $this->em->getRepository(Communication::class);
-
-        $repo->insert($communication);
 
         // create an array with values to search with
         $cleanQuery = array();
@@ -365,7 +289,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $results = $repo->CommunicationSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals(2, sizeof($results));
     }
 
     /**
@@ -374,19 +298,8 @@ class CommunicationRepositoryTest extends KernelTestCase
      */
     public function testSearchOnContactPhone()
     {
-        // create a communication to search for in the test
-        $communication = new Communication();
-        $communication->setDate("2018-01-01");
-        $communication->setType("Phone");
-        $communication->setMedium("Incoming");
-        $communication->setCategory("Collection");
-        $communication->setDescription("Its a bin");
-        $communication->setContactPhone("111-111-1111");
-
-        // create a new SearchNarrower to be used later
+        // create a new Repository to be used later
         $repo = $this->em->getRepository(Communication::class);
-
-        $repo->insert($communication);
 
         // create an array with values to search with
         $cleanQuery = array();
@@ -396,7 +309,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $results = $repo->CommunicationSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals(2, sizeof($results));
     }
 
     /**
@@ -405,39 +318,8 @@ class CommunicationRepositoryTest extends KernelTestCase
      */
     public function testSearchOnProperty()
     {
-        // create an address to add for the property
-        $address = new Address();
-        $address->setStreetAddress("123 Main Street");
-        $address->setPostalCode("S7N 3K5");
-        $address->setCity("Saskatoon");
-        $address->setProvince("Saskatchewan");
-        $address->setCountry("Canada");
-
-        // create an address to add for the communication
-        $property = new Property();
-        $property->setSiteId(123);
-        $property->setPropertyName("123 Fake Street");
-        $property->setPropertyType("Townhouse Apartment");
-        $property->setPropertyStatus("Active");
-        $property->setStructureId(1);
-        $property->setNumUnits(1);
-        $property->setNeighbourhoodName("Sutherland");
-        $property->setNeighbourhoodId("2");
-        $property->setAddress($address);
-
-        // create a communication to search for in the test
-        $communication = new Communication();
-        $communication->setDate("2018-01-01");
-        $communication->setType("Phone");
-        $communication->setMedium("Incoming");
-        $communication->setCategory("Collection");
-        $communication->setDescription("Its a bin");
-        $communication->setProperty($property);
-
-        // create a new SearchNarrower to be used later
+        // create a new Repository to be used later
         $repo = $this->em->getRepository(Communication::class);
-
-        $repo->insert($communication);
 
         // create an array with values to search with
         $cleanQuery = array();
@@ -456,18 +338,8 @@ class CommunicationRepositoryTest extends KernelTestCase
      */
     public function testSearchOnCategory()
     {
-        // create a communication to search for in the test
-        $communication = new Communication();
-        $communication->setDate("2018-01-01");
-        $communication->setType("Phone");
-        $communication->setMedium("Incoming");
-        $communication->setCategory("Collection");
-        $communication->setDescription("Its a bin");
-
-        // create a new SearchNarrower to be used later
+        // create a new Repository to be used later
         $repo = $this->em->getRepository(Communication::class);
-
-        $repo->insert($communication);
 
         // create an array with values to search with
         $cleanQuery = array();
@@ -477,7 +349,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $results = $repo->CommunicationSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals(2, sizeof($results));
     }
 
     /**
@@ -486,18 +358,8 @@ class CommunicationRepositoryTest extends KernelTestCase
      */
     public function testSearchOnDescription()
     {
-        // create a communication to search for in the test
-        $communication = new Communication();
-        $communication->setDate("2018-01-01");
-        $communication->setType("Phone");
-        $communication->setMedium("Incoming");
-        $communication->setCategory("Collection");
-        $communication->setDescription("Its a bin");
-
-        // create a new SearchNarrower to be used later
+        // create a new Repository to be used later
         $repo = $this->em->getRepository(Communication::class);
-
-        $repo->insert($communication);
 
         // create an array with values to search with
         $cleanQuery = array();
@@ -507,7 +369,32 @@ class CommunicationRepositoryTest extends KernelTestCase
         $results = $repo->CommunicationSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
+        $this->assertEquals(3, sizeof($results));
+    }
+
+    /**
+     * Story 11c
+     * test that a user can search for a Communication based on a field in its associated Property
+     */
+    public function testSearchByPropertyField()
+    {
+        // create a new SearchNarrower to be used later
+        $repo = $this->em->getRepository(Communication::class);
+
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = "Cosmo";
+
+        // query the database
+        $results = $repo->CommunicationSearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
         $this->assertEquals(1, sizeof($results));
+    }
+
+    public function testSearchByOnlyOneField()
+    {
+
     }
 
     /**
