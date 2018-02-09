@@ -47,4 +47,18 @@ class RoutePickupRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->execute();
     }
+
+    /**
+     * Story 22a
+     * @param RoutePickup $routePickup RoutePickup to be removed
+     */
+    public function remove(RoutePickup $routePickup){
+        $em = $this->getEntityManager();
+        // persist the new contact in the database
+        $em->remove($routePickup);
+        // flush them from the database
+        $em->flush();
+        //Close the entity manager
+        $em->close();
+    }
 }
