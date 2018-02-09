@@ -1988,6 +1988,7 @@
   <ItemGroup>
     <Folder Include="app\config" />
     <Folder Include="app\Resources\images" />
+    <Folder Include="app\Resources\js\" />
     <Folder Include="app\Resources\views\communication" />
     <Folder Include="app\Resources\views\Contact" />
     <Folder Include="app\Resources\views\contactsearch" />
@@ -3290,6 +3291,7 @@
     <Folder Include="web\JavaScript\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\Resources\js\DeletePrompt.js" />
     <Content Include="app\Resources\views\propertySearch\propertyJSONSearches.html.twig" />
     <Content Include="app\Resources\views\propertySearch\show.html.twig" />
     <Content Include="app\Resources\views\property\searchProperty.html.twig" />
@@ -3297,6 +3299,7 @@
     <Content Include="app\Resources\views\communication\viewComm.html.twig" />
     <Content Include="app\Resources\views\route\manageRoute.html.twig" />
     <Content Include="app\sqlite.db" />
+    <Content Include="web\JavaScript\DeletePrompt.js" />
     <Content Include="web\JavaScript\Search.js" />
   </ItemGroup>
 </Project>

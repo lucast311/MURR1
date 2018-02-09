@@ -173,7 +173,7 @@ class RoutePickupRepositoryTest extends KernelTestCase
 
 
         //Now remove it
-        $repository->remove($id);
+        $repository->remove($routePickup);
 
         //make sure that the routePickup could not be found in the database now
         $this->assertNull($repository->findById($id));
@@ -229,13 +229,13 @@ class RoutePickupRepositoryTest extends KernelTestCase
         //get the routePickups now
         $RPs = $repository->findBy(array(),array('pickupOrder'=>'DESC'));
 
-        $curOrder = 2; //the orders should start at 2 now (peviously 3)
+        $curOrder = 1; //there should only be orders 1 and 2 now.
 
         $this->assertEquals(2, count($RPs));// check that there are 2 route pickups
 
         foreach ($RPs as $rp)
         {
-        	$this->assertEquals($curOrder--,$rp->getPickupOrder()); //check that the pickup order is 1 lower now
+        	$this->assertEquals($curOrder++,$rp->getPickupOrder()); //check that the pickup order is 1 lower now
         }
 
     }

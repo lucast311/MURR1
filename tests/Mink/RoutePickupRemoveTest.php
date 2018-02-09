@@ -26,6 +26,17 @@ class RoutePickupRemoveTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
 
+        //Wipe database before beginning because tests seem to run into errors
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM RoutePickup');
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Route');
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Container');
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM User');
+        $stmt->execute();
+
+
         // Load the admin user into the database so they can log in
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
 
