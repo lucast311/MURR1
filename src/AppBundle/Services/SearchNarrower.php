@@ -34,13 +34,13 @@ class SearchNarrower
         // foreach result in the passed in array of search results
         foreach ($searchResults as $result)
         {
-            $array = array();
+            $entitiesToIgnore = array();
 
             // a variable to store the values of the record
             $recordData = '';
 
             // call a helper method to return the string of values from the current result
-            $recordData .= $this->narrowerHelper($result, $array);
+            $recordData .= $this->narrowerHelper($result, $entitiesToIgnore);
 
             // a variable to indicate the number of query strings that were found in the string of result data
             $found = 0;
@@ -76,12 +76,14 @@ class SearchNarrower
      *
      * Function that creates a string of the record data
      * @param mixed $result - the current Entity we are looking at
-     * @param mixed $array - the array that acts as our base case. We pass it by reference
+     * @param mixed $entitiesToIgnore - the array that acts as our base case. We pass it by reference
      *                          so we don't lose any values when we recurse back up.
      * @return string - of all the values for the current object, and any objects it's linked to.
      */
-    public function narrowerHelper($result, &$array)
+    public function narrowerHelper($result, &$entitiesToIgnore)
     {
+        $entitiesToAccept = array("AppBundle\Entity\Communication", "AppBundle\Entity\Property", "AppBundle\Entity\Address", "AppBundle\Entity\Contact", "AppBundle\Entity\Container", "Proxies\__CG__\AppBundle\Entity\Address");
+
         // an array of arrys to store the values of the returned objects
         $objectValues = array();
 
@@ -90,14 +92,14 @@ class SearchNarrower
 
         $currEntity = get_class($result);
 
-        if(!in_array($currEntity, $array))
+        if(!in_array($currEntity, $entitiesToIgnore))
         {
             // get all methods in the contact class
             $methods = get_class_methods($currEntity);
 
-            if(!in_array($currEntity, $array))
+            if(!in_array($currEntity, $entitiesToIgnore))
             {
-                $array[] = $currEntity;
+                $entitiesToIgnore[] = $currEntity;
             }
 
             // for each method in the entity you are searching for
@@ -128,21 +130,21 @@ class SearchNarrower
                                 case is_string($type):
                                     $currData .= '"'.$type.'"';
                                     break;
-                                case is_object($type) && get_class($type) == "Doctrine\ORM\PersistentCollection" && !in_array(($type->toArray()), $array):
+                                case is_object($type) && get_class($type) == "Doctrine\ORM\PersistentCollection" && !in_array(($type->toArray()), $entitiesToIgnore):
                                     $persistentEntities = $type->toArray();
 
                                     foreach ($persistentEntities as $entity)
                                     {
-                                    	$currData .= $this->narrowerHelper($entity, $array);
+                                    	$currData .= $this->narrowerHelper($entity, $entitiesToIgnore);
                                     }
 
-                                    if(!in_array($currEntity, $array))
+                                    if(!in_array($currEntity, $entitiesToIgnore))
                                     {
-                                        $array[] = $currEntity;
+                                        $entitiesToIgnore[] = $currEntity;
                                     }
                                     break;
-                                case is_object($type) && in_array(get_class($type), array("AppBundle\Entity\Communication", "AppBundle\Entity\Property", "AppBundle\Entity\Address", "AppBundle\Entity\Contact", "AppBundle\Entity\Container", "Proxies\__CG__\AppBundle\Entity\Address")):
-                                    $currData .= $this->narrowerHelper($type, $array);
+                                case is_object($type) && in_array(get_class($type), $entitiesToAccept):
+                                    $currData .= $this->narrowerHelper($type, $entitiesToIgnore);
                                     break;
                                 default:
                                     break;
