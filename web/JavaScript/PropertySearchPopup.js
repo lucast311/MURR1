@@ -7,9 +7,9 @@
 function onLoad()
 {
     // Load the select2 library (for searching in the dropdown) on the select box
-    $("#communication_property").select2(); 
+    $("#communication_property, #appbundle_container_property").select2(); 
     // Insert an advanced search button beside the dropdown. This is so it's easy to insert instead of modifying the form everywhere it's needed.
-    $("#communication_property").next().after("<input id='advanced_property_search_popup' value='Advanced Search' type='button'/>"); 
+    $("#communication_property, #appbundle_container_property").next().after("<input id='advanced_property_search_popup' value='Advanced Search' type='button'/>"); 
 
     // Register an event handler for clicking the button
     $("#advanced_property_search_popup").click(advancedSearch);
@@ -34,7 +34,7 @@ function advancedSearch()
 function receiveSelection(id)
 {
     // Obtain the select box and set it's value to be the recieved id. Need to trigger change for Select2 to update itself.
-    $("#communication_property").val(id).trigger('change');
+    $("#communication_property, #appbundle_container_property").val(id).trigger('change');
 }
 
 $(onLoad);//when the page is done loading, run the onLoad function
