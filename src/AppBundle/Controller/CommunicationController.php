@@ -117,7 +117,7 @@ class CommunicationController extends Controller
         $searchQuery = htmlentities($searchQuery);
 
         // if the string to query onn is less than or equal to 100 characters
-        if(strlen($searchQuery) <= 100 && !empty($searchQuery))
+        if(strlen($searchQuery) <= 500 && !empty($searchQuery))
         {
             // create a cleaner to cleanse the search query
             $cleaner = new Cleaner();
