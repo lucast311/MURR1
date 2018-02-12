@@ -57,6 +57,7 @@
     <Compile Include="bin\console" />
     <Compile Include="bin\symfony_requirements" />
     <Compile Include="src\AppBundle\Controller\CollectionHistoryController.php" />
+    <Compile Include="src\AppBundle\Controller\RouteController.php" />
     <Compile Include="src\AppBundle\Controller\SecurityController.php" />
     <Compile Include="src\AppBundle\Controller\CommunicationController.php" />
     <Compile Include="src\AppBundle\Controller\ContactController.php" />
@@ -65,13 +66,14 @@
     <Compile Include="src\AppBundle\Controller\EduMatFormController.php" />
     <Compile Include="src\AppBundle\Controller\OOPsController.php" />
     <Compile Include="src\AppBundle\Controller\PropertyController.php" />
-    <Compile Include="src\AppBundle\Controller\RouteController.php" />
+    <Compile Include="src\AppBundle\Controller\StructureController.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadAddressData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContactData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContainerData.php" />
-    <Compile Include="src\AppBundle\DataFixtures\ORM\LoadPropertyData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadRouteData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadRoutePickupData.php" />
+    <Compile Include="src\AppBundle\DataFixtures\ORM\LoadUserData.php" />
+    <Compile Include="src\AppBundle\DataFixtures\ORM\LoadPropertyData.php" />
     <Compile Include="src\AppBundle\Entity\Address.php" />
     <Compile Include="src\AppBundle\Entity\CollectionHistory.php" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
@@ -88,6 +90,7 @@
     <Compile Include="src\AppBundle\Form\ContainerEditType.php" />
     <Compile Include="src\AppBundle\Form\ContainerType.php" />
     <Compile Include="src\AppBundle\Form\RoutePickupType.php" />
+    <Compile Include="src\AppBundle\Form\StructureType.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
     <Compile Include="src\AppBundle\Form\ContactType.php" />
@@ -104,9 +107,9 @@
     <Compile Include="src\AppBundle\Repository\RoutePickupRepository.php" />
     <Compile Include="src\AppBundle\Repository\RouteRepository.php" />
     <Compile Include="src\AppBundle\Repository\StructureRepository.php" />
+    <Compile Include="src\AppBundle\Repository\UserRepository.php" />
     <Compile Include="src\AppBundle\Services\Changer.php" />
     <Compile Include="src\AppBundle\Services\Cleaner.php" />
-    <Compile Include="src\AppBundle\Services\SearchHelper.php" />
     <Compile Include="src\AppBundle\Services\SearchNarrower.php" />
     <Compile Include="src\AppBundle\Tests\Controller\ContactControllerTest.php" />
     <Compile Include="src\AppBundle\Tests\Controller\ContactSearchControllerTest.php" />
@@ -123,6 +126,7 @@
     <Compile Include="tests\AppBundle\Controller\EduMatFormControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\PropertyControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\RouteControllerTest.php" />
+    <Compile Include="tests\AppBundle\Controller\SecurityControllerTest.php" />
     <Compile Include="tests\AppBundle\Entity\AddressTest.php" />
     <Compile Include="tests\AppBundle\Entity\CollectionHistoryTest.php" />
     <Compile Include="tests\AppBundle\Entity\CommunicationTest.php" />
@@ -154,6 +158,7 @@
     <Compile Include="tests\AppBundle\Services\ChangerTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
+    <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
     <Compile Include="var\cache\dev\doctrine\orm\Proxies\__CG__AppBundleEntityAddress.php" />
     <Compile Include="var\cache\dev\pools\4xgj6XummP\+\5\KtszP7xMmjGcXxpXfSie" />
     <Compile Include="var\cache\dev\pools\4xgj6XummP\+\6\5iGcYEK0TmkUcESiZHLP" />
@@ -1999,18 +2004,24 @@
   <ItemGroup>
     <Folder Include="app\config" />
     <Folder Include="app\Resources\images" />
+    <Folder Include="app\Resources\TwigBundle\" />
+    <Folder Include="app\Resources\TwigBundle\views\" />
+    <Folder Include="app\Resources\TwigBundle\views\Exception\" />
+    <Folder Include="app\Resources\views\collectionhistory\" />
     <Folder Include="app\Resources\views\communication" />
     <Folder Include="app\Resources\views\Contact" />
     <Folder Include="app\Resources\views\contactsearch" />
     <Folder Include="app\Resources\views\container\" />
     <Folder Include="app\Resources\views\default" />
     <Folder Include="app\Resources\views\route\" />
+    <Folder Include="app\Resources\views\security\" />
     <Folder Include="app\Resources\views\propertySearch\" />
     <Folder Include="app\Resources\views\oops" />
     <Folder Include="app\Resources\views\property" />
     <Folder Include="app\Resources\views" />
     <Folder Include="app\Resources" />
     <Folder Include="app" />
+    <Folder Include="app\Resources\views\structure\" />
     <Folder Include="bin" />
     <Folder Include="src\AppBundle\Controller" />
     <Folder Include="src\AppBundle\DataFixtures\ORM" />
@@ -2034,6 +2045,7 @@
     <Folder Include="tests\AppBundle\Services" />
     <Folder Include="tests\AppBundle" />
     <Folder Include="tests" />
+    <Folder Include="tests\Mink\" />
     <Folder Include="var\cache\dev\doctrine\orm\Proxies" />
     <Folder Include="var\cache\dev\doctrine\orm" />
     <Folder Include="var\cache\dev\doctrine" />
@@ -3300,13 +3312,28 @@
     <Folder Include="web\JavaScript\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\Resources\TwigBundle\views\Exception\error403.html.twig" />
+    <Content Include="app\Resources\views\collectionhistory\edit.html.twig" />
+    <Content Include="app\Resources\views\collectionhistory\index.html.twig" />
+    <Content Include="app\Resources\views\collectionhistory\new.html.twig" />
+    <Content Include="app\Resources\views\collectionhistory\show.html.twig" />
+    <Content Include="app\Resources\views\container\edit.html.twig" />
+    <Content Include="app\Resources\views\container\index.html.twig" />
+    <Content Include="app\Resources\views\container\new.html.twig" />
+    <Content Include="app\Resources\views\container\show.html.twig" />
     <Content Include="app\Resources\views\propertySearch\propertyJSONSearches.html.twig" />
     <Content Include="app\Resources\views\propertySearch\show.html.twig" />
     <Content Include="app\Resources\views\property\searchProperty.html.twig" />
     <Content Include="app\Resources\views\Contact\searchContact.html.twig" />
     <Content Include="app\Resources\views\communication\viewComm.html.twig" />
     <Content Include="app\Resources\views\route\manageRoute.html.twig" />
+    <Content Include="app\Resources\views\security\login.html.twig" />
+    <Content Include="app\Resources\views\structure\edit.html.twig" />
+    <Content Include="app\Resources\views\structure\index.html.twig" />
+    <Content Include="app\Resources\views\structure\new.html.twig" />
+    <Content Include="app\Resources\views\structure\show.html.twig" />
     <Content Include="app\sqlite.db" />
+    <Content Include="web\JavaScript\PropertySearchPopup.js" />
     <Content Include="web\JavaScript\Search.js" />
   </ItemGroup>
 </Project>

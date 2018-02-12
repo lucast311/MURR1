@@ -1,5 +1,16 @@
 {% extends 'base.html.twig' %}
 
+
+{% block javascripts %}
+{# include jQuery to make the search script work #}
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>    
+{# include the PropertySearchPopup javascript and the select2 file #}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopup.js') }}"></script>
+{% endblock %}
+
+
 {% block body %}
     <h1>Edit Container{% if not invalid_id_error %} {{container.containerSerial}}{% endif %}</h1>
     
