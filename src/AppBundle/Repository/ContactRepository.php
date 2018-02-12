@@ -3,6 +3,8 @@ namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Contact;
+use AppBundle\Services\SearchHelper;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 /**
  * Handles querying the database for information related to contacts
@@ -22,8 +24,18 @@ class ContactRepository extends EntityRepository
         $em->persist($contact);
         // get the address out of the contact and persist it too
         $em->persist($contact->getAddress());
-        // flush them to the database
-        $em->flush();
+
+
+        //try
+        //{
+            // flush them to the database
+            $em->flush();
+        //}
+        //catch (UniqueConstraintViolationException $e)
+        //{
+
+        //}
+
         //Close the entity manager
         // return the id of the new contact in the database
         return $contact->getId();
@@ -66,62 +78,49 @@ class ContactRepository extends EntityRepository
         $contactClassProperties = $this->getClassMetadata('AppBundle:Contact')->fieldNames;
         $addressClassProperties = $this->getEntityManager()->getRepository('AppBundle:Address')->getClassMetadata()->fieldNames;
 
-        // shift off the id from the Contact (A user will never search based on this)
-        array_shift($contactClassProperties);
+        //Add all of the class properties arrays to one array
+        $classPropertiesArray = array($contactClassProperties, $addressClassProperties);
 
-        // a variable to store the SQLite WHERE clause to query with
-        $searchStringContacts = '';
-        $searchStringAddresses = '';
-
-        //foreach field in the Contact
-        foreach($contactClassProperties as $col=>$val)
+        $count = 0;
+        // shift off the id of each entity
+        foreach ($classPropertiesArray as $array)
         {
-            // foreach string to query on
-            for ($i = 0; $i < sizeof($queryStrings); $i++)
+            array_shift($array);
+            $classPropertiesArray[$count] = $array;
+            $count++;
+        }
+
+        //an array of abbreviations to be used in the query. These represent each join
+        $classNames = array('co', 'a');
+
+        //create a searchHelper instance
+        $searchHelper = new SearchHelper();
+
+        //call the searchHelper service to return the class properties string
+        $classPropertiesString = $searchHelper->searchHelper($classPropertiesArray, $queryStrings, $classNames);
+
+        // The query that defines all the joins on communications to search for,
+        //  and links them together based on id's
+        $records = $this->getEntityManager()->createQuery(
+        "SELECT co, a FROM AppBundle:Contact co
+        LEFT OUTER JOIN AppBundle:Address a WITH co.address = a.id
+        WHERE $classPropertiesString"
+        )->getResult();
+
+        // remove any NULL values from the array (NULL values are represented by non-contact objects)
+        $records = array_filter($records);
+
+        $contactObjects = array();
+
+        foreach ($records as $record)
+        {
+            if(get_class($record) == "AppBundle\Entity\Contact")
             {
-                // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
-                $searchStringContacts .= "LOWER(c.$val) LIKE '%{$queryStrings[$i]}%' OR ";
+                $contactObjects[] = $record;
             }
         }
 
-        // Remove the unneeded ' OR ' from the end of the query string
-        $searchStringContacts = rtrim($searchStringContacts, ' OR ');
-
-        //foreach field in the Address
-        foreach($addressClassProperties as $col=>$val)
-        {
-            // foreach string to query on
-            for ($i = 0; $i < sizeof($queryStrings); $i++)
-            {
-                // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
-                $searchStringAddresses .= "LOWER(a.$val) LIKE '%{$queryStrings[$i]}%' OR ";
-            }
-        }
-
-        // Remove the unneeded ' OR ' from the end of the query string
-        $searchStringAddresses = rtrim($searchStringAddresses, ' OR ');
-
-        // set variables equal to the records returned from each of the two queries
-        $returnContacts = $this->getEntityManager()->createQuery(
-           "SELECT c FROM AppBundle:Contact c WHERE $searchStringContacts"
-            )->getResult();
-
-        $returnAddresses = $this->getEntityManager()->createQuery(
-           "SELECT c, a FROM AppBundle:Contact c JOIN c.address a WHERE $searchStringAddresses"
-            )->getResult();
-
-        // foreach address returned
-        foreach($returnAddresses as $returnAddress)
-        {
-            // check if the address already exists in the array of contacts returned
-            if(!in_array($returnAddress,$returnContacts))
-            {
-                // combine the search results
-                $returnContacts[] = $returnAddress;
-            }
-        }
-
-        // return the results
-        return $returnContacts;
+        return $contactObjects;
     }
+
 }

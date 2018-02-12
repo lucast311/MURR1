@@ -7,6 +7,8 @@ use AppBundle\Entity\Communication;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
 use AppBundle\DataFixtures\ORM\LoadUserData;
+use AppBundle\DataFixtures\ORM\LoadCommunicationData;
+use DateTime;
 //use Doctrine\Common\Persistence\ObjectRepository;
 
 class CommunicationControllerTest extends WebTestCase
@@ -28,6 +30,9 @@ class CommunicationControllerTest extends WebTestCase
 
         $userLoader = new LoadUserData($encoder);
         $userLoader->load($this->em);
+
+        $communicationLoader = new LoadCommunicationData();
+        $communicationLoader->load($this->em);
     }
 
     public function testFormSuccess()
@@ -405,6 +410,74 @@ class CommunicationControllerTest extends WebTestCase
 
         //assert that the correct error message appeared
         $this->assertContains("No communication ID specified", $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 11c
+     * Test that special characters can be entered into the database
+     */
+    public function testSearchSpecialCharactersSuccess()
+    {
+        // get a repository so we can query for data
+        $repository = $this->em->getRepository(Communication::class);
+
+        // create a client so we can view the page
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        //// create a communication to search for in the test
+        //$communication = new Communication();
+        //$communication->setDate("2018-01-01");
+        //$communication->setType("Phone");
+        //$communication->setMedium("Incoming");
+        //$communication->setCategory("Multi-purpose");
+        //$communication->setDescription("Its a bin");
+
+        //$repository->insert($communication);
+
+        // go to the page and search for 'Jim'
+        $client->request('GET', '/communication/jsonsearch/Multi-purpose');
+
+        // create an array so we can call the search
+        $queryStrings = array();
+        $queryStrings[] = 'Multi-purpose';
+
+        // query the database
+        $repository->communicationSearch($queryStrings);
+
+        // assert that what we expect is actually returned
+        $this->assertContains('[{"id":1,"date":"2018-01-01","type":"Phone","medium":"Incoming","contactName":null,"contactEmail":null,"contactPhone":null,"category":"Multi-purpose","description":"Its a bin"}]', $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 11c
+     * test that the query to search on is too long
+     */
+    public function testQueryTooLong()
+    {
+        // create a client so we can view the page
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        // go to the page and search for a string that is 501 characters long
+        $client->request('GET', '/Communication/jsonsearch/BobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJonesBobJo');
+
+        // assert that what we expect is actually returned
+        $this->assertContains('[]', $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 11c
+     * test that the query to search on is empty
+     */
+    public function testQueryEmpty()
+    {
+        // create a client so we can view the page
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        // go to the page and search for a string that is empty
+        $client->request('GET', '/Communication/jsonsearch/');
+
+        // assert that what we expect is actually returned
+        $this->assertContains('[]', $client->getResponse()->getContent());
     }
 
     protected function tearDown()

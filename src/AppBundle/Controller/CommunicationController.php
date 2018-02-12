@@ -2,10 +2,26 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\Type\CommunicationType;
 use AppBundle\Entity\Communication;
+use AppBundle\Entity\Contact;
+use AppBundle\Entity\Property;
+use AppBundle\Entity\Address;
+use AppBundle\Entity\Container;
+use AppBundle\Entity\ContactProperty;
+use AppBundle\Services\Cleaner;
+use AppBundle\Services\SearchNarrower;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+
 
 /**
  * This controller will be repsonsible for the various requirements of interacting with
@@ -82,5 +98,66 @@ class CommunicationController extends Controller
         return $this->render('communication/viewComm.html.twig',
             array('comm'=>$comm, 'errorType'=>$errorType));
 
+    }
+
+    /**
+     * Story 11c
+     * A function that will take in a string to separate, and then pass
+     *  into the repository as an array. It will then narrow the results further,
+     *  and display those results to a page containing a json header.
+     * @param string $searchQuery - the string to split apart into the individual search queries.
+     *
+     * @Route("/communication/jsonsearch/", name="communication_jsonsearch_empty")
+     * @Route("/communication/jsonsearch/{searchQuery}", name="communication_jsonsearch")
+     * @Method("GET")
+     */
+    public function jsonSearchAction($searchQuery = "")
+    {
+        // Clean the input
+        $searchQuery = htmlentities($searchQuery);
+
+        // if the string to query onn is less than or equal to 100 characters
+        if(strlen($searchQuery) <= 100 && !empty($searchQuery))
+        {
+            // create a cleaner to cleanse the search query
+            $cleaner = new Cleaner();
+
+            // cleanse the query
+            $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
+
+            // get an entity manager
+            $em = $this->getDoctrine()->getManager();
+
+
+            $communicationJoins = array(new Communication(), new Property());
+
+
+            // Use the repository to query for the records we want.
+            // Store those records into an array.
+            $communicationSearches = $em->getRepository(Communication::class)->communicationSearch($cleanQuery);
+
+            // create a SearchNarrower to narrow down our searches
+            $searchNarrower = new SearchNarrower();
+
+            // narrow down our searches, and store their values along side their field values
+            $searchedData = $searchNarrower->narrower($communicationSearches, $cleanQuery, new Communication());
+
+            // Return the results as a json object
+            // NOTE: Serializer service needs to be enabled for this to work properly
+            $encoder = new JsonEncoder();
+            $normalizer = new ObjectNormalizer();
+
+            // We used to get a circular reference error. This line prevents it.
+            $normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
+
+            // Don't display the 'property' data as JSON. Makes it more human readable.
+            $normalizer->setIgnoredAttributes(array("property"));
+            $serializer = new Serializer(array($normalizer), array($encoder));
+
+            return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
+        }
+
+        // string over 100, return empty array.
+        return $this->json(array());
     }
 }

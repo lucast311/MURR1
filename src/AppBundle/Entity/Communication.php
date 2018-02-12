@@ -23,12 +23,10 @@ class Communication
     private $id;
 
     /**
-     * @var \DateTime
-     * @ORM\Column(type="datetime")
+     * @var string
+     * @ORM\Column(type="string", length=10)
      * @Assert\NotBlank(message="Please select a date")
      * @Assert\NotNull(message="Please select a date")
-     * @Assert\DateTime(message="Please select a valid date")
-     * @Assert\LessThanOrEqual("today", message="Please select a current or past date")
      *
      */
     private $date;
@@ -127,8 +125,8 @@ class Communication
      */
     public function __construct()
     {
-        $this->date = new DateTime('now');
-        $this->date->setTime(0,0,0);
+        $tempDate = new DateTime('now');
+        $this->date = $tempDate->format('Y-m-d');
     }
 
 
@@ -145,7 +143,7 @@ class Communication
     /**
      * Set date
      *
-     * @param \DateTime $date
+     * @param string $date
      *
      * @return Communication
      */
@@ -158,7 +156,7 @@ class Communication
     /**
      * Get date
      *
-     * @return \DateTime
+     * @return string
      */
     public function getDate()
     {

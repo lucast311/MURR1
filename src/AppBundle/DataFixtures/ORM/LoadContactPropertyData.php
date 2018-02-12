@@ -1,11 +1,14 @@
 <?php
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Container;
+use AppBundle\Entity\Contact;
+use AppBundle\Entity\Property;
+use AppBundle\Entity\ContactProperty;
+use AppBundle\DataFixtures\ORM\LoadAddressData;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadContainerData implements FixtureInterface
+class LoadContactPropertyData implements FixtureInterface
 {
     // private attribute that is the container to add
     private $container;
@@ -31,9 +34,11 @@ class LoadContainerData implements FixtureInterface
             //custom, independant autoloaded fixtures
         }
 
-        // persist the container object set in the constructor to the database
-        $obMan->persist($this->container);
-        // flush the database connection
-        $obMan->flush();
+        //// persist the container object set in the constructor to the database
+        //$obMan->persist($this->container);
+        //// flush the database connection
+        //$obMan->flush();
     }
 }
+
+?>

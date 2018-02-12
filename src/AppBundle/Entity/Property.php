@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Property
  *
@@ -118,9 +119,8 @@ class Property
 
     /**
      * Properties have many contacts
-     * @ORM\ManyToMany(targetEntity="Contact", inversedBy="properties", cascade={"persist"})
-     * @ORM\JoinTable(name="ContactProperty")
-     * @var Contact[]
+     * @ORM\ManyToMany(targetEntity="Contact", mappedBy="properties", cascade={"persist"}, fetch="EAGER")
+     *@var ArrayCollection
      */
     private $contacts;
     /**
@@ -131,9 +131,14 @@ class Property
     /**
      * Holds a list of communications for this property
      * @ORM\OneToMany(targetEntity="Communication", cascade={"persist"}, mappedBy="property")
-     * @var Communication[]
+     * @var ArrayCollection
      */
     private $communications;
+
+    public function __construct()
+    {
+        $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -144,6 +149,8 @@ class Property
     {
         return $this->id;
     }
+
+
 
     /**
      * Set site id
@@ -362,7 +369,7 @@ class Property
     }
     /**
      * Gets associated contacts
-     * @return Contact[]
+     * @return ArrayCollection
      */
     public function getContacts()
     {
@@ -370,7 +377,7 @@ class Property
     }
     /**
      * Sets associated contacts
-     * @param Contact[] $contacts
+     * @param ArrayCollection $contacts
      */
     public function setContacts($contacts)
     {
@@ -397,7 +404,7 @@ class Property
 
     /**
      * Retrieves all the communications for this property
-     * @return Communication[]
+     * @return ArrayCollection
      */
     public function getCommunications()
     {
@@ -406,7 +413,7 @@ class Property
 
     /**
      * Allows you to set the communications for this property
-     * @param mixed $communications
+     * @param ArrayCollection $communications
      * @return Property
      */
     public function setCommunications($communications)

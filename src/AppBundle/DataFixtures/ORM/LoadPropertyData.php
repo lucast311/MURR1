@@ -149,9 +149,14 @@ class LoadPropertyData implements FixtureInterface
                 ->setNeighbourhoodName("Sutherland")
                 ->setNeighbourhoodId("O48")
                 ->setAddress($address);
-        }
 
-        $obMan->persist($this->property);
-        $obMan->flush();
+            $obMan->persist($this->property);
+            $obMan->flush();
+        }
+        else
+        {
+            $obMan->persist($this->property);
+            $obMan->flush();
+        }
     }
 }

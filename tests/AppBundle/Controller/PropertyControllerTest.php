@@ -6,6 +6,7 @@ use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
 use AppBundle\Entity\Container;
 use AppBundle\Entity\Communication;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
@@ -718,7 +719,7 @@ class PropertyControllerTest extends WebTestCase
         $communication->setCategory("Container");
         $communication->setDescription("Bin will be moved to the eastern side of the building");
 
-        //$property->setCommunications(array($communication));
+        $property->setCommunications(new ArrayCollection(array($communication)));
 
         // Save the communication too
         $repo = $em->getRepository(Communication::class);
@@ -732,7 +733,7 @@ class PropertyControllerTest extends WebTestCase
 
         // Get the id of the communication
         $commID = $communication->getId();
-        $commDate = $communication->getDate()->format("Y-m-d");
+        $commDate = $communication->getDate();
 
         //Check that there is no error message
         $this->assertNotContains("No communication entries found for this property", $client->getResponse()->getContent());
@@ -946,10 +947,10 @@ class PropertyControllerTest extends WebTestCase
         $address->setProvince("Saskatchewan");
         $address->setCountry("Canada");
         $property->setAddress($address);
-        $property->setContacts(array($contact));
+        $property->setContacts(new ArrayCollection(array($contact)));
 
         //add the property to the contact
-        $contact->setProperties(array($property));
+        $contact->setProperties(new ArrayCollection(array($property)));
 
         $repository = $this->em->getRepository(Property::class);
         //save property to database
@@ -1080,10 +1081,10 @@ class PropertyControllerTest extends WebTestCase
         $property->setAddress($address);
 
         //Create a client to go through the web page
-        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        //$client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Get the entity manager and the repo
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
+        //$em = $client->getContainer()->get('doctrine.orm.entity_manager');
 
         $contactsArray = array();
         // Create 15 new contacts on this property
@@ -1097,7 +1098,7 @@ class PropertyControllerTest extends WebTestCase
             $contact->setRole("Property Manager");
             $contact->setprimaryPhone("306-345-8932");
             $contact->setEmailAddress("south@gmail.com");
-            $contact->setProperties(array($property));
+
 
             //create an address to add for the contact
             $address = new Address();
@@ -1106,16 +1107,24 @@ class PropertyControllerTest extends WebTestCase
             $address->setCity("Saskatoon");
             $address->setProvince("Saskatchewan");
             $address->setCountry("Canada");
-
             $contact->setAddress($address);
+            $contact->setProperties(new ArrayCollection(array($property)));
             // add the contact to the array
             $contactsArray[] = $contact;
+
+            //$addressRepository = $this->em->getRepository(Address::class);
+            //save address to database
+            //$addressRepository->save($address);
+
+            $contactRepository = $this->em->getRepository(Contact::class);
+            //save contact to database
+            $contactRepository->save($contact);
         }
 
         // associate the contacts with the property.
-        $property->setContacts($contactsArray);
+        $property->setContacts(new ArrayCollection($contactsArray));
 
-        $repo = $em->getRepository(Property::class);
+        $repo = $this->em->getRepository(Property::class);
 
         //insert the property
         $propertyId = $repo->save($property);
@@ -1167,7 +1176,9 @@ class PropertyControllerTest extends WebTestCase
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Communication');
         $stmt->execute();
-        $stmt = $em->getConnection()->prepare('DELETE FROM ContactProperty');
+        $stmt = $em->getConnection()->prepare('DELETE FROM Contact');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM Contact_Properties');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();

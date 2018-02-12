@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Contact;
 use AppBundle\Entity\Address;
+use AppBundle\Entity\Property;
 use AppBundle\Form\ContactType;
 use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
@@ -198,19 +199,21 @@ class ContactController extends Controller
             $searchNarrower = new SearchNarrower();
 
             // narrow down our searches, and store their values along side their field values
-            $searchedData = $searchNarrower->narrowContacts($contactSearches, $cleanQuery);
+            $searchedData = $searchNarrower->narrower($contactSearches, $cleanQuery, new Contact());
 
             // look in the array of narrowed searches/values for the first element (this will be the array of narrowed searches)
-            $narrowedResults = $searchedData[0];
+            //$narrowedResults = $searchedData[0];
 
             // Return the results as a json object
             // NOTE: Serializer service needs to be enabled for this to work properly
             $encoder = new JsonEncoder();
             $normalizer = new ObjectNormalizer();
-            $normalizer->setIgnoredAttributes(array("properties"));
+
+            // Don't display the 'properties' data or the 'address' data as JSON. Makes it more human readable.
+            $normalizer->setIgnoredAttributes(array("properties", "address"));
             $serializer = new Serializer(array($normalizer), array($encoder));
 
-            return JsonResponse::fromJsonString($serializer->serialize($narrowedResults, 'json'));
+            return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
 
         }
 
@@ -218,4 +221,3 @@ class ContactController extends Controller
         return $this->json(array());
     }
 }
-
