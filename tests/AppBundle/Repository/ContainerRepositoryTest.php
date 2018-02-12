@@ -44,7 +44,6 @@ class ContainerRepositoryTest extends KernelTestCase
         $this->assertEquals($container->getId(), $id); 
 
         $repo->remove($container); 
-
     }
 
      /**

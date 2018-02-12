@@ -503,7 +503,7 @@ class RouteControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         // Ensure that the form did not submit
-        $this->assertContains("Invalid route file type: expected '.csv', receieved '.jpeg.'", $client->getResponse()->getContent());
+        $this->assertContains("Invalid route file type. Please upload a valid route CSV.", $client->getResponse()->getContent());
     }
 
 

@@ -17,7 +17,8 @@ class RouteRepository extends \Doctrine\ORM\EntityRepository
      * @param Route $route the route to be saved
      * @return integer the ID of the saved route
      */
-    public function save(Route $route){
+    public function save(Route $route)
+    {
         $em = $this->getEntityManager();
         // persist the new contact in the database
         $em->persist($route);
@@ -26,5 +27,21 @@ class RouteRepository extends \Doctrine\ORM\EntityRepository
         //Close the entity manager
         // return the id of the new contact in the database
         return $route->getId();
+    }
+
+
+    /**
+     * Story 22a
+     * @param Route $route Route to be removed
+     */
+    public function remove(Route $route)
+    {
+        $em = $this->getEntityManager();
+        // remove the route from the database
+        $em->remove($route);
+        // flush them from the database
+        $em->flush();
+        //Close the entity manager
+        $em->close();
     }
 }

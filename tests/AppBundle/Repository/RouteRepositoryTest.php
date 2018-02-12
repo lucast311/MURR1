@@ -51,4 +51,42 @@ class RouteRepositoryTest extends KernelTestCase
         $this->assertEquals($route->getId(), $id);
     }
 
+
+    /** Story 22a
+     * Test that the route is able to be removed from the database
+     */
+   public function testRemove(){
+
+        $route = new Route();
+        $route->setRouteId(1001);
+
+        //Get the repository for testing
+        $repository = $this->em->getRepository(Route::class);
+        //Call insert on the repository and record the id of the new object
+        $id = $repository->save($route);
+        //Assert that the id was returned
+        $this->assertNotNull($id);
+        //check the route id is the same as the returned id
+        $this->assertEquals($route->getId(), $id);
+
+        //remove from db
+        $repository->remove($route);
+        //make sure it is removed
+        $this->assertNull($repository->find($id));
+    }
+
+    /**
+     * (@inheritDoc)
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        // Delete everything out of the property table after inserting stuff
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Route");
+        $stmt->execute();
+
+        $this->em->close();
+        $this->em = null; //avoid memory meaks
+    }
 }
