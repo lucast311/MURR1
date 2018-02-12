@@ -156,7 +156,7 @@ class RouteController extends Controller
         }
         else
         {
-            //TODO change this to a proper twig
+            //render the error page
             return $this->render('route/deletePickup.html.twig');
         }
     }
