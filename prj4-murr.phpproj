@@ -158,6 +158,7 @@
     <Compile Include="tests\AppBundle\Services\ChangerTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
+    <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
     <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
     <Compile Include="var\cache\dev\doctrine\orm\Proxies\__CG__AppBundleEntityAddress.php" />
     <Compile Include="var\cache\dev\pools\4xgj6XummP\+\5\KtszP7xMmjGcXxpXfSie" />
@@ -3321,11 +3322,13 @@
     <Content Include="app\Resources\views\container\index.html.twig" />
     <Content Include="app\Resources\views\container\new.html.twig" />
     <Content Include="app\Resources\views\container\show.html.twig" />
+    <Content Include="app\Resources\js\DeletePrompt.js" />
     <Content Include="app\Resources\views\propertySearch\propertyJSONSearches.html.twig" />
     <Content Include="app\Resources\views\propertySearch\show.html.twig" />
     <Content Include="app\Resources\views\property\searchProperty.html.twig" />
     <Content Include="app\Resources\views\Contact\searchContact.html.twig" />
     <Content Include="app\Resources\views\communication\viewComm.html.twig" />
+    <Content Include="app\Resources\views\route\deletePickup.html.twig" />
     <Content Include="app\Resources\views\route\manageRoute.html.twig" />
     <Content Include="app\Resources\views\security\login.html.twig" />
     <Content Include="app\Resources\views\structure\edit.html.twig" />
@@ -3334,6 +3337,7 @@
     <Content Include="app\Resources\views\structure\show.html.twig" />
     <Content Include="app\sqlite.db" />
     <Content Include="web\JavaScript\PropertySearchPopup.js" />
+    <Content Include="web\JavaScript\DeletePrompt.js" />
     <Content Include="web\JavaScript\Search.js" />
   </ItemGroup>
 </Project>

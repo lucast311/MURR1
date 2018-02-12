@@ -226,6 +226,132 @@ class RouteControllerTest extends WebTestCase
     }
 
     /**
+     * Story 22c
+     * Tests that a RoutePickup can be removed from a route
+     */
+    public function testRemoveRoutePickup(){
+        //create a route to add the pickup to
+        $route = new Route();
+        $route->setRouteId(1001);
+
+        //Get the repository for the route
+        $repository = $this->em->getRepository(Route::class);
+        //Call insert on the repository for the route
+        $repository->save($route);
+
+        //specify a container for routePickup
+        $container = new Container();
+        $container->setContainerSerial("X11111");
+        $container->setType("Bin");
+        $container->setSize("6");
+        $container->setStatus("Active");
+
+        //save the container
+        $repo = $this->em->getRepository(Container::class);
+        $repo->save($container);
+
+        //Create a route pickup for this container
+        $rp = new RoutePickup();
+        $rp->setPickupOrder(1);
+        $rp->setRoute($route);
+        $rp->setContainer($container);
+
+        //save the route pickup
+        $repo = $this->em->getRepository(RoutePickup::class);
+        $repo->save($rp);
+
+        //get the client
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true); //follow any redirects (there will be some)
+
+        //Request a removal of the RoutePickup with the ID of the RoutePickup to be removed
+        $crawler = $client->request('GET', '/route/removecontainer/1');
+
+        //Make make sure the table does not contain the removed container
+        $this->assertNotContains("X11111", $crawler->filter("table")->html());
+    }
+
+    /**
+     * Story 22c
+     * Tests that when a Route is removed all the pickups after are decremented
+     */
+    public function testRemoveRoutePickupDecrement(){
+        //create a route to add the pickup to
+        $route = new Route();
+        $route->setRouteId(1001);
+
+        //Get the repository for the route
+        $repository = $this->em->getRepository(Route::class);
+        //Call insert on the repository for the route
+        $repository->save($route);
+
+        //specify a container for routePickup
+        $container = new Container();
+        $container->setContainerSerial("X111111");
+        $container->setType("Bin");
+        $container->setSize("6");
+        $container->setStatus("Active");
+
+        //specify a second container for this routePickup
+        $container2 = new Container();
+        $container2->setContainerSerial("X222222");
+        $container2->setType("Bin");
+        $container2->setSize("6");
+        $container2->setStatus("Active");
+
+        //save the container
+        $repo = $this->em->getRepository(Container::class);
+        $repo->save($container);
+        $repo->save($container2);
+
+        //create a pickup
+        $rp = new RoutePickup();
+        $rp->setPickupOrder(1);
+        $rp->setRoute($route);
+        $rp->setContainer($container);
+
+        //create a second pickup
+        $rp2 = new RoutePickup();
+        $rp2->setPickupOrder(2);
+        $rp2->setRoute($route);
+        $rp2->setContainer($container2);
+
+        //save the route pickups
+        $repo = $this->em->getRepository(RoutePickup::class);
+        $repo->save($rp);
+        $repo->save($rp2);
+
+
+
+        //get the client
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        //Request a removal of the RoutePickup with the ID of the RoutePickup to be removed
+        $crawler = $client->request('GET', '/route/removecontainer/1');
+
+
+        //Check that the row that was previously the second is now the first
+        $this->assertContains("1", $crawler->filter("table tr:contains('X222222')")->html());
+    }
+
+    /**
+     * Story22c
+     * Tests that if you try and request a removal of a non-existant pickup you'll be brought to an error page
+     */
+    public function testRemoveRoutePickupNonexistant(){
+        //get the client
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        //Request a removal of the RoutePickup with the ID of the RoutePickup to be removed
+        //This pickup does not exist
+        $client->request('GET', '/route/removecontainer/2092');
+
+        //Check that the client is on the error page
+        $this->assertContains("The specified container could not be removed from this route",$client->getResponse()->getContent());
+    }
+    /**
      * (@inheritDoc)
      */
     protected function tearDown()

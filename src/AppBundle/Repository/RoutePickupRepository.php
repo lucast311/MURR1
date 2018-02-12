@@ -47,4 +47,20 @@ class RoutePickupRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->execute();
     }
+
+    /**
+     * Story 22c
+     * @param mixed $pickup The RoutePickup to be deleted
+     * Removes a route pickup from the database
+     */
+    public function remove($pickup){
+        //get entity manager
+        $em = $this->getEntityManager();
+
+        //remove the item
+        $em->remove($pickup);
+
+        //flush (commit) transaction
+        $em->flush();
+    }
 }

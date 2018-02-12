@@ -38,7 +38,7 @@ class LoadRouteData implements FixtureInterface
 
         $containers[] = (new Container())
             ->setContainerSerial("Z35TSR2")
-            ->setSize("ya mama xd")
+            ->setSize("6 yd")
             ->setType("Bin")
             ->setStatus("Active");
 
@@ -48,7 +48,7 @@ class LoadRouteData implements FixtureInterface
 
         $containers[] = (new Container())
             ->setContainerSerial("5W4G8UX")
-            ->setSize("YUGE")
+            ->setSize("4 yd")
             ->setType("Cart")
             ->setStatus("Active");
 

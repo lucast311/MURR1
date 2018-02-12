@@ -130,7 +130,116 @@ class RoutePickupRepositoryTest extends KernelTestCase
         {
         	$this->assertEquals($curOrder++,$rp->getPickupOrder()); //check that the pickup order is 1 higher now
         }
-        
+
+    }
+
+    /**
+     * Story 22c
+     * Tests that a RoutePickup can be removed
+     */
+    public function testRemove(){
+
+        //create a route to add the pickup to
+        $route = new Route();
+        $route->setRouteId(1001);
+
+        //Get the repository for the route
+        $repository = $this->em->getRepository(Route::class);
+        //Call insert on the repository for the route
+        $repository->save($route);
+
+        //specify a container for this routePickup
+        $container = new Container();
+        $container->setContainerSerial("testSerialRepo");
+        $container->setType("Bin");
+        $container->setSize("6");
+        $container->setStatus("Active");
+
+        //save the container
+        $repo = $this->em->getRepository(Container::class);
+        $repo->save($container);
+
+        //Specify a route pickup
+        $routePickup = new RoutePickup();
+        $routePickup->setPickupOrder(1);
+        $routePickup->setContainer($container);
+        $routePickup->setRoute($route);
+
+
+        //Get the repository for testing
+        $repository = $this->em->getRepository(RoutePickup::class);
+        //Call insert on the repository for the RP
+        $id = $repository->save($routePickup);
+
+
+        //Now remove it
+        $repository->remove($routePickup);
+
+        //make sure that the routePickup could not be found in the database now
+        $this->assertNull($repository->findOneById($id));
+    }
+
+
+    /**
+     * Story 22c
+     * Tests that the updateOrders function can decrement the pickup orders
+     */
+    public function testUpdateOrdersDecrement(){
+        //create a route to add the pickup to
+        $route = new Route();
+        $route->setRouteId(1001);
+
+        //Get the repository for the route
+        $repository = $this->em->getRepository(Route::class);
+        //Call insert on the repository for the route
+        $repository->save($route);
+
+        //specify a container for this routePickup
+        $container = new Container();
+        $container->setContainerSerial("testSerialRepo");
+        $container->setType("Bin");
+        $container->setSize("6");
+        $container->setStatus("Active");
+
+        //save the container
+        $repo = $this->em->getRepository(Container::class);
+        $repo->save($container);
+
+        //Specify a route pickup
+        $routePickup = new RoutePickup();
+        $routePickup->setPickupOrder(2); //start at 2, because we are simulating the removal of the first route (although it never existed)
+        $routePickup->setContainer($container);
+        $routePickup->setRoute($route);
+
+        //Specify a route pickup
+        $routePickup2 = new RoutePickup();
+        $routePickup2->setPickupOrder(3); //next will be 1 greater
+        $routePickup2->setContainer($container);
+        $routePickup2->setRoute($route);
+
+        //Get the repository for testing
+        $repository = $this->em->getRepository(RoutePickup::class);
+        //Call insert on the repository for both RPs
+        $repository->save($routePickup);
+        $repository->save($routePickup2);
+
+        //Update the orders of the containers DECREMENTING, starting at the second route, simulating removal of the first route
+        $repository->updateOrders($route->getId(), 2, false);
+
+        //get the routePickups now
+        $RPs = $repository->findBy(array(),array('pickupOrder'=>'ASC'));
+
+        $curOrder = 1; //there should only be orders 1 and 2 now.
+
+        $this->assertEquals(2, count($RPs));// check that there are 2 route pickups
+
+        foreach ($RPs as $rp)
+        {
+            //refresh the entity so the data is up-to-date
+            $this->em->refresh($rp);
+        	$this->assertEquals($curOrder++,$rp->getPickupOrder()); //check that the pickup order is 1 lower now
+        }
+
     }
 
     /**
