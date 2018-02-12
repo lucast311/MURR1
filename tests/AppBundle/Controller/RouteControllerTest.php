@@ -1,9 +1,11 @@
 <?php
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Route;
 use AppBundle\Entity\Container;
 use AppBundle\Entity\RoutePickup;
 use AppBundle\DataFixtures\ORM\LoadUserData;
+
 
 /**
  * RouteControllerTest short summary.
@@ -228,7 +230,7 @@ class RouteControllerTest extends WebTestCase
 
     /**
      * Story 22a
-     * Tests that you can import a route from a csv
+     * Tests that you can import a route from a csv and that the add another [route] button works
      */
     public function testImportRoute(){
         //get the client
@@ -238,16 +240,80 @@ class RouteControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/route/import');
 
         $form = $crawler->selectButton('Upload')->form();
-        /*$form["appbundle_route[pickupOrder]"] = 1;
-        $form["appbundle_routepickup[container]"] = 1; //select the first container in the list
+        $form['routeID'] = 64920;
+        // Upload a valid route CSV
+        $form['routeCSV']->upload('./testData/routes/valid_route.csv');
 
         $crawler = $client->submit($form);
 
-        //check that the containers serial is on the page
-        $this->assertContains("X123456",$client->getResponse()->getContent());
-        //check that the table contains the serial
-        $this->assertContains("X123456", $crawler->filter("table")->html());*/
+        //check that browser was redirected to the successfully added message page
+        $this->assertContains("was successfully added!",$client->getResponse()->getContent());
+
+        $addAnotherButton = $crawler
+            ->filter('button:contains("Add Another")') // find all buttons with the text "Add"
+            ->eq(0) // select the first button in the list
+            ->link(); // and click it
+
+        $client->click($addAnotherButton);
+
+        // Assert that we were redirected back to the import page
+        $this->assertContains("/route/import", $client->getHistory()->current()->getUri());
     }
+
+    /**
+     * Story 22a
+     * Tests that you cant import a route larger than 1 mb
+     */
+    public function testTooLargeRouteCSV(){
+        //get the client
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW' => 'password'));
+        $client->followRedirects(true);
+
+        $crawler = $client->request('GET', '/route/import');
+
+        $form = $crawler->selectButton('Upload')->form();
+        $form['routeID'] = 64920;
+        // Upload an invalid route CSV
+        $form['routeCSV']->upload('./testData/routes/invalid_route_too_large.csv');
+
+        $crawler = $client->submit($form);
+
+        //check that browser was redirected to the successfully added message page
+        $this->assertContains("Route files must be less than 1 MB in size.", $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 22a
+     * Tests that you cant import a route with a routeID whats already in use
+     */
+    public function testImportRoute(){
+        //get the client
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW' => 'password'));
+        $client->followRedirects(true);
+
+        $crawler = $client->request('GET', '/route/import');
+
+        $form = $crawler->selectButton('Upload')->form();
+        $form['routeID'] = 64920;
+        // Upload a valid route CSV
+        $form['routeCSV']->upload('./testData/routes/valid_route.csv');
+
+        $crawler = $client->submit($form);
+
+        //check that browser was redirected to the successfully added message page
+        $this->assertContains("was successfully added!",$client->getResponse()->getContent());
+
+        $addAnotherButton = $crawler
+            ->filter('button:contains("Add Another")') // find all buttons with the text "Add"
+            ->eq(0) // select the first button in the list
+            ->link(); // and click it
+
+        $client->click($addAnotherButton);
+
+        // Assert that we were redirected back to the import page
+        $this->assertContains("/route/import", $client->getHistory()->current()->getUri());
+    }
+
 
 
     /**
