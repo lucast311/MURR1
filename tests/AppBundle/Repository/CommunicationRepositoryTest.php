@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use DateTime;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
+use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadCommunicationData;
 
@@ -186,8 +187,6 @@ class CommunicationRepositoryTest extends KernelTestCase
         // narrow the searches so we only return exactlly what we want
         $narrowedSearches = $searchNarrower->narrower($results, $cleanQuery, new Communication());
 
-        //$narrowedSearches = $searchNarrower->narrowCommunication($results, $cleanQuery);
-
         // Assert that the size of the initial query is greater than the size of the narrowed query
         $this->assertTrue(sizeof($narrowedSearches) < sizeof($results));
     }
@@ -269,7 +268,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $results = $repo->CommunicationSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(2, sizeof($results));
+        $this->assertEquals(4, sizeof($results));
     }
 
     /**
@@ -314,7 +313,7 @@ class CommunicationRepositoryTest extends KernelTestCase
 
     /**
      * Story 11c
-     * test that the search will work when an Property is specified
+     * test that a user can search for a Communication based on a field in its associated Property
      */
     public function testSearchOnProperty()
     {
@@ -323,13 +322,13 @@ class CommunicationRepositoryTest extends KernelTestCase
 
         // create an array with values to search with
         $cleanQuery = array();
-        $cleanQuery[] = '123 Fake Street';
+        $cleanQuery[] = 'Cosmo';
 
         // query the database
         $results = $repo->CommunicationSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals(3, sizeof($results));
     }
 
     /**
@@ -372,18 +371,16 @@ class CommunicationRepositoryTest extends KernelTestCase
         $this->assertEquals(3, sizeof($results));
     }
 
-    /**
-     * Story 11c
-     * test that a user can search for a Communication based on a field in its associated Property
-     */
-    public function testSearchByPropertyField()
+
+
+    public function testSearchUsingForwardSlash()
     {
-        // create a new SearchNarrower to be used later
+        // create a new Repository to be used later
         $repo = $this->em->getRepository(Communication::class);
 
         // create an array with values to search with
         $cleanQuery = array();
-        $cleanQuery[] = "Cosmo";
+        $cleanQuery[] = "N/A";
 
         // query the database
         $results = $repo->CommunicationSearch($cleanQuery);
@@ -392,9 +389,22 @@ class CommunicationRepositoryTest extends KernelTestCase
         $this->assertEquals(1, sizeof($results));
     }
 
-    public function testSearchByOnlyOneField()
+    public function testSearchUsingBackSlash()
     {
+        // A cleaner to help pass a back-slash to the repository
+        $cleaner = new Cleaner();
 
+        // create a new Repository to be used later
+        $repo = $this->em->getRepository(Communication::class);
+
+        // create an array of values to search for using cleaner and a back-slash
+        $cleanQuery = $cleaner->cleanSearchQuery(" \ ");
+
+        // query the database
+        $results = $repo->CommunicationSearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(1, sizeof($results));
     }
 
     /**
