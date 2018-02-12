@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Route Management{% endblock %}
+
+{% block body %}
+
+<style>
+    form[name^="appbundle_routepickup"] div{
+        display: inline-block;
+        padding: 5px;
+    }
+
+    form[name^="appbundle_routepickup"]{
+        display: inline-block;
+        border: 1px solid black;
+    }
+
+    .route_pickups th, .route_pickups td{
+        padding: 5px;
+    }
+
+    .route_pickups tbody{
+        outline: 1px solid black;
+    }
+</style>
+
+<h2>Route {% if not invalid_id_error %}{{ route.routeId }}{% endif %}</h2>
+
+<div>
+    {#{% if propertyId == "not_specified"%}
+    <h2>No property specified</h2>
+    {% elseif property is empty %}
+    <h2>The specified property could not be found</h2>
+    {% else %}#}
+
+    {% if invalid_id_error %}
+    <h2>Route does not exist</h2>
+    {% else %}
+
+    {{ form_start(form) }}
+    <div>
+        <h3>Add Container:</h3>
+    </div>
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <table class="route_pickups">
+        <thead>
+            <tr>
+                <th>Pickup Order</th>
+                <th>Container Serial</th>
+                <th>Property</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rp in route.pickups %}
+                <tr>
+                    <td>{{ rp.pickupOrder }}</td>
+                    <td>{{ rp.container.containerSerial }}</td>
+                    <td> {{ rp.container.property }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

@@ -45,7 +45,6 @@ class ContainerTest extends KernelTestCase
     }
 
     /**
-        Tests that a container doesn't pass validation if the serial code is too long
     */
     public function testContainerFailSerialTooLong()
     {

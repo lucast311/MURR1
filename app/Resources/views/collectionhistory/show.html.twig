@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Collection History</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ collectionHistory.id }}</td>
+            </tr>
+            <tr>
+                <th>Containerid</th>
+                <td>{{ collectionHistory.containerId }}</td>
+            </tr>
+            <tr>
+                <th>Notcollected</th>
+                <td>{% if collectionHistory.notCollected %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Notes</th>
+                <td>{{ collectionHistory.notes }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('collectionhistory_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('collectionhistory_edit', { 'id': collectionHistory.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
