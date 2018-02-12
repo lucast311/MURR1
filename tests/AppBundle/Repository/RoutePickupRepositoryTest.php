@@ -130,7 +130,6 @@ class RoutePickupRepositoryTest extends KernelTestCase
         {
         	$this->assertEquals($curOrder++,$rp->getPickupOrder()); //check that the pickup order is 1 higher now
         }
-        
     }
 
     /**
