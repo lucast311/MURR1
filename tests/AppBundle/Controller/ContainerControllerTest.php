@@ -6,6 +6,7 @@ namespace Tests\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Container;
 use AppBundle\DataFixtures\ORM\LoadUserData;
+use AppBundle\DataFixtures\ORM\LoadContainerData;
 
 /**
  * ContainerControllerTest short summary.
@@ -32,6 +33,8 @@ class ContainerControllerTest extends WebTestCase
         $userLoader = new LoadUserData($encoder);
         $userLoader->load($this->em);
 
+        $containerLoader = new LoadContainerData();
+        $containerLoader->load($this->em);
     }
 
     public function testAddActionSuccess()
@@ -98,7 +101,7 @@ class ContainerControllerTest extends WebTestCase
         // Go there - should be viewing a specific contact after this
         $crawler = $client->click($link);
 
-        $this->assertContains('Edit Container 123456', $client->getResponse()->getContent());
+        $this->assertContains('Edit Container 123457', $client->getResponse()->getContent());
 
 
     }
@@ -296,7 +299,7 @@ class ContainerControllerTest extends WebTestCase
         $repository->containerSearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('', $client->getResponse()->getContent());
+        $this->assertContains('[{"id":1,"containerSerial":"123457","locationDesc":"South-west side","type":"Cart","long":"87","lat":"88","reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels"}]', $client->getResponse()->getContent());
     }
 
     /**
@@ -342,6 +345,8 @@ class ContainerControllerTest extends WebTestCase
         $stmt = $em->getConnection()->prepare('DELETE FROM Container');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Address');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM Property');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();

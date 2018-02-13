@@ -162,7 +162,7 @@ class ContainerRepositoryTest extends KernelTestCase
 
         // create an array with values to search with
         $cleanQuery = array();
-        $cleanQuery[] = '123456';
+        $cleanQuery[] = '123457';
 
         // query the database
         $results = $repo->containerSearch($cleanQuery);

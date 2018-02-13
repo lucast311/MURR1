@@ -71,7 +71,7 @@ class LoadContainerData implements FixtureInterface
             //custom, independant autoloaded fixtures
             $this->container = (new Container())
                 ->setFrequency("weekly")
-                ->setContainerSerial('123456')
+                ->setContainerSerial('123457')
                 ->setLocationDesc("South-west side")
                 ->setLong(87)
                 ->setLat(88)
