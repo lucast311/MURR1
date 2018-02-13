@@ -273,6 +273,65 @@ class ContainerControllerTest extends WebTestCase
 
     }
 
+    /**
+     * Story 12d
+     * Test that special characters can be entered into the database
+     */
+    public function testSearchSpecialCharactersSuccess()
+    {
+        // get a repository so we can query for data
+        $repository = $this->em->getRepository(Container::class);
+
+        // create a client so we can view the page
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        // go to the page and search for 'South-west side'
+        $client->request('GET', '/container/jsonsearch/South-west');
+
+        // create an array so we can call the search
+        $queryStrings = array();
+        $queryStrings[] = 'South-west';
+
+        // query the database
+        $repository->communicationSearch($queryStrings);
+
+        // assert that what we expect is actually returned
+        $this->assertContains('', $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 12d
+     * test that the query to search on is too long
+     */
+    public function testQueryTooLong()
+    {
+        // create a client so we can view the page
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        // go to the page and search for a string that is 501 characters long
+        $tooLong = str_repeat('a', 501);
+        $client->request('GET', '/container/jsonsearch/'.$tooLong);
+
+        // assert that what we expect is actually returned
+        $this->assertContains('[]', $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 12d
+     * test that the query to search on is empty
+     */
+    public function testQueryEmpty()
+    {
+        // create a client so we can view the page
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        // go to the page and search for a string that is empty
+        $client->request('GET', '/container/jsonsearch/');
+
+        // assert that what we expect is actually returned
+        $this->assertContains('[]', $client->getResponse()->getContent());
+    }
+
     protected function tearDown()
     {
         parent::tearDown();

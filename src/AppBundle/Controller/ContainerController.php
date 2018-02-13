@@ -76,12 +76,12 @@ class ContainerController extends Controller
             'container' => $container,
             'delete_form' => $deleteForm->createView(),
             'invalid_id_error'=>false
-            ));	
+            ));
         }
 
             return $this->render('container/show.html.twig', array(
                 'invalid_id_error'=>true
-            ));	
+            ));
 
     }
 
@@ -162,5 +162,21 @@ class ContainerController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * Story 12d
+     * A function that will take in a string to separate, and then pass
+     *  into the repository as an array. It will then narrow the results further,
+     *  and display those results to a page containing a json header.
+     * @param string $searchQuery - the string to split apart into the individual search queries.
+     *
+     * @Route("/jsonsearch/", name="container_jsonsearch_empty")
+     * @Route("/jsonsearch/{searchQuery}", name="container_jsonsearch")
+     * @Method("GET")
+     */
+    public function jsonSearchAction($searchQuery = "")
+    {
+
     }
 }

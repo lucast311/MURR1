@@ -35,4 +35,15 @@ class ContainerRepository extends EntityRepository
         //Close the entity manager
     }
 
+    /**
+     * Story 12d
+     * A function that will take in an array of strings that will be used to
+     *  search for container entities in the database.
+     * @param array $queryString - an array of strings to query for
+     * @return array of searched entites returned from the queries
+     */
+    public function searchContainer($queryStrings)
+    {
+
+    }
 }
