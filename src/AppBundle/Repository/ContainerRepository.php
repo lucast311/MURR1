@@ -4,6 +4,7 @@ namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Container;
+use AppBundle\Services\SearchHelper;
 
 /**
  * ContainerRepository
@@ -42,8 +43,60 @@ class ContainerRepository extends EntityRepository
      * @param array $queryString - an array of strings to query for
      * @return array of searched entites returned from the queries
      */
-    public function searchContainer($queryStrings)
+    public function containerSearch($queryStrings)
     {
+        // get the field names of the Route, RoutPickup, OOPs, Structure, Collection History, Property, and Container Entities.
+        $containerClassProperties = $this->getClassMetadata('AppBundle:Container')->fieldNames;
+        $structureClassProperties = $this->getEntityManager()->getRepository('AppBundle:Structure')->getClassMetadata()->fieldNames;
+        $propertyClassProperties = $this->getEntityManager()->getRepository('AppBundle:Property')->getClassMetadata()->fieldNames;
 
+        // add all of the class properties arrays to one array
+        $classPropertiesArray = array($containerClassProperties, $structureClassProperties, $propertyClassProperties);
+
+        // an array of abbreviations to be used in the query. These represent each join
+        $classNames = array('c', 's', 'p');
+
+        // count variable to step through the $classPropertiesArray
+        $count = 0;
+
+        // shift off the id of each entity
+        foreach ($classPropertiesArray as $array)
+        {
+            array_shift($array);
+            $classPropertiesArray[$count] = $array;
+            $count++;
+        }
+
+        //create a searchHelper instance
+        $searchHelper = new SearchHelper();
+
+        //call the searchHelper service to return the class properties string
+        $classPropertiesString = $searchHelper->searchHelper($classPropertiesArray, $queryStrings, $classNames);
+
+        $em = $this->getEntityManager();
+        $qb1 = $em->createQueryBuilder();
+
+        $qb1->select('c', 's', 'p')
+            ->from('AppBundle:Container', 'c')
+            ->leftJoin('c.property', 'p', 'WITH', 'p.id = c.property')
+            ->leftJoin('c.structure', 's', 'WITH', 's.id = c.structure')
+            ->where($classPropertiesString);
+
+        $records = $qb1->getQuery()->getResult();
+
+        // remove any NULL values from the array (NULL values are represented by non-container objects)
+        $records = array_filter($records);
+
+        $commObjects = array();
+
+        foreach ($records as $record)
+        {
+            if(get_class($record) == "AppBundle\Entity\Container")
+            {
+                $commObjects[] = $record;
+            }
+        }
+
+        return $commObjects;
     }
 }

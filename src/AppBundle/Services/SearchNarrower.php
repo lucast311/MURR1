@@ -82,7 +82,7 @@ class SearchNarrower
      */
     public function narrowerHelper($result, &$entitiesToIgnore)
     {
-        $entitiesToAccept = array("AppBundle\Entity\Communication", "AppBundle\Entity\Property", "AppBundle\Entity\Address", "AppBundle\Entity\Contact", "AppBundle\Entity\Container", "Proxies\__CG__\AppBundle\Entity\Address");
+        $entitiesToAccept = array("AppBundle\Entity\Communication", "AppBundle\Entity\Property", "AppBundle\Entity\Address", "AppBundle\Entity\Contact", "AppBundle\Entity\Container", "AppBundle\Entity\Structure", "Proxies\__CG__\AppBundle\Entity\Address");
 
         // an array of arrys to store the values of the returned objects
         $objectValues = array();

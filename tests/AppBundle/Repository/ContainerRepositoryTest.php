@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\Container;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\Services\Cleaner;
+use AppBundle\DataFixtures\ORM\LoadContainerData;
+use AppBundle\DataFixtures\ORM\LoadRouteData;
 
 /**
  * ContainerRepositoryTest short summary.
@@ -27,7 +29,11 @@ class ContainerRepositoryTest extends KernelTestCase
             ->get('doctrine')
             ->getManager();
 
+        $containerLoader = new LoadContainerData();
+        $containerLoader->load($this->em);
 
+        $routeLoader = new LoadRouteData();
+        $routeLoader->load($this->em);
 
     }
 
@@ -66,7 +72,7 @@ class ContainerRepositoryTest extends KernelTestCase
         $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(3, sizeof($results));
+        $this->assertEquals(2, sizeof($results));
     }
 
     /**
@@ -110,7 +116,7 @@ class ContainerRepositoryTest extends KernelTestCase
         $searches[] = 'Bin';
 
         // query the database
-        $results = $repo->ContainerSearch($searches);
+        $results = $repo->containerSearch($searches);
 
         $this->AssertTrue(is_a($results[0],Container::class));
     }
@@ -127,11 +133,22 @@ class ContainerRepositoryTest extends KernelTestCase
 
     /**
      * Story 12d
-     * test that the search will work when an Date is specified
+     * test that the search will work when an frequency is specified
      */
     public function testSearchOnFrequency()
     {
+        // create a new Repository to be used later
+        $repo = $this->em->getRepository(Container::class);
 
+        // create an array with values to search with
+        $cleanQuery = array();
+        $cleanQuery[] = 'weekly';
+
+        // query the database
+        $results = $repo->containerSearch($cleanQuery);
+
+        // Assert that size of the query returns the expected number of results
+        $this->assertEquals(1, sizeof($results));
     }
 
     /**
@@ -148,10 +165,10 @@ class ContainerRepositoryTest extends KernelTestCase
         $cleanQuery[] = '123456';
 
         // query the database
-        $results = $repo->ContainerSearch($cleanQuery);
+        $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(3, sizeof($results));
+        $this->assertEquals(1, sizeof($results));
     }
 
     /**
@@ -169,10 +186,10 @@ class ContainerRepositoryTest extends KernelTestCase
         $cleanQuery[] = 'side';
 
         // query the database
-        $results = $repo->ContainerSearch($cleanQuery);
+        $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(3, sizeof($results));
+        $this->assertEquals(1, sizeof($results));
     }
 
     /**
@@ -189,10 +206,10 @@ class ContainerRepositoryTest extends KernelTestCase
         $cleanQuery[] = '87';
 
         // query the database
-        $results = $repo->ContainerSearch($cleanQuery);
+        $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(4, sizeof($results));
+        $this->assertEquals(1, sizeof($results));
     }
 
     /**
@@ -209,10 +226,10 @@ class ContainerRepositoryTest extends KernelTestCase
         $cleanQuery[] = '88';
 
         // query the database
-        $results = $repo->ContainerSearch($cleanQuery);
+        $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(2, sizeof($results));
+        $this->assertEquals(1, sizeof($results));
     }
 
     /**
@@ -229,7 +246,7 @@ class ContainerRepositoryTest extends KernelTestCase
         $cleanQuery[] = 'Bin';
 
         // query the database
-        $results = $repo->ContainerSearch($cleanQuery);
+        $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
         $this->assertEquals(2, sizeof($results));
@@ -250,10 +267,10 @@ class ContainerRepositoryTest extends KernelTestCase
         $cleanQuery[] = 'yd';
 
         // query the database
-        $results = $repo->ContainerSearch($cleanQuery);
+        $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(2, sizeof($results));
+        $this->assertEquals(4, sizeof($results));
     }
 
     /**
@@ -270,10 +287,10 @@ class ContainerRepositoryTest extends KernelTestCase
         $cleanQuery[] = 'Active';
 
         // query the database
-        $results = $repo->ContainerSearch($cleanQuery);
+        $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(2, sizeof($results));
+        $this->assertEquals(4, sizeof($results));
     }
 
     /**
@@ -290,10 +307,10 @@ class ContainerRepositoryTest extends KernelTestCase
         $cleanQuery[] = 'Wheels';
 
         // query the database
-        $results = $repo->ContainerSearch($cleanQuery);
+        $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(2, sizeof($results));
+        $this->assertEquals(1, sizeof($results));
     }
 
     /**
@@ -310,10 +327,10 @@ class ContainerRepositoryTest extends KernelTestCase
         $cleanQuery[] = 'Cosmo';
 
         // query the database
-        $results = $repo->ContainerSearch($cleanQuery);
+        $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(3, sizeof($results));
+        $this->assertEquals(1, sizeof($results));
     }
 
     /**
@@ -331,10 +348,10 @@ class ContainerRepositoryTest extends KernelTestCase
         $cleanQuery[] = 'World!';
 
         // query the database
-        $results = $repo->ContainerSearch($cleanQuery);
+        $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(2, sizeof($results));
+        $this->assertEquals(1, sizeof($results));
     }
 
     /**
@@ -351,10 +368,10 @@ class ContainerRepositoryTest extends KernelTestCase
         $cleanQuery[] = "N/A";
 
         // query the database
-        $results = $repo->ContainerSearch($cleanQuery);
+        $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals(0, sizeof($results));
     }
 
     /**
@@ -373,26 +390,34 @@ class ContainerRepositoryTest extends KernelTestCase
         $cleanQuery = $cleaner->cleanSearchQuery(" \ ");
 
         // query the database
-        $results = $repo->ContainerSearch($cleanQuery);
+        $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals(0, sizeof($results));
     }
 
      /**
      * (@inheritDoc)
      */
-    /*
+
     protected function tearDown()
     {
         parent::tearDown();
 
-        // Delete everything out of the property table after inserting stuff
-        $stmt = $this->em->getConnection()->prepare('DELETE * FROM Container');
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Container");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Address");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Property");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Route");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM User");
         $stmt->execute();
 
         $this->em->close();
-        $this->em = null; //avoid memory meaks
-    }*/
+        $this->em = null;//avoid memory meaks
+
+    }
 
 }

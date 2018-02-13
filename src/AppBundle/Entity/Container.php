@@ -121,7 +121,7 @@ class Container
     private $augmentation;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Structure", inversedBy="bins", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Structure", cascade={"persist"})
      * @ORM\JoinColumn(name="structureId", referencedColumnName="id")
      */
     private $structure;

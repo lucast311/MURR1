@@ -293,7 +293,7 @@ class ContainerControllerTest extends WebTestCase
         $queryStrings[] = 'South-west';
 
         // query the database
-        $repository->communicationSearch($queryStrings);
+        $repository->containerSearch($queryStrings);
 
         // assert that what we expect is actually returned
         $this->assertContains('', $client->getResponse()->getContent());

@@ -6,6 +6,12 @@ use AppBundle\Entity\Container;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Services\Cleaner;
+use AppBundle\Services\SearchNarrower;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Container controller.
@@ -177,6 +183,47 @@ class ContainerController extends Controller
      */
     public function jsonSearchAction($searchQuery = "")
     {
+        // Clean the input
+        $searchQuery = htmlentities($searchQuery);
 
+        // if the string to query onn is less than or equal to 100 characters
+        if(strlen($searchQuery) <= 500 && !empty($searchQuery))
+        {
+            // create a cleaner to cleanse the search query
+            $cleaner = new Cleaner();
+
+            // cleanse the query
+            $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
+
+            // get an entity manager
+            $em = $this->getDoctrine()->getManager();
+
+            // Use the repository to query for the records we want.
+            // Store those records into an array.
+            $containerSearches = $em->getRepository(Container::class)->containerSearch($cleanQuery);
+
+            // create a SearchNarrower to narrow down our searches
+            $searchNarrower = new SearchNarrower();
+
+            // narrow down our searches, and store their values along side their field values
+            $searchedData = $searchNarrower->narrower($containerSearches, $cleanQuery, new Container());
+
+            // Return the results as a json object
+            // NOTE: Serializer service needs to be enabled for this to work properly
+            $encoder = new JsonEncoder();
+            $normalizer = new ObjectNormalizer();
+
+            // We used to get a circular reference error. This line prevents it.
+            $normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
+
+            // Don't display the 'property' data as JSON. Makes it more human readable.
+            $normalizer->setIgnoredAttributes(array("property", "structure"));
+            $serializer = new Serializer(array($normalizer), array($encoder));
+
+            return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
+        }
+
+        // string over 100, return empty array.
+        return $this->json(array());
     }
 }

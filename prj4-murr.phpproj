@@ -110,6 +110,7 @@
     <Compile Include="src\AppBundle\Repository\UserRepository.php" />
     <Compile Include="src\AppBundle\Services\Changer.php" />
     <Compile Include="src\AppBundle\Services\Cleaner.php" />
+    <Compile Include="src\AppBundle\Services\SearchHelper.php" />
     <Compile Include="src\AppBundle\Services\SearchNarrower.php" />
     <Compile Include="src\AppBundle\Tests\Controller\ContactControllerTest.php" />
     <Compile Include="src\AppBundle\Tests\Controller\ContactSearchControllerTest.php" />
@@ -2005,6 +2006,7 @@
   <ItemGroup>
     <Folder Include="app\config" />
     <Folder Include="app\Resources\images" />
+    <Folder Include="app\Resources\js\" />
     <Folder Include="app\Resources\TwigBundle\" />
     <Folder Include="app\Resources\TwigBundle\views\" />
     <Folder Include="app\Resources\TwigBundle\views\Exception\" />

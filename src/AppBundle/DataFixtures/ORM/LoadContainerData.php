@@ -2,6 +2,9 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Container;
+use AppBundle\Entity\Property;
+use AppBundle\Entity\Address;
+use AppBundle\Entity\Structure;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -28,12 +31,67 @@ class LoadContainerData implements FixtureInterface
     {
         if(is_null($this->container))
         {
-            //custom, independant autoloaded fixtures
-        }
+            //Address data
+            $address = (new Address())
+                ->setStreetAddress("Test ST")
+                ->setPostalCode('T3S 3TS')
+                ->setCity('Saskatoon')
+                ->setProvince('Saskatchetest')
+                ->setCountry('Testnada');
 
-        // persist the container object set in the constructor to the database
-        $obMan->persist($this->container);
-        // flush the database connection
-        $obMan->flush();
+            $addressFixtureLoader = new LoadAddressData($address);
+
+            $addressFixtureLoader->load($obMan);
+
+            // Property data
+            $property = (new Property())
+                ->setSiteId((2363566))
+                ->setPropertyName("Cosmo")
+                ->setPropertyType("Townhouse Condo")
+                ->setPropertyStatus("Active")
+                ->setStructureId(54586)
+                ->setNumUnits(5)
+                ->setNeighbourhoodName("Sutherland")
+                ->setNeighbourhoodId("O48")
+                ->setAddress($address);
+
+            $PropertyFixtureLoader = new LoadPropertyData($property);
+
+            $PropertyFixtureLoader->load($obMan);
+
+            // Structure data
+            $structure = (new Structure())
+                ->setProperty(143546)
+                ->setDescription("Hello World");
+
+            $structureFixtureLoader = new LoadStructureData($structure);
+
+            $structureFixtureLoader->load($obMan);
+
+            //custom, independant autoloaded fixtures
+            $this->container = (new Container())
+                ->setFrequency("weekly")
+                ->setContainerSerial('123456')
+                ->setLocationDesc("South-west side")
+                ->setLong(87)
+                ->setLat(88)
+                ->setType("Cart")
+                ->setSize("6 yd")
+                ->setAugmentation("Wheels")
+                ->setStatus("Active")
+                ->setReasonForStatus("Everything normal")
+                ->setProperty($property)
+                ->setStructure($structure);
+
+            $obMan->persist($this->container);
+            $obMan->flush();
+        }
+        else
+        {
+            // persist the container object set in the constructor to the database
+            $obMan->persist($this->container);
+            // flush the database connection
+            $obMan->flush();
+        }
     }
 }
