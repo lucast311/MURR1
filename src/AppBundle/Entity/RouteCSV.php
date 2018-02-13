@@ -3,25 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * RouteCSV
  *
- * @ORM\Table(name="route_c_s_v")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\RouteCSVRepository")
  */
 class RouteCSV
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
     /**
      * @var int
      *
@@ -76,11 +65,11 @@ class RouteCSV
     /**
      * Set file
      *
-     * @param string $file
+     * @param File $file
      *
      * @return RouteCSV
      */
-    public function setFile($file)
+    public function setFile(File $file = null)
     {
         $this->file = $file;
 
@@ -90,7 +79,7 @@ class RouteCSV
     /**
      * Get file
      *
-     * @return string
+     * @return File
      */
     public function getFile()
     {

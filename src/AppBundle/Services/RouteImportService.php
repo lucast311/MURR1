@@ -14,7 +14,6 @@ use AppBundle\Repository\RoutePickupRepository;
 class RouteImportService
 {
     private $invalidFileFormat;
-    private $invalidFileType;
     private $duplicateSerials;
     private $route;
 
@@ -25,9 +24,6 @@ class RouteImportService
     {
         $em = $this->getDoctrine()->getManager();
 
-        $this->invalidFileFormat = false;
-        $this->invalidFileType   = false;
-        $this->duplicateSerials  = false;
         $this->route = (new Route())->setRouteId($routeId);
 
         $csvString; //read from file
@@ -55,8 +51,6 @@ class RouteImportService
     private function csvToRoutePickup(string $csv)
     {
         $usedContainerIds = array();
-
-
     }
 
 }
