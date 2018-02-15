@@ -136,6 +136,7 @@
     <Compile Include="tests\AppBundle\Entity\ContainerTest.php" />
     <Compile Include="tests\AppBundle\Entity\CSROOPsCreationTest.php" />
     <Compile Include="tests\AppBundle\Entity\PropertyTest.php" />
+    <Compile Include="tests\AppBundle\Entity\RouteCSVTest.php" />
     <Compile Include="tests\AppBundle\Entity\RoutePickupTest.php" />
     <Compile Include="tests\AppBundle\Entity\RouteTest.php" />
     <Compile Include="tests\AppBundle\Form\CollectionHistoryTypeTest.php" />
@@ -2043,10 +2044,12 @@
     <Folder Include="tests\AppBundle\Entity" />
     <Folder Include="tests\AppBundle\Form\Type" />
     <Folder Include="tests\AppBundle\Form" />
+    <Folder Include="tests\SampleData\" />
     <Folder Include="tests\AppBundle\Repository" />
     <Folder Include="tests\AppBundle\Services" />
     <Folder Include="tests\AppBundle" />
     <Folder Include="tests" />
+    <Folder Include="tests\SampleData\Routes\" />
     <Folder Include="var\cache\dev\doctrine\orm\Proxies" />
     <Folder Include="var\cache\dev\doctrine\orm" />
     <Folder Include="var\cache\dev\doctrine" />

@@ -11,16 +11,17 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class RouteCSV
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="routeId", type="integer", unique=true)
-     */
+
+   /**
+    * @Assert\NotBlank(message="Please enter a route ID!")
+    * @Assert\Integer(message="Please enter an integer.")
+    */
     private $routeId;
 
     /**
      * @Assert\File(
      *      maxSize = "1024k",
+     *      maxSizeMessage = "The max route size is 1 MB.",
      *      mimeType = {"text/csv"},
      *      mimeTypesMessage = "Invalid route file type. Please upload a valid route CSV."
      * )

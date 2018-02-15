@@ -12,7 +12,6 @@ use AppBundle\Entity\Route;
  */
 class RouteTest extends KernelTestCase
 {
-
     private $route;
 
     public function setUp()

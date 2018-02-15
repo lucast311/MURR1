@@ -46,7 +46,7 @@ class RouteImportServiceTest extends KernelTestCase
     function testDuplicateSerials()
     {
         // call the csvToRoutePickup method and pass in the csv file object
-        $path = $this->get('kernel')->getRootDir() . '/../tests/SampleData/Routes/invalid_unused_route_duplicate_data.csv';
+        $path = $this->get('kernel')->getRootDir() . '/../tests/SampleData/Routes/invalid_route_duplicate_data.csv';
         $file = fopen($path, "r") or die("can't open file");
 
         // check if the duplicateSerials variable is true
@@ -62,12 +62,11 @@ class RouteImportServiceTest extends KernelTestCase
     function testCsvToRoutePickup()
     {
         // Pass in a valid csv bin serials in it
-        $path = $this->get('kernel')->getRootDir() . '/../tests/SampleData/Routes/valid_unused_route.csv';
+        $path = $this->get('kernel')->getRootDir() . '/../tests/SampleData/Routes/valid_route.csv';
         $file = fopen($path, "r") or die("can't open file");
 
         $csvContents = fread($file,filesize($path));
         // test to see if routeSerials were passed back
         $this->assertTrue(sizeof((new RouteImportService)->csvToRoutePickup($csvContents)) > 1);
-
     }
 }

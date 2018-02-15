@@ -4,6 +4,7 @@ namespace AppBundle\Services;
 use AppBundle\Entity\Container;
 use AppBundle\Entity\Route;
 use AppBundle\Entity\RoutePickup;
+use AppBundle\Entity\RouteCSV;
 use AppBundle\Repository\RouteRepository;
 use AppBundle\Repository\RoutePickupRepository;
 
@@ -20,7 +21,7 @@ class RouteImportService
     /*22a
      * takes in a name and file, attempts to create a route
      */
-    public function createRouteFromFile(int $routeId, $file)
+    public function createRouteFromFile(RouteCSV $routeCSV)
     {
         $em = $this->getDoctrine()->getManager();
 
