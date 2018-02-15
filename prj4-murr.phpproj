@@ -159,6 +159,7 @@
     <Compile Include="tests\AppBundle\Services\ChangerTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
+    <Compile Include="tests\Mink\ContainerSearchTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
     <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
     <Compile Include="var\cache\dev\doctrine\orm\Proxies\__CG__AppBundleEntityAddress.php" />

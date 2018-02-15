@@ -21,6 +21,18 @@ use Symfony\Component\Serializer\Serializer;
 class ContainerController extends Controller
 {
     /**
+     * story12e
+     * Front end for searching for a container.
+     *
+     * @Route("/container/search", name="container_search")
+     * @Method("GET")
+     */
+    public function searchAction(Request $request)
+    {
+
+    }
+
+    /**
      * Lists all container entities.
      *
      * @Route("/", name="container_index")
@@ -226,4 +238,6 @@ class ContainerController extends Controller
         // string over 100, return empty array.
         return $this->json(array());
     }
+
+
 }
