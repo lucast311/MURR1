@@ -26,7 +26,8 @@ class RouteImportService
 
         $this->route = (new Route())->setRouteId($routeId);
 
-        $csvString; //read from file
+        //REMEMBER readfile($path); or fread($file,filesize($path)); or file_get_contents
+        //$csvString =
 
         $routePickups = $this->csvToRoutePickup($csvString);
 
@@ -48,9 +49,11 @@ class RouteImportService
     /*22a
      * takes in a csv string, returns [a] RoutePickup[s]
      */
-    private function csvToRoutePickup(string $csv)
+    public function csvToRoutePickup(string $csv)
     {
         $usedContainerIds = array();
+
+        return array();
     }
 
 }
