@@ -10,7 +10,9 @@
         <!-- Font Awesome Icon pack-->
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
-        <!-- Import jquery and semantic ui from a CDN-->
+        <!-- Import jquery and semantic ui from a CDN
+             We may want to backup links that are hosted by the project, but this works for now.
+        -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.css"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.js"></script>
@@ -28,5 +30,12 @@
         </div>
         {% block javascripts %}
         {% endblock %}
+
+        <!-- Semantic UI's footer just rests at the bottom of a page's content,
+            NOT neccessarily at the bottom of the page. If we want the footer
+            to always be at the bottom of the page we'll need our own css -->
+        <div class="ui inverted footer segment">
+            <div class="ui center aligned text container">MURRRRR</div>
+        </div>
     </body>
 </html>

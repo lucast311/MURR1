@@ -3,7 +3,7 @@
 {% block body %}
     <h1>Containers list</h1>
 
-    <table>
+    <table class="ui celled table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -36,15 +36,12 @@
                 <td>{{container.property}}</td>
                 <td>{{ container.reasonForStatus }}</td>
                 
+                <!-- Lists should be done similar to this. Regular lists make the site look bad on mobile -->
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('container_show', { 'id': container.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('container_edit', { 'id': container.id }) }}">edit</a>
-                        </li>
-                    </ul>
+                    <div class="ui list">
+                    <a class="item" href="{{ path('container_show', { 'id': container.id }) }}">show</a>
+                    <a class="item" href="{{ path('container_edit', { 'id': container.id }) }}">edit</a>
+                    </div>
                 </td>
             </tr>
         {% endfor %}
