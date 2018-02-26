@@ -4,6 +4,7 @@ use AppBundle\Entity\Route;
 use AppBundle\Entity\Container;
 use AppBundle\Entity\RoutePickup;
 use AppBundle\DataFixtures\ORM\LoadUserData;
+use Tests\AppBundle\DatabasePrimer;
 
 /**
  * RouteControllerTest short summary.
@@ -18,12 +19,21 @@ class RouteControllerTest extends WebTestCase
 
     private $em;
 
+    public static function setUpBeforeClass()
+    {
+        DatabasePrimer::setKernel();
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
     protected function setUp()
     {
-        self::bootKernel();
-        $this->em = static::$kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
+
+
+        //$this->em = static::$kernel->getContainer()
+        //    ->get('doctrine')
+        //    ->getManager();
+        $this->em = DatabasePrimer::$entityManager;
 
         // Load the admin user into the database so they can log in
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
