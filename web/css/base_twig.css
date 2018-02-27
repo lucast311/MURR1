@@ -1,12 +1,14 @@
 ﻿/*
     CSS for the footer.
 */
+/* Used on the body so that when the page can resize itself without issue */
 .Site {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
 }
 
+/* Used on the footer itself so it can resize */
 .Site-content {
     flex: 1;
 }
