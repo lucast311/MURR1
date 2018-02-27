@@ -36,11 +36,11 @@ services:
 
 
     # Fixtures services
+    AppBundle\DataFixtures\ORM\LoadUserData:
+        tags: ['doctrine.fixture.orm']   
     AppBundle\DataFixtures\ORM\LoadPropertyData:
         tags: ['doctrine.fixture.orm']
     AppBundle\DataFixtures\ORM\LoadContactData:
-        tags: ['doctrine.fixture.orm']
-    AppBundle\DataFixtures\ORM\LoadUserData:
         tags: ['doctrine.fixture.orm']
     AppBundle\DataFixtures\ORM\LoadRouteData:
         tags: ['doctrine.fixture.orm']
