@@ -112,7 +112,7 @@ class PropertyController extends Controller
      */
     public function editAction(Request $request, $propertyId = null)
     {
-        $repo = $this->getDoctrine()->getEntityManager()->getRepository(Property::class);
+        $repo = $this->getDoctrine()->getManager()->getRepository(Property::class);
         $property = $repo->findOneById($propertyId);
 
         $errorType = null;

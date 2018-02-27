@@ -49,7 +49,7 @@ class Property
      * @ORM\Column(name="propertyType", type="string", length=50, nullable=true)
      *
      * @Assert\Length(max = 50, maxMessage = "Property type must be less than {{ limit }} characters")
-     * @Assert\Choice(callback = "getTypes", message = "Invalid property type")
+     * @Assert\Choice(strict=true, callback = "getTypes", message = "Invalid property type")
      */
     private $propertyType;
 
@@ -60,7 +60,7 @@ class Property
      *
      * @Assert\NotBlank(message = "Please specify a Property Status")
      * @Assert\Length(max = 50, maxMessage = "Property status must be less than {{ limit }} characters")
-     * @Assert\Choice(callback = "getStatuses", message = "Invalid property status")
+     * @Assert\Choice(strict=true, callback = "getStatuses", message = "Invalid property status")
      */
     private $propertyStatus;
 

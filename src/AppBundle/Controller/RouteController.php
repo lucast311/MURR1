@@ -34,7 +34,7 @@ class RouteController extends Controller
      */
     function manageRouteAction(Request $request, $routeId=null){
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         //NOTE THE USE OF THE USING STATEMENT TO MAKE CONTAINER ROUTE A SHORTCUT TO ROUTE
         //Otherwise there is conflicts between the route annotations and the route class
@@ -72,7 +72,7 @@ class RouteController extends Controller
                     $pickups = $route->getPickups();
                     $lastRp = $pickups[count($pickups)-1];
 
-                    $repo = $this->getDoctrine()->getEntityManager()->getRepository(RoutePickup::class);
+                    $repo = $this->getDoctrine()->getManager()->getRepository(RoutePickup::class);
 
                     //If there is no last pickup, this pickup needs to go first
                     if($lastRp == null){
@@ -131,7 +131,7 @@ class RouteController extends Controller
     public function deleteRoutePickupAction($id=null){
 
         //Get the EM and the repos
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository(RoutePickup::class);
 
         //Get the pickup that will be removed
