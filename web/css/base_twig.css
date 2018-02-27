@@ -1,19 +1,14 @@
 ﻿/*
     CSS for the footer.
 */
-.ui.inverted.footer.segment {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: red;
-    color: white;
-    text-align: center;
+.Site {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
-#test {
-    color:red;
-    background-color: red;
+.Site-content {
+    flex: 1;
 }
 
 

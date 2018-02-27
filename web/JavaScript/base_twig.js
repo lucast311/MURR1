@@ -7,7 +7,7 @@ $(function () {
         // Jquery selector for the sidebar
         $('.ui.sidebar')
             // Sets how the sidebar will be displayed
-            .sidebar('setting', 'transition', 'uncover')
+            .sidebar('setting', 'transition', 'overlay')
             .sidebar('toggle');
     });
 
