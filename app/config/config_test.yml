@@ -21,3 +21,9 @@ security:
     firewalls:
         main:
             http_basic: ~
+
+doctrine:
+    dbal:
+        driver: pdo_sqlite
+        charset: UTF8
+        memory: true
