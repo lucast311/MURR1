@@ -1,6 +1,7 @@
 <?php
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\Route;
+use Tests\AppBundle\DatabasePrimer;
 
 /**
  * RouteRepositoryTest short summary.
@@ -18,6 +19,13 @@ class RouteRepositoryTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
     /**
      * Just some setup stuff required by symfony for testing Repositories

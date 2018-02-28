@@ -1991,6 +1991,7 @@
     <Compile Include="web\app.php" />
     <Compile Include="web\apple-touch-icon.png" />
     <Compile Include="web\app_dev.php" />
+    <Compile Include="web\app_test.php" />
     <Compile Include="web\config.php" />
     <Compile Include="web\favicon.ico" />
     <Compile Include="web\robots.txt" />

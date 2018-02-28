@@ -8,6 +8,7 @@ use AppBundle\Services\SearchNarrower;
 use AppBundle\Services\Cleaner;
 use AppBundle\DataFixtures\ORM\LoadContainerData;
 use AppBundle\DataFixtures\ORM\LoadRouteData;
+use Tests\AppBundle\DatabasePrimer;
 
 /**
  * ContainerRepositoryTest short summary.
@@ -20,6 +21,13 @@ use AppBundle\DataFixtures\ORM\LoadRouteData;
 class ContainerRepositoryTest extends KernelTestCase
 {
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
     protected function setUp()
     {

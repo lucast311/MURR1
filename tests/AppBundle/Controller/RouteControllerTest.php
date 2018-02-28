@@ -21,19 +21,18 @@ class RouteControllerTest extends WebTestCase
 
     public static function setUpBeforeClass()
     {
-        DatabasePrimer::setKernel();
         self::bootKernel();
         DatabasePrimer::prime(self::$kernel);
     }
 
+
     protected function setUp()
     {
+        self::bootKernel();
 
-
-        //$this->em = static::$kernel->getContainer()
-        //    ->get('doctrine')
-        //    ->getManager();
-        $this->em = DatabasePrimer::$entityManager;
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
 
         // Load the admin user into the database so they can log in
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');

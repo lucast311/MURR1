@@ -6,10 +6,18 @@ use AppBundle\Entity\User;
 use AppBundle\DataFixtures\ORM\LoadUserData;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Tests\AppBundle\DatabasePrimer;
 
 class SecurityControllerTest extends WebTestCase
 {
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
     /**
      * (@inheritDoc)
@@ -17,6 +25,7 @@ class SecurityControllerTest extends WebTestCase
     protected function setUp()
     {
         self::bootKernel();
+
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();

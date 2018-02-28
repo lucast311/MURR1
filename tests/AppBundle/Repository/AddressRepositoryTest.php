@@ -4,6 +4,7 @@ namespace Tests\AppBundle\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\Address;
+use Tests\AppBundle\DatabasePrimer;
 
 class AddressRepositoryTest extends KernelTestCase
 {
@@ -12,6 +13,13 @@ class AddressRepositoryTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
     /**
      * Just some setup stuff required by symfony for testing Repositories
@@ -49,7 +57,7 @@ class AddressRepositoryTest extends KernelTestCase
         //check the contact id is the same as the returned id
         $this->assertEquals($address->getId(), $id);
     }
-	
+
 	//9c address test
     public function testAddressUpdate()
     {
@@ -73,7 +81,7 @@ class AddressRepositoryTest extends KernelTestCase
         $repository->save($address);
 
         $testAddress = $repository->getOne($address);
-        
+
 
         $this->assertTrue($testAddress->getStreetAddress() === "12345 test street");
     }
