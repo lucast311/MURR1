@@ -104,6 +104,54 @@ class ContainerSearchTest extends WebTestCase
         $this->assertRegExp('/http:\/\/.+\/container\/3/', $this->session->getCurrentUrl());
     }
 
+    /**
+     * Story 12e
+     * This tests the container front end search, asserting that if you search for a container does
+     * not exist that you recieve the error message.
+     */
+    public function testContainerSearchNoResults()
+    {
+        // Go to the page
+        $this->session->visit('http://localhost:8000/container/search');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // Search for a Container that we know should not exist
+        $page->find('named', array('id', "searchBox"))->setValue("QWERTYUIOP123456789");
+
+        // Emulate a keyup to trigger the event that normally does a search.
+        // Don't know why, it doesn't matter what character you press as it doesn't seem to go in the box anyways.
+        $page->find('named', array('id', "searchBox"))->keyPress("s");
+
+        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
+        $this->session->wait(5000);
+
+        // Assert that the error message is displayed on the page
+        $this->assertNotNull($page->find('named', array('content', "No results found")));
+    }
+
+    /**
+     * Story 12e
+     * Tests that when entering characters in the container search box, no more than 100 characters
+     * may be entered.
+     */
+    public function testQueryTooLong()
+    {
+        // Go to the page
+        $this->session->visit('http://localhost:8000/container/search');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // Make a REALLY long string
+        $longString = str_repeat("A", 101);
+
+        // Search for a Container that has a string that's too long
+        $page->find('named', array('id', "searchBox"))->setValue($longString);
+
+        // Get the value back out of the text box to make sure it is only 100 characters (did not take the extra)
+        $this->assertEquals(strlen($page->find('named', array('id', "searchBox"))->getValue()), 100);
+    }
+
     protected function tearDown()
     {
         // After the test has been run, make sure to stop the session so you don't run into problems

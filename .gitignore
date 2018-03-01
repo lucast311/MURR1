@@ -22,3 +22,5 @@
 /TestResults/*
 /uploads/*
 
+/phpunit.xml.tmppica
+
