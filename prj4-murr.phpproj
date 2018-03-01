@@ -128,6 +128,7 @@
     <Compile Include="tests\AppBundle\Controller\PropertyControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\RouteControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\SecurityControllerTest.php" />
+    <Compile Include="tests\AppBundle\DatabasePrimer.php" />
     <Compile Include="tests\AppBundle\Entity\AddressTest.php" />
     <Compile Include="tests\AppBundle\Entity\CollectionHistoryTest.php" />
     <Compile Include="tests\AppBundle\Entity\CommunicationTest.php" />
@@ -1988,6 +1989,7 @@
     <Compile Include="web\app.php" />
     <Compile Include="web\apple-touch-icon.png" />
     <Compile Include="web\app_dev.php" />
+    <Compile Include="web\app_test.php" />
     <Compile Include="web\config.php" />
     <Compile Include="web\favicon.ico" />
     <Compile Include="web\robots.txt" />

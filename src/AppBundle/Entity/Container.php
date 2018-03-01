@@ -53,15 +53,15 @@ class Container
     /**
      * @var float
      *
-     * @ORM\Column(name="Long", type="string", length=100, nullable=true)
+     * @ORM\Column(name="lon", type="float", length=100, nullable=true)
      * @Assert\Range(min=-180,max=180,minMessage="Longitude must be higher than or equal to -180", maxMessage="Longitude must be lower than or equal to 180")
      */
-    private $long;
+    private $lon;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="lat", type="string", nullable=true)
+     * @ORM\Column(name="lat", type="float", length=100, nullable=true)
      * @Assert\Range(min=-90,max=90,minMessage="Latitude must be more than or equal to -90", maxMessage="Lattitude must be lower than or equal to 90")
      */
     private $lat;
@@ -209,15 +209,15 @@ class Container
     }
 
     /**
-     * Set long
+     * Set lon
      *
-     * @param string $long
+     * @param float $lon
      *
      * @return Container
      */
-    public function setLong($long)
+    public function setLon($lon)
     {
-        $this->long = $long;
+        $this->lon = $lon;
 
         return $this;
     }
@@ -233,9 +233,9 @@ class Container
     }
 
     /**
-     * Set long
+     * Set property
      *
-     * @param string $long
+     * @param string $property
      *
      * @return Container
      */
@@ -247,19 +247,19 @@ class Container
     }
 
     /**
-     * Get long
+     * Get lon
      *
-     * @return string
+     * @return float
      */
-    public function getLong()
+    public function getLon()
     {
-        return $this->long;
+        return $this->lon;
     }
 
     /**
      * Set lat
      *
-     * @param string $lat
+     * @param float $lat
      *
      * @return Container
      */
@@ -397,7 +397,7 @@ class Container
 
     public function __toString()
     {
-        return $this->containerSerial; 
+        return $this->containerSerial;
     }
 }
 

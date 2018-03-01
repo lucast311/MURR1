@@ -21,6 +21,13 @@ class CSROOPsRepositoryTest extends KernelTestCase
      */
     private $em;
 
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
+
     //set up function, gets the entity manager
     /**
      * {@inheritDoc}

@@ -7,6 +7,7 @@ use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
 use AppBundle\Services\SearchNarrower;
+use Tests\AppBundle\DatabasePrimer;
 
 class PropertyRepositoryTest extends KernelTestCase
 {
@@ -15,6 +16,13 @@ class PropertyRepositoryTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
     /**
      * Just some setup stuff required by symfony for testing Repositories

@@ -8,6 +8,7 @@ use AppBundle\Entity\Route;
 use AppBundle\Entity\Container;
 use AppBundle\Entity\RoutePickup;
 use AppBundle\DataFixtures\ORM\LoadUserData;
+use Tests\AppBundle\DatabasePrimer;
 /**
  * This test uses mink for browser based front-end testing of the javascript used in story 22c
  */
@@ -17,11 +18,17 @@ class RoutePickupRemoveTest extends WebTestCase
     private $session;
     private $em;
 
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
+
     protected function setUp()
     {
-
         self::bootKernel();
-        //get a reference to the entity manager
+
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
@@ -52,7 +59,7 @@ class RoutePickupRemoveTest extends WebTestCase
         $this->session->start();
 
         // go to the login page
-        $this->session->visit('http://localhost:8000/login');
+        $this->session->visit('http://localhost:8000/app_test.php/login');
         // Get the current page
         $page = $this->session->getPage();
         // Fill out the login form
@@ -104,7 +111,7 @@ class RoutePickupRemoveTest extends WebTestCase
 
         //Now that data exists, go to the page
         //start up a new session
-        $this->session->visit('http://localhost:8000/route/1');
+        $this->session->visit('http://localhost:8000/app_test.php/route/1');
         // Get the page
         $page = $this->session->getPage();
 
@@ -166,7 +173,7 @@ class RoutePickupRemoveTest extends WebTestCase
 
         //Now that data exists, go to the page
         //start up a new session
-        $this->session->visit('http://localhost:8000/route/1');
+        $this->session->visit('http://localhost:8000/app_test.php/route/1');
         // Get the page
         $page = $this->session->getPage();
 

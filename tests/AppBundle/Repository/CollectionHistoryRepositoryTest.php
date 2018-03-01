@@ -3,9 +3,10 @@ namespace Tests\AppBundle\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\CollectionHistory;
-use \DateTime; 
+use \DateTime;
 
 use AppBundle\Entity\Container;
+use Tests\AppBundle\DatabasePrimer;
 
 /**
  * CollectionHistoryRepositoryTest short summary.
@@ -18,6 +19,13 @@ use AppBundle\Entity\Container;
 class CollectionHistoryRepositoryTest extends KernelTestCase
 {
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
     protected function setUp()
     {
@@ -39,13 +47,13 @@ class CollectionHistoryRepositoryTest extends KernelTestCase
         $container->setContainerSerial('18aTestRepo' . time());
         $container->setSize('6 yds');
         $container->setType('bin');
-        $container->setStatus('Active'); 
+        $container->setStatus('Active');
 
         $collectionHistory = new CollectionHistory();
         $collectionHistory->setContainerId($container->getId());
         $collectionHistory->setNotCollected(false);
         $collectionHistory->setNotes("Success");
-        $collectionHistory->setDateCollected(new DateTime('2018-2-1'));  
+        $collectionHistory->setDateCollected(new DateTime('2018-2-1'));
 
         $repo = $this->em->getRepository(CollectionHistory::class);
 
