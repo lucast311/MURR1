@@ -56,7 +56,7 @@ class Contact
      *
      * @ORM\Column(name="role", type="string", length=100, nullable=false)
      *
-     * @Assert\Choice(callback="roleOptions", message = "Please select only choices in the 'Role' dropdown box")
+     * @Assert\Choice(strict=true, callback="roleOptions", message = "Please select only choices in the 'Role' dropdown box")
      */
     private $role;
 

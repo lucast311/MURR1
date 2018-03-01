@@ -83,7 +83,7 @@ class ContainerController extends Controller
      */
     public function showAction($id=null)
     {
-        $repo = $this->getDoctrine()->getEntityManager()->getRepository(Container::class);
+        $repo = $this->getDoctrine()->getManager()->getRepository(Container::class);
         $container = $repo->findOneById($id);
 
         if ($container != null)
@@ -112,7 +112,7 @@ class ContainerController extends Controller
     public function editAction(Request $request, $id=null)
     {
 
-        $repo = $this->getDoctrine()->getEntityManager()->getRepository(Container::class);
+        $repo = $this->getDoctrine()->getManager()->getRepository(Container::class);
         $container = $repo->findOneById($id);
 
         if($container != null)
