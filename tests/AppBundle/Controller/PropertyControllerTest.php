@@ -12,15 +12,24 @@ use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
 use AppBundle\Entity\Contact;
 use AppBundle\DataFixtures\ORM\LoadUserData;
+use Tests\AppBundle\DatabasePrimer;
 
 
 class PropertyControllerTest extends WebTestCase
 {
     private $em;
 
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
+
     protected function setUp()
     {
         self::bootKernel();
+
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();

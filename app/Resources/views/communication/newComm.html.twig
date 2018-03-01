@@ -5,7 +5,7 @@
 {# include the PropertySearchPopup javascript and the select2 file #}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-<script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopup.js') }}"></script>
+<script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopup.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
 {% endblock %}
 {% block body %}
     <div id="wrapper">

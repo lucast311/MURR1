@@ -6,6 +6,7 @@ use Behat\Mink\Session;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\DataFixtures\ORM\LoadUserData;
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
+use Tests\AppBundle\DatabasePrimer;
 
 /**
  * This test uses mink for browser based front-end testing of the javascript used in story 4e
@@ -16,10 +17,17 @@ class PropertySearchPopupTest extends WebTestCase
     private $session;
     private $em;
 
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
+
     protected function setUp()
     {
-        // Load the user fixture so you can actually log in
         self::bootKernel();
+
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
@@ -43,7 +51,7 @@ class PropertySearchPopupTest extends WebTestCase
         $this->session->start();
 
         // go to the login page
-        $this->session->visit('http://localhost:8000/login');
+        $this->session->visit('http://localhost:8000/app_test.php/login');
         // Get the current page
         $page = $this->session->getPage();
         // Fill out the login form
@@ -69,7 +77,7 @@ class PropertySearchPopupTest extends WebTestCase
         //$this->session->start();
 
         // Navigate to the new communication page
-        $this->session->visit('http://localhost:8000/communication/new');
+        $this->session->visit('http://localhost:8000/app_test.php/communication/new');
         // Get the page
         $page = $this->session->getPage();
         // find and assert that there is an advanced search button
@@ -145,7 +153,7 @@ class PropertySearchPopupTest extends WebTestCase
     public function testCommunicationPropertySimpleSearch()
     {
         // Navigate to the new communication page
-        $this->session->visit('http://localhost:8000/communication/new');
+        $this->session->visit('http://localhost:8000/app_test.php/communication/new');
         // Get the page
         $page = $this->session->getPage();
         // Click on the select box so it opens

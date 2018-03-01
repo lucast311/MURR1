@@ -3,6 +3,7 @@ namespace Tests\AppBundle\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\Contact;
+use Tests\AppBundle\DatabasePrimer;
 
 /**
  * a test class for the search controller
@@ -14,9 +15,17 @@ class ContactSearchRepositoryTest extends KernelTestCase
 {
     private $em;
 
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
+
     protected function setUp()
     {
         self::bootKernel();
+
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
