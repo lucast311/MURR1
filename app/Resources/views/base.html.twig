@@ -4,17 +4,49 @@
         <meta charset="UTF-8" />
         <title>{% block title %}MURR{% endblock %}</title>
         {% block stylesheets %}
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('cosmo.ico') }}" />
+        <!-- Font Awesome Icon pack-->
+        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
-        {% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <!-- Import jquery and semantic ui from a CDN
+             We may want to backup links that are hosted by the project, but this works for now.
+        -->
+        <link href="{{ asset('css/base_twig.css') }}" type="text/css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.css"/>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/components/sidebar.min.js"></script>
+        
+    
+        <script type="text/javascript" src="{{ asset('JavaScript/base_twig.js') }}"></script>
     </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}
-            <!-- Font Awesome Icon pack-->
-            <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-            <!--Jquery link-->
-            <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        {% endblock %}
+    <body class="Site">
+        <!-- Encase the body/content of each page in whatever template you think is nice -->
+        <div class="ui inverted sidebar vertical menu">
+            <a class="item" href="/">Home</a>
+            <a class="item" href="/contact/search">Contacts</a>
+            <a class="item" href="/property/search">Properties</a>
+            <a class="item" href="/container">Containers</a>
+            <a class="item" href="/route/1">Routes</a>
+            <a class="item" href="/communication/view">Communications</a>
+        </div>
+        <div class="pusher Site-content">
+        <div class="ui container">
+            <a class="ui sticky black label" id="menuBtn">Menu</a>
+            <div class="ui container">
+            {% block body %}{% endblock %}
+            </div>
+            {% block javascripts %}
+            {% endblock %}
+
+            <!-- Semantic UI's footer just rests at the bottom of a page's content,
+                NOT neccessarily at the bottom of the page. If we want the footer
+                to always be at the bottom of the page we'll need our own css -->
+        </div>
+        </div>
+        <div class="ui inverted attached footer segment">
+            <div class="ui center aligned text container">MURRRRR</div>
+        </div>
     </body>
 </html>

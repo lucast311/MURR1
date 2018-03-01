@@ -4,7 +4,6 @@
 
 {% block javascripts %}
 {# include jQuery and Knockout to make the search script work #}
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
     
 {# include the search javasript #}
@@ -17,7 +16,7 @@
 <h2>Contact Search</h2>
 <input type="search" id="searchBox" maxlength="100" />
 <div id="message"></div>
-<table hidden>
+<table hidden class="ui celled table">
     <thead>
         <tr>
             <th>First Name</th>
