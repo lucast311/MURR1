@@ -112,7 +112,7 @@ class ContainerControllerTest extends WebTestCase
 
         $this->assertContains('Edit Container 123457', $client->getResponse()->getContent());
 
-
+       
     }
 
     /**
@@ -308,7 +308,7 @@ class ContainerControllerTest extends WebTestCase
         $repository->containerSearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{"id":1,"containerSerial":"123457","locationDesc":"South-west side","type":"Cart","lon":"87","lat":"88","reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels"}]', $client->getResponse()->getContent());
+        $this->assertContains('[{"id":1,"containerSerial":"123457","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels"}]', $client->getResponse()->getContent());
     }
 
     /**

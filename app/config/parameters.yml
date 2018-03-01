@@ -1,6 +1,6 @@
 # This file is auto-generated during the composer install
 parameters:
-    database_host: 192.168.8.128
+    database_host: 192.168.220.128
     database_port: ~
     database_name: MURRDATA
     database_user: root
