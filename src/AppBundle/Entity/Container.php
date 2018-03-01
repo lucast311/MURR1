@@ -53,10 +53,10 @@ class Container
     /**
      * @var float
      *
-     * @ORM\Column(name="Long", type="string", length=100, nullable=true)
+     * @ORM\Column(name="Lon", type="float", length=100, nullable=true)
      * @Assert\Range(min=-180,max=180,minMessage="Longitude must be higher than or equal to -180", maxMessage="Longitude must be lower than or equal to 180")
      */
-    private $long;
+    private $lon;
 
     /**
      * @var float
