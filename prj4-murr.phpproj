@@ -67,6 +67,7 @@
     <Compile Include="src\AppBundle\Controller\OOPsController.php" />
     <Compile Include="src\AppBundle\Controller\PropertyController.php" />
     <Compile Include="src\AppBundle\Controller\StructureController.php" />
+    <Compile Include="src\AppBundle\Controller\TruckController.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadAddressData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContactData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContainerData.php" />
@@ -78,6 +79,7 @@
     <Compile Include="src\AppBundle\Entity\CollectionHistory.php" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
     <Compile Include="src\AppBundle\Entity\Contact.php" />
+    <Compile Include="src\AppBundle\Entity\ContactProperty.php" />
     <Compile Include="src\AppBundle\Entity\Container.php" />
     <Compile Include="src\AppBundle\Entity\EduMat.php" />
     <Compile Include="src\AppBundle\Entity\OOPs.php" />
@@ -85,12 +87,14 @@
     <Compile Include="src\AppBundle\Entity\Route.php" />
     <Compile Include="src\AppBundle\Entity\RoutePickup.php" />
     <Compile Include="src\AppBundle\Entity\Structure.php" />
+    <Compile Include="src\AppBundle\Entity\Truck.php" />
     <Compile Include="src\AppBundle\Entity\User.php" />
     <Compile Include="src\AppBundle\Form\CollectionHistoryType.php" />
     <Compile Include="src\AppBundle\Form\ContainerEditType.php" />
     <Compile Include="src\AppBundle\Form\ContainerType.php" />
     <Compile Include="src\AppBundle\Form\RoutePickupType.php" />
     <Compile Include="src\AppBundle\Form\StructureType.php" />
+    <Compile Include="src\AppBundle\Form\TruckType.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
     <Compile Include="src\AppBundle\Form\ContactType.php" />
@@ -99,6 +103,7 @@
     <Compile Include="src\AppBundle\Repository\AddressRepository.php" />
     <Compile Include="src\AppBundle\Repository\CollectionHistoryRepository.php" />
     <Compile Include="src\AppBundle\Repository\CommunicationRepository.php" />
+    <Compile Include="src\AppBundle\Repository\ContactPropertyRepository.php" />
     <Compile Include="src\AppBundle\Repository\ContactRepository.php" />
     <Compile Include="src\AppBundle\Repository\ContainerRepository.php" />
     <Compile Include="src\AppBundle\Repository\EduMatRepository.php" />
@@ -107,6 +112,7 @@
     <Compile Include="src\AppBundle\Repository\RoutePickupRepository.php" />
     <Compile Include="src\AppBundle\Repository\RouteRepository.php" />
     <Compile Include="src\AppBundle\Repository\StructureRepository.php" />
+    <Compile Include="src\AppBundle\Repository\TruckRepository.php" />
     <Compile Include="src\AppBundle\Repository\UserRepository.php" />
     <Compile Include="src\AppBundle\Services\Changer.php" />
     <Compile Include="src\AppBundle\Services\Cleaner.php" />
@@ -2024,6 +2030,7 @@
     <Folder Include="app\Resources" />
     <Folder Include="app" />
     <Folder Include="app\Resources\views\structure\" />
+    <Folder Include="app\Resources\views\truck\" />
     <Folder Include="bin" />
     <Folder Include="src\AppBundle\Controller" />
     <Folder Include="src\AppBundle\DataFixtures\ORM" />
@@ -3337,6 +3344,10 @@
     <Content Include="app\Resources\views\structure\index.html.twig" />
     <Content Include="app\Resources\views\structure\new.html.twig" />
     <Content Include="app\Resources\views\structure\show.html.twig" />
+    <Content Include="app\Resources\views\truck\edit.html.twig" />
+    <Content Include="app\Resources\views\truck\index.html.twig" />
+    <Content Include="app\Resources\views\truck\new.html.twig" />
+    <Content Include="app\Resources\views\truck\show.html.twig" />
     <Content Include="app\sqlite.db" />
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\JavaScript\base_twig.js" />
