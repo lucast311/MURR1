@@ -112,7 +112,7 @@ class ContainerControllerTest extends WebTestCase
 
         $this->assertContains('Edit Container 123457', $client->getResponse()->getContent());
 
-       
+
     }
 
     /**
@@ -342,6 +342,22 @@ class ContainerControllerTest extends WebTestCase
 
         // assert that what we expect is actually returned
         $this->assertContains('[]', $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 12e
+     * Test that the nav link for the container search exists
+     */
+    public function testSearchNavLinkExists()
+    {
+        // create a client so we can view the page
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        // create a crawler for the  main page to check the nav link
+        $crawler = $client->request('GET',"/");
+
+
+        $this->assertContains('/container', $crawler->filter("div.menu a.item"));
     }
 
     protected function tearDown()

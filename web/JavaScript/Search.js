@@ -63,6 +63,14 @@ var onLoad = function () {
 };
 
 /**
+ * Story 12e
+ * Implemetation of the auto complete functionality on the search box
+ */
+var autoComplete = function () {
+
+}
+
+/**
  * Story 4e
  * Sends the chosen entity back to the parent page
  */

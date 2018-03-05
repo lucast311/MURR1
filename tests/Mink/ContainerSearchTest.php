@@ -34,7 +34,7 @@ class ContainerSearchTest extends WebTestCase
         $userLoader->load($this->em);
 
         // Create a driver
-        $this->driver = new ChromeDriver("http://localhost:9222",null, "localhost:8000");
+        $this->driver = new ChromeDriver("http://localhost:9222/app_test.php",null, "localhost:8000");
         // Create a session and pass it the driver
         $this->session = new Session($this->driver);
 
@@ -43,7 +43,7 @@ class ContainerSearchTest extends WebTestCase
         $this->session->start();
 
         // go to the login page
-        $this->session->visit('http://localhost:8000/login');
+        $this->session->visit('http://localhost:8000/app_test.php/login');
         // Get the current page
         $page = $this->session->getPage();
         // Fill out the login form
@@ -62,7 +62,7 @@ class ContainerSearchTest extends WebTestCase
      */
     public function testContainerSearch()
     {
-        $this->session->visit('http://localhost:8000/container/search');
+        $this->session->visit('http://localhost:8000/app_test.php/container/search');
         // Get the page
         $page = $this->session->getPage();
         // Search box
@@ -121,7 +121,7 @@ class ContainerSearchTest extends WebTestCase
     public function testContainerSearchNoResults()
     {
         // Go to the page
-        $this->session->visit('http://localhost:8000/container/search');
+        $this->session->visit('http://localhost:8000/app_test.php/container/search');
         // Get the page
         $page = $this->session->getPage();
 
@@ -147,7 +147,7 @@ class ContainerSearchTest extends WebTestCase
     public function testQueryTooLong()
     {
         // Go to the page
-        $this->session->visit('http://localhost:8000/container/search');
+        $this->session->visit('http://localhost:8000/app_test.php/container/search');
         // Get the page
         $page = $this->session->getPage();
 
@@ -167,7 +167,7 @@ class ContainerSearchTest extends WebTestCase
      */
     public function testAutoComplete()
     {
-        $this->session->visit('http://localhost:8000/container/search');
+        $this->session->visit('http://localhost:8000/app_test.php/container/search');
         // Get the page
         $page = $this->session->getPage();
         // Search box
@@ -192,6 +192,8 @@ class ContainerSearchTest extends WebTestCase
         // Assert the complete went away
         $this->assertNotNull($page->find('css', ".results transition hidden"));
     }
+
+    
 
     protected function tearDown()
     {
