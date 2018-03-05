@@ -69,14 +69,18 @@ class ContainerSearchTest extends WebTestCase
         $this->assertNotNull($page->find('named', array('id', "searchBox")));
         // Table headers
         $this->assertNotNull($page->find('named', array('content', "Serial")));
-        $this->assertNotNull($page->find('named', array('content', "Frequency")));
+        $this->assertNotNull($page->find('named', array('content', "Property")));
+        $this->assertNotNull($page->find('named', array('content', "Location Description")));
         $this->assertNotNull($page->find('named', array('content', "Type")));
         $this->assertNotNull($page->find('named', array('content', "Size")));
         $this->assertNotNull($page->find('named', array('content', "Status")));
-        $this->assertNotNull($page->find('named', array('content', "Property")));
+        $this->assertNotNull($page->find('named', array('content', "Reason for Status")));
+        $this->assertNotNull($page->find('named', array('content', "Lon")));
+        $this->assertNotNull($page->find('named', array('content', "Lat")));
+        $this->assertNotNull($page->find('named', array('content', "Actions")));
 
         // Search for a Container
-        $page->find('named', array('id', "searchBox"))->setValue("5W4G8UX");
+        $page->find('named', array('id', "searchBox"))->setValue("123457");
 
         // Emulate a keyup to trigger the event that normally does a search.
         // Don't know why, it doesn't matter what character you press as it doesn't seem to go in the box anyways.
@@ -86,14 +90,19 @@ class ContainerSearchTest extends WebTestCase
         $this->session->wait(5000);
 
         //Assert that the proper container is returned by the search
-        $this->assertNotNull($page->find('named', array('content', "5W4G8UX")));
+        $this->assertNotNull($page->find('named', array('content', "123457")));
+        $this->assertNotNull($page->find('named', array('content', "Cosmo")));
+        $this->assertNotNull($page->find('named', array('content', "South-west side")));
         $this->assertNotNull($page->find('named', array('content', "Cart")));
-        $this->assertNotNull($page->find('named', array('content', "4 yd")));
+        $this->assertNotNull($page->find('named', array('content', "6 yd")));
+        $this->assertNotNull($page->find('named', array('content', "Wheels")));
         $this->assertNotNull($page->find('named', array('content', "Active")));
-        $this->assertNotNull($page->find('named', array('content', "KenLand")));
+        $this->assertNotNull($page->find('named', array('content', "87")));
+        $this->assertNotNull($page->find('named', array('content', "88")));
+        $this->assertNotNull($page->find('named', array('content', "Everything normal")));
 
-        // click the first link for one of the results
-        $selectLink = $page->find('named', array('link', "View"));
+        // click the first link for the desired result
+        $selectLink = $page->find('named', array('content', "123457"));
         //Click the link
         $selectLink->click();
 
@@ -150,6 +159,38 @@ class ContainerSearchTest extends WebTestCase
 
         // Get the value back out of the text box to make sure it is only 100 characters (did not take the extra)
         $this->assertEquals(strlen($page->find('named', array('id', "searchBox"))->getValue()), 100);
+    }
+
+    /**
+     * Story 12e
+     * This will test the functionality regarding the autocomplete drop down.
+     */
+    public function testAutoComplete()
+    {
+        $this->session->visit('http://localhost:8000/container/search');
+        // Get the page
+        $page = $this->session->getPage();
+        // Search box
+        $this->assertNotNull($page->find('named', array('id', "searchBox")));
+        // Search for a Container
+        $page->find('named', array('id', "searchBox"))->setValue("Ac");
+
+        // Make sure autocomplete options show up (select on the CSS)
+        $this->assertNotNull($page->find('css', ".results transition visible"));
+        // Results we expect back
+        $expectedResults = array("Active", "Ack Street");
+        // Make sure we get the results we expect
+        foreach ($page->findAll('css', ".result .content .title") as $result)
+        {
+            $this->assertTrue(in_array($result->getText(), $expectedResults));
+        }
+
+        // Click Active (should be the first result), and make sure it goes into the search box
+        $page->find('css', ".result .content .title")->click();
+        $this->assertEquals($page->find('named', array('id', "searchBox")), "Active");
+
+        // Assert the complete went away
+        $this->assertNotNull($page->find('css', ".results transition hidden"));
     }
 
     protected function tearDown()
