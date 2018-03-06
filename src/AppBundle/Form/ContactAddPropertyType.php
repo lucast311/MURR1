@@ -1,4 +1,6 @@
 <?php
+namespace AppBundle\Form;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,7 +21,7 @@ class ContactAddPropertyType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        
+
     }
 
     /**
@@ -28,7 +30,7 @@ class ContactAddPropertyType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        
+
     }
 
     /**
@@ -38,7 +40,7 @@ class ContactAddPropertyType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        
+
     }
 
 

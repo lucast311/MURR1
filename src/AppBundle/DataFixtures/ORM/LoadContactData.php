@@ -3,9 +3,12 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Contact;
 use AppBundle\Entity\Address;
+use AppBundle\Entity\Property;
 use AppBundle\DataFixtures\ORM\LoadAddressData;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+
+use Doctrine\Common\Collections\ArrayCollection;
 
 class LoadContactData implements FixtureInterface
 {
@@ -128,6 +131,61 @@ class LoadContactData implements FixtureInterface
 
             $obMan->persist($this->contact);
             $obMan->flush();
+
+
+            // story 4k
+            $this->contact = (new Contact())
+                ->setFirstName("Bill")
+                ->setLastName("Smith")
+                ->setPrimaryPhone("123-321-6439")
+                ->setRole("Property Manager")
+                ->setPhoneExtension(123)
+                ->setEmailAddress("billsmith@email.com");
+
+            $obMan->persist($this->contact);
+            $obMan->flush();
+
+            $property = (new Property())
+               ->setSiteId(333666999)
+               ->setPropertyName("Balla Highrize")
+               ->setNumUnits(102)
+               ->setPropertyStatus("Active")
+               ->setPropertyType("High Rise Apartment")
+               ->setNeighbourhoodName("Compton")
+               ->setAddress((new Address())
+                   ->setStreetAddress("456 West Street")
+                   ->setCity("Compton")
+                   ->setCountry("America")
+                   ->setPostalCode("A1A 1A1")
+                   ->setProvince("CA"));
+
+            $this->contact = (new Contact())
+                ->setFirstName("Bill")
+                ->setLastName("Jones")
+                ->setPrimaryPhone("123-321-6439")
+                ->setRole("Property Manager")
+                ->setPhoneExtension(321)
+                ->setEmailAddress("billjones@webmail.com")
+                ->setProperties(new ArrayCollection(array($property)));
+
+            $obMan->persist($this->contact);
+            $obMan->flush();
+
+            $property = (new Property())
+               ->setSiteId(333666999)
+               ->setPropertyName("Balla Highrize")
+               ->setNumUnits(102)
+               ->setPropertyStatus("Active")
+               ->setPropertyType("High Rise Apartment")
+               ->setNeighbourhoodName("Compton")
+               ->setAddress((new Address())
+                   ->setStreetAddress("456 West Street")
+                   ->setCity("Compton")
+                   ->setCountry("America")
+                   ->setPostalCode("A1A 1A1")
+                   ->setProvince("CA"));
+
+
         }
         else
         {

@@ -161,6 +161,7 @@
     <Compile Include="tests\AppBundle\Services\ChangerTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
+    <Compile Include="tests\Mink\AssociatingPropertiesToContactTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
     <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
     <Compile Include="var\cache\dev\doctrine\orm\Proxies\__CG__AppBundleEntityAddress.php" />
@@ -1992,7 +1993,6 @@
     <Compile Include="web\app.php" />
     <Compile Include="web\apple-touch-icon.png" />
     <Compile Include="web\app_dev.php" />
-    <Compile Include="web\app_test.php" />
     <Compile Include="web\config.php" />
     <Compile Include="web\favicon.ico" />
     <Compile Include="web\robots.txt" />
