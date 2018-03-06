@@ -689,6 +689,31 @@ class ContactControllerTest extends WebTestCase
     }
 
     /**
+     * Story 4k
+     * Tests that a property can be associated to a contact
+     */
+    public function testAssociatePropertySuccess()
+    {
+        // Create a client,
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        // Go to the contact view page for Bill Jones
+        $crawler = $client->request('GET', "/contact/24");
+
+        //get the form for the add button
+        $form = $crawler->selectButton('Add')->form();
+
+        //select the first property (Balla Highrize)
+        $form['appbundle_propertyToContact[property]'] = 1;
+
+        //submit the form
+        $crawler = $client->submit($form);
+
+        $this->assertContains("Balla Highrize",$crawler->filter("#associatedProperties")->html());
+    }
+
+    /**
      * (@inheritDoc)
      */
     protected function tearDown()

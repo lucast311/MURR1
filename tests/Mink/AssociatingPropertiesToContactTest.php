@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\DataFixtures\ORM\LoadUserData;
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
 use Tests\AppBundle\DatabasePrimer;
+use AppBundle\DataFixtures\ORM\LoadContactData;
 
 /**
  * This test uses mink for browser based front-end testing of the javascript used in story 4k
@@ -25,6 +26,13 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         $userLoader = new LoadUserData($encoder);
         $userLoader->load(DatabasePrimer::$em);
+
+        //load contact and property data
+        $contactLoader = new LoadContactData();
+        $contactLoader->load(DatabasePrimer::$em);
+
+        $propertyLoader = new LoadPropertyData();
+        $propertyLoader->load(DatabasePrimer:$em);
     }
 
     protected function setUp()
@@ -66,14 +74,110 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $this->session->wait(10000, "document.readyState === 'complete'");
     }
 
-    public function testRemoveAssociationSuccess()
+    /**
+     * Story 4k
+     * Tests that you can use the simple search to find a value
+     */
+    public function testAddAssociationSimpleSearch()
     {
-        //start up a new session
-        $this->session->visit('http://localhost:8000/app_test.php/contact/1');
+        //start up a new session, going to the contact view page for Bill Jones (ID 24)
+        $this->session->visit('http://localhost:8000/app_test.php/contact/24');
         // Get the page
         $page = $this->session->getPage();
 
+        $searchBox = $page->find("css","#propertySearch");
 
+        //type charlton legs into the searchbox
+        $searchBox->setValue("Charlton Legs");
+
+        //Test that the filtered results contains charlton legs
+        $searchResults = $page->find("css","#searchResults");
+        $this->assertContains("Charlton Legs",$searchResults->getHtml());
+
+        //only result shoudl be charlton legs, so click it
+        $searchResults->click();
+
+        //check that the form field contains the property charlton legs
+        $formField = $page->find("form[name='appbundle_propertyToContact'] input[name='property']");
+        $this->assertContains('Charlton Legs',$formField->getHtml());
+    }
+
+    /**
+     * Story 4k
+     * Tests that you can remove an associated property for a contact
+     */
+    public function testRemoveAssociationDecline()
+    {
+        //start up a new session, going to the contact view page for Bill Jones (ID 24)
+        $this->session->visit('http://localhost:8000/app_test.php/contact/24');
+        // Get the page
+        $page = $this->session->getPage();
+
+        //assert that the associated properties table contains Balla Highrize
+        $associatedProperties = $page->find("css","#associatedProperties");
+        $this->assertContains("Balla Highrize",$associatedProperties->getHtml());
+
+
+        //the remove button from property with ID 2 (should be Balla Highrize)
+        $removeButton = $page->find("css","#rmb1");
+
+        $removeButton->click();
+
+        //get the modal that will ask the user if they want to accept
+        $promptModal = $page->find("css","#removeModal");
+
+        //check that the modal is visible
+        $this->assertContains("visible",$promptModal->getAttribute("class"));
+
+        //get the accept button
+        $acceptBtn = $page->find("css","#removeModal #btnDecline");
+
+        //click the accept button
+        $acceptBtn->click();
+
+        $associatedProperties = $page->find("css","#associatedProperties");
+
+        //assert that the associated properties table still contains Balla Highrize
+        $this->assertContains("Balla Highrize",$associatedProperties->getHtml());
+    }
+
+    /**
+     * Story 4k
+     * Tests that you can remove an associated property for a contact
+     */
+    public function testRemoveAssociationSuccess()
+    {
+        //start up a new session, going to the contact view page for Bill Jones (ID 24)
+        $this->session->visit('http://localhost:8000/app_test.php/contact/24');
+        // Get the page
+        $page = $this->session->getPage();
+
+        //assert that the associated properties table contains Thug Muny Apts.
+        $associatedProperties = $page->find("css","#associatedProperties");
+        $this->assertContains("Thug Muny Apts.",$associatedProperties->getHtml());
+
+
+        //the remove button from property with ID 2 (should be Thug Muny Apts.)
+        $removeButton = $page->find("css","#rmb2");
+
+        $removeButton->click();
+
+        //get the modal that will ask the user if they want to accept
+        $promptModal = $page->find("css","#removeModal");
+
+        //check that the modal is visible
+        $this->assertContains("visible",$promptModal->getAttribute("class"));
+
+        //get the accept button
+        $acceptBtn = $page->find("css","#removeModal #btnAccept");
+
+        //click the accept button
+        $acceptBtn->click();
+
+        $associatedProperties = $page->find("css","#associatedProperties");
+
+        //assert that the associated properties table no longer has Thug Muny Apts.
+        $this->assertNotContains("Thug Muny Apts.",$associatedProperties->getHtml());
     }
 }
 ?>

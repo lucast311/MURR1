@@ -144,7 +144,7 @@ class LoadContactData implements FixtureInterface
 
             $obMan->persist($this->contact);
             $obMan->flush();
-
+            //create two properties to be already associated for this contact
             $property = (new Property())
                ->setSiteId(333666999)
                ->setPropertyName("Balla Highrize")
@@ -159,31 +159,35 @@ class LoadContactData implements FixtureInterface
                    ->setPostalCode("A1A 1A1")
                    ->setProvince("CA"));
 
+            $property2 = (new Property())
+               ->setSiteId(999666333)
+               ->setPropertyName("Thug Muny Apts.")
+               ->setNumUnits(102)
+               ->setPropertyStatus("Active")
+               ->setPropertyType("High Rise Apartment")
+               ->setNeighbourhoodName("Compton")
+               ->setAddress((new Address())
+                   ->setStreetAddress("457 East Street")
+                   ->setCity("Compton")
+                   ->setCountry("America")
+                   ->setPostalCode("A1A 1A1")
+                   ->setProvince("CA"));
+            //create the contact
             $this->contact = (new Contact())
                 ->setFirstName("Bill")
                 ->setLastName("Jones")
                 ->setPrimaryPhone("123-321-6439")
                 ->setRole("Property Manager")
                 ->setPhoneExtension(321)
-                ->setEmailAddress("billjones@webmail.com")
-                ->setProperties(new ArrayCollection(array($property)));
+                ->setEmailAddress("billjones@webmail.com");
+            //set the two properties
+            $this->contact->setProperties(new ArrayCollection(array($property,$property2)));
 
+            //save the contact and properties
             $obMan->persist($this->contact);
             $obMan->flush();
 
-            $property = (new Property())
-               ->setSiteId(333666999)
-               ->setPropertyName("Balla Highrize")
-               ->setNumUnits(102)
-               ->setPropertyStatus("Active")
-               ->setPropertyType("High Rise Apartment")
-               ->setNeighbourhoodName("Compton")
-               ->setAddress((new Address())
-                   ->setStreetAddress("456 West Street")
-                   ->setCity("Compton")
-                   ->setCountry("America")
-                   ->setPostalCode("A1A 1A1")
-                   ->setProvince("CA"));
+
 
 
         }
