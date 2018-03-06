@@ -69,7 +69,7 @@ class PropertyContactRemoveTest extends WebTestCase
      * Story 4L
      * Tests that when you click the remove button, it shows the other two buttons instead
      */
-    public function testRemoveButtonShowsOtherButtons()
+    public function testRemoveButtonShowsModal()
     {
         //create a new property
         $property = new Property();
@@ -88,21 +88,21 @@ class PropertyContactRemoveTest extends WebTestCase
         $property->setContacts($arrayCollection);
         //now that the data exists, go to the page
         //start up a new session
-        $this->session->visit('http:://localhost:8000/property/1');
+        $this->session->visit('http:://localhost:8000/property/view/1');
         //get the page
         $page = $this->session->getPage();
         //find the button with the ID of the remove button
-        assertNotNull($page->find("css", "#rmb1"));
+        assertNotNull($page->find("css", "#rmConBtn1"));
+
+        //assert that the modal is not 'active'
+        assertNull($page->find("css","#cancelModal.active"));
 
         //click on the button
-        $removeButton = $page->find("css", "#rmb1");
+        $removeButton = $page->find("css", "#rmConBtn1");
         $removeButton->click();
 
-        //test that that button no longer exists, but the other two do
-        assertNull($page->find("css","#rmb1"));
-        assertNotNull($page->find("css", "#rmba1"));
-        assertNotNull($page->find("css","#rmbc1"));
-
+        //test that the modal now appears
+        assertNotNull($page->find("css","#cancelModal.active"));
     }
 
     /**
@@ -136,15 +136,14 @@ class PropertyContactRemoveTest extends WebTestCase
         $removeButton = $page->find("css", "#rmb1");
         $removeButton->click();
 
-        //ensure the message exists
-        $this->assertContains("Are you sure you want to remove association?", $page->getHtml());
+        //click the okay button
+        $okayButton = $page->find("css", ".checkmark icon");
+        $okayButton->click();
 
-        //click the checkmark
-        $acceptButton = $page->find('css','#rmba1');
-        $acceptButton->click();
+        $this->session->wait(10000, "document.readyState === 'complete'");
+        //assert that Testman is no longer on the page
+        assertNull($page->find("html", "Testman"));
 
-        //ensure the name does not load on the page again
-        $this->assertNotContains("Testman", $page->getHtml());
     }
 
     /**
@@ -178,17 +177,131 @@ class PropertyContactRemoveTest extends WebTestCase
         $removeButton = $page->find("css", "#rmb1");
         $removeButton->click();
 
-        //click the cancel button
-        $cancelBtn = $page->find("css","#rmbc1");
-        $cancelBtn->click();
+        //click the okay button
+        $okayButton = $page->find("css", "#cancelRmv.ui negative button");
+        $okayButton->click();
 
-        //ensure the two other buttons aren't on the page
-        $this->assertNull($page->find("css","#rmbc1"));
-        $this->assertNull($page->find("css","#rmba1"));
-
-        //ensure the remove button is back
-        $this->assertNotNull($page->find("css", "#rmb1"));
+        $this->session->wait(10000, "document.readyState === 'complete'");
+        //assert that Testman is no longer on the page
+        assertNotNull($page->find("html", "Testman"));
     }
+
+    /**
+     * Story 4L
+     * Test that a user can add a new association with the dropdown list
+     */
+    public function testAddContactToPropertyWithDropdown()
+    {
+        //create a new property
+        $property = new Property();
+
+        $repo = $this->em->getRepository(Property::class);
+        $repo->save($property);
+
+        //create a new contact
+        $contact = new Contact();
+        $contact->setFirstName("Testman");
+        $contact->setRole("Owner");
+
+        //associate the two
+        $arrayCollection = new ArrayCollection();
+        $arrayCollection->add($contact);
+        $property->setContacts($arrayCollection);
+        //now that the data exists, go to the page
+        //start up a new session
+        $this->session->visit('http:://localhost:8000/property/1');
+        //get the page
+        $page = $this->session->getPage();
+
+        $dropDown = $page->find("css", "#addContactDropDown");
+        $dropDown->click();
+        $page->fillField($dropDown, "Testman");
+
+        //find add button
+        $addBtn = $page->find("css", "#addContactBtn");
+        $addBtn->click();
+        $this->session->wait(10000, "document.readyState === 'complete'");
+
+
+        assertContains("Testman", $page->find("css",".contacts associations"));
+    }
+
+    /**
+     * Story 4L
+     * Test that the add modal is not on the page until the "Advanced Search" button is clicked
+     */
+    public function testAddModalIsShownOnlyAfterAdvancedSearchIsClicked()
+    {
+        //create a new property
+        $property = new Property();
+
+        $repo = $this->em->getRepository(Property::class);
+        $repo->save($property);
+
+        //create a new contact
+        $contact = new Contact();
+        $contact->setFirstName("Testman");
+        $contact->setRole("Owner");
+
+        //associate the two
+        $arrayCollection = new ArrayCollection();
+        $arrayCollection->add($contact);
+        $property->setContacts($arrayCollection);
+        //now that the data exists, go to the page
+        //start up a new session
+        $this->session->visit('http:://localhost:8000/property/1');
+        //get the page
+        $page = $this->session->getPage();
+
+        //assert modal is not active
+        assertNull($page->find("css","#addModal.active"));
+
+        //click the advanced button
+        $advancedSearchBtn = $page->find("css", "#advancedSearchBtn");
+        $advancedSearchBtn->click();
+
+        assertNotNull($page->find("css","#addModal.active"));
+    }
+
+    /**
+     * Story 4L
+     * Test that a user can add a new association with the advanced modal
+     */
+    public function testAddContactToPropertyWithAdvancedModal()
+    {
+        //create a new property
+        $property = new Property();
+
+        $repo = $this->em->getRepository(Property::class);
+        $repo->save($property);
+
+        //create a new contact
+        $contact = new Contact();
+        $contact->setFirstName("Testman");
+        $contact->setRole("Owner");
+
+        //associate the two
+        $arrayCollection = new ArrayCollection();
+        $arrayCollection->add($contact);
+        $property->setContacts($arrayCollection);
+        //now that the data exists, go to the page
+        //start up a new session
+        $this->session->visit('http:://localhost:8000/property/1');
+        //get the page
+        $page = $this->session->getPage();
+
+
+    }
+
+    /**
+     * Story 4L
+     * Test that a user cannnot add a contact association that already exists
+     */
+    public function testCannotAddContactToPropertyThatIsAlreadyAdded()
+    {
+
+    }
+
 
     protected function tearDown()
     {
