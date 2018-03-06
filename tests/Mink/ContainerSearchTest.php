@@ -176,7 +176,7 @@ class ContainerSearchTest extends WebTestCase
         $page->find('named', array('id', "searchBox"))->setValue("Ac");
 
         // Make sure autocomplete options show up (select on the CSS)
-        $this->assertNotNull($page->find('css', ".results transition visible"));
+        $this->assertNotNull($page->find('css', ".results .transition .visible"));
         // Results we expect back
         $expectedResults = array("Active", "Ack Street");
         // Make sure we get the results we expect
@@ -190,10 +190,42 @@ class ContainerSearchTest extends WebTestCase
         $this->assertEquals($page->find('named', array('id', "searchBox")), "Active");
 
         // Assert the complete went away
-        $this->assertNotNull($page->find('css', ".results transition hidden"));
+        $this->assertNotNull($page->find('css', ".results .transition .hidden"));
     }
 
-    
+    /**
+     * Story 12e
+     * This makes sure that you can delete a container and get the confirmation page
+     */
+    public function testContainerDelete()
+    {
+        // Go to the page of a container
+        $this->session->visit('http://localhost:8000/app_test.php/container/1/edit');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // Click the delete button
+        $page->find('named', array('button', "Delete"))->click();
+        // Make sure a modal pops up
+        $this->assertNotNull($page->find('css', "div .ui .small .basic .test .modal .transition .visible .active"));
+
+        // Click the delete button
+        $page->find('named', array('button', "Confirm Delete"))->click();
+
+        // Make sure the container is gone from the list page
+        $this->assertNull($page->find('named', array('content', "123457")));
+        $this->assertNull($page->find('named', array('content', "Cosmo")));
+        $this->assertNull($page->find('named', array('content', "South-west side")));
+        $this->assertNull($page->find('named', array('content', "Cart")));
+        $this->assertNull($page->find('named', array('content', "6 yd")));
+        $this->assertNull($page->find('named', array('content', "Wheels")));
+        $this->assertNull($page->find('named', array('content', "Active")));
+        $this->assertNull($page->find('named', array('content', "87")));
+        $this->assertNull($page->find('named', array('content', "88")));
+        $this->assertNull($page->find('named', array('content', "Everything normal")));
+    }
+
+
 
     protected function tearDown()
     {

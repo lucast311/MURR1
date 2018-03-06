@@ -24,12 +24,18 @@ class ContainerController extends Controller
      * story12e
      * Front end for searching for a container.
      *
-     * @Route("/container/search", name="container_search")
+     * @Route("/search", name="container_search")
      * @Method("GET")
      */
     public function searchAction(Request $request)
     {
-
+        // Get if it is in a search to view or if it is a search to insert
+        $isPopup = ($request->query->get("isPopup")) == "true" ? true : false;
+        // Render the twig with required data
+        return $this->render('container/searchContainer.html.twig', array(
+            'viewURL' => '/container/',
+            'isPopup' => $isPopup
+        ));
     }
 
     /**
