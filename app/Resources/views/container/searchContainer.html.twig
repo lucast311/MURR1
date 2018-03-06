@@ -16,6 +16,9 @@
 <div class="js-isPopup" data-ispopup="{{isPopup}}"></div>
 <h2>Container Search</h2>
 <input type="search" id="searchBox" maxlength="100" />
+<button class="ui button" id="btnClear">
+    <i class="times circle icon"></i>
+</button>
 <div id="message"></div>
 <table hidden class="ui celled table">
     <thead>
@@ -34,7 +37,7 @@
         <tr>
             <td data-bind="text: containerSerial"></td>
             <td data-bind="text: frequency"></td>
-            <td data-bind="text: property"></td>
+            {#<td data-bind="text: property"></td>#}
             <td data-bind="text: locationDesc"></td>
             <td data-bind="text: type"></td>
             <td data-bind="text: size"></td>

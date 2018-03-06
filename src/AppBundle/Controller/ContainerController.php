@@ -216,6 +216,8 @@ class ContainerController extends Controller
             // get an entity manager
             $em = $this->getDoctrine()->getManager();
 
+
+
             // Use the repository to query for the records we want.
             // Store those records into an array.
             $containerSearches = $em->getRepository(Container::class)->containerSearch($cleanQuery);

@@ -47,6 +47,13 @@ var onLoad = function () {
     // apply the bindings
     ko.applyBindings(viewModel);
 
+    // Register a click handler for the clear button
+    $('#btnClear').click(function () {
+        var searchText = $('#searchBox').val("");
+        viewModel.results([]);
+        $("table").hide();
+    });
+
     /*
         Every time a key is pressed in the search box this event will check if timeOutInst is set.
         If it is set then we call clearTimeout to cancel the timeout function and set it to be null

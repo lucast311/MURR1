@@ -225,7 +225,7 @@ class Container
     /**
      * Get type
      *
-     * @return string
+     * @return Property
      */
     public function getProperty()
     {
@@ -394,6 +394,12 @@ class Container
                      'Weekly' => 'Weekly',
                      'Twice weekly' => 'Twice weekly');
     }
+
+    //public function getPropertyToString()
+    //{
+    //    $prop = $this->getProperty();
+    //    return $prop->getAddress();
+    //}
 
     public function __toString()
     {
