@@ -134,12 +134,6 @@ class ContactRepositoryTest extends KernelTestCase
         $this->assertEquals($address->getCountry(), $obtainedAddress->getCountry());
 
 
-
-
-
-
-
-
         //// Assert that the object retrieved is the same as the object that was inserted
         //// Loop through the original contact's properties and see if they match in the returned object.
         //// Can't just compare objects because the doctrine object contains extra garbage that the

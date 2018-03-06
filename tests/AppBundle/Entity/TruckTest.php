@@ -14,14 +14,19 @@ class TruckTest extends KernelTestCase
     {
         self::bootKernel();
 
-        $this->truck->setTruckId("00886");
-        $this->truck->setType("Large");
+        $this->truck = (new Truck())
+            ->setTruckId("00886")
+            ->setType("Large");
 
-        // Gotta do some weird stuff because doing a validation on the class for unique
         $this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
     }
 
-    public function testFieldsCorrectSuccess()
+
+    /**
+     * Story 40a
+     * Tests that the default route weve spec'd validates
+     */
+    public function testSetupFieldsCorrect()
     {
         // Validate the Truck
         $errors = $this->validator->validate($this->truck);
@@ -29,30 +34,153 @@ class TruckTest extends KernelTestCase
         $this->assertEquals(0, count($errors));
     }
 
-    public function testIDIncorrectFailure()
+
+    /**
+     * Story 40a
+     * Test that the ID wont validate if it contains letters
+     */
+    public function testIDLetterFailure()
+    {
+        // Test that 000Y8 will fail because of a letter
+        $this->truck->setTruckId("000Y8");
+        // Validate the Truck
+        $errors = $this->validator->validate($this->truck);
+        // Assert that there are errors
+        $this->assertEquals(1, count($errors));
+        // Check the error message matches
+        $this->assertEquals($errors[0] == "The Truck ID must contain 1 to 6 digits, no letters.");
+    }
+
+    /**
+     * Story 40a
+     * Test boundries for an incorrectID
+     * -too long
+     * -all 0's
+     */
+    public function testIDIncorrect()
     {
         // Test that seven characters in the ID will fail
         $this->truck->setTruckId("0088667");
 
         // Validate the Truck
         $errors = $this->validator->validate($this->truck);
-        // Assert that there are no errors
+        // Assert that there are errors
         $this->assertEquals(1, count($errors));
         // Check the error message matches
-        $this->assertEquals($errors[0] == "The Truck ID must be 6 numbers or fewer.");
+        $this->assertEquals($errors[0] == "The Truck ID must contain 1 to 6 digits, no letters.");
+
+        //-----
+        // Test that 000000 will fail
+        $this->truck->setTruckId("000000");
+        // Validate the Truck
+        $errors = $this->validator->validate($this->truck);
+        // Assert that there are errors
+        $this->assertEquals(1, count($errors));
+        // Check the error message matches
+        $this->assertEquals($errors[0] == "The Truck ID must contain 1 to 6 digits, no letters.");
     }
 
-    public function testTypeIncorrectFailure()
+    /**
+     * Story 40a
+     * Test that the ID will validate if valid
+     */
+    public function testIDCorrect()
+    {
+        // Test that 5 digits in the ID will work
+        $this->truck->setTruckId("38888");
+        // Validate the Truck
+        $errors = $this->validator->validate($this->truck);
+        // Assert that there are no errors
+        $this->assertEquals(0, count($errors));
+    }
+
+    /**
+     * Story 40a
+     * Test that the ID will validate if valid on boundaries:
+     * -max length
+     * -min length
+     */
+    public function testIDCorrectBoundaries()
+    {
+        // Test that 6 characters in the ID will work
+        $this->truck->setTruckId("100888");
+        // Validate the Truck
+        $errors = $this->validator->validate($this->truck);
+        // Assert that there are no errors
+        $this->assertEquals(0, count($errors));
+
+        // Test that one character in the ID will work
+        $this->truck->setTruckId("1");
+        // Validate the Truck
+        $errors = $this->validator->validate($this->truck);
+        // Assert that there are no errors
+        $this->assertEquals(0, count($errors));
+    }
+
+
+
+    /**
+     * Story 40a
+     * Test that the Type won't validate if more than 15 characters or less than 1
+     */
+    public function testTypeIncorrect()
     {
         // Test that seven characters in the ID will fail
         $this->truck->setType(str_repeat("A",16));
 
         // Validate the Truck
         $errors = $this->validator->validate($this->truck);
-        // Assert that there are no errors
+        // Assert that there are errors
         $this->assertEquals(1, count($errors));
         // Check the error message matches
-        $this->assertEquals($errors[0] === "The Truck Type must be 15 numbers or fewer.");
+        $this->assertEquals($errors[0] === "The Truck Type must be from 1 to 15 characters.");
+
+        //-----
+        // Test that seven characters in the ID will fail
+        $this->truck->setType("");
+        // Validate the Truck
+        $errors = $this->validator->validate($this->truck);
+        // Assert that there are errors
+        $this->assertEquals(1, count($errors));
+        // Check the error message matches
+        $this->assertEquals($errors[0] === "The Truck Type must be from 1 to 15 characters.");
+    }
+
+    /**
+     * Story 40a
+     * Test that the Type will validate if on boundaries
+     * -15 characters
+     * -1 character
+     */
+    public function testTypeCorrectBoundaries()
+    {
+        // Test that seven characters in the ID will fail
+        $this->truck->setType(str_repeat("A",15));
+        // Validate the Truck
+        $errors = $this->validator->validate($this->truck);
+        //make sure no errors
+        $this->assertEquals(0, count($errors));
+
+        //------
+        $this->truck->setType("A");
+        // Validate the Truck
+        $errors = $this->validator->validate($this->truck);
+        //make sure no errors
+        $this->assertEquals(0, count($errors));
+    }
+
+    /**
+     * Story 40a
+     * Test that the Type will validate if valid (10 characters)
+     */
+    public function testTypeCorrect()
+    {
+        // Test that seven characters in the ID will fail
+        $this->truck->setType(str_repeat("A",10));
+        // Validate the Truck
+        $errors = $this->validator->validate($this->truck);
+        //make sure no errors
+        $this->assertEquals(0, count($errors));
     }
 
 }

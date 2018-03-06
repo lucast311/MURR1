@@ -161,6 +161,7 @@
     <Compile Include="tests\AppBundle\Repository\ContainerRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CSROOPsRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\PropertyRepositoryTest.php" />
+    <Compile Include="tests\AppBundle\Repository\TruckRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\RoutePickupRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\RouteRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
