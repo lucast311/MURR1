@@ -144,6 +144,7 @@
     <Compile Include="tests\AppBundle\Entity\PropertyTest.php" />
     <Compile Include="tests\AppBundle\Entity\RoutePickupTest.php" />
     <Compile Include="tests\AppBundle\Entity\RouteTest.php" />
+    <Compile Include="tests\AppBundle\Entity\TruckTest.php" />
     <Compile Include="tests\AppBundle\Form\CollectionHistoryTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\ContainerTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\RoutePickupTypeTest.php" />
@@ -2055,6 +2056,7 @@
     <Folder Include="tests\AppBundle" />
     <Folder Include="tests" />
     <Folder Include="tests\Mink\" />
+    <Folder Include="tests\Mink\Trucks\" />
     <Folder Include="var\cache\dev\doctrine\orm\Proxies" />
     <Folder Include="var\cache\dev\doctrine\orm" />
     <Folder Include="var\cache\dev\doctrine" />
