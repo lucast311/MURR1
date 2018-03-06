@@ -49,10 +49,17 @@ var onLoad = function () {
 
     // Register a click handler for the clear button
     $('#btnClear').click(function () {
+        // Clear the searchbox value
         var searchText = $('#searchBox').val("");
+        // clear the results
         viewModel.results([]);
+        // Do some aesthetic fixes
         $("table").hide();
+        $("#message").text("");
     });
+
+    // Register a click handler for the row of the result (instead of a view button)
+
 
     /*
         Every time a key is pressed in the search box this event will check if timeOutInst is set.
