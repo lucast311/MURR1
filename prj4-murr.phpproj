@@ -87,6 +87,7 @@
     <Compile Include="src\AppBundle\Entity\Structure.php" />
     <Compile Include="src\AppBundle\Entity\User.php" />
     <Compile Include="src\AppBundle\Form\CollectionHistoryType.php" />
+    <Compile Include="src\AppBundle\Form\ContactAddPropertyType.php" />
     <Compile Include="src\AppBundle\Form\ContainerEditType.php" />
     <Compile Include="src\AppBundle\Form\ContainerType.php" />
     <Compile Include="src\AppBundle\Form\RoutePickupType.php" />
@@ -3340,6 +3341,7 @@
     <Content Include="app\sqlite.db" />
     <Content Include="web\JavaScript\PropertySearchPopup.js" />
     <Content Include="web\JavaScript\DeletePrompt.js" />
+    <Content Include="web\JavaScript\RemoveModal.js" />
     <Content Include="web\JavaScript\Search.js" />
   </ItemGroup>
 </Project>

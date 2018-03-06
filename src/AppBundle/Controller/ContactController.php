@@ -220,4 +220,25 @@ class ContactController extends Controller
         // string over 100, return empty array.
         return $this->json(array());
     }
+
+    /**
+     * Story 4k
+     * Handles the associating of a property onto a contact
+     * 
+     * @param Request $request 
+     */
+    public function addPropertyAction(Request $request)
+    {
+        //TODO everything
+    }
+
+    /**
+     * Story 4k
+     * Handles the removal of an associated property from a contact
+     * @param Request $request 
+     */
+    public function removePropertyAction(Request $request)
+    {
+        //TODO everything
+    }
 }
