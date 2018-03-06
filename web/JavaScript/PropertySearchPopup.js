@@ -12,7 +12,7 @@ function onLoad()
     $("#communication_property, #appbundle_container_property").next().after("<input id='advanced_property_search_popup' value='Advanced Search' type='button'/>"); 
 
     // Register an event handler for clicking the button
-    $("#advanced_property_search_popup").click(advancedSearch);
+    $("#advanced_property_search_popup").click(function () { advancedSearch() });
 
 }
 
@@ -22,8 +22,11 @@ function onLoad()
  */
 function advancedSearch()
 {
+    //Way to get the dynamically generated path from symfony
+    path = $(".popupjs").attr("data-path");
+
     // Open a popup window to the search page
-    window.open('/property/search?isPopup=true', "_blank","width=800, height=600");
+    window.open(path, "_blank","width=800, height=600");
 }
 
 /**

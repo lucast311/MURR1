@@ -1,6 +1,13 @@
 imports:
     - { resource: config_dev.yml }
 
+doctrine:
+    dbal:
+        driver: pdo_sqlite
+        charset: UTF8
+        #memory: true
+        path: '%kernel.project_dir%/app/sqlite_test.db'
+    
 framework:
     test: ~
     session:

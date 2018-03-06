@@ -9,6 +9,7 @@ use AppBundle\Entity\Address;
 use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadCommunicationData;
+use Tests\AppBundle\DatabasePrimer;
 
 class CommunicationRepositoryTest extends KernelTestCase
 {
@@ -16,6 +17,13 @@ class CommunicationRepositoryTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
     /**
      * {@inheritDoc}

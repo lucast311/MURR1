@@ -319,7 +319,7 @@ class ContainerTest extends KernelTestCase
 
     public function testLongitudeMaxBoundary()
     {
-        $this->container->setLong(180);
+        $this->container->setLon(180);
 
         // Attempt to validate the container
         $error = $this->validator->validate($this->container);
@@ -330,7 +330,7 @@ class ContainerTest extends KernelTestCase
 
     public function testLongitudeMaxBoundaryInvalid()
     {
-        $this->container->setLong(200);
+        $this->container->setLon(200);
 
         // Attempt to validate the container
         $error = $this->validator->validate($this->container);
@@ -341,7 +341,7 @@ class ContainerTest extends KernelTestCase
 
     public function testLongitudeMinBoundary()
     {
-        $this->container->setLong(-180);
+        $this->container->setLon(-180);
 
         // Attempt to validate the container
         $error = $this->validator->validate($this->container);
@@ -352,7 +352,7 @@ class ContainerTest extends KernelTestCase
 
     public function testLongitudeMinBoundaryInvalid()
     {
-        $this->container->setLong(-200);
+        $this->container->setLon(-200);
 
         // Attempt to validate the container
         $error = $this->validator->validate($this->container);
@@ -363,7 +363,7 @@ class ContainerTest extends KernelTestCase
 
     public function testLongitudeValid()
     {
-        $this->container->setLong(0);
+        $this->container->setLon(0);
 
         // Attempt to validate the container
         $error = $this->validator->validate($this->container);
