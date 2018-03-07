@@ -1,4 +1,6 @@
-﻿
+﻿// This variable holds modified results from the search JSON that is reformatted in a way that semantic's autocomplete enjoys.
+var autocompleteValues = [];
+
 var viewModel = {
     results: ko.observableArray(),
     currentJSONRequest: null,
@@ -33,6 +35,26 @@ var viewModel = {
             // Set the results to be the returned results
             viewModel.results(jsonResults);
 
+            // Manipulate the results to fit in the autocomplete array in a way that semantic likes
+            // Loop through all the results from the json
+            for (var i = 0; i < jsonResults.length; i++)
+            {
+                // Each result is an object. Loop through all the properties of that object.
+                for (var resultProp in jsonResults[i])
+                {
+                    // Get the value associated with the result
+                    var resultVal = jsonResults[i][resultProp];
+                    // check if it isn't already in the array or null, if so, put it in the results for the autocomplete. Also ignore the id field.
+                    if (autocompleteValues.map(function (e) { return e.result }).indexOf(resultVal) == -1 && resultVal != null && resultProp != "id")
+                    {
+                        // Turn it into an object that semantic likes for the autocomplete
+                        resultObj = { result: resultVal };
+                        // Put it into the array
+                        autocompleteValues.push(resultObj);
+                    }
+                }
+            }
+
             // Register event handler for the select links, but ONLY if it is a popup box
             // Note this has to be here, otherwise jquery can't bind to an element that doesn't exist yet
             if ($('.js-isPopup').data('ispopup') == 1)
@@ -59,6 +81,9 @@ var timeOutInst = null;
 var onLoad = function () {
     // apply the bindings
     ko.applyBindings(viewModel);
+
+    // Run the code to make autocomplete work
+    autoComplete();
 
     // get results if there is any text in the searchbox on load
     //fixes issue where it wouldn't get the data when you went back to the page
@@ -97,7 +122,15 @@ var onLoad = function () {
  * Story 12e
  * Implemetation of the auto complete functionality on the search box
  */
-var autoComplete = function () {
+var autoComplete = function ()
+{
+    // Get the search box and apply the semantic search functionality
+    // It will search the array for objects with title 'result'
+    // This array is generated in getResults
+    $(".ui.search").search({
+        source: autocompleteValues,
+        searchFields: ['result']
+    });
 
 }
 

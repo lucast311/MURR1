@@ -15,7 +15,12 @@
 <div class="js-jsonpage" data-jsonpage="{{ path('property_jsonsearch_empty') }}"></div>
 <div class="js-isPopup" data-ispopup="{{isPopup}}"></div>
 <h2>Property Search</h2>
-<input type="search" id="searchBox" maxlength="100" />
+
+<div class="ui search">
+    <input type="text" id="searchBox" class="prompt" maxlength="100" placeholder="Search..." />
+    <i class="times circle icon" id="btnClear"></i>
+    <div class="results"></div>
+</div>
 
 <i class="times circle icon" id="btnClear"></i>
 

@@ -15,9 +15,12 @@
 <div class="js-jsonpage" data-jsonpage="{{ path('container_jsonsearch_empty') }}"></div>
 <div class="js-isPopup" data-ispopup="{{isPopup}}"></div>
 <h2>Container Search</h2>
-<input type="search" id="searchBox" maxlength="100" />
 
-<i class="times circle icon" id="btnClear"></i>
+<div class="ui search">
+    <input type="text" id="searchBox" class="prompt" maxlength="100" placeholder="Search..." />
+    <i class="times circle icon" id="btnClear"></i>
+    <div class="results"></div>
+</div>
 
 <div id="message"></div>
 <table hidden class="ui selectable celled table">
