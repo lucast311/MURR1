@@ -3314,6 +3314,7 @@
     <Folder Include="web\bundles" />
     <Folder Include="web" />
     <Folder Include="web\JavaScript\" />
+    <Folder Include="web\css\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\Resources\TwigBundle\views\Exception\error403.html.twig" />
@@ -3339,6 +3340,8 @@
     <Content Include="app\Resources\views\structure\new.html.twig" />
     <Content Include="app\Resources\views\structure\show.html.twig" />
     <Content Include="app\sqlite.db" />
+    <Content Include="web\css\base_twig.css" />
+    <Content Include="web\JavaScript\base_twig.js" />
     <Content Include="web\JavaScript\PropertySearchPopup.js" />
     <Content Include="web\JavaScript\DeletePrompt.js" />
     <Content Include="web\JavaScript\RemoveModal.js" />
