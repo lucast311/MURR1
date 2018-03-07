@@ -1,4 +1,6 @@
 <?php
+namespace Tests\AppBundle\Form\Type;
+
 use Symfony\Component\Form\Test\TypeTestCase;
 use AppBundle\Entity\RoutePickup;
 use AppBundle\Entity\Container;

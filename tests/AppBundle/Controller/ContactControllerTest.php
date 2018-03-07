@@ -698,8 +698,8 @@ class ContactControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
-        // Go to the contact view page for Bill Jones
-        $crawler = $client->request('GET', "/contact/24");
+        // Go to the contact view page for Bill Smith
+        $crawler = $client->request('GET', "/contact/23");
 
         //get the form for the add button
         $form = $crawler->selectButton('Add')->form();
@@ -836,12 +836,63 @@ class ContactControllerTest extends WebTestCase
         // Go to the contact view page for Bill Jones
         $crawler = $client->request('GET', "/contact/24");
 
-        $crawler->filter('#associatedProperties');
+        //check that the first row has the Balla Highrize property first (alphabetically first)
+        $this->assertContains('Balla Highrize', $crawler->filter('#associatedProperties tr:nth-child(1)')->html());
+        //check that thug muny apts is in the second row because it should come after Balla Highrize
+        $this->assertContains('Thug Muny Apts.', $crawler->filter('#associatedProperties tr:nth-child(2)')->html());
 
-        // Check that we are on the Contact Search page based on the header on the page
-        $this->assertContains("Contact Search", $client->getResponse()->getContent());
     }
 
+
+    /**
+     * Story 4k
+     * Tests that a property row can be clicked on to go to a property view page
+     */
+    public function testAssociatedPropertyLink()
+    {
+        // Create a client,
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        // Go to the contact view page for Bill Jones
+        $crawler = $client->request('GET', "/contact/24");
+
+        // "Balla Highrize" is in the list of properties
+        $this->assertContains("Balla Highrize", $client->getResponse()->getContent());
+
+        //get the link to Balla Highrize
+        $link = $crawler->selectLink('Balla Highrize')->link();
+
+        //Click that link
+        $client->click($link);
+
+        $content = $client->getResponse()->getContent();
+
+        //check that we are on the view property page for Balla Highrize (name and siteid)
+        $this->assertContains("View Property", $content);
+        $this->assertContains("Balla Highrize",$content);
+        $this->assertContains("333666999",$content);
+    }
+
+    /**
+     * Story 4k
+     * Tests that the add form still exists if a contact has no properties
+     */
+    public function testNoPropertiesAddForm()
+    {
+        // Create a client,
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        // Go to the contact view page for Bill Smith
+        $crawler = $client->request('GET', "/contact/23");
+
+        //check that the form exists
+        $this->assertEquals(1, $crawler->filter("form[name='appbundle_propertyToContact']")->count());
+
+        //check that the table containing associated properties does not
+        $this->assertEquals(0,$crawler->filter("#associatedProeprties")->count());
+    }
 
     /**
      * (@inheritDoc)
