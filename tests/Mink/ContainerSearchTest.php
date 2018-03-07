@@ -69,15 +69,12 @@ class ContainerSearchTest extends WebTestCase
         $this->assertNotNull($page->find('named', array('id', "searchBox")));
         // Table headers
         $this->assertNotNull($page->find('named', array('content', "Serial")));
-        $this->assertNotNull($page->find('named', array('content', "Property")));
-        $this->assertNotNull($page->find('named', array('content', "Location Description")));
+        $this->assertNotNull($page->find('named', array('content', "Frequency")));
+        $this->assertNotNull($page->find('named', array('content', "Address")));
+        $this->assertNotNull($page->find('named', array('content', "Location")));
         $this->assertNotNull($page->find('named', array('content', "Type")));
         $this->assertNotNull($page->find('named', array('content', "Size")));
         $this->assertNotNull($page->find('named', array('content', "Status")));
-        $this->assertNotNull($page->find('named', array('content', "Reason for Status")));
-        $this->assertNotNull($page->find('named', array('content', "Lon")));
-        $this->assertNotNull($page->find('named', array('content', "Lat")));
-        $this->assertNotNull($page->find('named', array('content', "Actions")));
 
         // Search for a Container
         $page->find('named', array('id', "searchBox"))->setValue("123457");
@@ -91,15 +88,13 @@ class ContainerSearchTest extends WebTestCase
 
         //Assert that the proper container is returned by the search
         $this->assertNotNull($page->find('named', array('content', "123457")));
-        $this->assertNotNull($page->find('named', array('content', "Cosmo")));
+        $this->assertNotNull($page->find('named', array('content', "weekly")));
+        $this->assertNotNull($page->find('named', array('content', "Test ST")));
         $this->assertNotNull($page->find('named', array('content', "South-west side")));
         $this->assertNotNull($page->find('named', array('content', "Cart")));
         $this->assertNotNull($page->find('named', array('content', "6 yd")));
         $this->assertNotNull($page->find('named', array('content', "Wheels")));
         $this->assertNotNull($page->find('named', array('content', "Active")));
-        $this->assertNotNull($page->find('named', array('content', "87")));
-        $this->assertNotNull($page->find('named', array('content', "88")));
-        $this->assertNotNull($page->find('named', array('content', "Everything normal")));
 
         // click the first link for the desired result
         $selectLink = $page->find('named', array('content', "123457"));
@@ -214,15 +209,13 @@ class ContainerSearchTest extends WebTestCase
 
         // Make sure the container is gone from the list page
         $this->assertNull($page->find('named', array('content', "123457")));
+        $this->assertNotNull($page->find('named', array('content', "weekly")));
         $this->assertNull($page->find('named', array('content', "Cosmo")));
         $this->assertNull($page->find('named', array('content', "South-west side")));
         $this->assertNull($page->find('named', array('content', "Cart")));
         $this->assertNull($page->find('named', array('content', "6 yd")));
         $this->assertNull($page->find('named', array('content', "Wheels")));
         $this->assertNull($page->find('named', array('content', "Active")));
-        $this->assertNull($page->find('named', array('content', "87")));
-        $this->assertNull($page->find('named', array('content', "88")));
-        $this->assertNull($page->find('named', array('content', "Everything normal")));
     }
 
 

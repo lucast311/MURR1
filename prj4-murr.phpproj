@@ -78,6 +78,7 @@
     <Compile Include="src\AppBundle\Entity\CollectionHistory.php" />
     <Compile Include="src\AppBundle\Entity\Communication.php" />
     <Compile Include="src\AppBundle\Entity\Contact.php" />
+    <Compile Include="src\AppBundle\Entity\ContactProperty.php" />
     <Compile Include="src\AppBundle\Entity\Container.php" />
     <Compile Include="src\AppBundle\Entity\EduMat.php" />
     <Compile Include="src\AppBundle\Entity\OOPs.php" />
@@ -99,6 +100,7 @@
     <Compile Include="src\AppBundle\Repository\AddressRepository.php" />
     <Compile Include="src\AppBundle\Repository\CollectionHistoryRepository.php" />
     <Compile Include="src\AppBundle\Repository\CommunicationRepository.php" />
+    <Compile Include="src\AppBundle\Repository\ContactPropertyRepository.php" />
     <Compile Include="src\AppBundle\Repository\ContactRepository.php" />
     <Compile Include="src\AppBundle\Repository\ContainerRepository.php" />
     <Compile Include="src\AppBundle\Repository\EduMatRepository.php" />

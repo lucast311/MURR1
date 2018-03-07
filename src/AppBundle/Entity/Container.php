@@ -395,10 +395,22 @@ class Container
                      'Twice weekly' => 'Twice weekly');
     }
 
+    /**
+     * Story 12e
+     * Returns the properties to string. This is done because property cannot be serialized
+     *  outside of it's controller
+     * @return mixed
+     */
     public function getPropertyToString()
     {
-        $prop = $this->getProperty();
-        return $prop->getAddress();
+        if($this->property != null)
+        {
+            return $this->property->__toString();
+        }
+        else
+        {
+            return "N/A";  
+        }
     }
 
     public function __toString()

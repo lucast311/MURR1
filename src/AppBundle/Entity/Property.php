@@ -423,7 +423,7 @@ class Property
     }
 
     public function __toString(){
-        return $this->propertyName;
+        return $this->address->__toString();
     }
 
     /**

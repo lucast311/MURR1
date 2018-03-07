@@ -60,6 +60,13 @@ var onLoad = function () {
     // apply the bindings
     ko.applyBindings(viewModel);
 
+    // get results if there is any text in the searchbox on load
+    //fixes issue where it wouldn't get the data when you went back to the page
+    if ($('#searchBox').val() != "")
+    {
+        viewModel.getResults();
+    }
+
     // Register a click handler for the clear button
     $('#btnClear').click(function () {
         // Clear the searchbox value
