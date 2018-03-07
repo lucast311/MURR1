@@ -28,7 +28,7 @@ class Container
      * @var int
      *
      * @ORM\Column(name="frequency", type="string", nullable=true)
-     * @Assert\Choice(callback="FrequencyChoices", message = "Please select frequency type")
+     * @Assert\Choice(strict=true, callback="FrequencyChoices", message = "Please select frequency type")
      */
     private $frequency;
 
@@ -72,7 +72,7 @@ class Container
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=50)
-     * @Assert\Choice(callback="TypeChoices", message = "Please select bin Type")
+     * @Assert\Choice(strict=true, callback="TypeChoices", message = "Please select bin Type")
      * @Assert\NotNull()
      */
     private $type;
@@ -89,7 +89,7 @@ class Container
     /**
      * @var string
      * @ORM\Column(name="status", type="string", length=50)
-     * @Assert\Choice(callback="StatusChoices", message = "Please select bin status")
+     * @Assert\Choice(strict=true, callback="StatusChoices", message = "Please select bin status")
      */
     private $status;
 

@@ -35,7 +35,7 @@ class Communication
      * @var string
      * @ORM\Column(type="string", length=25)
      * @Assert\NotBlank(message="Please select a type of communication")
-     * @Assert\Choice(callback="getTypes", message = "Please select a type of communication")
+     * @Assert\Choice(strict=true, callback="getTypes", message = "Please select a type of communication")
      */
     private $type;
 
@@ -43,7 +43,7 @@ class Communication
      * @var string
      * @ORM\Column(type="string", length=8)
      * @Assert\NotBlank(message="Please select a direction")
-     * @Assert\Choice(callback="getMediums", message = "Please select a direction")
+     * @Assert\Choice(strict=true, callback="getMediums", message = "Please select a direction")
      */
     private $medium;
 
@@ -51,7 +51,7 @@ class Communication
     // * @var int
     // * @ORM\Column(type="integer", nullable=true)
     // * @Assert\NotBlank(message="Please enter a contact")
-    // * @Assert\Choice(callback="getContacts", message = "Please enter a contact")
+    // * @Assert\Choice(strict=true, callback="getContacts", message = "Please enter a contact")
     // */
     //private $contact;
 
@@ -87,7 +87,7 @@ class Communication
     // *
     // * @ORM\Column(type="integer", nullable=true)
     // * @Assert\NotBlank(message="Please select a property")
-    // * @Assert\Choice(callback="getProperties", message = "Please select a property")
+    // * @Assert\Choice(strict=true, callback="getProperties", message = "Please select a property")
     // */
 
     /**
@@ -101,7 +101,7 @@ class Communication
      * @var string
      * @ORM\Column(type="string", length=25)
      * @Assert\NotBlank(message="Please select a category")
-     * @Assert\Choice(callback="getCategories", message = "Please select a category")
+     * @Assert\Choice(strict=true, callback="getCategories", message = "Please select a category")
      */
     private $category;
 
