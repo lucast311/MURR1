@@ -395,11 +395,11 @@ class Container
                      'Twice weekly' => 'Twice weekly');
     }
 
-    //public function getPropertyToString()
-    //{
-    //    $prop = $this->getProperty();
-    //    return $prop->getAddress();
-    //}
+    public function getPropertyToString()
+    {
+        $prop = $this->getProperty();
+        return $prop->getAddress();
+    }
 
     public function __toString()
     {

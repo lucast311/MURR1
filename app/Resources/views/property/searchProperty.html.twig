@@ -20,7 +20,7 @@
 <i class="times circle icon" id="btnClear"></i>
 
 <div id="message"></div>
-<table hidden class="ui celled table">
+<table hidden class="ui selectable celled table">
     <thead>
         <tr>
             <th>Site ID</th>
@@ -31,11 +31,10 @@
             <th>Units</th>
             <th>Neighbourhood</th>
           {#<th>Address??</th>#}
-            <th>View</th>
         </tr>
     </thead>
     <tbody data-bind="foreach: results">
-        <tr>
+        <tr data-bind="attr:{'data-id': id}">
             <td data-bind="text: siteId"></td>
             <td data-bind="text: propertyName"></td>
             <td data-bind="text: propertyType"></td>
@@ -43,11 +42,6 @@
             <td data-bind="text: structureId"></td>
             <td data-bind="text: numUnits"></td>
             <td data-bind="text: neighbourhoodName"></td>
-            {%if isPopup%}
-            <td><a href="#" class="popupSelectButton" data-bind="attr: {'data-id': id}">Select</a></td>
-            {% else %}
-            <td><a data-bind="attr: {href: '{{ viewURL }}' + id}">View</a></td>
-            {% endif %}
         </tr>
     </tbody>
 </table>

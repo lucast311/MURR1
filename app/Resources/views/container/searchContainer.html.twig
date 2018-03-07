@@ -20,7 +20,7 @@
 <i class="times circle icon" id="btnClear"></i>
 
 <div id="message"></div>
-<table hidden class="ui celled table">
+<table hidden class="ui selectable celled table">
     <thead>
         <tr>
             <th>Serial</th>
@@ -34,10 +34,10 @@
         </tr>
     </thead>
     <tbody data-bind="foreach: results">
-        <tr>
+        <tr data-bind="attr:{'data-id': id}">
             <td data-bind="text: containerSerial"></td>
             <td data-bind="text: frequency"></td>
-            {#<td data-bind="text: property"></td>#}
+            <td data-bind="text: propertyToString"></td>
             <td data-bind="text: locationDesc"></td>
             <td data-bind="text: type"></td>
             <td data-bind="text: size"></td>
