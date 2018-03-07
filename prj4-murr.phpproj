@@ -134,6 +134,7 @@
     <Compile Include="tests\AppBundle\Controller\PropertyControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\RouteControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\SecurityControllerTest.php" />
+    <Compile Include="tests\AppBundle\Controller\TruckControllerTest.php" />
     <Compile Include="tests\AppBundle\DatabasePrimer.php" />
     <Compile Include="tests\AppBundle\Entity\AddressTest.php" />
     <Compile Include="tests\AppBundle\Entity\CollectionHistoryTest.php" />
@@ -168,6 +169,7 @@
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
     <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
+    <Compile Include="tests\Mink\TruckListPageTest.php.php" />
     <Compile Include="var\cache\dev\doctrine\orm\Proxies\__CG__AppBundleEntityAddress.php" />
     <Compile Include="var\cache\dev\pools\4xgj6XummP\+\5\KtszP7xMmjGcXxpXfSie" />
     <Compile Include="var\cache\dev\pools\4xgj6XummP\+\6\5iGcYEK0TmkUcESiZHLP" />
@@ -2058,7 +2060,6 @@
     <Folder Include="tests\AppBundle" />
     <Folder Include="tests" />
     <Folder Include="tests\Mink\" />
-    <Folder Include="tests\Mink\Trucks\" />
     <Folder Include="var\cache\dev\doctrine\orm\Proxies" />
     <Folder Include="var\cache\dev\doctrine\orm" />
     <Folder Include="var\cache\dev\doctrine" />

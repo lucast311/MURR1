@@ -54,7 +54,7 @@ class RoutePickupRemoveTest extends WebTestCase
         // Create a session and pass it the driver
         $this->session = new Session($this->driver);
 
-        //Log the user in
+        // Log the user in
         // Start the session
         $this->session->start();
 
@@ -69,8 +69,6 @@ class RoutePickupRemoveTest extends WebTestCase
         $page->find('named', array('id_or_name', "login"))->submit();
         // Wait for the page to load before trying to browse elsewhere
         $this->session->wait(10000, "document.readyState === 'complete'");
-
-
     }
 
     /**
