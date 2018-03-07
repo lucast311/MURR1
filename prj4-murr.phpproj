@@ -147,6 +147,7 @@
     <Compile Include="tests\AppBundle\Entity\TruckTest.php" />
     <Compile Include="tests\AppBundle\Form\CollectionHistoryTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\ContainerTypeTest.php" />
+    <Compile Include="tests\AppBundle\Form\TruckTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\RoutePickupTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\Type\CommunicationTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\AddOOPsForm.php" />

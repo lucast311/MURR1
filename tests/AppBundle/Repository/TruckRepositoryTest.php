@@ -4,9 +4,7 @@ use AppBundle\Entity\Truck;
 use Tests\AppBundle\DatabasePrimer;
 
 /**
- * TruckRepositoryTest short summary.
- *
- * TruckRepositoryTest description.
+ * Tests for the Truck repository
  *
  * @version 1.0
  * @author cst206
@@ -63,6 +61,26 @@ class TruckRepositoryTest extends KernelTestCase
 
     /**
      * Story 40a
+     * Tests updating a truck in the database
+     */
+    public function testUpdate()
+    {
+        //Get the repository for the Truck
+        $repository = $this->em->getRepository(Truck::class);
+        //Call insert on the repository for the Truck
+        $repository->save($this->truck);
+
+        //change truckId
+        $newTruckId = "64920";
+        $this->truck->setTruckId($newTruckId);
+        $repository->save($this->truck);
+
+        //make sure new truckId exists in DB
+        $this->assertNotNull($repository->findOneBy(array('truckId' => '64920')));
+    }
+
+    /**
+     * Story 40a
      * Tests that a Truck can be removed
      */
     public function testRemove()
@@ -71,14 +89,13 @@ class TruckRepositoryTest extends KernelTestCase
         $repository = $this->em->getRepository(Truck::class);
         //Call insert on the repository for the truck
         $id = $repository->save($this->truck);
+        
         //Now remove it
         $repository->remove($this->truck);
 
         //make sure that the truck could not be found in the database now
         $this->assertNull($repository->findOneById($id));
     }
-
-  
 
     /**
      * (@inheritDoc)
