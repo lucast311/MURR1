@@ -279,7 +279,9 @@ class ContactRepositoryTest extends KernelTestCase
         $cleanQuery = array();
         $cleanQuery[] = 'Bob';
         $cleanQuery[] = 'Jones';
-
+        //try changing your php ini... didn't work with phpunit ocmmand line but it might for test explorer
+        // Then you might be really screwed
+        // Unless you can set the phpunit config for test explorer
         // query the database
         $results = $repo->contactSearch($cleanQuery);
 
@@ -330,7 +332,11 @@ class ContactRepositoryTest extends KernelTestCase
 
         $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact");
         $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Property");
+        $stmt->execute();
         $stmt = $this->em->getConnection()->prepare("DELETE FROM Address");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact_Properties");
         $stmt->execute();
 
         $this->em->close();

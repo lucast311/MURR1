@@ -1,5 +1,5 @@
 <?php
-
+namespace Tests\Mink;
 require_once 'vendor/autoload.php';
 use DMore\ChromeDriver\ChromeDriver;
 use Behat\Mink\Session;

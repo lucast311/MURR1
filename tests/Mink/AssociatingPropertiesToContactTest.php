@@ -1,4 +1,6 @@
 <?php
+
+namespace Tests\Mink;
 require_once 'vendor/autoload.php';
 use DMore\ChromeDriver\ChromeDriver;
 use Behat\Mink\Session;
@@ -37,20 +39,11 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
     protected function setUp()
     {
-        // Load the user fixture so you can actually log in
+        // get the entity manager
         self::bootKernel();
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
-
-        // Also load in the properties so there is something to search for
-        $propertyLoader = new LoadPropertyData();
-        $propertyLoader->load($this->em);
-
-        //$encoder = static::$kernel->getContainer()->get('security.password_encoder');
-
-        //$userLoader = new LoadUserData($encoder);
-        //$userLoader->load($this->em);
 
         // Create a driver
         $this->driver = new ChromeDriver("http://localhost:9222",null, "localhost:8000");

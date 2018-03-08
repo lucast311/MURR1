@@ -907,7 +907,7 @@ class ContactControllerTest extends WebTestCase
         $stmt->execute();
         $stmt = $this->em->getConnection()->prepare("DELETE FROM Property");
         $stmt->execute();
-        $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact_Property");
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact_Properties");
         $stmt->execute();
         $stmt = $this->em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();
