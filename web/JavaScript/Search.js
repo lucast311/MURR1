@@ -136,7 +136,7 @@ var onLoad = function () {
     // Also create an onchanged handler to catch when the user clicks an autocomplete suggestion
     $('#searchBox').change(function () {
         // only do it if theres text in the text box, and not blank
-        if ($('#searchBox').val() === "")
+        if ($('#searchBox').val() != "")
         {
             // Need a tiny delay here in order for it to actually have the updated text in the box.
             setTimeout(function () { viewModel.getResults(true); }, 110);

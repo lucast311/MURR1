@@ -3342,6 +3342,7 @@
     <Content Include="app\Resources\views\structure\new.html.twig" />
     <Content Include="app\Resources\views\structure\show.html.twig" />
     <Content Include="app\sqlite.db" />
+    <Content Include="phpunit.xml.dist.tmppica" />
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\JavaScript\base_twig.js" />
     <Content Include="web\JavaScript\PropertySearchPopup.js" />
