@@ -133,6 +133,7 @@ class Contact
      * Contacts have many properties
      *@ORM\ManyToMany(targetEntity="Property", inversedBy="contacts", cascade={"persist"}, fetch="EAGER")
      *@ORM\JoinTable(name="contact_properties")
+     *@ORM\OrderBy({"propertyName"="ASC"})
      *@var ArrayCollection
      */
     private $properties;
