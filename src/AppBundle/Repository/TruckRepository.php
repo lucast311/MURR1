@@ -10,4 +10,11 @@ namespace AppBundle\Repository;
  */
 class TruckRepository extends \Doctrine\ORM\EntityRepository
 {
+    // Save
+
+    // Delete
+
+    // Get All
+
+    // Get One
 }

@@ -202,6 +202,9 @@ class RoutePickupRemoveTest extends WebTestCase
         $this->assertContains("X11111", $list->getHtml());
     }
 
+     /**
+     * (@inheritDoc)
+     */
     protected function tearDown()
     {
         parent::tearDown();

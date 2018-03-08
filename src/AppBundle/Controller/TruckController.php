@@ -34,6 +34,7 @@ class TruckController extends Controller
 
     /**
      * Creates a new truck entity.
+     * Called when the "Add" button is pressed
      *
      * @Route("/new", name="truck_new")
      * @Method({"GET", "POST"})
@@ -60,6 +61,7 @@ class TruckController extends Controller
 
     /**
      * Finds and displays a truck entity.
+     * Called when the filter box is used
      *
      * @Route("/{id}", name="truck_show")
      * @Method("GET")
@@ -76,6 +78,7 @@ class TruckController extends Controller
 
     /**
      * Displays a form to edit an existing truck entity.
+     * Called when the save button is pressed
      *
      * @Route("/{id}/edit", name="truck_edit")
      * @Method({"GET", "POST"})
@@ -101,6 +104,7 @@ class TruckController extends Controller
 
     /**
      * Deletes a truck entity.
+     * Called when the user presses a delete button
      *
      * @Route("/{id}", name="truck_delete")
      * @Method("DELETE")
