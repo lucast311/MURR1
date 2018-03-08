@@ -167,11 +167,26 @@ class LoadContactData implements FixtureInterface
                ->setPropertyType("High Rise Apartment")
                ->setNeighbourhoodName("Compton")
                ->setAddress((new Address())
-                   ->setStreetAddress("457 East Street")
+                   ->setStreetAddress("726 East Street")
                    ->setCity("Compton")
                    ->setCountry("America")
                    ->setPostalCode("A1A 1A1")
                    ->setProvince("CA"));
+
+            $property3 = (new Property())
+                ->setSiteId(666333999)
+                ->setPropertyName("El Apartamento")
+                ->setNumUnits(50)
+                ->setPropertyStatus('Active')
+                ->setPropertyType('High Rize Apartment')
+                ->setNeighbourhoodName('West side')
+                ->setAddress((new Address())
+                    ->setStreetAddress("1132 Illinois Avenue")
+                    ->setCity("Chicago")
+                    ->setCountry("America")
+                    ->setPostalCode("A1A 1A1")
+                    ->setProvince("IL"));
+
             //create the contact
             $this->contact = (new Contact())
                 ->setFirstName("Bill")
@@ -180,8 +195,8 @@ class LoadContactData implements FixtureInterface
                 ->setRole("Property Manager")
                 ->setPhoneExtension(321)
                 ->setEmailAddress("billjones@webmail.com");
-            //set the two properties
-            $this->contact->setProperties(new ArrayCollection(array($property,$property2)));
+            //set the three properties
+            $this->contact->setProperties(new ArrayCollection(array($property,$property2,$property3)));
 
             //save the contact and properties
             $obMan->persist($this->contact);
