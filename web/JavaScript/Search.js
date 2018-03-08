@@ -4,7 +4,7 @@ var autocompleteValues = [];
 var viewModel = {
     results: ko.observableArray(),
     currentJSONRequest: null,
-    getResults: function () {
+    getResults: function (reQuery = false) {
         if (viewModel.currentJSONRequest != null)
         {
             viewModel.currentJSONRequest.abort();
@@ -35,24 +35,29 @@ var viewModel = {
             // Set the results to be the returned results
             viewModel.results(jsonResults);
 
-            // Manipulate the results to fit in the autocomplete array in a way that semantic likes
-            // Loop through all the results from the json
-            for (var i = 0; i < jsonResults.length; i++)
+            // Only proceed with the array manipulation if this isn't a requery
+            // This is to prevent glitches that may occur if you try to autocomplete on an already selected autocomplete result.
+            if (!reQuery)
             {
-                // Each result is an object. Loop through all the properties of that object.
-                for (var resultProp in jsonResults[i])
-                {
-                    // Get the value associated with the result
-                    var resultVal = jsonResults[i][resultProp];
-                    // check if it isn't already in the array or null, if so, put it in the results for the autocomplete. Also ignore the id field.
-                    if (autocompleteValues.map(function (e) { return e.result }).indexOf(resultVal) == -1 && resultVal != null && resultProp != "id")
-                    {
-                        // Turn it into an object that semantic likes for the autocomplete
-                        resultObj = { result: resultVal };
-                        // Put it into the array
-                        autocompleteValues.push(resultObj);
+                // Manipulate the results to fit in the autocomplete array in a way that semantic likes
+                // Loop through all the results from the json
+                for (var i = 0; i < jsonResults.length; i++) {
+                    // Each result is an object. Loop through all the properties of that object.
+                    for (var resultProp in jsonResults[i]) {
+                        // Get the value associated with the result
+                        var resultVal = jsonResults[i][resultProp];
+                        // check if it isn't already in the array or null, if so, put it in the results for the autocomplete. Also ignore the id field.
+                        if (autocompleteValues.map(function (e) { return e.title }).indexOf(resultVal) == -1 && resultVal != null && resultProp != "id") {
+                            // Turn it into an object that semantic likes for the autocomplete
+                            resultObj = { title: resultVal };
+                            // Put it into the array
+                            autocompleteValues.push(resultObj);
+                        }
                     }
                 }
+
+                // Re-call autocomplete to cause it to update itself with the new array
+                autoComplete();
             }
 
             // Register event handler for the select links, but ONLY if it is a popup box
@@ -116,6 +121,12 @@ var onLoad = function () {
 
         timeOutInst = setTimeout(function () { viewModel.getResults();}, 400);
     });//viewModel.getResults);
+
+    // Also create an onchanged handler to catch when the user clicks an autocomplete suggestion
+    $('#searchBox').change(function () {
+        // Need a tiny delay here in order for it to actually have the updated text in the box.
+        setTimeout(function () { viewModel.getResults(true); }, 110);
+    });
 };
 
 /**
@@ -129,9 +140,14 @@ var autoComplete = function ()
     // This array is generated in getResults
     $(".ui.search").search({
         source: autocompleteValues,
-        searchFields: ['result']
+        searchFields: ['title'],
+        cache: false,
+        fullTextSearch: "true",
+        showNoResults: false
     });
 
+    // Force a re-query of the search box (since the array has likely changed since the user finished typing);
+    $(".ui.search").search('query');
 }
 
 /**
