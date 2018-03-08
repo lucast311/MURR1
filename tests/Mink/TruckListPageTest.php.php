@@ -251,7 +251,7 @@ class TruckListPageTest extends WebTestCase
         // Click the Decline Button in Modal
         $page->find('css', '.declines')->click();
 
-        $this->assertEqual( $page->find('css', '.truckID')->getValue(), $originalValue );
+        $this->assertEqual( $page->find('css', '.truckID')->getValue(), $originalValue);
     }
 
     /**
