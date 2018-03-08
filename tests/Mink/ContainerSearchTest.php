@@ -6,6 +6,8 @@ use Behat\Mink\Session;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\DataFixtures\ORM\LoadUserData;
 use AppBundle\DataFixtures\ORM\LoadContainerData;
+use AppBundle\DataFixtures\ORM\LoadPropertyData;
+use Tests\AppBundle\DatabasePrimer;
 
 /**
  * This test uses mink for browser based front-end testing of the javascript used in story 12e
@@ -15,6 +17,12 @@ class ContainerSearchTest extends WebTestCase
     private $driver;
     private $session;
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
 
     protected function setUp()
     {
@@ -30,11 +38,14 @@ class ContainerSearchTest extends WebTestCase
 
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
 
+        $propertyLoader = new LoadPropertyData();
+        $propertyLoader->load($this->em);
+
         $userLoader = new LoadUserData($encoder);
         $userLoader->load($this->em);
 
         // Create a driver
-        $this->driver = new ChromeDriver("http://localhost:9222/app_test.php",null, "localhost:8000");
+        $this->driver = new ChromeDriver("http://localhost:9222",null, "localhost:8000");
         // Create a session and pass it the driver
         $this->session = new Session($this->driver);
 
@@ -93,7 +104,6 @@ class ContainerSearchTest extends WebTestCase
         $this->assertNotNull($page->find('named', array('content', "South-west side")));
         $this->assertNotNull($page->find('named', array('content', "Cart")));
         $this->assertNotNull($page->find('named', array('content', "6 yd")));
-        $this->assertNotNull($page->find('named', array('content', "Wheels")));
         $this->assertNotNull($page->find('named', array('content', "Active")));
 
         // click the first link for the desired result

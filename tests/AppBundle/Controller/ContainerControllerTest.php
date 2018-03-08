@@ -308,7 +308,7 @@ class ContainerControllerTest extends WebTestCase
         $repository->containerSearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{"id":1,"containerSerial":"123457","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels"}]', $client->getResponse()->getContent());
+        $this->assertContains('[{"id":1,"containerSerial":"123457","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"}]', $client->getResponse()->getContent());
     }
 
     /**
@@ -357,11 +357,11 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->request('GET',"/");
 
         // Assert that the link exists on in the nav
-        $this->assertContains('/container', $crawler->filter("div.menu a.item"));
+        $this->assertGreaterThan(0,$crawler->filter("html:contains(\"href=\"/container\"\")")->count());
 
         // Go to the container page and assert that the link to the search page also exists there
         $crawler = $client->request('GET',"/container");
-        $this->assertGreaterThan(0,$crawler->filter('html:contains("href="/container/search"")')->count());
+        $this->assertGreaterThan(0,$crawler->filter('html:contains("href="/container/search")')->count());
 
     }
 
