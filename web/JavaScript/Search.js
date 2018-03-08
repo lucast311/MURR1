@@ -15,6 +15,14 @@ var viewModel = {
         var searchText = $('#searchBox').val();
         // Put the search box text after the page url
         page = page + searchText;
+
+        // Start a spinny thingy to tell user search is occuring
+        // BUT ONLY IF ITS NOT ALREADY THERE
+        if ($(".spinner.loading.icon").length === 0)
+        {
+            $("#btnClear").after('<i class="spinner loading icon"></i>');
+        }
+        
 		
         // do a json call to the server to get the results
         viewModel.currentJSONRequest = $.getJSON(page, {}, function (jsonResults) {
@@ -34,6 +42,9 @@ var viewModel = {
 
             // Set the results to be the returned results
             viewModel.results(jsonResults);
+
+            // Remove the spinny thingy
+            $(".spinner.loading.icon").remove();
 
             // Only proceed with the array manipulation if this isn't a requery
             // This is to prevent glitches that may occur if you try to autocomplete on an already selected autocomplete result.
@@ -124,8 +135,13 @@ var onLoad = function () {
 
     // Also create an onchanged handler to catch when the user clicks an autocomplete suggestion
     $('#searchBox').change(function () {
-        // Need a tiny delay here in order for it to actually have the updated text in the box.
-        setTimeout(function () { viewModel.getResults(true); }, 110);
+        // only do it if theres text in the text box, and not blank
+        if ($('#searchBox').val() === "")
+        {
+            // Need a tiny delay here in order for it to actually have the updated text in the box.
+            setTimeout(function () { viewModel.getResults(true); }, 110);
+        }
+        
     });
 };
 
