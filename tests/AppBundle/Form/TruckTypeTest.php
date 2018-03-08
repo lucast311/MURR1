@@ -27,6 +27,7 @@ class TruckTypeTest extends TypeTestCase
             ->setType   ("Large");
     }
 
+
     /**
      * This method *may be* required to allow the test to run
      * @return ValidatorExtension[]

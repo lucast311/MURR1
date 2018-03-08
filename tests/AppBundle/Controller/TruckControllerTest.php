@@ -7,7 +7,7 @@ use Tests\AppBundle\DatabasePrimer;
 /**
  * TruckControllerTest
  * tests for the truck controller
- *
+ * ***NOTE: ANYTHING THAT SEEMS MISSING FROM HERE IS PROBABLY IN THE MINK TESTS***
  * @version 1.0
  * @author cst206
  */
@@ -44,6 +44,7 @@ class TruckControllerTest extends WebTestCase
         $truckLoader = new LoadTruckData($encoder);
         $truckLoader->load($this->em);
     }
+
 
    /**
      * Story 40a
@@ -92,6 +93,8 @@ class TruckControllerTest extends WebTestCase
         $this->assertContains($this->truck->getTruckId(), $crawler->filter("table")->html());
         $this->assertContains($this->truck->getType(), $crawler->filter("table")->html());
     }
+
+
     /**
      * (@inheritDoc)
      */

@@ -68,11 +68,12 @@ class TruckListPageTest extends WebTestCase
         $truckLoader->load($this->em);
     }
 
-    // Search Tests
+
+    //Filter tests
     /**
-        40a Tests that the search box shows suggestions
+        40a Tests that the Filter box shows suggestions
     */
-    public function testSearchSuggestions()
+    public function testFilterSuggestions()
     {
         // Navigate to the Truck List page
         $this->session->visit('http://localhost:8000/app_test.php/truck');
@@ -83,17 +84,18 @@ class TruckListPageTest extends WebTestCase
         $page->find('named', array('id', "filter"))->setValue("00886");
 
         // Emulate a keyup to trigger the event that normally does a search.
-        $page->find('named', array('id', "searchBox"))->keyPress("s");
+        $page->find('named', array('id', "filter"))->keyPress("s");
 
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
         $this->session->wait(10000);
         // Check contents
         $this->assertNotNull( $page->find('css', 'result') );
     }
+
     /**
-        40a Tests that the list is narrowed when a truck is searched for
+        40a Tests that the list is narrowed when filtering on a trucks info
     */
-    public function testSearchFilters()
+    public function testFilters()
     {
         // Navigate to the Truck List page
         $this->session->visit('http://localhost:8000/app_test.php/truck');
@@ -106,16 +108,18 @@ class TruckListPageTest extends WebTestCase
         $page->find('named', array('id', "filter"))->setValue("00886");
 
         // Emulate a keyup to trigger the event that normally does a search.
-        $page->find('named', array('id', "searchBox"))->keyPress("s");
+        $page->find('named', array('id', "filter"))->keyPress("s");
 
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
         $this->session->wait(10000);
 
         $this->assertNotEqual($truckIdItem, $page->find('css', 'truckID')->getValue());
+
+        //MAYBE ALSO TEST SOMETHING NOT APEARING
     }
 
-
-    // Update Button Tests
+    
+    //Updating a truck tests
     /**
         40a Tests that the update button doesn't show up when the page is first loaded
     */
@@ -130,6 +134,7 @@ class TruckListPageTest extends WebTestCase
         // Assert that the update button does not show up
         $this->assertNull($page->find('css','.updates'));
     }
+
     /**
         40a Tests that the update button shows up when a truck's field is updated
     */
@@ -148,6 +153,7 @@ class TruckListPageTest extends WebTestCase
         // Update button shows up
         $this->assertNotNull($page->find('css', '.updates'));
     }
+
     /**
         40a Tests that the update button is removed when pressed
     */
@@ -167,6 +173,7 @@ class TruckListPageTest extends WebTestCase
         // assert that the update button is no longer on the page
         $this->assertNull( $page->find('css', '.updates') );
     }
+
     /**
         40a Tests that the revert button shows up when a truck's field is updated
     */
@@ -183,6 +190,7 @@ class TruckListPageTest extends WebTestCase
         // Ensure the revert button is there
         $this->assertNotNull( $page->find('css', '.reverts') );
     }
+
     /**
         40a Tests that the Revert button actually works when the revert button is pressed
     */
@@ -207,7 +215,7 @@ class TruckListPageTest extends WebTestCase
     }
 
 
-    // Delete Button Tests
+    // Delete Truck Tests
     /**
         40a Tests that the delete button displays an error message when clicked
     */
@@ -222,6 +230,7 @@ class TruckListPageTest extends WebTestCase
         $page->find('css', '.deletes')->click();
         $this->assertNotNull( $page->find('css', '.deletesMessage'));
     }
+
     /**
         40a Tests that the decline button doesn't delete the truck.
     */
@@ -244,6 +253,7 @@ class TruckListPageTest extends WebTestCase
 
         $this->assertEqual( $page->find('css', '.truckID')->getValue(), $originalValue );
     }
+
     /**
         40a Tests that the accept button DOES delete the truck.
     */
@@ -266,6 +276,7 @@ class TruckListPageTest extends WebTestCase
 
         $this->assertNotEqual( $page->find('css', '.truckID')->getValue(), $firstTruckValue  );
     }
+
 
      /**
      * (@inheritDoc)

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+
 /**
  * TruckRepository
  *
@@ -10,11 +11,111 @@ namespace AppBundle\Repository;
  */
 class TruckRepository extends \Doctrine\ORM\EntityRepository
 {
-    // Save
+    // Save/update
+    /**
+     * Story 40a
+     * @param Truck $truck truck to be inserted
+     * @return integer the ID of the inserted truck
+     */
+    public function save(Truck $truck){
+        /*$em = $this->getEntityManager();
+        // persist the new contact in the database
+        $em->persist($routePickup);
+        // flush them to the database
+        $em->flush();
+        //Close the entity manager
+        // return the id of the new contact in the database
+        return $routePickup->getId();
+        */
+    }
 
-    // Delete
+    // Remove
+    /**
+     * Story 40a
+     * @param mixed $truck The Truck to be deleted
+     * Removes a truck from the database
+     */
+    public function remove($truck)
+    {
+        /*
+        //get entity manager
+        $em = $this->getEntityManager();
+
+        //remove the item
+        $em->remove($pickup);
+
+        //flush (commit) transaction
+        $em->flush();
+        */
+    }
 
     // Get All
+    /**
+     * Story 40a
+     * Get all trucks, sorted by truckId by default
+     * @param $sortField field to sort truckss by
+     * @return array of all trucks
+     */
+    public function truckSearch($sortField = "truckId")
+    {
+        return null;
+    }
 
-    // Get One
+    // Search
+    /**
+     * Story 40a
+     * Search through the database and check if any records contain any of
+     *  the passed in strings (array of strings) in any of their fields.
+     * @param mixed $queryStrings an array of strings to query the database on
+     * @return array of searched entites returned from the queries
+     */
+    public function truckSearch($queryStrings)
+    {
+        //DATA FROM PROPERTY REPO
+        /*// get the field names of both the Property and Address Entities.
+        $propertyClassProperties = $this->getClassMetadata('AppBundle:Property')->fieldNames;
+        $addressClassProperties = $this->getEntityManager()->getRepository('AppBundle:Address')->getClassMetadata()->fieldNames;
+
+        //Add all of the class properties arrays to one array
+        $classPropertiesArray = array($propertyClassProperties, $addressClassProperties);
+
+        //an array of abbreviations to be used in the query. These represent each join
+        $classNames = array('p', 'a');
+
+        // shift off the id of each entity
+        foreach ($classPropertiesArray as $array)
+        {
+            array_shift($array);
+        }
+
+        //create a searchHelper instance
+        $searchHelper = new SearchHelper();
+
+        //call the searchHelper service to return the class properties string
+        $classPropertiesString = $searchHelper->searchHelper($classPropertiesArray, $queryStrings, $classNames);
+
+        // The query that defines all the joins on communications to search for,
+        //  and links them together based on id's
+        $records = $this->getEntityManager()->createQuery(
+        "SELECT p, a FROM AppBundle:Property p
+        LEFT OUTER JOIN AppBundle:Address a WITH p.address = a.id
+        WHERE $classPropertiesString"
+        )->getResult();
+
+        // remove any NULL values from the array (NULL values are represented by non-propety objects)
+        $records = array_filter($records);
+
+        $propObjects = array();
+
+        foreach ($records as $record)
+        {
+        	if(get_class($record) == "AppBundle\Entity\Property")
+            {
+                $propObjects[] = $record;
+            }
+        }
+
+        return $propObjects;
+    }
+    */
 }
