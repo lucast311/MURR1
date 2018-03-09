@@ -2020,7 +2020,6 @@
   <ItemGroup>
     <Folder Include="app\config" />
     <Folder Include="app\Resources\images" />
-    <Folder Include="app\Resources\js\" />
     <Folder Include="app\Resources\TwigBundle\" />
     <Folder Include="app\Resources\TwigBundle\views\" />
     <Folder Include="app\Resources\TwigBundle\views\Exception\" />
@@ -3342,7 +3341,6 @@
     <Content Include="app\Resources\views\container\index.html.twig" />
     <Content Include="app\Resources\views\container\new.html.twig" />
     <Content Include="app\Resources\views\container\show.html.twig" />
-    <Content Include="app\Resources\js\DeletePrompt.js" />
     <Content Include="app\Resources\views\propertySearch\propertyJSONSearches.html.twig" />
     <Content Include="app\Resources\views\propertySearch\show.html.twig" />
     <Content Include="app\Resources\views\property\searchProperty.html.twig" />
@@ -3359,6 +3357,7 @@
     <Content Include="app\Resources\views\truck\index.html.twig" />
     <Content Include="app\Resources\views\truck\new.html.twig" />
     <Content Include="app\Resources\views\truck\show.html.twig" />
+    <Content Include="app\Resources\views\truck\util.html.twig" />
     <Content Include="app\sqlite.db" />
     <Content Include="app\sqlite_test.db" />
     <Content Include="DBScripts\createDB_MySQL.bat" />
@@ -3368,14 +3367,19 @@
     <Content Include="PHPUnit%28dDrive%29_to_dphpUnit.txt.ps1" />
     <Content Include="PHPUnit%28iDrive%29_to_dphpUnit.txt.ps1" />
     <Content Include="runTests.bat" />
+    <Content Include="TestPlaylists\Address_All.playlist" />
+    <Content Include="TestPlaylists\Collection_All.playlist" />
     <Content Include="TestPlaylists\Communication_All.playlist" />
     <Content Include="TestPlaylists\Communication_Controller.playlist" />
     <Content Include="TestPlaylists\Contact_All.playlist" />
     <Content Include="TestPlaylists\Contact_Controller.playlist" />
     <Content Include="TestPlaylists\Container_All.playlist" />
     <Content Include="TestPlaylists\Container_Controller.playlist" />
+    <Content Include="TestPlaylists\EduMat_All.playlist" />
     <Content Include="TestPlaylists\OOPS_Controller.playlist" />
+    <Content Include="TestPlaylists\Property_All.playlist" />
     <Content Include="TestPlaylists\Route_All.playlist" />
+    <Content Include="TestPlaylists\Security_Controller.playlist" />
     <Content Include="TestPlaylists\Truck_All.playlist" />
     <Content Include="web.config" />
     <Content Include="web\css\base_twig.css" />

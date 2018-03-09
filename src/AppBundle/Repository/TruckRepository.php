@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Truck;
 
 /**
  * TruckRepository
@@ -18,15 +19,19 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
      * @return integer the ID of the inserted truck
      */
     public function save(Truck $truck){
-        /*$em = $this->getEntityManager();
-        // persist the new contact in the database
-        $em->persist($routePickup);
+        while(strlen($truck->getTruckId())<6)
+        {
+            $truck->setTruckId('0'.$truck->getTruckId());
+        }
+
+        $em = $this->getEntityManager();
+        // persist the new truck in the database
+        $em->persist($truck);
         // flush them to the database
         $em->flush();
         //Close the entity manager
-        // return the id of the new contact in the database
-        return $routePickup->getId();
-        */
+        // return the id of the new truck in the database
+        return $truck->getId();
     }
 
     // Remove
@@ -35,8 +40,7 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
      * @param mixed $truck The Truck to be deleted
      * Removes a truck from the database
      */
-    public function remove($truck)
-    {
+    public function remove($truck){
         /*
         //get entity manager
         $em = $this->getEntityManager();
@@ -49,16 +53,15 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
         */
     }
 
-    // Get All
+    // Find All
     /**
      * Story 40a
      * Get all trucks, sorted by truckId by default
      * @param $sortField field to sort truckss by
      * @return array of all trucks
      */
-    public function truckSearch($sortField = "truckId")
-    {
-        return null;
+    public function findAll($sortField = "truckId"){
+        return $this->findBy(array(), array("$sortField" => "ASC"));
     }
 
     // Search
@@ -116,6 +119,8 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
         }
 
         return $propObjects;
+        */
+        return 0;
     }
-    */
+
 }

@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trucks{% endblock %}
+
+{% block body %}
+<!-- Link in custom script that uses the delete prompts-->
+<script type="text/javascript" src="{{ asset('JavaScript/DeletePrompt.js') }}"></script>
+<style>
+    form[name^="appbundle_truck"] div{
+        display: inline-block;
+        padding: 5px;
+    }
+
+    form[name^="appbundle_truck"]{
+        display: inline-block;
+        border: 1px solid black;
+    }
+
+    .trucks th, .truck td{
+        padding: 5px;
+    }
+
+    .trucks tbody{
+        outline: 1px solid black;
+    }
+
+    .red{
+        color: red;
+    }
+
+    .green{
+        color: green;
+    }
+</style>
+
+<div>
+    {{ form_start(form) }}
+    <div>
+        <h3>Add Truck:</h3>
+    </div>
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <table class="trucks">
+        <thead>
+            <tr>
+                <th>Truck ID</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in trucks %}
+                <tr>
+                    <td>{{ t.truckId }}</td>
+                    <td>{{ t.type }}</td>
+                    {#<td>
+                        <!-- Removal form. Data-ID is to hold the ID of the current truck-->
+                        <form id="rmf{{ t.id}}" data-id="{{t.id}}" method="post" action="{{ path('truck_removal', { 'id': t.id })}}">
+                            <!-- Specify button type so it doesn't automatically submit-->
+                            <!-- Button that prompts the message, rmb-->
+                            <button type="button" id="rmb{{ t.id}}" class="rmb">
+                                <i class="fas fa-times red"></i>
+                            </button>
+                            <!-- Span to hold the "Are you sure?" message-->
+                            <span id="rmmsg{{t.id}}" class="rmmsg">
+                            </span>
+
+                            <!-- Accept button, rmba-->
+                            <button type="submit" id="rmba{{ t.id}}" class="rmba" hidden="hidden">
+                                <i class="fas fa-check green"></i>
+                            </button>
+                            <!-- Cancel button, rmbc-->
+                            <button type="button" id="rmbc{{ t.id}}" class="rmbc" hidden="hidden">
+                                <i class="fas fa-times red"></i>
+                            </button>
+                        </form>
+                    </td>#}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- This script is responsible for calling functions to handle the delete forms-->
+    <script type="text/javascript">
+    //Add all code that uses jquery into the window.onload because jquery is loaded at the bottom of the page (after loading base.html.twig)
+    window.onload = function () {
+        //set an event handler on the remove buttons that will call the custom method on the DeletePrompt.js Script
+        $('.rmb').click(function (event) {
+            clickedBtn = $(event.target);
+
+            //if the i (changed to svg and path tags from font-awesome) tag inside the button was clicked, 
+            //consider the button as clicked (because event.target sometimes gives you the i tag)
+            //if the path was clicked these if statements will cascade up to the button tag
+            if (clickedBtn.is('path')) clickedBtn = clickedBtn.parent();
+            if (clickedBtn.is('svg')) clickedBtn = clickedBtn.parent();
+
+            //get the ID that is stored in the form that this current button is in
+            //This is the ID of the routePickup that was clicked
+            id = clickedBtn.parent().attr('data-id');
+
+            //call the prompt delete and pass in the necessary html things from the page
+            promptDelete($("#rmmsg" + id), "Are you sure?", clickedBtn,
+                $("#rmba" + id), $("#rmbc" + id));
+        });
+
+        //set an event handler on all the cancel buttons that will call the cancel prompt on the DeletePrompt.js script
+        $('.rmbc').click(function (event) {
+            clickedBtn = $(event.target);
+
+            //if the i (changed to svg and path tags from font-awesome) tag inside the button was clicked, 
+            //consider the button as clicked (because event.target sometimes gives you the i tag)
+            //if the path was clicked these if statements will cascade up to the button tag
+            if (clickedBtn.is('path')) clickedBtn = clickedBtn.parent();
+            if (clickedBtn.is('svg')) clickedBtn = clickedBtn.parent();
+
+            //get the stored ID from the form this button is in
+            id = clickedBtn.parent().attr('data-id');
+
+            //call the cancel prompt from the DeletePrompt.js script and pass in the necessery jquery objects
+            cancelPrompt($("#rmmsg" + id), $('#rmb' + id), $('#rmba' + id), clickedBtn);
+        });
+    }
+    </script>
+</div>
+{% endblock %}

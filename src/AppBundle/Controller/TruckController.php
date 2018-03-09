@@ -3,10 +3,14 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Truck;
+use AppBundle\Form\TruckType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Truck controller.
@@ -18,18 +22,62 @@ class TruckController extends Controller
     /**
      * Lists all truck entities.
      *
-     * @Route("/", name="truck_index")
-     * @Method("GET")
+     * @Route("/", name="truck_manage")
+     * @param Request $request
      */
-    public function indexAction()
+    public function manageAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $trucks = $em->getRepository('AppBundle:Truck')->findAll();
+        $trucks = $em->getRepository(Truck::class)->findAll();
+        $formTruck = new Truck();
 
-        return $this->render('truck/index.html.twig', array(
-            'trucks' => $trucks,
-        ));
+        $form = $this->createForm(TruckType::class, $formTruck);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            while(strlen($formTruck->getTruckId())<6)
+                $formTruck->setTruckId('0'.$formTruck->getTruckId());
+
+            $truckIdExists = false;
+            //loop through the existing trucks
+            foreach ($trucks as $truck)
+            {
+                //if the truckId already exists, break and indiciate error
+                if($formTruck->getTruckId() === $truck->getTruckId()){
+                    $truckIdExists = true;
+                    break;
+                }
+            }
+
+            //Add custom error to form
+            if($truckIdExists){
+                $form->addError(new FormError('A Truck with the ID; [truckId] has already been added.'));
+            }
+            else{
+                //refresh the trucks
+                $repo = $em->getRepository(Truck::class);
+                $repo->save($formTruck);
+                //refresh the trucks to display the new one
+                //And since the trucks are set to cascade refresh it will reload them too
+                $trucks = $repo->findAll();
+                foreach ($trucks as $truck)
+                {
+                    $em->refresh($truck);
+                }
+
+                //Wipe the form by creating a new one
+                $formTruck = new Truck();
+                $form = $this->createForm(TruckType::class, $formTruck);
+            }
+        }
+
+        return $this->render('truck/util.html.twig',
+            array('form'=>$form->createView(),
+             'formTruck'=>$formTruck,
+             'trucks'=>$trucks));
     }
 
     /**
@@ -106,7 +154,7 @@ class TruckController extends Controller
      * Deletes a truck entity.
      * Called when the user presses a delete button
      *
-     * @Route("/{id}", name="truck_delete")
+     * @Route("/{id}", name="truck_removal")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Truck $truck)
@@ -135,7 +183,6 @@ class TruckController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('truck_delete', array('id' => $truck->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 }

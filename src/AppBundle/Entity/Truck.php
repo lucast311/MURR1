@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Truck
@@ -24,7 +26,8 @@ class Truck
     /**
      * @var string
      *
-     * @ORM\Column(name="truckId", type="string", length=6)
+     * @ORM\Column(name="truckId", type="string", length=6, unique=true)
+     * @Assert\NotNull(message="Please specify a Truck ID")
      */
     private $truckId;
 

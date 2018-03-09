@@ -31,8 +31,8 @@ class LoadTruckData implements FixtureInterface
         {
             //add 5 Large
             for($i=0;$i<5;$i++){
-                $id = "000";
-                $id.=($i+10);
+                $id = "0000";
+                $id.=($i+30);
                 $this->truck = (new Truck())
                     ->setTruckId($id)
                     ->setType("Large");
@@ -43,7 +43,7 @@ class LoadTruckData implements FixtureInterface
 
             //add 5 Medium
             for($i=0;$i<5;$i++){
-                $id = "000";
+                $id = "0000";
                 $id.=($i+20);
                 $this->truck = (new Truck())
                     ->setTruckId($id)
@@ -55,8 +55,8 @@ class LoadTruckData implements FixtureInterface
 
             //add 5 Small
             for($i=0;$i<5;$i++){
-                $id = "000";
-                $id.=($i+30);
+                $id = "0000";
+                $id.=($i+10);
                 $this->truck = (new Truck())
                     ->setTruckId($id)
                     ->setType("Small");

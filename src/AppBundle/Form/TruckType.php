@@ -1,10 +1,14 @@
 <?php
-
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Entity\Truck;
+
 
 class TruckType extends AbstractType
 {
@@ -13,14 +17,19 @@ class TruckType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('truckId')->add('type');
-    }/**
-     * {@inheritdoc}
+        $builder->add('truckId',null)
+                ->add('type',null)
+                ->add('Add', SubmitType::class);
+    }
+
+    /**
+     * Configure the form to use the Truck type
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Truck'
+            'data_class' => Truck::class
         ));
     }
 
