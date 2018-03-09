@@ -19,11 +19,6 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
      * @return integer the ID of the inserted truck
      */
     public function save(Truck $truck){
-        while(strlen($truck->getTruckId())<6)
-        {
-            $truck->setTruckId('0'.$truck->getTruckId());
-        }
-
         $em = $this->getEntityManager();
         // persist the new truck in the database
         $em->persist($truck);
