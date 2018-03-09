@@ -69,6 +69,59 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
     /**
      * Story 4k
+     * Tests that you can browse to the contact view page
+     */
+    public function testBrowsePage()
+    {
+        //start up a new session, going to the contact view page for Bill Jones (ID 24)
+        $this->session->visit('http://localhost:8000/app_test.php/');
+        // Get the page
+        $page = $this->session->getPage();
+
+        //click the menu button
+        $menu = $page->find("css","#menuBtn");
+        $menu->click();
+
+        //click the contacts page
+        $contactsBtn = $page->find("css","#contactsPage");
+
+        $contactsBtn->click();
+
+        //get the search bar
+        $searchBox = $page->find("css","#searchBox");
+
+        //Type in bill jones
+        $searchBox->setValue("Bill Jone");
+        $searchBox->keyPress("s");
+
+        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
+        $this->session->wait(5000);
+
+        //Need to use named search to find button based on its content
+        $viewLink = $page->find("named",array("link", "View"));
+
+        $viewLink->click();
+
+        $pageContent = $page->getHtml();
+
+        //check that expected content is on the page
+        $this->assertContains("View Contact", $pageContent);
+        $this->assertContains("Bill",$pageContent);
+        $this->assertContains("Jones",$pageContent);
+        $this->assertContains("Property Roster",$pageContent);
+
+        //check that the form is on the page
+        $this->assertNotNull($page->find("css","form[name=appbundle_propertyToContact]"));
+
+        //check that the table is on the page
+        $this->assertNotNull($page->find("css","#associatedProperties"));
+
+        //a property that is on this contact
+        $this->assertContains("1132 Illinois Avenue",$pageContent);
+    }
+
+    /**
+     * Story 4k
      * Tests that you can use the simple search to find a value
      */
     public function testAssociationSimpleSearch()
@@ -81,18 +134,21 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $searchBox = $page->find("css",".ui.search.dropdown input.search");
 
         //type charlton legs into the searchbox
-        $searchBox->setValue("Balla Highrize");
+        $searchBox->setValue("456 West Street");
 
         //Test that the filtered results contains charlton legs
         $searchResults = $page->find("css",".ui.search.dropdown menu.transition.visible item.active.filtered");
-        $this->assertContains("Balla Highrize",$searchResults->getHtml());
+
+        //check that the search results show up
+        $this->assertTrue($searchResults->isVisible());
+        $this->assertContains("456 West Street",$searchResults->getHtml());
 
         //only result shoudl be charlton legs, so click it
         $searchResults->click();
 
         //check that the form field contains the property charlton legs
         $formField = $page->find("css", "form[name='appbundle_propertyToContact'] input[name='property']");
-        $this->assertContains('Balla Highrize',$formField->getValue());
+        $this->assertContains('456 West Street',$formField->getValue());
         $this->assertEquals(1, $formField->getValue());
     }
 
@@ -106,12 +162,12 @@ class AssociatingPropertiesToContactTest extends WebTestCase
     public function testAssociationAdvancedSearch()
     {
         // Navigate to the contact view page
-        $this->session->visit('http://localhost:8000/app_test.php/contact/24');
+        $this->session->visit('http://localhost:8000/app_test.php/contact/23');
         // Get the page
         $page = $this->session->getPage();
 
         // find and assert that there is an advanced search button
-        $advancedSearchBtn = $page->find('named', array('button', "Advanced Search"));
+        $advancedSearchBtn = $page->find('css', "#advanced_property_search_popup");
         $this->assertNotNull($advancedSearchBtn);
         $this->assertEquals($advancedSearchBtn->getValue(), "Advanced Search");
 
@@ -138,28 +194,36 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $page = $this->session->getPage();
 
         // Search box
-        $this->assertNotNull($page->find('named', array('id', "searchBox")));
+        $this->assertNotNull($page->find('css', "#searchBox"));
+
+        $resultTable = $page->find('css', ".ui.celled.table");
+        $this->assertTrue($resultTable->isVisible());
+
+        $tableHtml = $resultTable->getHtml();
         // Table headers
-        $this->assertNotNull($page->find('named', array('content', "Site ID")));
-        $this->assertNotNull($page->find('named', array('content', "Property")));
-        $this->assertNotNull($page->find('named', array('content', "Type")));
-        $this->assertNotNull($page->find('named', array('content', "Status")));
-        $this->assertNotNull($page->find('named', array('content', "Structure Id")));
-        $this->assertNotNull($page->find('named', array('content', "Units")));
-        $this->assertNotNull($page->find('named', array('content', "Neighbourhood")));
+        $this->assertContains($tableHtml, "Site ID");
+        $this->assertContains($tableHtml, "Property");
+        $this->assertContains($tableHtml, "Type");
+        $this->assertContains($tableHtml, "Status");
+        $this->assertContains($tableHtml, "Structure Id");
+        $this->assertContains($tableHtml, "Units");
+        $this->assertContains($tableHtml, "Neighbourhood");
+
+        $searchBox = $page->find('css', "#searchBox");
 
         // Search for a property
-        $page->find('named', array('id', "searchBox"))->setValue("Charlton Legs");
+        $searchBox->setValue("456 West Stree");
 
         // Emulate a keyup to trigger the event that normally does a search.
         // Don't know why, it doesn't matter what character you press as it doesn't seem to go in the box anyways.
-        $page->find('named', array('id', "searchBox"))->keyPress("s");
+        $searchBox->keyPress("t");
 
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
         $this->session->wait(5000);
 
-        // click the first link for one of the results
+        // click the first link for one of the results (need to used named to search by content)
         $selectLink = $page->find('named', array('link', "Select"));
+
         // Before we click the link, take the id of the property we clicked.
         $id = $selectLink->getAttribute("data-id");
         //Click the link
@@ -172,12 +236,12 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $page = $this->session->getPage();
 
         // Get the select box now and check that it has the right property in it (based on the id of the property that was clicked originally)
-        $this->assertEquals($page->find('named', array('id', "propertySearch"))->getValue(), $id);
+        $this->assertEquals($page->find('css',"#propertySearch")->getValue(), $id);
     }
 
     /**
      * Story 4k
-     * Tests that you can remove an associated property for a contact
+     * Tests that you can cancel the removal of an associated property
      */
     public function testRemoveAssociationDecline()
     {
@@ -188,7 +252,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         //assert that the associated properties table contains Balla Highrize
         $associatedProperties = $page->find("css","#associatedProperties");
-        $this->assertContains("Balla Highrize",$associatedProperties->getHtml());
+        $this->assertContains("456 West Street",$associatedProperties->getHtml());
 
 
         //the remove button from property with ID 2 (should be Balla Highrize)
@@ -201,6 +265,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         //check that the modal is visible
         $this->assertContains("visible",$promptModal->getAttribute("class"));
+        $this->assertTrue($promptModal->isVisible());
 
         //get the accept button
         $acceptBtn = $page->find("css","#removeModal #btnDecline");
@@ -211,7 +276,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $associatedProperties = $page->find("css","#associatedProperties");
 
         //assert that the associated properties table still contains Balla Highrize
-        $this->assertContains("Balla Highrize",$associatedProperties->getHtml());
+        $this->assertContains("456 West Street",$associatedProperties->getHtml());
     }
 
     /**
@@ -227,7 +292,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         //assert that the associated properties table contains Thug Muny Apts.
         $associatedProperties = $page->find("css","#associatedProperties");
-        $this->assertContains("Thug Muny Apts.",$associatedProperties->getHtml());
+        $this->assertContains("726 East Street",$associatedProperties->getHtml());
 
 
         //the remove button from property with ID 2 (should be Thug Muny Apts.)
@@ -240,6 +305,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         //check that the modal is visible
         $this->assertContains("visible",$promptModal->getAttribute("class"));
+        $this->assertTrue($promptModal->isVisible());
 
         //get the accept button
         $acceptBtn = $page->find("css","#removeModal #btnAccept");
@@ -250,7 +316,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $associatedProperties = $page->find("css","#associatedProperties");
 
         //assert that the associated properties table no longer has Thug Muny Apts.
-        $this->assertNotContains("Thug Muny Apts.",$associatedProperties->getHtml());
+        $this->assertNotContains("726 East Street",$associatedProperties->getHtml());
     }
 }
 ?>

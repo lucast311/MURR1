@@ -178,7 +178,7 @@ class LoadContactData implements FixtureInterface
                 ->setPropertyName("El Apartamento")
                 ->setNumUnits(50)
                 ->setPropertyStatus('Active')
-                ->setPropertyType('High Rize Apartment')
+                ->setPropertyType('High Rise Apartment')
                 ->setNeighbourhoodName('West side')
                 ->setAddress((new Address())
                     ->setStreetAddress("1132 Illinois Avenue")

@@ -84,6 +84,10 @@
 
     <h2>Property Roster</h2>
 
+	{{ form_start(add_property_form, {'action': path('add_property_to_contact')}) }}
+	{{ form_widget(add_property_form) }}
+	{{ form_end(add_property_form) }}
+
     {% if contact.properties is empty %}
     <p>No associated properties</p>
     {% else %}

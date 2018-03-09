@@ -20,6 +20,7 @@ use Symfony\Component\Serializer\Serializer;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use AppBundle\Form\ContactAddPropertyType;
 
 /**
  * Controller that contains methods for anything having to do with a contact.
@@ -99,9 +100,12 @@ class ContactController extends Controller
     {
         $deleteForm = $this->createDeleteForm($contact);
 
+        $addPropertyForm = $this->createForm(ContactAddPropertyType::class,null,array('contact'=>$contact->getId()));
+
         return $this->render('contact/show.html.twig', array(
             'contact' => $contact,
             'delete_form' => $deleteForm->createView(),
+            'add_property_form' => $addPropertyForm->createView()
         ));
     }
 
@@ -224,18 +228,33 @@ class ContactController extends Controller
     /**
      * Story 4k
      * Handles the associating of a property onto a contact
-     * 
-     * @param Request $request 
+     *
+     * @param Request $request
+     * @Route("/contact/addpropertytocontact", name="add_property_to_contact")
+     * @method("POST")
      */
     public function addPropertyAction(Request $request)
     {
-        //TODO everything
+        //if the form is posted
+        if($request->getMethod() == 'POST')
+        {
+            $contactId = $request->request->get('contact');
+
+            var_dump($request->request->get('appbundle_propertyToContact')['contact']);
+
+            var_dump($contactId);
+
+            return new Response('test');
+        }
+
+        //If there wasn't a success anywhere, redirect to the contact search page
+        return $this->redirectToRoute("contact_search");
     }
 
     /**
      * Story 4k
      * Handles the removal of an associated property from a contact
-     * @param Request $request 
+     * @param Request $request
      */
     public function removePropertyAction(Request $request)
     {
