@@ -38,8 +38,8 @@ class TruckController extends Controller
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            while(strlen($formTruck->getTruckId())<6)
-                $formTruck->setTruckId('0'.$formTruck->getTruckId());
+            $formTruck->setTruckId(
+                str_pad($formTruck->getTruckId(), 6, "0", STR_PAD_LEFT));
 
             $truckIdExists = false;
             //loop through the existing trucks
@@ -114,6 +114,7 @@ class TruckController extends Controller
      * @Route("/{id}", name="truck_show")
      * @Method("GET")
      */
+    /* TODO: USE LISTACTION INSTEAD
     public function showAction(Truck $truck)
     {
         $deleteForm = $this->createDeleteForm($truck);
@@ -122,7 +123,7 @@ class TruckController extends Controller
             'truck' => $truck,
             'delete_form' => $deleteForm->createView(),
         ));
-    }
+    }*/
 
     /**
      * Displays a form to edit an existing truck entity.

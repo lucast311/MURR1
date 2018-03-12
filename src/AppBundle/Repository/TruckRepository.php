@@ -13,11 +13,13 @@ use AppBundle\Entity\Truck;
 class TruckRepository extends \Doctrine\ORM\EntityRepository
 {
     // Save/update
+    
     /**
      * Story 40a
      * @param Truck $truck truck to be inserted
      * @return integer the ID of the inserted truck
      */
+    /*
     public function save(Truck $truck){
         $em = $this->getEntityManager();
         // persist the new truck in the database
@@ -28,15 +30,16 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
         // return the id of the new truck in the database
         return $truck->getId();
     }
-
+    */
     // Remove
     /**
      * Story 40a
      * @param mixed $truck The Truck to be deleted
      * Removes a truck from the database
      */
+    /*
     public function remove($truck){
-        /*
+        
         //get entity manager
         $em = $this->getEntityManager();
 
@@ -45,8 +48,9 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
 
         //flush (commit) transaction
         $em->flush();
-        */
+        
     }
+    */
 
     // Find All
     /**

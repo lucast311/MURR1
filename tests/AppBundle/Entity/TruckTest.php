@@ -77,7 +77,7 @@ class TruckTest extends KernelTestCase
         // Assert that there are errors
         $this->assertEquals(1, count($errors));
         // Check the error message matches
-        $this->assertEquals($errors[0] == "The Truck ID must contain 1 to 6 digits, no letters.");
+        $this->assertEquals($errors[0] == "The Truck ID must contain 1 to 6 digits, no letters.");//DIFFERENT MESSAGE //PAD THROUGH ORM?? //WOULD BE IN ENTITY GOOGLE "DOCTRINE 0 PAD ENTITY"
     }
 
     /**

@@ -58,7 +58,7 @@ class TruckListPageTest extends WebTestCase
         $page->findById("username")->setValue("admin");
         $page->findById("password")->setValue("password");
         // Submit the form
-        $page->find('named', array('id_or_name', "login"))->submit();
+        $page->find('named', array('id_or_name', "login"))->submit(); //TODO: USE CSS SELECTOR INSTEAD OF NAMED IN FUTURE
         // Wait for the page to load before trying to browse elsewhere
         $this->session->wait(10000, "document.readyState === 'complete'");
 
@@ -105,10 +105,10 @@ class TruckListPageTest extends WebTestCase
         $truckIdItem = $page->find('css', '.truckID')->getValue();
 
         // search for something
-        $page->find('named', array('id', "filter"))->setValue("00886");
+        $page->find('named', array('id', "filter"))->setValue("00886"); //TODO: CSS THING
 
         // Emulate a keyup to trigger the event that normally does a search.
-        $page->find('named', array('id', "filter"))->keyPress("s");
+        $page->find('named', array('id', "filter"))->keyPress("s");     //""
 
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
         $this->session->wait(10000);
@@ -118,12 +118,12 @@ class TruckListPageTest extends WebTestCase
         //MAYBE ALSO TEST SOMETHING NOT APEARING
     }
 
-    
+
     //Updating a truck tests
     /**
         40a Tests that the update button doesn't show up when the page is first loaded
     */
-    public function testUpdateButton()
+    /*public function testUpdateButton()
     {
         // Navigate to the Truck List page
         $this->session->visit('http://localhost:8000/app_test.php/truck');
@@ -133,11 +133,11 @@ class TruckListPageTest extends WebTestCase
         // Try to find the update button on the page
         // Assert that the update button does not show up
         $this->assertNull($page->find('css','.updates'));
-    }
+    } IRRELEVANT
 
-    /**
-        40a Tests that the update button shows up when a truck's field is updated
-    */
+
+        //40a Tests that the update button shows up when a truck's field is updated
+
     public function testUpdateButtonDisplay()
     {
         // Navigate to the Truck List page
@@ -152,7 +152,7 @@ class TruckListPageTest extends WebTestCase
 
         // Update button shows up
         $this->assertNotNull($page->find('css', '.updates'));
-    }
+    } IRRELEVANT*/
 
     /**
         40a Tests that the update button is removed when pressed
@@ -217,7 +217,7 @@ class TruckListPageTest extends WebTestCase
 
     // Delete Truck Tests
     /**
-        40a Tests that the delete button displays an error message when clicked
+        40a Tests that the delete button displays a modal when clicked
     */
     public function testDeleteButtonMessage()
     {
@@ -226,6 +226,8 @@ class TruckListPageTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
+        //TODO: PRE CONDITION TEST
+        //MINK "IS VISiBLE"
         // Click the first delete button
         $page->find('css', '.deletes')->click();
         $this->assertNotNull( $page->find('css', '.deletesMessage'));
@@ -245,13 +247,20 @@ class TruckListPageTest extends WebTestCase
         $truckIdItem = $page->find('css', '.truckID');
         $originalValue = $truckIdItem->getValue();
 
+        //MINK STUFF
+        //vVERIFY PAGE WASNT LEFT
+
+
         // Click the first delete button
         $page->find('css', '.deletes')->click();
+        //MAKE SURE MODAL EXIST, VISIBLE
 
         // Click the Decline Button in Modal
         $page->find('css', '.declines')->click();
 
-        $this->assertEqual( $page->find('css', '.truckID')->getValue(), $originalValue);
+        //MAKE SURE MODAL EXIST, NOT VISIBLE
+
+        $this->assertEqual( $page->find('css', '.truckID')->getValue(), $originalValue); //VALUE FINDER INSTEAL OF CHECKING FIRST IN LIST By AUTO
     }
 
     /**
@@ -274,7 +283,7 @@ class TruckListPageTest extends WebTestCase
         // Click the accept Button in Modal
         $page->find('css', '.accepts')->click();
 
-        $this->assertNotEqual( $page->find('css', '.truckID')->getValue(), $firstTruckValue  );
+        $this->assertNotEqual( $page->find('css', '.truckID')->getValue(), $firstTruckValue ); //SHOULDNT BE ABLE TO FIND THE OG ID //REPLACE getValue WITH ASSERTCONTAINS
     }
 
 
