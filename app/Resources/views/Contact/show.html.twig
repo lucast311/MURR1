@@ -92,14 +92,17 @@
     <p>No associated properties</p>
     {% else %}
 
-        <table>
-            <tr>
-                <th>Site Id</th>
-                <th>Street Address</th>
-                <th>Neighbourhood</th>
-                <th>Number of Units</th>
-                <th>Type</th>
-            </tr>
+        <table class="ui celled table">
+            <thead>
+                <tr>
+                    <th>Site Id</th>
+                    <th>Street Address</th>
+                    <th>Neighbourhood</th>
+                    <th>Number of Units</th>
+                    <th>Type</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
             {%for property in contact.properties%}
             <tr>
                 <td>{{property.siteId}}</td>
@@ -107,6 +110,11 @@
                 <td>{{property.neighbourhoodName}}</td>
                 <td>{{property.numUnits}}</td>
                 <td>{{property.propertyType}}</td>
+                <td>
+                    <form method="post" action="{{path('remove_property_from_contact')}}">
+
+                    </form>
+                </td>
             </tr>
             {%endfor%}
         </table>
