@@ -238,13 +238,35 @@ class ContactController extends Controller
         //if the form is posted
         if($request->getMethod() == 'POST')
         {
-            $contactId = $request->request->get('contact');
+            $em = $this->getDoctrine()->getManager();
+            $contactRepo = $em->getRepository(Contact::class);
 
-            var_dump($request->request->get('appbundle_propertyToContact')['contact']);
+            $contact = $contactRepo->findOneById($request->request->get('appbundle_propertyToContact')['contact']);
+            $property = $em->getRepository(Property::class)->findOneById($request->request->get('appbundle_propertyToContact')['property']);
 
-            var_dump($contactId);
+            if($contact != NULL && $property != NULL)
+            {
+                if(in_array($property, $contact->getProperties()))
+                {
+                    // TODO error message
+                }
+                else
+                {
+                    $properties = $contact->getProperties();
+                    $properties->add($property);
+                    $contact->setProperties($properties);
 
-            return new Response('test');
+                    $contactRepo->save($contact);
+
+                    return $this->redirectToRoute("contact_show", array("id"=>$contact->getId()));
+                }
+            }
+
+            //var_dump($request->request->get('appbundle_propertyToContact')['contact']);
+
+            //var_dump($contactId);
+
+            //return new Response('test');
         }
 
         //If there wasn't a success anywhere, redirect to the contact search page
