@@ -1,6 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
+    <script>
+        $(function () {
+            addModal();
+            $('.removeButton').click(function () {
+                console.log($(this));
+                var parent = $(this).parent("form").get(0);
+                console.log(parent);
+                showModal(parent.attr('data-message'), parent);
+            });
+        });
+    </script>
+
     <h1>View Contact</h1>
 
     <table>
@@ -111,8 +124,10 @@
                 <td>{{property.numUnits}}</td>
                 <td>{{property.propertyType}}</td>
                 <td>
-                    <form method="post" action="{{path('remove_property_from_contact')}}">
-
+                    <form name="appbundle_removePropertyFromContact" method="post" action="{{path('remove_property_from_contact')}}" data-message="Are you sure you want to remove {{property.address.streetAddress}}?">
+                        <input type="hidden" name="contact" value="{{contact.id}}"/>
+                        <input type="hidden" name="property" value="{{property.id}}"/>
+                        <button type="button" class="ui icon button removeButton red" id="rmb{{property.id}}"><i class="close icon"></i></button>
                     </form>
                 </td>
             </tr>

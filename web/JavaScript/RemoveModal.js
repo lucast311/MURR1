@@ -35,9 +35,15 @@ function addModal()
 {
     $(document.body).append(`
     <div class="ui basic modal" id="removeModal">
-        <i class="trash alternate outline icon"></i>
-        <p id="removeModalMessage"></p>
-        <button class="ui button inverted" id="btnDecline"><i class="close icon"></i>Cancel</button>
-        <button class="ui button inverted red" id="btnAccept"><i class="check icon"></i>Remove</button>
+        <div class="ui icon header">
+            <i class="trash alternate outline icon"></i>
+        </div>
+        <div class="content" style="text-align: center">
+            <p id="removeModalMessage"></p>
+        </div>
+        <div class="actions" style="text-align: center">
+            <button class="ui button inverted" id="btnDecline"><i class="close icon"></i>Cancel</button>
+            <button class="ui button inverted red" id="btnAccept"><i class="check icon"></i>Remove</button>
+        </div>
     </div>`);
 }

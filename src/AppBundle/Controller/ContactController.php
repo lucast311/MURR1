@@ -286,14 +286,18 @@ class ContactController extends Controller
      */
     public function removePropertyAction(Request $request)
     {
+        var_dump($request);
+
+        return new Response("test");
+
         //if the form is posted
         if($request->getMethod() == 'POST')
         {
             $em = $this->getDoctrine()->getManager();
             $contactRepo = $em->getRepository(Contact::class);
 
-            $contact = $contactRepo->findOneById($request->request->get('appbundle_propertyToContact')['contact']);
-            $property = $em->getRepository(Property::class)->findOneById($request->request->get('appbundle_propertyToContact')['property']);
+            $contact = $contactRepo->findOneById($request->request->get('appbundle_removePropertyFromContact')['contact']);
+            $property = $em->getRepository(Property::class)->findOneById($request->request->get('appbundle_removePropertyFromContact')['property']);
 
             if($contact != null && $property != null)
             {
