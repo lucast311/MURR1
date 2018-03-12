@@ -3345,6 +3345,7 @@
     <Content Include="phpunit.xml.dist.tmppica" />
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\JavaScript\base_twig.js" />
+    <Content Include="web\JavaScript\DeleteModal.js" />
     <Content Include="web\JavaScript\PropertySearchPopup.js" />
     <Content Include="web\JavaScript\DeletePrompt.js" />
     <Content Include="web\JavaScript\Search.js" />

@@ -1,5 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Container View{% endblock %}
+
+{# Include javascript for delete modal #}
+{% block javascripts %}
+<script src="{{ asset("JavaScript/DeleteModal.js") }}"></script>
+{% endblock %}
+
 {% block body %}
 <style>
     th{ text-align:left; }
@@ -71,21 +78,29 @@
 
 {% endif %}
 
+<a href="{{ path('container_index') }}" class="ui button">Back to the list</a>
+<a href="{{ path('container_edit', { 'id': container.id }) }}" class="ui button">Edit</a>
+<button class="ui button" id="delete">Delete</button>
 
-    <ul>
-        <li>
-            <a href="{{ path('container_index') }}">Back to the list</a>
-        </li>
-
-        {% if not invalid_id_error %}
-        <li>
-            <a href="{{ path('container_edit', { 'id': container.id }) }}">Edit</a>
-        </li>
-        <li>
+{# Modal for the delete confirmation #}
+<div class="ui basic modal delete">
+    <div class="header">
+        Delete Container
+    </div>
+    <div class="content">
+        <p>Are you sure you want to delete container: {{ container.containerSerial }}?</p>
+    </div>
+    <div class="actions">
+        <div class="ui white button basic inverted">
+            Cancel
+        </div>
+        <div class="ui red right labeled icon button basic inverted">
+            Delete
+            <i class="checkmark icon"></i>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
-        </li>
-        {% endif %}
-    </ul>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
