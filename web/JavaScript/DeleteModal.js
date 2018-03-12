@@ -13,9 +13,8 @@ var onLoad = function ()
     });
 
      // Register an event handler to clicking the modal delete (the real deal delete)
-    $('ui.red.ok.inverted.button').click(function ()
+    $('div.ui.red.ok.inverted.button').click(function ()
     {
-        alert("test");
         $('div.ui.icon.header form').submit();
     });
 }
