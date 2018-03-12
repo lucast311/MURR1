@@ -13,9 +13,10 @@ var onLoad = function ()
     });
 
      // Register an event handler to clicking the modal delete (the real deal delete)
-    $('ui negative right labeled icon button').click(function ()
+    $('ui.red.ok.inverted.button').click(function ()
     {
-        $('div.ui.negative.labeled.icon.button form').submit();
+        alert("test");
+        $('div.ui.icon.header form').submit();
     });
 }
 

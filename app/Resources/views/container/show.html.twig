@@ -84,23 +84,24 @@
 
 {# Modal for the delete confirmation #}
 <div class="ui basic modal delete">
-    <div class="header">
-        Delete Container
-    </div>
-    <div class="content">
-        <p>Are you sure you want to delete container: {{ container.containerSerial }}?</p>
-    </div>
-    <div class="actions">
-        <div class="ui white button basic inverted">
-            Cancel
-        </div>
-        <div class="ui red right labeled icon button basic inverted">
-            Delete
-            <i class="checkmark icon"></i>
+  <div class="ui icon header">
             {{ form_start(delete_form) }}
             {{ form_end(delete_form) }}
-        </div>
+    <i class="trash alternate outline icon"></i>
+    Delete Container?
+  </div>
+  <div class="content">
+    <p>Are you sure you want to delete container: {{ container.containerSerial }}?</p>  </div>
+  <div class="actions">
+    <div class="ui green basic cancel inverted button">
+      <i class="remove icon"></i>
+      Cancel
     </div>
+    <div class="ui red ok inverted button">
+      <i class="checkmark icon"></i>
+      Delete
+    </div>
+  </div>
 </div>
 
 {% endblock %}

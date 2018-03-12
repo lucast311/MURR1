@@ -111,11 +111,13 @@ class ContainerSearchTest extends WebTestCase
         //Click the link
         $selectLink->click();
 
+        var_dump($selectLink);
+
         // Refresh the page content so it reflects the window
         $page = $this->session->getPage();
 
         // Assert that we were redirected to the Container page
-        $this->assertRegExp('/http:\/\/.+\/container\/3/', $this->session->getCurrentUrl());
+        $this->assertContains('/container/3', $this->session->getCurrentUrl());
     }
 
     /**
@@ -180,8 +182,11 @@ class ContainerSearchTest extends WebTestCase
         // Search for a Container
         $page->find('named', array('id', "searchBox"))->setValue("Ac");
 
+        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
+        $this->session->wait(15000);
+
         // Make sure autocomplete options show up (select on the CSS)
-        $this->assertNotNull($page->find('css', ".results .transition .visible"));
+        $this->assertNotNull($page->find('css', ".results.transition.visible"));
         // Results we expect back
         $expectedResults = array("Active", "Ack Street");
         // Make sure we get the results we expect
@@ -195,7 +200,7 @@ class ContainerSearchTest extends WebTestCase
         $this->assertEquals($page->find('named', array('id', "searchBox")), "Active");
 
         // Assert the complete went away
-        $this->assertNotNull($page->find('css', ".results .transition .hidden"));
+        $this->assertNotNull($page->find('css', ".results.transition.hidden"));
     }
 
     /**
