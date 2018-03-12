@@ -123,6 +123,7 @@ class Property
      *@var ArrayCollection
      */
     private $contacts;
+
     /**
      * @ORM\OneToMany(targetEntity="Container",cascade={"persist"}, mappedBy="property")
      */

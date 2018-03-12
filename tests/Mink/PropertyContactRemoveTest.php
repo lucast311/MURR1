@@ -280,6 +280,53 @@ class PropertyContactRemoveTest extends WebTestCase
         $contact->setFirstName("Testman");
         $contact->setRole("Owner");
 
+        //start up a new session
+        $this->session->visit('http:://localhost:8000/property/1');
+        //get the page
+        $page = $this->session->getPage();
+
+        //click the advanced button
+        $advancedSearchBtn = $page->find("css", "#advancedSearchBtn");
+        $advancedSearchBtn->click();
+
+        //find the search box
+        $contactSearchBox = $page->find("css", "#ContactSearchBox");
+        $contactSearchBox->setValue("Testman");
+
+        //wait for results
+        $this->session->wait(10000);
+
+        //click first select btn
+        $selectBtn = $page->find("css", "#select1");
+        $selectBtn->click();
+
+        //wait for page because it will reload
+        $this->session->wait(10000);
+
+        //check that the contact table has the added contact
+        $page = $this->session->getPage();
+        $contactTable = $page->find("css", ".contact associations");
+        assertContains('Testman', $contactTable->getHtml());
+
+    }
+
+    /**
+     * Story 4L
+     * Test that a user cannnot add a contact association that already exists
+     */
+    public function testCannotAddContactToPropertyThatIsAlreadyAdded()
+    {
+        //create a new property
+        $property = new Property();
+
+        $repo = $this->em->getRepository(Property::class);
+        $repo->save($property);
+
+        //create a new contact
+        $contact = new Contact();
+        $contact->setFirstName("Testman");
+        $contact->setRole("Owner");
+
         //associate the two
         $arrayCollection = new ArrayCollection();
         $arrayCollection->add($contact);
@@ -290,16 +337,21 @@ class PropertyContactRemoveTest extends WebTestCase
         //get the page
         $page = $this->session->getPage();
 
+        //click the advanced button
+        $advancedSearchBtn = $page->find("css", "#advancedSearchBtn");
+        $advancedSearchBtn->click();
 
-    }
+        //find the search box
+        $contactSearchBox = $page->find("css", "#ContactSearchBox");
+        $contactSearchBox->setValue("Testman");
 
-    /**
-     * Story 4L
-     * Test that a user cannnot add a contact association that already exists
-     */
-    public function testCannotAddContactToPropertyThatIsAlreadyAdded()
-    {
+        //wait for results
+        $this->session->wait(10000);
 
+        //check that the page has a message that you cannot add the same contact twice
+        $page = $this->session->getPage(); 
+
+        assertContains("You cannot add the same contact more than once", $page->getHtml()); 
     }
 
 
