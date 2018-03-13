@@ -130,6 +130,7 @@
     <Compile Include="tests\AppBundle\Controller\PropertyControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\RouteControllerTest.php" />
     <Compile Include="tests\AppBundle\Controller\SecurityControllerTest.php" />
+    <Compile Include="tests\AppBundle\DatabasePrimer.php" />
     <Compile Include="tests\AppBundle\Entity\AddressTest.php" />
     <Compile Include="tests\AppBundle\Entity\CollectionHistoryTest.php" />
     <Compile Include="tests\AppBundle\Entity\CommunicationTest.php" />

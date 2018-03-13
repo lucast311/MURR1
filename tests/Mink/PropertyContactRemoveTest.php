@@ -96,14 +96,15 @@ class PropertyContactRemoveTest extends WebTestCase
         $property->setContacts($arrayCollection);
         //now that the data exists, go to the page
         //start up a new session
-        $this->session->visit('http:://localhost:8000/property/view/1');
+        $this->session->visit('http:://localhost:8000/app_test.php/property/view/1');
         //get the page
         $page = $this->session->getPage();
         //find the button with the ID of the remove button
         assertNotNull($page->find("css", "#rmConBtn1"));
 
         //assert that the modal is not 'active'
-        assertNull($page->find("css","#cancelModal.active"));
+        $removeModal = $page->find('css','#removeModal'); 
+        assertFalse($removeModal->isVisible());
 
         //click on the button
         $removeButton = $page->find("css", "#rmConBtn1");
@@ -136,11 +137,11 @@ class PropertyContactRemoveTest extends WebTestCase
         $property->setContacts($arrayCollection);
         //now that the data exists, go to the page
         //start up a new session
-        $this->session->visit('http:://localhost:8000/property/1');
+        $this->session->visit('http:://localhost:8000/app_test.php/property/1');
         //get the page
         $page = $this->session->getPage();
 
-        //click on the button
+        //click on the remove button
         $removeButton = $page->find("css", "#rmb1");
         $removeButton->click();
 
@@ -177,7 +178,7 @@ class PropertyContactRemoveTest extends WebTestCase
         $property->setContacts($arrayCollection);
         //now that the data exists, go to the page
         //start up a new session
-        $this->session->visit('http:://localhost:8000/property/1');
+        $this->session->visit('http:://localhost:8000/app_test.php/property/1');
         //get the page
         $page = $this->session->getPage();
 
@@ -285,11 +286,13 @@ class PropertyContactRemoveTest extends WebTestCase
 
         //create a new contact
         $contact = new Contact();
+        $repo = $this->em->getRepository(Contact::class); 
         $contact->setFirstName("Testman");
         $contact->setRole("Owner");
+        $repo->save($contact); 
 
         //start up a new session
-        $this->session->visit('http:://localhost:8000/property/1');
+        $this->session->visit('http:://localhost:8000/app_test.php/property/1');
         //get the page
         $page = $this->session->getPage();
 
@@ -298,7 +301,7 @@ class PropertyContactRemoveTest extends WebTestCase
         $advancedSearchBtn->click();
 
         //find the search box
-        $contactSearchBox = $page->find("css", "#ContactSearchBox");
+        $contactSearchBox = $page->find("css", "#contactSearchBox");
         $contactSearchBox->setValue("Testman");
 
         //wait for results
@@ -341,7 +344,7 @@ class PropertyContactRemoveTest extends WebTestCase
         $property->setContacts($arrayCollection);
         //now that the data exists, go to the page
         //start up a new session
-        $this->session->visit('http:://localhost:8000/property/1');
+        $this->session->visit('http:://localhost:8000/php_test.php/property/1');
         //get the page
         $page = $this->session->getPage();
 

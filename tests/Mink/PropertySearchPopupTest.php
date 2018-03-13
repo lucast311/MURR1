@@ -1,11 +1,12 @@
 <?php
-
+namespace Tests\Mink;
 require_once 'vendor/autoload.php';
 use DMore\ChromeDriver\ChromeDriver;
 use Behat\Mink\Session;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\DataFixtures\ORM\LoadUserData;
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
+use Tests\AppBundle\DatabasePrimer;
 
 /**
  * This test uses mink for browser based front-end testing of the javascript used in story 4e
@@ -16,10 +17,17 @@ class PropertySearchPopupTest extends WebTestCase
     private $session;
     private $em;
 
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
+
     protected function setUp()
     {
-        // Load the user fixture so you can actually log in
         self::bootKernel();
+
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
@@ -43,7 +51,7 @@ class PropertySearchPopupTest extends WebTestCase
         $this->session->start();
 
         // go to the login page
-        $this->session->visit('http://localhost:8000/login');
+        $this->session->visit('http://localhost:8000/app_test.php/login');
         // Get the current page
         $page = $this->session->getPage();
         // Fill out the login form
@@ -69,7 +77,7 @@ class PropertySearchPopupTest extends WebTestCase
         //$this->session->start();
 
         // Navigate to the new communication page
-        $this->session->visit('http://localhost:8000/communication/new');
+        $this->session->visit('http://localhost:8000/app_test.php/communication/new');
         // Get the page
         $page = $this->session->getPage();
         // find and assert that there is an advanced search button
@@ -86,7 +94,7 @@ class PropertySearchPopupTest extends WebTestCase
         $advancedSearchBtn->click();
 
         // WAIT for the page to load, otherwise it will be empty when mink tries to use it.
-        $this->session->wait(1000);
+        $this->session->wait(2000);
 
         // Get the names of all the windows AGAIN, so we can figure out which one is new
         $newWindowNames = $this->session->getWindowNames();
@@ -145,11 +153,13 @@ class PropertySearchPopupTest extends WebTestCase
     public function testCommunicationPropertySimpleSearch()
     {
         // Navigate to the new communication page
-        $this->session->visit('http://localhost:8000/communication/new');
+        $this->session->visit('http://localhost:8000/app_test.php/communication/new');
         // Get the page
         $page = $this->session->getPage();
+        $this->session->wait(1000); 
         // Click on the select box so it opens
-        $page->find('css', ".select2-selection, .select2-selection--single")->click();
+        $dropDown = $page->find('css', ".select2-selection, .select2-selection--single");
+        $dropDown->getHtml(); 
         // Check that the select box contains a specific property
         $this->assertContains("Charlton Legs", $page->find('css', ".select2-results")->getHtml());
         // Get the search box for the drop down and search for something to narrow the results
