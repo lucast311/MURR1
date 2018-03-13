@@ -39,7 +39,15 @@ class LoadContainerData implements FixtureInterface
                 ->setProvince('Saskatchetest')
                 ->setCountry('Testnada');
 
+            $address2 = (new Address())
+                ->setStreetAddress("Ack Street")
+                ->setPostalCode('T3S 3TS')
+                ->setCity('Saskatoon')
+                ->setProvince('Saskatchetest')
+                ->setCountry('Testnada');
+
             $addressFixtureLoader = new LoadAddressData($address);
+            $addressFixtureLoader = new LoadAddressData($address2);
 
             $addressFixtureLoader->load($obMan);
 
@@ -55,7 +63,19 @@ class LoadContainerData implements FixtureInterface
                 ->setNeighbourhoodId("O48")
                 ->setAddress($address);
 
+            $property2 = (new Property())
+                ->setSiteId((2363777))
+                ->setPropertyName("King Swag Apts")
+                ->setPropertyType("Townhouse Condo")
+                ->setPropertyStatus("Active")
+                ->setStructureId(545677)
+                ->setNumUnits(14)
+                ->setNeighbourhoodName("Evergreen")
+                ->setNeighbourhoodId("O49")
+                ->setAddress($address2);
+
             $PropertyFixtureLoader = new LoadPropertyData($property);
+            $PropertyFixtureLoader = new LoadPropertyData($property2);
 
             $PropertyFixtureLoader->load($obMan);
 
@@ -83,7 +103,28 @@ class LoadContainerData implements FixtureInterface
                 ->setProperty($property)
                 ->setStructure($structure);
 
+
+
             $obMan->persist($this->container);
+
+            $obMan->flush();
+
+            $this->container = (new Container())
+                ->setFrequency("weekly")
+                ->setContainerSerial("888888")
+                ->setLocationDesc("South-west side")
+                ->setLon("87")
+                ->setLat("88")
+                ->setType("Cart")
+                ->setSize("6 yd")
+                ->setAugmentation("Wheels")
+                ->setStatus("Inactive")
+                ->setReasonForStatus("Everything normal")
+                ->setProperty($property2)
+                ->setStructure($structure);
+
+            $obMan->persist($this->container);
+
             $obMan->flush();
         }
         else

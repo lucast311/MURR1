@@ -76,8 +76,6 @@
         </tbody>
     </table>
 
-{% endif %}
-
 <a href="{{ path('container_index') }}" class="ui button">Back to the list</a>
 <a href="{{ path('container_edit', { 'id': container.id }) }}" class="ui button">Edit</a>
 <button class="ui button" id="delete">Delete</button>
@@ -103,5 +101,7 @@
     </div>
   </div>
 </div>
+
+{% endif %}
 
 {% endblock %}

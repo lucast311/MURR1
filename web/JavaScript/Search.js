@@ -125,6 +125,8 @@ var onLoad = function () {
         After this we call the setTimeout function to send an ajax call in 400 ms.
     */
     $('#searchBox').keyup(function () {
+        lastVal = $('#searchBox').val();
+        console.log(lastVal);
         if (timeOutInst != null) {
             clearTimeout(timeOutInst);
             timeOutInst = null;
@@ -132,17 +134,6 @@ var onLoad = function () {
 
         timeOutInst = setTimeout(function () { viewModel.getResults();}, 400);
     });//viewModel.getResults);
-
-    // Also create an onchanged handler to catch when the user clicks an autocomplete suggestion
-    $('#searchBox').change(function () {
-        // only do it if theres text in the text box, and not blank
-        if ($('#searchBox').val() != "")
-        {
-            // Need a tiny delay here in order for it to actually have the updated text in the box.
-            setTimeout(function () { viewModel.getResults(true); }, 110);
-        }
-        
-    });
 };
 
 /**
@@ -159,7 +150,9 @@ var autoComplete = function ()
         searchFields: ['title'],
         cache: false,
         fullTextSearch: "true",
-        showNoResults: false
+        showNoResults: false,
+        // The handler for when someone clicks a result.
+        onSelect: function () { setTimeout(function () { viewModel.getResults(true); }, 110) }
     });
 
     // Force a re-query of the search box (since the array has likely changed since the user finished typing);

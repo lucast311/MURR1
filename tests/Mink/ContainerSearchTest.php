@@ -107,17 +107,15 @@ class ContainerSearchTest extends WebTestCase
         $this->assertNotNull($page->find('named', array('content', "Active")));
 
         // click the first link for the desired result
-        $selectLink = $page->find('named', array('content', "123457"));
+        $selectLink = $page->find('css', "table.ui.selectable.celled.table tbody tr")->find('named', array('content', "123457"));
         //Click the link
         $selectLink->click();
-
-        var_dump($selectLink);
 
         // Refresh the page content so it reflects the window
         $page = $this->session->getPage();
 
         // Assert that we were redirected to the Container page
-        $this->assertContains('/container/3', $this->session->getCurrentUrl());
+        $this->assertContains('/container/1', $this->session->getCurrentUrl());
     }
 
     /**
