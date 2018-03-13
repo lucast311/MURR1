@@ -7,9 +7,9 @@
             addModal();
             $('.removeButton').click(function () {
                 console.log($(this));
-                var parent = $(this).parent("form").get(0);
-                console.log(parent);
-                showModal(parent.attr('data-message'), parent);
+				var parent = $($(this).parent("form").get(0));
+				console.log(parent);
+                showModal(parent.data('message'), parent);
             });
         });
     </script>
@@ -97,7 +97,7 @@
 
     <h2>Property Roster</h2>
 
-	{{ form_start(add_property_form, {'action': path('add_property_to_contact')}) }}
+	{{ form_start(add_property_form) }}
 	{{ form_widget(add_property_form) }}
 	{{ form_end(add_property_form) }}
 

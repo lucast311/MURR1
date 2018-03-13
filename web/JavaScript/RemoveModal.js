@@ -24,7 +24,7 @@ function showModal(message, formToSubmit)
     $('#btnAccept').click(function () {
         modal.modal('hide');
         //submit the form
-        form.submit();
+        formToSubmit.submit();
     });
 }
 
