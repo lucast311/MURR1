@@ -4,6 +4,7 @@ use AppBundle\Entity\Route;
 use AppBundle\Entity\Container;
 use AppBundle\Entity\RoutePickup;
 use AppBundle\DataFixtures\ORM\LoadUserData;
+use Tests\AppBundle\DatabasePrimer;
 
 /**
  * RouteControllerTest short summary.
@@ -17,6 +18,13 @@ class RouteControllerTest extends WebTestCase
 {
 
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
     protected function setUp()
     {

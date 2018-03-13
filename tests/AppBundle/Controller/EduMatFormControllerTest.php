@@ -4,6 +4,7 @@ namespace tests\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\EduMat;
 use AppBundle\DataFixtures\ORM\LoadUserData;
+use Tests\AppBundle\DatabasePrimer; 
 
 /**
  * story14a_csr_user_creates_new_educational_material - Tests
@@ -11,6 +12,13 @@ use AppBundle\DataFixtures\ORM\LoadUserData;
 class EduMatFormControllerTest extends WebTestCase
 {
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
     /**
      * (@inheritDoc)

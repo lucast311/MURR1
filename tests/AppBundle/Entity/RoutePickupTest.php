@@ -3,6 +3,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\Route;
 use AppBundle\Entity\RoutePickup;
 use AppBundle\Entity\Container;
+use Tests\AppBundle\DatabasePrimer; 
 
 /**
  * RoutePickupTest short summary.
@@ -16,6 +17,13 @@ class RoutePickupTest extends KernelTestCase
 {
 
     private $routePickup;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
     public function setUp()
     {

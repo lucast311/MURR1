@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\CollectionHistory;
 use AppBundle\Entity\Container;
 use AppBundle\DataFixtures\ORM\LoadUserData;
+use Tests\AppBundle\DatabasePrimer; 
 /**
 	* CollectionHistoryControllerTest short summary.
 	*
@@ -16,6 +17,13 @@ use AppBundle\DataFixtures\ORM\LoadUserData;
 class CollectionHistoryControllerTest extends WebTestCase
 {
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
     protected function setUp()
     {

@@ -8,6 +8,7 @@ use AppBundle\DataFixtures\ORM\LoadUserData;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Contact;
 use Doctrine\Common\Collections\ArrayCollection;
+use Tests\AppBundle\DatabasePrimer; 
 /**
  * PropertyContactRemoveTest short summary.
  *
@@ -21,6 +22,13 @@ class PropertyContactRemoveTest extends WebTestCase
     private $driver;
     private $session;
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
     protected function setUp()
     {
@@ -349,9 +357,9 @@ class PropertyContactRemoveTest extends WebTestCase
         $this->session->wait(10000);
 
         //check that the page has a message that you cannot add the same contact twice
-        $page = $this->session->getPage(); 
+        $page = $this->session->getPage();
 
-        assertContains("You cannot add the same contact more than once", $page->getHtml()); 
+        assertContains("You cannot add the same contact more than once", $page->getHtml());
     }
 
 
