@@ -57,7 +57,7 @@ class TruckListPageTest extends WebTestCase
         $page->findById("username")->setValue("admin");
         $page->findById("password")->setValue("password");
         // Submit the form
-        $page->findButton('Log In')->click();
+        $page->pressButton('Log In');//replaced findButton('Log In')->click();
         // Wait for the page to load before trying to browse elsewhere
         $this->session->wait(10000, "document.readyState === 'complete'");
 
@@ -80,15 +80,15 @@ class TruckListPageTest extends WebTestCase
         $page = $this->session->getPage();
 
         // search for something
-        $page->find('named', array('id', "filter"))->setValue("00886");
+        $page->findById("filter")->setValue("00886"); //A: replaces $page->find('named', array('id', "filter"))->setValue("00886");
 
         // Emulate a keyup to trigger the event that normally does a search.
-        $page->find('named', array('id', "filter"))->keyPress("s");
+        $page->findById("filter")->keyPress("s");
 
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
         $this->session->wait(10000);
         // Check contents
-        $this->assertNotNull( $page->find('css', 'result') );
+        $this->assertNotNull( $page->find('css', 'result') ); //A: MIGHT NOT BE LOOKING FOR RESULT
     }
 
     /**
@@ -101,28 +101,29 @@ class TruckListPageTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
-        $truckIdItem = $page->find('css', '.truckID')->getValue();
+        $truckIdItem = $page->findAll('css', '.truckID')[0]->getValue();
 
         // search for something
-        $page->find('css', '#filter')->setValue("00886");
+        $page->/*find('css', '#filter')*/findById("filter")->setValue("00886");
 
         // Emulate a keyup to trigger the event that normally does a search.
-        $page->find('named', array('id', "filter"))->keyPress("s");     //""
+        $page->/*find('named', array('id', "filter"))*/findById("filter")->keyPress("s");     //""
 
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
         $this->session->wait(10000);
 
-        $this->assertNotEqual($truckIdItem, $page->find('css', 'truckID')->getValue());
+        $this->assertNotEqual($truckIdItem, $page->/*find('css', 'truckID')*/findById("filter")->getValue());
 
-        //MAYBE ALSO TEST SOMETHING NOT APEARING
+        //A: MAYBE ALSO TEST SOMETHING NOT APEARING
     }
 
-
-    //Updating a truck tests
+    //DEPRECATED : Updating a truck tests
+    //
     /**
         40a Tests that the update button doesn't show up when the page is first loaded
     */
-    /*public function testUpdateButton()
+    /*DEPRECATED
+    public function testUpdateButton()
     {
         // Navigate to the Truck List page
         $this->session->visit('http://localhost:8000/app_test.php/truck');
@@ -156,6 +157,7 @@ class TruckListPageTest extends WebTestCase
     /**
         40a Tests that the update button is removed when pressed
     */
+    /*DEPRECATED
     public function testUpdateButtonRemoved()
     {
         // Navigate to the Truck List page
@@ -164,7 +166,7 @@ class TruckListPageTest extends WebTestCase
         $page = $this->session->getPage();
 
         // Add information to the first truck field
-        $page->find('css', '.truckID')->setValue("00887");
+        $page->findAll('css', '.truckID')[0]->setValue("00887");
 
         // click the update button
         $page->find('css', '.updates')->click();
@@ -172,10 +174,12 @@ class TruckListPageTest extends WebTestCase
         // assert that the update button is no longer on the page
         $this->assertNull( $page->find('css', '.updates') );
     }
+    */
 
     /**
         40a Tests that the revert button shows up when a truck's field is updated
     */
+    /*DEPRECATED
     public function testRevertButtonDisplay()
     {
         // Navigate to the Truck List page
@@ -189,10 +193,12 @@ class TruckListPageTest extends WebTestCase
         // Ensure the revert button is there
         $this->assertNotNull( $page->find('css', '.reverts') );
     }
+    */
 
     /**
         40a Tests that the Revert button actually works when the revert button is pressed
     */
+    /*DEPRECATED
     public function testRevertButtonRevert()
     {
         // Navigate to the Truck List page
@@ -212,7 +218,7 @@ class TruckListPageTest extends WebTestCase
         // get the value of the text box again
         $this->assertEquals( $truckIdItem->getValue(), $originalValue);
     }
-
+    */
 
     // Delete Truck Tests
     /**
@@ -226,8 +232,9 @@ class TruckListPageTest extends WebTestCase
         $page = $this->session->getPage();
 
         // Click the first delete button
-        $page->find('css', '.deletes')->click();
-        $this->assertTrue( $page->find('css', '.deletesMessage').isVisible);
+        //$page->find('css', '.deletes')
+        $page->findAll('css', '.deletes')[0]->click();
+        $this->assertTrue(/*$page->find('css', '.deletesMessage')*/$page->findAll('css', '.deletesMessage')[0].isVisible()==true);
     }
 
     /**
@@ -249,15 +256,16 @@ class TruckListPageTest extends WebTestCase
 
 
         // Click the first delete button
-        $page->find('css', '.deletes')->click();
+        //$page->find('css', '.deletes')->click();
+        $page->findAll('css', '.deletes')[0]->click();
         //MAKE SURE MODAL EXIST, VISIBLE
 
         // Click the Decline Button in Modal
-        $page->find('css', '.declines')->click();
+        //$page->find('css', '.declines')->click();
+        $page->findAll('css', '.deletes')[0]->click();
 
         //MAKE SURE MODAL EXIST, NOT VISIBLE
-
-        $this->assertEqual( $page->find('css', '.truckID')->getValue(), $originalValue); //VALUE FINDER INSTEAL OF CHECKING FIRST IN LIST By AUTO
+        $this->assertEqual( $page->findAll('css', '.truckID')[0]->getValue(), $originalValue); //VALUE FINDER INSTEAL OF CHECKING FIRST IN LIST By AUTO
     }
 
     /**
