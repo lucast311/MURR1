@@ -15,6 +15,12 @@ web_profiler:
 swiftmailer:
     disable_delivery: true
 
+doctrine:
+    dbal:
+        driver: pdo_sqlite
+        charset: UTF8
+        memory: true
+        path: '%kernel.project_dir%/app/sqlite_test.db'
 
 #enable http basic authentication, but ONLY FOR THE TESTS.
 security:
