@@ -5,6 +5,7 @@ use DMore\ChromeDriver\ChromeDriver;
 use Behat\Mink\Session;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\DataFixtures\ORM\LoadTruckData;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 use Tests\AppBundle\DatabasePrimer;
 
 /**
@@ -63,7 +64,7 @@ class TruckListPageTest extends WebTestCase
 
 
         // Load in trucks from our truck fixture
-        $truckLoader = new LoadTruckData($encoder);
+        $truckLoader = new LoadTruckData();
         $truckLoader->load($this->em);
     }
 
@@ -80,7 +81,7 @@ class TruckListPageTest extends WebTestCase
         $page = $this->session->getPage();
 
         // search for something
-        $page->findById("filter")->setValue("00886"); //A: replaces $page->find('named', array('id', "filter"))->setValue("00886");
+        $page->findById("filter")->setValue("00886");
 
         // Emulate a keyup to trigger the event that normally does a search.
         $page->findById("filter")->keyPress("s");
@@ -88,7 +89,7 @@ class TruckListPageTest extends WebTestCase
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
         $this->session->wait(10000);
         // Check contents
-        $this->assertNotNull( $page->find('css', 'result') ); //A: MIGHT NOT BE LOOKING FOR RESULT
+        $this->assertNotNull( $page->find('css', '.result') ); //A: MIGHT NOT BE LOOKING FOR RESULT
     }
 
     /**
@@ -104,121 +105,17 @@ class TruckListPageTest extends WebTestCase
         $truckIdItem = $page->findAll('css', '.truckID')[0]->getValue();
 
         // search for something
-        $page->/*find('css', '#filter')*/findById("filter")->setValue("00886");
+        $page->findById("filter")->setValue("00886");
 
         // Emulate a keyup to trigger the event that normally does a search.
-        $page->/*find('named', array('id', "filter"))*/findById("filter")->keyPress("s");     //""
+        $page->findById("filter")->keyPress("s"); 
 
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
         $this->session->wait(10000);
 
-        $this->assertNotEqual($truckIdItem, $page->/*find('css', 'truckID')*/findById("filter")->getValue());
-
-        //A: MAYBE ALSO TEST SOMETHING NOT APEARING
+        // Assert that the list has narrowed to only show the given id
+        $this->assertEqual($truckIdItem, $page->findById("filter")->getValue());
     }
-
-    //DEPRECATED : Updating a truck tests
-    //
-    /**
-        40a Tests that the update button doesn't show up when the page is first loaded
-    */
-    /*DEPRECATED
-    public function testUpdateButton()
-    {
-        // Navigate to the Truck List page
-        $this->session->visit('http://localhost:8000/app_test.php/truck');
-        // Get the page
-        $page = $this->session->getPage();
-
-        // Try to find the update button on the page
-        // Assert that the update button does not show up
-        $this->assertNull($page->find('css','.updates'));
-    } IRRELEVANT
-
-
-    //40a Tests that the update button shows up when a truck's field is updated
-
-    public function testUpdateButtonDisplay()
-    {
-        // Navigate to the Truck List page
-        $this->session->visit('http://localhost:8000/app_test.php/truck');
-        // Get the page
-        $page = $this->session->getPage();
-
-        // Add information to the first truck field
-        $page->find('css', '.truckID')->setValue("00887");
-
-        // We may have to wait here depending on if mink goes too fast for the JS
-
-        // Update button shows up
-        $this->assertNotNull($page->find('css', '.updates'));
-    } IRRELEVANT*/
-
-    /**
-        40a Tests that the update button is removed when pressed
-    */
-    /*DEPRECATED
-    public function testUpdateButtonRemoved()
-    {
-        // Navigate to the Truck List page
-        $this->session->visit('http://localhost:8000/app_test.php/truck');
-        // Get the page
-        $page = $this->session->getPage();
-
-        // Add information to the first truck field
-        $page->findAll('css', '.truckID')[0]->setValue("00887");
-
-        // click the update button
-        $page->find('css', '.updates')->click();
-
-        // assert that the update button is no longer on the page
-        $this->assertNull( $page->find('css', '.updates') );
-    }
-    */
-
-    /**
-        40a Tests that the revert button shows up when a truck's field is updated
-    */
-    /*DEPRECATED
-    public function testRevertButtonDisplay()
-    {
-        // Navigate to the Truck List page
-        $this->session->visit('http://localhost:8000/app_test.php/truck');
-        // Get the page
-        $page = $this->session->getPage();
-
-        // Add information to the first truck field
-        $page->find('css', '.truckID')->setValue("00887");
-
-        // Ensure the revert button is there
-        $this->assertNotNull( $page->find('css', '.reverts') );
-    }
-    */
-
-    /**
-        40a Tests that the Revert button actually works when the revert button is pressed
-    */
-    /*DEPRECATED
-    public function testRevertButtonRevert()
-    {
-        // Navigate to the Truck List page
-        $this->session->visit('http://localhost:8000/app_test.php/truck');
-        // Get the page
-        $page = $this->session->getPage();
-
-        // Add information to the first truck field
-        $truckIdItem = $page->find('css', '.truckID');
-        $originalValue = $truckIdItem->getValue();
-
-        $truckinfo->setValue("00887");
-
-        // Click the first Revert Button
-        $page->find('css', '.reverts')->click();
-
-        // get the value of the text box again
-        $this->assertEquals( $truckIdItem->getValue(), $originalValue);
-    }
-    */
 
     // Delete Truck Tests
     /**
@@ -232,9 +129,9 @@ class TruckListPageTest extends WebTestCase
         $page = $this->session->getPage();
 
         // Click the first delete button
-        //$page->find('css', '.deletes')
         $page->findAll('css', '.deletes')[0]->click();
-        $this->assertTrue(/*$page->find('css', '.deletesMessage')*/$page->findAll('css', '.deletesMessage')[0].isVisible()==true);
+        // Assert that the delete modal is visible
+        $this->assertTrue($page->findAll('css', '#deletesMessage')[0]->isVisible());
     }
 
     /**
@@ -251,21 +148,19 @@ class TruckListPageTest extends WebTestCase
         $truckIdItem = $page->find('css', '.truckID');
         $originalValue = $truckIdItem->getValue();
 
-        //MINK STUFF
-        //vVERIFY PAGE WASNT LEFT
-
-
         // Click the first delete button
-        //$page->find('css', '.deletes')->click();
         $page->findAll('css', '.deletes')[0]->click();
-        //MAKE SURE MODAL EXIST, VISIBLE
+        // Check that the delete modal is visible
+        $this->assertTrue($page->find('css', '#deletesMessage').isVisible());
+        
+        // Click the cancel remove button
+        $page->findAll('css', '#cancelsConfirm')[0]->click();
 
-        // Click the Decline Button in Modal
-        //$page->find('css', '.declines')->click();
-        $page->findAll('css', '.deletes')[0]->click();
+        // Check that the modal is not visible
+        $this->assertFalse($page->find('css', '#deletesMessage').isVisible());
 
-        //MAKE SURE MODAL EXIST, NOT VISIBLE
-        $this->assertEqual( $page->findAll('css', '.truckID')[0]->getValue(), $originalValue); //VALUE FINDER INSTEAL OF CHECKING FIRST IN LIST By AUTO
+        // Check that the truck hasn't been removed
+        $this->assertEqual( $page->findAll('css', '.truckID')[0]->getValue(), $originalValue);
     }
 
     /**
@@ -285,10 +180,17 @@ class TruckListPageTest extends WebTestCase
         // Click the first delete button
         $page->find('css', '.deletes')->click();
 
-        // Click the accept Button in Modal
-        $page->find('css', '.accepts')->click();
+        // Check that the delete modal is visible
+        $this->assertTrue($page->find('css', '#deletesMessage').isVisible());
 
-        $this->assertNotEqual( $page->find('css', '.truckID')->getValue(), $firstTruckValue ); //SHOULDNT BE ABLE TO FIND THE OG ID //REPLACE getValue WITH ASSERTCONTAINS
+        // Click the accept Button in Modal
+        $page->find('css', '#deletesConfirm')->click();
+
+        // Check that the modal is not visible
+        $this->assertFalse($page->find('css', '#deletesMessage').isVisible());
+
+        // Check that The truck is removed
+        $this->assertNotEqual( $page->find('css', '.truckID')->getValue(), $firstTruckValue );
     }
 
 
