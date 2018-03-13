@@ -34,7 +34,7 @@ class RoutePickup
     /**
      * @var Container
      * @ORM\ManyToOne(targetEntity="Container", cascade={"persist"})
-     * @ORM\JoinColumn(name="containerId", referencedColumnName="id")
+     * @ORM\JoinColumn(name="containerId", referencedColumnName="id", onDelete="CASCADE")
      * @Assert\NotNull(message="Please specify a container")
      */
     private $container;

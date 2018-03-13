@@ -8,9 +8,9 @@
     <table class="ui celled table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Frequency</th>
                 <th>Container Serial</th>
+                <th>Frequency</th>
+                <th>Property</th>
                 <th>Location Desc</th>
                 <th>Long</th>
                 <th>Lat</th>
@@ -18,16 +18,16 @@
                 <th>Size</th>
 				<th>Augmentation</th>
                 <th>Status</th>
-                <th>Property</th>
-				<th>reason For Status</th>
+				<th>Reason For Status</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
         {% for container in containers %}
             <tr>
-                <td><a href="{{ path('container_show', { 'id': container.id }) }}">{{ container.id }}</a></td>
-                <td>{{ container.frequency }}</td>
                 <td>{{ container.containerSerial }}</td>
+                <td>{{ container.frequency }}</td>
+                <td>{{container.property}}</td>
                 <td>{{ container.locationDesc }}</td>
                 <td>{{ container.lon }}</td>
                 <td>{{ container.lat }}</td>
@@ -35,7 +35,6 @@
                 <td>{{ container.size }}</td>
                 <td>{{ container.augmentation }}</td>
                 <td>{{ container.status}}</td>
-                <td>{{container.property}}</td>
                 <td>{{ container.reasonForStatus }}</td>
                 
                 <!-- Lists should be done similar to this. Regular lists make the site look bad on mobile -->
@@ -50,9 +49,5 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('container_new') }}">Create a new container</a>
-        </li>
-    </ul>
+    <a class="ui button" href="{{ path('container_new') }}">Create a new container</a>
 {% endblock %}

@@ -183,7 +183,7 @@ class ContainerSearchTest extends WebTestCase
         $page->find('named', array('id', "searchBox"))->setValue("Ac");
 
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $this->session->wait(15000);
+        $this->session->wait(5000);
 
         // Make sure autocomplete options show up (select on the CSS)
         $this->assertNotNull($page->find('css', ".results.transition.visible"));
@@ -197,10 +197,12 @@ class ContainerSearchTest extends WebTestCase
 
         // Click Active (should be the first result), and make sure it goes into the search box
         $page->find('css', ".result .content .title")->click();
-        $this->assertEquals($page->find('named', array('id', "searchBox")), "Active");
+        $this->assertEquals($page->find('named', array('id', "searchBox"))->getValue(), "Active");
+
+        $this->session->wait(500);
 
         // Assert the complete went away
-        $this->assertNotNull($page->find('css', ".results.transition.hidden"));
+        $this->assertNotNull($page->find('css', "div.results.transition.hidden"));
     }
 
     /**
@@ -210,21 +212,21 @@ class ContainerSearchTest extends WebTestCase
     public function testContainerDelete()
     {
         // Go to the page of a container
-        $this->session->visit('http://localhost:8000/app_test.php/container/1/edit');
+        $this->session->visit('http://localhost:8000/app_test.php/container/1');
         // Get the page
         $page = $this->session->getPage();
 
         // Click the delete button
         $page->find('named', array('button', "Delete"))->click();
         // Make sure a modal pops up
-        $this->assertNotNull($page->find('css', "div .ui .small .basic .test .modal .transition .visible .active"));
+        $this->assertNotNull($page->find('css', "div.ui.dimmer.modals.page.transition.visible.active"));
 
         // Click the delete button
-        $page->find('named', array('button', "Confirm Delete"))->click();
+        $page->find('css', 'div.ui.red.ok.inverted.button')->click();
 
         // Make sure the container is gone from the list page
         $this->assertNull($page->find('named', array('content', "123457")));
-        $this->assertNotNull($page->find('named', array('content', "weekly")));
+        $this->assertNull($page->find('named', array('content', "weekly")));
         $this->assertNull($page->find('named', array('content', "Cosmo")));
         $this->assertNull($page->find('named', array('content', "South-west side")));
         $this->assertNull($page->find('named', array('content', "Cart")));
