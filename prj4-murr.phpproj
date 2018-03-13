@@ -173,7 +173,8 @@
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
     <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
-    <Compile Include="tests\Mink\TruckListPageTest.php.php" />
+    <Compile Include="tests\Mink\TruckEditPageTest.php" />
+    <Compile Include="tests\Mink\TruckListPageTest.php" />
     <Compile Include="var\cache\dev\doctrine\orm\Proxies\__CG__AppBundleEntityAddress.php" />
     <Compile Include="var\cache\dev\pools\4xgj6XummP\+\5\KtszP7xMmjGcXxpXfSie" />
     <Compile Include="var\cache\dev\pools\4xgj6XummP\+\6\5iGcYEK0TmkUcESiZHLP" />
