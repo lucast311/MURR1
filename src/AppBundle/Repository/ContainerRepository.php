@@ -54,7 +54,7 @@ class ContainerRepository extends EntityRepository
         $classPropertiesArray = array($containerClassProperties, $structureClassProperties, $propertyClassProperties);
 
         // an array of abbreviations to be used in the query. These represent each join
-        $classNames = array('c', 's', 'p');
+        $classNames = array('c', 's', 'p', 'a');
 
         // count variable to step through the $classPropertiesArray
         $count = 0;
@@ -76,9 +76,10 @@ class ContainerRepository extends EntityRepository
         $em = $this->getEntityManager();
         $qb1 = $em->createQueryBuilder();
 
-        $qb1->select('c', 's', 'p')
+        $qb1->select('c', 's', 'p', 'a')
             ->from('AppBundle:Container', 'c')
             ->leftJoin('c.property', 'p', 'WITH', 'p.id = c.property')
+            ->leftJoin('p.address', 'a', 'WITH', 'a.id = p.address')
             ->leftJoin('c.structure', 's', 'WITH', 's.id = c.structure')
             ->where($classPropertiesString);
 

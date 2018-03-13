@@ -237,7 +237,7 @@ class ContainerController extends Controller
             $normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
 
             // Don't display the 'property' data as JSON. Makes it more human readable.
-            $normalizer->setIgnoredAttributes(array("property", "structure"));
+            $normalizer->setIgnoredAttributes(array("property", "structure", "address"));
             $serializer = new Serializer(array($normalizer), array($encoder));
 
             return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
