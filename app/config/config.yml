@@ -37,6 +37,9 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    # Use harmonyUI for all forms
+    form_themes:
+        - '@HarmonyUi/form/semantic_2_layout.html.twig'
 
 # Doctrine Configuration
 doctrine:

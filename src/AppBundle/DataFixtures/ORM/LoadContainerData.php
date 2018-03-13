@@ -118,7 +118,7 @@ class LoadContainerData implements FixtureInterface
                 ->setType("Cart")
                 ->setSize("6 yd")
                 ->setAugmentation("Wheels")
-                ->setStatus("Inactive")
+                ->setStatus("Damaged")
                 ->setReasonForStatus("Everything normal")
                 ->setProperty($property2)
                 ->setStructure($structure);
