@@ -49,9 +49,10 @@ class ContainerRepository extends EntityRepository
         $containerClassProperties = $this->getClassMetadata('AppBundle:Container')->fieldNames;
         $structureClassProperties = $this->getEntityManager()->getRepository('AppBundle:Structure')->getClassMetadata()->fieldNames;
         $propertyClassProperties = $this->getEntityManager()->getRepository('AppBundle:Property')->getClassMetadata()->fieldNames;
+        $addressClassProperties = $this->getEntityManager()->getRepository('AppBundle:Address')->getClassMetadata()->fieldNames;
 
         // add all of the class properties arrays to one array
-        $classPropertiesArray = array($containerClassProperties, $structureClassProperties, $propertyClassProperties);
+        $classPropertiesArray = array($containerClassProperties, $structureClassProperties, $propertyClassProperties, $addressClassProperties);
 
         // an array of abbreviations to be used in the query. These represent each join
         $classNames = array('c', 's', 'p', 'a');
