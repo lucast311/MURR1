@@ -13,9 +13,17 @@
 				var parent = $($(this).parent("form").get(0));
 				//console.log(parent);
                 showModal(parent.data('message'), parent);
-            });
+			});
+
+			$(".ui.dropdown").dropdown();
         });
     </script>
+
+	<style>
+		#appbundle_propertyToContact > div{
+			display: inline-block;
+		}
+	</style>
 
     <h1>View Contact</h1>
 

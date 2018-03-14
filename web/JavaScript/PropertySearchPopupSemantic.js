@@ -39,5 +39,6 @@ function advancedSearch()
 function receiveSelection(id)
 {
     // Obtain the select box and set it's value to be the recieved id. Need to trigger change for Select2 to update itself.
-    searchSelectBox.val(id);
+    //searchSelectBox.val(id);
+    searchSelectBox.dropdown('set selected', id)
 }
