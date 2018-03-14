@@ -41,10 +41,10 @@ class LoadContainerData implements FixtureInterface
 
             $address2 = (new Address())
                 ->setStreetAddress("Ack Street")
-                ->setPostalCode('T3S 3TS')
-                ->setCity('Saskatoon')
-                ->setProvince('Saskatchetest')
-                ->setCountry('Testnada');
+                ->setPostalCode('R3E 3E3')
+                ->setCity('Regina')
+                ->setProvince('Ontario')
+                ->setCountry('USA');
 
             $addressFixtureLoader = new LoadAddressData($address);
             $addressFixtureLoader = new LoadAddressData($address2);
@@ -65,7 +65,7 @@ class LoadContainerData implements FixtureInterface
 
             $property2 = (new Property())
                 ->setSiteId((2363777))
-                ->setPropertyName("King Swag Apts")
+                ->setPropertyName("NewTestProp")
                 ->setPropertyType("Townhouse Condo")
                 ->setPropertyStatus("Active")
                 ->setStructureId(545677)
@@ -110,14 +110,14 @@ class LoadContainerData implements FixtureInterface
             $obMan->flush();
 
             $this->container = (new Container())
-                ->setFrequency("weekly")
+                ->setFrequency("daily")
                 ->setContainerSerial("888888")
-                ->setLocationDesc("South-west side")
-                ->setLon("87")
-                ->setLat("88")
-                ->setType("Cart")
-                ->setSize("6 yd")
-                ->setAugmentation("Wheels")
+                ->setLocationDesc("North-East side")
+                ->setLon("51")
+                ->setLat("56")
+                ->setType("Bin")
+                ->setSize("12 yd")
+                ->setAugmentation("Locks")
                 ->setStatus("Damaged")
                 ->setReasonForStatus("Everything normal")
                 ->setProperty($property2)
