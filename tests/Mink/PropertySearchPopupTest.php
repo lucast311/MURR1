@@ -94,7 +94,7 @@ class PropertySearchPopupTest extends WebTestCase
         $advancedSearchBtn->click();
 
         // WAIT for the page to load, otherwise it will be empty when mink tries to use it.
-        $this->session->wait(1000);
+        $this->session->wait(2000);
 
         // Get the names of all the windows AGAIN, so we can figure out which one is new
         $newWindowNames = $this->session->getWindowNames();
@@ -159,14 +159,14 @@ class PropertySearchPopupTest extends WebTestCase
         // Click on the select box so it opens
         $page->find('css', ".select2-selection, .select2-selection--single")->click();
         // Check that the select box contains a specific property
-        $this->assertContains("Charlton Legs", $page->find('css', ".select2-results")->getHtml());
+        $this->assertContains("12 15th st east", $page->find('css', ".select2-results")->getHtml());
         // Get the search box for the drop down and search for something to narrow the results
-        $page->find('css', ".select2-search__field")->setValue("Charlton Arms");
+        $page->find('css', ".select2-search__field")->setValue("Test ST");
         // Now assert that the property is gone
-        $this->assertNotContains("Charlton Legs", $page->find('css', ".select2-results")->getHtml());
+        $this->assertNotContains("12 15th st east", $page->find('css', ".select2-results")->getHtml());
 
         // Assert that the searched for property is still there
-        $this->assertContains("Charlton Arms", $page->find('css', ".select2-results")->getHtml());
+        $this->assertContains("Test ST", $page->find('css', ".select2-results")->getHtml());
 
     }
 

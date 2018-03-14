@@ -19,12 +19,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
  */
 class ContactAddPropertyType extends AbstractType
 {
-    private $contact;
-
-    public function __construct(Contact $contact)
-    {
-        $this->contact = $contact;
-    }
 
     /**
      * Builds the form for associating a property to a contact

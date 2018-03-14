@@ -51,7 +51,7 @@ class ContactController extends Controller
                 //if the property is already associated, add an error
                 if(in_array($property, $contact->getProperties()->toArray()))
                 {
-                    $form->addError(new FormError('The contact is already associated to the selected property'));
+                    $form->addError(new FormError('This contact is already associated to the selected property'));
                 }
                 else
                 {

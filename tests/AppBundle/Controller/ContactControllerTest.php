@@ -777,7 +777,7 @@ class ContactControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/contact/24");
 
         // "456 West Street" is in the list of properties
-        $this->assertContains("456 West Street", $client->getResponse()->getContent());
+        $this->assertContains("456 West Street", $crawler->filter("#associatedProperties")->html());
 
         //get the form for the add button
         $form = $crawler->selectButton('rmb1')->form();
@@ -786,7 +786,7 @@ class ContactControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         // "Balla Highrize" has been removed
-        $this->assertNotContains("456 West Street", $client->getResponse()->getContent());
+        $this->assertNotContains("456 West Street", $crawler->filter("#associatedProperties")->html());
     }
 
     /**
@@ -806,22 +806,7 @@ class ContactControllerTest extends WebTestCase
         $this->assertContains("Contact Search", $client->getResponse()->getContent());
     }
 
-    /**
-     * Story 4k
-     * Tests that a user is redirected to the Contact Search page when the add fails (user goes straight to the remove url)
-     */
-    public function testAssociatePropertyAddURLFailure()
-    {
-        // Create a client,
-        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
-        $client->followRedirects(true);
 
-        // User goes straight to the add properties url
-        $client->request('GET', "/contact/addpropertytocontact");
-
-        // Check that we are on the Contact Search page based on the header on the page
-        $this->assertContains("Contact Search", $client->getResponse()->getContent());
-    }
 
     /**
      * Story 4k
@@ -847,7 +832,7 @@ class ContactControllerTest extends WebTestCase
         $tableRows->each(function ($node, $i) {
             //COME BACK TO
         });
-        
+
     }
 
 
