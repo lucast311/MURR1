@@ -27,69 +27,88 @@ class TruckController extends Controller
      */
     public function indexAction(Request $request)
     {
+        // Get the entity manager so we can interact with trucks in the DB
         $em = $this->getDoctrine()->getManager();
 
+        // Grab all trucks in the Truck table
         $trucks = $em->getRepository(Truck::class)->findAll();
         $formTruck = new Truck();
 
         $filterForm = $this->createFormBuilder()
             ->setAction($this->generateUrl('truck_filter'))
             ->getForm();
-
-            //$this->createForm(TruckType::class, $formTruck);
         $filterForm->handleRequest($request);
+        // Create a default filterQuery with nothing in it
         $filterQuery="";
+        // If the user has typed in the filter box
         if($filterForm->isSubmitted())
         {
+            // Set the filterQuery to be the information in the filter box
             $filterQuery = $filterForm->getData();
+
+            // REMOVE
             var_dump($filterQuery);
         }
 
+
+        // Adding a new truck
+        // Create a Truck form so the user can add trucks on the index page
         $addform = $this->createForm(TruckType::class, $formTruck);
         $addform->handleRequest($request);
+
+        $showSuccess = false;
+
+        // If the user has entered valid information and clicked the "Add" button
         if ($addform->isSubmitted() && $addform->isValid())
         {
+            // Get the ID that the user has set and pad it if it isn't 6 characters already
             $formTruck->setTruckId(
                 str_pad($formTruck->getTruckId(), 6, "0", STR_PAD_LEFT));
 
             $truckIdExists = false;
-            //loop through the existing trucks
+            // loop through the existing trucks
             foreach ($trucks as $truck)
             {
-                //if the truckId already exists, break and indiciate error
+                //if the truckId already exists, break and indicate error
                 if($formTruck->getTruckId() === $truck->getTruckId()){
                     $truckIdExists = true;
                     break;
                 }
             }
 
-            //Add custom error to form
-            if($truckIdExists){
+            // Add custom error to form
+            if($truckIdExists)
+            {
                 $addform->addError(new FormError('A Truck with the ID; [truckId] has already been added.'));
             }
-            else{
-                //refresh the trucks
+            else
+            {
+                // refresh the trucks
                 $repo = $em->getRepository(Truck::class);
-                $repo->save($formTruck);
-                //refresh the trucks to display the new one
-                //And since the trucks are set to cascade refresh it will reload them too
+                $truckId = $repo->save($formTruck);
+                /* refresh the trucks to display the new one.
+                  Because the trucks are set to cascade refresh it will reload them too */
                 $trucks = $repo->findAll();
                 foreach ($trucks as $truck)
                 {
                     $em->refresh($truck);
                 }
 
-                //Wipe the form by creating a new one
+                // Wipe the form by creating a new one
                 $formTruck = new Truck();
                 $addform = $this->createForm(TruckType::class, $formTruck);
+
+                // Add a success message above the form
+                $showSuccess = true;
             }
         }
 
         return $this->render('truck/util.html.twig',
             array('form'=>$addform->createView(),
-             'filterform'=>$filterForm->createView(),//$filterForm->createView(),
+             'filterform'=>$filterForm->createView(),
              'formTruck'=>$formTruck,
-             'trucks'=>$trucks));
+             'trucks'=>$trucks,
+             'showSuccess'=>$showSuccess));
     }
 
     /**
@@ -99,25 +118,25 @@ class TruckController extends Controller
      * @Route("/new", name="truck_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
-    {
-        $truck = new Truck();
-        $form = $this->createForm('AppBundle\Form\TruckType', $truck);
-        $form->handleRequest($request);
+    //public function newAction(Request $request)
+    //{
+    //    $truck = new Truck();
+    //    $form = $this->createForm('AppBundle\Form\TruckType', $truck);
+    //    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($truck);
-            $em->flush();
+    //    if ($form->isSubmitted() && $form->isValid()) {
+    //        $em = $this->getDoctrine()->getManager();
+    //        $em->persist($truck);
+    //        $em->flush();
 
-            return $this->redirectToRoute('truck_show', array('id' => $truck->getId()));
-        }
+    //        return $this->redirectToRoute('truck_show', array('id' => $truck->getId()));
+    //    }
 
-        return $this->render('truck/new.html.twig', array(
-            'truck' => $truck,
-            'form' => $form->createView(),
-        ));
-    }
+    //    return $this->render('truck/new.html.twig', array(
+    //        'truck' => $truck,
+    //        'form' => $form->createView(),
+    //    ));
+    //}
 
     /**
      * Displays a form to edit an existing truck entity.
@@ -152,32 +171,17 @@ class TruckController extends Controller
      * @Route("/{id}", name="truck_removal")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Truck $truck)
-    {
-        $form = $this->createDeleteForm($truck);
-        $form->handleRequest($request);
+    //public function deleteAction(Request $request, Truck $truck)
+    //{
+    //    $form = $this->createDeleteForm($truck);
+    //    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($truck);
-            $em->flush();
-        }
+    //    if ($form->isSubmitted() && $form->isValid()) {
+    //        $em = $this->getDoctrine()->getManager();
+    //        $em->remove($truck);
+    //        $em->flush();
+    //    }
 
-        return $this->redirectToRoute('truck_index');
-    }
-
-    /**
-     * Creates a form to delete a truck entity.
-     *
-     * @param Truck $truck The truck entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Truck $truck)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('truck_delete', array('id' => $truck->getId())))
-            ->setMethod('DELETE')
-            ->getForm();
-    }
+    //    return $this->redirectToRoute('truck_index');
+    //}
 }

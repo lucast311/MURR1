@@ -12,46 +12,6 @@ use AppBundle\Entity\Truck;
  */
 class TruckRepository extends \Doctrine\ORM\EntityRepository
 {
-    // Save/update
-    
-    /**
-     * Story 40a
-     * @param Truck $truck truck to be inserted
-     * @return integer the ID of the inserted truck
-     */
-    /*
-    public function save(Truck $truck){
-        $em = $this->getEntityManager();
-        // persist the new truck in the database
-        $em->persist($truck);
-        // flush them to the database
-        $em->flush();
-        //Close the entity manager
-        // return the id of the new truck in the database
-        return $truck->getId();
-    }
-    */
-    // Remove
-    /**
-     * Story 40a
-     * @param mixed $truck The Truck to be deleted
-     * Removes a truck from the database
-     */
-    /*
-    public function remove($truck){
-        
-        //get entity manager
-        $em = $this->getEntityManager();
-
-        //remove the item
-        $em->remove($pickup);
-
-        //flush (commit) transaction
-        $em->flush();
-        
-    }
-    */
-
     // Find All
     /**
      * Story 40a
@@ -59,9 +19,10 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
      * @param $sortField field to sort truckss by
      * @return array of all trucks
      */
-    public function findAll($sortField = "truckId"){
-        return $this->findBy(array(), array("$sortField" => "ASC"));
-    }
+    //public function findAll($sortField = "truckId")
+    //{
+    //    return $this->findBy(array(), array("$sortField" => "ASC"));
+    //}
 
     // Search
     /**
