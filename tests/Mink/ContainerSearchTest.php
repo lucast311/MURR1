@@ -184,7 +184,7 @@ class ContainerSearchTest extends WebTestCase
         $this->session->wait(5000);
 
         // Make sure autocomplete options show up (select on the CSS)
-        $this->assertNotNull($page->find('css', ".results.transition.visible"));
+        $this->assertTrue($page->find('css', ".results.transition")->isVisible());
         // Results we expect back
         $expectedResults = array("Active", "Ack Street");
         // Make sure we get the results we expect
@@ -200,7 +200,7 @@ class ContainerSearchTest extends WebTestCase
         $this->session->wait(500);
 
         // Assert the complete went away
-        $this->assertNotNull($page->find('css', "div.results.transition.hidden"));
+        $this->assertFalse($page->find('css', "div.results.transition")->isVisible());
     }
 
     /**
@@ -217,7 +217,7 @@ class ContainerSearchTest extends WebTestCase
         // Click the delete button
         $page->find('named', array('button', "Delete"))->click();
         // Make sure a modal pops up
-        $this->assertNotNull($page->find('css', "div.ui.dimmer.modals.page.transition.visible.active"));
+        $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
 
         // Click the delete button
         $page->find('css', 'div.ui.red.ok.inverted.button')->click();

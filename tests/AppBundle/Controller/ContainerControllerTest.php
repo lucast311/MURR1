@@ -358,13 +358,11 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->request('GET',"/");
 
         // Assert that the link exists on in the nav
-        $this->assertContains('href="/container"',$client->getResponse()->getContent());
-        //$this->assertGreaterThan(0,$crawler->filter('html:contains("href="/container"")')->count());
+        $this->assertContains('href="/container"',$crawler->filter(".ui.inverted.sidebar.vertical.menu")->html());
 
         // Go to the container page and assert that the link to the search page also exists there
         $crawler = $client->request('GET',"/container");
-        $this->assertContains('href="/container/search"',$client->getResponse()->getContent());
-        //$this->assertGreaterThan(0,$crawler->filter('html:contains("href="/container/search")')->count());
+        $this->assertContains('href="/container/search"',$crawler->filter("div.ui.container")->html());
 
     }
 
