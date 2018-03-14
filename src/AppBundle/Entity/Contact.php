@@ -133,7 +133,6 @@ class Contact
      * Contacts have many properties
      *@ORM\ManyToMany(targetEntity="Property", inversedBy="contacts", cascade={"persist"}, fetch="EAGER")
      *@ORM\JoinTable(name="contact_properties")
-     *@ORM\OrderBy({"propertyName"="ASC"})
      *@var ArrayCollection
      */
     private $properties;
@@ -409,7 +408,14 @@ class Contact
      */
     public function getProperties()
     {
-        return $this->properties;
+        $iterator = $this->properties->getIterator();
+
+        $iterator->uasort(
+            function($a, $b){
+                return ($a->getAddress()->getStreetAddress() < $b->getAddress()->getStreetAddress()) ? -1 : 1;
+            });
+
+        return new ArrayCollection(iterator_to_array($iterator));
     }
     /**
      * Sets the associated properties

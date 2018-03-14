@@ -62,6 +62,8 @@ class ContactController extends Controller
 
 
                     $contactRepo->save($contact);
+
+
                 }
             }
         }
@@ -182,6 +184,8 @@ class ContactController extends Controller
             if($request->request->has('appbundle_propertyToContact'))
             {
                 $this->handleAddProperty($request, $addPropertyForm);
+                $em = $this->getDoctrine()->getManager();
+                $em->refresh($contact);
             }
         }
 
