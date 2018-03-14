@@ -41,6 +41,13 @@
     {{ form_widget(form) }}
     {{ form_end(form) }}
 
+	{{ form_start(filterform) }}
+    <div>
+        <h3>Filter List:</h3>
+    </div>
+    {{ form_widget(filterform) }}
+    {{ form_end(filterform) }}
+
     <table class="trucks">
         <thead>
             <tr>
