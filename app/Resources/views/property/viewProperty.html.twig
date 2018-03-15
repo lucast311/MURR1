@@ -93,8 +93,8 @@
         <table class="contacts associations" border="1">
             <thead>
                 <tr>
-                    <th>Role</th>
                     <th>Name</th>
+                    <th>Role</th>
                     <th>Phone</th>
                     <th>Email</th>
                     <th>Organization</th>
@@ -103,8 +103,8 @@
                 <tbody>
                 {% for contact in property.contacts %}
                 <tr>
-                    <td>{{contact.role}}</td>
                     <td>{{contact.firstName}} {{contact.lastName}}</td>
+                    <td>{{contact.role}}</td>                    
                     <td>{{contact.primaryPhone}}</td>
                     <td>{{contact.emailAddress}}</td>
                     <td>{{contact.companyName}}</td>

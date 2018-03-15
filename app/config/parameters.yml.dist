@@ -2,7 +2,7 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host: 192.168.133.128
+    database_host: 192.168.8.128
     database_port: ~
     database_name: MURRDATA
     database_user: root
