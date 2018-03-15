@@ -112,7 +112,7 @@ class ContainerControllerTest extends WebTestCase
 
         $this->assertContains('Edit Container 123457', $client->getResponse()->getContent());
 
-       
+
     }
 
     /**
@@ -308,7 +308,7 @@ class ContainerControllerTest extends WebTestCase
         $repository->containerSearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{"id":1,"containerSerial":"123457","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels"}]', $client->getResponse()->getContent());
+        $this->assertContains('[{"id":1,"containerSerial":"123457","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"}]', $client->getResponse()->getContent());
     }
 
     /**
@@ -342,6 +342,28 @@ class ContainerControllerTest extends WebTestCase
 
         // assert that what we expect is actually returned
         $this->assertContains('[]', $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 12e
+     * Test that the nav link for the container search exists
+     */
+    public function testSearchNavLinkExists()
+    {
+        // create a client so we can view the page
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        // create a crawler for the  main page to check the nav link
+        $crawler = $client->request('GET',"/");
+
+        // Assert that the link exists on in the nav
+        $this->assertContains('href="/container"',$crawler->filter(".ui.inverted.sidebar.vertical.menu")->html());
+
+        // Go to the container page and assert that the link to the search page also exists there
+        $crawler = $client->request('GET',"/container");
+        $this->assertContains('href="/container/search"',$crawler->filter("div.ui.container")->html());
+
     }
 
     protected function tearDown()

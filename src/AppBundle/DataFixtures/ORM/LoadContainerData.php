@@ -39,7 +39,15 @@ class LoadContainerData implements FixtureInterface
                 ->setProvince('Saskatchetest')
                 ->setCountry('Testnada');
 
+            $address2 = (new Address())
+                ->setStreetAddress("Ack Street")
+                ->setPostalCode('R3E 3E3')
+                ->setCity('Regina')
+                ->setProvince('Ontario')
+                ->setCountry('USA');
+
             $addressFixtureLoader = new LoadAddressData($address);
+            $addressFixtureLoader = new LoadAddressData($address2);
 
             $addressFixtureLoader->load($obMan);
 
@@ -55,7 +63,19 @@ class LoadContainerData implements FixtureInterface
                 ->setNeighbourhoodId("O48")
                 ->setAddress($address);
 
+            $property2 = (new Property())
+                ->setSiteId((2363777))
+                ->setPropertyName("NewTestProp")
+                ->setPropertyType("Townhouse Condo")
+                ->setPropertyStatus("Active")
+                ->setStructureId(545677)
+                ->setNumUnits(14)
+                ->setNeighbourhoodName("Evergreen")
+                ->setNeighbourhoodId("O49")
+                ->setAddress($address2);
+
             $PropertyFixtureLoader = new LoadPropertyData($property);
+            $PropertyFixtureLoader = new LoadPropertyData($property2);
 
             $PropertyFixtureLoader->load($obMan);
 
@@ -83,7 +103,28 @@ class LoadContainerData implements FixtureInterface
                 ->setProperty($property)
                 ->setStructure($structure);
 
+
+
             $obMan->persist($this->container);
+
+            $obMan->flush();
+
+            $this->container = (new Container())
+                ->setFrequency("daily")
+                ->setContainerSerial("888888")
+                ->setLocationDesc("North-East side")
+                ->setLon("51")
+                ->setLat("56")
+                ->setType("Bin")
+                ->setSize("12 yd")
+                ->setAugmentation("Locks")
+                ->setStatus("Damaged")
+                ->setReasonForStatus("Everything normal")
+                ->setProperty($property2)
+                ->setStructure($structure);
+
+            $obMan->persist($this->container);
+
             $obMan->flush();
         }
         else

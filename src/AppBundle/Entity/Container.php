@@ -225,7 +225,7 @@ class Container
     /**
      * Get type
      *
-     * @return string
+     * @return Property
      */
     public function getProperty()
     {
@@ -393,6 +393,24 @@ class Container
         return array('Monthly' => 'Monthly',
                      'Weekly' => 'Weekly',
                      'Twice weekly' => 'Twice weekly');
+    }
+
+    /**
+     * Story 12e
+     * Returns the properties to string. This is done because property cannot be serialized
+     *  outside of it's controller
+     * @return mixed
+     */
+    public function getPropertyToString()
+    {
+        if($this->property != null)
+        {
+            return $this->property->__toString();
+        }
+        else
+        {
+            return "N/A";  
+        }
     }
 
     public function __toString()

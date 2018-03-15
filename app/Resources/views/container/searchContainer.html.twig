@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Property Search{% endblock %}
+{% block title %}Container Search{% endblock %}
 
 {% block javascripts %}
 {# include Knockout to make the search script works #}
@@ -12,9 +12,9 @@
 
 {% block body %}
 {# magic invisible div that allows us to pass information to the search script #}
-<div class="js-jsonpage" data-jsonpage="{{ path('property_jsonsearch_empty') }}"></div>
+<div class="js-jsonpage" data-jsonpage="{{ path('container_jsonsearch_empty') }}"></div>
 <div class="js-isPopup" data-ispopup="{{isPopup}}"></div>
-<h2>Property Search</h2>
+<h2>Container Search</h2>
 
 <div class="ui search">
     <input type="text" id="searchBox" class="prompt" maxlength="100" placeholder="Search..." />
@@ -26,25 +26,29 @@
 <table hidden class="ui selectable celled table">
     <thead>
         <tr>
-            <th>Site ID</th>
-            <th>Property</th>
+            <th>Serial</th>
+            <th>Frequency</th>
+            <th>Address</th>
+            <th>Location</th>
             <th>Type</th>
+            <th>Size</th>
             <th>Status</th>
-            <th>Structure Id</th>
-            <th>Units</th>
-            <th>Neighbourhood</th>
-          {#<th>Address??</th>#}
         </tr>
     </thead>
     <tbody data-bind="foreach: results">
         <tr data-bind="attr:{'data-id': id}">
-            <td data-bind="text: siteId"></td>
-            <td data-bind="text: propertyName"></td>
-            <td data-bind="text: propertyType"></td>
-            <td data-bind="text: propertyStatus"></td>
-            <td data-bind="text: structureId"></td>
-            <td data-bind="text: numUnits"></td>
-            <td data-bind="text: neighbourhoodName"></td>
+            <td data-bind="text: containerSerial"></td>
+            <td data-bind="text: frequency"></td>
+            <td data-bind="text: propertyToString"></td>
+            <td data-bind="text: locationDesc"></td>
+            <td data-bind="text: type"></td>
+            <td data-bind="text: size"></td>
+            <td data-bind="text: status"></td>
+            {#{%if isPopup%}
+            <td><a href="#" class="popupSelectButton" data-bind="attr: {'data-id': id}">Select</a></td>
+            {% else %}
+            <td><a data-bind="attr: {href: '{{ viewURL }}' + id}">View</a></td>
+            {% endif %}#}
         </tr>
     </tbody>
 </table>

@@ -128,10 +128,10 @@ class PropertySearchPopupTest extends WebTestCase
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
         $this->session->wait(5000);
 
-        // click the first link for one of the results
-        $selectLink = $page->find('named', array('link', "Select"));
+        // click the first row for one of the results
+        $selectLink = $page->find('named', array('content', "3593843"));
         // Before we click the link, take the id of the property we clicked.
-        $id = $selectLink->getAttribute("data-id");
+        $id = $selectLink->getParent()->getAttribute("data-id");
         //Click the link
         $selectLink->click();
 

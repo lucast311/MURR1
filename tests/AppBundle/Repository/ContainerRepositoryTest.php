@@ -80,7 +80,7 @@ class ContainerRepositoryTest extends KernelTestCase
         $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(2, sizeof($results));
+        $this->assertEquals(3, sizeof($results));
     }
 
     /**
@@ -197,7 +197,7 @@ class ContainerRepositoryTest extends KernelTestCase
         $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals(2, sizeof($results));
     }
 
     /**
@@ -237,7 +237,7 @@ class ContainerRepositoryTest extends KernelTestCase
         $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals(2, sizeof($results));
     }
 
     /**
@@ -257,7 +257,7 @@ class ContainerRepositoryTest extends KernelTestCase
         $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(2, sizeof($results));
+        $this->assertEquals(3, sizeof($results));
     }
 
     /**
@@ -278,7 +278,7 @@ class ContainerRepositoryTest extends KernelTestCase
         $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(4, sizeof($results));
+        $this->assertEquals(5, sizeof($results));
     }
 
     /**
@@ -298,7 +298,7 @@ class ContainerRepositoryTest extends KernelTestCase
         $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(4, sizeof($results));
+        $this->assertEquals(5, sizeof($results));
     }
 
     /**
@@ -359,7 +359,7 @@ class ContainerRepositoryTest extends KernelTestCase
         $results = $repo->containerSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(1, sizeof($results));
+        $this->assertEquals(2, sizeof($results));
     }
 
     /**
