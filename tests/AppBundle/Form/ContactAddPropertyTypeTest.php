@@ -36,7 +36,6 @@ class ContactAddPropertyTypeTest extends TypeTestCase
      */
     public function testSubmitData()
     {
-
         //specify a property for the form data
         $property = (new Property())
            ->setSiteId(333666999)

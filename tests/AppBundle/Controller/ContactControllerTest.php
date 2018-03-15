@@ -715,31 +715,6 @@ class ContactControllerTest extends WebTestCase
 
     /**
      * Story 4k
-     * Tests that an error message is displayed if the id is invalid
-     */
-    public function testAssociatePropertyFailure()
-    {
-        // Create a client,
-        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
-        $client->followRedirects(true);
-
-        // Go to the contact view page for Bill Smith
-        $crawler = $client->request('GET', "/contact/23");
-
-        //get the form for the add button
-        $form = $crawler->selectButton('Add')->form();
-
-        //select a property that doesn't exist
-        $form['appbundle_propertyToContact[property]'] = 999;
-
-        //submit the form
-        $crawler = $client->submit($form);
-
-        $this->assertContains("The selected property does not exist", $client->getResponse()->getContent());
-    }
-
-    /**
-     * Story 4k
      * Tests that an error message is displayed if the property is already associated (the first property "Balla Highrize" is already associated)
      */
     public function testAssociatePropertyDuplicateFailure()
@@ -826,44 +801,18 @@ class ContactControllerTest extends WebTestCase
         ////check that thug muny apts is in the second row because it should come after Balla Highrize
         //$this->assertContains('Thug Muny Apts.', $crawler->filter('#associatedProperties tr:nth-child(2)')->html());
 
-        $tableRows = $crawler->filter("#associatedProperties tr");
-
+        $tableRows = $crawler->filter("#associatedProperties tr td:first-child");
 
         $tableRows->each(function ($node, $i) {
-            //COME BACK TO
+            static $previousRow;
+            if($previousRow != null)
+            {
+                $this->assertGreaterThan($previousRow->text(), $node->text());
+            }
+
+            $previousRow = $node;
         });
 
-    }
-
-
-    /**
-     * Story 4k
-     * Tests that a property row can be clicked on to go to a property view page
-     */
-    public function testAssociatedPropertyLink()
-    {
-        // Create a client,
-        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
-        $client->followRedirects(true);
-
-        // Go to the contact view page for Bill Jones
-        $crawler = $client->request('GET', "/contact/24");
-
-        // "Balla Highrize" is in the list of properties
-        $this->assertContains("Balla Highrize", $client->getResponse()->getContent());
-
-        //get the link to Balla Highrize
-        $link = $crawler->selectLink('Balla Highrize')->link();
-
-        //Click that link
-        $client->click($link);
-
-        $content = $client->getResponse()->getContent();
-
-        //check that we are on the view property page for Balla Highrize (name and siteid)
-        $this->assertContains("View Property", $content);
-        $this->assertContains("Balla Highrize",$content);
-        $this->assertContains("333666999",$content);
     }
 
     /**
