@@ -12,10 +12,18 @@ use AppBundle\Entity\Address;
 use AppBundle\Entity\Property;
 use AppBundle\DataFixtures\ORM\LoadUserData;
 use Doctrine\Common\Collections\ArrayCollection;
+use Tests\AppBundle\DatabasePrimer;
 
 class ContactControllerTest extends WebTestCase
 {
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
     /**
      * (@inheritDoc)
@@ -23,6 +31,14 @@ class ContactControllerTest extends WebTestCase
     protected function setUp()
     {
         self::bootKernel();
+
+        //self::bootKernel();
+        //$this->em = static::$kernel->getContainer()
+        //    ->get('doctrine')
+        //    ->getManager();
+
+
+
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();

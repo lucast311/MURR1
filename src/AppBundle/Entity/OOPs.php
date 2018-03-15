@@ -37,7 +37,7 @@ class OOPs
      * the problem classification affecting the bin
      * @var string
      * @ORM\Column(type="string")
-     * @Assert\Choice(callback="getProblemOptions", message = "Please select a problem type")
+     * @Assert\Choice(strict=true, callback="getProblemOptions", message = "Please select a problem type")
      */
     private $problemType;
 
@@ -45,7 +45,7 @@ class OOPs
      * the current status of the response to the notice
      * @var string
      * @ORM\Column(type="string")
-     * @Assert\Choice(callback="getStatusOptions", message = "Please select the current OOPs status")
+     * @Assert\Choice(strict=true, callback="getStatusOptions", message = "Please select the current OOPs status")
      */
     private $status;
 

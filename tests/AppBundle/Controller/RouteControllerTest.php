@@ -29,6 +29,7 @@ class RouteControllerTest extends WebTestCase
     protected function setUp()
     {
         self::bootKernel();
+
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();

@@ -28,7 +28,7 @@ class Container
      * @var int
      *
      * @ORM\Column(name="frequency", type="string", nullable=true)
-     * @Assert\Choice(callback="FrequencyChoices", message = "Please select frequency type")
+     * @Assert\Choice(strict=true, callback="FrequencyChoices", message = "Please select frequency type")
      */
     private $frequency;
 
@@ -53,15 +53,15 @@ class Container
     /**
      * @var float
      *
-     * @ORM\Column(name="Long", type="string", length=100, nullable=true)
+     * @ORM\Column(name="lon", type="float", length=100, nullable=true)
      * @Assert\Range(min=-180,max=180,minMessage="Longitude must be higher than or equal to -180", maxMessage="Longitude must be lower than or equal to 180")
      */
-    private $long;
+    private $lon;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="lat", type="string", nullable=true)
+     * @ORM\Column(name="lat", type="float", length=100, nullable=true)
      * @Assert\Range(min=-90,max=90,minMessage="Latitude must be more than or equal to -90", maxMessage="Lattitude must be lower than or equal to 90")
      */
     private $lat;
@@ -72,7 +72,7 @@ class Container
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=50)
-     * @Assert\Choice(callback="TypeChoices", message = "Please select bin Type")
+     * @Assert\Choice(strict=true, callback="TypeChoices", message = "Please select bin Type")
      * @Assert\NotNull()
      */
     private $type;
@@ -89,7 +89,7 @@ class Container
     /**
      * @var string
      * @ORM\Column(name="status", type="string", length=50)
-     * @Assert\Choice(callback="StatusChoices", message = "Please select bin status")
+     * @Assert\Choice(strict=true, callback="StatusChoices", message = "Please select bin status")
      */
     private $status;
 
@@ -209,15 +209,15 @@ class Container
     }
 
     /**
-     * Set long
+     * Set lon
      *
-     * @param string $long
+     * @param float $lon
      *
      * @return Container
      */
-    public function setLong($long)
+    public function setLon($lon)
     {
-        $this->long = $long;
+        $this->lon = $lon;
 
         return $this;
     }
@@ -225,7 +225,7 @@ class Container
     /**
      * Get type
      *
-     * @return string
+     * @return Property
      */
     public function getProperty()
     {
@@ -233,9 +233,9 @@ class Container
     }
 
     /**
-     * Set long
+     * Set property
      *
-     * @param string $long
+     * @param string $property
      *
      * @return Container
      */
@@ -247,19 +247,19 @@ class Container
     }
 
     /**
-     * Get long
+     * Get lon
      *
-     * @return string
+     * @return float
      */
-    public function getLong()
+    public function getLon()
     {
-        return $this->long;
+        return $this->lon;
     }
 
     /**
      * Set lat
      *
-     * @param string $lat
+     * @param float $lat
      *
      * @return Container
      */
@@ -395,9 +395,27 @@ class Container
                      'Twice weekly' => 'Twice weekly');
     }
 
+    /**
+     * Story 12e
+     * Returns the properties to string. This is done because property cannot be serialized
+     *  outside of it's controller
+     * @return mixed
+     */
+    public function getPropertyToString()
+    {
+        if($this->property != null)
+        {
+            return $this->property->__toString();
+        }
+        else
+        {
+            return "N/A";  
+        }
+    }
+
     public function __toString()
     {
-        return $this->containerSerial; 
+        return $this->containerSerial;
     }
 }
 

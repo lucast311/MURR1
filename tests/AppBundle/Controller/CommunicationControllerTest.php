@@ -9,7 +9,7 @@ use AppBundle\Entity\Address;
 use AppBundle\DataFixtures\ORM\LoadUserData;
 use AppBundle\DataFixtures\ORM\LoadCommunicationData;
 use DateTime;
-use Tests\AppBundle\DatabasePrimer; 
+use Tests\AppBundle\DatabasePrimer;
 //use Doctrine\Common\Persistence\ObjectRepository;
 
 class CommunicationControllerTest extends WebTestCase
@@ -29,6 +29,7 @@ class CommunicationControllerTest extends WebTestCase
     protected function setUp()
     {
         self::bootKernel();
+
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();

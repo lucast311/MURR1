@@ -5,7 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\CollectionHistory;
 use AppBundle\Entity\Container;
 use AppBundle\DataFixtures\ORM\LoadUserData;
-use Tests\AppBundle\DatabasePrimer; 
+use Tests\AppBundle\DatabasePrimer;
 /**
 	* CollectionHistoryControllerTest short summary.
 	*
@@ -28,6 +28,7 @@ class CollectionHistoryControllerTest extends WebTestCase
     protected function setUp()
     {
         self::bootKernel();
+
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();

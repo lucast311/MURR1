@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Container;
 use AppBundle\DataFixtures\ORM\LoadUserData;
 use AppBundle\DataFixtures\ORM\LoadContainerData;
+use Tests\AppBundle\DatabasePrimer;
 
 /**
  * ContainerControllerTest short summary.
@@ -20,9 +21,17 @@ class ContainerControllerTest extends WebTestCase
 {
     private $em;
 
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
+
     protected function setUp()
     {
         self::bootKernel();
+
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
@@ -55,7 +64,7 @@ class ContainerControllerTest extends WebTestCase
         $form['appbundle_container[locationDesc]'] = 'Near backdoor';
         $form['appbundle_container[type]'] = 'Bin';
         $form['appbundle_container[size]'] = '6';
-        $form['appbundle_container[long]'] = '10';
+        $form['appbundle_container[lon]'] = '10';
         $form['appbundle_container[lat]'] = '25';
         $form['appbundle_container[status]'] = 'Active';
         $form['appbundle_container[reasonForStatus]'] = 'Test reason';
@@ -188,7 +197,7 @@ class ContainerControllerTest extends WebTestCase
         $contanier->setFrequency('Weekly')
             ->setContainerSerial('123456')
             ->setLocationDesc("South side of building")
-            ->setLong(87)
+            ->setLon(87)
             ->setLat(88)
             ->setType("Cart")
             ->setSize("6 yd")
@@ -299,7 +308,7 @@ class ContainerControllerTest extends WebTestCase
         $repository->containerSearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{"id":1,"containerSerial":"123457","locationDesc":"South-west side","type":"Cart","long":"87","lat":"88","reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels"}]', $client->getResponse()->getContent());
+        $this->assertContains('[{"id":1,"containerSerial":"123457","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"}]', $client->getResponse()->getContent());
     }
 
     /**
@@ -333,6 +342,28 @@ class ContainerControllerTest extends WebTestCase
 
         // assert that what we expect is actually returned
         $this->assertContains('[]', $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 12e
+     * Test that the nav link for the container search exists
+     */
+    public function testSearchNavLinkExists()
+    {
+        // create a client so we can view the page
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        // create a crawler for the  main page to check the nav link
+        $crawler = $client->request('GET',"/");
+
+        // Assert that the link exists on in the nav
+        $this->assertContains('href="/container"',$crawler->filter(".ui.inverted.sidebar.vertical.menu")->html());
+
+        // Go to the container page and assert that the link to the search page also exists there
+        $crawler = $client->request('GET',"/container");
+        $this->assertContains('href="/container/search"',$crawler->filter("div.ui.container")->html());
+
     }
 
     protected function tearDown()

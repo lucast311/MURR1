@@ -4,7 +4,7 @@ namespace tests\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\EduMat;
 use AppBundle\DataFixtures\ORM\LoadUserData;
-use Tests\AppBundle\DatabasePrimer; 
+use Tests\AppBundle\DatabasePrimer;
 
 /**
  * story14a_csr_user_creates_new_educational_material - Tests
@@ -486,7 +486,7 @@ class EduMatFormControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         // Test to see if our error message is on has appeared.
-        $this->assertCount(2, $crawler->filter('li'));
+        $this->assertCount(2, $crawler->filter('div.item'));
     }
 
     /**

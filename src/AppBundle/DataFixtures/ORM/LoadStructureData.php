@@ -28,9 +28,7 @@ class LoadStructureData implements FixtureInterface
     public function load(ObjectManager $obMan)
     {
         if(is_null($this->structure))
-        {
-           
-        }
+        {}
         else
         {
             $obMan->persist($this->structure);

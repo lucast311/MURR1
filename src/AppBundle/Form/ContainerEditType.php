@@ -25,7 +25,7 @@ class ContainerEditType extends AbstractType
             ->add('reasonForStatus')
             ->add('frequency', ChoiceType::class, array('choices'=>Container::FrequencyChoices()))
             ->add('locationDesc')
-            ->add('long')
+            ->add('lon')
             ->add('lat')
             ->add('property')
             ->add('structure');
@@ -48,6 +48,4 @@ class ContainerEditType extends AbstractType
     {
         return 'appbundle_container';
     }
-
-
 }

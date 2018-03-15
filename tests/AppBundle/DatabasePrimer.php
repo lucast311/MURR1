@@ -10,6 +10,11 @@ class DatabasePrimer
 {
     public static $entityManager;
 
+    public static function setKernel(){
+        //set the kernel dir for tests
+        $_SERVER["KERNEL_DIR"] = "./app";
+    }
+
     public static function prime(KernelInterface $kernel)
     {
         // Make sure we are in the test environment

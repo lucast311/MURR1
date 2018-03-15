@@ -21,6 +21,24 @@ use Symfony\Component\Serializer\Serializer;
 class ContainerController extends Controller
 {
     /**
+     * story12e
+     * Front end for searching for a container.
+     *
+     * @Route("/search", name="container_search")
+     * @Method("GET")
+     */
+    public function searchAction(Request $request)
+    {
+        // Get if it is in a search to view or if it is a search to insert
+        $isPopup = ($request->query->get("isPopup")) == "true" ? true : false;
+        // Render the twig with required data
+        return $this->render('container/searchContainer.html.twig', array(
+            'viewURL' => '/container/',
+            'isPopup' => $isPopup
+        ));
+    }
+
+    /**
      * Lists all container entities.
      *
      * @Route("/", name="container_index")
@@ -71,7 +89,7 @@ class ContainerController extends Controller
      */
     public function showAction($id=null)
     {
-        $repo = $this->getDoctrine()->getEntityManager()->getRepository(Container::class);
+        $repo = $this->getDoctrine()->getManager()->getRepository(Container::class);
         $container = $repo->findOneById($id);
 
         if ($container != null)
@@ -100,7 +118,7 @@ class ContainerController extends Controller
     public function editAction(Request $request, $id=null)
     {
 
-        $repo = $this->getDoctrine()->getEntityManager()->getRepository(Container::class);
+        $repo = $this->getDoctrine()->getManager()->getRepository(Container::class);
         $container = $repo->findOneById($id);
 
         if($container != null)
@@ -198,6 +216,8 @@ class ContainerController extends Controller
             // get an entity manager
             $em = $this->getDoctrine()->getManager();
 
+
+
             // Use the repository to query for the records we want.
             // Store those records into an array.
             $containerSearches = $em->getRepository(Container::class)->containerSearch($cleanQuery);
@@ -217,7 +237,7 @@ class ContainerController extends Controller
             $normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
 
             // Don't display the 'property' data as JSON. Makes it more human readable.
-            $normalizer->setIgnoredAttributes(array("property", "structure"));
+            $normalizer->setIgnoredAttributes(array("property", "structure", "address"));
             $serializer = new Serializer(array($normalizer), array($encoder));
 
             return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
@@ -226,4 +246,6 @@ class ContainerController extends Controller
         // string over 100, return empty array.
         return $this->json(array());
     }
+
+
 }

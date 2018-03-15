@@ -7,6 +7,7 @@ use AppBundle\Entity\Contact;
 use AppBundle\DataFixtures\ORM\LoadContactData;
 use AppBundle\Entity\Address;
 use AppBundle\Services\SearchNarrower;
+use Tests\AppBundle\DatabasePrimer;
 
 class ContactRepositoryTest extends KernelTestCase
 {
@@ -15,6 +16,13 @@ class ContactRepositoryTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
 
    /* public static function setUpBeforeClass()
     {

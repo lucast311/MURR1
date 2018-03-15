@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "70c2d298fb865cdcb2e9d82e68660dc6",
+    "content-hash": "4bc1d18ed6bac8b29960a4d3a0bb42f8",
     "packages": [
         {
             "name": "behat/mink",
@@ -122,16 +122,16 @@
         },
         {
             "name": "dfridrich/php-mime-type",
-            "version": "v2.0.3",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dfridrich/PhpMimeType.git",
-                "reference": "adaefb4a0de58a5c6a9c21c83ef2592e9cd28be7"
+                "reference": "3aa49c430ad7c287f8162a093ee3fb26cf2c832f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dfridrich/PhpMimeType/zipball/adaefb4a0de58a5c6a9c21c83ef2592e9cd28be7",
-                "reference": "adaefb4a0de58a5c6a9c21c83ef2592e9cd28be7",
+                "url": "https://api.github.com/repos/dfridrich/PhpMimeType/zipball/3aa49c430ad7c287f8162a093ee3fb26cf2c832f",
+                "reference": "3aa49c430ad7c287f8162a093ee3fb26cf2c832f",
                 "shasum": ""
             },
             "require": {
@@ -167,7 +167,7 @@
                 "mimetype",
                 "php"
             ],
-            "time": "2018-01-26T11:24:13+00:00"
+            "time": "2018-01-26T10:52:55+00:00"
         },
         {
             "name": "dmore/chrome-mink-driver",
@@ -1042,6 +1042,56 @@
                 "rest"
             ],
             "time": "2016-10-17T18:31:11+00:00"
+        },
+        {
+            "name": "harmony-project/ui-bundle",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/harmony-project/ui-bundle.git",
+                "reference": "b6d3bf042645f0f6fe31279cbeccb9b842921729"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/harmony-project/ui-bundle/zipball/b6d3bf042645f0f6fe31279cbeccb9b842921729",
+                "reference": "b6d3bf042645f0f6fe31279cbeccb9b842921729",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "symfony/http-kernel": "~3.0|~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Harmony\\Bundle\\UiBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tim Goudriaan",
+                    "homepage": "http://codedmonkey.com"
+                }
+            ],
+            "description": "Integrates Semantic UI 2 into the Symfony framework",
+            "homepage": "http://harmony-project.io",
+            "keywords": [
+                "semantic-ui",
+                "symfony"
+            ],
+            "time": "2017-12-06T20:31:37+00:00"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -3243,16 +3293,16 @@
         },
         {
             "name": "symfony/monolog-bundle",
-            "version": "v3.2.0",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/monolog-bundle.git",
-                "reference": "8781649349fe418d51d194f8c9d212c0b97c40dd"
+                "reference": "2b41b8b6d2c6edb1a5494f02f8e4129be2a44784"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/8781649349fe418d51d194f8c9d212c0b97c40dd",
-                "reference": "8781649349fe418d51d194f8c9d212c0b97c40dd",
+                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/2b41b8b6d2c6edb1a5494f02f8e4129be2a44784",
+                "reference": "2b41b8b6d2c6edb1a5494f02f8e4129be2a44784",
                 "shasum": ""
             },
             "require": {
@@ -3302,7 +3352,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2018-03-05T14:51:36+00:00"
+            "time": "2017-11-06T16:02:17+00:00"
         },
         {
             "name": "symfony/polyfill-apcu",
@@ -3705,16 +3755,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.4.6",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "874d4d659774d7bab90538072c83ed532dd17dc5"
+                "reference": "5220b6f9fcdee261c6fdd3e096f3b204fba5d906"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/874d4d659774d7bab90538072c83ed532dd17dc5",
-                "reference": "874d4d659774d7bab90538072c83ed532dd17dc5",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/5220b6f9fcdee261c6fdd3e096f3b204fba5d906",
+                "reference": "5220b6f9fcdee261c6fdd3e096f3b204fba5d906",
                 "shasum": ""
             },
             "require": {
@@ -3855,7 +3905,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2018-03-05T20:02:01+00:00"
+            "time": "2018-01-29T12:30:04+00:00"
         },
         {
             "name": "textalk/websocket",
@@ -4230,16 +4280,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.4.6",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "32b06d2b0babf3216e55acfce42249321a304f03"
+                "reference": "6a65b09b666f975dd70ec2bb9e9b1a87dbb02aca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/32b06d2b0babf3216e55acfce42249321a304f03",
-                "reference": "32b06d2b0babf3216e55acfce42249321a304f03",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/6a65b09b666f975dd70ec2bb9e9b1a87dbb02aca",
+                "reference": "6a65b09b666f975dd70ec2bb9e9b1a87dbb02aca",
                 "shasum": ""
             },
             "require": {
@@ -4292,7 +4342,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2018-02-14T23:24:28+00:00"
+            "time": "2018-01-21T19:05:02+00:00"
         }
     ],
     "aliases": [],

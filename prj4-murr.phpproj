@@ -102,6 +102,7 @@
     <Compile Include="src\AppBundle\Repository\AddressRepository.php" />
     <Compile Include="src\AppBundle\Repository\CollectionHistoryRepository.php" />
     <Compile Include="src\AppBundle\Repository\CommunicationRepository.php" />
+    <Compile Include="src\AppBundle\Repository\ContactPropertyRepository.php" />
     <Compile Include="src\AppBundle\Repository\ContactRepository.php" />
     <Compile Include="src\AppBundle\Repository\ContainerRepository.php" />
     <Compile Include="src\AppBundle\Repository\EduMatRepository.php" />
@@ -155,13 +156,11 @@
     <Compile Include="tests\AppBundle\Repository\CollectionHistoryRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CommunicationRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\ContactRepositoryTest.php" />
-    <Compile Include="tests\AppBundle\Repository\ContactSearchRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\ContainerRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\CSROOPsRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\PropertyRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\RoutePickupRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\RouteRepositoryTest.php" />
-    <Compile Include="tests\AppBundle\Services\ChangerTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
     <Compile Include="tests\Mink\PropertyContactRemoveTest.php" />
@@ -3320,6 +3319,7 @@
     <Folder Include="web\bundles" />
     <Folder Include="web" />
     <Folder Include="web\JavaScript\" />
+    <Folder Include="web\css\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\Resources\TwigBundle\views\Exception\error403.html.twig" />
@@ -3330,6 +3330,7 @@
     <Content Include="app\Resources\views\container\edit.html.twig" />
     <Content Include="app\Resources\views\container\index.html.twig" />
     <Content Include="app\Resources\views\container\new.html.twig" />
+    <Content Include="app\Resources\views\container\searchContainer.html.twig" />
     <Content Include="app\Resources\views\container\show.html.twig" />
     <Content Include="app\Resources\js\DeletePrompt.js" />
     <Content Include="app\Resources\views\propertySearch\propertyJSONSearches.html.twig" />
@@ -3345,6 +3346,10 @@
     <Content Include="app\Resources\views\structure\new.html.twig" />
     <Content Include="app\Resources\views\structure\show.html.twig" />
     <Content Include="app\sqlite.db" />
+    <Content Include="phpunit.xml.dist.tmppica" />
+    <Content Include="web\css\base_twig.css" />
+    <Content Include="web\JavaScript\base_twig.js" />
+    <Content Include="web\JavaScript\DeleteModal.js" />
     <Content Include="web\JavaScript\PropertySearchPopup.js" />
     <Content Include="web\JavaScript\DeletePrompt.js" />
     <Content Include="web\JavaScript\Search.js" />

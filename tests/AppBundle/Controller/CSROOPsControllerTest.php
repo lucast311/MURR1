@@ -4,6 +4,7 @@ namespace tests\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use AppBundle\DataFixtures\ORM\LoadUserData;
+use Tests\AppBundle\DatabasePrimer;
 
 /**
  * CSROOPsControllerTest short summary.
@@ -16,6 +17,14 @@ use AppBundle\DataFixtures\ORM\LoadUserData;
 class CSROOPsControllerTest extends WebTestCase
 {
     private $em;
+
+    public static function setUpBeforeClass()
+    {
+        self::bootKernel();
+        DatabasePrimer::prime(self::$kernel);
+    }
+
+
     /**
      * (@inheritDoc)
      */
