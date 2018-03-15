@@ -1,8 +1,9 @@
 <?php
-
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Truck;
+use AppBundle\Services\SearchHelper;
 
 /**
  * TruckRepository
@@ -36,14 +37,21 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
     public function truckFilter($filters=null)
     {
         $filterString = $filters['filter_list'];
-        $trucks = $this->getEntityManager()
-                        ->getRepository(Truck::class)->findAll();
+        $trucks = array();
 
-        if(!is_null($filters))
+
+        if(is_null($filterString))
         {
+            $trucks = $this->getEntityManager()
+                ->getRepository(Truck::class)->findAll();
+        }
+        else
+        {
+            $trucks = $this->getEntityManager()
+                ->getRepository(Truck::class)->truckSearch($filterString);
             $trucks[] = (new Truck())
-                        ->setTruckId("006900")
-                        ->setType("$filterString");
+                ->setTruckId("069690")
+                ->setType("FILTERED");
         }
 
         return $trucks;
@@ -59,16 +67,14 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
      */
     public function truckSearch($queryStrings)
     {
-        //DATA FROM PROPERTY REPO
-        /*// get the field names of both the Property and Address Entities.
-        $propertyClassProperties = $this->getClassMetadata('AppBundle:Property')->fieldNames;
-        $addressClassProperties = $this->getEntityManager()->getRepository('AppBundle:Address')->getClassMetadata()->fieldNames;
+        // get the field names of the Truck entity
+        $truckClassProperties = $this->getClassMetadata(Truck::class)->fieldNames;
 
         //Add all of the class properties arrays to one array
-        $classPropertiesArray = array($propertyClassProperties, $addressClassProperties);
+        $classPropertiesArray = array($truckClassProperties);
 
         //an array of abbreviations to be used in the query. These represent each join
-        $classNames = array('p', 'a');
+        $classNames = array('t');
 
         // shift off the id of each entity
         foreach ($classPropertiesArray as $array)
@@ -85,27 +91,23 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
         $records = $this->getEntityManager()->createQuery(
-        "SELECT p, a FROM AppBundle:Property p
-        LEFT OUTER JOIN AppBundle:Address a WITH p.address = a.id
+        "SELECT t FROM AppBundle:Truck t
         WHERE $classPropertiesString"
         )->getResult();
 
         // remove any NULL values from the array (NULL values are represented by non-propety objects)
         $records = array_filter($records);
 
-        $propObjects = array();
+        $truckObjects = array();
 
         foreach ($records as $record)
         {
-        	if(get_class($record) == "AppBundle\Entity\Property")
+        	if(get_class($record) == "AppBundle\Entity\Truck")
             {
-                $propObjects[] = $record;
+                $truckObjects[] = $record;
             }
         }
 
-        return $propObjects;
-        */
-        return 0;
+        return $truckObjects;
     }
-
 }

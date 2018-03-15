@@ -1,14 +1,21 @@
 <?php
-
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Truck;
 use AppBundle\Form\TruckType;
+use AppBundle\Services\Cleaner;
+use AppBundle\Services\SearchNarrower;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -30,13 +37,13 @@ class TruckController extends Controller
         // Get the entity manager so we can interact with trucks in the DB
         $em = $this->getDoctrine()->getManager();
 
-        // Grab all trucks in the Truck table
-        $trucks = $em->getRepository(Truck::class)->truckFilter(null);
         $formTruck = new Truck();
 
         $filterForm = $this->createFormBuilder()
             ->setAction($this->generateUrl('truck_manage'))
-            ->getForm()->add('filter_list');
+            ->getForm()->add('filter_list',null,
+                array('required'   => false,));
+
         $filterForm->handleRequest($request);
         // Create a default filterQuery with nothing in it
         $filterQuery=null;
@@ -135,6 +142,7 @@ class TruckController extends Controller
     //    ));
     //}
 
+    
     /**
      * Filter all trucks in the list by
      *
@@ -143,6 +151,7 @@ class TruckController extends Controller
      * @param String $filter
      * @Method({"GET", "POST"})
      */
+    /*
     public function filterAction(Request $request, $filter)
     {
         $truck = (new Truck())
@@ -165,6 +174,8 @@ class TruckController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
+    */
+
 
 
     /**
@@ -215,4 +226,78 @@ class TruckController extends Controller
 
     //    return $this->redirectToRoute('truck_index');
     //}
+
+
+    /**
+     * USELESS GARBAGE
+     * Story 40a
+     *
+     * @Route("/truck/jsonfilter/", name="truck_jsonfilter_empty")
+     * @Route("/truck/jsonfilter/{searchQuery}", name="truck_jsonfilter")
+     * @Method("GET")
+     */
+    public function jsonFilterAction($searchQuery = "")
+    {
+        // Clean the input
+        $searchQuery = htmlentities($searchQuery);
+
+        $truckSearches='';
+        $results = $this->json(array());
+
+        // if the string to query onn is less than or equal to 100 characters
+        if(strlen($searchQuery) <= 100 && sizeof($searchQuery) > 0)
+        {
+            // create a cleaner to cleanse the search query
+            $cleaner = new Cleaner();
+
+            // cleanse the query
+            $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
+
+            // get an entity manager
+            $em = $this->getDoctrine()->getManager();
+
+            // Use the repository to query for the records we want.
+            // Store those records into an array.
+            $truckSearches = $em->getRepository(Truck::class)->truckSearch($cleanQuery);
+
+            // create a SearchNarrower to narrow down our searches
+            $searchNarrower = new SearchNarrower();
+
+            // narrow down our searches, and store their values along side their field values
+            $searchedData = $searchNarrower->narrower($truckSearches, $cleanQuery, new Truck());
+
+            $encoder = new JsonEncoder();
+            $normalizer = new ObjectNormalizer();
+            $normalizer->setIgnoredAttributes(array("id","__initializer__", "__cloner__", "__isInitialized__")); //idk why i need these ones, but I do..
+            $serializer = new Serializer(array($normalizer), array($encoder));
+
+
+            // Return the results as a json object
+            // NOTE: Serializer service needs to be enabled for this to work properly
+            $results = JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
+        }
+        else
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            // Use the repository to query for the records we want.
+            // Store those records into an array.
+            $truckSearches = $em->getRepository(Truck::class)->findAll();
+            if(sizeof($truckSearches)>0)
+            {
+                $encoder = new JsonEncoder();
+                $normalizer = new ObjectNormalizer();
+                $normalizer->setIgnoredAttributes(array("id","__initializer__", "__cloner__", "__isInitialized__")); //idk why i need these ones, but I do..
+                $serializer = new Serializer(array($normalizer), array($encoder));
+                $results = JsonResponse::fromJsonString($serializer->serialize($truckSearches, 'json'));
+            }
+            else{
+                $results = $this->json(array());
+            }
+        }
+
+        // string over 100, return empty array.
+        return $results;
+    }
+    
 }
