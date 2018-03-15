@@ -1,4 +1,5 @@
 <?php
+namespace Tests\AppBundle\Repository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use AppBundle\Entity\RoutePickup;
 use AppBundle\Entity\Route;

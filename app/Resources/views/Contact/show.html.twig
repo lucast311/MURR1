@@ -1,6 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
+    <script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
+    <script>
+        $(function () {
+            initialize($('#appbundle_propertyToContact_property'));
+
+            addModal();
+            $('.removeButton').click(function () {
+                //console.log($(this));
+				var parent = $($(this).parent("form").get(0));
+				//console.log(parent);
+                showModal(parent.data('message'), parent);
+			});
+
+			$(".ui.dropdown").dropdown();
+        });
+    </script>
+
+	<style>
+		#appbundle_propertyToContact > div{
+			display: inline-block;
+		}
+	</style>
+
     <h1>View Contact</h1>
 
     <table>
@@ -84,25 +108,43 @@
 
     <h2>Property Roster</h2>
 
+    <div class="ui segment">
+	    {{ form_start(add_property_form) }}
+	    {{ form_widget(add_property_form) }}
+	    {{ form_end(add_property_form) }}
+    </div>
+
     {% if contact.properties is empty %}
     <p>No associated properties</p>
     {% else %}
 
-        <table>
-            <tr>
-                <th>Site Id</th>
-                <th>Street Address</th>
-                <th>Neighbourhood</th>
-                <th>Number of Units</th>
-                <th>Type</th>
-            </tr>
+        <table class="ui celled table" id="associatedProperties">
+            <thead>
+                <tr>
+                    <th>Street Address</th>
+                    <th>Property Name</th>
+                    <th>Site Id</th>
+                    <th>Neighbourhood</th>
+                    <th>Number of Units</th>
+                    <th>Type</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
             {%for property in contact.properties%}
             <tr>
-                <td>{{property.siteId}}</td>
-                <td>{{property.address.streetAddress}}</td>
-                <td>{{property.neighbourhoodName}}</td>
-                <td>{{property.numUnits}}</td>
-                <td>{{property.propertyType}}</td>
+                <td onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.address.streetAddress}}</td>
+                <td onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.propertyName}}</td>
+                <td onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.siteId}}</td>
+                <td onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.neighbourhoodName}}</td>
+                <td onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.numUnits}}</td>
+                <td onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.propertyType}}</td>
+                <td>
+                    <form name="appbundle_removePropertyFromContact" method="post" action="{{path('remove_property_from_contact')}}" data-message="Are you sure you want to remove {{property.address.streetAddress}}?">
+                        <input type="hidden" name="contact" value="{{contact.id}}"/>
+                        <input type="hidden" name="property" value="{{property.id}}"/>
+                        <button type="button" class="ui icon button removeButton red" id="rmb{{property.id}}"><i class="close icon"></i></button>
+                    </form>
+                </td>
             </tr>
             {%endfor%}
         </table>

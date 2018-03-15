@@ -689,6 +689,153 @@ class ContactControllerTest extends WebTestCase
     }
 
     /**
+     * Story 4k
+     * Tests that a property can be associated to a contact
+     */
+    public function testAssociatePropertySuccess()
+    {
+        // Create a client,
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        // Go to the contact view page for Bill Smith
+        $crawler = $client->request('GET', "/contact/23");
+
+        //get the form for the add button
+        $form = $crawler->selectButton('Add')->form();
+
+        //select the first property (456 West Street)
+        $form['appbundle_propertyToContact[property]'] = 1;
+
+        //submit the form
+        $crawler = $client->submit($form);
+
+        $this->assertContains("456 West Street",$crawler->filter("#associatedProperties")->html());
+    }
+
+    /**
+     * Story 4k
+     * Tests that an error message is displayed if the property is already associated (the first property "Balla Highrize" is already associated)
+     */
+    public function testAssociatePropertyDuplicateFailure()
+    {
+        // Create a client,
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        // Go to the contact view page for Bill Jones
+        $crawler = $client->request('GET', "/contact/24");
+
+        //get the form for the add button
+        $form = $crawler->selectButton('Add')->form();
+
+        //select the first property (456 West Street)
+        $form['appbundle_propertyToContact[property]'] = 1;
+
+        //submit the form
+        $crawler = $client->submit($form);
+
+        $this->assertContains("This contact is already associated to the selected property", $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 4k
+     * Tests that a property can be successfully removed from a contact
+     */
+    public function testAssociatePropertyRemoveSuccess()
+    {
+        // Create a client,
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        // Go to the contact view page for Bill Jones
+        $crawler = $client->request('GET', "/contact/24");
+
+        // "456 West Street" is in the list of properties
+        $this->assertContains("456 West Street", $crawler->filter("#associatedProperties")->html());
+
+        //get the form for the add button
+        $form = $crawler->selectButton('rmb1')->form();
+
+        //submit the form
+        $crawler = $client->submit($form);
+
+        // "Balla Highrize" has been removed
+        $this->assertNotContains("456 West Street", $crawler->filter("#associatedProperties")->html());
+    }
+
+    /**
+     * Story 4k
+     * Tests that a user is redirected to the Contact Search page when the remove fails (user goes straight to the remove url)
+     */
+    public function testAssociatePropertyRemoveURLFailure()
+    {
+        // Create a client,
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        // User goes straight to the remove properties url
+        $client->request('GET', "/contact/removepropertyfromcontact");
+
+        // Check that we are on the Contact Search page based on the header on the page
+        $this->assertContains("Contact Search", $client->getResponse()->getContent());
+    }
+
+
+
+    /**
+     * Story 4k
+     * Tests that a contacts properties are displayed in alphabetical order
+     */
+    public function testAssociatePropertiesAlpahbetical()
+    {
+        // Create a client,
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        // Go to the contact view page for Bill Jones
+        $crawler = $client->request('GET', "/contact/24");
+
+        ////check that the first row has the Balla Highrize property first (alphabetically first)
+        //$this->assertContains('Balla Highrize', $crawler->filter('#associatedProperties tr:nth-child(1)')->html());
+        ////check that thug muny apts is in the second row because it should come after Balla Highrize
+        //$this->assertContains('Thug Muny Apts.', $crawler->filter('#associatedProperties tr:nth-child(2)')->html());
+
+        $tableRows = $crawler->filter("#associatedProperties tr td:first-child");
+
+        $tableRows->each(function ($node, $i) {
+            static $previousRow;
+            if($previousRow != null)
+            {
+                $this->assertGreaterThan($previousRow->text(), $node->text());
+            }
+
+            $previousRow = $node;
+        });
+
+    }
+
+    /**
+     * Story 4k
+     * Tests that the add form still exists if a contact has no properties
+     */
+    public function testNoPropertiesAddForm()
+    {
+        // Create a client,
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+        $client->followRedirects(true);
+
+        // Go to the contact view page for Bill Smith
+        $crawler = $client->request('GET', "/contact/23");
+
+        //check that the form exists
+        $this->assertEquals(1, $crawler->filter("form[name='appbundle_propertyToContact']")->count());
+
+        //check that the table containing associated properties does not
+        $this->assertEquals(0,$crawler->filter("#associatedProeprties")->count());
+    }
+
+    /**
      * (@inheritDoc)
      */
     protected function tearDown()
@@ -701,7 +848,7 @@ class ContactControllerTest extends WebTestCase
         $stmt->execute();
         $stmt = $this->em->getConnection()->prepare("DELETE FROM Property");
         $stmt->execute();
-        $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact_Property");
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact_Properties");
         $stmt->execute();
         $stmt = $this->em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();

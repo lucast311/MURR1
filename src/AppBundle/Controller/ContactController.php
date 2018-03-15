@@ -20,6 +20,9 @@ use Symfony\Component\Serializer\Serializer;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use AppBundle\Form\ContactAddPropertyType;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * Controller that contains methods for anything having to do with a contact.
@@ -27,6 +30,43 @@ use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
  */
 class ContactController extends Controller
 {
+    /**
+     * Story 4k
+     * Handles the removal of an associated property from a contact
+     * @param Request $request
+     * @Route("/contact/removepropertyfromcontact", name="remove_property_from_contact")
+     * @method({"POST","GET"})
+     */
+    public function removePropertyAction(Request $request)
+    {
+        //if the form is posted
+        if($request->getMethod() == 'POST')
+        {
+            $em = $this->getDoctrine()->getManager();
+            $contactRepo = $em->getRepository(Contact::class);
+
+            $contact = $contactRepo->findOneById($request->request->get('contact'));
+            $property = $em->getRepository(Property::class)->findOneById($request->request->get('property'));
+
+            if($contact != null && $property != null)
+            {
+                if(in_array($property, $contact->getProperties()->toArray()))
+                {
+                    $properties = $contact->getProperties();
+                    $properties->removeElement($property);
+                    $contact->setProperties($properties);
+
+                    $contactRepo->save($contact);
+
+                    return $this->redirectToRoute("contact_show", array("id"=>$contact->getId()));
+                }
+            }
+        }
+
+        //If there wasn't a success anywhere, redirect to the contact search page
+        return $this->redirectToRoute("contact_search");
+    }
+
     /**
      * story9i
      * Front end for searching for a contact.
@@ -93,15 +133,42 @@ class ContactController extends Controller
      * Finds and displays a contact entity.
      *
      * @Route("/contact/{id}", name="contact_show")
-     * @Method("GET")
+     * @Method({"GET","POST"})
      */
-    public function showAction(Contact $contact)
+    public function showAction(Contact $contact, Request $request)
     {
         $deleteForm = $this->createDeleteForm($contact);
+
+        $addPropertyForm = $this->createForm(ContactAddPropertyType::class,null,array('contact'=>$contact->getId()));
+        if($request->getMethod() == 'POST')
+        {
+            if($request->request->has('appbundle_propertyToContact'))
+            {
+                $em = $this->getDoctrine()->getManager();
+                $propertyRepo = $em->getRepository(Property::class);
+
+                $property = $propertyRepo->findOneById($request->request->get('appbundle_propertyToContact')['property']);
+                if($contact->getProperties()->contains($property))
+                {
+                    $addPropertyForm->addError(new FormError('This contact is already associated to the selected property'));
+                }
+                else
+                {
+                    //add the property to the contact
+                    $properties = $contact->getProperties();
+                    $properties->add($property);
+                    $contact->setProperties($properties);
+                    $em->getRepository(Contact::class)->save($contact);
+                    $em->refresh($contact);
+                }
+            }
+        }
+
 
         return $this->render('contact/show.html.twig', array(
             'contact' => $contact,
             'delete_form' => $deleteForm->createView(),
+            'add_property_form' => $addPropertyForm->createView()
         ));
     }
 
@@ -220,4 +287,59 @@ class ContactController extends Controller
         // string over 100, return empty array.
         return $this->json(array());
     }
+
+    ///**
+    // * Story 4k
+    // * Handles the associating of a property onto a contact
+    // *
+    // * @param Request $request
+    // * @Route("/contact/addpropertytocontact", name="add_property_to_contact")
+    // * @method("POST")
+    // */
+    //public function addPropertyAction(Request $request)
+    //{
+    //    //if the form is posted
+    //    if($request->getMethod() == 'POST')
+    //    {
+
+    //        $em = $this->getDoctrine()->getManager();
+    //        $contactRepo = $em->getRepository(Contact::class);
+
+    //        $contact = $contactRepo->findOneById($request->request->get('appbundle_propertyToContact')['contact']);
+    //        $property = $em->getRepository(Property::class)->findOneById($request->request->get('appbundle_propertyToContact')['property']);
+
+    //        if($contact != null && $property != null)
+    //        {
+
+    //            //$addPropertyForm = $this->createForm(ContactAddPropertyType::class,null,array('contact'=>$contact->getId()));
+
+    //            //$addPropertyForm->addError(new FormError("Error msg"));
+
+    //            if(in_array($property, $contact->getProperties()->toArray()))
+    //            {
+    //                // TODO error message
+    //            }
+    //            else
+    //            {
+    //                $properties = $contact->getProperties();
+    //                $properties->add($property);
+    //                $contact->setProperties($properties);
+
+
+    //                $contactRepo->save($contact);
+
+
+    //                return $this->redirectToRoute("contact_show", array("id"=>$contact->getId()));
+    //            }
+    //        }
+    //    }
+
+
+
+
+    //    //If there wasn't a success anywhere, redirect to the contact search page
+    //    return $this->redirectToRoute("contact_search");
+    //}
+
+
 }

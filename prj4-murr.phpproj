@@ -89,6 +89,7 @@
     <Compile Include="src\AppBundle\Entity\Structure.php" />
     <Compile Include="src\AppBundle\Entity\User.php" />
     <Compile Include="src\AppBundle\Form\CollectionHistoryType.php" />
+    <Compile Include="src\AppBundle\Form\ContactAddPropertyType.php" />
     <Compile Include="src\AppBundle\Form\ContainerEditType.php" />
     <Compile Include="src\AppBundle\Form\ContainerType.php" />
     <Compile Include="src\AppBundle\Form\PropertyAddContactType.php" />
@@ -143,6 +144,7 @@
     <Compile Include="tests\AppBundle\Entity\RoutePickupTest.php" />
     <Compile Include="tests\AppBundle\Entity\RouteTest.php" />
     <Compile Include="tests\AppBundle\Form\CollectionHistoryTypeTest.php" />
+    <Compile Include="tests\AppBundle\Form\ContactAddPropertyTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\ContainerTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\PropertyAddContactTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\RoutePickupTypeTest.php" />
@@ -163,7 +165,8 @@
     <Compile Include="tests\AppBundle\Repository\RouteRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
-    <Compile Include="tests\Mink\PropertyContactRemoveTest.php" />
+    <Compile Include="tests\Mink\AssociatingPropertiesToContactTest.php" />
+    <Compile Include="tests\Mink\ContainerSearchTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
     <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
     <Compile Include="var\cache\dev\doctrine\orm\Proxies\__CG__AppBundleEntityAddress.php" />
@@ -3350,8 +3353,10 @@
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\JavaScript\base_twig.js" />
     <Content Include="web\JavaScript\DeleteModal.js" />
+    <Content Include="web\JavaScript\PropertySearchPopupSemantic.js" />
     <Content Include="web\JavaScript\PropertySearchPopup.js" />
     <Content Include="web\JavaScript\DeletePrompt.js" />
+    <Content Include="web\JavaScript\RemoveModal.js" />
     <Content Include="web\JavaScript\Search.js" />
   </ItemGroup>
 </Project>

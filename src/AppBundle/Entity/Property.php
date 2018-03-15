@@ -424,7 +424,7 @@ class Property
     }
 
     public function __toString(){
-        return $this->address->__toString();
+        return $this->address->getStreetAddress();
     }
 
     /**

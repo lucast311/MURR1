@@ -1,5 +1,5 @@
 <?php
-
+namespace Tests\Mink;
 require_once 'vendor/autoload.php';
 use DMore\ChromeDriver\ChromeDriver;
 use Behat\Mink\Session;
@@ -33,15 +33,15 @@ class RoutePickupRemoveTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
 
-        //Wipe database before beginning because tests seem to run into errors
-        $stmt = $this->em->getConnection()->prepare('DELETE FROM RoutePickup');
-        $stmt->execute();
-        $stmt = $this->em->getConnection()->prepare('DELETE FROM Route');
-        $stmt->execute();
-        $stmt = $this->em->getConnection()->prepare('DELETE FROM Container');
-        $stmt->execute();
-        $stmt = $this->em->getConnection()->prepare('DELETE FROM User');
-        $stmt->execute();
+        ////Wipe database before beginning because tests seem to run into errors
+        //$stmt = $this->em->getConnection()->prepare('DELETE FROM RoutePickup');
+        //$stmt->execute();
+        //$stmt = $this->em->getConnection()->prepare('DELETE FROM Route');
+        //$stmt->execute();
+        //$stmt = $this->em->getConnection()->prepare('DELETE FROM Container');
+        //$stmt->execute();
+        //$stmt = $this->em->getConnection()->prepare('DELETE FROM User');
+        //$stmt->execute();
 
 
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
