@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Mink;
+
 require_once 'vendor/autoload.php';
 use DMore\ChromeDriver\ChromeDriver;
 use Behat\Mink\Session;
@@ -94,7 +94,7 @@ class PropertySearchPopupTest extends WebTestCase
         $advancedSearchBtn->click();
 
         // WAIT for the page to load, otherwise it will be empty when mink tries to use it.
-        $this->session->wait(2000);
+        $this->session->wait(1000);
 
         // Get the names of all the windows AGAIN, so we can figure out which one is new
         $newWindowNames = $this->session->getWindowNames();
@@ -128,10 +128,10 @@ class PropertySearchPopupTest extends WebTestCase
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
         $this->session->wait(5000);
 
-        // click the first link for one of the results
-        $selectLink = $page->find('named', array('link', "Select"));
+        // click the first row for one of the results
+        $selectLink = $page->find('named', array('content', "3593843"));
         // Before we click the link, take the id of the property we clicked.
-        $id = $selectLink->getAttribute("data-id");
+        $id = $selectLink->getParent()->getAttribute("data-id");
         //Click the link
         $selectLink->click();
 
@@ -156,19 +156,18 @@ class PropertySearchPopupTest extends WebTestCase
         $this->session->visit('http://localhost:8000/app_test.php/communication/new');
         // Get the page
         $page = $this->session->getPage();
-        $this->session->wait(1000); 
         // Click on the select box so it opens
-        $dropDown = $page->find('css', ".select2-selection, .select2-selection--single");
-        $dropDown->getHtml(); 
+        //$page->find('css', ".select2-selection, .select2-selection--single")->click();
+        $page->find('css', "#communication_category")->click();
         // Check that the select box contains a specific property
-        $this->assertContains("Charlton Legs", $page->find('css', ".select2-results")->getHtml());
+        $this->assertContains("Test ST", $page->find('css', ".select2-results")->getHtml());
         // Get the search box for the drop down and search for something to narrow the results
-        $page->find('css', ".select2-search__field")->setValue("Charlton Arms");
+        $page->find('css', ".select2-search__field")->setValue("12 15th st east");
         // Now assert that the property is gone
-        $this->assertNotContains("Charlton Legs", $page->find('css', ".select2-results")->getHtml());
+        $this->assertNotContains("Test ST", $page->find('css', ".select2-results")->getHtml());
 
         // Assert that the searched for property is still there
-        $this->assertContains("Charlton Arms", $page->find('css', ".select2-results")->getHtml());
+        $this->assertContains("12 15th st east", $page->find('css', ".select2-results")->getHtml());
 
     }
 
