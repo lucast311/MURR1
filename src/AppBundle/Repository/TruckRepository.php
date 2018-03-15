@@ -25,6 +25,31 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
     //}
 
     // Search
+
+
+    /**
+     * Story40a
+     * returns all (if null), returns from search if not null
+     * @param mixed $queryStrings an array of strings to query the database on
+     * @return array of searched entites returned from the queries
+     */
+    public function truckFilter($filters=null)
+    {
+        $filterString = $filters['filter_list'];
+        $trucks = $this->getEntityManager()
+                        ->getRepository(Truck::class)->findAll();
+
+        if(!is_null($filters))
+        {
+            $trucks[] = (new Truck())
+                        ->setTruckId("006900")
+                        ->setType("$filterString");
+        }
+
+        return $trucks;
+    }
+
+
     /**
      * Story 40a
      * Search through the database and check if any records contain any of

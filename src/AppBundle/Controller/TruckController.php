@@ -31,25 +31,22 @@ class TruckController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         // Grab all trucks in the Truck table
-        $trucks = $em->getRepository(Truck::class)->findAll();
+        $trucks = $em->getRepository(Truck::class)->truckFilter(null);
         $formTruck = new Truck();
 
         $filterForm = $this->createFormBuilder()
-            ->setAction($this->generateUrl('truck_filter'))
-            ->getForm();
+            ->setAction($this->generateUrl('truck_manage'))
+            ->getForm()->add('filter_list');
         $filterForm->handleRequest($request);
         // Create a default filterQuery with nothing in it
-        $filterQuery="";
+        $filterQuery=null;
         // If the user has typed in the filter box
         if($filterForm->isSubmitted())
         {
             // Set the filterQuery to be the information in the filter box
             $filterQuery = $filterForm->getData();
-
-            // REMOVE
-            var_dump($filterQuery);
         }
-
+        $trucks = $em->getRepository(Truck::class)->truckFilter($filterQuery);
 
         // Adding a new truck
         // Create a Truck form so the user can add trucks on the index page
@@ -139,6 +136,38 @@ class TruckController extends Controller
     //}
 
     /**
+     * Filter all trucks in the list by
+     *
+     * @Route("/", name="truck_filter")
+     * @param Request $request
+     * @param String $filter
+     * @Method({"GET", "POST"})
+     */
+    public function filterAction(Request $request, $filter)
+    {
+        $truck = (new Truck())
+                    ->setTruckId($filter)
+                    ->setType($filter);
+
+        $deleteForm = $this->createDeleteForm($truck);
+        $editForm = $this->createForm('AppBundle\Form\TruckType', $truck);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('truck_edit', array('id' => $truck->getId()));
+        }
+
+        return $this->render('truck/edit.html.twig', array(
+            'truck' => $truck,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+
+    /**
      * Displays a form to edit an existing truck entity.
      * Called when the save button is pressed
      *
@@ -163,6 +192,8 @@ class TruckController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
+
+
 
     /**
      * Deletes a truck entity.
