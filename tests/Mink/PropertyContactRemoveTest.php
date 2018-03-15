@@ -8,7 +8,7 @@ use AppBundle\DataFixtures\ORM\LoadUserData;
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Contact;
 use Doctrine\Common\Collections\ArrayCollection;
-use Tests\AppBundle\DatabasePrimer; 
+use Tests\AppBundle\DatabasePrimer;
 /**
  * PropertyContactRemoveTest short summary.
  *
@@ -75,7 +75,7 @@ class PropertyContactRemoveTest extends WebTestCase
 
     /**
      * Story 4L
-     * Tests that when you click the remove button, it shows the other two buttons instead
+     * Tests that when you click the remove button, a modal is displayed
      */
     public function testRemoveButtonShowsModal()
     {
@@ -103,7 +103,7 @@ class PropertyContactRemoveTest extends WebTestCase
         assertNotNull($page->find("css", "#rmConBtn1"));
 
         //assert that the modal is not 'active'
-        $removeModal = $page->find('css','#removeModal'); 
+        $removeModal = $page->find('css','#removeModal');
         assertFalse($removeModal->isVisible());
 
         //click on the button
@@ -111,7 +111,8 @@ class PropertyContactRemoveTest extends WebTestCase
         $removeButton->click();
 
         //test that the modal now appears
-        assertNotNull($page->find("css","#cancelModal.active"));
+        $removeModal = $page->find("css","#cancelModal.active");
+        assertTrue($removeModal->isVisible());
     }
 
     /**
@@ -146,7 +147,7 @@ class PropertyContactRemoveTest extends WebTestCase
         $removeButton->click();
 
         //click the okay button
-        $okayButton = $page->find("css", ".checkmark icon");
+        $okayButton = $page->find("css", "#confirmContactRemovalBtn");
         $okayButton->click();
 
         $this->session->wait(10000, "document.readyState === 'complete'");
@@ -218,7 +219,7 @@ class PropertyContactRemoveTest extends WebTestCase
         $property->setContacts($arrayCollection);
         //now that the data exists, go to the page
         //start up a new session
-        $this->session->visit('http:://localhost:8000/property/1');
+        $this->session->visit('http:://localhost:8000/app_test.php/property/1');
         //get the page
         $page = $this->session->getPage();
 
@@ -232,7 +233,7 @@ class PropertyContactRemoveTest extends WebTestCase
         $this->session->wait(10000, "document.readyState === 'complete'");
 
 
-        assertContains("Testman", $page->find("css",".contacts associations"));
+        assertContains("Testman", $page->find("css",".contacts associations")->getHtml());
     }
 
     /**
@@ -269,7 +270,7 @@ class PropertyContactRemoveTest extends WebTestCase
         $advancedSearchBtn = $page->find("css", "#advancedSearchBtn");
         $advancedSearchBtn->click();
 
-        assertNotNull($page->find("css","#addModal.active"));
+        assertTrue($page->find("css","#addContactModal")->isVisible());
     }
 
     /**
@@ -286,10 +287,10 @@ class PropertyContactRemoveTest extends WebTestCase
 
         //create a new contact
         $contact = new Contact();
-        $repo = $this->em->getRepository(Contact::class); 
+        $repo = $this->em->getRepository(Contact::class);
         $contact->setFirstName("Testman");
         $contact->setRole("Owner");
-        $repo->save($contact); 
+        $repo->save($contact);
 
         //start up a new session
         $this->session->visit('http:://localhost:8000/app_test.php/property/1');
@@ -308,7 +309,7 @@ class PropertyContactRemoveTest extends WebTestCase
         $this->session->wait(10000);
 
         //click first select btn
-        $selectBtn = $page->find("css", "#select1");
+        $selectBtn = $page->find("css", "#selectBtn1");
         $selectBtn->click();
 
         //wait for page because it will reload
@@ -316,7 +317,7 @@ class PropertyContactRemoveTest extends WebTestCase
 
         //check that the contact table has the added contact
         $page = $this->session->getPage();
-        $contactTable = $page->find("css", ".contact associations");
+        $contactTable = $page->find("css", "#contactAssosiations");
         assertContains('Testman', $contactTable->getHtml());
 
     }
