@@ -212,7 +212,22 @@ class PropertyController extends Controller
         return $this->json(array());
     }
 
+    /**
+     * Summary of addContactAction
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("property/removecontactfromproperty", name="remove_contact_from_property")
+     */
     public function addContactAction(Request $request)
+    {
+
+    }
+
+    /**
+     * Handles removing an association between a contact and a property 
+     * @param Request $request
+     */
+    public function removeContactAction(Request $request)
     {
         if($request->getMethod() == 'POST')
         {
@@ -224,7 +239,7 @@ class PropertyController extends Controller
 
             if($contact != null && $property != null)
             {
-                if(in_array($contact, $property->getContacts()->toArray())) 
+                if(in_array($contact, $property->getContacts()->toArray()))
                 {
                     $contacts = $property->getContacts();
                     $contacts->removeElement($contact);
@@ -236,11 +251,6 @@ class PropertyController extends Controller
                 }
             }
         }
-        return $this->redirectToRoute("property_show"); 
-    }
-
-    public function removeContactAction(Request $request)
-    {
-
+        return $this->redirectToRoute("property_show");
     }
 }

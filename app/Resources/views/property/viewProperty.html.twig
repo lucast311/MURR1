@@ -3,23 +3,29 @@
 {% block title %}View Property{% endblock %}
 
 {% block body %}
-        <style>
-            .associations{
-                border-collapse: collapse;
-            }
+     <script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
+    <script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('contact_search', { 'isPopup': "true" }) }}"></script>
+    <script>
+        $(function () {
+            initialize($('#appbundle_propertyToContact_property'));
 
-            .associations, .associations th, .associations td{
-                border:none;
-            }
-            
-            .associations  tbody>tr{
-                border: 1px solid black!important;
-            }
+            addModal();
+            $('.removeButton').click(function () {
+                //console.log($(this));
+				var parent = $($(this).parent("form").get(0));
+				//console.log(parent);
+                showModal(parent.data('message'), parent);
+			});
 
-            .associations td, .associations th{
-                padding: 5px;
-            }
-        </style>
+			$(".ui.dropdown").dropdown();
+        });
+    </script>
+
+	<style>
+		#appbundle_propertyToContact > div{
+			display: inline-block;
+		}
+	</style>
 
 <h2>View Property</h2>
 
@@ -98,16 +104,24 @@
                     <th>Phone</th>
                     <th>Email</th>
                     <th>Organization</th>
+                    <th>Remove</th>
                 </tr>
             </thead>
                 <tbody>
                 {% for contact in property.contacts %}
                 <tr>
-                    <td>{{contact.firstName}} {{contact.lastName}}</td>
+                    <td>{{contact.lastName}}, {{contact.firstName}}</td>
                     <td>{{contact.role}}</td>                    
                     <td>{{contact.primaryPhone}}</td>
                     <td>{{contact.emailAddress}}</td>
                     <td>{{contact.companyName}}</td>
+                    <td>
+                        <form name="appbundle_removeContactFromProperty" method="post" action="{{path('remove_contact_from_property')}}" data-message="Are you sure you want to remove the association between {{contact.lastName}}, {{contact.firstName}} and {{property.address}}?">
+                            <input type="hidden" name="contact" value="{{contact.id}}"/>
+                            <input type="hidden" name="property" value="{{property.id}}"/>
+                            <button type="button" class="ui icon button removeButton red" id="rmb{{property.id}}"><i class="close icon"></i></button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
                 </tbody>
