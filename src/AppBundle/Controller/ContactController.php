@@ -183,8 +183,22 @@ class ContactController extends Controller
         {
             if($request->request->has('appbundle_propertyToContact'))
             {
-                $this->handleAddProperty($request, $addPropertyForm);
                 $em = $this->getDoctrine()->getManager();
+
+                $property = $em->getRepository(Property::class)->findOneById($request->request->get('appbundle_propertyToContact')['property']);
+                if($contact->getProperties()->contains($property))
+                {
+                    $addPropertyForm->addError(new FormError('This contact is already associated to the selected property'));
+                }
+                else
+                {
+                    //add the property to the contact
+                    $properties = $contact->getProperties();
+                    $properties->add($property);
+                    $contact->setProperties($properties);
+                    $em->getRepository(Contact::class)->save($contact);
+                }
+
                 $em->refresh($contact);
             }
         }

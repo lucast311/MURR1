@@ -201,7 +201,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         // Re-get the page, since we are in a new window
         $page = $this->session->getPage();
 
-        $this->session->wait(1000);
+        $this->session->wait(2000);
 
         // Search box
         $this->assertNotNull($page->find('css', "#searchBox"));
@@ -338,13 +338,13 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $page = $this->session->getPage();
 
         // get the selectbox
-        $formField = $page->find("css", "#appbundle_propertyToContact_property");
+        $formField = $page->find("css", "#appbundle_propertyToContact_property option");
 
         // setting an invalid id
         $formField->setValue(999);
 
         // get the add button
-        $addBtn = $page->find('css', "#appbundle_propetyToContact_Add");
+        $addBtn = $page->find('css', "#appbundle_propertyToContact_Add");
 
         // click the add button
         $addBtn->click();
@@ -370,7 +370,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $page = $this->session->getPage();
 
         // get a row
-        $tableRow = $page->find("named", array("content"=>"333666999"));
+        $tableRow = $page->find('named', array('content', "333666999"));
 
         // click the row
         $tableRow->click();
