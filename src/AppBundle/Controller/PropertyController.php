@@ -211,4 +211,14 @@ class PropertyController extends Controller
         // string over 100, return empty array.
         return $this->json(array());
     }
+
+    public function addContactAction(Request $request)
+    {
+        
+    }
+
+    public function removeContactAction(Request $request)
+    {
+        
+    }
 }
