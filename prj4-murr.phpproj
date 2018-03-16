@@ -98,6 +98,7 @@
     <Compile Include="src\AppBundle\Form\ContainerType.php" />
     <Compile Include="src\AppBundle\Form\RoutePickupType.php" />
     <Compile Include="src\AppBundle\Form\StructureType.php" />
+    <Compile Include="src\AppBundle\Form\TruckEditType.php" />
     <Compile Include="src\AppBundle\Form\TruckType.php" />
     <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
@@ -3385,6 +3386,7 @@
     <Content Include="web.config" />
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\JavaScript\base_twig.js" />
+    <Content Include="web\JavaScript\Filter.js" />
     <Content Include="web\JavaScript\PropertySearchPopup.js" />
     <Content Include="web\JavaScript\DeletePrompt.js" />
     <Content Include="web\JavaScript\Search.js" />

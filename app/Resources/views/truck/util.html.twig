@@ -13,9 +13,26 @@
 
 {# include the filter javasript #}
 <script type="text/javascript" src="{{ asset('JavaScript/Filter.js') }}"></script>
+
+<script>
+    $(function () {
+        initialize($('#appbundle_truck'));
+
+        addModal();
+        $('.removeButton').click(function () {
+            //console.log($(this));
+			var parent = $($(this).parent("form").get(0));
+			//console.log(parent);
+            showModal(parent.data('message'), parent);
+		});
+
+		$(".ui.dropdown").dropdown();
+    });
+</script>
 {% endblock %}
 
 {% block body %}
+
 <style>
     form[name^="appbundle_truck"] div{
         display: inline-block;
@@ -63,43 +80,51 @@
     <table id="filteredTruckList" class="trucks ui celled table">
         <thead>
             <tr>
+                <!--<th>ID[HIDDEN]</th>-->
                 <th style="width: 4vw;min-width: 88px;">Truck ID</th>
                 <th>Type</th>
+				<th>Edit/Remove</th>
             </tr>
         </thead>
         <tbody id="filteredTruckListBody" data-bind="foreach: results">
             {# % for t in trucks % #}
                 <tr>
-                    <td data-bind="text:truckId">{{ formtruck.truckId }}</td>
+                    <!--td data-bind="text:id">{{ formtruck.id }}</td>-->
+                    <td data-bind="text:truckId, attr: {data: id}">{{ formtruck.truckId }}</td>
                     <td data-bind="text:type">{{ formtruck.type }}</td>
-                    {# <td>
-                        <!-- Removal form. Data-ID is to hold the ID of the current truck-->
-                        <form id="rmf{{ t.id}}" data-id="{{t.id}}" method="post" action="{{ path('truck_removal', { 'id': t.id })}}">
-                            <!-- Specify button type so it doesn't automatically submit-->
+                    <td>
+						<form name="appbundle_removeTruck" method="post" data-bind="attr: {action: '{{ path('truck_edit') }}/'+id}" data-message="Are you sure you want to remove [TRUCKID]?">
+							<input type="hidden" name="contact" data-bind="attr: {value: id}"/>
+							<button type="button" class="ui icon button removeButton red" data-bind="attr: {id: 'rmb'+id}" ><i class="close icon"></i></button>
+						</form>
+						{# <!--
+						<form method="post" data-bind="attr: {id: 'rmb'+id, action: '{{ path('truck_edit') }}/'+id}">
+							<!-- Specify button type so it doesn't automatically submit-->
                             <!-- Button that prompts the message, rmb-->
-                            <button type="button" id="rmb{{ t.id}}" class="rmb">
+							<button type="button" data-bind="attr: {id: 'rmb'+id}" class="rmdb">
                                 <i class="fas fa-times red"></i>
                             </button>
-                            <!-- Span to hold the "Are you sure?" message-->
-                            <span id="rmmsg{{t.id}}" class="rmmsg">
+							<!-- Span to hold the "Are you sure?" message-->
+							<span data-bind="attr: {id: 'rmmsg'+id}" class="rmmsg">
                             </span>
 
-                            <!-- Accept button, rmba-->
-                            <button type="submit" id="rmba{{ t.id}}" class="rmba" hidden="hidden">
+							<!-- Accept button, rmba-->
+                            <button type="submit" data-bind="attr: {id: 'rmba'+id}" class="rmba" hidden="hidden">
                                 <i class="fas fa-check green"></i>
                             </button>
                             <!-- Cancel button, rmbc-->
-                            <button type="button" id="rmbc{{ t.id}}" class="rmbc" hidden="hidden">
-                                <i class="fas fa-times red"></i>
+                            <button type="button" data-bind="attr: {id: 'rmbc'+id}" class="rmbc" hidden="hidden">
+                                <i class="close icon"></i><!--fas fa-times red-->
                             </button>
-                        </form>
-                    </td> #}
+						</form>
+						--> #}
+					</td>
                 </tr>
             {# % endfor % #}
         </tbody>
-        <tbody id="listInfo">
+        <tbody id="listInfo" class="ui segment">
             <tr>
-                <td id="listInfoContent" colspan="2" style="text-align: center"></td>
+                <td id="listInfoContent" class="ui active" colspan="2" style="text-align: center"></td>
             </tr>
         </tbody>
     </table>

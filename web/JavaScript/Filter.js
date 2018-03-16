@@ -5,6 +5,9 @@ var viewModel = {
     getResults: function () {
         //show loading,hidedata
         $("#listInfo").show();
+        loadingInfo.show();
+        listInfoMessage.hide();
+
         $("#filteredTruckListBody").hide();
         
         if (viewModel.currentJSONRequest != null)
@@ -22,7 +25,8 @@ var viewModel = {
         viewModel.currentJSONRequest = $.getJSON("./jsonfilter/" + filterText, {}, function (jsonResults) {
             // Callback function
             //hide loading thing
-            loadingImage.hide();
+            loadingInfo.hide();
+            listInfoMessage.show();
 
             // If no results came back, hide table and display message instead
             if (jsonResults.length === 0)
@@ -51,7 +55,7 @@ var viewModel = {
     }
 };
 
-var loadingImage;
+var loadingInfo;
 var listInfoMessage;
 var timeOutInst = null;
 var onLoad = function () {
@@ -64,8 +68,8 @@ var onLoad = function () {
         After this we call the setTimeout function to send an ajax call in 400 ms.
     */
     $('#form_filter_list').keyup(function () {
-        listInfoMessage.text("Loading...");
-        loadingImage.show();
+        listInfoMessage.hide();
+        loadingInfo.show();
 
         if (timeOutInst != null) {
             clearTimeout(timeOutInst);
@@ -83,10 +87,12 @@ var onLoad = function () {
     listInfoMessage.text("No results found");
     listInfoMessage.appendTo("#listInfoContent");
 
-    loadingImage = $('<img class="loadingGIF">'); //Equivalent: $(document.createElement('img'))
-    loadingImage.attr('src', 'https://media.giphy.com/media/ySeqU9tC1eFjy/200.gif');
-    loadingImage.appendTo("#listInfoContent");
-    loadingImage.hide();
+    loadingInfo = $('<div class="ui big text active centered inline indeterminate loader">');//Loading...</div>
+    //loadingImage = $('<img class="loadingGIF">'); //Equivalent: $(document.createElement('img'))
+    //loadingImage.attr('src', 'https://media.giphy.com/media/ySeqU9tC1eFjy/200.gif');
+    loadingInfo.text("Loading...");
+    loadingInfo.appendTo("#listInfoContent");
+    loadingInfo.hide();
 };
 
 /**

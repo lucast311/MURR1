@@ -70,6 +70,7 @@ class TruckController extends Controller
             $formTruck->setTruckId(
                 str_pad($formTruck->getTruckId(), 6, "0", STR_PAD_LEFT));
 
+            $fTID= $formTruck->getTruckId();
             //check if truckId has already been used
             $truckIdUsed = (0 < count($em->getRepository(Truck::class)
                 ->findBy(array('truckId' => $formTruck->getTruckId()))));
@@ -77,7 +78,7 @@ class TruckController extends Controller
             // Add custom error to form
             if($truckIdUsed)
             {
-                $addform->addError(new FormError('A Truck with the ID; [truckId] has already been added.'));
+                $addform->addError(new FormError("A Truck with the ID; \"$fTID\" has already been added."));
             }
             else
             {
@@ -173,28 +174,41 @@ class TruckController extends Controller
 
 
     /**
+     * STORY40A
      * Displays a form to edit an existing truck entity.
      * Called when the save button is pressed
      *
-     * @Route("/{id}/edit", name="truck_edit")
+     * @Route("/edit/{id}", name="truck_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Truck $truck)
+    public function editAction(Request $request, $id=null)
     {
-        $deleteForm = $this->createDeleteForm($truck);
-        $editForm = $this->createForm('AppBundle\Form\TruckType', $truck);
-        $editForm->handleRequest($request);
+        if(is_null($id))
+            $id = intval($request->get('id'));
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        $repo = $this->getDoctrine()->getManager()->getRepository(Truck::class);
+        $truck = $repo->findOneById($id);
 
-            return $this->redirectToRoute('truck_edit', array('id' => $truck->getId()));
+        if(is_null($truck))
+        {
+            //show an error (truck not found)
+        }
+        else
+        {
+            $editForm = $this->createForm('AppBundle\Form\TruckEditType', $truck);
+            $editForm->handleRequest($request);
+
+            if ($editForm->isSubmitted() && $editForm->isValid())
+            {
+                $this->getDoctrine()->getManager()->flush();
+                return $this->redirectToRoute('truck_manage', array('id' => $truck->getId()));
+            }
         }
 
         return $this->render('truck/edit.html.twig', array(
             'truck' => $truck,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            //'delete_form' => $deleteForm->createView(),
         ));
     }
 
