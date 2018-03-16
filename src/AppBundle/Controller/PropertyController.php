@@ -30,6 +30,38 @@ class PropertyController extends Controller
     public $property;
 
     /**
+     * Handles removing an association between a contact and a property
+     * @param Request $request
+     * @Route("/property/removecontactfromproperty", name="remove_contact_from_property")
+     * @method({"POST","GET"})
+     */
+    public function removeContactAction(Request $request)
+    {
+        if($request->getMethod() == 'POST')
+        {
+            $em = $this->getDoctrine()->getManager();
+            $propertyRepo = $em->getRepository(Property::class);
+
+            $property = $propertyRepo->findOneById($request->request->get('property'));
+            $contact = $em->getRepository(Contact::class)->findOneById($request->request->get('contact'));
+
+            if($contact != null && $property != null)
+            {
+                if(in_array($contact, $property->getContacts()->toArray()))
+                {
+                    $contacts = $property->getContacts();
+                    $contacts->removeElement($contact);  
+                    $property->setContacts($contacts);
+                    $propertyRepo->save($property);
+
+                    return $this->redirectToRoute("property_view", array("propertyId"=>$property->getId()));
+                }
+            }
+        }
+        return $this->redirectToRoute("property_search");
+    }
+
+    /**
      * story4f
      * Front end for searching for a property.
      *
@@ -216,41 +248,12 @@ class PropertyController extends Controller
      * Summary of addContactAction
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("property/removecontactfromproperty", name="remove_contact_from_property")
+     *
      */
     public function addContactAction(Request $request)
     {
 
     }
 
-    /**
-     * Handles removing an association between a contact and a property 
-     * @param Request $request
-     */
-    public function removeContactAction(Request $request)
-    {
-        if($request->getMethod() == 'POST')
-        {
-            $em = $this->getDoctrine()->getManager();
-            $propertyRepo = $em->getRepository(Property::class);
 
-            $property = $propertyRepo->findOneById($request->request->get('property'));
-            $contact = $em->getRepository(Contact::class)->findOneById($request->request->get('contact'));
-
-            if($contact != null && $property != null)
-            {
-                if(in_array($contact, $property->getContacts()->toArray()))
-                {
-                    $contacts = $property->getContacts();
-                    $contacts->removeElement($contact);
-                    $property->setContacts($contacts);
-
-                    $propertyRepo->save($property);
-
-                    return $this->redirectToRoute("property_show", array("id"=>$contact->getId()));
-                }
-            }
-        }
-        return $this->redirectToRoute("property_show");
-    }
 }

@@ -374,7 +374,13 @@ class Property
      */
     public function getContacts()
     {
-        return $this->contacts;
+        $iterator = $this->contacts->getIterator();
+
+        $iterator->uasort(
+           function($a, $b){
+               return ($a->getLastName() < $b->getLastName()) ? -1 : 1;
+           });
+        return new ArrayCollection(iterator_to_array($iterator));
     }
     /**
      * Sets associated contacts
