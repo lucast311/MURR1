@@ -1,17 +1,12 @@
 ﻿//Story 40a
-var loadingImage;
-var listInfoMessage = $('<h2 class="listError">');
-
 var viewModel = {
     results: ko.observableArray(),
     currentJSONRequest: null,
     getResults: function () {
-        //show loading
-        $("#filteredTruckListBody").hide();
+        //show loading,hidedata
         $("#listInfo").show();
-        listInfoMessage.text("Loading...");
-        loadingImage.show();
-
+        $("#filteredTruckListBody").hide();
+        
         if (viewModel.currentJSONRequest != null)
         {
             viewModel.currentJSONRequest.abort();
@@ -56,6 +51,8 @@ var viewModel = {
     }
 };
 
+var loadingImage;
+var listInfoMessage;
 var timeOutInst = null;
 var onLoad = function () {
     // apply the bindings
@@ -67,6 +64,9 @@ var onLoad = function () {
         After this we call the setTimeout function to send an ajax call in 400 ms.
     */
     $('#form_filter_list').keyup(function () {
+        listInfoMessage.text("Loading...");
+        loadingImage.show();
+
         if (timeOutInst != null) {
             clearTimeout(timeOutInst);
             timeOutInst = null;
@@ -79,7 +79,7 @@ var onLoad = function () {
     $("#listInfo").hide();
     $('.js-inittrucks').remove();
 
-    listInfoMessage = $('<h1 class="listError">');
+    listInfoMessage = $('<h2 class="listError">');
     listInfoMessage.text("No results found");
     listInfoMessage.appendTo("#listInfoContent");
 
