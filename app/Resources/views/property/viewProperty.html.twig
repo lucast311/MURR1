@@ -251,9 +251,9 @@
                     <td>{{contact.companyName}}</td>
                     <td>
                         <form name="appbundle_removeContactFromProperty" method="post" action="{{path('remove_contact_from_property')}}" data-message="Are you sure you want to remove the association between {{contact.lastName}}, {{contact.firstName}} and {{property.address}}?">
-                            <input type="hidden" name="contact" value="{{contact.id}}"/>
                             <input type="hidden" name="property" value="{{property.id}}"/>
-                            <button type="button" class="ui icon button removeButton red" id="rmb{{property.id}}"><i class="close icon"></i></button>
+                            <input type="hidden" name="contact" value="{{contact.id}}"/>
+                            <button type="button" class="ui icon button removeButton red" id="rmb{{contact.id}}"><i class="close icon"></i></button>
                         </form>
                     </td>
                 </tr>

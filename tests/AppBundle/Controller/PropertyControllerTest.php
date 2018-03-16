@@ -1225,7 +1225,7 @@ class PropertyControllerTest extends WebTestCase
         $client->followRedirect(true);
 
         //go to the property view page for Cosmo
-        $crawler = $client->request('GET', "/property/view/2");
+        $crawler = $client->request('GET', "/property/2");
 
         //get the form for the add button
         $form = $crawler->selectButton('rmb1')->form();
@@ -1255,6 +1255,8 @@ class PropertyControllerTest extends WebTestCase
        // Check that we are on the Contact Search page based on the header on the page
        $this->assertContains("Contact Search", $client->getResponse()->getContent());
    }
+
+
 
     /**
      * (@inheritDoc)

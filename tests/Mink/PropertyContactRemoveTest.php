@@ -123,6 +123,7 @@ class PropertyContactRemoveTest extends WebTestCase
     {
         //create a new property
         $property = new Property();
+        $property->setPropertyName("Swagville"); 
 
         $repo = $this->em->getRepository(Property::class);
         $repo->save($property);
@@ -138,16 +139,16 @@ class PropertyContactRemoveTest extends WebTestCase
         $property->setContacts($arrayCollection);
         //now that the data exists, go to the page
         //start up a new session
-        $this->session->visit('http:://localhost:8000/app_test.php/property/1');
+        $this->session->visit('http:://localhost:8000/app_test.php/property/96');
         //get the page
         $page = $this->session->getPage();
 
         //click on the remove button
-        $removeButton = $page->find("css", "#rmb1");
+        $removeButton = $page->find("css", "#rmb118");
         $removeButton->click();
 
         //click the okay button
-        $okayButton = $page->find("css", "#confirmContactRemovalBtn");
+        $okayButton = $page->find("css", "#btnAccept");
         $okayButton->click();
 
         $this->session->wait(10000, "document.readyState === 'complete'");

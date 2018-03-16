@@ -42,15 +42,15 @@ class PropertyController extends Controller
             $em = $this->getDoctrine()->getManager();
             $propertyRepo = $em->getRepository(Property::class);
 
-            $property = $propertyRepo->findOneById($request->request->get('property'));
-            $contact = $em->getRepository(Contact::class)->findOneById($request->request->get('contact'));
+            $property = $propertyRepo->findOneBy(array('id'=>$request->request->get('property')));
+            $contact = $em->getRepository(Contact::class)->findOneBy(array('id'=>$request->request->get('contact')));
 
             if($contact != null && $property != null)
             {
                 if(in_array($contact, $property->getContacts()->toArray()))
                 {
                     $contacts = $property->getContacts();
-                    $contacts->removeElement($contact);  
+                    $contacts->removeElement($contact);
                     $property->setContacts($contacts);
                     $propertyRepo->save($property);
 
