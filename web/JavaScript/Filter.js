@@ -1,44 +1,58 @@
 ﻿//Story 40a
+var loadingImage;
+var listInfoMessage = $('<h2 class="listError">');
+
 var viewModel = {
     results: ko.observableArray(),
     currentJSONRequest: null,
     getResults: function () {
+        //show loading
+        $("#filteredTruckListBody").hide();
+        $("#listInfo").show();
+        listInfoMessage.text("Loading...");
+        loadingImage.show();
+
         if (viewModel.currentJSONRequest != null)
         {
             viewModel.currentJSONRequest.abort();
+            viewModel.currentJSONRequest = null;
         }
-        // Figure out which json page to go to (this is passed in from the twig)
+        // Figure out which json page to go to (this is passed from the controller to the twig and accessed like this)
+
         var page = './jsonfilter/';
-        // Get the search box text
+        // Get the filter box text
         var filterText = $('#form_filter_list').val();
-        // Put the search box text after the page url
-        page = page + filterText;
-		
+
         // do a json call to the server to get the results
-        viewModel.currentJSONRequest = $.getJSON("./jsonfilter/", {}, function (jsonResults) {
+        viewModel.currentJSONRequest = $.getJSON("./jsonfilter/" + filterText, {}, function (jsonResults) {
             // Callback function
+            //hide loading thing
+            loadingImage.hide();
 
             // If no results came back, hide table and display message instead
             if (jsonResults.length === 0)
             {
-                $("table").hide();
-                $("#message").text("No results found");
+                listInfoMessage.text("No results found");
+                $("#filteredTruckListBody").hide();
+                $("#listInfo").show();
             }
             else
             {
-                $("table").show();
-                $("#message").text("");
+                $("#listInfo").hide();
+                $("#filteredTruckListBody").show();
             }
 
             // Set the results to be the returned results
             viewModel.results(jsonResults);
 
+            /*
             // Register event handler for the select links, but ONLY if it is a popup box
             // Note this has to be here, otherwise jquery can't bind to an element that doesn't exist yet
             if ($('.js-isPopup').data('ispopup') == 1) {
                 $('.popupSelectButton').click(postValue);
-            }
+            }*/
         });
+
     }
 };
 
@@ -48,11 +62,11 @@ var onLoad = function () {
     ko.applyBindings(viewModel);
 
     /*
-        Every time a key is pressed in the search box this event will check if timeOutInst is set.
+        Every time a key is pressed in the filter box this event will check if timeOutInst is set.
         If it is set then we call clearTimeout to cancel the timeout function and set it to be null
         After this we call the setTimeout function to send an ajax call in 400 ms.
     */
-    $('#searchBox').keyup(function () {
+    $('#form_filter_list').keyup(function () {
         if (timeOutInst != null) {
             clearTimeout(timeOutInst);
             timeOutInst = null;
@@ -60,6 +74,19 @@ var onLoad = function () {
 
         timeOutInst = setTimeout(function () { viewModel.getResults();}, 400);
     });//viewModel.getResults);
+
+    viewModel.results($('.js-inittrucks').data('inittrucks'));
+    $("#listInfo").hide();
+    $('.js-inittrucks').remove();
+
+    listInfoMessage = $('<h1 class="listError">');
+    listInfoMessage.text("No results found");
+    listInfoMessage.appendTo("#listInfoContent");
+
+    loadingImage = $('<img class="loadingGIF">'); //Equivalent: $(document.createElement('img'))
+    loadingImage.attr('src', 'https://media.giphy.com/media/ySeqU9tC1eFjy/200.gif');
+    loadingImage.appendTo("#listInfoContent");
+    loadingImage.hide();
 };
 
 /**

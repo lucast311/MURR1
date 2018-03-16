@@ -1,16 +1,19 @@
 {% extends 'base.html.twig' %}
+{% block title %}Trucks{% endblock %}
 
 {% block javascripts %}
  {# include Knockout to make the search script works #}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
     
-{# include the filter javasript #}
-<script type="text/javascript" src="{{ asset('JavaScript/Filter.js') }}"></script>
 <!-- Link in custom script that uses the delete prompts-->
 <script type="text/javascript" src="{{ asset('JavaScript/DeletePrompt.js') }}"></script>
-{% endblock %}
 
-{% block title %}Trucks{% endblock %}
+<div class="js-jsonpage" data-jsonpage="{{ path('property_jsonsearch_empty') }}"></div>
+<div class="js-inittrucks" data-inittrucks="{{inittrucks}}"></div>
+
+{# include the filter javasript #}
+<script type="text/javascript" src="{{ asset('JavaScript/Filter.js') }}"></script>
+{% endblock %}
 
 {% block body %}
 <style>
@@ -57,19 +60,19 @@
     {{ form_widget(filterform) }}
     {{ form_end(filterform) }}
 
-    <table class="trucks">
+    <table id="filteredTruckList" class="trucks ui celled table">
         <thead>
             <tr>
-                <th>Truck ID</th>
+                <th style="width: 4vw;min-width: 88px;">Truck ID</th>
                 <th>Type</th>
             </tr>
         </thead>
-        <tbody>
-            {% for t in trucks %}
+        <tbody id="filteredTruckListBody" data-bind="foreach: results">
+            {# % for t in trucks % #}
                 <tr>
-                    <td>{{ t.truckId }}</td>
-                    <td>{{ t.type }}</td>
-                    {#<td>
+                    <td data-bind="text:truckId">{{ formtruck.truckId }}</td>
+                    <td data-bind="text:type">{{ formtruck.type }}</td>
+                    {# <td>
                         <!-- Removal form. Data-ID is to hold the ID of the current truck-->
                         <form id="rmf{{ t.id}}" data-id="{{t.id}}" method="post" action="{{ path('truck_removal', { 'id': t.id })}}">
                             <!-- Specify button type so it doesn't automatically submit-->
@@ -90,11 +93,17 @@
                                 <i class="fas fa-times red"></i>
                             </button>
                         </form>
-                    </td>#}
+                    </td> #}
                 </tr>
-            {% endfor %}
+            {# % endfor % #}
+        </tbody>
+        <tbody id="listInfo">
+            <tr>
+                <td id="listInfoContent" colspan="2" style="text-align: center"></td>
+            </tr>
         </tbody>
     </table>
+
     <!-- This script is responsible for calling functions to handle the delete forms-->
     <script type="text/javascript">
     //Add all code that uses jquery into the window.onload because jquery is loaded at the bottom of the page (after loading base.html.twig)

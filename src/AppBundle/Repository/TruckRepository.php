@@ -13,21 +13,6 @@ use AppBundle\Services\SearchHelper;
  */
 class TruckRepository extends \Doctrine\ORM\EntityRepository
 {
-    // Find All
-    /**
-     * Story 40a
-     * Get all trucks, sorted by truckId by default
-     * @param $sortField field to sort truckss by
-     * @return array of all trucks
-     */
-    //public function findAll($sortField = "truckId")
-    //{
-    //    return $this->findBy(array(), array("$sortField" => "ASC"));
-    //}
-
-    // Search
-
-
     /**
      * Story40a
      * returns all (if null), returns from search if not null
@@ -36,22 +21,23 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
      */
     public function truckFilter($filters=null)
     {
-        $filterString = $filters['filter_list'];
         $trucks = array();
 
-
-        if(is_null($filterString))
+        if(is_null($filters))
         {
             $trucks = $this->getEntityManager()
                 ->getRepository(Truck::class)->findAll();
         }
         else
         {
+            rsort( $filters );
+            if(isset( $filters[0] ) && is_array( $filters[0])) //if 2d array(from POST Request)
+            {
+                $filters = $filters['filter_list'];
+            }
+
             $trucks = $this->getEntityManager()
-                ->getRepository(Truck::class)->truckSearch($filterString);
-            $trucks[] = (new Truck())
-                ->setTruckId("069690")
-                ->setType("FILTERED");
+                ->getRepository(Truck::class)->truckSearch($filters, array("id"));
         }
 
         return $trucks;
@@ -65,29 +51,30 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
      * @param mixed $queryStrings an array of strings to query the database on
      * @return array of searched entites returned from the queries
      */
-    public function truckSearch($queryStrings)
+    public function truckSearch($queryStrings, $excludedProperties = array())
     {
         // get the field names of the Truck entity
         $truckClassProperties = $this->getClassMetadata(Truck::class)->fieldNames;
 
-        //Add all of the class properties arrays to one array
-        $classPropertiesArray = array($truckClassProperties);
-
         //an array of abbreviations to be used in the query. These represent each join
         $classNames = array('t');
 
-        // shift off the id of each entity
-        foreach ($classPropertiesArray as $array)
+        foreach ($excludedProperties as $excludedProperty)
         {
-            array_shift($array);
+            if(in_array($excludedProperty, $truckClassProperties))
+            {
+                $truckClassProperties = array_diff($truckClassProperties, $excludedProperties);
+            }
         }
+
+        $classPropertiesArray = array($truckClassProperties);
 
         //create a searchHelper instance
         $searchHelper = new SearchHelper();
 
         //call the searchHelper service to return the class properties string
         $classPropertiesString = $searchHelper->searchHelper($classPropertiesArray, $queryStrings, $classNames);
-
+        
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
         $records = $this->getEntityManager()->createQuery(

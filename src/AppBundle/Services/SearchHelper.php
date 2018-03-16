@@ -36,17 +36,18 @@ class SearchHelper
                 // foreach string to query on
                 for ($i = 0; $i < sizeof($queryStrings); $i++)
                 {
-                    // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
-                    $searchString .= "LOWER($class[$classCounter].$val) LIKE '%{$queryStrings[$i]}%' OR ";
-
+                    //if(array_search($classPropertiesArray[]))
+                        // otherwise append to the WHERE clause while checking on lower case (this makes the search case insensitive)
+                        $searchString .= "LOWER($class[$classCounter].$val) LIKE '%{$queryStrings[$i]}%' OR ";
                 }
             }
-           // var_dump($searchString);
             $classCounter++;
         }
 
         // Remove the unneeded ' OR ' from the end of the query string
         $searchString = rtrim($searchString, ' OR ');
+
+        if($searchString == '') $searchString = "1 = 1";
 
         return $searchString;
     }
