@@ -9,6 +9,10 @@ use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
 use AppBundle\Entity\Contact;
 use AppBundle\Form\ContactAddPropertyType;
+use Symfony\Bridge\Doctrine\Test\DoctrineTestHelper;
+use Symfony\Bridge\Doctrine\Form\DoctrineOrmExtension;
+use Symfony\Component\Form\Extension\Core\CoreExtension;
+use Symfony\Component\Form\PreloadedExtension;
 
 /**
  * ContactAddPropertyTypeTest short summary.
@@ -20,6 +24,12 @@ use AppBundle\Form\ContactAddPropertyType;
  */
 class ContactAddPropertyTypeTest extends TypeTestCase
 {
+    //private $em;
+
+    //public function setup()
+    //{
+    //    $this->em = DoctrineTestHelper::createTestEntityManager();
+    //}
 
     /**
      * This method is required to allow the test to run
@@ -27,7 +37,13 @@ class ContactAddPropertyTypeTest extends TypeTestCase
      */
     protected function getExtensions()
     {
-        return array(new ValidatorExtension(Validation::createValidator()));
+        //$formType = new ContactAddPropertyType($this->em);
+
+        //$manager = $this->createMock("Doctrine\Common\Persistence\ManagerRegistry");
+        //$manager->expects($this->any())->method("getManager")->will($this->returnValue($this->em));
+        //$manager->expects($this->any())->method("getManagerForClass")->will($this->returnValue($this->em));
+
+        return array(/*new PreloadedExtension(array($formType), array()), new CoreExtension(), new DoctrineOrmExtension($manager),*/ new ValidatorExtension(Validation::createValidator()));
     }
 
     /**
@@ -66,10 +82,12 @@ class ContactAddPropertyTypeTest extends TypeTestCase
             'contact'=>$contact
         );
 
+        $object = new \stdClass();
+
         //create a new form
         $form = $this->factory->create(ContactAddPropertyType::class, null,array('contact'=>1));
 
-        $form->setData($formData);
+        //$form->setData($formData);
 
         //submit the data
         $form->submit($formData);

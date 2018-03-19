@@ -30,45 +30,6 @@ use Symfony\Component\Form\FormInterface;
  */
 class ContactController extends Controller
 {
-    private function handleAddProperty(Request $request, FormInterface $form)
-    {
-        //handle the form from the request
-        $form->handleRequest($request);
-
-        //if the form is valid
-        if($form->isSubmitted() && $form->isValid())
-        {
-            //get the contacts and properties
-            $em = $this->getDoctrine()->getManager();
-            $contactRepo = $em->getRepository(Contact::class);
-
-            $contact = $contactRepo->findOneById($request->request->get('appbundle_propertyToContact')['contact']);
-            $property = $em->getRepository(Property::class)->findOneById($request->request->get('appbundle_propertyToContact')['property']);
-
-            //if they both existed
-            if($contact != null && $property != null)
-            {
-                //if the property is already associated, add an error
-                if(in_array($property, $contact->getProperties()->toArray()))
-                {
-                    $form->addError(new FormError('This contact is already associated to the selected property'));
-                }
-                else
-                {
-                    //add the property to the contact
-                    $properties = $contact->getProperties();
-                    $properties->add($property);
-                    $contact->setProperties($properties);
-
-
-                    $contactRepo->save($contact);
-
-
-                }
-            }
-        }
-    }
-
     /**
      * Story 4k
      * Handles the removal of an associated property from a contact
@@ -185,8 +146,9 @@ class ContactController extends Controller
             if($addPropertyForm->isSubmitted() && $addPropertyForm->isValid())
             {
                 $em = $this->getDoctrine()->getManager();
+                $propertyRepo = $em->getRepository(Property::class);
 
-                $property = $em->getRepository(Property::class)->findOneById($request->request->get('appbundle_propertyToContact')['property']);
+                $property = $propertyRepo->findOneById($request->request->get('appbundle_propertyToContact')['property']);
                 if($contact->getProperties()->contains($property))
                 {
                     $addPropertyForm->addError(new FormError('This contact is already associated to the selected property'));
@@ -198,9 +160,8 @@ class ContactController extends Controller
                     $properties->add($property);
                     $contact->setProperties($properties);
                     $em->getRepository(Contact::class)->save($contact);
+                    $em->refresh($contact);
                 }
-
-                $em->refresh($contact);
             }
         }
 
