@@ -159,6 +159,7 @@
     <Compile Include="tests\AppBundle\Repository\RoutePickupRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\RouteRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
+    <Compile Include="tests\Mink\PropertyCommunicationAddTest.php" />
     <Compile Include="tests\Mink\ContainerSearchTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
     <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
@@ -3346,6 +3347,7 @@
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\JavaScript\base_twig.js" />
     <Content Include="web\JavaScript\DeleteModal.js" />
+    <Content Include="web\JavaScript\PropertyCommunicationAdd.js" />
     <Content Include="web\JavaScript\PropertySearchPopup.js" />
     <Content Include="web\JavaScript\DeletePrompt.js" />
     <Content Include="web\JavaScript\Search.js" />
