@@ -179,9 +179,10 @@ class ContactController extends Controller
         $deleteForm = $this->createDeleteForm($contact);
 
         $addPropertyForm = $this->createForm(ContactAddPropertyType::class,null,array('contact'=>$contact->getId()));
+        $addPropertyForm->handleRequest($request);
         if($request->getMethod() == 'POST')
         {
-            if($request->request->has('appbundle_propertyToContact'))
+            if($addPropertyForm->isSubmitted() && $addPropertyForm->isValid())
             {
                 $em = $this->getDoctrine()->getManager();
 

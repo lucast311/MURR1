@@ -67,7 +67,7 @@ class ContactAddPropertyTypeTest extends TypeTestCase
         );
 
         //create a new form
-        $form = $this->factory->create(ContactAddPropertyType::class, null,array('contact'=>'1'));
+        $form = $this->factory->create(ContactAddPropertyType::class, null,array('contact'=>1));
 
         $form->setData($formData);
 

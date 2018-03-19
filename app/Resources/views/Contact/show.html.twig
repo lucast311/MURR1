@@ -20,7 +20,11 @@
     </script>
 
 	<style>
-		#appbundle_propertyToContact > div{
+		.centerAlign{
+			text-align: center!important;
+		}
+		
+		.label[for="appbundle_propertyToContact_property"]{
 			display: inline-block;
 		}
 	</style>
@@ -106,11 +110,50 @@
         </tbody>
     </table>
 
+	<ul>
+        <li>
+            <a href="{{ path('contact_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('contact_edit', { 'id': contact.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" class="ui button" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+
     <h2>Property Roster</h2>
 
     <div class="ui segment">
 	    {{ form_start(add_property_form) }}
-	    {{ form_widget(add_property_form) }}
+	    {#{{ form_widget(add_property_form) }}#}
+		<table>
+			{{ form_errors(add_property_form) }}
+			{{ form_errors(add_property_form.property) }}
+			<tbody>
+				<tr>
+					
+					<td>
+						<div class="inline fields">
+							{{ form_widget(add_property_form.property) }}
+						</div>
+					</td>
+					<td>
+						<div class="inline fields">
+							<input class='ui button' id='advanced_property_search_popup' value='Advanced Search' type='button'/>
+						</div>
+					</td>
+					<td>
+						<div class="inline fields">
+							{{ form_row(add_property_form.Add) }}
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		{{ form_row(add_property_form.contact) }}
 	    {{ form_end(add_property_form) }}
     </div>
 
@@ -118,27 +161,27 @@
     <p>No associated properties</p>
     {% else %}
 
-        <table class="ui celled table" id="associatedProperties">
+        <table class="ui selectable celled table" id="associatedProperties">
             <thead>
                 <tr>
                     <th>Street Address</th>
                     <th>Property Name</th>
-                    <th>Site Id</th>
+                    <th class="centerAlign">Site Id</th>
                     <th>Neighbourhood</th>
-                    <th>Number of Units</th>
+                    <th class="centerAlign"># of Units</th>
                     <th>Type</th>
-                    <th>Remove</th>
+                    <th class="centerAlign">Remove</th>
                 </tr>
             </thead>
             {%for property in contact.properties%}
             <tr>
                 <td onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.address.streetAddress}}</td>
                 <td onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.propertyName}}</td>
-                <td onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.siteId}}</td>
+                <td class="centerAlign" onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.siteId}}</td>
                 <td onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.neighbourhoodName}}</td>
-                <td onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.numUnits}}</td>
+                <td class="centerAlign" onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.numUnits}}</td>
                 <td onclick="window.location = '{{path('property_view', { 'propertyId': property.id })}}'">{{property.propertyType}}</td>
-                <td>
+                <td class="centerAlign">
                     <form name="appbundle_removePropertyFromContact" method="post" action="{{path('remove_property_from_contact')}}" data-message="Are you sure you want to remove {{property.address.streetAddress}}?">
                         <input type="hidden" name="contact" value="{{contact.id}}"/>
                         <input type="hidden" name="property" value="{{property.id}}"/>
@@ -149,17 +192,5 @@
             {%endfor%}
         </table>
     {%endif%}
-    <ul>
-        <li>
-            <a href="{{ path('contact_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('contact_edit', { 'id': contact.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+
 {% endblock %}
