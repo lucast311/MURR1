@@ -281,6 +281,8 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         //click the accept button
         $acceptBtn->click();
 
+        $this->assertFalse($promptModal->isVisible());
+
         $associatedProperties = $page->find("css","#associatedProperties");
 
         //assert that the associated properties table still contains Balla Highrize
@@ -319,6 +321,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         //click the accept button
         $acceptBtn->click();
+
 
         $associatedProperties = $page->find("css","#associatedProperties");
 
@@ -382,6 +385,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         // check that user is redirected to the Property view page
         $this->assertContains("View Property", $page->find("css", "h2")->getHtml());
+        $this->assertContains("333666999", $page->find("css", "table:first-child")->getHtml());
     }
 
     protected function tearDown()

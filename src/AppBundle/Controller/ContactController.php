@@ -143,6 +143,7 @@ class ContactController extends Controller
         $addPropertyForm->handleRequest($request);
         if($request->getMethod() == 'POST')
         {
+            //HACK: Don't do this again. This was a special case when dealing with Properties and sorting by address. POST method should be handled in a different action.
             if($addPropertyForm->isSubmitted() && $addPropertyForm->isValid())
             {
                 $em = $this->getDoctrine()->getManager();
