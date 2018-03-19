@@ -16,7 +16,7 @@
 
 <script>
     $(function () {
-        initialize($('#appbundle_truck'));
+        // initialize($('#appbundle_truck'));
 
         addModal();
         $('.removeButton').click(function () {
@@ -41,23 +41,6 @@
 
     form[name^="appbundle_truck"]{
         display: inline-block;
-        border: 1px solid black;
-    }
-
-    .trucks th, .truck td{
-        padding: 5px;
-    }
-
-    .trucks tbody{
-        outline: 1px solid black;
-    }
-
-    .red{
-        color: red;
-    }
-
-    .green{
-        color: green;
     }
 </style>
 
@@ -124,7 +107,7 @@
         </tbody>
         <tbody id="listInfo" class="ui segment">
             <tr>
-                <td id="listInfoContent" class="ui active" colspan="2" style="text-align: center"></td>
+                <td id="listInfoContent" class="ui active" colspan="3" style="text-align: center"></td>
             </tr>
         </tbody>
     </table>
