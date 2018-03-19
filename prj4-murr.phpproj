@@ -172,6 +172,7 @@
     <Compile Include="tests\AppBundle\Repository\RoutePickupRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\RouteRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
+    <Compile Include="tests\Mink\ContainerSearchTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
     <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
     <Compile Include="tests\Mink\TruckEditPageTest.php" />
@@ -3342,6 +3343,7 @@
     <Content Include="app\Resources\views\container\edit.html.twig" />
     <Content Include="app\Resources\views\container\index.html.twig" />
     <Content Include="app\Resources\views\container\new.html.twig" />
+    <Content Include="app\Resources\views\container\searchContainer.html.twig" />
     <Content Include="app\Resources\views\container\show.html.twig" />
     <Content Include="app\Resources\views\propertySearch\propertyJSONSearches.html.twig" />
     <Content Include="app\Resources\views\propertySearch\show.html.twig" />
@@ -3384,9 +3386,11 @@
     <Content Include="TestPlaylists\Security_Controller.playlist" />
     <Content Include="TestPlaylists\Truck_All.playlist" />
     <Content Include="web.config" />
+    <Content Include="phpunit.xml.dist.tmppica" />
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\JavaScript\base_twig.js" />
     <Content Include="web\JavaScript\Filter.js" />
+    <Content Include="web\JavaScript\DeleteModal.js" />
     <Content Include="web\JavaScript\PropertySearchPopup.js" />
     <Content Include="web\JavaScript\DeletePrompt.js" />
     <Content Include="web\JavaScript\Search.js" />

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "70c2d298fb865cdcb2e9d82e68660dc6",
+    "content-hash": "4bc1d18ed6bac8b29960a4d3a0bb42f8",
     "packages": [
         {
             "name": "behat/mink",
@@ -1042,6 +1042,56 @@
                 "rest"
             ],
             "time": "2016-10-17T18:31:11+00:00"
+        },
+        {
+            "name": "harmony-project/ui-bundle",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/harmony-project/ui-bundle.git",
+                "reference": "b6d3bf042645f0f6fe31279cbeccb9b842921729"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/harmony-project/ui-bundle/zipball/b6d3bf042645f0f6fe31279cbeccb9b842921729",
+                "reference": "b6d3bf042645f0f6fe31279cbeccb9b842921729",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "symfony/http-kernel": "~3.0|~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Harmony\\Bundle\\UiBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tim Goudriaan",
+                    "homepage": "http://codedmonkey.com"
+                }
+            ],
+            "description": "Integrates Semantic UI 2 into the Symfony framework",
+            "homepage": "http://harmony-project.io",
+            "keywords": [
+                "semantic-ui",
+                "symfony"
+            ],
+            "time": "2017-12-06T20:31:37+00:00"
         },
         {
             "name": "incenteev/composer-parameter-handler",

@@ -486,7 +486,7 @@ class EduMatFormControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         // Test to see if our error message is on has appeared.
-        $this->assertCount(2, $crawler->filter('li'));
+        $this->assertCount(2, $crawler->filter('div.item'));
     }
 
     /**

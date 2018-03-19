@@ -225,7 +225,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertContains('Charlton Legs', $clientResponse);
 
 
-        //$client->request('GET', "/property/view/$propertyId");
+        //$client->request('GET', "/property/$propertyId");
         //$clientResponse = $client->getResponse()->getContent();
         //$this->assertContains('Charlton Legs', $clientResponse);
 
@@ -236,7 +236,7 @@ class PropertyControllerTest extends WebTestCase
 
 
 
-        //$crawler = $client->request('GET', "/property/view/$propertyId");
+        //$crawler = $client->request('GET', "/property/$propertyId");
 
 
         //$clientResponse = $crawler->html();
@@ -380,7 +380,7 @@ class PropertyControllerTest extends WebTestCase
 
 
         //Request the property view page for the property that was just inserted
-        $crawler = $client->request('GET',"/property/view/$propertyId");
+        $crawler = $client->request('GET',"/property/$propertyId");
 
         // Assert that all the proper labels are on the page
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Site Id")')->count());
@@ -421,7 +421,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for a property that does not exist
-        $crawler = $client->request('GET',"/property/view/-5");
+        $crawler = $client->request('GET',"/property/-5");
 
         // assert that the correct error message appeared
         $this->assertGreaterThan(0, $crawler->filter('html:contains("The specified property could not be found")')->count());
@@ -437,7 +437,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page without specifying an id
-        $crawler = $client->request('GET',"/property/view/");
+        $crawler = $client->request('GET',"/property/");
 
         // assert that the correct error message appeared
         $this->assertGreaterThan(0, $crawler->filter('html:contains("No property specified")')->count());
@@ -550,7 +550,7 @@ class PropertyControllerTest extends WebTestCase
 
 
         //Request the property view page for the property that was just inserted
-        $crawler = $client->request('GET',"/property/view/$propertyId");
+        $crawler = $client->request('GET',"/property/$propertyId");
 
         // Assert that the page contains a table
         $this->assertTrue($crawler->filter('table.containers')->first() != null);
@@ -613,7 +613,7 @@ class PropertyControllerTest extends WebTestCase
         $propertyId = $repo->save($property);
 
         //Request the property view page for the property that was just inserted
-        $crawler = $client->request('GET',"/property/view/$propertyId");
+        $crawler = $client->request('GET',"/property/$propertyId");
 
         //Check that no container table headers exist on this page
         $this->assertEquals(0, $crawler->filter('table.containers:contains("Serial #")')->count());
@@ -637,7 +637,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for a property that does not exist
-        $crawler = $client->request('GET',"/property/view/-5");
+        $crawler = $client->request('GET',"/property/-5");
 
         // Assert that the correct error message appeared
         $this->assertGreaterThan(0, $crawler->filter('html:contains("The specified property could not be found")')->count());
@@ -664,7 +664,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for a property that does not exist
-        $crawler = $client->request('GET',"/property/view");
+        $crawler = $client->request('GET',"/property/");
 
         // Assert that the correct error message appeared
         $this->assertGreaterThan(0, $crawler->filter('html:contains("No property specified")')->count());
@@ -738,7 +738,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for the property that was just inserted
-        $crawler = $client->request('GET',"/property/view/$propertyId");
+        $crawler = $client->request('GET',"/property/$propertyId");
 
         // Get the id of the communication
         $commID = $communication->getId();
@@ -807,7 +807,7 @@ class PropertyControllerTest extends WebTestCase
         $propertyId = $repo->save($property);
 
         //Request the property view page for the property that was just inserted
-        $crawler = $client->request('GET',"/property/view/$propertyId");
+        $crawler = $client->request('GET',"/property/$propertyId");
 
 
         // Assert that the table does not have any headers
@@ -834,7 +834,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for a property that does not exist
-        $crawler = $client->request('GET',"/property/view/-5");
+        $crawler = $client->request('GET',"/property/-5");
 
 
         //Check that no communication table headers exist on this page
@@ -907,7 +907,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for the property that was just inserted
-        $crawler = $client->request('GET',"/property/view/$propertyId");
+        $crawler = $client->request('GET',"/property/$propertyId");
 
 
         // Assert that the table contains 15 rows of data
@@ -969,7 +969,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for the property that was just inserted
-        $crawler = $client->request('GET',"/property/view/$id");
+        $crawler = $client->request('GET',"/property/$id");
 
         //Check that there is no error message
         $this->assertNotContains("No associated contacts", $client->getResponse()->getContent());
@@ -1028,7 +1028,7 @@ class PropertyControllerTest extends WebTestCase
         $propertyId = $repo->save($property);
 
         //Request the property view page for the property that was just inserted
-        $crawler = $client->request('GET',"/property/view/$propertyId");
+        $crawler = $client->request('GET',"/property/$propertyId");
 
 
         // Assert that the table does not have any headers
@@ -1052,7 +1052,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for a property that does not exist
-        $crawler = $client->request('GET',"/property/view/-5");
+        $crawler = $client->request('GET',"/property/-5");
 
 
         //Check that no contact table headers exist on this page
@@ -1142,7 +1142,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the property view page for the property that was just inserted
-        $crawler = $client->request('GET',"/property/view/$propertyId");
+        $crawler = $client->request('GET',"/property/$propertyId");
 
 
         // Assert that the table contains 15 rows of data

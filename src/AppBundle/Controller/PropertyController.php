@@ -141,9 +141,9 @@ class PropertyController extends Controller
      * Handles the viewing of a property.
      * @param Request $request
      *
-     * @Route("/property/view/{propertyId}", name="property_view")
-     * @Route("/property/view")
-     * @Route("/property/view/")
+     * @Route("/property/{propertyId}", name="property_view")
+     * @Route("/property")
+     * @Route("/property/")
      */
     public function viewAction($propertyId = 'not_specified')
     {
