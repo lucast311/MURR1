@@ -281,6 +281,8 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         //click the accept button
         $acceptBtn->click();
 
+        $this->session->wait(1000);
+
         $this->assertFalse($promptModal->isVisible());
 
         $associatedProperties = $page->find("css","#associatedProperties");
