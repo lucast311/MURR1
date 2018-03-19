@@ -489,6 +489,32 @@ class CommunicationControllerTest extends WebTestCase
         $this->assertContains('[]', $client->getResponse()->getContent());
     }
 
+    /**
+     * Story 11d
+     * Tests that you can edit a communication
+     */
+    public function testEditSubmitRedirect()
+    {
+        //Create the client
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        //Request the communication edit page
+        $crawler = $client->request('GET','/communication/edit/56');
+
+        // Get the form
+        $form = $crawler->selectButton("Save")->form();
+
+        // Change something
+        $form['communication[description]'] = "The description of this communication has been changed";
+
+        // Submit the form
+        $crawler = $client->submit($form);
+        // Go to the communication and see the change
+        $crawler = $client->request('GET', '/communication/view/56');
+
+        $this->assertContains('The description of this communication has been changed', $client->getResponse()->getContent());
+    }
+
     protected function tearDown()
     {
         parent::tearDown();
