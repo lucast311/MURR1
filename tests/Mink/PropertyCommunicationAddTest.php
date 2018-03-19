@@ -62,10 +62,14 @@ class PropertyCommunicationAddTest extends WebTestCase
         $this->session->wait(10000, "document.readyState === 'complete'");
     }
 
+    /**
+     * Story 11d
+     * Checks the entire workflow of successfully adding a new communication directly from the property view page.
+     */
     public function testPropertyNewCommunicationSuccess()
     {
         // Navigate to the property view page
-        $this->session->visit('http://localhost:8000/app_test.php/property/1');
+        $this->session->visit('http://localhost:8000/app_test.php/property/161');
         // Get the page
         $page = $this->session->getPage();
 
@@ -80,15 +84,19 @@ class PropertyCommunicationAddTest extends WebTestCase
 
         // Fill out the new communication form
         $page->findById("communication_type")->setValue("Phone");
-        $page->findById("communication_medium_0")->selectOption(); // Set medium to incomming
+        $page->findById("communication_medium")->selectOption("Incoming");
         $page->findById("communication_contactName")->setValue("Mr. Man");
         $page->findById("communication_email")->setValue("mr.man@manson.ca");
         $page->findById("communication_phone")->setValue("123-456-7891");
-        $page->findById("communication_property")->selectOption("Ack Street");
         $page->findById("communication_category")->selectOption("Container");
         $page->findById("communication_description")->setValue("Mr. Man phoned and said there was a dune buggy stuck inside his recycling container. He wants it gone.");
+        // Assert that the property has been auto populated
+        $this->assertEquals($page->findById("communication_property")->getValue(), "123 Main Street");
         // Submit the form
         $page->findById("communication_add")->submit();
+
+        // Assert that the new communication modal has vanished.
+        $this->assertFalse($page->find('css', "div#communicationModal.ui.dimmer.modals.page.transition.active")->isVisible());
 
         // Once the page has reloaded, assert that the new communication is listed on the page
         $this->assertNotNull($page->find('named', array('content', "Phone")));
@@ -96,10 +104,100 @@ class PropertyCommunicationAddTest extends WebTestCase
         $this->assertNotNull($page->find('named', array('content', "Mr. Man")));
         $this->assertNotNull($page->find('named', array('content', "mr.man@manson.ca")));
         $this->assertNotNull($page->find('named', array('content', "123-456-7891")));
-
-
+        $this->assertNotNull($page->find('named', array('content', "Mr. Man phoned and said there was a dune buggy stuck inside his recycling container. He wants it gone.")));
 
     }
+
+    /**
+     * Story 11d
+     * Tests that when the new communication form is invalid, it actually shows the errors on the screen.
+     */
+    public function testPropertyNewCommunicationInvalid()
+    {
+        // Navigate to the property view page
+        $this->session->visit('http://localhost:8000/app_test.php/property/161');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // find the new communication button
+        $newCommunicationBtn = $page->find('named', array('button', "New Communication"));
+        // Click the new communication button
+        $newCommunicationBtn->click();
+
+        // Assert that the new communication modal has appeared.
+        $this->assertTrue($page->find('css', "div#communicationModal.ui.dimmer.modals.page.transition.active")->isVisible());
+
+        // Fill out the new communication form
+        // Do not set type, this should make the form invalid
+        $page->findById("communication_medium")->selectOption("Incoming");
+        $page->findById("communication_contactName")->setValue("Mr. Man");
+        $page->findById("communication_email")->setValue("mr.man@manson.ca");
+        $page->findById("communication_phone")->setValue("123-456-7891");
+        $page->findById("communication_category")->selectOption("Container");
+        $page->findById("communication_description")->setValue("Mr. Man phoned and said there was a dune buggy stuck inside his recycling container. He wants it gone.");
+
+        // Once the page has reloaded, assert that the modal is still visible
+        $this->assertTrue($page->find('css', "div#communicationModal.ui.dimmer.modals.page.transition.active")->isVisible());
+
+        // assert that there is an error message on the page
+        $this->assertNotNull($page->find('named', array('content', "Please select a type of communication")));
+
+    }
+
+    /**
+     * Story 11d
+     * Tests that clicking on a row of a listed communication will take you to it's view page
+     */
+    public function testCommunicationClickView()
+    {
+        // Navigate to the property view page
+        $this->session->visit('http://localhost:8000/app_test.php/property/161');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // Click the desired communication (id 56 in this case)
+        $page->find('named', array('content', "56"))->click();
+
+        // Assert that we're on the right page
+        $this->assertContains('/communication/view/56', $this->session->getCurrentUrl());
+    }
+
+    /**
+     * Story 11d
+     * Tests that clicking on a row of a listed container will take you to it's view page
+     */
+    public function testContactClickView()
+    {
+        // Navigate to the property view page
+        $this->session->visit('http://localhost:8000/app_test.php/property/162');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // Click the desired contact
+        $page->find('named', array('content', "Ken Kenson"))->click();
+
+        // Assert that we're on the right page
+        $this->assertContains('/contact/208', $this->session->getCurrentUrl());
+    }
+
+    /**
+     * Story 11d
+     * Tests that clicking on a row of a listed container will take you to it's view page
+     */
+    public function testContainerClickView()
+    {
+        // Navigate to the property view page
+        $this->session->visit('http://localhost:8000/app_test.php/property/164');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // Click the desired contact (serial 888888)
+        $page->find('named', array('content', "888888"))->click();
+
+        // Assert that we're on the right page
+        $this->assertContains('/container/32', $this->session->getCurrentUrl());
+    }
+
 
     protected function tearDown()
     {
