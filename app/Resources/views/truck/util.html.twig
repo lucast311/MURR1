@@ -6,7 +6,8 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
     
 <!-- Link in custom script that uses the delete prompts-->
-<script type="text/javascript" src="{{ asset('JavaScript/DeletePrompt.js') }}"></script>
+<!--script type="text/javascript" src="{{ asset('JavaScript/DeletePrompt.js') }}"></script-->
+<script type="text/javascript" src="{{ asset('JavaScript/RemoveModal.js') }}"></script>
 
 <div class="js-jsonpage" data-jsonpage="{{ path('property_jsonsearch_empty') }}"></div>
 <div class="js-inittrucks" data-inittrucks="{{inittrucks}}"></div>
@@ -42,6 +43,13 @@
     form[name^="appbundle_truck"]{
         display: inline-block;
     }
+
+    td form{
+        display:inline-block;
+    }
+    td .pencil{
+        opacity: 1 !important; 
+    }
 </style>
 
 <div>
@@ -65,7 +73,7 @@
             <tr>
                 <!--<th>ID[HIDDEN]</th>-->
                 <th style="width: 4vw;min-width: 88px;">Truck ID</th>
-                <th>Type</th>
+                <th style="width: 6vw;min-width: 121px;">Type</th>
 				<th>Edit/Remove</th>
             </tr>
         </thead>
@@ -76,10 +84,14 @@
                     <td data-bind="text:truckId, attr: {data: id}">{{ formtruck.truckId }}</td>
                     <td data-bind="text:type">{{ formtruck.type }}</td>
                     <td>
-						<form name="appbundle_removeTruck" method="post" data-bind="attr: {action: '{{ path('truck_edit') }}/'+id}" data-message="Are you sure you want to remove [TRUCKID]?">
-							<input type="hidden" name="contact" data-bind="attr: {value: id}"/>
+						<form name="appbundle_editTruck" method="post" data-bind="attr: {action: '{{ path('truck_edit') }}/'+id }">
+                            <button type="submit" class="ui icon button" data-bind="attr: {id: 'rmb'+id}" ><i class="pencil alternate icon"></i></button>
+						</form>
+                        
+                        <form name="appbundle_removeTruck" method="post" data-bind="attr: {action: '{{ path('truck_edit') }}/'+id, 'data-message': 'Are you sure you want to remove Truck \'\''+truckId+'\'\''}">
 							<button type="button" class="ui icon button removeButton red" data-bind="attr: {id: 'rmb'+id}" ><i class="close icon"></i></button>
 						</form>
+
 						{# <!--
 						<form method="post" data-bind="attr: {id: 'rmb'+id, action: '{{ path('truck_edit') }}/'+id}">
 							<!-- Specify button type so it doesn't automatically submit-->

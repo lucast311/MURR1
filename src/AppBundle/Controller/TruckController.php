@@ -212,6 +212,44 @@ class TruckController extends Controller
         ));
     }
 
+    /**
+     * Story 40a
+     * Handles the removal of a truck
+     * @param Request $request
+     * @Route("/remove/{id}", name="truck_remove")
+     * @Method({"POST"})
+     * maybe use the delete method??
+     */
+    /*public function removePropertyAction(Request $request, $id=null)
+    {
+        //if posted
+        if($request->getMethod() == 'POST')
+        {
+            if(is_null($id))
+                $id = intval($request->get('id'));
+
+            $em = $this->getDoctrine()->getManager();
+            $truckRepo = $em->getRepository(Truck::class);
+            $truck = $truckRepo->findOneById($id);
+
+            if($truck != null)
+            {
+                if(in_array($property, $contact->getProperties()->toArray()))
+                {
+                    $properties = $contact->getProperties();
+                    $properties->removeElement($property);
+                    $contact->setProperties($properties);
+
+                    $contactRepo->save($contact);
+
+                    return $this->redirectToRoute("contact_show", array("id"=>$contact->getId()));
+                }
+            }
+        }
+
+        //If there wasn't a success anywhere, redirect to the contact search page
+        return $this->redirectToRoute("contact_search");
+    }*/
 
 
     /**
