@@ -78,11 +78,13 @@ class ContactController extends Controller
      * @Route("/contact/search", name="contact_search")
      * @Method("GET")
      */
-    public function searchAction()
+    public function searchAction(Request $request)
     {
+        $isPopup = ($request->query->get("isPopup")) == "true" ? true : false;
         // Render the twig with required data
         return $this->render('Contact/searchContact.html.twig', array(
-            'viewURL' => '/contact/'
+            'viewURL' => '/contact/',
+            'isPopup' => $isPopup
         ));
     }
 
