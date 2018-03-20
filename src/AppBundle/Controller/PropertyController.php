@@ -10,6 +10,7 @@ use AppBundle\Entity\Contact;
 use AppBundle\Entity\Communication;
 use AppBundle\Entity\Container;
 use AppBundle\Form\PropertyType;
+use AppBundle\Form\Type\CommunicationType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormError;
 use AppBundle\Repository\PropertyRepository;
@@ -152,10 +153,13 @@ class PropertyController extends Controller
         // Get the specific property
         $property = $em->getRepository(Property::class)->findOneById($propertyId);
 
+        $addCommunicationForm = $this->createForm(CommunicationType::class, new Communication());
+
         // Render the html and pass in the property
         return $this->render('property/viewProperty.html.twig', array('property'=>$property,
             'propertyId'=>$propertyId,
-            'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId))));
+            'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
+            'newCommunicationForm' => $addCommunicationForm->createView()));
     }
 
     /**

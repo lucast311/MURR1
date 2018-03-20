@@ -3,5 +3,10 @@
 // Handles the modal popup for adding a communication through the property view page.
 var onLoad = function ()
 {
-
+    $("#newCommunication").click(function () {
+        $("#communicationModal").modal('show');
+    });
+    
 }
+
+$(onLoad);

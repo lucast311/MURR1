@@ -2,6 +2,10 @@
 
 {% block title %}View Property{% endblock %}
 
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('JavaScript/PropertyCommunicationAdd.js') }}"></script>
+{% endblock %}
+
 {% block body %}
         <style>
             .associations{
@@ -148,7 +152,14 @@
 
         {% endif %}
 
-        <h1>Communications</h1>
+        <h1>
+            Communications
+            <span>
+                <button class="ui button" id="newCommunication">
+                    New Communication
+                </button>
+            </span>
+        </h1>
         {% if property.communications is empty %}
         <h2>No communication entries found for this property</h2>
 
@@ -184,6 +195,25 @@
             </table>
 
         {% endif %}
+
+        <div class="ui modal" id="communicationModal">
+             <i class="close icon"></i>
+            <div class="header">
+                New Communication
+            </div>
+            {{ form_start(newCommunicationForm, { 'attr': {'class' : "testClass"}}) }}
+            <div class="content">
+                
+                {{ form_widget(newCommunicationForm) }}
+
+                
+                
+            </div>
+            <div class="actions">
+                {{ form_row(newCommunicationForm.add) }}
+            </div>
+            {{ form_end(newCommunicationForm) }}
+        </div>
     {% endif %}
 </div>
 
