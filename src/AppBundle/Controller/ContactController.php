@@ -140,9 +140,11 @@ class ContactController extends Controller
         $deleteForm = $this->createDeleteForm($contact);
 
         $addPropertyForm = $this->createForm(ContactAddPropertyType::class,null,array('contact'=>$contact->getId()));
+        $addPropertyForm->handleRequest($request);
         if($request->getMethod() == 'POST')
         {
-            if($request->request->has('appbundle_propertyToContact'))
+            //HACK: Don't do this again. This was a special case when dealing with Properties and sorting by address. POST method should be handled in a different action.
+            if($addPropertyForm->isSubmitted() && $addPropertyForm->isValid())
             {
                 $em = $this->getDoctrine()->getManager();
                 $propertyRepo = $em->getRepository(Property::class);

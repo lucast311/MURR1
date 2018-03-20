@@ -143,7 +143,6 @@
     <Compile Include="tests\AppBundle\Entity\RoutePickupTest.php" />
     <Compile Include="tests\AppBundle\Entity\RouteTest.php" />
     <Compile Include="tests\AppBundle\Form\CollectionHistoryTypeTest.php" />
-    <Compile Include="tests\AppBundle\Form\ContactAddPropertyTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\ContainerTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\PropertyAddContactTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\RoutePickupTypeTest.php" />

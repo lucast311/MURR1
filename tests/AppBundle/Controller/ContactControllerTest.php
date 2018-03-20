@@ -566,7 +566,7 @@ class ContactControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Site Id")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Street Address")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Neighbourhood")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Number of Units")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("# of Units")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Type")')->count());
 
         //assert that the associated data shows up

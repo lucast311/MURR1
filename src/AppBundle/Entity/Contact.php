@@ -410,6 +410,8 @@ class Contact
     {
         $iterator = $this->properties->getIterator();
 
+
+        //HACK: Don't do this again. This was a special case when dealing with Properties and sorting by address.
         $iterator->uasort(
             function($a, $b){
                 return ($a->getAddress()->getStreetAddress() < $b->getAddress()->getStreetAddress()) ? -1 : 1;
