@@ -225,6 +225,11 @@
     <button onclick="window.location.href ='{{editPath}}'">Edit</button>
 
     <h1>Property Contacts</h1>
+
+    <div class="ui segment">
+        {{ form_start(add_contact_form)}}
+    </div>
+
     {% if property.contacts is empty %}
     <h2>No associated contacts</h2>
 

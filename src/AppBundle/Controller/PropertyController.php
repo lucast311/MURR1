@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
+use AppBundle\Form\PropertyAddContactType;
 
 /**
  * Controller that contains methods for anything having to do with a property.
@@ -177,17 +178,42 @@ class PropertyController extends Controller
      * @Route("/property")
      * @Route("/property/")
      */
-    public function viewAction($propertyId = 'not_specified')
+    public function viewAction($propertyId = 'not_specified', Request $request)
     {
         // Get the entity manager
         $em = $this->getDoctrine()->getManager();
         // Get the specific property
         $property = $em->getRepository(Property::class)->findOneById($propertyId);
 
+        $addContactForm = $this->createForm(PropertyAddContactType::class, null,array('property'=>$property->getId()));
+        if($request->getMethod() == 'POST')
+        {
+            if($request->request->has('appbundle_contactToProperty'))
+            {
+                $em = $this->getDoctrine()->getManager();
+                $contactRepo = $em->getRepository(Contact::class);
+
+                $contact = $contactRepo->findOneById($request->request->get('appbundle_contactToProperty')['contact']);
+                if($property->getContacts()->contains($contact))
+                {
+                    $addContactForm->addError(new FormError('This property is already associated to the selected contact'));
+                }
+                else
+                {
+                    $contacts = $property->getContacts();
+                    $contacts->add($property);
+                    $property->setContacts($contacts);
+                    $em->getRepository(Property::class)->save($property);
+                    $em->refresh($property);
+                }
+            }
+        }
+
         // Render the html and pass in the property
         return $this->render('property/viewProperty.html.twig', array('property'=>$property,
             'propertyId'=>$propertyId,
-            'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId))));
+            'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
+            'add_contact_form' => $addContactForm->createView()));
     }
 
     /**
