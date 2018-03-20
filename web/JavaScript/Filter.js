@@ -2,7 +2,11 @@
 var viewModel = {
     results: ko.observableArray(),
     currentJSONRequest: null,
-    getResults: function () {
+    getResults: function (sortOnField, direction)
+    {
+        if (!(sortOnField > -1)) sortOnField = 0;
+        if (!(direction > -1)) direction = 0;
+
         //show loading,hidedata
         $("#listInfo").show();
         loadingInfo.show();

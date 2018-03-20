@@ -37,7 +37,7 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
             }
 
             $trucks = $this->getEntityManager()
-                ->getRepository(Truck::class)->truckSearch($filters, array("id"));
+                ->getRepository(Truck::class)->truckSearch($filters, array("id"), "truckId");
         }
 
         return $trucks;
@@ -51,13 +51,14 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
      * @param mixed $queryStrings an array of strings to query the database on
      * @return array of searched entites returned from the queries
      */
-    public function truckSearch($queryStrings, $excludedProperties = array())
+    public function truckSearch($queryStrings, $excludedProperties = array(), $sortOnProperty = null, $sortDirection = "DESC")
     {
         // get the field names of the Truck entity
         $truckClassProperties = $this->getClassMetadata(Truck::class)->fieldNames;
 
         //an array of abbreviations to be used in the query. These represent each join
         $classNames = array('t');
+
 
         foreach ($excludedProperties as $excludedProperty)
         {
@@ -74,12 +75,19 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
 
         //call the searchHelper service to return the class properties string
         $classPropertiesString = $searchHelper->searchHelper($classPropertiesArray, $queryStrings, $classNames);
-        
+
+        $sortString="";
+        if(!is_null($sortOnProperty))
+        {
+            $sortString = " ORDER BY $classNames[0].$sortOnProperty $sortDirection";
+        }
+
         // The query that defines all the joins on communications to search for,
         //  and links them together based on id's
         $records = $this->getEntityManager()->createQuery(
         "SELECT t FROM AppBundle:Truck t
-        WHERE $classPropertiesString"
+        WHERE $classPropertiesString
+        $sortString"
         )->getResult();
 
         // remove any NULL values from the array (NULL values are represented by non-propety objects)
