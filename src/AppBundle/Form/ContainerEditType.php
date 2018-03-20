@@ -18,6 +18,7 @@ class ContainerEditType extends AbstractType
     {
         //Add all required fields for the edit form (No serial #, add property and structure)
         $builder
+            ->add('containerSerial')
             ->add('type', ChoiceType::class, array('choices'=>Container::TypeChoices()))
             ->add('size')
             ->add('augmentation')

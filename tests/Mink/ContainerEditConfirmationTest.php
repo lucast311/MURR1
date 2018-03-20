@@ -78,8 +78,16 @@ class ContainerEditConfirmationTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
+        $serialField = $page->find("css","#appbundle_container_containerSerial")->getHtml();
+
+        // check that the field cannot be edited
+        $this->assertContains('disabled', $serialField);
+
         // Click the unlock button
         $page->find('named', array('button', "Unlock"))->click();
+
+        // check that the field can be edited
+        $this->assertNotContains('disabled', $serialField);
     }
 
     /**
