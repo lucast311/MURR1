@@ -4,8 +4,6 @@
 {% block javascripts %}
  {# include Knockout to make the search script works #}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
- {# include tablesort for easy table sorting #}
-<script type="text/javascript" src="https://semantic-ui.com/javascript/library/tablesort.js"></script>
 <!-- Link in custom script that uses the delete prompts-->
 <!--script type="text/javascript" src="{{ asset('JavaScript/DeletePrompt.js') }}"></script-->
 <script type="text/javascript" src="{{ asset('JavaScript/RemoveModal.js') }}"></script>
@@ -18,7 +16,6 @@
 
 <script>
     $(function () {
-        // initialize($('#appbundle_truck'));
 
         addModal();
         $('.removeButton').click(function () {
@@ -36,15 +33,7 @@
 {% block body %}
 
 <style>
-    form[name^="appbundle_truck"] div{
-        display: inline-block;
-        padding: 5px;
-    }
 
-    form[name^="appbundle_truck"]{
-        display: flex;
-        margin-bottom: -2%;
-    }
 
     td form{
         display:inline-block;
@@ -63,10 +52,11 @@
     <div class="ui segment">
         {{ form_start(add_truck_form) }}
 
+        {{ form_errors(add_truck_form) }}
         <table>
-			{{ form_errors(add_truck_form) }}
 			<tbody>
 				<tr>
+                    {{ form_errors(add_truck_form.truckId) }}
 					<td>
 						<div class="inline fields">
                             {{ form_label(add_truck_form.truckId)  }}
@@ -74,6 +64,7 @@
 						</div>
 					</td>
 
+                    {{ form_errors(add_truck_form.type) }}
 					<td>
 						<div class="inline fields">
                             {{ form_label(add_truck_form.type)  }}
@@ -89,7 +80,7 @@
 				</tr>
 			</tbody>
 		</table>
-        {{ form_widget(add_truck_form) }}
+
         {{ form_end(add_truck_form) }}
     </div>
 

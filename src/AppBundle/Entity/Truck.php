@@ -27,7 +27,7 @@ class Truck
      * @var string
      *
      * @ORM\Column(name="truckId", type="string", length=6, unique=true)
-     * @Assert\NotNull(message="Please specify a Truck ID")
+     * @Assert\NotNull(message="Please specify a Truck ID.")
      */
     private $truckId;
 
@@ -35,6 +35,7 @@ class Truck
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=15)
+     * @Assert\NotNull(message="Please specify a Type.")
      */
     private $type;
 
