@@ -120,18 +120,39 @@ class ContactRepositoryTest extends KernelTestCase
         $obtainedAddress = $obtainedContact->getAddress();
 
         // Assert that the object retrieved is the same as the object that was inserted
-        // Loop through the original contact's properties and see if they match in the returned object.
-        // Can't just compare objects because the doctrine object contains extra garbage that the
-        // original one doesn't have.
-        foreach(get_object_vars($contact) as $property)
-        {
-            $this->assertEquals($contact->$property, $obtainedContact->$property);
-        }
-        // Same for address
-        foreach(get_object_vars($address) as $property)
-        {
-            $this->assertEquals($address->$property, $obtainedAddress->$property);
-        }
+        // Compare the original contact's properties to the properties of the Contact that was saved to the database
+        $this->assertEquals($contact->getFirstName(), $obtainedContact->getFirstName());
+        $this->assertEquals($contact->getLastName(), $obtainedContact->getLastName());
+        $this->assertEquals($contact->getEmailAddress(), $obtainedContact->getEmailAddress());
+        $this->assertEquals($contact->getRole(), $obtainedContact->getRole());
+        $this->assertEquals($contact->getAddress(), $obtainedContact->getAddress());
+
+        $this->assertEquals($address->getStreetAddress(), $obtainedAddress->getStreetAddress());
+        $this->assertEquals($address->getPostalCode(), $obtainedAddress->getPostalCode());
+        $this->assertEquals($address->getCity(), $obtainedAddress->getCity());
+        $this->assertEquals($address->getProvince(), $obtainedAddress->getProvince());
+        $this->assertEquals($address->getCountry(), $obtainedAddress->getCountry());
+
+
+
+
+
+
+
+
+        //// Assert that the object retrieved is the same as the object that was inserted
+        //// Loop through the original contact's properties and see if they match in the returned object.
+        //// Can't just compare objects because the doctrine object contains extra garbage that the
+        //// original one doesn't have.
+        //foreach(get_object_vars($contact) as $property)
+        //{
+        //    $this->assertEquals($contact->$property, $obtainedContact->$property);
+        //}
+        //// Same for address
+        //foreach(get_object_vars($address) as $property)
+        //{
+        //    $this->assertEquals($address->$property, $obtainedAddress->$property);
+        //}
     }
 
 
@@ -258,7 +279,9 @@ class ContactRepositoryTest extends KernelTestCase
         $cleanQuery = array();
         $cleanQuery[] = 'Bob';
         $cleanQuery[] = 'Jones';
-
+        //try changing your php ini... didn't work with phpunit ocmmand line but it might for test explorer
+        // Then you might be really screwed
+        // Unless you can set the phpunit config for test explorer
         // query the database
         $results = $repo->contactSearch($cleanQuery);
 
@@ -309,7 +332,11 @@ class ContactRepositoryTest extends KernelTestCase
 
         $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact");
         $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Property");
+        $stmt->execute();
         $stmt = $this->em->getConnection()->prepare("DELETE FROM Address");
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM Contact_Properties");
         $stmt->execute();
 
         $this->em->close();
