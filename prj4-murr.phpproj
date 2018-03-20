@@ -88,6 +88,7 @@
     <Compile Include="src\AppBundle\Entity\Structure.php" />
     <Compile Include="src\AppBundle\Entity\User.php" />
     <Compile Include="src\AppBundle\Form\CollectionHistoryType.php" />
+    <Compile Include="src\AppBundle\Form\ContactAddPropertyType.php" />
     <Compile Include="src\AppBundle\Form\ContainerEditType.php" />
     <Compile Include="src\AppBundle\Form\ContainerType.php" />
     <Compile Include="src\AppBundle\Form\RoutePickupType.php" />
@@ -159,6 +160,8 @@
     <Compile Include="tests\AppBundle\Repository\RoutePickupRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\RouteRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
+    <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
+    <Compile Include="tests\Mink\AssociatingPropertiesToContactTest.php" />
     <Compile Include="tests\Mink\PropertyCommunicationAddTest.php" />
     <Compile Include="tests\Mink\ContainerSearchTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
@@ -3347,9 +3350,11 @@
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\JavaScript\base_twig.js" />
     <Content Include="web\JavaScript\DeleteModal.js" />
+    <Content Include="web\JavaScript\PropertySearchPopupSemantic.js" />
     <Content Include="web\JavaScript\PropertyCommunicationAdd.js" />
     <Content Include="web\JavaScript\PropertySearchPopup.js" />
     <Content Include="web\JavaScript\DeletePrompt.js" />
+    <Content Include="web\JavaScript\RemoveModal.js" />
     <Content Include="web\JavaScript\Search.js" />
   </ItemGroup>
 </Project>

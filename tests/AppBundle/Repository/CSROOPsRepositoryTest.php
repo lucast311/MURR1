@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\AppBundle;
+namespace Tests\AppBundle\Repository;
 
 use AppBundle\Entity\OOPs;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Tests\AppBundle\DatabasePrimer;
 
 /**
  * CSROOPsRepositoryTest short summary.

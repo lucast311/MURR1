@@ -24,6 +24,8 @@ Debug::enable();
 //allows tests to be run in visual studio test explorer
 $_SERVER["KERNEL_DIR"] = "./app";
 
+ini_set('memory_limit', '256M');
+
 $kernel = new AppKernel('test', true);
 if (PHP_VERSION_ID < 70000) {
     $kernel->loadClassCache();

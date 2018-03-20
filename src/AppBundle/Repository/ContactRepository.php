@@ -22,8 +22,8 @@ class ContactRepository extends EntityRepository
         $em = $this->getEntityManager();
         // persist the new contact in the database
         $em->persist($contact);
-        // get the address out of the contact and persist it too
-        $em->persist($contact->getAddress());
+        //// get the address out of the contact and persist it too
+        //$em->persist($contact->getAddress());
 
 
         //try
