@@ -366,6 +366,66 @@ class ContainerControllerTest extends WebTestCase
 
     }
 
+    /**
+     * Story 12g
+     * Test if the serial number too long error messge appears
+     */
+    public function testSerialTooLong()
+    {
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        $crawler = $client->request('GET', '/container/1/edit');
+
+        $form = $crawler->selectButton('Submit')->form();
+
+        //set form values
+        $form['appbundle_container[containerSerial]'] = str_repeat("a", 51);
+
+        $crawler = $client->submit($form);
+
+        $this->assertContains("Length cannot be more than 50 characters",$client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 12g
+     * Test if the entered serial number already exists error message appears
+     */
+    public function testSerialAlreadyExists()
+    {
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        $crawler = $client->request('GET', '/container/1/edit');
+
+        $form = $crawler->selectButton('Submit')->form();
+
+        //set form values
+        $form['appbundle_container[containerSerial]'] = "888888";
+
+        $crawler = $client->submit($form);
+
+        $this->assertContains("This value is already used",$client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 12g
+     * Test if the entered serial number blank error message appears
+     */
+    public function testSerialBlank()
+    {
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        $crawler = $client->request('GET', '/container/1/edit');
+
+        $form = $crawler->selectButton('Submit')->form();
+
+        //set form values
+        $form['appbundle_container[containerSerial]'] = "";
+
+        $crawler = $client->submit($form);
+
+        $this->assertContains("Please fill out this field",$client->getResponse()->getContent());
+    }
+
     protected function tearDown()
     {
         parent::tearDown();

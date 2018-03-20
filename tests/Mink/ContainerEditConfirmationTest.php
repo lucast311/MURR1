@@ -32,7 +32,7 @@ class ContainerEditConfirmationTest extends WebTestCase
             ->get('doctrine')
             ->getManager();
 
-        // Also load in the containers so there is something to search for
+        // Also load in the containers so there is something to edit
         $containerLoader = new LoadContainerData();
         $containerLoader->load($this->em);
 
