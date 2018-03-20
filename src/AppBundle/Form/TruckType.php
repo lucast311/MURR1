@@ -16,10 +16,11 @@ class TruckType extends AbstractType
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->add('truckId',null)
-                ->add('type',null)
-                ->add('Add', SubmitType::class);
+    {                                                                                                                                                                                    //add appropriate classes
+        $builder->add('truckId',null,array('label'=>'ID:','invalid_message' => 'The Truck ID [TRUCKID] is already in use.', /*'class' => 'AppBundle:Truck',*/ 'attr' => array('class' => ''/*ui search dropdown*/)))
+                                                            //maybe use this at some point, UX stuff
+                ->add('type',null, array('label'=>'Type:'/*, 'data'=>$options['contact']*/))
+                ->add('Add', SubmitType::class, array('attr' => array('class' => 'ui button')));
     }
 
     /**

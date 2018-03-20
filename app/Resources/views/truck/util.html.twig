@@ -42,11 +42,16 @@
     }
 
     form[name^="appbundle_truck"]{
-        display: inline-block;
+        display: flex;
+        margin-bottom: -2%;
     }
 
     td form{
         display:inline-block;
+    }
+    .wide_label_8
+    {
+        width:8vw;
     }
     td .pencil{
         opacity: 1 !important; 
@@ -54,20 +59,53 @@
 </style>
 
 <div>
+    <h2>Add-A-Truck:</h2>
+    <div class="ui segment">
+        {{ form_start(add_truck_form) }}
 
-    {{ form_start(form) }}
-    <div>
-        <h3>Add Truck:</h3>
+        <table>
+			{{ form_errors(add_truck_form) }}
+			<tbody>
+				<tr>
+					<td>
+						<div class="inline fields">
+                            {{ form_label(add_truck_form.truckId)  }}
+							{{ form_widget(add_truck_form.truckId) }}
+						</div>
+					</td>
+
+					<td>
+						<div class="inline fields">
+                            {{ form_label(add_truck_form.type)  }}
+							{{ form_widget(add_truck_form.type) }}						    
+                        </div>
+					</td>
+
+					<td>
+						<div class="inline fields">
+							{{ form_row(add_truck_form.Add) }}
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+        {{ form_widget(add_truck_form) }}
+        {{ form_end(add_truck_form) }}
     </div>
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
 
-	{{ form_start(filterform) }}
+
+	<div class="ui search">
+        <input type="text" id="truckFilterBox" class="prompt" maxlength="100" placeholder="Truck Filter..." />
+        <i class="times circle icon" id="btnClear"></i>
+        <div class="results"></div>
+    </div>
+
+    {# DEPRECATED { form_start(filterform) }}
     <div>
         <h3>Filter List:</h3>
     </div>
     {{ form_widget(filterform) }}
-    {{ form_end(filterform) }}
+    {{ form_end(filterform) } #}
 
     <table id="filteredTruckList" class="trucks ui celled table">
         <thead>

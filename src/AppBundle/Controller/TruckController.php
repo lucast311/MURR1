@@ -40,7 +40,7 @@ class TruckController extends Controller
 
         $formTruck = new Truck();
 
-        $filterForm = $this->createFormBuilder()
+        /*$filterForm = $this->createFormBuilder()
             ->setAction($this->generateUrl('truck_manage'))
             ->getForm()->add('filter_list',null,
                         array('required' => false,));
@@ -54,7 +54,7 @@ class TruckController extends Controller
             // Set the filterQuery to be the information in the filter box
             //VALIDATE QUERY
             $filterQuery = $filterForm->getData();
-        }
+        }*/
 
         // Adding a new truck
         // Create a Truck form so the user can add trucks on the index page
@@ -100,11 +100,11 @@ class TruckController extends Controller
             }
         }
 
-        $filteredtrucks = $this->jsonFilterAction($filterQuery);
+        $filteredtrucks = $this->jsonFilterAction();//$filterQuery);
 
         return $this->render('truck/util.html.twig',
-            array('form'=>$addform->createView(),
-             'filterform'=>$filterForm->createView(),
+            array('add_truck_form'=>$addform->createView(),
+             //'filterform'=>$filterForm->createView(),
              'formtruck'=>$formTruck,
              'inittrucks'=>'['.explode('[',$filteredtrucks)[1],
              'showSuccess'=>$showSuccess));

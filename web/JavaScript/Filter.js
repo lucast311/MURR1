@@ -23,13 +23,18 @@ var viewModel = {
 
         var page = './jsonfilter/';
         // Get the filter box text
-        var filterText = $('#form_filter_list').val();
+        var filterText = $('#truckFilterBox').val();
+
+        if ($(".spinner.loading.icon").length === 0) {
+            $("#btnClear").after('<i class="spinner loading icon"></i>');
+        }
 
         // do a json call to the server to get the results
         viewModel.currentJSONRequest = $.getJSON("./jsonfilter/" + filterText, {}, function (jsonResults) {
             // Callback function
             //hide loading thing
             loadingInfo.hide();
+            $(".spinner.loading.icon").remove();
             listInfoMessage.show();
 
             // If no results came back, hide table and display message instead
@@ -55,7 +60,6 @@ var viewModel = {
                 $('.popupSelectButton').click(postValue);
             }*/
         });
-
     }
 };
 
@@ -71,7 +75,16 @@ var onLoad = function () {
         If it is set then we call clearTimeout to cancel the timeout function and set it to be null
         After this we call the setTimeout function to send an ajax call in 400 ms.
     */
-    $('#form_filter_list').keyup(function () {
+
+    // Register a click handler for the clear button
+    $('#btnClear').click(function () {
+        // Clear the filter value
+        var searchText = $('#truckFilterBox').val("");
+        viewModel.getResults();
+    });
+
+    // Register a click handler for typing a filter
+    $('#truckFilterBox').keyup(function () {
         listInfoMessage.hide();
         loadingInfo.show();
 
