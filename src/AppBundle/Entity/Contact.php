@@ -425,4 +425,9 @@ class Contact
     {
         $this->properties = $properties;
     }
+
+    public function __toString()
+    {
+        return $this->lastName . ", " . $this->firstName; 
+    }
 }

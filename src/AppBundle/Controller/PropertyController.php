@@ -177,6 +177,7 @@ class PropertyController extends Controller
      * @Route("/property/{propertyId}", name="property_view")
      * @Route("/property")
      * @Route("/property/")
+     * @Method({"GET","POST"})
      */
     public function viewAction($propertyId = 'not_specified', Request $request)
     {
@@ -201,7 +202,7 @@ class PropertyController extends Controller
                 else
                 {
                     $contacts = $property->getContacts();
-                    $contacts->add($property);
+                    $contacts->add($contact);
                     $property->setContacts($contacts);
                     $em->getRepository(Property::class)->save($property);
                     $em->refresh($property);
@@ -210,7 +211,8 @@ class PropertyController extends Controller
         }
 
         // Render the html and pass in the property
-        return $this->render('property/viewProperty.html.twig', array('property'=>$property,
+        return $this->render('property/viewProperty.html.twig', array(
+            'property'=>$property,
             'propertyId'=>$propertyId,
             'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
             'add_contact_form' => $addContactForm->createView()));

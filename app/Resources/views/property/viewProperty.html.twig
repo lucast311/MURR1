@@ -7,13 +7,11 @@
     <script type="text/javascript" src="{{ asset('JavaScript/ContactSearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('contact_search', { 'isPopup': "true" }) }}"></script>
     <script>
         $(function () {
-            initialize($('#appbundle_propertyToContact_property'));
+            initialize($('#appbundle_contactToProperty_contact'));
 
             addModal();
             $('.removeButton').click(function () {
-                console.log($(this));
 				var parent = $($(this).parent("form").get(0));
-				//console.log(parent);
                 showModal(parent.data('message'), parent);
 			});
 
@@ -228,6 +226,32 @@
 
     <div class="ui segment">
         {{ form_start(add_contact_form)}}
+		<table>
+			{{form_errors(add_contact_form)}}
+			{{ form_errors(add_contact_form.contact) }}
+			<tbody>
+				<tr>
+					<td>
+						<div class="inline fields">
+                            {{ form_label(add_contact_form.contact) }}
+							{{ form_widget(add_contact_form.contact) }}
+						</div>
+					</td>
+					<td>
+						<div class="inline fields">
+							<input class='ui button' id='advanced_contact_search_popup' value='Advanced Search' type='button'/>
+						</div>
+					</td>
+					<td>
+						<div class="inline fields">
+							{{ form_row(add_contact_form.Add) }}
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		{{form_row(add_contact_form.property)}}
+	    {{ form_end(add_contact_form) }}
     </div>
 
     {% if property.contacts is empty %}

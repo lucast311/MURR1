@@ -24,10 +24,10 @@ class PropertyAddContactType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function form(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('contact', EntityType::class, array('label'=>'Contact', 'invalid_message' => 'The selected contact does not exist', 'class' => 'Appbundle:Contact', 'attr' => array('class' => 'ui search dropdown')))
+            ->add('contact', EntityType::class, array('label'=>'Contact:', 'invalid_message' => 'The selected contact does not exist', 'class' => 'AppBundle:Contact', 'attr' => array('class' => 'ui search dropdown')))
             ->add('property', HiddenType::class,array('data'=>$options['property']))
             ->add('Add', SubmitType::class,  array('attr' => array('class' => 'ui button')));
     }
