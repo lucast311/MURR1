@@ -8,7 +8,6 @@ function initialize(selectbox) {
     searchSelectBox = selectbox;
 
     // Insert an advanced search button beside the dropdown. This is so it's easy to insert instead of modifying the form everywhere it's needed.
-    selectbox.after("<input class='ui button' id='advanced_contact_search_popup' value='Advanced Search' type='button'/>");
 
     // Register an event handler for clicking the button
     $("#advanced_contact_search_popup").click(function () { advancedSearch() });
@@ -24,7 +23,7 @@ function advancedSearch() {
     path = $(".popupjs").attr("data-path");
 
     // Open a popup window to the search page
-    window.open(path, "_blank", "width=800, height=600");
+    window.open(path, "_blank", "width=1000, height=600");
 }
 
 /**
