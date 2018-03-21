@@ -45,14 +45,4 @@ class ContactAddPropertyType extends AbstractType
         $resolver->setRequired('contact');
         $resolver->setAllowedTypes('contact',array('int'));
     }
-
-    /**
-     * Story 4k
-     * Sets the form name for this class
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'appbundle_propertyToContact';
-    }
 }

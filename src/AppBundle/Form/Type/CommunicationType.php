@@ -37,7 +37,16 @@ class CommunicationType extends AbstractType
             ->add('property',null,array('invalid_message' => 'Please select a valid property', 'attr' => array('placeholder' => '...')))
             //->add('property', ChoiceType::class, array('label'=>'Property', 'choices' => array_merge( array('...' => 0),Communication::getProperties()))) //add a property select box
             ->add('category', ChoiceType::class, array('label' => 'Category', 'choices' => array_merge( array('...' => '0'),Communication::getCategories()))) //add a category select box
-            ->add('description', TextareaType::class, array('label' => 'Description')) //add a description text area
-            ->add('add', SubmitType::class, array('label' => 'Add')); //add a submit button
+            ->add('description', TextareaType::class, array('label' => 'Description')); //add a description text area
+    }
+
+    /**
+     * Story 11d
+     * Sets the form name for this class
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'appbundle_communication';
     }
 }

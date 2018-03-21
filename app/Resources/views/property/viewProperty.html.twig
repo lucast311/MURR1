@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block body %}
+
         <style>
             .associations{
                 border-collapse: collapse;
@@ -24,6 +25,10 @@
                 padding: 5px;
             }
         </style>
+
+{# magic invisible div that allows us to pass information to the java script #}
+<div class="js-propertyid" data-propertyid="{{ property.id }}"></div>
+<div class="js-showcommunicationform" data-showcommunicationform="{{ showCommunicationForm }}"></div>
 
 <h2>View Property</h2>
 
@@ -196,23 +201,24 @@
 
         {% endif %}
 
-        <div class="ui modal" id="communicationModal">
+        <div class="ui modal fullscreen" id="communicationModal">
              <i class="close icon"></i>
             <div class="header">
                 New Communication
             </div>
-            {{ form_start(newCommunicationForm, { 'attr': {'class' : "testClass"}}) }}
+            
             <div class="content">
-                
+                {{ form_start(newCommunicationForm, {'attr': {'id': 'communicationForm'}}) }}
                 {{ form_widget(newCommunicationForm) }}
+				{# Fake hidden input that holds the property so it can be submitted even though the regular one is disabled #}
+				<input type="hidden" name="appbundle_communication[property]" value="{{ property.id }}" />
+				{{ form_end(newCommunicationForm) }}
+            </div>
 
-                
-                
-            </div>
             <div class="actions">
-                {{ form_row(newCommunicationForm.add) }}
+				<button id="communicationSubmit" class="ui button">Add</button>
             </div>
-            {{ form_end(newCommunicationForm) }}
+            
         </div>
     {% endif %}
 </div>

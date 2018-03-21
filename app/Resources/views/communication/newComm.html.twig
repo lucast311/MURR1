@@ -13,6 +13,7 @@
             <h1>Add Communication</h1>
             {{ form_start(form) }}
             {{ form_widget(form) }}
+			<div class="field"><button type="submit" id="communication_add" name="communication[add]" class="ui button">Add</button></div>
             {{ form_end(form) }}
 
             {% if added is defined and added %}

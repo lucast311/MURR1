@@ -146,20 +146,46 @@ class PropertyController extends Controller
      * @Route("/property")
      * @Route("/property/")
      */
-    public function viewAction($propertyId = 'not_specified')
+    public function viewAction(Request $request, $propertyId = 'not_specified')
     {
+        // Get the communication form to pass it in
+        $addCommunicationForm = $this->createForm(CommunicationType::class, new Communication());
+
+        // Handle any submissions of the communication form
+        $addCommunicationForm->handleRequest($request);
+
+        $showCommunicationForm = false;
+
+        // Proceed to save if the form is submitted and valid
+        if($addCommunicationForm->isSubmitted() && $addCommunicationForm->isValid())
+        {
+            //get the data from the form
+            $communication = $addCommunicationForm->getData();
+            //get the doctrine repository
+            $repo = $this->getDoctrine()->getRepository(Communication::class);
+            //insert into the database
+            $repo->insert($communication);
+        }
+        // If the form was submitted but not valid, signal to the page to make the modal reappear
+        else if($addCommunicationForm->isSubmitted() && !$addCommunicationForm->isValid())
+        {
+            $showCommunicationForm = true;
+        }
+
+
+
         // Get the entity manager
         $em = $this->getDoctrine()->getManager();
         // Get the specific property
         $property = $em->getRepository(Property::class)->findOneById($propertyId);
 
-        $addCommunicationForm = $this->createForm(CommunicationType::class, new Communication());
 
         // Render the html and pass in the property
         return $this->render('property/viewProperty.html.twig', array('property'=>$property,
             'propertyId'=>$propertyId,
             'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
-            'newCommunicationForm' => $addCommunicationForm->createView()));
+            'newCommunicationForm' => $addCommunicationForm->createView(),
+            'showCommunicationForm' => $showCommunicationForm));
     }
 
     /**
