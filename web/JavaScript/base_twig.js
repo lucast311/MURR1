@@ -14,5 +14,11 @@ $(function () {
     // selects all ui elements with the sticky class
     // The sticky() function will have the stickied element follow the page
     // until it hits the .footer element. (the bottom of the page)
-    $('.ui.sticky').sticky({ context: '.footer'});
+    $('.ui.sticky').sticky({ context: '.footer' });
+
+    //This will enable radio buttons on any page to be clicked and selected (otherwise clicking them does nothing)
+    $('.ui.checkbox').checkbox();
+
+    //This will enable javascript on any semantic select box on the page (or else it gets gross styles)
+    $(".ui.dropdown").dropdown();
 });

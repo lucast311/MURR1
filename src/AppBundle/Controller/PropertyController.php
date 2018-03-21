@@ -165,6 +165,9 @@ class PropertyController extends Controller
             $repo = $this->getDoctrine()->getRepository(Communication::class);
             //insert into the database
             $repo->insert($communication);
+
+            //Wipe the form data by making a new form
+            $addCommunicationForm = $this->createForm(CommunicationType::class, new Communication());
         }
         // If the form was submitted but not valid, signal to the page to make the modal reappear
         else if($addCommunicationForm->isSubmitted() && !$addCommunicationForm->isValid())

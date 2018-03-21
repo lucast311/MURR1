@@ -34,7 +34,7 @@ class CommunicationType extends AbstractType
             ->add('contactEmail', EmailType::class, array('label' => 'Contact Email', 'required'=>false)) //add a contactEmail text box
             ->add('contactPhone', TextType::class, array('label' => 'Contact Phone', 'required'=>false)) //add a contactPhone text box
             //search all properties in the database
-            ->add('property',null,array('invalid_message' => 'Please select a valid property', 'attr' => array('placeholder' => '...')))
+            ->add('property',null,array('invalid_message' => 'Please select a valid property', 'attr' => array('placeholder' => '...','class' => 'search')))
             //->add('property', ChoiceType::class, array('label'=>'Property', 'choices' => array_merge( array('...' => 0),Communication::getProperties()))) //add a property select box
             ->add('category', ChoiceType::class, array('label' => 'Category', 'choices' => array_merge( array('...' => '0'),Communication::getCategories()))) //add a category select box
             ->add('description', TextareaType::class, array('label' => 'Description')); //add a description text area

@@ -32,7 +32,7 @@ class CommunicationController extends Controller
     /**
      * This route will be responsible for loading and submitting the form responsible
      * for entering Communication Data
-     * @Route("/communication/new", name = "new communication")
+     * @Route("/communication/new", name = "new_communication")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -75,11 +75,57 @@ class CommunicationController extends Controller
     }
 
     /**
+     * Summary of editAction
+     * @Route ("/communication/edit/{commId}", name = "communication_edit")
+     * @Route ("/communication/edit/")
+     * @Method({"GET","POST"})
+     */
+    public function editAction(Request $request, $commId = null)
+    {
+        // Get the entity manager
+        $em = $this->getDoctrine()->getManager();
+
+        //get the repository for communications
+        $repo = $em->getRepository(Communication::class);
+
+        // Get the specific Communication
+        $comm = $repo->findOneById($commId);
+
+        //variable that willl handle what type of error will be shown
+        $errorType = null;
+
+        if($comm == null) $errorType="notfound";
+        if($commId == null) $errorType="noid";
+
+        $form = $this->createForm(CommunicationType::class, $comm);
+
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            //get the data from the form
+            $communication = $form->getData();
+
+            //insert into the database
+            $repo->insert($communication);
+
+            //redirect to the view page
+            return $this->redirectToRoute("communication_view",array("comId" => $communication->getId()));
+        }
+
+        return $this->render('communication/editComm.html.twig', [
+            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+            'form' => $form->createView(),
+            'errorType'=>$errorType]);
+    }
+
+    /**
      * Story 11b
      * Controller responsible for viewing a communication
      * Summary of viewAction
      * @param mixed $comId
-     * @Route ("/communication/view/{comId}")
+     * @Route ("/communication/view/{comId}", name = "communication_view")
      * @Route ("/communication/view/")
      */
     public function viewAction($comId = null){
