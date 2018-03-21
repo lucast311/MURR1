@@ -17,8 +17,8 @@ class TruckType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {                                                                                                                                                                                    //add appropriate classes
-        $builder->add('truckId',null, array('label'=>'ID'))
-                ->add('type')
+        $builder->add('truckId',null, array('label'=>'ID:'))
+                ->add('type',null, array('label'=>'Type:'))
                 ->add('Add', SubmitType::class, array('attr' => array('class' => 'ui button')));
     }
 

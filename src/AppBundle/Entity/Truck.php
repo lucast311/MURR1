@@ -24,10 +24,15 @@ class Truck
     private $id;
 
     /**
-     * @var string
+     * @var int
      *
      * @ORM\Column(name="truckId", type="string", length=6, unique=true)
+     * @Assert\Range(min=1,max=999999,
+     *  invalidMessage = "Truck ID must be a valid number",
+     *  minMessage = "Truck ID must be atleast {{ limit }} digits long",
+     *  maxMessage = "Truck ID can not be more than {{ limit }} digits long")
      * @Assert\NotNull(message="Please specify a Truck ID.")
+     *
      */
     private $truckId;
 
@@ -35,6 +40,9 @@ class Truck
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=15)
+     * @Assert\Length( min = 1, max = 15,
+     *  minMessage = "The Truck Type must be atleast {{ limit }} characters long",
+     *  maxMessage = "The Truck Type can not be more than {{ limit }} characters long")
      * @Assert\NotNull(message="Please specify a Type.")
      */
     private $type;

@@ -78,7 +78,7 @@ class TruckController extends Controller
             // Add custom error to form
             if($truckIdUsed)
             {
-                $addform->addError(new FormError("A Truck with the ID; \"$fTID\" has already been added."));
+                $addform->addError(new FormError("A Truck with the ID \"$fTID\" has already been added."));
             }
             else
             {
@@ -217,10 +217,10 @@ class TruckController extends Controller
      * Handles the removal of a truck
      * @param Request $request
      * @Route("/remove/{id}", name="truck_remove")
-     * @Method({"POST"})
+     * @Method("POST")
      * maybe use the delete method??
      */
-    /*public function removePropertyAction(Request $request, $id=null)
+    public function removeTruckAction(Request $request, $id=null)
     {
         //if posted
         if($request->getMethod() == 'POST')
@@ -234,48 +234,16 @@ class TruckController extends Controller
 
             if($truck != null)
             {
-                if(in_array($property, $contact->getProperties()->toArray()))
-                {
-                    $properties = $contact->getProperties();
-                    $properties->removeElement($property);
-                    $contact->setProperties($properties);
-
-                    $contactRepo->save($contact);
-
-                    return $this->redirectToRoute("contact_show", array("id"=>$contact->getId()));
-                }
+                $em->remove($truck);
+                $em->flush();
             }
         }
 
         //If there wasn't a success anywhere, redirect to the contact search page
-        return $this->redirectToRoute("contact_search");
-    }*/
-
-
-    /**
-     * Deletes a truck entity.
-     * Called when the user presses a delete button
-     *
-     * @Route("/{id}", name="truck_removal")
-     * @Method("DELETE")
-     */
-    //public function deleteAction(Request $request, Truck $truck)
-    //{
-    //    $form = $this->createDeleteForm($truck);
-    //    $form->handleRequest($request);
-
-    //    if ($form->isSubmitted() && $form->isValid()) {
-    //        $em = $this->getDoctrine()->getManager();
-    //        $em->remove($truck);
-    //        $em->flush();
-    //    }
-
-    //    return $this->redirectToRoute('truck_index');
-    //}
-
+        return $this->redirectToRoute("truck_manage");
+    }
 
     /**
-     * USELESS GARBAGE
      * Story 40a
      *
      * @Route("/jsonfilter/", name="truck_jsonfilter_empty")
