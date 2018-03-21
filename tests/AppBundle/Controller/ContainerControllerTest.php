@@ -362,36 +362,7 @@ class ContainerControllerTest extends WebTestCase
 
         // Go to the container page and assert that the link to the search page also exists there
         $crawler = $client->request('GET',"/container");
-        $this->assertContains('href="/container/search"',$crawler->filter("div.ui.container")->html());
-
-    }
-
-    /**
-     * Story 12g
-     * Test that a user can enter a new valid serial number, and 
-     */
-    public function testEnterNewValidSerial()
-    {
-        // Go to the edit page of a container
-        $this->session->visit('http://localhost:8000/app_test.php/container/1/edit');
-        // Get the page
-        $page = $this->session->getPage();
-
-        // Click the unlock button
-        $page->find('named', array('button', "Unlock"))->click();
-
-        $serialField = $page->find("css","#appbundle_container_containerSerial")->setValue(123456);
-
-        // Click the save button
-        $page->find('named', array('button', "Save"))->click();
-
-        $this->session->wait(5000);
-
-        $table = $page->find("css", "table:first-child");
-
-        $tableRow = $table->find("css", "tr:nth-child(3)");
-
-        $this->assertContains("123456", $tableRow->getHTML());
+        $this->assertContains('href="/container/search"', $crawler->filter("div.ui.container")->html());
     }
 
     /**
@@ -400,18 +371,23 @@ class ContainerControllerTest extends WebTestCase
      */
     public function testSerialTooLong()
     {
+        // create a client so we can view the page
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
+        // go to the edit page for container 1
         $crawler = $client->request('GET', '/container/1/edit');
 
+        // grab the form
         $form = $crawler->selectButton('Submit')->form();
 
-        //set form values
+        // change the value of the containerSerial field to be invalid (too long)
         $form['appbundle_container[containerSerial]'] = str_repeat("a", 51);
 
+        // attempt to submit the invalid form
         $crawler = $client->submit($form);
 
-        $this->assertContains("Length cannot be more than 50 characters",$client->getResponse()->getContent());
+        // check that the error for an invalid serial (too long) is displayed on the page
+        $this->assertContains("Length cannot be more than 50 characters", $client->getResponse()->getContent());
     }
 
     /**
@@ -420,18 +396,23 @@ class ContainerControllerTest extends WebTestCase
      */
     public function testSerialAlreadyExists()
     {
+        // create a client so we can view the page
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
+        // go to the edit page for container 1
         $crawler = $client->request('GET', '/container/1/edit');
 
+        // grab the form
         $form = $crawler->selectButton('Submit')->form();
 
-        //set form values
+        // change the value of the containerSerial field to be invalid (already exists)
         $form['appbundle_container[containerSerial]'] = "888888";
 
+        // attempt to submit the invalid form
         $crawler = $client->submit($form);
 
-        $this->assertContains("This value is already used",$client->getResponse()->getContent());
+        // check that the error for an invalid serial (already exists) is displayed on the page
+        $this->assertContains("This value is already used", $client->getResponse()->getContent());
     }
 
     /**
@@ -440,35 +421,23 @@ class ContainerControllerTest extends WebTestCase
      */
     public function testSerialBlank()
     {
+        // create a client so we can view the page
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
+        // go to the edit page for container 1
         $crawler = $client->request('GET', '/container/1/edit');
 
+        // grab the form
         $form = $crawler->selectButton('Submit')->form();
 
-        //set form values
+        // change the value of the containerSerial field to be invalid (empty)
         $form['appbundle_container[containerSerial]'] = "";
 
+        // attempt to submit the invalid form
         $crawler = $client->submit($form);
 
-        $this->assertContains("Please fill out this field",$client->getResponse()->getContent());
-    }
-
-    public function testStatusDropdownContainsAllOptions()
-    {
-        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
-
-        $crawler = $client->request('GET', '/container/1/edit');
-
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Active")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Inactive")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Contaminated")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Inaccessible")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Owerflowing")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Garbage Tip Requested")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Garbage Tip Authorized")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Garbage Tip Denied")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Garbage Tip Scheduled")')->count());
+        // check that the error for an invalid serial (empty) is displayed on the page
+        $this->assertContains("Please fill out this field", $client->getResponse()->getContent());
     }
 
     protected function tearDown()

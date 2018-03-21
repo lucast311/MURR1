@@ -78,6 +78,7 @@ class ContainerEditConfirmationTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
+        // find the text field for the serial number, and get its HTML
         $serialField = $page->find("css","#appbundle_container_containerSerial")->getHtml();
 
         // check that the field cannot be edited
@@ -90,6 +91,10 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->assertNotContains('disabled', $serialField);
     }
 
+    /**
+     * Story 12g
+     * Test that a user can enter a new valid serial number, and be redirected to the current container's view page
+     */
     public function testEnterNewValidSerial()
     {
         // Go to the edit page of a container
@@ -100,17 +105,20 @@ class ContainerEditConfirmationTest extends WebTestCase
         // Click the unlock button
         $page->find('named', array('button', "Unlock"))->click();
 
+        // find the text field for the serial number, and set its value to the serial we're testing
         $serialField = $page->find("css","#appbundle_container_containerSerial")->setValue(123456);
 
         // Click the save button
         $page->find('named', array('button', "Save"))->click();
 
+        // wait for the save action to complete
         $this->session->wait(5000);
 
+        // get the first table on the page, and that table's 3rd row
         $table = $page->find("css", "table:first-child");
-
         $tableRow = $table->find("css", "tr:nth-child(3)");
 
+        // check that the found row contains teh serial that we added above
         $this->assertContains("123456", $tableRow->getHTML());
     }
 
@@ -127,20 +135,29 @@ class ContainerEditConfirmationTest extends WebTestCase
 
         // Click the delete button
         $page->find('named', array('button', "Delete"))->click();
+
         // Make sure a modal pops up
         $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
 
-        // Click the delete button
+        // Click the delete button inside the modal
         $page->find('css', 'div.ui.red.ok.inverted.button')->click();
 
+        // wait for the delete action
+        $this->session->wait(2000);
+
+        // find the header for the "Container Search" page to make sure that we have been redirected
         $searchHeader = $page->find("css", "h2");
+
+        // check that we have been redirected to the "Container Search" page
         $this->assertContains("Container Search", $searchHeader->getHtml());
 
-        // Go back to the edit page of the container we removed
+        // Go back to the edit page of the container we just removed
         $this->session->visit('http://localhost:8000/app_test.php/container/1/edit');
+
         // Get the page
         $page = $this->session->getPage();
 
+        // make sure that the container no longer exists
         $this->assertContains("Container does not exist", $page->getHtml());
     }
 
@@ -157,23 +174,28 @@ class ContainerEditConfirmationTest extends WebTestCase
 
         // Click the delete button
         $page->find('named', array('button', "Delete"))->click();
+
         // Make sure a modal pops up
         $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
 
-        // Click the cancel button
+        // Click the cancel button inside the modal
         $page->find('css', 'div.ui.cancel.inverted.button')->click();
 
         // Make sure the modal is no longer visable
         $this->assertFalse($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
 
+        // get the first table on the page, and that table's first row
         $table = $page->find("css", "table:first-child");
-
         $tableRow = $table->find("css", "tr:first-child");
 
+        // check that the id matches the id that we navigated to
         $this->assertContains("1", $tableRow->getHtml());
-
     }
 
+    /**
+     * Story 12g
+     * Test that the edit container page's dropdown list contains all the proper values
+     */
     public function testStatusDropdownContainsAllOptions()
     {
         // Go to the edit page of a container
