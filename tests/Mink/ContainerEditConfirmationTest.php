@@ -90,11 +90,35 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->assertNotContains('disabled', $serialField);
     }
 
+    public function testEnterNewValidSerial()
+    {
+        // Go to the edit page of a container
+        $this->session->visit('http://localhost:8000/app_test.php/container/1/edit');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // Click the unlock button
+        $page->find('named', array('button', "Unlock"))->click();
+
+        $serialField = $page->find("css","#appbundle_container_containerSerial")->setValue(123456);
+
+        // Click the save button
+        $page->find('named', array('button', "Save"))->click();
+
+        $this->session->wait(5000);
+
+        $table = $page->find("css", "table:first-child");
+
+        $tableRow = $table->find("css", "tr:nth-child(3)");
+
+        $this->assertContains("123456", $tableRow->getHTML());
+    }
+
     /**
      * Story 12g
-     * This makes sure that you can delete a container and get the confirmation page
+     * This makes sure that you can open the delete modal and confirm the delete
      */
-    public function testContainerDelete()
+    public function testContainerDeleteSuccess()
     {
         // Go to the edit page of a container
         $this->session->visit('http://localhost:8000/app_test.php/container/1/edit');
@@ -109,15 +133,67 @@ class ContainerEditConfirmationTest extends WebTestCase
         // Click the delete button
         $page->find('css', 'div.ui.red.ok.inverted.button')->click();
 
-        // Make sure the container is gone from the list page
-        $this->assertNull($page->find('named', array('content', "123457")));
-        $this->assertNull($page->find('named', array('content', "weekly")));
-        $this->assertNull($page->find('named', array('content', "Cosmo")));
-        $this->assertNull($page->find('named', array('content', "South-west side")));
-        $this->assertNull($page->find('named', array('content', "Cart")));
-        $this->assertNull($page->find('named', array('content', "6 yd")));
-        $this->assertNull($page->find('named', array('content', "Wheels")));
-        $this->assertNull($page->find('named', array('content', "Active")));
+        $searchHeader = $page->find("css", "h2");
+        $this->assertContains("Container Search", $searchHeader->getHtml());
+
+        // Go back to the edit page of the container we removed
+        $this->session->visit('http://localhost:8000/app_test.php/container/1/edit');
+        // Get the page
+        $page = $this->session->getPage();
+
+        $this->assertContains("Container does not exist", $page->getHtml());
+    }
+
+    /**
+     * Story 12g
+     * This makes sure that you can open the delete modal and cancel the delete
+     */
+    public function testContainerDeleteCancel()
+    {
+        // Go to the edit page of a container
+        $this->session->visit('http://localhost:8000/app_test.php/container/1/edit');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // Click the delete button
+        $page->find('named', array('button', "Delete"))->click();
+        // Make sure a modal pops up
+        $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
+
+        // Click the cancel button
+        $page->find('css', 'div.ui.cancel.inverted.button')->click();
+
+        // Make sure the modal is no longer visable
+        $this->assertFalse($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
+
+        $table = $page->find("css", "table:first-child");
+
+        $tableRow = $table->find("css", "tr:first-child");
+
+        $this->assertContains("1", $tableRow->getHtml());
+
+    }
+
+    public function testStatusDropdownContainsAllOptions()
+    {
+        // Go to the edit page of a container
+        $this->session->visit('http://localhost:8000/app_test.php/container/1/edit');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // Click on the select box so it opens
+        $page->find('css', ".select2-selection, .select2-selection--single")->click();
+
+        // Check that the select box contains all the right options
+        $this->assertContains("Active", $page->find('css', ".select2-results")->getHtml());
+        $this->assertContains("Inactive", $page->find('css', ".select2-results")->getHtml());
+        $this->assertContains("Contaminated", $page->find('css', ".select2-results")->getHtml());
+        $this->assertContains("Inaccessible", $page->find('css', ".select2-results")->getHtml());
+        $this->assertContains("Owerflowing", $page->find('css', ".select2-results")->getHtml());
+        $this->assertContains("Garbage Tip Requested", $page->find('css', ".select2-results")->getHtml());
+        $this->assertContains("Garbage Tip Authorized", $page->find('css', ".select2-results")->getHtml());
+        $this->assertContains("Garbage Tip Denied", $page->find('css', ".select2-results")->getHtml());
+        $this->assertContains("Garbage Tip Scheduled", $page->find('css', ".select2-results")->getHtml());
     }
 
     protected function tearDown()

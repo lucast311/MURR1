@@ -368,6 +368,34 @@ class ContainerControllerTest extends WebTestCase
 
     /**
      * Story 12g
+     * Test that a user can enter a new valid serial number, and 
+     */
+    public function testEnterNewValidSerial()
+    {
+        // Go to the edit page of a container
+        $this->session->visit('http://localhost:8000/app_test.php/container/1/edit');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // Click the unlock button
+        $page->find('named', array('button', "Unlock"))->click();
+
+        $serialField = $page->find("css","#appbundle_container_containerSerial")->setValue(123456);
+
+        // Click the save button
+        $page->find('named', array('button', "Save"))->click();
+
+        $this->session->wait(5000);
+
+        $table = $page->find("css", "table:first-child");
+
+        $tableRow = $table->find("css", "tr:nth-child(3)");
+
+        $this->assertContains("123456", $tableRow->getHTML());
+    }
+
+    /**
+     * Story 12g
      * Test if the serial number too long error messge appears
      */
     public function testSerialTooLong()
@@ -424,6 +452,23 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         $this->assertContains("Please fill out this field",$client->getResponse()->getContent());
+    }
+
+    public function testStatusDropdownContainsAllOptions()
+    {
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        $crawler = $client->request('GET', '/container/1/edit');
+
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Active")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Inactive")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Contaminated")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Inaccessible")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Owerflowing")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Garbage Tip Requested")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Garbage Tip Authorized")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Garbage Tip Denied")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Garbage Tip Scheduled")')->count());
     }
 
     protected function tearDown()
