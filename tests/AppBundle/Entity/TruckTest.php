@@ -67,17 +67,16 @@ class TruckTest extends KernelTestCase
         // Assert that there are errors
         $this->assertEquals(1, count($errors));
         // Check the error message matches
-        $this->assertEquals($errors[0] == "The Truck ID must contain 1 to 6 digits, no letters.");
+        $this->assertEquals($errors[0] == "Truck ID must be a valid number");
 
-        //-----
-        // Test that 000000 will fail
-        $this->truck->setTruckId("000000");
-        // Validate the Truck
-        $errors = $this->validator->validate($this->truck);
-        // Assert that there are errors
-        $this->assertEquals(1, count($errors));
-        // Check the error message matches
-        $this->assertEquals($errors[0] == "The Truck ID must contain 1 to 6 digits, no letters.");//DIFFERENT MESSAGE //PAD THROUGH ORM?? //WOULD BE IN ENTITY GOOGLE "DOCTRINE 0 PAD ENTITY"
+        //// Test that 000000 will fail
+        //$this->truck->setTruckId("000000");
+        //// Validate the Truck
+        //$errors = $this->validator->validate($this->truck);
+        //// Assert that there are errors
+        //$this->assertEquals(1, count($errors));
+        //// Check the error message matches
+        //$this->assertEquals($errors[0] == "Truck ID must be a valid number");//DIFFERENT MESSAGE //PAD THROUGH ORM?? //WOULD BE IN ENTITY GOOGLE "DOCTRINE 0 PAD ENTITY"
     }
 
     /**
@@ -125,7 +124,7 @@ class TruckTest extends KernelTestCase
      */
     public function testTypeIncorrect()
     {
-        // Test that seven characters in the ID will fail
+        // Test that 16 characters in the Type will fail
         $this->truck->setType(str_repeat("A",16));
 
         // Validate the Truck
@@ -154,7 +153,7 @@ class TruckTest extends KernelTestCase
      */
     public function testTypeCorrectBoundaries()
     {
-        // Test that seven characters in the ID will fail
+        // Test that 15 characters in the Type will pass
         $this->truck->setType(str_repeat("A",15));
         // Validate the Truck
         $errors = $this->validator->validate($this->truck);
@@ -182,5 +181,4 @@ class TruckTest extends KernelTestCase
         //make sure no errors
         $this->assertEquals(0, count($errors));
     }
-
 }

@@ -111,7 +111,7 @@
             {# % for t in trucks % #}
                 <tr>
                     <!--td data-bind="text:id">{{ formtruck.id }}</td>-->
-                    <td data-bind="text:truckId, attr: {data: id}">{{ formtruck.truckId }}</td>
+                    <td class="truckID" data-bind="text:truckId, attr: {data: id}">{{ formtruck.truckId }}</td>
                     <td data-bind="text:type">{{ formtruck.type }}</td>
                     <td>
 						<form name="appbundle_editTruck" method="post" data-bind="attr: {action: '{{ path('truck_edit') }}/'+id }">

@@ -5,12 +5,8 @@
 
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-		<input onclick="window.location.href='{{ path('truck_manage') }}'" type="reset" value="Cancel" />
+		<input onclick="window.location.href='{{ path('truck_manage') }}'" type="reset" value="Cancel" class="ui button" />
     {{ form_end(edit_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('truck_manage') }}">Back to the list</a>
-        </li>
-    </ul>
+    <a href="{{ path('truck_manage') }}" class="ui button">Back to the list</a>
 {% endblock %}

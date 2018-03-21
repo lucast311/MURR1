@@ -69,23 +69,25 @@ class TruckEditPageTest extends WebTestCase
 
 
     // 40a
-    public function TestDeleteModal()
-    {
-        // Navigate to the Truck List page
-        $this->session->visit('http://localhost:8000/app_test.php/truck/edit/1');
-        // Get the page
-        $page = $this->session->getPage();
+    //public function TestDeleteModal()
+    //{
+    //    // Navigate to the Truck List page
+    //    $this->session->visit('http://localhost:8000/app_test.php/truck/edit/1');
+    //    // Get the page
+    //    $page = $this->session->getPage();
 
-        // Test that the Delete modal isn't visible
-        $removeModal = $page->find('css', '#removeModal');
-        $this->AssertFalse( $removeModal->isVisible());
+    //    // Test that the Delete modal isn't visible
+    //    $removeModal = $page->find('css', '#removeModal');
+    //    $this->AssertFalse( $removeModal->isVisible());
 
-        // Click the delete button on the page
-        $page->find('css', 'remove').click();
+    //    // Click the delete button on the page
+    //    $page->find('css', 'remove').click();
 
-        // Test that the delete modal is visible
-        $this->assertTrue( $removeModal->isVisible() );
-    }
+    //    // Test that the delete modal is visible
+    //    $this->assertTrue( $removeModal->isVisible() );
+    //}
+
+
 
 
 

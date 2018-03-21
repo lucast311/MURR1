@@ -8,7 +8,7 @@
   </php>
   <testsuites>
     <testsuite name="PhpTools_TestSuite">
-      <file>G:\prjMURR\prj4-murr\tests\AppBundle\Controller\CollectionHistoryControllerTest.php</file>
+      <file>D:\prj4-murr\tests\AppBundle\Entity\TruckTest.php</file>
     </testsuite>
   </testsuites>
   <filter>
