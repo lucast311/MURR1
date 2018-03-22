@@ -48,7 +48,7 @@ class TruckTest extends KernelTestCase
         // Assert that there are errors
         $this->assertEquals(1, count($errors));
         // Check the error message matches
-        $this->assertEquals($errors[0] == "The Truck ID must contain 1 to 6 digits, no letters.");
+        $this->assertEquals($errors[0], "The Truck ID must contain 1 to 6 digits, no letters.");
     }
 
     /**
@@ -63,11 +63,12 @@ class TruckTest extends KernelTestCase
         $this->truck->setTruckId("0088667");
 
         // Validate the Truck
-        $errors = $this->validator->validate($this->truck);
+        $errors = ($this->validator->validate($this->truck));
         // Assert that there are errors
         $this->assertEquals(1, count($errors));
+        $errors = (string) $errors;
         // Check the error message matches
-        $this->assertEquals($errors[0] == "Truck ID must be a valid number");
+        $this->assertContains("Truck ID can not be more than 6 digits long", $errors);
 
         //// Test that 000000 will fail
         //$this->truck->setTruckId("000000");

@@ -6,6 +6,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Truck;
 
@@ -20,6 +21,7 @@ class TruckEditType extends AbstractType
         $builder->add('truckId',null)
                 ->add('type',null)
                 ->add('Save', SubmitType::class);
+                //->add('Cancel', ButtonType::class,array('attr' => array('onclick' => "window.location.href='../'")));
     }
 
     /**

@@ -24,13 +24,16 @@ class Truck
     private $id;
 
     /**
-     * @var int
+     * @var string
      *
      * @ORM\Column(name="truckId", type="string", length=6, unique=true)
-     * @Assert\Range(min=1,max=999999,
-     *  invalidMessage = "Truck ID must be a valid number",
+     * @Assert\Length(min=1,max=6,
      *  minMessage = "Truck ID must be atleast {{ limit }} digits long",
      *  maxMessage = "Truck ID can not be more than {{ limit }} digits long")
+     * @Assert\Regex(
+     *  pattern="/\d/",
+     *  htmlPattern=".*",
+     *  message="Truck ID must only contain digits")
      * @Assert\NotNull(message="Please specify a Truck ID.")
      *
      */
