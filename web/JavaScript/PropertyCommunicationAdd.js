@@ -17,15 +17,20 @@ var onLoad = function ()
     $("#communicationSubmit").click(function ()
     {
         // Get form, submit form
-        $('#communicationForm').submit();
+        $('#hiddenCommunicationSubmit').click();
     });
 
-    // Make the property dropdown disabled, so you can't change it
-    $("#appbundle_communication_property").prop('disabled', true);
-    // Put the current property into it
-    $("#appbundle_communication_property").val($('.js-propertyid').data('propertyid'));
+    //get the property select box
+    propertyDropdown = $("#appbundle_communication_property");
+
+    // Get the current property ID
+    propertyId = $('.js-propertyid').data('propertyid');
+    //Put the current property ID on the select box
+    propertyDropdown.val(propertyId);
     // Apply the semantic styling so it's actually disabled
-    $("#appbundle_communication_property").parent().class('disabled');
+    propertyDropdown.parent().addClass('disabled');
+    //Trigger the search select box to show the proper value
+    propertyDropdown.dropdown('set selected', propertyId)
 
     // If the form was submitted invalid, the controller should signal us. Make the modal reappear so you can see the errors.
     if ($('.js-showcommunicationform').data('showcommunicationform'))

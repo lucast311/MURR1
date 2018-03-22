@@ -73,7 +73,7 @@
         </tr>
     </table>
 
-    <button onclick="window.location.href ='{{editPath}}'">Edit</button>
+    <button class="ui button" onclick="window.location.href ='{{editPath}}'">Edit</button>
 
     <h1>Property Contacts</h1>
     {% if property.contacts is empty %}
@@ -192,8 +192,7 @@
             <div class="content">
                 {{ form_start(newCommunicationForm, {'attr': {'id': 'communicationForm'}}) }}
                 {{ form_widget(newCommunicationForm) }}
-				{# Fake hidden input that holds the property so it can be submitted even though the regular one is disabled #}
-				<input type="hidden" name="appbundle_communication[property]" value="{{ property.id }}" />
+				<input type="submit" hidden="hidden" id="hiddenCommunicationSubmit" />
 				{{ form_end(newCommunicationForm) }}
             </div>
 

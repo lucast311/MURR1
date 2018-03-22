@@ -376,7 +376,7 @@ class CommunicationControllerTest extends WebTestCase
         //insert the communication
         $commId = $repo->insert($comm);
 
-        $crawler = $client->request("GET","/communication/view/$commId");
+        $crawler = $client->request("GET","/communication/$commId");
 
         $response = $client->getResponse()->getContent();
 
@@ -400,7 +400,7 @@ class CommunicationControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //request the communication view page for a communication that does not exist
-        $crawler = $client->request("GET","communication/view/-5");
+        $crawler = $client->request("GET","communication/-5");
 
         //assert that the correct error message appeared
         $this->assertContains("The specified communication ID could not be found", $client->getResponse()->getContent());
@@ -415,7 +415,7 @@ class CommunicationControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //request the communication view page for a communication that does not exist
-        $crawler = $client->request("GET","communication/view/");
+        $crawler = $client->request("GET","communication/");
 
         //assert that the correct error message appeared
         $this->assertContains("No communication ID specified", $client->getResponse()->getContent());
@@ -499,7 +499,7 @@ class CommunicationControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the communication edit page
-        $crawler = $client->request('GET','/communication/edit/56');
+        $crawler = $client->request('GET','/communication/56/edit');
 
         // Get the form
         $form = $crawler->selectButton("Save")->form();
@@ -510,7 +510,7 @@ class CommunicationControllerTest extends WebTestCase
         // Submit the form
         $crawler = $client->submit($form);
         // Go to the communication and see the change
-        $crawler = $client->request('GET', '/communication/view/56');
+        $crawler = $client->request('GET', '/communication/56');
 
         $this->assertContains('The description of this communication has been changed', $client->getResponse()->getContent());
     }
