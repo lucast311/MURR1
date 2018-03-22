@@ -45,6 +45,18 @@
     td .pencil{
         opacity: 1 !important; 
     }
+	#filteredTruckList
+	{
+		display:table-cell;
+	}
+	.search
+	{
+		margin-bottom: inherit;
+	}
+	.truckList{
+		width: max-content;
+	}
+
 </style>
 
 <div>
@@ -85,74 +97,75 @@
     </div>
 
 
-	<div class="ui search">
-        <input type="text" id="truckFilterBox" class="prompt" maxlength="100" placeholder="Truck Filter..." />
-        <i class="times circle icon" id="btnClear"></i>
-        <div class="results"></div>
-    </div>
-
-    {# DEPRECATED { form_start(filterform) }}
-    <div>
-        <h3>Filter List:</h3>
-    </div>
-    {{ form_widget(filterform) }}
-    {{ form_end(filterform) } #}
-
-    <table id="filteredTruckList" class="trucks ui celled table">
-        <thead>
-            <tr>
-                <!--<th>ID[HIDDEN]</th>-->
-                <th style="width: 4vw;min-width: 88px;">Truck ID</th>
-                <th style="width: 6vw;min-width: 121px;">Type</th>
-				<th>Edit/Remove</th>
-            </tr>
-        </thead>
-        <tbody id="filteredTruckListBody" data-bind="foreach: results">
-            {# % for t in trucks % #}
-                <tr>
-                    <!--td data-bind="text:id">{{ formtruck.id }}</td>-->
-                    <td class="truckID" data-bind="text:truckId, attr: {data: id}">{{ formtruck.truckId }}</td>
-                    <td data-bind="text:type">{{ formtruck.type }}</td>
-                    <td>
-						<form name="appbundle_editTruck" method="post" data-bind="attr: {action: '{{ path('truck_edit') }}/'+id }">
-                            <button type="submit" class="ui icon button" data-bind="attr: {id: 'rmb'+id}" ><i class="pencil alternate icon"></i></button>
-						</form>
+	<div class="ui segment truckList">
+		<h3 class="ui left header">Truck List</h3>
+		<div class="ui search">
+			<input type="text" id="truckFilterBox" class="prompt" maxlength="100" placeholder="Filter..." />
+			<i class="times circle icon" id="btnClear"></i>
+			<div class="results"></div>
+		</div>
+		<table id="filteredTruckList" class="trucks ui celled table">
+			<thead>
+				<tr>
+					<!--<th>ID[HIDDEN]</th>-->
+					<th style="width: 4vw;min-width: 88px;">Truck ID</th>
+					<th style="width: 6vw;min-width: 121px;">Type</th>
+					<th>Edit/Remove</th>
+				</tr>
+			</thead>
+			<tbody id="filteredTruckListBody" data-bind="foreach: results">
+				{# % for t in trucks % #}
+					<tr>
+						<!--td data-bind="text:id">{{ formtruck.id }}</td>-->
+						<td class="truckID" data-bind="text:truckId, attr: {data: id}">{{ formtruck.truckId }}</td>
+						<td data-bind="text:type">{{ formtruck.type }}</td>
+						<td>
+							<form name="appbundle_editTruck" method="post" data-bind="attr: {action: '{{ path('truck_edit') }}/'+id }">
+								<button type="submit" class="ui icon button" data-bind="attr: {id: 'rmb'+id}" ><i class="pencil alternate icon"></i></button>
+							</form>
                         
-                        <form name="appbundle_removeTruck" method="post" data-bind="attr: {action: '{{ path('truck_remove') }}/'+id, 'data-message': 'Are you sure you want to remove Truck \'\''+truckId+'\'\''}">
-							<button type="button" class="ui icon button removeButton red" data-bind="attr: {id: 'rmb'+id}" ><i class="close icon"></i></button>
-						</form>
+							<form name="appbundle_removeTruck" method="post" data-bind="attr: {action: '{{ path('truck_remove') }}/'+id, 'data-message': 'Are you sure you want to remove Truck \'\''+truckId+'\'\''}">
+								<button type="button" class="ui icon button removeButton red" data-bind="attr: {id: 'rmb'+id}" ><i class="close icon"></i></button>
+							</form>
 
-						{# <!--
-						<form method="post" data-bind="attr: {id: 'rmb'+id, action: '{{ path('truck_edit') }}/'+id}">
-							<!-- Specify button type so it doesn't automatically submit-->
-                            <!-- Button that prompts the message, rmb-->
-							<button type="button" data-bind="attr: {id: 'rmb'+id}" class="rmdb">
-                                <i class="fas fa-times red"></i>
-                            </button>
-							<!-- Span to hold the "Are you sure?" message-->
-							<span data-bind="attr: {id: 'rmmsg'+id}" class="rmmsg">
-                            </span>
+							{# <!--
+							<form method="post" data-bind="attr: {id: 'rmb'+id, action: '{{ path('truck_edit') }}/'+id}">
+								<!-- Specify button type so it doesn't automatically submit-->
+								<!-- Button that prompts the message, rmb-->
+								<button type="button" data-bind="attr: {id: 'rmb'+id}" class="rmdb">
+									<i class="fas fa-times red"></i>
+								</button>
+								<!-- Span to hold the "Are you sure?" message-->
+								<span data-bind="attr: {id: 'rmmsg'+id}" class="rmmsg">
+								</span>
 
-							<!-- Accept button, rmba-->
-                            <button type="submit" data-bind="attr: {id: 'rmba'+id}" class="rmba" hidden="hidden">
-                                <i class="fas fa-check green"></i>
-                            </button>
-                            <!-- Cancel button, rmbc-->
-                            <button type="button" data-bind="attr: {id: 'rmbc'+id}" class="rmbc" hidden="hidden">
-                                <i class="close icon"></i><!--fas fa-times red-->
-                            </button>
-						</form>
-						--> #}
-					</td>
-                </tr>
-            {# % endfor % #}
-        </tbody>
-        <tbody id="listInfo" class="ui segment">
-            <tr>
-                <td id="listInfoContent" class="ui active" colspan="3" style="text-align: center"></td>
-            </tr>
-        </tbody>
-    </table>
+								<!-- Accept button, rmba-->
+								<button type="submit" data-bind="attr: {id: 'rmba'+id}" class="rmba" hidden="hidden">
+									<i class="fas fa-check green"></i>
+								</button>
+								<!-- Cancel button, rmbc-->
+								<button type="button" data-bind="attr: {id: 'rmbc'+id}" class="rmbc" hidden="hidden">
+									<i class="close icon"></i><!--fas fa-times red-->
+								</button>
+							</form>
+							--> #}
+						</td>
+					</tr>
+				{# % endfor % #}
+			</tbody>
+			<tbody id="listInfo" class="ui segment">
+				<tr>
+					<td id="listInfoContent" class="ui active" colspan="3" style="text-align: center"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+
+
+
+
+    
 
     <!-- This script is responsible for calling functions to handle the delete forms-->
     <script type="text/javascript">
