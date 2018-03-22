@@ -137,6 +137,12 @@ class Contact
      */
     private $properties;
 
+    /**
+     * @ORM\Column(name="dateModified", type="datetime")
+     * @var mixed
+     */
+    //protected $dateModified;
+
     public function __construct()
     {
         $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
@@ -426,5 +432,35 @@ class Contact
     public function setProperties($properties)
     {
         $this->properties = $properties;
+    }
+
+    /**
+     * Set dateModified
+     *
+     * @param \DateTime $dateModified
+     * @return Contact
+     */
+    public function setDateModified($dateModified)
+    {
+
+    }
+
+    /**
+     * Get dateModified
+     *
+     * @return \DateTime
+     */
+    public function getDateModified()
+    {
+
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime()
+    {
+
     }
 }

@@ -114,11 +114,11 @@ class Communication
      */
     private $description;
 
-    ///**
-    // * @var int
-    // * @ORM\Column(type="integer")
-    // */
-    //private $user;
+    /**
+     * @ORM\Column(name="dateModified", type="datetime")
+     * @var mixed
+     */
+    //protected $dateModified;
 
     /**
      * Default constructor for a Communication object. This will just set the value of date to be today by default
@@ -354,6 +354,36 @@ class Communication
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set dateModified
+     *
+     * @param \DateTime $dateModified
+     * @return Communication
+     */
+    public function setDateModified($dateModified)
+    {
+
+    }
+
+    /**
+     * Get dateModified
+     *
+     * @return \DateTime
+     */
+    public function getDateModified()
+    {
+
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime()
+    {
+
     }
 
     ///**

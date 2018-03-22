@@ -127,6 +127,17 @@ class Container
     private $structure;
 
     /**
+     * @ORM\Column(name="dateModified", type="datetime")
+     * @var mixed
+     */
+    //protected $dateModified;
+
+    public function __construct()
+    {
+
+    }
+
+    /**
      * Get id
      *
      * @return int
@@ -361,6 +372,36 @@ class Container
     }
 
     /**
+     * Set dateModified
+     *
+     * @param \DateTime $dateModified
+     * @return Container
+     */
+    public function setDateModified($dateModified)
+    {
+
+    }
+
+    /**
+     * Get dateModified
+     *
+     * @return \DateTime
+     */
+    public function getDateModified()
+    {
+
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime()
+    {
+
+    }
+
+    /**
      * Gets the choices available for the Type attribute
      *
      * @return array
@@ -409,7 +450,7 @@ class Container
         }
         else
         {
-            return "N/A";  
+            return "N/A";
         }
     }
 

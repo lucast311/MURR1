@@ -207,6 +207,7 @@ class ContainerEditConfirmationTest extends WebTestCase
         $page->find('css', ".select2-selection, .select2-selection--single")->click();
 
         // Check that the select box contains all the right options
+        $this->assertContains("--Please Select a Type--", $page->find('css', ".select2-results")->getHtml());
         $this->assertContains("Active", $page->find('css', ".select2-results")->getHtml());
         $this->assertContains("Inactive", $page->find('css', ".select2-results")->getHtml());
         $this->assertContains("Contaminated", $page->find('css', ".select2-results")->getHtml());
@@ -216,6 +217,29 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->assertContains("Garbage Tip Authorized", $page->find('css', ".select2-results")->getHtml());
         $this->assertContains("Garbage Tip Denied", $page->find('css', ".select2-results")->getHtml());
         $this->assertContains("Garbage Tip Scheduled", $page->find('css', ".select2-results")->getHtml());
+    }
+
+    public function testTenMostRecentRecordsDisplayed()
+    {
+        // Go to the edit page of a container
+        $this->session->visit('http://localhost:8000/app_test.php/container/1/edit');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // get the first table on the page
+        $table = $page->find("css", "table:first-child");
+
+        // Check that the search table has only 10 records all in order
+        $this->assertContains("QWERTY10", $table->find("css", "tr:nth-child(2)")->getHtml());
+        $this->assertContains("QWERTY9", $table->find("css", "tr:nth-child(3)")->getHtml());
+        $this->assertContains("QWERTY8", $table->find("css", "tr:nth-child(4)")->getHtml());
+        $this->assertContains("QWERTY7", $table->find("css", "tr:nth-child(5)")->getHtml());
+        $this->assertContains("QWERTY6", $table->find("css", "tr:nth-child(6)")->getHtml());
+        $this->assertContains("QWERTY5", $table->find("css", "tr:nth-child(7)")->getHtml());
+        $this->assertContains("QWERTY4", $table->find("css", "tr:nth-child(8)")->getHtml());
+        $this->assertContains("QWERTY3", $table->find("css", "tr:nth-child(9)")->getHtml());
+        $this->assertContains("QWERTY2", $table->find("css", "tr:nth-child(10)")->getHtml());
+        $this->assertContains("QWERTY1", $table->find("css", "tr:nth-child(11)")->getHtml());
     }
 
     protected function tearDown()

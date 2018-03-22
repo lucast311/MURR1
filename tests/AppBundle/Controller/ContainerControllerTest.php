@@ -440,6 +440,17 @@ class ContainerControllerTest extends WebTestCase
         $this->assertContains("Please fill out this field", $client->getResponse()->getContent());
     }
 
+    //public function testTenMostRecentRecordsDisplayed()
+    //{
+    //    // create a client so we can view the page
+    //    $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+    //    // go to the edit page for container 1
+    //    $crawler = $client->request('GET', '/container/search');
+
+    //    $this->assertEquals(0, $crawler->filter('html:contains("Property")')->count());
+    //}
+
     protected function tearDown()
     {
         parent::tearDown();
