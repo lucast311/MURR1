@@ -52,13 +52,7 @@ var viewModel = {
 
             // Set the results to be the returned results
             viewModel.results(jsonResults);
-
-            /*
-            // Register event handler for the select links, but ONLY if it is a popup box
-            // Note this has to be here, otherwise jquery can't bind to an element that doesn't exist yet
-            if ($('.js-isPopup').data('ispopup') == 1) {
-                $('.popupSelectButton').click(postValue);
-            }*/
+            setupRemoveModals();
         });
     }
 };
@@ -110,7 +104,10 @@ var onLoad = function () {
     loadingInfo.text("Loading...");
     loadingInfo.appendTo("#listInfoContent");
     loadingInfo.hide();
-};
+
+    setupRemoveModals();
+    enableRemoveModalButtons();
+}
 
 /**
  * Story 40a
@@ -126,6 +123,63 @@ function postValue()
     // This beautiful delay is just long enough to make Mink not crash when it clicks the link, but the user won't notice it :)
     setTimeout(function () { window.close(); }, 10);
     //window.close();
+}
+
+/**
+ * STORY40a
+ */
+function setupRemoveModals() {
+
+    addModal();
+    $('.removeButton').click(function () {
+        //console.log($(this));
+        var parent = $($(this).parent("form").get(0));
+        //console.log(parent);
+        showModal(parent.data('message'), parent);
+    });
+
+    $(".ui.dropdown").dropdown();
+}
+
+/**
+ * STORY40a
+ */
+function enableRemoveModalButtons() {
+    //set an event handler on the remove buttons that will call the custom method on the DeletePrompt.js Script
+    $('.rmb').click(function (event) {
+        clickedBtn = $(event.target);
+
+        //if the i (changed to svg and path tags from font-awesome) tag inside the button was clicked, 
+        //consider the button as clicked (because event.target sometimes gives you the i tag)
+        //if the path was clicked these if statements will cascade up to the button tag
+        if (clickedBtn.is('path')) clickedBtn = clickedBtn.parent();
+        if (clickedBtn.is('svg')) clickedBtn = clickedBtn.parent();
+
+        //get the ID that is stored in the form that this current button is in
+        //This is the ID of the routePickup that was clicked
+        id = clickedBtn.parent().attr('data-id');
+
+        //call the prompt delete and pass in the necessary html things from the page
+        promptDelete($("#rmmsg" + id), "Are you sure?", clickedBtn,
+            $("#rmba" + id), $("#rmbc" + id));
+    });
+
+    //set an event handler on all the cancel buttons that will call the cancel prompt on the DeletePrompt.js script
+    $('.rmbc').click(function (event) {
+        clickedBtn = $(event.target);
+
+    //if the i (changed to svg and path tags from font-awesome) tag inside the button was clicked, 
+    //consider the button as clicked (because event.target sometimes gives you the i tag)
+    //if the path was clicked these if statements will cascade up to the button tag
+    if (clickedBtn.is('path')) clickedBtn = clickedBtn.parent();
+        if (clickedBtn.is('svg')) clickedBtn = clickedBtn.parent();
+
+        //get the stored ID from the form this button is in
+        id = clickedBtn.parent().attr('data-id');
+
+        //call the cancel prompt from the DeletePrompt.js script and pass in the necessery jquery objects
+        cancelPrompt($("#rmmsg" + id), $('#rmb' + id), $('#rmba' + id), clickedBtn);
+    });
 }
 
 $(onLoad);
