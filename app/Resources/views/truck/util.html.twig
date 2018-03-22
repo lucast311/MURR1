@@ -37,17 +37,20 @@
 	}
 	.ui.search
 	{
-		margin-bottom: 1em;
+		margin-bottom: 1rem;
 	}
-	.truckList{
+	.truckList, .truckAdd{
 		width: max-content;
+	}
+	.truckAdd .inline.fields {
+		margin-bottom: 0px !important;
 	}
 
 </style>
 
 <div>
     <h2>Add-A-Truck:</h2>
-    <div class="ui segment">
+    <div class="ui segment truckAdd">
         {{ form_start(add_truck_form) }}
 
         {{ form_errors(add_truck_form) }}
