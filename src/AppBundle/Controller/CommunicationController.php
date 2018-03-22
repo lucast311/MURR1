@@ -76,8 +76,7 @@ class CommunicationController extends Controller
 
     /**
      * Summary of editAction
-     * @Route ("/communication/edit/{commId}", name = "communication_edit")
-     * @Route ("/communication/edit/")
+     * @Route ("/communication/{commId}/edit", name = "communication_edit")
      * @Method({"GET","POST"})
      */
     public function editAction(Request $request, $commId = null)
@@ -95,7 +94,6 @@ class CommunicationController extends Controller
         $errorType = null;
 
         if($comm == null) $errorType="notfound";
-        if($commId == null) $errorType="noid";
 
         $form = $this->createForm(CommunicationType::class, $comm);
 
@@ -117,7 +115,8 @@ class CommunicationController extends Controller
         return $this->render('communication/editComm.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
             'form' => $form->createView(),
-            'errorType'=>$errorType]);
+            'errorType'=>$errorType,
+            'communicationId'=>$comm->getId()]);
     }
 
     /**
@@ -125,8 +124,8 @@ class CommunicationController extends Controller
      * Controller responsible for viewing a communication
      * Summary of viewAction
      * @param mixed $comId
-     * @Route ("/communication/view/{comId}", name = "communication_view")
-     * @Route ("/communication/view/")
+     * @Route ("/communication/{comId}", name = "communication_view")
+     * @Route ("/communication/")
      */
     public function viewAction($comId = null){
         // Get the entity manager

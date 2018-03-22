@@ -6,7 +6,7 @@
     $(function ()
     {
         var propertySelect = $("#appbundle_communication_property")
-        $(".ui.search.dropdown").after("<input class='ui button' id='advanced_property_search_popup' value='Advanced Search' type='button'/>");
+        $(".ui.search.dropdown").parent().after("<div class='field'><input class='ui button' id='advanced_property_search_popup' value='Advanced Search' type='button'/></div>");
         initialize(propertySelect);
     });
 </script>
@@ -16,14 +16,16 @@
     <h2>Edit Communication</h2>
     {% if errorType == "notfound"%}
         <h2>The specified communication ID could not be found</h2>
-    {% elseif errorType == "noid" %}
-        <h2>No communication ID specified</h2>
     {% else %}
         
         <div>
             {{ form_start(form) }}
             {{ form_widget(form) }}
-		    <div class="field"><button type="submit" id="communication_add" name="communication[add]" class="ui button">Save</button></div>
+			
+		    <div class="field">
+				<a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button">Cancel</a>
+				<button type="submit" id="communication_add" name="communication[add]" class="ui button">Save</button>
+			</div>
             {{ form_end(form) }}
         </div>
 

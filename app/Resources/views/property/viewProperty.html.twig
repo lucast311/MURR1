@@ -8,24 +8,6 @@
 
 {% block body %}
 
-        <style>
-            .associations{
-                border-collapse: collapse;
-            }
-
-            .associations, .associations th, .associations td{
-                border:none;
-            }
-            
-            .associations  tbody>tr{
-                border: 1px solid black!important;
-            }
-
-            .associations td, .associations th{
-                padding: 5px;
-            }
-        </style>
-
 {# magic invisible div that allows us to pass information to the java script #}
 <div class="js-propertyid" data-propertyid="{{ property.id }}"></div>
 <div class="js-showcommunicationform" data-showcommunicationform="{{ showCommunicationForm }}"></div>
@@ -99,7 +81,7 @@
 
     {% else %}
         
-        <table class="contacts associations" border="1">
+        <table class="contacts associations ui celled table selectable">
             <thead>
                 <tr>
                     <th>Role</th>
@@ -130,7 +112,7 @@
 
         {% else %}
         
-            <table class="containers associations" border="1">
+            <table class="containers associations ui celled table selectable">
                 <thead>
                     <tr>
                         <th>Serial #</th>
@@ -143,7 +125,7 @@
                 </thead>
                     <tbody>
                     {% for container in property.bins %}
-                    <tr>
+                    <tr data-id="{{container.id}}">
                         <td>{{container.containerSerial}}</td>
                         <td>{{container.type}}</td>
                         <td>{{container.size}}</td>
@@ -160,8 +142,8 @@
         <h1>
             Communications
             <span>
-                <button class="ui button" id="newCommunication">
-                    New Communication
+                <button class="ui icon button green" id="newCommunication">
+                    <i class="plus icon"></i>
                 </button>
             </span>
         </h1>
@@ -170,7 +152,7 @@
 
         {% else %}
         
-        <table class="communications associations" border="1">
+        <table class="communications associations ui celled table selectable">
                 <thead>
                     <tr>
                         <th>CommID</th>
@@ -185,7 +167,7 @@
                 </thead>
                     <tbody>
                     {% for communication in property.communications %}
-                    <tr>
+                    <tr data-id="{{communication.id}}">
                         <td>{{communication.id}}</td>
                         <td>{{communication.date}}</td>
                         <td>{{communication.type}}</td>

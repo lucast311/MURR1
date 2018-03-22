@@ -24,12 +24,30 @@ var onLoad = function ()
     $("#appbundle_communication_property").prop('disabled', true);
     // Put the current property into it
     $("#appbundle_communication_property").val($('.js-propertyid').data('propertyid'));
+    // Apply the semantic styling so it's actually disabled
+    $("#appbundle_communication_property").parent().class('disabled');
 
     // If the form was submitted invalid, the controller should signal us. Make the modal reappear so you can see the errors.
     if ($('.js-showcommunicationform').data('showcommunicationform'))
     {
         communicationModal.modal('show');
     }
+
+    // Add click handlers for the tables so that clicking on a row will take you to it's view page
+    // Communications table
+    $('.communications tbody tr').click(function () {
+        // Get the id of the item from the bound data-id property of the row
+        var id = $(event.target).parent().data('id');
+        // Go to the URL
+        window.location = '../communication/' + id;
+    });
+    // Container table
+    $('.containers tbody tr').click(function () {
+        // Get the id of the item from the bound data-id property of the row
+        var id = $(event.target).parent().data('id');
+        // Go to the URL
+        window.location = '../container/' + id;
+    });
 }
 
 $(onLoad);
