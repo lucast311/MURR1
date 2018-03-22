@@ -10,7 +10,7 @@ use AppBundle\DataFixtures\ORM\LoadPropertyData;
 use Tests\AppBundle\DatabasePrimer;
 
 /**
- * This test uses mink for browser based front-end testing of the javascript used in story 12e
+ * This test uses mink for browser based front-end testing of the javascript used in story 12g
  */
 class ContainerEditConfirmationTest extends WebTestCase
 {
@@ -219,6 +219,10 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->assertContains("Garbage Tip Scheduled", $page->find('css', ".select2-results")->getHtml());
     }
 
+    /**
+     * Story 12g
+     * Test that the ten most recently changed containers are displayed in order.
+     */
     public function testTenMostRecentRecordsDisplayed()
     {
         // Go to the edit page of a container

@@ -126,6 +126,23 @@ class LoadContainerData implements FixtureInterface
             $obMan->persist($this->container);
 
             $obMan->flush();
+
+            for ($i = 1; $i <= 10; $i++)
+            {
+            	$this->container = (new Container())
+                    ->setFrequency("weekly")
+                    ->setContainerSerial("QWERTY" . $i)
+                    ->setLocationDesc("South-west side")
+                    ->setLon(87)
+                    ->setLat(88)
+                    ->setType("Cart")
+                    ->setSize("6 yd")
+                    ->setAugmentation("Wheels")
+                    ->setStatus("Active")
+                    ->setReasonForStatus("Everything normal")
+                    ->setProperty($property);
+            }
+
         }
         else
         {

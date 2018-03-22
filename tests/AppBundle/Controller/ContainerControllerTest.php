@@ -440,6 +440,81 @@ class ContainerControllerTest extends WebTestCase
         $this->assertContains("Please fill out this field", $client->getResponse()->getContent());
     }
 
+    /**
+     * Story 12g
+     * Test if the type set to default error message appears
+     */
+    public function testSerialTypeDefault()
+    {
+        // create a client so we can view the page
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        // go to the edit page for container 1
+        $crawler = $client->request('GET', '/container/1/edit');
+
+        // grab the form
+        $form = $crawler->selectButton('Submit')->form();
+
+        // change the value of the type field to be invalid (default)
+        $form['appbundle_container[type]'] = "--Please Select a Type--";
+
+        // attempt to submit the invalid form
+        $crawler = $client->submit($form);
+
+        // check that the error for an invalid type (default) is displayed on the page
+        $this->assertContains("Please select a valid type", $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 12g
+     * Test if the status set to default error message appears
+     */
+    public function testSerialStatusDefault()
+    {
+        // create a client so we can view the page
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        // go to the edit page for container 1
+        $crawler = $client->request('GET', '/container/1/edit');
+
+        // grab the form
+        $form = $crawler->selectButton('Submit')->form();
+
+        // change the value of the status field to be invalid (default)
+        $form['appbundle_container[status]'] = "--Please Select a Status--";
+
+        // attempt to submit the invalid form
+        $crawler = $client->submit($form);
+
+        // check that the error for an invalid status (default) is displayed on the page
+        $this->assertContains("Please select a valid status", $client->getResponse()->getContent());
+    }
+
+    /**
+     * Story 12g
+     * Test if the frequency set to default error message appears
+     */
+    public function testSerialFrequencyDefault()
+    {
+        // create a client so we can view the page
+        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+
+        // go to the edit page for container 1
+        $crawler = $client->request('GET', '/container/1/edit');
+
+        // grab the form
+        $form = $crawler->selectButton('Submit')->form();
+
+        // change the value of the frequency field to be invalid (default)
+        $form['appbundle_container[frequency]'] = "--Please Select a Frequency--";
+
+        // attempt to submit the invalid form
+        $crawler = $client->submit($form);
+
+        // check that the error for an invalid frequency (default) is displayed on the page
+        $this->assertContains("Please select a valid frequency", $client->getResponse()->getContent());
+    }
+
     //public function testTenMostRecentRecordsDisplayed()
     //{
     //    // create a client so we can view the page
