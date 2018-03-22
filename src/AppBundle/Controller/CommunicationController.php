@@ -93,6 +93,13 @@ class CommunicationController extends Controller
         //variable that willl handle what type of error will be shown
         $errorType = null;
 
+        $communicationId = -1;
+        if ($comm != null)
+        {
+        	$communicationId = $comm->id;
+        }
+        
+
         if($comm == null) $errorType="notfound";
 
         $form = $this->createForm(CommunicationType::class, $comm);
@@ -116,7 +123,7 @@ class CommunicationController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
             'form' => $form->createView(),
             'errorType'=>$errorType,
-            'communicationId'=>$comm->getId()]);
+            'communicationId'=>$communicationId]);
     }
 
     /**

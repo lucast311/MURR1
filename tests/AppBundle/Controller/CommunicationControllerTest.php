@@ -56,15 +56,15 @@ class CommunicationControllerTest extends WebTestCase
         //$form['communication[date][year]'] = "2017";
         //$form['communication[date][month]'] = "10";
         //$form['communication[date][day]'] = "5";
-        $form['communication[type]']="Phone";
-        $form['communication[medium]']="Incoming";
+        $form['appbundle_communication[type]']="Phone";
+        $form['appbundle_communication[medium]']="Incoming";
         //$form['communication[contact]']=1; //contact id
-        $form['communication[contactName]'] = "John Smith";
-        $form['communication[contactEmail]'] = "email@email.com";
-        $form['communication[contactPhone]'] = "123-123-4567";
+        $form['appbundle_communication[contactName]'] = "John Smith";
+        $form['appbundle_communication[contactEmail]'] = "email@email.com";
+        $form['appbundle_communication[contactPhone]'] = "123-123-4567";
         //$form['communication[property]']=1; //property id
-        $form['communication[category]']="Container";
-        $form["communication[description]"]="Container has graffiti and needs to be cleaned. Action request made";
+        $form['appbundle_communication[category]']="Container";
+        $form["appbundle_communication[description]"]="Container has graffiti and needs to be cleaned. Action request made";
 
         $crawler = $client->submit($form);
 
@@ -78,14 +78,14 @@ class CommunicationControllerTest extends WebTestCase
         //$this->assertEmpty($form['communication[date][year]']->getValue());
         //$this->assertEmpty($form['communication[date][month]']->getValue());
         //$this->assertEmpty($form['communication[date][day]']->getValue());
-        $this->assertEmpty($form['communication[type]']->getValue());
-        $this->assertEmpty($form['communication[medium]']->getValue());
-        $this->assertEmpty( $form['communication[contactName]']->getValue());
-        $this->assertEmpty( $form['communication[contactEmail]']->getValue());
-        $this->assertEmpty( $form['communication[contactPhone]']->getValue());
-        $this->assertEmpty($form['communication[property]']->getValue());
-        $this->assertEmpty($form['communication[category]']->getValue());
-        $this->assertEmpty($form['communication[description]']->getValue());
+        $this->assertEmpty($form['appbundle_communication[type]']->getValue());
+        $this->assertEmpty($form['appbundle_communication[medium]']->getValue());
+        $this->assertEmpty( $form['appbundle_communication[contactName]']->getValue());
+        $this->assertEmpty( $form['appbundle_communication[contactEmail]']->getValue());
+        $this->assertEmpty( $form['appbundle_communication[contactPhone]']->getValue());
+        $this->assertEmpty($form['appbundle_communication[property]']->getValue());
+        $this->assertEmpty($form['appbundle_communication[category]']->getValue());
+        $this->assertEmpty($form['appbundle_communication[description]']->getValue());
     }
 
     //public function testFutureDate()
@@ -154,7 +154,7 @@ class CommunicationControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add')->form();
 
         //set form values
-        $form['communication[type]']=0;
+        $form['appbundle_communication[type]']=0;
 
         $crawler = $client->submit($form);
 
@@ -268,7 +268,7 @@ class CommunicationControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add')->form();
 
         //set form values
-        $form['communication[category]']=0; //blank category value
+        $form['appbundle_communication[category]']=0; //blank category value
 
 
         $crawler = $client->submit($form);
@@ -285,7 +285,7 @@ class CommunicationControllerTest extends WebTestCase
         $form = $crawler->selectButton('Add')->form();
 
         //set form values
-        $form['communication[description]']=""; //blank description
+        $form['appbundle_communication[description]']=""; //blank description
 
 
         $crawler = $client->submit($form);
@@ -320,7 +320,7 @@ class CommunicationControllerTest extends WebTestCase
 
 
         //set form values
-        $form['communication[description]']=str_repeat('a',501);//generate a string that is too long
+        $form['appbundle_communication[description]']=str_repeat('a',501);//generate a string that is too long
 
 
         $crawler = $client->submit($form);
@@ -499,13 +499,13 @@ class CommunicationControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //Request the communication edit page
-        $crawler = $client->request('GET','/communication/56/edit');
+        $crawler = $client->request('GET','/communication/1/edit');
 
         // Get the form
         $form = $crawler->selectButton("Save")->form();
 
         // Change something
-        $form['communication[description]'] = "The description of this communication has been changed";
+        $form['appbundle_communication[description]'] = "The description of this communication has been changed";
 
         // Submit the form
         $crawler = $client->submit($form);

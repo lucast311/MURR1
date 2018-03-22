@@ -74,7 +74,7 @@ class PropertyCommunicationAddTest extends WebTestCase
         $page = $this->session->getPage();
 
         // find and assert that there is a new communication button
-        $newCommunicationBtn = $page->find('named', array('button', "New Communication"));
+        $newCommunicationBtn = $page->find('css', "#newCommunication");
         $this->assertNotNull($newCommunicationBtn);
         // Click the new communication button
         $newCommunicationBtn->click();
@@ -120,7 +120,7 @@ class PropertyCommunicationAddTest extends WebTestCase
         $page = $this->session->getPage();
 
         // find the new communication button
-        $newCommunicationBtn = $page->find('named', array('button', "New Communication"));
+        $newCommunicationBtn = $page->find('css', "#newCommunication");
         // Click the new communication button
         $newCommunicationBtn->click();
 
@@ -157,6 +157,8 @@ class PropertyCommunicationAddTest extends WebTestCase
 
         // Click the desired communication (id 56 in this case)
         $page->find('named', array('content', "56"))->click();
+
+        $this->session->wait(2000);
 
         // Assert that we're on the right page
         $this->assertContains('/communication/view/56', $this->session->getCurrentUrl());

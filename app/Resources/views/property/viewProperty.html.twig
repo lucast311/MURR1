@@ -8,10 +8,6 @@
 
 {% block body %}
 
-{# magic invisible div that allows us to pass information to the java script #}
-<div class="js-propertyid" data-propertyid="{{ property.id }}"></div>
-<div class="js-showcommunicationform" data-showcommunicationform="{{ showCommunicationForm }}"></div>
-
 <h2>View Property</h2>
 
 <div>
@@ -20,6 +16,11 @@
     {% elseif property is empty %}
     <h2>The specified property could not be found</h2>
     {% else %}
+
+	{# magic invisible div that allows us to pass information to the java script #}
+	<div class="js-propertyid" data-propertyid="{{ property.id }}"></div>
+	<div class="js-showcommunicationform" data-showcommunicationform="{{ showCommunicationForm }}"></div>
+
 
     <table>
         <tr>
