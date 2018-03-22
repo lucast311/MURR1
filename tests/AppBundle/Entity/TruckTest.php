@@ -37,7 +37,7 @@ class TruckTest extends KernelTestCase
 
     /**
      * Story 40a
-     * Test that the ID wont validate if it contains letters
+     * Test that the ID won't validate if it contains letters
      */
     public function testIDLetterFailure()
     {
@@ -47,8 +47,10 @@ class TruckTest extends KernelTestCase
         $errors = $this->validator->validate($this->truck);
         // Assert that there are errors
         $this->assertEquals(1, count($errors));
+        // Convert array to string
+        $errors = (string) $errors;
         // Check the error message matches
-        $this->assertEquals($errors[0], "The Truck ID must contain 1 to 6 digits, no letters.");
+        $this->assertContains("The Truck ID must contain 1 to 6 digits, no letters", $errors);
     }
 
     /**
@@ -133,17 +135,16 @@ class TruckTest extends KernelTestCase
         // Assert that there are errors
         $this->assertEquals(1, count($errors));
         // Check the error message matches
-        $this->assertEquals($errors[0] === "The Truck Type must be from 1 to 15 characters.");
+        $this->assertContains("The Truck Type must contain 1-15 characters",(string) $errors);
 
-        //-----
-        // Test that seven characters in the ID will fail
+        // Set the type to blank
         $this->truck->setType("");
         // Validate the Truck
         $errors = $this->validator->validate($this->truck);
         // Assert that there are errors
         $this->assertEquals(1, count($errors));
         // Check the error message matches
-        $this->assertEquals($errors[0] === "The Truck Type must be from 1 to 15 characters.");
+        $this->assertContains("Please specify a Type", (string) $errors);
     }
 
     /**

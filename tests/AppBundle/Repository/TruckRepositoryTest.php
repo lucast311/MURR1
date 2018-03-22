@@ -48,15 +48,24 @@ class TruckRepositoryTest extends KernelTestCase
      */
     public function testSave()
     {
-        //Get the repository for the Truck
-        $repository = $this->em->getRepository(Truck::class);
-        //Call insert on the repository for the Truck
-        $id = $repository->save($this->truck);
+        $id = $this->truck->getId();
+        $this->assertNull($id);
+        // Call insert on the repository for the Truck
+        $this->em->persist($this->truck);
+        $this->em->flush();
 
-        //Assert that the id was returned
+        $id = $this->truck->getId();
+        // Assert that the id was set
         $this->assertNotNull($id);
-        //check the Trucks id is the same as the returned id
-        $this->assertEquals($this->truck->getId(), $id);
+
+        // Get the repository for the Truck
+        $repository = $this->em->getRepository(Truck::class);
+
+        $dbTruck = $repository->findById($id)[0];
+        $this->assertNotNull($dbTruck);
+
+        // scheck the Trucks id is the same as the returned id
+        $this->assertEquals($dbTruck->getId(), $id);
     }
 
     /**
@@ -65,15 +74,18 @@ class TruckRepositoryTest extends KernelTestCase
      */
     public function testUpdate()
     {
-        //Get the repository for the Truck
-        $repository = $this->em->getRepository(Truck::class);
         //Call insert on the repository for the Truck
-        $repository->save($this->truck);
+        $this->em->persist($this->truck);
+        $this->em->flush();
 
         //change truckId
         $newTruckId = "64920";
         $this->truck->setTruckId($newTruckId);
-        $repository->save($this->truck);
+        $this->em->persist($this->truck);
+        $this->em->flush();
+
+        //Get the repository for the Truck
+        $repository = $this->em->getRepository(Truck::class);
 
         //make sure new truckId exists in DB
         $this->assertNotNull($repository->findOneBy(array('truckId' => '64920')));
@@ -85,13 +97,16 @@ class TruckRepositoryTest extends KernelTestCase
      */
     public function testRemove()
     {
+        //Get the truck's database id
+        $id = $this->em->persist($this->truck);
+        $this->em->flush();
+        
+        //Now remove the truck
+        $this->em->remove($this->truck);
+        $this->em->flush();
+
         //Get the repository for the Truck
         $repository = $this->em->getRepository(Truck::class);
-        //Call insert on the repository for the truck
-        $id = $repository->save($this->truck);
-        
-        //Now remove it
-        $repository->remove($this->truck);
 
         //make sure that the truck could not be found in the database now
         $this->assertNull($repository->findOneById($id));

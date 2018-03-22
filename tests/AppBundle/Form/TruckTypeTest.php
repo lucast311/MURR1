@@ -77,7 +77,4 @@ class TruckTypeTest extends TypeTestCase
             $this->assertArrayHasKey($key,$children);
         }
     }
-
-    //Q: DOES THE TRUCK DB NEED TO BE ERASED AFTER $form->submit()??
-    //A: ...
 }
