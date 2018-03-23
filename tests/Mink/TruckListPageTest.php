@@ -102,10 +102,10 @@ class TruckListPageTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
-        $truckIdItem = $page->findAll('css', '.truckID')[0]->getValue();
+        $truckIdItem = $page->findAll('css', '.truckId')[0]->getText();
 
         // search for something
-        $page->findById("truckFilterBox")->setValue("00886");
+        $page->findById("truckFilterBox")->setValue("002");
 
         // Emulate a keyup to trigger the event that normally does a search.
         $page->findById("truckFilterBox")->keyPress("s");
@@ -114,7 +114,7 @@ class TruckListPageTest extends WebTestCase
         $this->session->wait(10000);
 
         // Assert that the first list item is different
-        $this->assertNotEqual($truckIdItem, $page->findAll('css', '.truckId')[0]->getValue());
+        $this->assertNotEquals($truckIdItem, $page->findAll('css', '.truckId')[0]->getText());
     }
 
     // Delete Truck Tests
@@ -146,7 +146,7 @@ class TruckListPageTest extends WebTestCase
 
         // Grab the value of the first truck id
         $truckIdItem = $page->find('css', '.truckID');
-        $originalValue = $truckIdItem->getValue();
+        $originalValue = $truckIdItem->getText();
 
         // Click the first delete button
         $page->findAll('css', '.removeButton')[0]->click();
@@ -160,7 +160,7 @@ class TruckListPageTest extends WebTestCase
         $this->assertFalse($page->find('css', '#deletesMessage').isVisible());
 
         // Check that the truck hasn't been removed
-        $this->assertEqual( $page->findAll('css', '.truckID')[0]->getValue(), $originalValue);
+        $this->assertEqual( $page->findAll('css', '.truckID')[0]->getText(), $originalValue);
     }
 
     /**
