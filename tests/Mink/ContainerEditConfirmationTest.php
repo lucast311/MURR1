@@ -22,6 +22,14 @@ class ContainerEditConfirmationTest extends WebTestCase
     {
         self::bootKernel();
         DatabasePrimer::prime(self::$kernel);
+
+        $containerLoader = new LoadContainerData();
+        $containerLoader->load(DatabasePrimer::$entityManager);
+
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load(DatabasePrimer::$entityManager);
     }
 
     protected function setUp()
@@ -31,18 +39,6 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
-
-        // Also load in the containers so there is something to edit
-        $containerLoader = new LoadContainerData();
-        $containerLoader->load($this->em);
-
-        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
-
-        $propertyLoader = new LoadPropertyData();
-        $propertyLoader->load($this->em);
-
-        $userLoader = new LoadUserData($encoder);
-        $userLoader->load($this->em);
 
         // Create a driver
         $this->driver = new ChromeDriver("http://localhost:9222",null, "localhost:8000");
@@ -78,17 +74,17 @@ class ContainerEditConfirmationTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
-        // find the text field for the serial number, and get its HTML
-        $serialField = $page->find("css","#appbundle_container_containerSerial")->getHtml();
+        // find the text field for the serial number, and get its HTML (#appbundle_container_containerSerial is the input, not the div)
+        $serialField = $page->find("css","#appbundle_container_containerSerial");
 
         // check that the field cannot be edited
-        $this->assertContains('disabled', $serialField);
+        $this->assertContains('disabled', $serialField->hasAttribute('disabled'));
 
         // Click the unlock button
         $page->find('named', array('button', "Unlock"))->click();
 
         // check that the field can be edited
-        $this->assertNotContains('disabled', $serialField);
+        $this->assertNotContains('disabled', $serialField->hasAttribute('disabled'));
     }
 
     /**
@@ -114,11 +110,14 @@ class ContainerEditConfirmationTest extends WebTestCase
         // wait for the save action to complete
         $this->session->wait(5000);
 
+        // check that we did get redirected to the search page
+        $this->assertTrue($this->session->getCurrentUrl() == 'http://localhost:8000/app_test.php/container/1');
+
         // get the first table on the page, and that table's 3rd row
         $table = $page->find("css", "table:first-child");
-        $tableRow = $table->find("css", "tr:nth-child(3)");
+        $tableRow = $table->find("css", "tr:nth-child(1)");
 
-        // check that the found row contains teh serial that we added above
+        // check that the found row contains the serial that we added above
         $this->assertContains("123456", $tableRow->getHTML());
     }
 
@@ -145,10 +144,14 @@ class ContainerEditConfirmationTest extends WebTestCase
         // wait for the delete action
         $this->session->wait(2000);
 
-        // find the header for the "Container Search" page to make sure that we have been redirected
+        // check that we did get redirected to the search page
+        $this->assertTrue($this->session->getCurrentUrl() == 'http://localhost:8000/app_test.php/container/search');
+
+
+        // find the header for the "Container Search" page
         $searchHeader = $page->find("css", "h2");
 
-        // check that we have been redirected to the "Container Search" page
+        // compare the header we find, with the one we know the search page contains
         $this->assertContains("Container Search", $searchHeader->getHtml());
 
         // Go back to the edit page of the container we just removed
@@ -172,6 +175,9 @@ class ContainerEditConfirmationTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
+        // get the page header before we open the delete modal (should contain the container serial)
+        $containerEditHeaderBefore = $page->find("css", "h1")->getText();
+
         // Click the delete button
         $page->find('named', array('button', "Delete"))->click();
 
@@ -184,12 +190,11 @@ class ContainerEditConfirmationTest extends WebTestCase
         // Make sure the modal is no longer visable
         $this->assertFalse($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
 
-        // get the first table on the page, and that table's first row
-        $table = $page->find("css", "table:first-child");
-        $tableRow = $table->find("css", "tr:first-child");
+        // get the page header after we close the delete modal (should contain the container serial)
+        $containerEditHeaderAfter = $page->find("css", "h1")->getText();
 
-        // check that the id matches the id that we navigated to
-        $this->assertContains("1", $tableRow->getHtml());
+        // make sure that we are on the same container view page, by comparing the two page headers
+        $this->assertTrue($containerEditHeaderBefore == $containerEditHeaderAfter);
     }
 
     /**
@@ -206,17 +211,23 @@ class ContainerEditConfirmationTest extends WebTestCase
         // Click on the select box so it opens
         $page->find('css', ".select2-selection, .select2-selection--single")->click();
 
-        // Check that the select box contains all the right options
-        $this->assertContains("--Please Select a Type--", $page->find('css', ".select2-results")->getHtml());
-        $this->assertContains("Active", $page->find('css', ".select2-results")->getHtml());
-        $this->assertContains("Inactive", $page->find('css', ".select2-results")->getHtml());
-        $this->assertContains("Contaminated", $page->find('css', ".select2-results")->getHtml());
-        $this->assertContains("Inaccessible", $page->find('css', ".select2-results")->getHtml());
-        $this->assertContains("Owerflowing", $page->find('css', ".select2-results")->getHtml());
-        $this->assertContains("Garbage Tip Requested", $page->find('css', ".select2-results")->getHtml());
-        $this->assertContains("Garbage Tip Authorized", $page->find('css', ".select2-results")->getHtml());
-        $this->assertContains("Garbage Tip Denied", $page->find('css', ".select2-results")->getHtml());
-        $this->assertContains("Garbage Tip Scheduled", $page->find('css', ".select2-results")->getHtml());
+        // get the results
+        $results = $page->find('css', ".select2-results");
+
+        // get an array of all the options in the results
+        $options = $results->findAll('css', 'option');
+
+        // Check that the select box contains all the right options, and that they are in the correct order (alphabetical)
+        $this->assertContains("--Please Select a Type--", $options[0]);
+        $this->assertContains("Active", $options[1]);
+        $this->assertContains("Contaminated", $options[2]);
+        $this->assertContains("Garbage Tip Authorized", $options[3]);
+        $this->assertContains("Garbage Tip Denied", $options[4]);
+        $this->assertContains("Garbage Tip Requested", $options[5]);
+        $this->assertContains("Garbage Tip Scheduled", $options[6]);
+        $this->assertContains("Inaccessible", $options[7]);
+        $this->assertContains("Inactive", $options[8]);
+        $this->assertContains("Overflowing", $options[9]);
     }
 
     /**
@@ -226,24 +237,35 @@ class ContainerEditConfirmationTest extends WebTestCase
     public function testTenMostRecentRecordsDisplayed()
     {
         // Go to the edit page of a container
-        $this->session->visit('http://localhost:8000/app_test.php/container/1/edit');
+        $this->session->visit('http://localhost:8000/app_test.php/container/search');
         // Get the page
         $page = $this->session->getPage();
 
-        // get the first table on the page
-        $table = $page->find("css", "table:first-child");
+        // wait for the 10 most recent records to show up
+        $this->session->wait(5000);
 
-        // Check that the search table has only 10 records all in order
-        $this->assertContains("QWERTY10", $table->find("css", "tr:nth-child(2)")->getHtml());
-        $this->assertContains("QWERTY9", $table->find("css", "tr:nth-child(3)")->getHtml());
-        $this->assertContains("QWERTY8", $table->find("css", "tr:nth-child(4)")->getHtml());
-        $this->assertContains("QWERTY7", $table->find("css", "tr:nth-child(5)")->getHtml());
-        $this->assertContains("QWERTY6", $table->find("css", "tr:nth-child(6)")->getHtml());
-        $this->assertContains("QWERTY5", $table->find("css", "tr:nth-child(7)")->getHtml());
-        $this->assertContains("QWERTY4", $table->find("css", "tr:nth-child(8)")->getHtml());
-        $this->assertContains("QWERTY3", $table->find("css", "tr:nth-child(9)")->getHtml());
-        $this->assertContains("QWERTY2", $table->find("css", "tr:nth-child(10)")->getHtml());
-        $this->assertContains("QWERTY1", $table->find("css", "tr:nth-child(11)")->getHtml());
+        // an array of all the rows in the first table that appears on the search page
+        $searchTableRows = $page->findAll('css', 'table:first-child tr');
+
+        // an array for all the serial fields in the $searchTableRows array
+        $serialValues = array();
+
+        // foreach row
+        foreach ($searchTableRows as $row)
+        {
+            // get its container serial value
+        	$serialValues[] = $row->find('css', "$row:first-child");
+        }
+
+        // Loop through all the serials, and check their text.
+        // We append (10 - $i) onto each expected serial number so that we can decrement the number each time.
+        // Ex:  $i = 4
+        //      10 - 4 = 6
+        //      Serial number becomes: 'QWERTY6'
+        for ($i = 0; $i < 10; $i++)
+        {
+        	$this->assertContains("QWERTY" . (10 - $i), $serialValues[$i]->getText());
+        }
     }
 
     protected function tearDown()
