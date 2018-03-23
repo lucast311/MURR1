@@ -26,22 +26,15 @@ class TruckTypeTest extends TypeTestCase
     private $truck;
 
     /**
-     * Just some setup stuff
-     * {@inheritDoc}
-     */
-    protected function setUp()
-    {
-        $this->truck = (new Truck())
-            ->setTruckId("00886")
-            ->setType   ("Large");
-    }
-
-    /**
-     * Story 44a
+     * Story 40a
      * Tests that the form class can be created and submit data
      */
     public function testSubmitData()
     {
+        $this->truck = (new Truck())
+            ->setTruckId("00886")
+            ->setType   ("Large");
+
         // The data that will be "submitted" to the form
         $formData = array(
             'truckId' => $this->truck->getTruckId(),

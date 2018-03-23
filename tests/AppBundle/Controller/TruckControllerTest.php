@@ -3,7 +3,9 @@ namespace Tests\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Truck;
 use AppBundle\DataFixtures\ORM\LoadTruckData;
+use AppBundle\DataFixtures\ORM\LoadUserData;
 use Tests\AppBundle\DatabasePrimer;
+
 
 /**
  * TruckControllerTest
@@ -42,7 +44,10 @@ class TruckControllerTest extends WebTestCase
         // Load the admin user into the database so they can log in
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
 
-        $truckLoader = new LoadTruckData($encoder);
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load($this->em);
+
+        $truckLoader = new LoadTruckData();
         $truckLoader->load($this->em);
     }
 
@@ -54,10 +59,9 @@ class TruckControllerTest extends WebTestCase
      */
     public function testViewTruck()
     {
-        // Get the truck repository
-        $repository = $this->em->getRepository(Truck::class);
+        $this->em->persist($this->truck);//getRepository(Truck::class);
         //insert the truck to db
-        $repository->save($this->truck);
+        $this->em->flush();//$repository->save($this->truck);
 
         // get the client
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
@@ -67,33 +71,15 @@ class TruckControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/trucks');
 
         // Check that the truck is displayed in the list
-        $this->assertContains("00886", $crawler->filter("table")->html());
-        $this->assertContains("Large", $crawler->filter("table")->html());
+        $this->assertContains("00886", $crawler->html());
+        $this->assertContains("Large", $crawler->html());
     }
 
     /**
-     * Story 40a
+     * Story 40a MOVED TO MINK
      * Tests that you submit a new truck to the controller and checks the list to ensure it popped up.
-     * Also tested in Mink
      */
-    public function testAddAndViewTruck()
-    {
-        // get the client
-        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
-        $client->followRedirects(true);
-        //go to truck utility page
-        $crawler = $client->request('GET', '/trucks');
-
-        // use form to add truck
-        $form = $crawler->selectButton('Add')->form();
-        $form["appbundle_truck[truckId]"] = $this->truck->getTruckId();
-        $form["appbundle_truck[type]"] = $this->truck->getType();
-        $crawler = $client->submit($form);
-
-        // check that the table contains the new truck
-        $this->assertContains($this->truck->getTruckId(), $crawler->filter("table")->html());
-        $this->assertContains($this->truck->getType(), $crawler->filter("table")->html());
-    }
+    /*public function testAddAndViewTruck()*/
 
 
     /**
