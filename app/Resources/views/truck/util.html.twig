@@ -42,6 +42,7 @@
 		margin-bottom: 1rem;
 	}
 	.truckList, .truckAdd{
+		margin-bottom: 1rem;
 		max-width: max-content;
 	}
 	.truckAdd .inline.fields {
@@ -63,78 +64,82 @@
 </style>
 
 <div>
-    <h2>Add-A-Truck:</h2>
-    <div class="ui segment truckAdd">
-        {{ form_start(add_truck_form) }}
+	<div class="column truckAdd">
+		<h3 class="ui header left attached top">Add Truck</h3>
+		<div class="ui bottom attached segment">
+			{{ form_start(add_truck_form) }}
 
-        {{ form_errors(add_truck_form) }}
-        <table>
-			<tbody>
-				<tr>
-                    {{ form_errors(add_truck_form.truckId) }}
-					<td>
-						<div class="inline fields">
-                            {{ form_label(add_truck_form.truckId)  }}
-							{{ form_widget(add_truck_form.truckId) }}
-						</div>
-					</td>
+			{{ form_errors(add_truck_form) }}
+			<table>
+				<tbody>
+					<tr>
+						{{ form_errors(add_truck_form.truckId) }}
+						<td>
+							<div class="inline fields">
+								{{ form_label(add_truck_form.truckId)  }}
+								{{ form_widget(add_truck_form.truckId) }}
+							</div>
+						</td>
 
-                    {{ form_errors(add_truck_form.type) }}
-					<td>
-						<div class="inline fields">
-                            {{ form_label(add_truck_form.type)  }}
-							{{ form_widget(add_truck_form.type) }}						    
-                        </div>
-					</td>
+						{{ form_errors(add_truck_form.type) }}
+						<td>
+							<div class="inline fields">
+								{{ form_label(add_truck_form.type)  }}
+								{{ form_widget(add_truck_form.type) }}						    
+							</div>
+						</td>
 
-					<td>
-						<div class="inline fields">
-							{{ form_row(add_truck_form.Add) }}
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+						<td>
+							<div class="inline fields">
+								{{ form_row(add_truck_form.Add) }}
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 
-        {{ form_end(add_truck_form) }}
-    </div>
-
-
-	<div class="ui segment truckList">
-		<h3 class="ui left header">Truck List</h3>
-		<div class="ui search">
-			<input type="text" id="truckFilterBox" class="prompt" maxlength="100" placeholder="Filter..." />
-			<i class="times circle icon" id="btnClear"></i>
-			<div class="results"></div>
+			{{ form_end(add_truck_form) }}
 		</div>
-		<table id="filteredTruckList" class="trucks ui celled table">
-			<thead>
-				<tr>
-					<th style="width: 4vw;min-width: 88px;">Truck ID</th>
-					<th style="width: 6vw;min-width: 121px;">Type</th>
-					<th>Edit/Remove</th>
-				</tr>
-			</thead>
-			<tbody id="filteredTruckListBody" data-bind="foreach: results">
-				<tr>
-					<td class="truckID" data-bind="text:truckId, attr: {data: id}">{{ formtruck.truckId }}</td>
-					<td data-bind="text:type">{{ formtruck.type }}</td>
-					<td>
-						<form name="appbundle_editTruck" method="post" data-bind="attr: {action: '{{ path('truck_edit') }}/'+id }">
-							<button type="submit" class="ui icon button" data-bind="attr: {id: 'rmb'+id}" ><i class="pencil alternate icon"></i></button>
-						</form>
-						<form name="appbundle_removeTruck" method="post" data-bind="attr: {action: '{{ path('truck_remove') }}/'+id, 'data-message': 'Are you sure you want to remove Truck \'\''+truckId+'\'\''}">
-							<button type="button" class="ui icon button removeButton red" data-bind="attr: {id: 'rmb'+id}" ><i class="close icon"></i></button>
-						</form>
-					</td>
-				</tr>
-			</tbody>
-			<tbody id="listInfo" class="ui segment">
-				<tr>
-					<td id="listInfoContent" class="ui active" colspan="3" style="text-align: center"></td>
-				</tr>
-			</tbody>
-		</table>
+	</div>
+
+	<div class="column truckList">
+		<h3 class="ui header left attached top">Truck List</h3>
+		<div class="ui bottom attached segment">
+		
+			<div class="ui search">
+				<input type="text" id="truckFilterBox" class="prompt" maxlength="100" placeholder="Filter..." />
+				<i class="times circle icon" id="btnClear"></i>
+				<div class="results"></div>
+			</div>
+			<table id="filteredTruckList" class="trucks ui celled table">
+				<thead>
+					<tr>
+						<th style="width: 4vw;min-width: 88px;">Truck ID</th>
+						<th style="width: 6vw;min-width: 121px;">Type</th>
+						<th>Edit/Remove</th>
+					</tr>
+				</thead>
+				<tbody id="filteredTruckListBody" data-bind="foreach: results">
+					<tr>
+						<td class="truckID" data-bind="text:truckId, attr: {data: id}">{{ formtruck.truckId }}</td>
+						<td data-bind="text:type">{{ formtruck.type }}</td>
+						<td>
+							<form name="appbundle_editTruck" method="post" data-bind="attr: {action: '{{ path('truck_edit') }}/'+id }">
+								<button type="submit" class="ui icon button" data-bind="attr: {id: 'rmb'+id}" ><i class="pencil alternate icon"></i></button>
+							</form>
+							<form name="appbundle_removeTruck" method="post" data-bind="attr: {action: '{{ path('truck_remove') }}/'+id, 'data-message': 'Are you sure you want to remove Truck \'\''+truckId+'\'\''}">
+								<button type="button" class="ui icon button removeButton red" data-bind="attr: {id: 'rmb'+id}" ><i class="close icon"></i></button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+				<tbody id="listInfo" class="ui segment">
+					<tr>
+						<td id="listInfoContent" class="ui active" colspan="3" style="text-align: center"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 {% endblock %}
