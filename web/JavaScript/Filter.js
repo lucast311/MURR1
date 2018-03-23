@@ -105,8 +105,16 @@ var onLoad = function () {
     loadingInfo.appendTo("#listInfoContent");
     loadingInfo.hide();
 
+    initModals();
+}
+
+function initModals()
+{
+    /*!WARNING!_CALLING addModal() MORE THAN ONCE WILL 
+       GLITCH OUT MODALS DUE TO POOR IMPLEMENTATION!*/
+    addModal();
+
     setupRemoveModals();
-    enableRemoveModalButtons();
 }
 
 /**
@@ -128,17 +136,16 @@ function postValue()
 /**
  * STORY40a
  */
-function setupRemoveModals() {
-
-    addModal();
+function setupRemoveModals()
+{
     $('.removeButton').click(function () {
-        //console.log($(this));
         var parent = $($(this).parent("form").get(0));
-        //console.log(parent);
         showModal(parent.data('message'), parent);
     });
 
     $(".ui.dropdown").dropdown();
+
+    enableRemoveModalButtons();
 }
 
 /**
