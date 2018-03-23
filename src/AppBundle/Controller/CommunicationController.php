@@ -96,7 +96,7 @@ class CommunicationController extends Controller
         $communicationId = -1;
         if ($comm != null)
         {
-        	$communicationId = $comm->id;
+        	$communicationId = $comm->getId();
         }
         
 

@@ -69,7 +69,7 @@ class PropertyCommunicationAddTest extends WebTestCase
     public function testPropertyNewCommunicationSuccess()
     {
         // Navigate to the property view page
-        $this->session->visit('http://localhost:8000/app_test.php/property/161');
+        $this->session->visit('http://localhost:8000/app_test.php/property/1');
         // Get the page
         $page = $this->session->getPage();
 
@@ -79,24 +79,28 @@ class PropertyCommunicationAddTest extends WebTestCase
         // Click the new communication button
         $newCommunicationBtn->click();
 
+        $this->session->wait(1000);
+
         // Assert that the new communication modal has appeared.
-        $this->assertTrue($page->find('css', "div#communicationModal.ui.dimmer.modals.page.transition.active")->isVisible());
+        $this->assertTrue($page->find('css', "#communicationModal")->isVisible());
 
         // Fill out the new communication form
-        $page->findById("communication_type")->setValue("Phone");
-        $page->findById("communication_medium")->selectOption("Incoming");
-        $page->findById("communication_contactName")->setValue("Mr. Man");
-        $page->findById("communication_email")->setValue("mr.man@manson.ca");
-        $page->findById("communication_phone")->setValue("123-456-7891");
-        $page->findById("communication_category")->selectOption("Container");
-        $page->findById("communication_description")->setValue("Mr. Man phoned and said there was a dune buggy stuck inside his recycling container. He wants it gone.");
+        $page->find('css',"#appbundle_communication_type")->setValue("Phone");
+        $page->find('css',"#appbundle_communication_medium_1")->click();
+        $page->find('css',"#appbundle_communication_contactName")->setValue("Mr. Man");
+        $page->find('css',"#appbundle_communication_contactEmail")->setValue("mr.man@manson.ca");
+        $page->find('css',"#appbundle_communication_contactPhone")->setValue("123-456-7891");
+        $page->find('css',"#appbundle_communication_category")->selectOption("Container");
+        $page->find('css',"#appbundle_communication_description")->setValue("Mr. Man phoned and said there was a dune buggy stuck inside his recycling container. He wants it gone.");
         // Assert that the property has been auto populated
-        $this->assertEquals($page->findById("communication_property")->getValue(), "123 Main Street");
+        $this->assertEquals($page->find('css',"#appbundle_communication_property")->getValue(), 1); //1 should be the ID of the property
         // Submit the form
-        $page->findById("communication_add")->submit();
+        $page->find('css',"#appbundle_communication_add")->submit();
+
+        $this->session->wait(2000);
 
         // Assert that the new communication modal has vanished.
-        $this->assertFalse($page->find('css', "div#communicationModal.ui.dimmer.modals.page.transition.active")->isVisible());
+        $this->assertFalse($page->find('css', "#communicationModal")->isVisible());
 
         // Once the page has reloaded, assert that the new communication is listed on the page
         $this->assertNotNull($page->find('named', array('content', "Phone")));
@@ -115,7 +119,7 @@ class PropertyCommunicationAddTest extends WebTestCase
     public function testPropertyNewCommunicationInvalid()
     {
         // Navigate to the property view page
-        $this->session->visit('http://localhost:8000/app_test.php/property/161');
+        $this->session->visit('http://localhost:8000/app_test.php/property/1');
         // Get the page
         $page = $this->session->getPage();
 
@@ -124,23 +128,29 @@ class PropertyCommunicationAddTest extends WebTestCase
         // Click the new communication button
         $newCommunicationBtn->click();
 
+        $this->session->wait(1000);
+
         // Assert that the new communication modal has appeared.
-        $this->assertTrue($page->find('css', "div#communicationModal.ui.dimmer.modals.page.transition.active")->isVisible());
+        $this->assertTrue($page->find('css', "#communicationModal")->isVisible());
 
         // Fill out the new communication form
         // Do not set type, this should make the form invalid
-        $page->findById("communication_medium")->selectOption("Incoming");
-        $page->findById("communication_contactName")->setValue("Mr. Man");
-        $page->findById("communication_email")->setValue("mr.man@manson.ca");
-        $page->findById("communication_phone")->setValue("123-456-7891");
-        $page->findById("communication_category")->selectOption("Container");
-        $page->findById("communication_description")->setValue("Mr. Man phoned and said there was a dune buggy stuck inside his recycling container. He wants it gone.");
+        $page->find('css',"#appbundle_communication_type")->setValue("0"); //The default value (which is INVALID)
+        $page->find('css',"#appbundle_communication_medium_1")->click();
+        $page->find('css',"#appbundle_communication_contactName")->setValue("Mr. Man");
+        $page->find('css',"#appbundle_communication_contactEmail")->setValue("mr.man@manson.ca");
+        $page->find('css',"#appbundle_communication_contactPhone")->setValue("123-456-7891");
+        $page->find('css',"#appbundle_communication_category")->selectOption("Container");
+        $page->find('css',"#appbundle_communication_description")->setValue("Mr. Man phoned and said there was a dune buggy stuck inside his recycling container. He wants it gone.");
+
+        $this->session->wait(2000);
 
         // Once the page has reloaded, assert that the modal is still visible
-        $this->assertTrue($page->find('css', "div#communicationModal.ui.dimmer.modals.page.transition.active")->isVisible());
+        $this->assertTrue($page->find('css', "#communicationModal")->isVisible());
 
         // assert that there is an error message on the page
-        $this->assertNotNull($page->find('named', array('content', "Please select a type of communication")));
+       // $this->assertNotNull($page->find('named', array('content', "Please select a type of communication")));
+        $this->assertContains("Please select a type of communication",$page->find('css',"#appbundle_communication .ui.message")->getHtml());
 
     }
 
@@ -151,7 +161,7 @@ class PropertyCommunicationAddTest extends WebTestCase
     public function testCommunicationClickView()
     {
         // Navigate to the property view page
-        $this->session->visit('http://localhost:8000/app_test.php/property/161');
+        $this->session->visit('http://localhost:8000/app_test.php/property/1');
         // Get the page
         $page = $this->session->getPage();
 
@@ -171,7 +181,7 @@ class PropertyCommunicationAddTest extends WebTestCase
     public function testContactClickView()
     {
         // Navigate to the property view page
-        $this->session->visit('http://localhost:8000/app_test.php/property/162');
+        $this->session->visit('http://localhost:8000/app_test.php/property/1');
         // Get the page
         $page = $this->session->getPage();
 
@@ -189,7 +199,7 @@ class PropertyCommunicationAddTest extends WebTestCase
     public function testContainerClickView()
     {
         // Navigate to the property view page
-        $this->session->visit('http://localhost:8000/app_test.php/property/164');
+        $this->session->visit('http://localhost:8000/app_test.php/property/3');
         // Get the page
         $page = $this->session->getPage();
 
