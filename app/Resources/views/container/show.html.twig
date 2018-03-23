@@ -22,17 +22,14 @@
     <table>
         <tbody>
             <tr>
-                <th>Id:</th>
-                <td>{{ container.id }}</td>
+                <th>Container Serial:</th>
+                <td>{{ container.containerSerial }}</td>
             </tr>
             <tr>
                 <th>Frequency:</th>
                 <td>{{ container.frequency }}</td>
             </tr>
-            <tr>
-                <th>Container Serial:</th>
-                <td>{{ container.containerSerial }}</td>
-            </tr>
+            
             <tr>
                 <th>Location Description:</th>
                 <td>{{ container.locationDesc }}</td>
@@ -69,14 +66,10 @@
                 <th>Property:</th>
                 <td>{{ container.property }}</td>
             </tr>
-            <tr>
-                <th>Structure:</th>
-                <td>{{ container.structure }}</td>
-            </tr>
         </tbody>
     </table>
 
-<a href="{{ path('container_index') }}" class="ui button">Back to the list</a>
+<a href="{{ path('container_search') }}" class="ui button">Search</a>
 <a href="{{ path('container_edit', { 'id': container.id }) }}" class="ui button">Edit</a>
 <button class="ui button" id="delete">Delete</button>
 

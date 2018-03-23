@@ -130,11 +130,14 @@ class Container
      * @ORM\Column(name="dateModified", type="datetime")
      * @var mixed
      */
-    //protected $dateModified;
+    protected $dateModified;
 
     public function __construct()
     {
-
+        if($this->getDateModified() == Null)
+        {
+            $this->setDateModified(new \DateTime());
+        }
     }
 
     /**
@@ -379,7 +382,7 @@ class Container
      */
     public function setDateModified($dateModified)
     {
-
+        $this->dateModified = $dateModified;
     }
 
     /**
@@ -389,7 +392,7 @@ class Container
      */
     public function getDateModified()
     {
-
+        return $this->dateModified;
     }
 
     /**
@@ -398,7 +401,7 @@ class Container
      */
     public function updateModifiedDatetime()
     {
-
+        $this->setDateModified(new \DateTime());
     }
 
     /**
