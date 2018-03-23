@@ -1,5 +1,5 @@
 <?php
-
+namespace Tests\Mink;
 require_once 'vendor/autoload.php';
 use DMore\ChromeDriver\ChromeDriver;
 use Behat\Mink\Session;
@@ -108,7 +108,7 @@ class TruckListPageTest extends WebTestCase
         $page->findById("truckFilterBox")->setValue("00886");
 
         // Emulate a keyup to trigger the event that normally does a search.
-        $page->findById("truckFilterBox")->keyPress("s"); 
+        $page->findById("truckFilterBox")->keyPress("s");
 
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
         $this->session->wait(10000);
@@ -152,7 +152,7 @@ class TruckListPageTest extends WebTestCase
         $page->findAll('css', '.removeButton')[0]->click();
         // Check that the delete modal is visible
         $this->assertTrue($page->find('css', '#deletesMessage').isVisible());
-        
+
         // Click the cancel remove button
         $page->findAll('css', '.btnDecline')[0]->click();
 

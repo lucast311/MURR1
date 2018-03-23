@@ -14,6 +14,15 @@ use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
  */
 class TruckTypeTest extends TypeTestCase
 {
+    /**
+     * This method is required to allow the test to run
+     * @return ValidatorExtension[]
+     */
+    protected function getExtensions()
+    {
+        return array(new ValidatorExtension(Validation::createValidator()));
+    }
+
     private $truck;
 
     /**
@@ -25,16 +34,6 @@ class TruckTypeTest extends TypeTestCase
         $this->truck = (new Truck())
             ->setTruckId("00886")
             ->setType   ("Large");
-    }
-
-
-    /**
-     * This method *may be* required to allow the test to run
-     * @return ValidatorExtension[]
-     */
-    protected function getExtensions()
-    {
-        return array(new ValidatorExtension(Validation::createValidator()));
     }
 
     /**

@@ -211,6 +211,7 @@ class ContainerSearchTest extends WebTestCase
     {
         // Go to the page of a container
         $this->session->visit('http://localhost:8000/app_test.php/container/1');
+
         // Get the page
         $page = $this->session->getPage();
 
