@@ -8,7 +8,10 @@ var viewModel = {
         if (!(direction > -1)) direction = 0;
 
         //show loading,hidedata
+        //$("#listInfo").show();
+        $("#listInfo").removeClass("hidden");
         $("#listInfo").show();
+
         loadingInfo.show();
         listInfoMessage.hide();
 
@@ -42,11 +45,17 @@ var viewModel = {
             {
                 listInfoMessage.text("No results found");
                 $("#filteredTruckListBody").hide();
+                //$("#listInfo").show();
+                $("#listInfo").removeClass("hidden");
                 $("#listInfo").show();
             }
             else
             {
+                //$("#listInfo").hide();
+                $("#listInfo").addClass("hidden");
                 $("#listInfo").hide();
+
+                //$("#listInfo").css("display") = "none !important";
                 $("#filteredTruckListBody").show();
             }
 
@@ -73,8 +82,10 @@ var onLoad = function () {
     // Register a click handler for the clear button
     $('#btnClear').click(function () {
         // Clear the filter value
-        var searchText = $('#truckFilterBox').val("");
-        viewModel.getResults();
+        if ($('#truckFilterBox').val() != "") {
+            $('#truckFilterBox').val("");
+            viewModel.getResults();
+        }
     });
 
     // Register a click handler for typing a filter
@@ -91,7 +102,9 @@ var onLoad = function () {
     });//viewModel.getResults);
 
     viewModel.results($('.js-inittrucks').data('inittrucks'));
+    $("#listInfo").addClass("hidden");
     $("#listInfo").hide();
+
     $('.js-inittrucks').remove();
 
     listInfoMessage = $('<h2 class="listError">');

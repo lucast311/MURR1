@@ -18,7 +18,12 @@
 {% block body %}
 
 <style>
-    td form{
+	#appbundle_truck_Add 
+	{
+		margin: 0 -1em 0 1em;
+	}
+
+	td form{
         display:inline-block;
     }
     .wide_label_8
@@ -37,10 +42,23 @@
 		margin-bottom: 1rem;
 	}
 	.truckList, .truckAdd{
-		width: max-content;
+		max-width: max-content;
 	}
 	.truckAdd .inline.fields {
 		margin-bottom: 0px !important;
+	}
+
+	/**MOBILE**/
+	@media only screen and (max-width: 767px) {
+		.truckAdd tr
+		{
+			display:grid;
+		}
+
+		#appbundle_truck_Add
+		{
+			margin: 1em -1em 0 0;
+		}
 	}
 </style>
 
@@ -92,28 +110,24 @@
 		<table id="filteredTruckList" class="trucks ui celled table">
 			<thead>
 				<tr>
-					<!--<th>ID[HIDDEN]</th>-->
 					<th style="width: 4vw;min-width: 88px;">Truck ID</th>
 					<th style="width: 6vw;min-width: 121px;">Type</th>
 					<th>Edit/Remove</th>
 				</tr>
 			</thead>
 			<tbody id="filteredTruckListBody" data-bind="foreach: results">
-				{# % for t in trucks % #}
-					<tr>
-						<!--td data-bind="text:id">{{ formtruck.id }}</td>-->
-						<td class="truckID" data-bind="text:truckId, attr: {data: id}">{{ formtruck.truckId }}</td>
-						<td data-bind="text:type">{{ formtruck.type }}</td>
-						<td>
-							<form name="appbundle_editTruck" method="post" data-bind="attr: {action: '{{ path('truck_edit') }}/'+id }">
-								<button type="submit" class="ui icon button" data-bind="attr: {id: 'rmb'+id}" ><i class="pencil alternate icon"></i></button>
-							</form>
-                        
-							<form name="appbundle_removeTruck" method="post" data-bind="attr: {action: '{{ path('truck_remove') }}/'+id, 'data-message': 'Are you sure you want to remove Truck \'\''+truckId+'\'\''}">
-								<button type="button" class="ui icon button removeButton red" data-bind="attr: {id: 'rmb'+id}" ><i class="close icon"></i></button>
-							</form>
-						</td>
-					</tr>
+				<tr>
+					<td class="truckID" data-bind="text:truckId, attr: {data: id}">{{ formtruck.truckId }}</td>
+					<td data-bind="text:type">{{ formtruck.type }}</td>
+					<td>
+						<form name="appbundle_editTruck" method="post" data-bind="attr: {action: '{{ path('truck_edit') }}/'+id }">
+							<button type="submit" class="ui icon button" data-bind="attr: {id: 'rmb'+id}" ><i class="pencil alternate icon"></i></button>
+						</form>
+						<form name="appbundle_removeTruck" method="post" data-bind="attr: {action: '{{ path('truck_remove') }}/'+id, 'data-message': 'Are you sure you want to remove Truck \'\''+truckId+'\'\''}">
+							<button type="button" class="ui icon button removeButton red" data-bind="attr: {id: 'rmb'+id}" ><i class="close icon"></i></button>
+						</form>
+					</td>
+				</tr>
 			</tbody>
 			<tbody id="listInfo" class="ui segment">
 				<tr>
