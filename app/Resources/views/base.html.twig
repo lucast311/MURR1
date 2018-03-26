@@ -2,9 +2,14 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}MURR{% endblock %}</title>
+        <title>{% block title %}MURR{% endblock %}</title>    
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.css"/>
+        <link href="{{ asset('css/base_twig.css') }}" type="text/css" rel="stylesheet" />
+        
         {% block stylesheets %}
         {% endblock %}
+        
         <link rel="icon" type="image/x-icon" href="{{ asset('cosmo.ico') }}" />
         <!-- Font Awesome Icon pack-->
         <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
@@ -12,8 +17,6 @@
         <!-- Import jquery and semantic ui from a CDN
              We may want to backup links that are hosted by the project, but this works for now.
         -->
-        <link href="{{ asset('css/base_twig.css') }}" type="text/css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.css"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/components/sidebar.min.js"></script>

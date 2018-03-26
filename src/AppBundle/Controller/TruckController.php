@@ -30,7 +30,7 @@ class TruckController extends Controller
      * STORY40A
      * Lists all truck entities.
      *
-     * @Route("/", name="truck_manage")
+     * @Route("/", name="truck_util")
      * @param Request $request
      */
     public function indexAction(Request $request)
@@ -39,22 +39,6 @@ class TruckController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $formTruck = new Truck();
-
-        /*$filterForm = $this->createFormBuilder()
-            ->setAction($this->generateUrl('truck_manage'))
-            ->getForm()->add('filter_list',null,
-                        array('required' => false,));
-
-        $filterForm->handleRequest($request);
-        // Create a default filterQuery with nothing in it
-        $filterQuery=null;
-        // If the user has typed in the filter box
-        if($filterForm->isSubmitted())
-        {
-            // Set the filterQuery to be the information in the filter box
-            //VALIDATE QUERY
-            $filterQuery = $filterForm->getData();
-        }*/
 
         // Adding a new truck
         // Create a Truck form so the user can add trucks on the index page
@@ -111,69 +95,6 @@ class TruckController extends Controller
     }
 
     /**
-     * Creates a new truck entity.
-     * Called when the "Add" button is pressed
-     *
-     * @Route("/new", name="truck_new")
-     * @Method({"GET", "POST"})
-     */
-    //public function newAction(Request $request)
-    //{
-    //    $truck = new Truck();
-    //    $form = $this->createForm('AppBundle\Form\TruckType', $truck);
-    //    $form->handleRequest($request);
-
-    //    if ($form->isSubmitted() && $form->isValid()) {
-    //        $em = $this->getDoctrine()->getManager();
-    //        $em->persist($truck);
-    //        $em->flush();
-
-    //        return $this->redirectToRoute('truck_show', array('id' => $truck->getId()));
-    //    }
-
-    //    return $this->render('truck/new.html.twig', array(
-    //        'truck' => $truck,
-    //        'form' => $form->createView(),
-    //    ));
-    //}
-
-
-    /**
-     * Filter all trucks in the list by
-     *
-     * @Route("/", name="truck_filter")
-     * @param Request $request
-     * @param String $filter
-     * @Method({"GET", "POST"})
-     */
-    /*
-    public function filterAction(Request $request, $filter)
-    {
-        $truck = (new Truck())
-                    ->setTruckId($filter)
-                    ->setType($filter);
-
-        $deleteForm = $this->createDeleteForm($truck);
-        $editForm = $this->createForm('AppBundle\Form\TruckType', $truck);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('truck_edit', array('id' => $truck->getId()));
-        }
-
-        return $this->render('truck/edit.html.twig', array(
-            'truck' => $truck,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-    */
-
-
-
-    /**
      * STORY40A
      * Displays a form to edit an existing truck entity.
      * Called when the save button is pressed
@@ -201,7 +122,7 @@ class TruckController extends Controller
             if ($editForm->isSubmitted() && $editForm->isValid())
             {
                 $this->getDoctrine()->getManager()->flush();
-                return $this->redirectToRoute('truck_manage', array('id' => $truck->getId()));
+                return $this->redirectToRoute('truck_util', array('id' => $truck->getId()));
             }
         }
 
@@ -213,7 +134,7 @@ class TruckController extends Controller
     }
 
     /**
-     * Story 40a
+     * STORY40A
      * Handles the removal of a truck
      * @param Request $request
      * @Route("/remove/{id}", name="truck_remove")
@@ -240,12 +161,12 @@ class TruckController extends Controller
         }
 
         //If there wasn't a success anywhere, redirect to the contact search page
-        return $this->redirectToRoute("truck_manage");
+        return $this->redirectToRoute("truck_util");
     }
 
     /**
-     * Story 40a
-     *
+     * STORY40A
+     * Much like jsonSearchAction, returns all if no query spec'd, returns a search if spec'd
      * @Route("/jsonfilter/", name="truck_jsonfilter_empty")
      * @Route("/jsonfilter/{searchQuery}", name="truck_jsonfilter")
      * @Method("GET")
@@ -297,5 +218,4 @@ class TruckController extends Controller
         // string over 100, return empty array.
         return $results;
     }
-
 }

@@ -3361,9 +3361,6 @@
     <Content Include="app\Resources\views\structure\new.html.twig" />
     <Content Include="app\Resources\views\structure\show.html.twig" />
     <Content Include="app\Resources\views\truck\edit.html.twig" />
-    <Content Include="app\Resources\views\truck\index.html.twig" />
-    <Content Include="app\Resources\views\truck\new.html.twig" />
-    <Content Include="app\Resources\views\truck\show.html.twig" />
     <Content Include="app\Resources\views\truck\util.html.twig" />
     <Content Include="app\sqlite.db" />
     <Content Include="app\sqlite_test.db" />
@@ -3391,6 +3388,7 @@
     <Content Include="web.config" />
     <Content Include="phpunit.xml.dist.tmppica" />
     <Content Include="web\css\base_twig.css" />
+    <Content Include="web\css\util_twig.css" />
     <Content Include="web\JavaScript\base_twig.js" />
     <Content Include="web\JavaScript\Filter.js" />
     <Content Include="web\JavaScript\DeleteModal.js" />

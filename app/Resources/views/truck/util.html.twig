@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
+{# A: THIS IS BASICALLY LIKE "NEW" + "INDEX" ON THE SAME PAGE #}
 {% block title %}Trucks{% endblock %}
+
+{% block stylesheets %}
+<link href="{{ asset('css/util_twig.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}    
 
 {% block javascripts %}
  {# include Knockout to make the search script works #}
@@ -12,56 +17,9 @@
 
 {# include the filter javasript #}
 <script type="text/javascript" src="{{ asset('JavaScript/Filter.js') }}"></script>
-
 {% endblock %}
 
 {% block body %}
-
-<style>
-	#appbundle_truck_Add 
-	{
-		margin: 0 -1em 0 1em;
-	}
-
-	td form{
-        display:inline-block;
-    }
-    .wide_label_8
-    {
-        width:8vw;
-    }
-    td .pencil{
-        opacity: 1 !important; 
-    }
-	#filteredTruckList
-	{
-		display:table-cell;
-	}
-	.ui.search
-	{
-		margin-bottom: 1rem;
-	}
-	.truckList, .truckAdd{
-		margin-bottom: 1rem;
-		max-width: max-content;
-	}
-	.truckAdd .inline.fields {
-		margin-bottom: 0px !important;
-	}
-
-	/**MOBILE**/
-	@media only screen and (max-width: 767px) {
-		.truckAdd tr
-		{
-			display:grid;
-		}
-
-		#appbundle_truck_Add
-		{
-			margin: 1em -1em 0 0;
-		}
-	}
-</style>
 
 <div>
 	<div class="column truckAdd">
