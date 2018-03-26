@@ -18,9 +18,9 @@ table {
     margin-right: 10px
 }
 
-    #appbundle_container_containerSerial[readonly] {
-        background-color: lightgrey
-    }
+#appbundle_container_containerSerial[readonly] {
+    background-color: lightgrey
+}
 
 #btnUnlock {
     width: 12%

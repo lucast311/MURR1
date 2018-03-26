@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="container")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContainerRepository")
+ * @ORM\HasLifecycleCallbacks
  * @UniqueEntity(fields = {"containerSerial"}, message = "Serial already exists")
  */
 class Container
@@ -387,6 +388,15 @@ class Container
     }
 
     /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime()
+    {
+        $this->setDateModified(new \DateTime());
+    }
+
+    /**
      * Set dateModified
      *
      * @param \DateTime $dateModified
@@ -407,14 +417,7 @@ class Container
         return $this->dateModified;
     }
 
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function updateModifiedDatetime()
-    {
-        $this->setDateModified(new \DateTime());
-    }
+
 
     /**
      * Gets the choices available for the Type attribute

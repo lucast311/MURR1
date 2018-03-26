@@ -180,7 +180,7 @@ class ContainerController extends Controller
      * Deletes a container entity.
      *
      * @Route("/delete/{id}", name="container_delete")
-     * @Method("DELETE")
+     * @Method("POST")
      */
     public function deleteAction(Container $container)
     {
