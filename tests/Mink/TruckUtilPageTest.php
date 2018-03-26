@@ -158,8 +158,10 @@ class TruckUtilPageTest extends WebTestCase
 
         // Click the first delete button
         $page->findAll('css', '.removeButton ')[0]->click();
+        $this->session->wait(1000);
+
         // Assert that the delete modal is visible
-        $this->assertTrue($page->findAll('css', '#removeModal')[0]->isVisible());
+        $this->assertTrue($page->find('css', '#removeModal')->isVisible());
         // Check for correct message
         $this->assertEquals($page->find('css','#removeModalMessage')->getText(), "Are you sure you want to remove Truck '000034'");
     }
@@ -181,17 +183,15 @@ class TruckUtilPageTest extends WebTestCase
         // Click the first delete button
         $page->findAll('css', '.removeButton')[0]->click();
         // Check that the delete modal is visible
-        //$this->assertTrue(($page->findById('#deletesMessage')).isVisible()==true);
+        $this->session->wait(1000);
+        $this->assertTrue(($page->findById('#deletesMessage'))->isVisible());
 
         // Click the cancel remove button
         $page->find('css', '#btnDecline')->click();
 
         // Check that the modal is not visible
-        //$this->assertFalse($page->find('css', '#deletesMessage').isVisible());
-
-        // Check that the truck hasn't been removed
-
-        $this->session->wait(2000);
+        $this->session->wait(1000);
+        $this->assertFalse($page->find('css', '#deletesMessage')->isVisible());
 
         // Check that The truck isn't removed
         $this->assertEquals( $page->findAll('css', '.truckId')[0]->getText(), $truckIdItem);
@@ -217,19 +217,13 @@ class TruckUtilPageTest extends WebTestCase
                 1000, "$('#removeModal').is(':visible')"
         );
 
-        // Check that the delete modal is visible
-        //$this->assertTrue($page->find('css', '#removeModal').isVisible());
-
         // Click the accept Button in Modal
         $page->find('css', '#btnAccept')->click();
 
-        // Check that the modal is not visible
-        //$this->assertFalse($page->find('css', '#removeModal').isVisible());
-
-        $this->session->wait(2000);
+        $this->session->wait(5000, "document.readyState === 'complete'");
 
         // Check that The truck is removed
-        $this->assertFalse( $page->findAll('css', '.truckId')[0]->getText() == $firstTruckValue );
+        $this->assertFalse( strpos($page->getText(), $firstTruckValue) > 0 );
     }
 
      /**
