@@ -210,6 +210,95 @@ class PropertyCommunicationAddTest extends WebTestCase
         $this->assertNotNull($page->find('named', array('content', "888888")));
     }
 
+    /**
+     * Story 11d
+     * Tests that you can browse to the communication edit page for an existing communication
+     */
+    public function testCommunicationEditBrowse()
+    {
+        // Navigate to the home page
+        $this->session->visit('http://localhost:8000/app_test.php/');
+
+        // Get the page
+        $page = $this->session->getPage();
+
+        $page->find('css',"#menuBtn")->click();
+        $this->session->wait(200);
+
+        //browse to the property search page
+        $page->find('css',"#propertiesPage")->click();
+
+        //$this->session->wait(3000);
+
+        //get the searchbox
+        $searchbox = $page->find('css','#searchBox');
+        //Type into the searchbox
+        $searchbox->setValue("123 Fake Street");
+        $searchbox->keyPress('s');
+
+        $this->session->wait(3000);
+
+        //click the first row
+        $page->find("css",".ui.table tbody tr:first-child")->click();
+
+        //click on the first communication
+        $communicationRow = $page->find('css','.communications.ui.table tbody tr:first-child');
+
+        $communicationRow->click();
+
+        //click the edit button
+        $page->find('named',array('content','Edit'))->click();
+
+        //check that the header contains edit communication
+        $this->assertContains('Edit Communication', $page->find('css','h2')->getHtml());
+
+        //the communication has the same contact email in the field (just a field to check that they're the same one)
+        $this->assertContains('email@email.com', $page->find('css','#appbundle_communication_contactEmail')->getValue());
+    }
+
+    public function testCommunicationEditSuccess()
+    {
+        // Navigate to the home page
+        $this->session->visit('http://localhost:8000/app_test.php/communication/2/edit');
+
+        // Get the page
+        $page = $this->session->getPage();
+
+        //edit all the fields
+        $page->find("css","#appbundle_communication_type")->selectOption('Email');
+        $page->find("css","#appbundle_communication_medium_1")->click();
+        $page->find("css","#appbundle_communication_contactName")->setValue("Adam");
+        $page->find("css","#appbundle_communication_contactEmail")->setValue('Adam@cosmo.com');
+        $page->find("css","#appbundle_communication_contactPhone")->setValue("222-222-2222");
+        $page->find("css","#appbundle_communication_property")->selectOption('123 Fake St');
+        $page->find("css","#appbundle_communication_category")->selectOption("Misc");
+        $page->find("css","#appbundle_communication_description")->setValue("Some goof put a dune buggy in the recycling bin!");
+
+        //submit the form
+        $page->find("css","button#communication_add")->click();
+
+        //check that we're on the view communication page
+        $this->assertContains('View Communication',$page->find("css","h2")->getHtml());
+
+
+        //Check that all the fields have changed
+        $this->assertNotNull($page->find("named",array("content","Email")));
+        $this->assertNotNull($page->find("named",array("content","Outgoing")));
+        $this->assertNotNull($page->find("named",array("content","Adam")));
+        $this->assertNotNull($page->find("named",array("content","Adam@cosmo.com")));
+        $this->assertNotNull($page->find("named",array("content","222-222-2222")));
+        $this->assertNotNull($page->find("named",array("content","123 Fake St")));
+        $this->assertNotNull($page->find("named",array("content","Misc")));
+        $this->assertNotNull($page->find("named",array("content","Some goof put a dune buggy in the recycling bin!")));
+
+
+    }
+
+    public function testCommunicationEditFailure()
+    {
+
+    }
+
 
     protected function tearDown()
     {
