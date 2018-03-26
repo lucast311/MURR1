@@ -12,7 +12,7 @@ use Tests\AppBundle\DatabasePrimer;
 /**
     This class tests functionality of the truck utility page.
 */
-class TruckListPageTest extends WebTestCase
+class TruckUtilPageTest extends WebTestCase
 {
     private $driver;
     private $session;
@@ -160,6 +160,8 @@ class TruckListPageTest extends WebTestCase
         $page->findAll('css', '.removeButton ')[0]->click();
         // Assert that the delete modal is visible
         $this->assertTrue($page->findAll('css', '#removeModal')[0]->isVisible());
+        // Check for correct message
+        $this->assertEquals($page->find('css','#removeModalMessage')->getText(), "Are you sure you want to remove Truck '000034'");
     }
 
     /**
