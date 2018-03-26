@@ -29,6 +29,10 @@ class Container
      *
      * @ORM\Column(name="frequency", type="string", nullable=true)
      * @Assert\Choice(strict=true, callback="FrequencyChoices", message = "Please select frequency type")
+     * @Assert\Regex(
+     *      match       = false,
+     *      pattern = "/^(-){2}([a-zA-Z ])*(-){2}$/", message = "Please select frequency type"
+     * )
      */
     private $frequency;
 
@@ -74,6 +78,10 @@ class Container
      * @ORM\Column(name="type", type="string", length=50)
      * @Assert\Choice(strict=true, callback="TypeChoices", message = "Please select bin Type")
      * @Assert\NotNull()
+     * @Assert\Regex(
+     *      match       = false,
+     *      pattern = "/^(-){2}([a-zA-Z ])*(-){2}$/", message = "Please select bin Type"
+     * )
      */
     private $type;
 
@@ -90,6 +98,10 @@ class Container
      * @var string
      * @ORM\Column(name="status", type="string", length=50)
      * @Assert\Choice(strict=true, callback="StatusChoices", message = "Please select bin status")
+     * @Assert\Regex(
+     *      match       = false,
+     *      pattern = "/^(-){2}([a-zA-Z ])*(-){2}$/", message = "Please select bin status"
+     * )
      */
     private $status;
 
@@ -411,8 +423,9 @@ class Container
      */
     public static function TypeChoices()
     {
-        return array('Bin' => 'Bin',
-                     'Cart'=>'Cart');
+        return array('--Please Select a Type--' => '--Please Select a Type--',
+                    'Bin' => 'Bin',
+                    'Cart'=>'Cart');
     }
 
     /**
@@ -421,11 +434,16 @@ class Container
      */
     public static function StatusChoices()
     {
-        return array('Active' => 'Active',
-                     'Inaccessable' => 'Inaccessable',
+        return array('--Please Select a Status--' => '--Please Select a Status--',
+                     'Active' => 'Active',
                      'Contaminated' => 'Contaminated',
-                     'Damage' => 'Damage',
-                     'Graffiti' => 'Graffiti');
+                     'Garbage Tip Authorized' => 'Garbage Tip Authorized',
+                     'Garbage Tip Denied' => 'Garbage Tip Denied',
+                     'Garbage Tip Requested' => 'Garbage Tip Requested',
+                     'Garbage Tip Scheduled' => 'Garbage Tip Scheduled',
+                     'Inaccessible' => 'Inaccessible',
+                     'Inactive' => 'Inactive',
+                     'Overflowing' => 'Overflowing');
     }
 
     /**
@@ -434,7 +452,8 @@ class Container
      */
     public static function FrequencyChoices()
     {
-        return array('Monthly' => 'Monthly',
+        return array('--Please Select a Frequency--' => '--Please Select a Frequency--',
+                     'Monthly' => 'Monthly',
                      'Weekly' => 'Weekly',
                      'Twice weekly' => 'Twice weekly');
     }

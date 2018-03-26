@@ -4,7 +4,22 @@
 
 {# Include javascript for delete modal #}
 {% block javascripts %}
-<script src="{{ asset("JavaScript/DeleteModal.js") }}"></script>
+<script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
+<script>
+	$(function () {
+		//initialize('#appbundle_container_property');
+
+		addModal();
+
+		$('.removeButton').click(function () {
+			var parent = $($(this).parent().get(0));
+
+			console.log(parent);
+
+			showModal(parent.data('message'), parent);
+		});
+	});
+</script>
 {% endblock %}
 
 {% block body %}
@@ -21,11 +36,11 @@
 
     <table>
         <tbody>
-            <tr>
+			<tr>
                 <th>Container Serial:</th>
                 <td>{{ container.containerSerial }}</td>
             </tr>
-            <tr>
+			<tr>
                 <th>Type:</th>
                 <td>{{ container.type }}</td>
             </tr>
@@ -33,7 +48,7 @@
                 <th>Size:</th>
                 <td>{{ container.size }}</td>
             </tr>
-            <tr>
+			<tr>
                 <th>Augmentation:</th>
                 <td>{{ container.augmentation }}</td>
             </tr>
@@ -41,7 +56,7 @@
                 <th>Status:</th>
                 <td>{{ container.status }}</td>
             </tr>
-            <tr>
+			<tr>
                 <th>Reason for status:</th>
                 <td>{{ container.reasonForStatus }}</td>
             </tr>
@@ -68,12 +83,20 @@
         </tbody>
     </table>
 
+{#<a href="{{ path('container_index') }}" class="ui button">Back to the list</a>#}
 <a href="{{ path('container_search') }}" class="ui button">Search</a>
 <a href="{{ path('container_edit', { 'id': container.id }) }}" class="ui button">Edit</a>
-<button class="ui button" id="delete">Delete</button>
+{#<button class="ui button" id="delete">Delete</button>#}
+
+
+		<form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to delete container {{container}}?">
+			<input type="hidden" name="container" value="{{container.id}}"/>
+			<button type="button" class="ui button removeButton" id="rmb{{container.id}}">Delete</button>
+		</form>
+        {#<input type="submit" value="Delete" class="ui button" id="btnDelete">#}
 
 {# Modal for the delete confirmation #}
-<div class="ui basic modal delete">
+{#<div class="ui basic modal delete">
   <div class="ui icon header">
             {{ form_start(delete_form) }}
             {{ form_end(delete_form) }}
@@ -92,7 +115,7 @@
       Delete
     </div>
   </div>
-</div>
+</div>#}
 
 {% endif %}
 

@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Container;
+use AppBundle\Entity\Property;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -31,12 +32,21 @@ class ContainerController extends Controller
      */
     public function searchAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        // get the RecentUpdates service to query for the 10 most recently updated containers
+        $recentUpdates = new RecentUpdatesHelper();
+
+        // the service takes in an EntityManager, and the name of the Entity
+        $tenRecent = $recentUpdates->tenMostRecent($em, 'AppBundle:Container');
+
         // Get if it is in a search to view or if it is a search to insert
         $isPopup = ($request->query->get("isPopup")) == "true" ? true : false;
         // Render the twig with required data
         return $this->render('container/searchContainer.html.twig', array(
             'viewURL' => '/container/',
-            'isPopup' => $isPopup
+            'isPopup' => $isPopup,
+            'defaultTen' => $tenRecent
         ));
     }
 
@@ -101,7 +111,8 @@ class ContainerController extends Controller
             return $this->render('container/show.html.twig', array(
             'container' => $container,
             'delete_form' => $deleteForm->createView(),
-            'invalid_id_error'=>false
+            'invalid_id_error'=>false,
+            'container' => $container
             ));
         }
 
@@ -119,7 +130,6 @@ class ContainerController extends Controller
      */
     public function editAction(Request $request, $id=null)
     {
-
         $repo = $this->getDoctrine()->getManager()->getRepository(Container::class);
         $container = $repo->findOneById($id);
 
@@ -129,6 +139,17 @@ class ContainerController extends Controller
             $deleteForm = $this->createDeleteForm($container);
             $editForm = $this->createForm('AppBundle\Form\ContainerEditType', $container);
             $editForm->handleRequest($request);
+
+            $em = $this->getDoctrine()->getManager();
+
+            if($container->getProperty() == null)
+            {
+                $property = 0;
+            }
+            else
+            {
+                $property = $em->getRepository(Property::class)->find($container->getProperty());
+            }
 
             //if the form is valid and submitted, edit the container
             if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -143,7 +164,8 @@ class ContainerController extends Controller
                 'container' => $container,
                 'edit_form' => $editForm->createView(),
                 'delete_form' => $deleteForm->createView(),
-                'invalid_id_error' => false
+                'invalid_id_error' => false,
+                'property' => $property
             ));
         }
 
@@ -157,21 +179,16 @@ class ContainerController extends Controller
     /**
      * Deletes a container entity.
      *
-     * @Route("/{id}", name="container_delete")
+     * @Route("/delete/{id}", name="container_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Container $container)
+    public function deleteAction(Container $container)
     {
-        $form = $this->createDeleteForm($container);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($container);
+        $em->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($container);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('container_index');
+        return $this->redirectToRoute('container_search');
     }
 
     /**

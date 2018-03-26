@@ -141,11 +141,16 @@ class Contact
      * @ORM\Column(name="dateModified", type="datetime")
      * @var mixed
      */
-    //protected $dateModified;
+    protected $dateModified;
 
     public function __construct()
     {
         $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
+
+        if($this->getDateModified() == NULL)
+        {
+            $this->setDateModified(new \DateTime());
+        }
     }
 
     /**
@@ -438,11 +443,13 @@ class Contact
      * Set dateModified
      *
      * @param \DateTime $dateModified
-     * @return Contact
+     * @return Communication
      */
     public function setDateModified($dateModified)
     {
+        $this->dateModified = $dateModified;
 
+        return $this;
     }
 
     /**
@@ -452,7 +459,7 @@ class Contact
      */
     public function getDateModified()
     {
-
+        return $this->dateModified;
     }
 
     /**
@@ -461,6 +468,6 @@ class Contact
      */
     public function updateModifiedDatetime()
     {
-
+        $this->setDateModified(new \DateTime());
     }
 }

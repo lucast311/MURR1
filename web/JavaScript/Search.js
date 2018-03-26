@@ -90,6 +90,79 @@ var viewModel = {
             }
             
         });
+    },
+
+    getRecentResults: function (reQuery = false) {
+        if (viewModel.currentJSONRequest != null) {
+            viewModel.currentJSONRequest.abort();
+        }
+
+        // Figure out which json page to go to (this is passed in from the twig)
+        var page = $('.js-jsonpage').data('jsonpage');
+        // Get the search box text
+        var searchText = $('#searchBox').val();
+        // Put the search box text after the page url
+        page = page + searchText;
+
+        // do a json call to the server to get the results
+        viewModel.currentJSONRequest = $.getJSON(page, {}, function (jsonResults) {
+            // Callback function
+
+            // If no results came back, hide table and display message instead
+            if (jsonResults.length === 0) {
+                $("table").hide();
+                $("#message").text("No results found");
+            }
+            else {
+                $("table").show();
+                $("#message").text("");
+            }
+
+            // Set the results to be the returned results
+            viewModel.results(jsonResults);
+
+            // Only proceed with the array manipulation if this isn't a requery
+            // This is to prevent glitches that may occur if you try to autocomplete on an already selected autocomplete result.
+            if (!reQuery) {
+                // Manipulate the results to fit in the autocomplete array in a way that semantic likes
+                // Loop through all the results from the json
+                for (var i = 0; i < jsonResults.length; i++) {
+                    // Each result is an object. Loop through all the properties of that object.
+                    for (var resultProp in jsonResults[i]) {
+                        // Get the value associated with the result
+                        var resultVal = jsonResults[i][resultProp];
+                        // check if it isn't already in the array or null, if so, put it in the results for the autocomplete. Also ignore the id field.
+                        if (autocompleteValues.map(function (e) { return e.title }).indexOf(resultVal) == -1 && resultVal != null && resultProp != "id") {
+                            // Turn it into an object that semantic likes for the autocomplete
+                            resultObj = { title: resultVal };
+                            // Put it into the array
+                            autocompleteValues.push(resultObj);
+                        }
+                    }
+                }
+
+                // Re-call autocomplete to cause it to update itself with the new array
+                autoComplete();
+            }
+
+            // Register event handler for the select links, but ONLY if it is a popup box
+            // Note this has to be here, otherwise jquery can't bind to an element that doesn't exist yet
+            if ($('.js-isPopup').data('ispopup') == 1) {
+                $('tr').click(postValue);
+            }
+            else // otherwise register handler for normal click
+            {
+                // Register a click handler for the row of the result (instead of a view button)
+                // Note this also has to be done after updating the rows, otherwise new rows won't be affected.
+                $('tr').click(function () {
+                    // Get the id of the item from the bound data-id property of the row
+                    var id = $(event.target).parent().data('id');
+                    // Go to the URL
+                    window.location = './' + id;
+                });
+            }
+
+        });
     }
 };
 
@@ -100,6 +173,19 @@ var onLoad = function () {
 
     // Run the code to make autocomplete work
     autoComplete();
+
+
+
+
+
+    if ($('#searchBox').val() == "") {
+        viewModel.getRecentResults();
+    }
+
+
+
+
+
 
     // get results if there is any text in the searchbox on load
     //fixes issue where it wouldn't get the data when you went back to the page
@@ -117,6 +203,8 @@ var onLoad = function () {
         // Do some aesthetic fixes
         $("table").hide();
         $("#message").text("");
+
+        viewModel.getRecentResults();
     });
 
     /*

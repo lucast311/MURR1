@@ -28,8 +28,7 @@ class ContainerEditType extends AbstractType
             ->add('locationDesc')
             ->add('lon')
             ->add('lat')
-            ->add('property')
-            ->add('structure');
+            ->add('property');
     }
 
     /**

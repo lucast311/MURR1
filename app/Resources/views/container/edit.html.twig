@@ -3,15 +3,45 @@
 
 {% block javascripts %}
 {# include jQuery to make the search script work #}
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>    
+{#<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>#}    
 {# include the PropertySearchPopup javascript and the select2 file #}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />#}
+<link href="../../../../css/ContainerEditFormStyles.css" rel="stylesheet" />
 <script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
+<script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
+<script type="text/javascript" src="{{ asset('JavaScript/ContainerEditForm.js') }}"></script>
+
+{#<script>
+	var onLoad = function () {
+		document.getElementById("appbundle_container_containerSerial").disabled = true;
+	};
+
+	$(function () {
+		initialize('#appbundle_container_property');
+	});
+
+	var unlock = function () {
+		document.getElementById("appbundle_container_containerSerial").disabled = false;
+		document.getElementById("btnUnlock").disabled = true;
+	};
+
+	$(onLoad);
+</script>#}
 <script>
-    $(function () {
-        initialize($('#select2_appbundle_container_property-container'));
-    });
+	$(function () {
+		initialize('#appbundle_container_property');
+
+		addModal();
+
+		$('.removeButton').click(function () {
+			var parent = $($(this).parent().get(0));
+
+            showModal(parent.data('message'), parent);
+		});
+
+		//$('.ui.dropdown').dropdown();
+	});
 </script>
 {% endblock %}
 
@@ -22,16 +52,142 @@
 {% if invalid_id_error %}
     <h2>Container does not exist</h2>
 {% else %}
-    {{ form_start(edit_form) }}
+
+	<div class="ui form">
+	    {{ form_start(edit_form) }}
+		<table>
+			{#{{ form_errors(edit_form) }}#}
+			{#{{ form_errors(edit_form.property) }}#}
+			<tbody>
+                <tr>
+                    <td class="required field">
+                        {{ form_label(edit_form.containerSerial) }}
+                        <div class="inline fields">
+					        {{ form_widget(edit_form.containerSerial) }}
+							<button type="button" value="Unlock" class="ui icon button" id="btnUnlock" onclick="unlock()">Unlock<i class="ui icon unlock alternate" id="unlockIcon"></i></button>
+							{{ form_errors(edit_form.containerSerial) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="required field">
+                        {{ form_label(edit_form.type) }}
+                        <div>
+					        {{ form_widget(edit_form.type) }}
+							{{ form_errors(edit_form.type) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="required field">
+                        {{ form_label(edit_form.size) }}
+                        <div>
+					        {{ form_widget(edit_form.size) }}
+							{{ form_errors(edit_form.size) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ form_label(edit_form.augmentation) }}
+                        <div>
+					        {{ form_widget(edit_form.augmentation) }}
+							{{ form_errors(edit_form.augmentation) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="required field">
+                        {{ form_label(edit_form.status) }}
+                        <div>
+					        {{ form_widget(edit_form.status) }}
+							{{ form_errors(edit_form.status) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ form_label(edit_form.reasonForStatus) }}
+                        <div>
+					        {{ form_widget(edit_form.reasonForStatus) }}
+							{{ form_errors(edit_form.reasonForStatus) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="required field">
+                        {{ form_label(edit_form.frequency) }}
+                        <div>
+					        {{ form_widget(edit_form.frequency) }}
+							{{ form_errors(edit_form.frequency) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ form_label(edit_form.locationDesc) }}
+                        <div>
+					        {{ form_widget(edit_form.locationDesc) }}
+							{{ form_errors(edit_form.locationDesc) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ form_label(edit_form.lon) }}
+                        <div>
+					        {{ form_widget(edit_form.lon) }}
+							{{ form_errors(edit_form.lon) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ form_label(edit_form.lat) }}
+                        <div>
+					        {{ form_widget(edit_form.lat) }}
+							{{ form_errors(edit_form.lat) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+					<td>
+						{#{{ form_start(add_property_form) }}
+						{{ form_label(add_property_form.property) }}
+						<div class="inline fields">
+							{{ form_widget(add_property_form.property) }}
+							<input class='ui button' id='advanced_property_search_popup' value='Advanced Search' type='button'/>
+						</div>
+						{{ form_end(add_property_form) }}#}
+
+                        {{ form_label(edit_form.property) }}
+                        <div class="inline fields">
+							{{ form_widget(edit_form.property) }}
+							{{ form_errors(edit_form.property) }}
+							<input class='ui button' id='advanced_property_search_popup' value='Advanced Search' type='button'/>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<input type="submit" value="Save" class="ui button" id="btnSave" />
+		{{ form_end(edit_form) }}
+    </div>
+
+
+    {#{{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Save" class="ui button"/>
-    {{ form_end(edit_form) }}
+        <input type="submit" value="Save" class="ui button" style="float:left"/>
+    {{ form_end(edit_form) }}#}
 {% endif %}
 
-            <a href="{{ path('container_search') }}" class="ui button">Search</a>
-        {% if not invalid_id_error %}
-                {{ form_start(delete_form) }}
-                    <input type="submit" value="Delete" class="ui button">
-                {{ form_end(delete_form) }}
-        {% endif %}
+
+    <a href="{{ path('container_search') }}"class="ui button" id="btnSearch">Search</a>
+    {% if not invalid_id_error %}
+		<form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to delete container {{container}}?">
+			<input type="hidden" name="container" value="{{container.id}}"/>
+			<button type="button" class="ui icon button removeButton red" id="rmb{{container.id}}"><i class="close icon"></i></button>
+		</form>
+        {#<input type="submit" value="Delete" class="ui button" id="btnDelete">#}
+    {% endif %}
 {% endblock %}

@@ -10,13 +10,12 @@ function initialize(selectbox)
     searchSelectBox = selectbox;
 
     // Insert an advanced search button beside the dropdown. This is so it's easy to insert instead of modifying the form everywhere it's needed.
-    selectbox.after("<input class='ui button' id='advanced_property_search_popup' value='Advanced Search' type='button'/>"); 
+    //selectbox.after("<input class='ui button' id='advanced_property_search_popup' value='Advanced Search' type='button'/>"); 
 
     console.log($('#advanced_property_search_popup'));
 
     // Register an event handler for clicking the button
     $("#advanced_property_search_popup").click(function () { advancedSearch() });
-
 }
 
 /**
@@ -39,7 +38,13 @@ function advancedSearch()
  */
 function receiveSelection(id)
 {
-    // Obtain the select box and set it's value to be the recieved id. Need to trigger change for Select2 to update itself.
-    //searchSelectBox.val(id);
-    searchSelectBox.dropdown('set selected', id)
+    if ($(searchSelectBox).hasClass('ui dropdown'))
+    {
+        $(searchSelectBox).val(id);
+    }
+    else {
+        // Obtain the select box and set it's value to be the recieved id. Need to trigger change for Select2 to update itself.
+        //searchSelectBox.val(id);
+        searchSelectBox.dropdown('set selected', id);
+    }
 }
