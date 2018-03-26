@@ -29,7 +29,7 @@ class CommunicationType extends AbstractType
         $builder
             //->add('date', DateType::class, array('label' => 'Date', 'invalid_message' => 'Please select a valid date')) //add date type field, and invalid message
             ->add('type', ChoiceType::class, array('label' => 'Type','choices' => array_merge( array('...' => '0'), Communication::getTypes()))) //add a type select box
-            ->add('medium', ChoiceType::class, array('expanded' => true, 'choices' => Communication::getMediums())) //add a medium radio button
+            ->add('medium', ChoiceType::class, array('label' => 'Direction', 'expanded' => true, 'choices' => Communication::getMediums())) //add a medium radio button
             ->add('contactName', TextType::class, array('label' => 'Contact Name', 'required'=>false)) //add a contactName text box
             ->add('contactEmail', EmailType::class, array('label' => 'Contact Email', 'required'=>false)) //add a contactEmail text box
             ->add('contactPhone', TextType::class, array('label' => 'Contact Phone', 'required'=>false)) //add a contactPhone text box

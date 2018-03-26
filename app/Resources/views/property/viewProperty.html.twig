@@ -78,7 +78,7 @@
 
     <h1>Property Contacts</h1>
     {% if property.contacts is empty %}
-    <h2>No associated contacts</h2>
+    <h3>No contacts found for this property</h3>
 
     {% else %}
         
@@ -109,7 +109,7 @@
 
     <h1>Container Info</h1>
         {% if property.bins is empty %}
-        <h2>No containers found for this property</h2>
+        <h3>No containers found for this property</h3>
 
         {% else %}
         
@@ -149,7 +149,7 @@
             </span>
         </h1>
         {% if property.communications is empty %}
-        <h2>No communication entries found for this property</h2>
+        <h3>No communications found for this property</h3>
 
         {% else %}
         
@@ -184,7 +184,7 @@
 
         {% endif %}
 
-        <div class="ui fullscreen modal" id="communicationModal">
+        <div class="ui long modal" id="communicationModal">
             <i class="close icon"></i>
             <div class="header">
                 New Communication

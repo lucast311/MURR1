@@ -13,6 +13,10 @@
 				var parent = $($(this).parent("form").get(0));
 				//console.log(parent);
                 showModal(parent.data('message'), parent);
+            });
+
+            $('#deleteButton').click(function () {
+                showModal("Are you sure you want to delete contact '{{contact.firstName}} {{contact.lastName}}'", $('#deleteForm'));
 			});
         });
     </script>
@@ -108,19 +112,11 @@
         </tbody>
     </table>
 
-	<ul>
-        <li>
-            <a href="{{ path('contact_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('contact_edit', { 'id': contact.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" class="ui button" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    <a class="ui button" href="{{ path('contact_edit', { 'id': contact.id }) }}">Edit</a>
+    <button id="deleteButton" type="button" class="ui button">Delete</button>
+    {{ form_start(delete_form, {'attr': {'id': 'deleteForm'}}) }}
+        
+    {{ form_end(delete_form) }}
 
     <h2>Property Roster</h2>
 

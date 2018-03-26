@@ -258,7 +258,7 @@ class PropertyCommunicationAddTest extends WebTestCase
 
     public function testCommunicationEditSuccess()
     {
-        // Navigate to the home page
+        // Navigate to the edit page
         $this->session->visit('http://localhost:8000/app_test.php/communication/2/edit');
 
         // Get the page
@@ -296,7 +296,33 @@ class PropertyCommunicationAddTest extends WebTestCase
 
     public function testCommunicationEditFailure()
     {
+        // Navigate to the edit page
+        $this->session->visit('http://localhost:8000/app_test.php/communication/2/edit');
 
+        // Get the page
+        $page = $this->session->getPage();
+
+        // Disable browser validation
+        $this->session->executeScript('javascript:for(var f=document.forms,i=f.length;i--;)f[i].setAttribute("novalidate",i)');
+
+        // make things super invalid
+        $page->find("css","#appbundle_communication_type")->selectOption('...');
+        $page->find("css","#appbundle_communication_contactName")->setValue(str_repeat("8", 300));
+        $page->find("css","#appbundle_communication_contactEmail")->setValue('Adam.cosmo@com');
+        $page->find("css","#appbundle_communication_contactPhone")->setValue("2322-222 2222");
+        $page->find("css","#appbundle_communication_category")->selectOption("...");
+        $page->find("css","#appbundle_communication_description")->setValue("");
+
+        //submit the form
+        $page->find("css","button#communication_add")->click();
+
+        //Check that a bunch of errors showed up
+        $this->assertNotNull($page->find("named",array("content","Please select a type of communication")));
+        $this->assertNotNull($page->find("named",array("content","Email must be in the format of 'Example@example.com'")));
+        $this->assertNotNull($page->find("named",array("content","Contact name must be less than 255 characters")));
+        $this->assertNotNull($page->find("named",array("content","Phone number must be in the format of ###-###-####")));
+        $this->assertNotNull($page->find("named",array("content","Please select a category")));
+        $this->assertNotNull($page->find("named",array("content","Please provide a brief description of the communication")));
     }
 
 

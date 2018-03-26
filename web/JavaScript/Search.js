@@ -4,7 +4,13 @@ var autocompleteValues = [];
 var viewModel = {
     results: ko.observableArray(),
     currentJSONRequest: null,
-    getResults: function (reQuery = false) {
+    getResults: function (reQuery) {
+
+        if (reQuery === undefined)
+        {
+            reQuery = false;
+        }
+
         if (viewModel.currentJSONRequest != null)
         {
             viewModel.currentJSONRequest.abort();
