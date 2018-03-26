@@ -74,7 +74,7 @@ class TruckListPageTest extends WebTestCase
         $truckLoader->load($this->em);
     }
 
-    //Add Test
+    //**Add Test**\\
     /**
      * 40a Test that a truck can be added to the system via the form
      */
@@ -96,13 +96,11 @@ class TruckListPageTest extends WebTestCase
         $this->assertEquals( $page->findAll('css', '.truckId')[0]->getText(), "".$this->truck->getTruckId()."");
     }
 
-
-
-
-    //Filter tests
+    //**Filter tests**\\
     /**
         40a Tests that the Filter box shows suggestions
     */
+    //!!! ****IMPLEMENT IN S40B**** !!!//
     //public function testFilterSuggestions()
     //{
     //    // Navigate to the Truck List page
@@ -147,7 +145,7 @@ class TruckListPageTest extends WebTestCase
         $this->assertNotEquals($truckIdItem, $page->findAll('css', '.truckId')[0]->getText());
     }
 
-    // Delete Truck Tests
+    //**Delete Tests**\\
     /**
         40a Tests that the delete button displays a modal when clicked
     */
@@ -192,6 +190,8 @@ class TruckListPageTest extends WebTestCase
         // Check that the truck hasn't been removed
 
         $this->session->wait(2000);
+
+        // Check that The truck isn't removed
         $this->assertEquals( $page->findAll('css', '.truckId')[0]->getText(), $truckIdItem);
     }
 

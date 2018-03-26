@@ -25,6 +25,7 @@ class TruckEditTypeTest extends TypeTestCase
 
     private $truck;
 
+    //**EDIT TYPE TEST**\\
     /**
      * S40A
      * Tests that the form class can be created and submit data

@@ -75,6 +75,7 @@ class TruckEditPageTest extends WebTestCase
     }
 
 
+    //**ACCESSABILITY TEST**\\
     //STORY40A
     /**
         40a Tests that the edit page can be opened from truck util
@@ -98,9 +99,10 @@ class TruckEditPageTest extends WebTestCase
         $this->assertContains($truckId, $editPageTruckId);
     }
 
+    //**EDIT TESTS**\\
     //STORY40A
     /**
-        40a Tests that the edit page can edit truckId
+        40a Tests that the edit page can change truckId
      */
     public function testEditPageTruckId()
     {
@@ -126,37 +128,7 @@ class TruckEditPageTest extends WebTestCase
 
     //STORY40A
     /**
-        40a Tests that a truckId thats already in use wont be overWritten
-     */
-    public function testEditPageTruckIdError()
-    {
-        // Navigate to the Truck List page
-        $this->session->visit('http://localhost:8000/app_test.php/truck');
-        // Get the page
-        $page = $this->session->getPage();
-
-        $this->session->wait(1000);
-        // Grab the value of the first truck id
-        $initialTruckId = $page->findAll('css', '.truckId')[0]->getText();
-        $usedTruckId    = $page->findAll('css', '.truckId')[1]->getText();
-
-
-        // Click the first edit button
-        $page->findAll('css', '.editButton')[0]->click();
-
-        $page->findById("appbundle_truck_truckId")->setValue("$usedTruckId");
-
-        $page->findById("appbundle_truck_Save")->click();
-
-        $errorMessage = $page->findAll('css', '.message')[0]->getText();
-
-        $this->assertContains("The Truck ID \"$usedTruckId\" is already in use, reverted to \"$initialTruckId\".", $errorMessage);
-    }
-
-
-    //STORY40A
-    /**
-        40a Tests that the edit page can edit truckId
+        Tests that the edit page can edit truck type
      */
     public function testEditPageTruckType()
     {
@@ -180,6 +152,39 @@ class TruckEditPageTest extends WebTestCase
 
         $this->assertFalse($initialTruckType == $editedTruckType);
     }
+
+
+    //**ERROR TEST**\\
+    //STORY40A
+    /**
+        Tests that a truckId thats already in use wont have its data overwritten
+     */
+    public function testEditPageTruckIdError()
+    {
+        // Navigate to the Truck List page
+        $this->session->visit('http://localhost:8000/app_test.php/truck');
+        // Get the page
+        $page = $this->session->getPage();
+
+        $this->session->wait(1000);
+        // Grab the value of the first truck id
+        $initialTruckId = $page->findAll('css', '.truckId')[0]->getText();
+        $usedTruckId    = $page->findAll('css', '.truckId')[1]->getText();
+
+        // Click the first edit button
+        $page->findAll('css', '.editButton')[0]->click();
+
+        $page->findById("appbundle_truck_truckId")->setValue("$usedTruckId");
+
+        $page->findById("appbundle_truck_Save")->click();
+
+        $errorMessage = $page->findAll('css', '.message')[0]->getText();
+
+        $this->assertContains("The Truck ID \"$usedTruckId\" is already in use, reverted to \"$initialTruckId\".", $errorMessage);
+    }
+
+
+
 
 
     /**

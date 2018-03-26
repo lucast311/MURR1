@@ -43,6 +43,4 @@ class TruckType extends AbstractType
     {
         return 'appbundle_truck';
     }
-
-
 }

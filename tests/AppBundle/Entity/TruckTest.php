@@ -34,7 +34,7 @@ class TruckTest extends KernelTestCase
         $this->assertEquals(0, count($errors));
     }
 
-
+    //**TruckID VALIDATION TESTS**\\
     /**
      * Story 40a
      * Test that the ID won't validate if it contains letters
@@ -120,7 +120,7 @@ class TruckTest extends KernelTestCase
     }
 
 
-
+    //**Type VALIDATION TESTS**\\
     /**
      * Story 40a
      * Test that the Type won't validate if more than 15 characters or less than 1
