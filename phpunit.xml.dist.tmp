@@ -8,7 +8,52 @@
   </php>
   <testsuites>
     <testsuite name="PhpTools_TestSuite">
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\CONTRO~1\COLLEC~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\CONTRO~1\COMMUN~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\CONTRO~1\CONTAC~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\CONTRO~1\CONTAI~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\CONTRO~1\CSROOP~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\CONTRO~1\EDUMAT~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\CONTRO~1\PROPER~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\CONTRO~1\ROUTEC~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\CONTRO~1\SECURI~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\CONTRO~1\TRUCKC~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Entity\ADDRES~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Entity\COLLEC~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Entity\COMMUN~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Entity\CONTAC~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Entity\CONTAI~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Entity\CSROOP~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Entity\PROPER~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Entity\ROUTEP~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Entity\ROUTET~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Entity\TRUCKT~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Form\ADDRES~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Form\COLLEC~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Form\CONTAC~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Form\CONTAI~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Form\PROPER~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Form\ROUTEP~1.PHP</file>
       <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Form\TRUCKE~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Form\TRUCKT~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Form\Type\COMMUN~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\REPOSI~1\ADDRES~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\REPOSI~1\COLLEC~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\REPOSI~1\COMMUN~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\REPOSI~1\CONTAC~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\REPOSI~1\CONTAI~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\REPOSI~1\CSROOP~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\REPOSI~1\PROPER~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\REPOSI~1\ROUTEP~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\REPOSI~1\ROUTER~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\REPOSI~1\TRUCKR~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\APPBUN~1\Services\CLEANE~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\Mink\ASSOCI~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\Mink\CONTAI~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\Mink\PROPER~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\Mink\ROUTEP~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\Mink\TRUCKE~1.PHP</file>
+      <file>E:\Projects\PRJ4-M~1\tests\Mink\TRUCKL~1.PHP</file>
     </testsuite>
   </testsuites>
   <filter>

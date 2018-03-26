@@ -16,3 +16,15 @@
 .column {
     max-width: max-content;
 }
+
+form .field {
+    display: inline;
+}
+
+.buttons {
+    margin: 1rem 0 0;
+}
+
+form .label, input {
+    clear: both;
+}

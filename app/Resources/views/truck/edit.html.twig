@@ -6,8 +6,22 @@
 		<h1 class="ui header left attached top">Edit Truck: '{{truck.truckid}}'</h1>
 		<div class="ui bottom attached segment">
         {{ form_start(edit_form) }}
-            {{ form_widget(edit_form) }}
-		    <input onclick="window.location.href='{{ path('truck_util') }}'" type="reset" value="Cancel" class="ui button" />
+            {{ form_errors(edit_form) }}
+
+            {{ form_errors(edit_form.truckId) }}
+			{{ form_label(edit_form.truckId)  }}
+			{{ form_widget(edit_form.truckId) }}
+
+            {{ form_errors(edit_form.type) }}
+			{{ form_label(edit_form.type)  }}
+			{{ form_widget(edit_form.type) }}
+
+            <div class="two buttons">
+                {{ form_row(edit_form.Save) }}
+                <div class="field">
+                    <input onclick="window.location.href='{{ path('truck_util') }}'" type="reset" value="Cancel" class="ui button" />
+                </div>
+            </div>
         {{ form_end(edit_form) }}
         </div>
     </div>
