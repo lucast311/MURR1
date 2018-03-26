@@ -498,6 +498,8 @@ class CommunicationControllerTest extends WebTestCase
         //Create the client
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
+        $client->followRedirects(true);
+
         //Request the communication edit page
         $crawler = $client->request('GET','/communication/1/edit');
 
@@ -509,8 +511,9 @@ class CommunicationControllerTest extends WebTestCase
 
         // Submit the form
         $crawler = $client->submit($form);
-        // Go to the communication and see the change
-        $crawler = $client->request('GET', '/communication/56');
+
+        // Assert redirection
+        $this->assertContains('/communication/1', $client->getRequest()->getUri());
 
         $this->assertContains('The description of this communication has been changed', $client->getResponse()->getContent());
     }

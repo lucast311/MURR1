@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\DataFixtures\ORM\LoadUserData;
 use AppBundle\DataFixtures\ORM\LoadContainerData;
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
+use AppBundle\DataFixtures\ORM\LoadCommunicationData;
 use Tests\AppBundle\DatabasePrimer;
 
 /**
@@ -39,6 +40,12 @@ class PropertyCommunicationAddTest extends WebTestCase
 
         $userLoader = new LoadUserData($encoder);
         $userLoader->load($this->em);
+
+        $communicationLoader = new LoadCommunicationData();
+        $communicationLoader->load($this->em);
+
+        $containerLoader = new LoadContainerData();
+        $containerLoader->load($this->em);
 
         // Create a driver
         $this->driver = new ChromeDriver("http://localhost:9222",null, "localhost:8000");
@@ -95,7 +102,7 @@ class PropertyCommunicationAddTest extends WebTestCase
         // Assert that the property has been auto populated
         $this->assertEquals($page->find('css',"#appbundle_communication_property")->getValue(), 1); //1 should be the ID of the property
         // Submit the form
-        $page->find('css',"#appbundle_communication_add")->submit();
+        $page->find('css',"#communicationSubmit")->click();
 
         $this->session->wait(2000);
 
@@ -104,7 +111,7 @@ class PropertyCommunicationAddTest extends WebTestCase
 
         // Once the page has reloaded, assert that the new communication is listed on the page
         $this->assertNotNull($page->find('named', array('content', "Phone")));
-        $this->assertNotNull($page->find('named', array('content', "Incomming")));
+        $this->assertNotNull($page->find('named', array('content', "Outgoing")));
         $this->assertNotNull($page->find('named', array('content', "Mr. Man")));
         $this->assertNotNull($page->find('named', array('content', "mr.man@manson.ca")));
         $this->assertNotNull($page->find('named', array('content', "123-456-7891")));
@@ -143,6 +150,9 @@ class PropertyCommunicationAddTest extends WebTestCase
         $page->find('css',"#appbundle_communication_category")->selectOption("Container");
         $page->find('css',"#appbundle_communication_description")->setValue("Mr. Man phoned and said there was a dune buggy stuck inside his recycling container. He wants it gone.");
 
+        // Submit the form
+        $page->find('css',"#communicationSubmit")->click();
+
         $this->session->wait(2000);
 
         // Once the page has reloaded, assert that the modal is still visible
@@ -161,36 +171,23 @@ class PropertyCommunicationAddTest extends WebTestCase
     public function testCommunicationClickView()
     {
         // Navigate to the property view page
-        $this->session->visit('http://localhost:8000/app_test.php/property/1');
+        $this->session->visit('http://localhost:8000/app_test.php/property/17');
         // Get the page
         $page = $this->session->getPage();
 
-        // Click the desired communication (id 56 in this case)
-        $page->find('named', array('content', "56"))->click();
+        // Click the desired communication (id 2 in this case)
+        $page->find('css', 'table.communications')->find('named', array('content', "2"))->click();
 
         $this->session->wait(2000);
 
         // Assert that we're on the right page
-        $this->assertContains('/communication/view/56', $this->session->getCurrentUrl());
+        $this->assertContains('/communication/2', $this->session->getCurrentUrl());
+
+        // Assert information from that page
+        $this->assertNotNull($page->find('named', array('content', "email@email.com")));
+        $this->assertNotNull($page->find('named', array('content', "Ken")));
     }
 
-    /**
-     * Story 11d
-     * Tests that clicking on a row of a listed container will take you to it's view page
-     */
-    public function testContactClickView()
-    {
-        // Navigate to the property view page
-        $this->session->visit('http://localhost:8000/app_test.php/property/1');
-        // Get the page
-        $page = $this->session->getPage();
-
-        // Click the desired contact
-        $page->find('named', array('content', "Ken Kenson"))->click();
-
-        // Assert that we're on the right page
-        $this->assertContains('/contact/208', $this->session->getCurrentUrl());
-    }
 
     /**
      * Story 11d
@@ -199,15 +196,18 @@ class PropertyCommunicationAddTest extends WebTestCase
     public function testContainerClickView()
     {
         // Navigate to the property view page
-        $this->session->visit('http://localhost:8000/app_test.php/property/3');
+        $this->session->visit('http://localhost:8000/app_test.php/property/20');
         // Get the page
         $page = $this->session->getPage();
 
         // Click the desired contact (serial 888888)
-        $page->find('named', array('content', "888888"))->click();
+        $page->find('css', 'table.containers')->find('named', array('content', "888888"))->click();
 
         // Assert that we're on the right page
-        $this->assertContains('/container/32', $this->session->getCurrentUrl());
+        $this->assertContains('/container/2', $this->session->getCurrentUrl());
+
+        // Assert information from that page
+        $this->assertNotNull($page->find('named', array('content', "888888")));
     }
 
 
@@ -222,6 +222,8 @@ class PropertyCommunicationAddTest extends WebTestCase
         $stmt = $this->em->getConnection()->prepare('DELETE FROM Property');
         $stmt->execute();
         $stmt = $this->em->getConnection()->prepare('DELETE FROM Address');
+        $stmt->execute();
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Container');
         $stmt->execute();
         $this->em->close();
         $this->em = null; //avoid memory meaks
