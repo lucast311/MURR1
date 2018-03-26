@@ -184,14 +184,14 @@ class TruckUtilPageTest extends WebTestCase
         $page->findAll('css', '.removeButton')[0]->click();
         // Check that the delete modal is visible
         $this->session->wait(1000);
-        $this->assertTrue(($page->findById('#deletesMessage'))->isVisible());
+        $this->assertTrue($page->find('css','#removeModalMessage')->isVisible());
 
         // Click the cancel remove button
         $page->find('css', '#btnDecline')->click();
 
         // Check that the modal is not visible
         $this->session->wait(1000);
-        $this->assertFalse($page->find('css', '#deletesMessage')->isVisible());
+        $this->assertFalse($page->find('css','#removeModalMessage')->isVisible());
 
         // Check that The truck isn't removed
         $this->assertEquals( $page->findAll('css', '.truckId')[0]->getText(), $truckIdItem);
