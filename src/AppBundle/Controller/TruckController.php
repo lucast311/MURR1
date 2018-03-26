@@ -107,26 +107,67 @@ class TruckController extends Controller
         if(is_null($id))
             $id = intval($request->get('id'));
 
-        $repo = $this->getDoctrine()->getManager()->getRepository(Truck::class);
+        // = $id;
+
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository(Truck::class);
         $truck = $repo->findOneById($id);
 
-        if(is_null($truck))
+        $initialId = -1;
+        $editForm  = null;
+
+        if(!is_null($truck))
         {
-            //show an error (truck not found)
+            $initialId = $truck->getTruckId();
+            $editForm = $this->createForm('AppBundle\Form\TruckEditType', $truck);
+            $editForm->handleRequest($request);
+        }
+
+
+        if(is_null($editForm))
+        {
+            //show an error (truck not found, form not generated)
         }
         else
         {
-            $editForm = $this->createForm('AppBundle\Form\TruckEditType', $truck);
-            $editForm->handleRequest($request);
-
+            // If the user has entered valid information and clicked the "Save" button
             if ($editForm->isSubmitted() && $editForm->isValid())
             {
-                $this->getDoctrine()->getManager()->flush();
-                return $this->redirectToRoute('truck_util', array('id' => $truck->getId()));
+                // Get the ID that the user has set and pad it if it isn't 6 characters already
+                $truck->setTruckId(
+                    str_pad($truck->getTruckId(), 6, "0", STR_PAD_LEFT));
+
+                $fTID = $truck->getTruckId();
+
+                $truckIdUsed = false;
+
+                if($initialId != $fTID)
+                {
+                    //check if truckId has already been used
+                    $truckIdUsed = (0 < count($em->getRepository(Truck::class)
+                        ->findBy(array('truckId' => $truck->getTruckId()))));
+                }
+
+                // Add custom error to form
+                if($truckIdUsed)
+                {
+                    $truck->setTruckId($initialId);
+                    $editForm = $this->createForm('AppBundle\Form\TruckEditType', $truck);
+                    $editForm->addError(new FormError("The Truck ID \"$fTID\" is already in use, reverted to \"$initialId\"."));
+                }
+                else
+                {
+                    //save truck
+                    $em->persist($truck);
+                    $em->flush();
+
+                    return $this->redirectToRoute('truck_util', array('id' => $truck->getId()));
+                }
             }
         }
 
         return $this->render('truck/edit.html.twig', array(
+            'truckid'=> $truck->getTruckId(),
             'truck' => $truck,
             'edit_form' => $editForm->createView(),
             //'delete_form' => $deleteForm->createView(),
@@ -139,7 +180,7 @@ class TruckController extends Controller
      * @param Request $request
      * @Route("/remove/{id}", name="truck_remove")
      * @Method("POST")
-     * maybe use the delete method??
+     * maybe use the DELETE method??
      */
     public function removeTruckAction(Request $request, $id=null)
     {

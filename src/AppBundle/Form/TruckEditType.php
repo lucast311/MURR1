@@ -18,8 +18,8 @@ class TruckEditType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('truckId',null)
-                ->add('type',null)
+        $builder->add('truckId', null, array('label'=>'Truck ID:'))
+                ->add('type', null, array('label'=>'Type:'))
                 ->add('Save', SubmitType::class);
                 //->add('Cancel', ButtonType::class,array('attr' => array('onclick' => "window.location.href='../'")));
     }

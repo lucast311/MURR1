@@ -12,13 +12,13 @@ td form {
     display: inline-block;
 }
 
+
 #appbundle_truck_Add {
     margin: 0 -1em 0 1em;
 }
 .truckList, .truckAdd 
 {
     margin-bottom: 1rem;
-    max-width: max-content;
 }
 .truckAdd .inline.fields 
 {

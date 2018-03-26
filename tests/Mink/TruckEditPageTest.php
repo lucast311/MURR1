@@ -5,17 +5,19 @@ use DMore\ChromeDriver\ChromeDriver;
 use Behat\Mink\Session;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\DataFixtures\ORM\LoadTruckData;
+use AppBundle\DataFixtures\ORM\LoadUserData;
+use AppBundle\Entity\Truck;
 use Tests\AppBundle\DatabasePrimer;
 
-
 /**
-    This page tests all javascript functionality on the Truck Edit page
+    This tests functionality of the Truck Edit page
 */
 class TruckEditPageTest extends WebTestCase
 {
-        private $driver;
+    private $driver;
     private $session;
     private $em;
+    private $truck;
 
     public static function setUpBeforeClass()
     {
@@ -30,6 +32,10 @@ class TruckEditPageTest extends WebTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        $this->truck = (new Truck())
+            ->setTruckId("00886")
+            ->setType("Large");
 
         // Wipe database before beginning because tests seem to run into errors
         $stmt = $this->em->getConnection()->prepare('DELETE FROM truck');
@@ -58,39 +64,122 @@ class TruckEditPageTest extends WebTestCase
         $page->findById("username")->setValue("admin");
         $page->findById("password")->setValue("password");
         // Submit the form
-        $page->findButton('Log In')->click();
+        $page->pressButton('Log In');//replaced findButton('Log In')->click();
         // Wait for the page to load before trying to browse elsewhere
         $this->session->wait(10000, "document.readyState === 'complete'");
 
 
         // Load in trucks from our truck fixture
-        $truckLoader = new LoadTruckData($encoder);
+        $truckLoader = new LoadTruckData();
         $truckLoader->load($this->em);
     }
 
 
-    // 40a
-    //public function TestDeleteModal()
-    //{
-    //    // Navigate to the Truck List page
-    //    $this->session->visit('http://localhost:8000/app_test.php/truck/edit/1');
-    //    // Get the page
-    //    $page = $this->session->getPage();
+    //STORY40A
+    /**
+        40a Tests that the edit page can be opened from truck util
+     */
+    public function testEditPageOpen()
+    {
+        // Navigate to the Truck List page
+        $this->session->visit('http://localhost:8000/app_test.php/truck');
+        // Get the page
+        $page = $this->session->getPage();
 
-    //    // Test that the Delete modal isn't visible
-    //    $removeModal = $page->find('css', '#removeModal');
-    //    $this->AssertFalse( $removeModal->isVisible());
+        $this->session->wait(1000);
+        // Grab the value of the first truck id
+        $truckId = $page->findAll('css', '.truckId')[0]->getText();
 
-    //    // Click the delete button on the page
-    //    $page->find('css', 'remove').click();
+        // Click the first edit button
+        $page->findAll('css', '.editButton')[0]->click();
 
-    //    // Test that the delete modal is visible
-    //    $this->assertTrue( $removeModal->isVisible() );
-    //}
+        $editPageTruckId = $page->findAll('css', 'h1')[0]->getText();
+
+        $this->assertContains($truckId, $editPageTruckId);
+    }
+
+    //STORY40A
+    /**
+        40a Tests that the edit page can edit truckId
+     */
+    public function testEditPageTruckId()
+    {
+        // Navigate to the Truck List page
+        $this->session->visit('http://localhost:8000/app_test.php/truck');
+        // Get the page
+        $page = $this->session->getPage();
+
+        $this->session->wait(1000);
+        // Grab the value of the first truck id
+        $initialTruckId = $page->findAll('css', '.truckId')[0]->getText();
+
+        // Click the first edit button
+        $page->findAll('css', '.editButton')[0]->click();
+
+        $page->findById("appbundle_truck_truckId")->setValue("1337");
+        $page->findById("appbundle_truck_Save")->click();
+
+        $editedTruckId = $page->findAll('css', '.truckId')[0]->getText();
+
+        $this->assertFalse($initialTruckId == $editedTruckId);
+    }
+
+    //STORY40A
+    /**
+        40a Tests that a truckId thats already in use wont be overWritten
+     */
+    public function testEditPageTruckIdError()
+    {
+        // Navigate to the Truck List page
+        $this->session->visit('http://localhost:8000/app_test.php/truck');
+        // Get the page
+        $page = $this->session->getPage();
+
+        $this->session->wait(1000);
+        // Grab the value of the first truck id
+        $initialTruckId = $page->findAll('css', '.truckId')[0]->getText();
+        $usedTruckId    = $page->findAll('css', '.truckId')[1]->getText();
 
 
+        // Click the first edit button
+        $page->findAll('css', '.editButton')[0]->click();
+
+        $page->findById("appbundle_truck_truckId")->setValue("$usedTruckId");
+
+        $page->findById("appbundle_truck_Save")->click();
+
+        $errorMessage = $page->findAll('css', '.message')[0]->getText();
+
+        $this->assertContains("The Truck ID \"$usedTruckId\" is already in use, reverted to \"$initialTruckId\".", $errorMessage);
+    }
 
 
+    //STORY40A
+    /**
+        40a Tests that the edit page can edit truckId
+     */
+    public function testEditPageTruckType()
+    {
+        // Navigate to the Truck List page
+        $this->session->visit('http://localhost:8000/app_test.php/truck');
+        // Get the page
+        $page = $this->session->getPage();
+
+        $this->session->wait(1000);
+        // Grab the value of the first truck id
+        $initialTruckType = $page->findAll('css', '.truckType')[0]->getText();
+
+        // Click the first edit button
+        $page->findAll('css', '.editButton')[0]->click();
+
+        $page->findById("appbundle_truck_type")->setValue("TestType");
+
+        $page->findById("appbundle_truck_Save")->click();
+
+        $editedTruckType = $page->findAll('css', '.truckType')[0]->getText();
+
+        $this->assertFalse($initialTruckType == $editedTruckType);
+    }
 
 
     /**

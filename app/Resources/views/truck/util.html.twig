@@ -23,7 +23,7 @@
 
 <div>
 	<div class="column truckAdd">
-		<h3 class="ui header left attached top">Add Truck</h3>
+		<h1 class="ui header left attached top">Add Truck</h1>
 		<div class="ui bottom attached segment">
 			{{ form_start(add_truck_form) }}
 
@@ -61,7 +61,7 @@
 	</div>
 
 	<div class="column truckList">
-		<h3 class="ui header left attached top">Truck List</h3>
+		<h1 class="ui header left attached top">Truck List</h1>
 		<div class="ui bottom attached segment">
 		
 			<div class="ui search">
@@ -79,11 +79,11 @@
 				</thead>
 				<tbody id="filteredTruckListBody" data-bind="foreach: results">
 					<tr>
-						<td class="truckId" data-bind="text:truckId, attr: {data: id}">{{ formtruck.truckId }}</td>
-						<td data-bind="text:type">{{ formtruck.type }}</td>
-						<td>
+						<td class="truckId"   data-bind="text:truckId, attr: {data: id}">{{ formtruck.truckId }}</td>
+						<td class="truckType" data-bind="text:type">{{ formtruck.type }}</td>
+                        <td>
 							<form name="appbundle_editTruck" method="post" data-bind="attr: {action: '{{ path('truck_edit') }}/'+id }">
-								<button type="submit" class="ui icon button" data-bind="attr: {id: 'rmb'+id}" ><i class="pencil alternate icon"></i></button>
+								<button type="submit" class="ui icon button editButton" data-bind="attr: {id: 'rmb'+id}" ><i class="pencil alternate icon"></i></button>
 							</form>
 							<form name="appbundle_removeTruck" method="post" data-bind="attr: {action: '{{ path('truck_remove') }}/'+id, 'data-message': 'Are you sure you want to remove Truck \'\''+truckId+'\'\''}">
 								<button type="button" class="ui icon button removeButton red" data-bind="attr: {id: 'rmb'+id}" ><i class="close icon"></i></button>

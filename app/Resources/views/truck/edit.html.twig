@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Truck edit</h1>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-		<input onclick="window.location.href='{{ path('truck_util') }}'" type="reset" value="Cancel" class="ui button" />
-    {{ form_end(edit_form) }}
+	<div class="column truckEdit">
+		<h1 class="ui header left attached top">Edit Truck: '{{truck.truckid}}'</h1>
+		<div class="ui bottom attached segment">
+        {{ form_start(edit_form) }}
+            {{ form_widget(edit_form) }}
+		    <input onclick="window.location.href='{{ path('truck_util') }}'" type="reset" value="Cancel" class="ui button" />
+        {{ form_end(edit_form) }}
+        </div>
+    </div>
 {% endblock %}

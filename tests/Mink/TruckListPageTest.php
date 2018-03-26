@@ -10,7 +10,7 @@ use AppBundle\Entity\Truck;
 use Tests\AppBundle\DatabasePrimer;
 
 /**
-    This class tests all javascript functionality on the truck list page.
+    This class tests functionality of the truck utility page.
 */
 class TruckListPageTest extends WebTestCase
 {
