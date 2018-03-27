@@ -84,8 +84,10 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         $this->session->wait(1000);
 
+        //A: CHANGED IN S40A -AB
         //click the contacts page
-        $contactsBtn = $page->find("css","#contactsPage");
+        $contactsBtn = $page->find('xpath', $this->session->getSelectorsHandler()
+            ->selectorToXpath('xpath',"//a[contains(@href, 'contact/search')]"));
 
         $contactsBtn->click();
 

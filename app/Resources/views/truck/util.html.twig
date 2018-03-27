@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+{# A: THIS IS BASICALLY LIKE "NEW" + "INDEX" ON THE SAME PAGE. #}
+{% block title %}Truck Utils{% endblock %}
+
+{% block stylesheets %}
+<link href="{{ asset('css/util_twig.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}    
+
+{% block javascripts %}
+ {# include Knockout to make the search script works #}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+<!-- Link in custom script that uses the delete prompts-->
+<script type="text/javascript" src="{{ asset('JavaScript/RemoveModal.js') }}"></script>
+
+<div class="js-jsonpage" data-jsonpage="{{ path('property_jsonsearch_empty') }}"></div>
+<div class="js-inittrucks" data-inittrucks="{{inittrucks}}"></div>
+
+{# include the filter javasript #}
+<script type="text/javascript" src="{{ asset('JavaScript/Filter.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+<div>
+	<div class="column truckAdd">
+		<h1 class="ui header left attached top">Add Truck</h1>
+		<div class="ui bottom attached segment">
+			{{ form_start(add_truck_form) }}
+
+			{{ form_errors(add_truck_form) }}
+			<table>
+				<tbody>
+					<tr>
+						{{ form_errors(add_truck_form.truckId) }}
+						<td>
+							<div class="inline fields">
+								{{ form_label(add_truck_form.truckId)  }}
+								{{ form_widget(add_truck_form.truckId) }}
+							</div>
+						</td>
+
+						{{ form_errors(add_truck_form.type) }}
+						<td>
+							<div class="inline fields">
+								{{ form_label(add_truck_form.type)  }}
+								{{ form_widget(add_truck_form.type) }}						    
+							</div>
+						</td>
+
+						<td>
+							<div class="inline fields">
+								{{ form_row(add_truck_form.Add) }}
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			{{ form_end(add_truck_form) }}
+		</div>
+	</div>
+
+    {# LISTS SHOULD NOW BE POPULATED WITH KO + JSON LIKE THIS: #}
+    {# A: MAYBE IMPLEMENT INFINITE SCROLLING #}
+	<div class="column truckList">
+		<h1 class="ui header left attached top">Truck List</h1>
+		<div class="ui bottom attached segment">
+		
+			<div class="ui search">
+				<input type="text" id="truckFilterBox" class="prompt" maxlength="100" placeholder="Filter..." />
+				<i class="times circle icon" id="btnClear"></i>
+				<div class="results"></div>
+			</div>
+			<table id="filteredTruckList" class="trucks ui celled table">
+				<thead>
+					<tr>
+						<th style="width: 4vw;min-width: 88px;">Truck ID</th>
+						<th style="width: 6vw;min-width: 121px;">Type</th>
+						<th>Edit/Remove</th>
+					</tr>
+				</thead>
+				<tbody id="filteredTruckListBody" data-bind="foreach: results">
+					<tr>
+						<td class="truckId"   data-bind="text:truckId, attr: {data: id}">{{ formtruck.truckId }}</td>
+						<td class="truckType" data-bind="text:type">{{ formtruck.type }}</td>
+                        <td>
+							<form name="appbundle_editTruck" method="post" data-bind="attr: {action: '{{ path('truck_edit') }}/'+id }">
+								<button type="submit" class="ui icon button editButton" data-bind="attr: {id: 'rmb'+id}" ><i class="pencil alternate icon"></i></button>
+							</form>
+							<form name="appbundle_removeTruck" method="post" data-bind="attr: {action: '{{ path('truck_remove') }}/'+id, 'data-message': 'Are you sure you want to remove Truck \''+truckId+'\''}">
+								<button type="button" class="ui icon button removeButton red" data-bind="attr: {id: 'rmb'+id}" ><i class="close icon"></i></button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+				<tbody id="listInfo" class="ui segment">
+					<tr>
+						<td id="listInfoContent" class="ui active" colspan="3" style="text-align: center"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}
