@@ -24,11 +24,12 @@
     margin-bottom: 1rem;
 }
 
-/*This cramps the forms together and interferes with semantic styles? Why it here?*/
+form[name="appbundle_truck"] .two.buttons .field{
+    display: inline;
+}
 /*form .field {
     display: inline;
 }*/
-
 .buttons {
     margin: 1rem 0 0;
 }
