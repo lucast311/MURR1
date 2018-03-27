@@ -1,1 +1,1 @@
-H:\School\PHP\v7.0\php "%~dp0..\bin\console" %*
+..\..\..\School\PHP\v7.0\php "%~dp0..\bin\console" %*
