@@ -36,8 +36,8 @@ ECHO   *^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*
 	ECHO   ______====______
 	ECHO =________AB________=
 	ECHO  Opening Sharepoint
-	.\_MURR_Sharepoint.lnk
-	.\_MURR_Sharepoint_IE.website
+	START "" .\_MURR_Sharepoint.lnk
+	START "" .\_MURR_Sharepoint_IE.website
 	
 
 :PRECHROME
@@ -53,6 +53,7 @@ ECHO   *^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*
 	GOTO CDebug
 
 :RELAUNCHQ
+	TIMEOUT /T 5
 	ECHO (new ActiveXObject("WScript.Shell")).AppActivate("AB_DEVENV_SCRIPT"); > focus.js
 	CSCRIPT //nologo focus.js
 	DEL focus.js
@@ -97,7 +98,13 @@ ECHO   *^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*
 	ECHO  Opening VS project
 	start .\prj4-murr.sln
 
+
 :ENDOFSCRIPT
+TIMEOUT /T 5
+ECHO (new ActiveXObject("WScript.Shell")).AppActivate("AB_DEVENV_SCRIPT"); > focus.js
+CSCRIPT //nologo focus.js
+DEL focus.js
+
 ECHO.
 ECHO   _____________====_____________
 ECHO =*______________AB______________*=
