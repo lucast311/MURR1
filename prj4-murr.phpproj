@@ -157,7 +157,6 @@
     <Compile Include="tests\AppBundle\Form\TruckEditTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\TruckTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\RoutePickupTypeTest.php" />
-    <Compile Include="tests\AppBundle\Form\Type\CommunicationTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\AddOOPsForm.php" />
     <Compile Include="tests\AppBundle\Form\AddressTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\ContactTypeTest.php" />
