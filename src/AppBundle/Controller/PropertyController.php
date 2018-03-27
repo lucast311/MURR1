@@ -10,7 +10,7 @@ use AppBundle\Entity\Contact;
 use AppBundle\Entity\Communication;
 use AppBundle\Entity\Container;
 use AppBundle\Form\PropertyType;
-use AppBundle\Form\Type\CommunicationType;
+use AppBundle\Form\CommunicationType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormError;
 use AppBundle\Repository\PropertyRepository;
@@ -146,35 +146,22 @@ class PropertyController extends Controller
      * @Route("/property")
      * @Route("/property/")
      */
-    public function viewAction(Request $request, $propertyId = 'not_specified')
+    public function viewAction($propertyId = 'not_specified', $addCommunicationForm = null)
     {
-        // Get the communication form to pass it in
-        $addCommunicationForm = $this->createForm(CommunicationType::class, new Communication());
-
-        // Handle any submissions of the communication form
-        $addCommunicationForm->handleRequest($request);
-
+        //Default don't dhow the communication form
         $showCommunicationForm = false;
 
-        // Proceed to save if the form is submitted and valid
-        if($addCommunicationForm->isSubmitted() && $addCommunicationForm->isValid())
+        //if the form wasn't given to us, create it
+        if($addCommunicationForm == null)
         {
-            //get the data from the form
-            $communication = $addCommunicationForm->getData();
-            //get the doctrine repository
-            $repo = $this->getDoctrine()->getRepository(Communication::class);
-            //insert into the database
-            $repo->insert($communication);
-
-            //Wipe the form data by making a new form
+            // Get the communication form to pass it in
             $addCommunicationForm = $this->createForm(CommunicationType::class, new Communication());
         }
-        // If the form was submitted but not valid, signal to the page to make the modal reappear
+        //if the form was submitted and isn't valid, set the modal to popup
         else if($addCommunicationForm->isSubmitted() && !$addCommunicationForm->isValid())
         {
             $showCommunicationForm = true;
         }
-
 
 
         // Get the entity manager

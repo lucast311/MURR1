@@ -5,7 +5,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\Type\CommunicationType;
+use AppBundle\Form\CommunicationType;
 use AppBundle\Entity\Communication;
 use AppBundle\Entity\Contact;
 use AppBundle\Entity\Property;
@@ -38,7 +38,9 @@ class CommunicationController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $form = $this->createForm(CommunicationType::class, new Communication());
+        $communication = new Communication();
+
+        $form = $this->createForm(CommunicationType::class, $communication);
 
         $form->handleRequest($request);
 
@@ -54,11 +56,7 @@ class CommunicationController extends Controller
             //create a new blank form to erase the old data
             $form = $this->createForm(CommunicationType::class, new Communication());
 
-            //PLEASE RETURN TO ME WHEN USERS ARE IMPLEMENTED
-            //$communication->setUser(1); //set the user ID
 
-
-            //get the doctrine repository
             $repo = $this->getDoctrine()->getRepository(Communication::class);
             //insert into the database
             $repo->insert($communication);
@@ -66,6 +64,25 @@ class CommunicationController extends Controller
 
             //let the user know that the communication was added
             $added = true;
+
+            //if it was sent from a modal, redirect to the property it came from
+            //This happens on a success, so we can safely redirect and not worry about errors
+            if($request->get("isModal") == 1)
+            {
+                return $this->redirectToRoute("property_view",
+                    array("propertyId"=>$communication->getProperty()->getId()));
+            }
+        }
+
+        //if it was sent from a modal, forward the request to the view action (to show errors)
+        if($request->get("isModal") == 1)
+        {
+            //return $this->redirectToRoute("property_view",
+            //    array("propertyId"=>$communication->getProperty()->getId(),
+            //    "addCommunicationForm" => $form));
+            return $this->forward('AppBundle:Property:view',
+                array("propertyId"=>$communication->getProperty()->getId(),
+                "addCommunicationForm" => $form));
         }
 
         return $this->render('communication/newComm.html.twig', [
@@ -98,7 +115,7 @@ class CommunicationController extends Controller
         {
         	$communicationId = $comm->getId();
         }
-        
+
 
         if($comm == null) $errorType="notfound";
 

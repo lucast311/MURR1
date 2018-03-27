@@ -214,6 +214,7 @@
         <div class="content">
             {{ form_start(newCommunicationForm, {'attr': {'id': 'communicationForm'}}) }}
             {{ form_widget(newCommunicationForm) }}
+            <input type="hidden" name="isModal" value="1" />
 			<input type="submit" hidden="hidden" id="hiddenCommunicationSubmit" />
 			{{ form_end(newCommunicationForm) }}
         </div>

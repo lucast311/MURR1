@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Form\Type;
+namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -10,12 +10,25 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use AppBundle\Entity\Communication;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-
+use Symfony\Component\Routing\Router;
 /**
  * This class is repsonsible for building a form for a Communication object
  */
 class CommunicationType extends AbstractType
 {
+
+        /**
+         * @var Router
+         */
+        private $router;
+
+        public function __construct(Router $router)
+        {
+            //Allows us to generate routes
+            $this->router = $router;
+        }
+
+
     /**
      * This function will build the form to be displayed on a page
      * @param FormBuilderInterface $builder
@@ -38,6 +51,8 @@ class CommunicationType extends AbstractType
             //->add('property', ChoiceType::class, array('label'=>'Property', 'choices' => array_merge( array('...' => 0),Communication::getProperties()))) //add a property select box
             ->add('category', ChoiceType::class, array('label' => 'Category', 'choices' => array_merge( array('...' => '0'),Communication::getCategories()))) //add a category select box
             ->add('description', TextareaType::class, array('label' => 'Description')); //add a description text area
+
+        $builder->setAction($this->router->generate("new_communication"));
     }
 
     /**
