@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Container;
 
 class ContainerEditType extends AbstractType
@@ -28,7 +29,7 @@ class ContainerEditType extends AbstractType
             ->add('locationDesc')
             ->add('lon')
             ->add('lat')
-            ->add('property');
+            ->add('property', EntityType::class, array('label'=>'Property:', 'class' => 'AppBundle:Property', 'attr' => array('class' => 'ui search dropdown')));
     }
 
     /**

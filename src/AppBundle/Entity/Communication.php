@@ -11,6 +11,7 @@ use DateTime;
  *
  * @ORM\Table(name="communication")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommunicationRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Communication
 {

@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+Edit Container {{ container.containerSerial }}
+{% endblock %}
 
 {% block javascripts %}
 {# include jQuery to make the search script work #}
@@ -7,40 +10,35 @@
 {# include the PropertySearchPopup javascript and the select2 file #}
 {#<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />#}
-<link href="../../../../css/ContainerEditFormStyles.css" rel="stylesheet" />
+<link href="../../../../css/ContainerAddEditFormStyles.css" rel="stylesheet" />
 <script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
 <script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
-<script type="text/javascript" src="{{ asset('JavaScript/ContainerEditForm.js') }}"></script>
-
-{#<script>
-	var onLoad = function () {
-		document.getElementById("appbundle_container_containerSerial").disabled = true;
-	};
-
-	$(function () {
-		initialize('#appbundle_container_property');
-	});
-
-	var unlock = function () {
-		document.getElementById("appbundle_container_containerSerial").disabled = false;
-		document.getElementById("btnUnlock").disabled = true;
-	};
-
-	$(onLoad);
-</script>#}
+{#<script type="text/javascript" src="{{ asset('JavaScript/ContainerEditForm.js') }}"></script>#}
 <script>
-	$(function () {
+    // Function for when the unlock button is pressed
+    function unlock() {
+        $('#appbundle_container_containerSerial').prop('readonly', false);
+        document.getElementById("btnUnlock").disabled = true;
+    };
+
+    $(function () {
+
+        var onLoad = function () {
+            $('#appbundle_container_containerSerial').prop('readonly', true);
+            console.log(document.getElementById("appbundle_container_property"));
+        };
+
 		initialize('#appbundle_container_property');
 
-		addModal();
+        addModal();
+
+        $(onLoad);
 
 		$('.removeButton').click(function () {
 			var parent = $($(this).parent().get(0));
 
             showModal(parent.data('message'), parent);
 		});
-
-		//$('.ui.dropdown').dropdown();
 	});
 </script>
 {% endblock %}
@@ -184,9 +182,9 @@
 
     <a href="{{ path('container_search') }}"class="ui button" id="btnSearch">Search</a>
     {% if not invalid_id_error %}
-		<form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to delete container {{container}}?">
+		<form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to remove container {{container}}?">
 			<input type="hidden" name="container" value="{{container.id}}"/>
-			<button type="button" class="ui icon button removeButton red" id="rmb{{container.id}}"><i class="close icon"></i></button>
+			<button type="button" class="ui button removeButton" id="btnDelete">Delete</button>
 		</form>
         {#<input type="submit" value="Delete" class="ui button" id="btnDelete">#}
     {% endif %}

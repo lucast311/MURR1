@@ -1,0 +1,71 @@
+﻿
+/*
+    CSS Styles for Add/Edit Forms for Container
+*/
+
+/*
+    CSS for any tables on the page
+*/
+table {
+    width: 100%
+}
+
+/*
+    Styles for all of the pages 'id' related fields.
+    Most styles on the page come from id's since all the fields,
+     are completely separate from each other.
+*/
+#appbundle_container_property {
+    margin-right: 10px
+}
+
+#appbundle_container_containerSerial {
+    margin-right: 10px
+}
+
+#appbundle_container_containerSerial[readonly] {
+    background-color: lightgrey
+}
+
+#btnUnlock {
+    width: 12%
+}
+
+#unlockIcon {
+    padding-left: 15%
+}
+
+#btnSearch {
+    float: left;
+    margin-bottom: 25px
+}
+
+#btnDelete {
+    float: left;
+    margin-bottom: 25px
+}
+
+#btnSave {
+    float: left
+}
+
+#btnCreate {
+    float: left
+    /*margin-top: 10px*/
+}
+
+/*
+    It looks weird when only the required fields are bold.
+    This makes all label on the page bold.
+*/
+label {
+    font-weight: bold
+}
+
+/*
+    This overrides a a style in the base.html.twig.
+    The form looks ugly without this.
+*/
+form .field {
+    display: block
+}

@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="property")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PropertyRepository")
+ * @ORM\HasLifecycleCallbacks
  * @UniqueEntity(fields = {"siteId"}, message = "Site Id already exists")
  */
 class Property

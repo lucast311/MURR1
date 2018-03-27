@@ -18,6 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="contact")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContactRepository")
+ * @ORM\HasLifecycleCallbacks
  * @AcmeAssert\ContactAtLeastOneField
  */
 class Contact

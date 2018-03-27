@@ -6,10 +6,12 @@ use AppBundle\Entity\Container;
 use AppBundle\Entity\Property;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\Services\RecentUpdatesHelper;
+use AppBundle\Form\PropertyType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -139,6 +141,8 @@ class ContainerController extends Controller
             $deleteForm = $this->createDeleteForm($container);
             $editForm = $this->createForm('AppBundle\Form\ContainerEditType', $container);
             $editForm->handleRequest($request);
+            $addPropertyForm = $this->createForm(PropertyType::class);
+            $addPropertyForm->handleRequest($request);
 
             $em = $this->getDoctrine()->getManager();
 
@@ -164,6 +168,7 @@ class ContainerController extends Controller
                 'container' => $container,
                 'edit_form' => $editForm->createView(),
                 'delete_form' => $deleteForm->createView(),
+                'add_property_form' => $addPropertyForm->createView(),
                 'invalid_id_error' => false,
                 'property' => $property
             ));
@@ -293,6 +298,4 @@ class ContainerController extends Controller
         // string over 100, return empty array.
         return $this->json(array());
     }
-
-
 }
