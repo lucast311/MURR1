@@ -2018,7 +2018,6 @@
     <Compile Include="composer.json" />
     <Compile Include="composer.lock" />
     <Compile Include="composer.phar" />
-    <Compile Include="genContactsAndAddresses.bat" />
     <Compile Include="phpunit.xml.dist" />
     <Compile Include="README.md" />
     <Compile Include="runSymfonyWebserver.bat" />
@@ -2047,7 +2046,6 @@
     <Folder Include="app\Resources\views\structure\" />
     <Folder Include="app\Resources\views\truck\" />
     <Folder Include="bin" />
-    <Folder Include="DBScripts\" />
     <Folder Include="src\AppBundle\Controller" />
     <Folder Include="src\AppBundle\DataFixtures\ORM" />
     <Folder Include="src\AppBundle\DataFixtures" />
@@ -3365,13 +3363,6 @@
     <Content Include="app\Resources\views\truck\util.html.twig" />
     <Content Include="app\sqlite.db" />
     <Content Include="app\sqlite_test.db" />
-    <Content Include="DBScripts\createDB_MySQL.bat" />
-    <Content Include="DBScripts\loadFixtures_MySQL.bat" />
-    <Content Include="DBScripts\makeSchema_MySQL.bat" />
-    <Content Include="DBScripts\updateSchema_MySQL.bat" />
-    <Content Include="PHPUnit%28dDrive%29_to_dphpUnit.txt.ps1" />
-    <Content Include="PHPUnit%28iDrive%29_to_dphpUnit.txt.ps1" />
-    <Content Include="runTests.bat" />
     <Content Include="TestPlaylists\Address_All.playlist" />
     <Content Include="TestPlaylists\Collection_All.playlist" />
     <Content Include="TestPlaylists\Communication_All.playlist" />
@@ -3387,7 +3378,6 @@
     <Content Include="TestPlaylists\Security_Controller.playlist" />
     <Content Include="TestPlaylists\Truck_All.playlist" />
     <Content Include="web.config" />
-    <Content Include="phpunit.xml.dist.tmppica" />
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\css\util_twig.css" />
     <Content Include="web\JavaScript\base_twig.js" />
