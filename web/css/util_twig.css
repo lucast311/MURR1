@@ -13,28 +13,32 @@ td form {
 }
 
 
-#appbundle_truck_Add {
+#appbundle_truck_Add, 
+#appbundle_routepickup_Add {
     margin: 0 -1em 0 1em;
 }
-.truckList, .truckAdd 
-{
+.truckList,     .truckAdd, 
+.containerList, .containerAdd{
     margin-bottom: 1rem;
 }
-.truckAdd .inline.fields 
-{
+.truckAdd     .inline.fields, 
+.containerAdd .inline.fields{
     margin-bottom: 0px !important;
 }
-#filteredTruckList {
+#filteredTruckList, 
+.route_pickups{
     display: table-cell;
 }
 
 /**MOBILE**/
 @media only screen and (max-width: 767px) {
     /* ADD/NEW FORM */
-    .truckAdd tr {
+    .truckAdd tr,
+    .containerAdd tr{
         display: grid;
     }
-    #appbundle_truck_Add {
+    #appbundle_truck_Add,
+    #appbundle_routepickup_Add{
         margin: 1em -1em 0 0;
     }
 

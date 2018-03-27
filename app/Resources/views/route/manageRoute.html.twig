@@ -2,39 +2,23 @@
 
 {% block title %}Route Management{% endblock %}
 
-{% block body %}
+{% block stylesheets %}
+<link href="{{ asset('css/util_twig.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}  
+
+{% block javascripts %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
 <!-- Link in custom script that uses the delete prompts-->
-<script type="text/javascript" src="{{ asset('JavaScript/DeletePrompt.js') }}"></script>
-<style>
-    form[name^="appbundle_routepickup"] div{
-        display: inline-block;
-        padding: 5px;
-    }
+<script type="text/javascript" src="{{ asset('JavaScript/RemoveModal.js') }}"></script>
 
-    form[name^="appbundle_routepickup"]{
-        display: inline-block;
-        border: 1px solid black;
-    }
+{#<div class="js-jsonpage" data-jsonpage="{{ path('property_jsonsearch_empty') }}"></div>
+<div class="js-inittrucks" data-inittrucks="{{inittrucks}}"></div>#}
 
-    .route_pickups th, .route_pickups td{
-        padding: 5px;
-    }
+{# include the filter javasript #}
+<script type="text/javascript" src="{{ asset('JavaScript/RouteManagerUtils.js') }}"></script>
+{% endblock %}
 
-    .route_pickups tbody{
-        outline: 1px solid black;
-    }
-
-    .red{
-        color: red;
-    }
-
-    .green{
-        color: green;
-    }
-</style>
-
-<h2>Route {% if not invalid_id_error %}{{ route.routeId }}{% endif %}</h2>
-
+{% block body %}
 <div>
     {#{% if propertyId == "not_specified"%}
     <h2>No property specified</h2>
@@ -42,98 +26,81 @@
     <h2>The specified property could not be found</h2>
     {% else %}#}
 
-    {% if invalid_id_error %}
+
+	{% if invalid_id_error %}
     <h2>Route does not exist</h2>
     {% else %}
 
-    {{ form_start(form) }}
-    <div>
-        <h3>Add Container:</h3>
-    </div>
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+	<div class="column containerAdd">
+		<h1 class="ui header left attached top">Add Container to Route '{{ route.routeId }}'</h1>
+		<div class="ui bottom attached segment">
+			{{ form_start(form) }}
 
-    <table class="route_pickups">
-        <thead>
-            <tr>
-                <th>Pickup Order</th>
-                <th>Container Serial</th>
-                <th>Property</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for rp in route.pickups %}
-                <tr>
-                    <td>{{ rp.pickupOrder }}</td>
-                    <td>{{ rp.container.containerSerial }}</td>
-                    <td> {{ rp.container.property }}</td>
-                    <td>
-                        <!-- Removal form. Data-ID is to hold the ID of the current routePickup-->
-                        <form id="rmf{{ rp.id}}" data-id="{{rp.id}}" method="post" action="{{ path('route_pickup_removal', { 'id': rp.id })}}">
-                            <!-- Specify button type so it doesn't automatically submit-->
-                            <!-- Button that prompts the message, rmb-->
-                            <button type="button" id="rmb{{ rp.id}}" class="rmb">
-                                <i class="fas fa-times red"></i>
-                            </button>
-                            <!-- Span to hold the "Are you sure?" message-->
-                            <span id="rmmsg{{rp.id}}" class="rmmsg">
-                            </span>
+			{{ form_errors(form) }}
+			<table>
+				<tbody>
+					<tr>
+						{{ form_errors(form.container) }}
+						<td>
+							<div class="inline fields">
+								{{ form_label(form.container)  }}
+								{{ form_widget(form.container) }}
+							</div>
+						</td>
 
-                            <!-- Accept button, rmba-->
-                            <button type="submit" id="rmba{{ rp.id}}" class="rmba" hidden="hidden">
-                                <i class="fas fa-check green"></i>
-                            </button>
-                            <!-- Cancel button, rmbc-->
-                            <button type="button" id="rmbc{{ rp.id}}" class="rmbc" hidden="hidden">
-                                <i class="fas fa-times red"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <!-- This script is responsible for calling functions to handle the delete forms-->
-    <script type="text/javascript">
-    //Add all code that uses jquery into the window.onload because jquery is loaded at the bottom of the page (after loading base.html.twig)
-    window.onload = function () {
-        //set an event handler on the remove buttons that will call the custom method on the DeletePrompt.js Script
-        $('.rmb').click(function (event) {
-            clickedBtn = $(event.target);
+						{{ form_errors(form.pickupOrder) }}
+						<td>
+							<div class="inline fields">
+								{{ form_label(form.pickupOrder)  }}
+								{{ form_widget(form.pickupOrder) }}						    
+							</div>
+						</td>
 
-            //if the i (changed to svg and path tags from font-awesome) tag inside the button was clicked, 
-            //consider the button as clicked (because event.target sometimes gives you the i tag)
-            //if the path was clicked these if statements will cascade up to the button tag
-            if (clickedBtn.is('path')) clickedBtn = clickedBtn.parent();
-            if (clickedBtn.is('svg')) clickedBtn = clickedBtn.parent();
+						<td>
+							<div class="inline fields">
+								{{ form_row(form.Add) }}
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			{{ form_end(form) }}
+		</div>
+	</div>
 
-            //get the ID that is stored in the form that this current button is in
-            //This is the ID of the routePickup that was clicked
-            id = clickedBtn.parent().attr('data-id');
-
-            //call the prompt delete and pass in the necessary html things from the page
-            promptDelete($("#rmmsg" + id), "Are you sure?", clickedBtn,
-                $("#rmba" + id), $("#rmbc" + id));
-        });
-
-        //set an event handler on all the cancel buttons that will call the cancel prompt on the DeletePrompt.js script
-        $('.rmbc').click(function (event) {
-            clickedBtn = $(event.target);
-
-            //if the i (changed to svg and path tags from font-awesome) tag inside the button was clicked, 
-            //consider the button as clicked (because event.target sometimes gives you the i tag)
-            //if the path was clicked these if statements will cascade up to the button tag
-            if (clickedBtn.is('path')) clickedBtn = clickedBtn.parent();
-            if (clickedBtn.is('svg')) clickedBtn = clickedBtn.parent();
-
-            //get the stored ID from the form this button is in
-            id = clickedBtn.parent().attr('data-id');
-
-            //call the cancel prompt from the DeletePrompt.js script and pass in the necessery jquery objects
-            cancelPrompt($("#rmmsg" + id), $('#rmb' + id), $('#rmba' + id), clickedBtn);
-        });
-    }
-    </script>
+	<div class="column containerList">
+		<h1 class="ui header left attached top">Container List</h1>
+		<div class="ui bottom attached segment">
+			<table class="route_pickups ui celled table">
+				<thead>
+					<tr>
+						<th>Pickup Order</th>
+						<th>Container Serial</th>
+						<th>Property</th>
+						<th>Truck</th>
+						<th>Remove</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for rp in route.pickups %}
+						<tr>
+							<td>{{ rp.pickupOrder }}</td>
+							<td>{{ rp.container.containerSerial }}</td>
+							<td>{{ rp.container.property }}</td>
+							<td>{% if rp.truck.truckId is defined %}{{ rp.truck.truckId }}{% endif %}</td>
+							<td>
+								<form id="rmf{{rp.id}}" name="appbundle_removeContainer" data-id="{{rp.id}}" method="post" action="{{ path('route_pickup_removal', { 'id': rp.id })}}" data-message="'Are you sure you want to remove Truck \''+truckId+'\''">
+									<button id="rmb{{rp.id}}" type="button" class="ui icon button rmb removeButton red">
+										<i class="close icon"></i>
+									</button>
+								</form>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
     {% endif %}
 </div>
 {% endblock %}

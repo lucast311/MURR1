@@ -49,6 +49,14 @@ class RoutePickup
     private $pickupOrder;
 
 
+    /** S40B
+     * @var Truck
+     * @ORM\ManyToOne(targetEntity="Truck", cascade={"persist"})
+     * @ORM\JoinColumn(name="truckId", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $truck;
+
+
     /**
      * Get id
      *
@@ -129,6 +137,27 @@ class RoutePickup
     public function getPickupOrder()
     {
         return $this->pickupOrder;
+    }
+
+
+    /** S40B
+     * Set truck
+     * @param Truck $truck
+     * @return RoutePickup
+     */
+    public function setTruck($truck)
+    {
+        $this->truck = $truck;
+        return $this;
+    }
+
+    /** S40B
+     * Get truck
+     * @return Truck
+     */
+    public function getTruck()
+    {
+        return $this->truck;
     }
 }
 

@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -50,6 +49,14 @@ class Truck
      * @Assert\NotBlank(message="Please specify a Type.")
      */
     private $type;
+
+    /**
+     * @var array
+     *
+     * @ORM\OneToMany(targetEntity="RoutePickup",cascade={"persist","refresh"}, mappedBy="truck")
+     * @ORM\OrderBy({"pickupOrder" = "ASC"})
+     */
+    private $pickups;
 
 
     /**
@@ -108,6 +115,26 @@ class Truck
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set pickups
+     * @param array $pickups
+     * @return Truck
+     */
+    public function setPickups($pickups)
+    {
+        $this->pickups = $pickups;
+        return $this;
+    }
+
+    /**
+     * Get pickups
+     * @return array
+     */
+    public function getPickups()
+    {
+        return $this->pickups;
     }
 }
 
