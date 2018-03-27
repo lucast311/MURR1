@@ -137,9 +137,11 @@ class ContainerController extends Controller
 
         if($container != null)
         {
+            $em = $this->getDoctrine()->getManager();
+
             //generate the necessary forms
             $deleteForm = $this->createDeleteForm($container);
-            $editForm = $this->createForm('AppBundle\Form\ContainerEditType', $container);
+            $editForm = $this->createForm('AppBundle\Form\ContainerEditType', $container, array('em' => $em));
             $editForm->handleRequest($request);
             $addPropertyForm = $this->createForm(PropertyType::class);
             $addPropertyForm->handleRequest($request);
