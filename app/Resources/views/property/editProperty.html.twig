@@ -4,18 +4,21 @@
 
 {% block body %}
 
-{% if errorType =="notfound" %}
-    <h2>The specified property could not be found</h2>
-{% elseif errorType=="noid" %}
-    <h2>No property specified</h2>
-{% else %}
+<h2 class="ui header left attached top">Edit Property</h2>
+<div class="ui bottom attached segment">
+    {% if errorType =="notfound" %}
+        <h2>The specified property could not be found</h2>
+    {% elseif errorType=="noid" %}
+        <h2>No property specified</h2>
+    {% else %}
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
 
-    <button class="ui button" onclick="window.location.href ='{{cancelPath}}'">Cancel</button>
-{% endif %}
+        <button class="ui button" onclick="window.location.href ='{{cancelPath}}'">Cancel</button>
+    {% endif %}
+</div>
 
 <style>
     #property_Clear{

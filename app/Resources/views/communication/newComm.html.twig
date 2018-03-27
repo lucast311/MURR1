@@ -13,8 +13,8 @@
 {% endblock %}
 {% block body %}
     <div id="wrapper">
-        <div id="container">
-            <h2>Add Communication</h2>
+        <h2 class="ui header left attached top">Add Communication</h2>
+        <div class="ui bottom attached segment">
             {{ form_start(form) }}
             {{ form_widget(form) }}
 			<div class="field"><button type="submit" id="communication_add" name="communication[add]" class="ui button">Add</button></div>

@@ -388,7 +388,7 @@ class CommunicationControllerTest extends WebTestCase
         $this->assertContains("306-123-4567",$response);
         $this->assertContains("Container",$response);
         $this->assertContains("Bin will be moved to the eastern side of the building",$response);
-        $this->assertContains("Charlton Arms",$response);
+        $this->assertContains("12 15th st east",$response);
     }
 
     /**

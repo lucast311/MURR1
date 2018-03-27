@@ -17,9 +17,17 @@
     max-width: max-content;
 }
 
-form .field {
-    display: inline;
+/*  Add this class to all columns that are being used a content separators
+    This will allow them to have space between other pieces of content
+*/
+.contentSection {
+    margin-bottom: 1rem;
 }
+
+/*This cramps the forms together and interferes with semantic styles? Why it here?*/
+/*form .field {
+    display: inline;
+}*/
 
 .buttons {
     margin: 1rem 0 0;

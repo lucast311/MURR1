@@ -3,61 +3,61 @@
 {% block title %}View Communication{% endblock %}
 
 {% block body %}
+<div id="column contentSection">
+    <h2 class="ui header left attached top">View Communication</h2>
 
-<h2>View Communication</h2>
+    <div class="ui bottom attached segment">
+        {% if errorType == "notfound"%}
+        <h2 >The specified communication ID could not be found</h2>
+        {% elseif errorType == "noid" %}
+        <h2>No communication ID specified</h2>
+        {% else %}
 
-<div>
-    {% if errorType == "notfound"%}
-    <h2>The specified communication ID could not be found</h2>
-    {% elseif errorType == "noid" %}
-    <h2>No communication ID specified</h2>
-    {% else %}
+        <table>
+            <tr>
+                <td>Date:</td>
+                <td>{{comm.date}}</td>
+            </tr>
+            <tr>
+                <td>Type:</td>
+                <td>{{comm.type}}</td>
+            </tr>
+            <tr>
+                <td>Medium:</td>
+                <td>{{comm.medium}}</td>
+            </tr>
+            <tr>
+                <td>Contact Name:</td>
+                <td>{{comm.contactName}}</td>
+            </tr>
+            <tr>
+                <td>Contact Email:</td>
+                <td>{{comm.contactEmail}}</td>
+            </tr>
+            <tr>
+                <td>Contact Phone:</td>
+                <td>{{comm.contactPhone}}</td>
+            </tr>
+            <tr>
+                <td>Property:</td>
+                {% if comm.property != null %}
+                <td>{{comm.property}}</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <td>Category:</td>
+                <td>{{comm.category}}</td>
+            </tr>
+            <tr>
+                <td>Description:</td>
+                <td>{{comm.description}}</td>
+            </tr>
+        </table>
 
-    <table>
-        <tr>
-            <td>Date:</td>
-            <td>{{comm.date}}</td>
-        </tr>
-        <tr>
-            <td>Type:</td>
-            <td>{{comm.type}}</td>
-        </tr>
-        <tr>
-            <td>Medium:</td>
-            <td>{{comm.medium}}</td>
-        </tr>
-        <tr>
-            <td>Contact Name:</td>
-            <td>{{comm.contactName}}</td>
-        </tr>
-        <tr>
-            <td>Contact Email:</td>
-            <td>{{comm.contactEmail}}</td>
-        </tr>
-        <tr>
-            <td>Contact Phone:</td>
-            <td>{{comm.contactPhone}}</td>
-        </tr>
-        <tr>
-            <td>Property:</td>
-            {% if comm.property != null %}
-            <td>{{comm.property}}</td>
-            {% endif %}
-        </tr>
-        <tr>
-            <td>Category:</td>
-            <td>{{comm.category}}</td>
-        </tr>
-        <tr>
-            <td>Description:</td>
-            <td>{{comm.description}}</td>
-        </tr>
-    </table>
+	    <a href="{{ path('property_view', { 'propertyId': comm.property.id }) }}" class="ui button">Return to Property</a>
+	    <a href="{{ path('communication_edit', { 'commId': comm.id }) }}" class="ui button">Edit</a>
 
-	<a href="{{ path('property_view', { 'propertyId': comm.property.id }) }}" class="ui button">Return to Property</a>
-	<a href="{{ path('communication_edit', { 'commId': comm.id }) }}" class="ui button">Edit</a>
-
-    {% endif %}
+        {% endif %}
+    </div>
 </div>
-
 {% endblock %}

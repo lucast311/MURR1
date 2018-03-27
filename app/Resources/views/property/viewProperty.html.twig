@@ -6,202 +6,223 @@
 <script type="text/javascript" src="{{ asset('JavaScript/PropertyCommunicationAdd.js') }}"></script>
 {% endblock %}
 
+{% block stylesheets %}
+<link href="{{ asset('css/view_property.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
 {% block body %}
-
-<h2>View Property</h2>
-
-<div>
-    {% if propertyId == "not_specified"%}
-    <h2>No property specified</h2>
-    {% elseif property is empty %}
-    <h2>The specified property could not be found</h2>
-    {% else %}
-
-	{# magic invisible div that allows us to pass information to the java script #}
-	<div class="js-propertyid" data-propertyid="{{ property.id }}"></div>
-	<div class="js-showcommunicationform" data-showcommunicationform="{{ showCommunicationForm }}"></div>
+<div class="column contentSection">
+    <h2 class="ui header left attached top">View Property</h2>
 
 
-    <table>
-        <tr>
-            <td>Site Id:</td>
-            <td>{{property.siteId}}</td>
-        </tr>
-        <tr>
-            <td>Property Name:</td>
-            <td>{{property.propertyName}}</td>
-        </tr>
-        <tr>
-            <td>Property Type:</td>
-            <td>{{property.propertyType}}</td>
-        </tr>
-        <tr>
-            <td>Property Status:</td>
-            <td>{{property.propertyStatus}}</td>
-        </tr>
+    <div class="ui bottom attached segment">
+        {% if propertyId == "not_specified"%}
+        <h2>No property specified</h2>
+        {% elseif property is empty %}
+        <h2>The specified property could not be found</h2>
+        {% else %}
+
+	    {# magic invisible div that allows us to pass information to the java script #}
+	    <div class="js-propertyid" data-propertyid="{{ property.id }}"></div>
+	    <div class="js-showcommunicationform" data-showcommunicationform="{{ showCommunicationForm }}"></div>
+
+
+        <table>
+            <tr>
+                <td>Site Id:</td>
+                <td>{{property.siteId}}</td>
+            </tr>
+            <tr>
+                <td>Property Name:</td>
+                <td>{{property.propertyName}}</td>
+            </tr>
+            <tr>
+                <td>Property Type:</td>
+                <td>{{property.propertyType}}</td>
+            </tr>
+            <tr>
+                <td>Property Status:</td>
+                <td>{{property.propertyStatus}}</td>
+            </tr>
        
-        <tr>
-            <td>Num Units:</td>
-            <td>{{property.numUnits}}</td>
-        </tr>
-        <tr>
-            <td>Neighbourhood Name:</td>
-            <td>{{property.neighbourhoodName}}</td>
-        </tr>
-        <tr>
-            <td>Neighbourhood Id:</td>
-            <td>{{property.neighbourhoodId}}</td>
-        </tr>
-        <tr>
-            <td>Street Address:</td>
-            <td>{{property.address.streetAddress}}</td>
-        </tr>
-        <tr>
-            <td>Postal Code:</td>
-            <td>{{property.address.postalCode}}</td>
-        </tr>
-        <tr>
-            <td>City:</td>
-            <td>{{property.address.city}}</td>
-        </tr>
-        <tr>
-            <td>Province:</td>
-            <td>{{property.address.province}}</td>
-        </tr>
-        <tr>
-            <td>Country:</td>
-            <td>{{property.address.country}}</td>
-        </tr>
-    </table>
-
-    <button class="ui button" onclick="window.location.href ='{{editPath}}'">Edit</button>
-
-    <h1>Property Contacts</h1>
-    {% if property.contacts is empty %}
-    <h3>No contacts found for this property</h3>
-
-    {% else %}
-        
-        <table class="contacts associations ui celled table selectable">
-            <thead>
-                <tr>
-                    <th>Role</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Organization</th>
-                </tr>
-            </thead>
-                <tbody>
-                {% for contact in property.contacts %}
-                <tr>
-                    <td>{{contact.role}}</td>
-                    <td>{{contact.firstName}} {{contact.lastName}}</td>
-                    <td>{{contact.primaryPhone}}</td>
-                    <td>{{contact.emailAddress}}</td>
-                    <td>{{contact.companyName}}</td>
-                </tr>
-                {% endfor %}
-                </tbody>
+            <tr>
+                <td>Num Units:</td>
+                <td>{{property.numUnits}}</td>
+            </tr>
+            <tr>
+                <td>Neighbourhood Name:</td>
+                <td>{{property.neighbourhoodName}}</td>
+            </tr>
+            <tr>
+                <td>Neighbourhood Id:</td>
+                <td>{{property.neighbourhoodId}}</td>
+            </tr>
+            <tr>
+                <td>Street Address:</td>
+                <td>{{property.address.streetAddress}}</td>
+            </tr>
+            <tr>
+                <td>Postal Code:</td>
+                <td>{{property.address.postalCode}}</td>
+            </tr>
+            <tr>
+                <td>City:</td>
+                <td>{{property.address.city}}</td>
+            </tr>
+            <tr>
+                <td>Province:</td>
+                <td>{{property.address.province}}</td>
+            </tr>
+            <tr>
+                <td>Country:</td>
+                <td>{{property.address.country}}</td>
+            </tr>
         </table>
 
-    {% endif %}
-
-    <h1>Container Info</h1>
-        {% if property.bins is empty %}
-        <h3>No containers found for this property</h3>
-
-        {% else %}
-        
-            <table class="containers associations ui celled table selectable">
-                <thead>
-                    <tr>
-                        <th>Serial #</th>
-                        <th>Type</th>
-                        <th>Size</th>
-                        <th>Frequency</th>
-                        <th>Route(s)</th>
-                        <th>Bin Status</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                    {% for container in property.bins %}
-                    <tr data-id="{{container.id}}">
-                        <td>{{container.containerSerial}}</td>
-                        <td>{{container.type}}</td>
-                        <td>{{container.size}}</td>
-                        <td>{{container.frequency}}</td>
-                        <td> <!--Routes will be shown here later--></td>
-                        <td>{{container.status}}</td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-            </table>
-
-        {% endif %}
-
-        <h1>
-            Communications
-            <span>
-                <button class="ui icon button green" id="newCommunication">
-                    <i class="plus icon"></i>
-                </button>
-            </span>
-        </h1>
-        {% if property.communications is empty %}
-        <h3>No communications found for this property</h3>
+        <button class="ui button" onclick="window.location.href ='{{editPath}}'">Edit</button>
+    </div>
+</div>
+<div>
+    <div class="column contentSection">
+        <h1 class="ui header left attached top">Property Contacts</h1>
+        <div class="ui bottom attached segment">
+        {% if property.contacts is empty %}
+        <h3>No contacts found for this property</h3>
 
         {% else %}
         
-        <table class="communications associations ui celled table selectable">
+            <table class="contacts associations ui celled table selectable">
                 <thead>
                     <tr>
-                        <th>CommID</th>
-                        <th>Date</th>
-                        <th>Type</th>
-                        <th>Direction</th>
+                        <th>Role</th>
                         <th>Name</th>
                         <th>Phone</th>
                         <th>Email</th>
-                        <th>Notes</th>
+                        <th>Organization</th>
                     </tr>
                 </thead>
                     <tbody>
-                    {% for communication in property.communications %}
-                    <tr data-id="{{communication.id}}">
-                        <td>{{communication.id}}</td>
-                        <td>{{communication.date}}</td>
-                        <td>{{communication.type}}</td>
-                        <td>{{communication.medium}}</td>
-                        <td>{{communication.contactName}}</td>
-                        <td>{{communication.contactPhone}}</td>
-                        <td>{{communication.contactEmail}}</td>
-                        <td>{{communication.description}}</td>
+                    {% for contact in property.contacts %}
+                    <tr>
+                        <td>{{contact.role}}</td>
+                        <td>{{contact.firstName}} {{contact.lastName}}</td>
+                        <td>{{contact.primaryPhone}}</td>
+                        <td>{{contact.emailAddress}}</td>
+                        <td>{{contact.companyName}}</td>
                     </tr>
                     {% endfor %}
                     </tbody>
             </table>
 
         {% endif %}
-
-        <div class="ui long modal" id="communicationModal">
-            <i class="close icon"></i>
-            <div class="header">
-                New Communication
-            </div>
-            
-            <div class="content">
-                {{ form_start(newCommunicationForm, {'attr': {'id': 'communicationForm'}}) }}
-                {{ form_widget(newCommunicationForm) }}
-				<input type="submit" hidden="hidden" id="hiddenCommunicationSubmit" />
-				{{ form_end(newCommunicationForm) }}
-            </div>
-
-            <div class="actions">
-				<button id="communicationSubmit" class="ui button">Add</button>
-            </div>
-            
         </div>
+    </div>
+    <div class="column contentSection">
+        <h1 class="ui header left attached top">Container Info</h1>
+        <div class="ui bottom attached segment">
+                {% if property.bins is empty %}
+                <h3>No containers found for this property</h3>
+
+                {% else %}
+        
+                    <table class="containers associations ui celled table selectable">
+                        <thead>
+                            <tr>
+                                <th>Serial #</th>
+                                <th>Type</th>
+                                <th>Size</th>
+                                <th>Frequency</th>
+                                <th>Route(s)</th>
+                                <th>Bin Status</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                            {% for container in property.bins %}
+                            <tr data-id="{{container.id}}">
+                                <td>{{container.containerSerial}}</td>
+                                <td>{{container.type}}</td>
+                                <td>{{container.size}}</td>
+                                <td>{{container.frequency}}</td>
+                                <td> <!--Routes will be shown here later--></td>
+                                <td>{{container.status}}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                    </table>
+
+                {% endif %}
+            </div>
+    </div>
+    <div class="column contentSection">
+        <div class="ui top attached segment">
+            <h1>
+                Communications
+                <span>
+                    <button class="ui icon button green" id="newCommunication">
+                        <i class="plus icon"></i>
+                    </button>
+                </span>
+            </h1>
+        </div>
+
+        <div class="ui bottom attached segment">
+            {% if property.communications is empty %}
+            <h3>No communications found for this property</h3>
+
+            {% else %}
+        
+            <table class="communications associations ui celled table selectable">
+                    <thead>
+                        <tr>
+                            <th>CommID</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Direction</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                        {% for communication in property.communications %}
+                        <tr data-id="{{communication.id}}">
+                            <td>{{communication.id}}</td>
+                            <td>{{communication.date}}</td>
+                            <td>{{communication.type}}</td>
+                            <td>{{communication.medium}}</td>
+                            <td>{{communication.contactName}}</td>
+                            <td>{{communication.contactPhone}}</td>
+                            <td>{{communication.contactEmail}}</td>
+                            <td class="communicationNotes">{{communication.description}}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                </table>
+
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="ui long modal" id="communicationModal">
+        <i class="close icon"></i>
+        <div class="header">
+            New Communication
+        </div>
+            
+        <div class="content">
+            {{ form_start(newCommunicationForm, {'attr': {'id': 'communicationForm'}}) }}
+            {{ form_widget(newCommunicationForm) }}
+			<input type="submit" hidden="hidden" id="hiddenCommunicationSubmit" />
+			{{ form_end(newCommunicationForm) }}
+        </div>
+
+        <div class="actions">
+			<button id="communicationSubmit" class="ui button">Add</button>
+        </div>
+            
+    </div>
     {% endif %}
 </div>
 

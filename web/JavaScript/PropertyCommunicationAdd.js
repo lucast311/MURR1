@@ -6,10 +6,15 @@ var onLoad = function ()
     // Communication modal jQuery Object
     var communicationModal = $("#communicationModal");
 
+    //specify that the modal should not automatically focus the first item
+    communicationModal.modal({ autofocus: false });
+
     // Set a click handler for the new communication button to show the modal0
     $("#newCommunication").click(function ()
     {
         communicationModal.modal('show');
+        //Make it so the select box is not active
+        $(".ui.dropdown").dropdown('hide');
     });
 
 
@@ -36,6 +41,8 @@ var onLoad = function ()
     if ($('.js-showcommunicationform').data('showcommunicationform'))
     {
         communicationModal.modal('show');
+        //Make it so the select box is not active
+        document.activeElement.blur()
     }
 
     // Add click handlers for the tables so that clicking on a row will take you to it's view page
