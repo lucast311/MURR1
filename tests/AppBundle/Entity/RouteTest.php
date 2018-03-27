@@ -69,7 +69,7 @@ class RouteTest extends KernelTestCase
 
         // Assert sure their are 1 errors
         $this->assertEquals(1, count($error));
-        $this->assertEquals('Please specify a route ID',$error[0]->getMessage());
+        $this->assertEquals('Please specify a Route ID',$error[0]->getMessage());
     }
 
 }

@@ -1,0 +1,1 @@
+..\symfonyCONSOLE.bat doctrine:schema:create

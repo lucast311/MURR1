@@ -27,7 +27,7 @@ class Route
      * @var int
      *
      * @ORM\Column(name="routeId", type="integer", unique=true)
-     * @Assert\NotNull(message="Please specify a route ID")
+     * @Assert\NotNull(message="Please specify a Route ID")
      * @Assert\GreaterThan(value=0, message="Route ID must be a value greater than 0")
      */
     private $routeId;
