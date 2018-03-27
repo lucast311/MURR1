@@ -37,3 +37,8 @@ form[name="appbundle_truck"] .two.buttons .field{
 form .label, input {
     clear: both;
 }
+
+/*Make selectable tables have a clicky pointer*/
+table.selectable tbody tr:hover {
+    cursor: pointer;
+}

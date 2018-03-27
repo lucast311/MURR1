@@ -13,8 +13,6 @@ var onLoad = function ()
     $("#newCommunication").click(function ()
     {
         communicationModal.modal('show');
-        //Make it so the select box is not active
-        $(".ui.dropdown").dropdown('hide');
     });
 
 
@@ -41,8 +39,6 @@ var onLoad = function ()
     if ($('.js-showcommunicationform').data('showcommunicationform'))
     {
         communicationModal.modal('show');
-        //Make it so the select box is not active
-        document.activeElement.blur()
     }
 
     // Add click handlers for the tables so that clicking on a row will take you to it's view page

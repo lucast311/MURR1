@@ -101,7 +101,7 @@
     <Compile Include="src\AppBundle\Form\StructureType.php" />
     <Compile Include="src\AppBundle\Form\TruckEditType.php" />
     <Compile Include="src\AppBundle\Form\TruckType.php" />
-    <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
+    <Compile Include="src\AppBundle\Form\CommunicationType.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
     <Compile Include="src\AppBundle\Form\ContactType.php" />
     <Compile Include="src\AppBundle\Form\OOPsType.php" />
@@ -2053,7 +2053,6 @@
     <Folder Include="src\AppBundle\DataFixtures\ORM" />
     <Folder Include="src\AppBundle\DataFixtures" />
     <Folder Include="src\AppBundle\Entity" />
-    <Folder Include="src\AppBundle\Form\Type" />
     <Folder Include="src\AppBundle\Form" />
     <Folder Include="src\AppBundle\Repository" />
     <Folder Include="src\AppBundle\Services" />

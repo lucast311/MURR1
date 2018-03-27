@@ -110,6 +110,7 @@ class PropertyCommunicationAddTest extends WebTestCase
         $this->assertFalse($page->find('css', "#communicationModal")->isVisible());
 
         // Once the page has reloaded, assert that the new communication is listed on the page
+        // Avoid doing this... Make it more specific.
         $this->assertNotNull($page->find('named', array('content', "Phone")));
         $this->assertNotNull($page->find('named', array('content', "Outgoing")));
         $this->assertNotNull($page->find('named', array('content', "Mr. Man")));
