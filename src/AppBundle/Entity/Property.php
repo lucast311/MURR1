@@ -131,7 +131,7 @@ class Property
 
     /**
      * Holds a list of communications for this property
-     * @ORM\OneToMany(targetEntity="Communication", cascade={"persist"}, mappedBy="property")
+     * @ORM\OneToMany(targetEntity="Communication", cascade={"persist","refresh"}, mappedBy="property")
      * @var ArrayCollection
      */
     private $communications;

@@ -3,8 +3,28 @@
 {% block title %}View Property{% endblock %}
 
 {% block javascripts %}
-<script type="text/javascript" src="{{ asset('JavaScript/PropertyCommunicationAdd.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('JavaScript/PropertyCommunicationAdd.js') }}"></script>
+    <script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
+    <script type="text/javascript" src="{{ asset('JavaScript/ContactSearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('contact_search', { 'isPopup': "true" }) }}"></script>
+    <script>
+        $(function () {
+			initialize($('#appbundle_contactToProperty_contact'));
+
+            addModal();
+            $('.removeButton').click(function () {
+				var parent = $($(this).parent("form").get(0));
+                showModal(parent.data('message'), parent);
+			});
+
+			$("#deleteButton").click(function () {
+				showModal("Are you sure you want to delete the Property '{{property.propertyName}}' from the system? ", $('#deleteForm')); 
+			});
+
+			$(".ui.dropdown").dropdown();
+        });
+    </script>
 {% endblock %}
+
 
 {% block stylesheets %}
 <link href="{{ asset('css/view_property.css') }}" type="text/css" rel="stylesheet" />
@@ -80,12 +100,44 @@
         </table>
 
         <button class="ui button" onclick="window.location.href ='{{editPath}}'">Edit</button>
+		<button id="deleteButton" type="button" class="ui button">Delete</button>
+		{{form_start(delete_form, {'attr':{'id':'deleteForm'}} ) }}
+		{{form_end(delete_form)}}
     </div>
 </div>
 <div>
     <div class="column contentSection">
         <h1 class="ui header left attached top">Property Contacts</h1>
         <div class="ui bottom attached segment">
+			{{form_start(add_contact_form)}}
+			<table>
+			{{form_errors(add_contact_form)}}
+			{{ form_errors(add_contact_form.contact) }}
+			<tbody>
+				<tr>
+					<td>
+						<div class="inline fields">
+                            {{ form_label(add_contact_form.contact) }}
+							{{ form_widget(add_contact_form.contact) }}
+						</div>
+					</td>
+					<td>
+						<div class="inline fields">
+							<input class='ui button' id='advanced_contact_search_popup' value='Advanced Search' type='button'/>
+						</div>
+					</td>
+					<td>
+						<div class="inline fields">
+							{{ form_row(add_contact_form.Add) }}
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		{{form_row(add_contact_form.property)}}
+	    {{ form_end(add_contact_form) }}
+     </div>
         {% if property.contacts is empty %}
         <h3>No contacts found for this property</h3>
 
@@ -94,8 +146,8 @@
             <table class="contacts associations ui celled table selectable">
                 <thead>
                     <tr>
-                        <th>Role</th>
-                        <th>Name</th>
+						<th>Name</th>
+                        <th>Role</th>                        
                         <th>Phone</th>
                         <th>Email</th>
                         <th>Organization</th>
@@ -104,11 +156,18 @@
                     <tbody>
                     {% for contact in property.contacts %}
                     <tr>
-                        <td>{{contact.role}}</td>
-                        <td>{{contact.firstName}} {{contact.lastName}}</td>
+                        <td>{{contact.lastName}}, {{contact.firstName}}</td>
+						<td>{{contact.role}}</td>                       
                         <td>{{contact.primaryPhone}}</td>
                         <td>{{contact.emailAddress}}</td>
                         <td>{{contact.companyName}}</td>
+						<td>
+                        <form name="appbundle_removeContactFromProperty" method="post" action="{{path('remove_contact_from_property')}}" data-message="Are you sure you want to remove the association between {{contact.lastName}}, {{contact.firstName}} and {{property.address}}?">
+                            <input type="hidden" name="contact" value="{{contact.id}}"/>
+                            <input type="hidden" name="property" value="{{property.id}}"/>
+                            <button type="button" class="ui icon button removeButton red" id="rmb{{property.id}}"><i class="close icon"></i></button>
+                        </form>
+                    </td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -203,7 +262,6 @@
             {% endif %}
         </div>
     </div>
-
 
     <div class="ui long modal" id="communicationModal">
         <i class="close icon"></i>

@@ -180,8 +180,10 @@ class PropertyController extends Controller
      * @Route("/property/")
      * @Method({"GET","POST"})
      */
-    public function viewAction($propertyId = 'not_specified', $addCommunicationForm = null)
+    public function viewAction($propertyId = 'not_specified', $addCommunicationForm = null, Request $request)
     {
+
+
         //Default don't dhow the communication form
         $showCommunicationForm = false;
 
@@ -227,14 +229,16 @@ class PropertyController extends Controller
             }
         }
 
+        $deleteForm = $this->createDeleteForm($property); 
+
         // Render the html and pass in the property
         return $this->render('property/viewProperty.html.twig', array(
             'property'=>$property,
             'propertyId'=>$propertyId,
+            'delete_form' => $deleteForm->createView(),
             'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
             'newCommunicationForm' => $addCommunicationForm->createView(),
-            'showCommunicationForm' => $showCommunicationForm));
-            'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
+            'showCommunicationForm' => $showCommunicationForm,
             'add_contact_form' => $addContactForm->createView()));
     }
 
@@ -293,14 +297,35 @@ class PropertyController extends Controller
     }
 
     /**
-     * Summary of addContactAction
+     * Delete a property entity
      * @param Request $request
+     * @param Property $property
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
+     * @Route("/property/{id}", name="property_delete")
+     * @method("DELETE")
      */
-    public function addContactAction(Request $request)
+    public function deleteAction(Request $request, Property $property)
     {
+        $form = $this->createDeleteForm($property);
+        $form->handleRequest($request);
 
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($property);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('property_index');
+    }
+
+    private function createDeleteForm(Property $property)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('property_delete', array('id' => $property->getId())))
+            ->setMethod('DELETE')
+            ->getForm();
     }
 
 
