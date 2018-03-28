@@ -6,6 +6,7 @@ use Behat\Mink\Session;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\DataFixtures\ORM\LoadUserData;
 use AppBundle\DataFixtures\ORM\LoadPropertyData;
+use AppBundle\DataFixtures\ORM\LoadContactData;
 use Tests\AppBundle\DatabasePrimer;
 
 /**
@@ -35,6 +36,9 @@ class PropertySearchPopupTest extends WebTestCase
         // Also load in the properties so there is something to search for
         $propertyLoader = new LoadPropertyData();
         $propertyLoader->load($this->em);
+
+        $contactLoader = new LoadContactData();
+        $contactLoader->load($this->em);
 
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
 
@@ -142,7 +146,7 @@ class PropertySearchPopupTest extends WebTestCase
         $page = $this->session->getPage();
 
         // Get the select box now and check that it has the right property in it (based on the id of the property that was clicked originally)
-        $this->assertEquals($page->find('named', array('id', "communication_property"))->getValue(), $id);
+        $this->assertEquals($page->find('named', array('id', "appbundle_communication_property"))->getValue(), $id);
     }
 
     /**
@@ -152,21 +156,32 @@ class PropertySearchPopupTest extends WebTestCase
      */
     public function testCommunicationPropertySimpleSearch()
     {
-        // Navigate to the new communication page
+        //start up a new session, going to the communication new page
         $this->session->visit('http://localhost:8000/app_test.php/communication/new');
         // Get the page
         $page = $this->session->getPage();
-        // Click on the select box so it opens
-        $page->find('css', ".select2-selection, .select2-selection--single")->click();
-        // Check that the select box contains a specific property
-        $this->assertContains("12 15th st east", $page->find('css', ".select2-results")->getHtml());
-        // Get the search box for the drop down and search for something to narrow the results
-        $page->find('css', ".select2-search__field")->setValue("Test ST");
-        // Now assert that the property is gone
-        $this->assertNotContains("12 15th st east", $page->find('css', ".select2-results")->getHtml());
 
-        // Assert that the searched for property is still there
-        $this->assertContains("Test ST", $page->find('css', ".select2-results")->getHtml());
+        $searchBox = $page->find("css",".ui.search.dropdown input.search");
+
+        //type into the searchbox
+        $searchBox->setValue("456 West Street");
+
+        $searchBox->keyPress('s');
+        $this->session->wait(1000);
+
+        //Test that the filtered results contains the desired result
+        $searchResults = $page->find("css",".menu.transition.visible .item.selected");
+
+        //check that the search results show up
+        $this->assertTrue($searchResults->isVisible());
+        $this->assertContains("456 West Street",$searchResults->getHtml());
+
+        //only result should be 456 West Street, so click it
+        $searchResults->click();
+
+        //check that the form field contains the property charlton legs
+        $formField = $page->find("css", "#appbundle_communication_property");
+        $this->assertEquals(17, $formField->getValue());
 
     }
 

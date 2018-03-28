@@ -1,0 +1,5 @@
+﻿
+/*Set a max width on the notes column so its not all nasty and long*/
+.communicationNotes{
+    max-width: 400px;
+}

@@ -1,6 +1,5 @@
 /.web-server-pid
-	# there is no reason to avoid commiting this
-	# /app/config/parameters.yml
+/app/config/parameters.yml
 /build/
 /phpunit.xml
 /var/*

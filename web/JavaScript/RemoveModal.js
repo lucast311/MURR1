@@ -9,6 +9,9 @@ function showModal(message, formToSubmit)
     //get the modal
     var modal = $('#removeModal');
 
+    //specify that the modal should not automatiicaly focus the first item
+    modal.modal({autofocus : false})
+
     //set the message in the modal
     $("#removeModalMessage").html(message);
 

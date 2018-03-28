@@ -101,7 +101,7 @@
     <Compile Include="src\AppBundle\Form\StructureType.php" />
     <Compile Include="src\AppBundle\Form\TruckEditType.php" />
     <Compile Include="src\AppBundle\Form\TruckType.php" />
-    <Compile Include="src\AppBundle\Form\Type\CommunicationType.php" />
+    <Compile Include="src\AppBundle\Form\CommunicationType.php" />
     <Compile Include="src\AppBundle\Form\AddressType.php" />
     <Compile Include="src\AppBundle\Form\ContactType.php" />
     <Compile Include="src\AppBundle\Form\OOPsType.php" />
@@ -157,7 +157,6 @@
     <Compile Include="tests\AppBundle\Form\TruckEditTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\TruckTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\RoutePickupTypeTest.php" />
-    <Compile Include="tests\AppBundle\Form\Type\CommunicationTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\AddOOPsForm.php" />
     <Compile Include="tests\AppBundle\Form\AddressTypeTest.php" />
     <Compile Include="tests\AppBundle\Form\ContactTypeTest.php" />
@@ -176,6 +175,7 @@
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
     <Compile Include="tests\Mink\AssociatingPropertiesToContactTest.php" />
+    <Compile Include="tests\Mink\PropertyCommunicationAddTest.php" />
     <Compile Include="tests\Mink\ContainerSearchTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
     <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
@@ -2050,7 +2050,6 @@
     <Folder Include="src\AppBundle\DataFixtures\ORM" />
     <Folder Include="src\AppBundle\DataFixtures" />
     <Folder Include="src\AppBundle\Entity" />
-    <Folder Include="src\AppBundle\Form\Type" />
     <Folder Include="src\AppBundle\Form" />
     <Folder Include="src\AppBundle\Repository" />
     <Folder Include="src\AppBundle\Services" />
@@ -3342,6 +3341,7 @@
     <Content Include="app\Resources\views\collectionhistory\index.html.twig" />
     <Content Include="app\Resources\views\collectionhistory\new.html.twig" />
     <Content Include="app\Resources\views\collectionhistory\show.html.twig" />
+    <Content Include="app\Resources\views\communication\editComm.html.twig" />
     <Content Include="app\Resources\views\container\edit.html.twig" />
     <Content Include="app\Resources\views\container\index.html.twig" />
     <Content Include="app\Resources\views\container\new.html.twig" />
@@ -3384,6 +3384,7 @@
     <Content Include="web\JavaScript\Filter.js" />
     <Content Include="web\JavaScript\DeleteModal.js" />
     <Content Include="web\JavaScript\PropertySearchPopupSemantic.js" />
+    <Content Include="web\JavaScript\PropertyCommunicationAdd.js" />
     <Content Include="web\JavaScript\PropertySearchPopup.js" />
     <Content Include="web\JavaScript\DeletePrompt.js" />
     <Content Include="web\JavaScript\RemoveModal.js" />
