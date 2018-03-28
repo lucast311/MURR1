@@ -821,7 +821,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEquals(0, $crawler->filter('table.communications:contains("Notes")')->count());
 
         //Assert that the error message is on the page
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("No communication entries found for this property")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("No communications found for this property")')->count());
     }
 
     /**
@@ -1039,7 +1039,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertEquals(0, $crawler->filter('table.contacts:contains("Organization")')->count());
 
         //Assert that the error message is on the page
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("No associated contacts")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("No contacts found for this property")')->count());
     }
 
     /**

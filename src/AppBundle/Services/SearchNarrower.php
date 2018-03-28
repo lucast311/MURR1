@@ -49,7 +49,7 @@ class SearchNarrower
             foreach ($cleanQuery as $query)
             {
                 // if the data to search for exists in the current record (check lowercase for case insensitive checks)
-                if(strpos(strtolower($recordData), strtolower($query)) > 0)
+                if(strlen($query) === 0 || (strpos(strtolower($recordData), strtolower($query)) > 0))
                 {
                     // increment found
                     $found++;

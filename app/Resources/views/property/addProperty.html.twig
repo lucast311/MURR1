@@ -4,12 +4,14 @@
 
 {% block body %}
 
-{% if showSuccess %}
-    <h2>Successfully added property</h2>
-{% endif %}
+<h2 class="ui header left attached top">Add Property</h2>
+<div class="ui bottom attached segment">
+    {% if showSuccess %}
+        <h2>Successfully added property</h2>
+    {% endif %}
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
-
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+</div>
 {% endblock %}

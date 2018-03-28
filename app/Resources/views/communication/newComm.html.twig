@@ -1,18 +1,23 @@
 {% extends 'base.html.twig' %}
 {% block javascripts %}
-{# include jQuery to make the search script work #}
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>    
-{# include the PropertySearchPopup javascript and the select2 file #}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-<script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopup.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
+
+<script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
+<script>
+    $(function ()
+    {
+        var propertySelect = $("#appbundle_communication_property")
+        $(".ui.search.dropdown").parent().after("<div class='field'><input class='ui button' id='advanced_property_search_popup' value='Advanced Search' type='button'/></div>");
+        initialize(propertySelect);
+    });
+</script>
 {% endblock %}
 {% block body %}
     <div id="wrapper">
-        <div id="container">
-            <h1>Add Communication</h1>
+        <h2 class="ui header left attached top">Add Communication</h2>
+        <div class="ui bottom attached segment">
             {{ form_start(form) }}
             {{ form_widget(form) }}
+			<div class="field"><button type="submit" id="communication_add" name="communication[add]" class="ui button">Add</button></div>
             {{ form_end(form) }}
 
             {% if added is defined and added %}

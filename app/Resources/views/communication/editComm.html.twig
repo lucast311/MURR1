@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block javascripts %} 
+{# include the PropertySearchPopupSemantic  #}
+<script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
+<script>
+    $(function ()
+    {
+        var propertySelect = $("#appbundle_communication_property")
+        $(".ui.search.dropdown").parent().after("<div class='field'><input class='ui button' id='advanced_property_search_popup' value='Advanced Search' type='button'/></div>");
+        initialize(propertySelect);
+    });
+</script>
+{% endblock %}
+{% block body %}
+    <div id="wrapper">
+        <h2 class="ui header left attached top">Edit Communication</h2>
+        <div class="ui bottom attached segment">
+            {% if errorType == "notfound"%}
+                <h2>The specified communication ID could not be found</h2>
+            {% else %}
+        
+
+                    {{ form_start(form, {'action' : '#' }) }}
+                    {{ form_widget(form) }}
+			
+		            <div class="field">
+				        <a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button">Cancel</a>
+				        <button type="submit" id="communication_add" name="communication[add]" class="ui button">Save</button>
+			        </div>
+                    {{ form_end(form) }}
+
+
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+</style>
+{% endblock %}

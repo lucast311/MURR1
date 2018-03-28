@@ -47,8 +47,6 @@ class ContactAddPropertyType extends AbstractType
     }
 
     /**
-     * Story 4k
-     * Sets the form name for this class
      * {@inheritdoc}
      */
     public function getBlockPrefix()

@@ -59,13 +59,13 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->request('GET','/container/new');
         //select the form and add values to it.
         $form = $crawler->selectButton('Create')->form();
-        $form['appbundle_container[containerSerial]'] = 'testSerialController' + time();
+        $form['appbundle_container[containerSerial]'] = 'testSerialController'.time();
         $form['appbundle_container[frequency]'] = 'Weekly';
         $form['appbundle_container[locationDesc]'] = 'Near backdoor';
         $form['appbundle_container[type]'] = 'Bin';
         $form['appbundle_container[size]'] = '6';
-        $form['appbundle_container[lon]'] = '10';
-        $form['appbundle_container[lat]'] = '25';
+        $form['appbundle_container[lon]'] = 10;
+        $form['appbundle_container[lat]'] = 25;
         $form['appbundle_container[status]'] = 'Active';
         $form['appbundle_container[reasonForStatus]'] = 'Test reason';
         $form['appbundle_container[augmentation]'] = 'Wheels installed';
@@ -118,7 +118,7 @@ class ContainerControllerTest extends WebTestCase
     /**
      * 12c - test that the page loads the view page after the submit button in clicked
      */
-    public function testEditSubmitRedirect()
+    public function testContainerEdit()
     {
         //create a container to insert into the database
         $container = new Container();

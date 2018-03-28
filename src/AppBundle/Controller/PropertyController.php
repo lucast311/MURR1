@@ -10,6 +10,7 @@ use AppBundle\Entity\Contact;
 use AppBundle\Entity\Communication;
 use AppBundle\Entity\Container;
 use AppBundle\Form\PropertyType;
+use AppBundle\Form\CommunicationType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormError;
 use AppBundle\Repository\PropertyRepository;
@@ -179,8 +180,24 @@ class PropertyController extends Controller
      * @Route("/property/")
      * @Method({"GET","POST"})
      */
-    public function viewAction($propertyId = 'not_specified', Request $request)
+    public function viewAction($propertyId = 'not_specified', $addCommunicationForm = null)
     {
+        //Default don't dhow the communication form
+        $showCommunicationForm = false;
+
+        //if the form wasn't given to us, create it
+        if($addCommunicationForm == null)
+        {
+            // Get the communication form to pass it in
+            $addCommunicationForm = $this->createForm(CommunicationType::class, new Communication());
+        }
+        //if the form was submitted and isn't valid, set the modal to popup
+        else if($addCommunicationForm->isSubmitted() && !$addCommunicationForm->isValid())
+        {
+            $showCommunicationForm = true;
+        }
+
+
         // Get the entity manager
         $em = $this->getDoctrine()->getManager();
         // Get the specific property
@@ -214,6 +231,9 @@ class PropertyController extends Controller
         return $this->render('property/viewProperty.html.twig', array(
             'property'=>$property,
             'propertyId'=>$propertyId,
+            'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
+            'newCommunicationForm' => $addCommunicationForm->createView(),
+            'showCommunicationForm' => $showCommunicationForm));
             'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
             'add_contact_form' => $addContactForm->createView()));
     }

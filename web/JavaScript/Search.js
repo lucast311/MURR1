@@ -4,7 +4,13 @@ var autocompleteValues = [];
 var viewModel = {
     results: ko.observableArray(),
     currentJSONRequest: null,
-    getResults: function (reQuery = false) {
+    getResults: function (reQuery) {
+
+        if (reQuery === undefined)
+        {
+            reQuery = false;
+        }
+
         if (viewModel.currentJSONRequest != null)
         {
             viewModel.currentJSONRequest.abort();
@@ -81,7 +87,7 @@ var viewModel = {
             {
                 // Register a click handler for the row of the result (instead of a view button)
                 // Note this also has to be done after updating the rows, otherwise new rows won't be affected.
-                $('tr').click(function () {
+                $('tbody tr').click(function () {
                     // Get the id of the item from the bound data-id property of the row
                     var id = $(event.target).parent().data('id');
                     // Go to the URL

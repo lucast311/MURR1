@@ -84,8 +84,10 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         $this->session->wait(1000);
 
+        //A: CHANGED IN S40A -AB
         //click the contacts page
-        $contactsBtn = $page->find("css","#contactsPage");
+        $contactsBtn = $page->find('xpath', $this->session->getSelectorsHandler()
+            ->selectorToXpath('xpath',"//a[contains(@href, 'contact/search')]"));
 
         $contactsBtn->click();
 
@@ -387,7 +389,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         // check that user is redirected to the Property view page
         $this->assertContains("View Property", $page->find("css", "h2")->getHtml());
-        $this->assertContains("333666999", $page->find("css", "table:first-child")->getHtml());
+        $this->assertContains("333666999", $page->find("css", "table")->getHtml());
     }
 
     protected function tearDown()

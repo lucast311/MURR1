@@ -2,365 +2,228 @@
 
 {% block title %}View Property{% endblock %}
 
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('JavaScript/PropertyCommunicationAdd.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+<link href="{{ asset('css/view_property.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
 {% block body %}
-     <script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
-    <script type="text/javascript" src="{{ asset('JavaScript/ContactSearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('contact_search', { 'isPopup': "true" }) }}"></script>
-    <script>
-        $(function () {
-            initialize($('#appbundle_contactToProperty_contact'));
+<div class="column contentSection">
+    <h2 class="ui header left attached top">View Property</h2>
 
-            addModal();
-            $('.removeButton').click(function () {
-				var parent = $($(this).parent("form").get(0));
-                showModal(parent.data('message'), parent);
-			});
 
-			$(".ui.dropdown").dropdown();
-        });
-    </script>
-    <script type="text/javascript" src="https://github.com/kylefox/jquery-tablesort"></script>
-<script>
-    /*
-	A simple, lightweight jQuery plugin for creating sortable tables.
-	https://github.com/kylefox/jquery-tablesort
-	Version 0.0.11
-*/
+    <div class="ui bottom attached segment">
+        {% if propertyId == "not_specified"%}
+        <h2>No property specified</h2>
+        {% elseif property is empty %}
+        <h2>The specified property could not be found</h2>
+        {% else %}
 
-(function($) {
-	$.tablesort = function ($table, settings) {
-		var self = this;
-		this.$table = $table;
-		this.$thead = this.$table.find('thead');
-		this.settings = $.extend({}, $.tablesort.defaults, settings);
-		this.$sortCells = this.$thead.length > 0 ? this.$thead.find('th:not(.no-sort)') : this.$table.find('th:not(.no-sort)');
-		this.$sortCells.on('click.tablesort', function() {
-			self.sort($(this));
-		});
-		this.index = null;
-		this.$th = null;
-		this.direction = null;
-	};
+	    {# magic invisible div that allows us to pass information to the java script #}
+	    <div class="js-propertyid" data-propertyid="{{ property.id }}"></div>
+	    <div class="js-showcommunicationform" data-showcommunicationform="{{ showCommunicationForm }}"></div>
 
-	$.tablesort.prototype = {
 
-		sort: function(th, direction) {
-			var start = new Date(),
-				self = this,
-				table = this.$table,
-				rowsContainer = table.find('tbody').length > 0 ? table.find('tbody') : table,
-				rows = rowsContainer.find('tr').has('td, th'),
-				cells = rows.find(':nth-child(' + (th.index() + 1) + ')').filter('td, th'),
-				sortBy = th.data().sortBy,
-				sortedMap = [];
-
-			var unsortedValues = cells.map(function(idx, cell) {
-				if (sortBy)
-					return (typeof sortBy === 'function') ? sortBy($(th), $(cell), self) : sortBy;
-				return ($(this).data().sortValue != null ? $(this).data().sortValue : $(this).text());
-			});
-			if (unsortedValues.length === 0) return;
-
-			//click on a different column
-			if (this.index !== th.index()) {
-				this.direction = 'asc';
-				this.index = th.index();
-			}
-			else if (direction !== 'asc' && direction !== 'desc')
-				this.direction = this.direction === 'asc' ? 'desc' : 'asc';
-			else
-				this.direction = direction;
-
-			direction = this.direction == 'asc' ? 1 : -1;
-
-			self.$table.trigger('tablesort:start', [self]);
-			self.log("Sorting by " + this.index + ' ' + this.direction);
-
-			// Try to force a browser redraw
-			self.$table.css("display");
-			// Run sorting asynchronously on a timeout to force browser redraw after
-			// `tablesort:start` callback. Also avoids locking up the browser too much.
-			setTimeout(function() {
-				self.$sortCells.removeClass(self.settings.asc + ' ' + self.settings.desc);
-				for (var i = 0, length = unsortedValues.length; i < length; i++)
-				{
-					sortedMap.push({
-						index: i,
-						cell: cells[i],
-						row: rows[i],
-						value: unsortedValues[i]
-					});
-				}
-
-				sortedMap.sort(function(a, b) {
-					return self.settings.compare(a.value, b.value) * direction;
-				});
-
-				$.each(sortedMap, function(i, entry) {
-					rowsContainer.append(entry.row);
-				});
-
-				th.addClass(self.settings[self.direction]);
-
-				self.log('Sort finished in ' + ((new Date()).getTime() - start.getTime()) + 'ms');
-				self.$table.trigger('tablesort:complete', [self]);
-				//Try to force a browser redraw
-				self.$table.css("display");
-			}, unsortedValues.length > 2000 ? 200 : 10);
-		},
-
-		log: function(msg) {
-			if(($.tablesort.DEBUG || this.settings.debug) && console && console.log) {
-				console.log('[tablesort] ' + msg);
-			}
-		},
-
-		destroy: function() {
-			this.$sortCells.off('click.tablesort');
-			this.$table.data('tablesort', null);
-			return null;
-		}
-
-	};
-
-	$.tablesort.DEBUG = false;
-
-	$.tablesort.defaults = {
-		debug: $.tablesort.DEBUG,
-		asc: 'sorted ascending',
-		desc: 'sorted descending',
-		compare: function(a, b) {
-			if (a > b) {
-				return 1;
-			} else if (a < b) {
-				return -1;
-			} else {
-				return 0;
-			}
-		}
-	};
-
-	$.fn.tablesort = function(settings) {
-		var table, sortable, previous;
-		return this.each(function() {
-			table = $(this);
-			previous = table.data('tablesort');
-			if(previous) {
-				previous.destroy();
-			}
-			table.data('tablesort', new $.tablesort(table, settings));
-		});
-	};
-
-})(window.Zepto || window.jQuery);
-</script>
-	<style>
-		#appbundle_contactToProperty_contact > div{
-			display: inline-block;
-		}
-	</style>
-
-<h2>View Property</h2>
-
-<div>
-    {% if propertyId == "not_specified"%}
-    <h2>No property specified</h2>
-    {% elseif property is empty %}
-    <h2>The specified property could not be found</h2>
-    {% else %}
-
-    <table>
-        <tr>
-            <td>Site Id:</td>
-            <td>{{property.siteId}}</td>
-        </tr>
-        <tr>
-            <td>Property Name:</td>
-            <td>{{property.propertyName}}</td>
-        </tr>
-        <tr>
-            <td>Property Type:</td>
-            <td>{{property.propertyType}}</td>
-        </tr>
-        <tr>
-            <td>Property Status:</td>
-            <td>{{property.propertyStatus}}</td>
-        </tr>
+        <table>
+            <tr>
+                <td>Site Id:</td>
+                <td>{{property.siteId}}</td>
+            </tr>
+            <tr>
+                <td>Property Name:</td>
+                <td>{{property.propertyName}}</td>
+            </tr>
+            <tr>
+                <td>Property Type:</td>
+                <td>{{property.propertyType}}</td>
+            </tr>
+            <tr>
+                <td>Property Status:</td>
+                <td>{{property.propertyStatus}}</td>
+            </tr>
        
-        <tr>
-            <td>Num Units:</td>
-            <td>{{property.numUnits}}</td>
-        </tr>
-        <tr>
-            <td>Neighbourhood Name:</td>
-            <td>{{property.neighbourhoodName}}</td>
-        </tr>
-        <tr>
-            <td>Neighbourhood Id:</td>
-            <td>{{property.neighbourhoodId}}</td>
-        </tr>
-        <tr>
-            <td>Street Address:</td>
-            <td>{{property.address.streetAddress}}</td>
-        </tr>
-        <tr>
-            <td>Postal Code:</td>
-            <td>{{property.address.postalCode}}</td>
-        </tr>
-        <tr>
-            <td>City:</td>
-            <td>{{property.address.city}}</td>
-        </tr>
-        <tr>
-            <td>Province:</td>
-            <td>{{property.address.province}}</td>
-        </tr>
-        <tr>
-            <td>Country:</td>
-            <td>{{property.address.country}}</td>
-        </tr>
-    </table>
-
-    <button onclick="window.location.href ='{{editPath}}'">Edit</button>
-
-    <h1>Property Contacts</h1>
-
-    <div class="ui segment">
-        {{ form_start(add_contact_form)}}
-		<table>
-			{{form_errors(add_contact_form)}}
-			{{ form_errors(add_contact_form.contact) }}
-			<tbody>
-				<tr>
-					<td>
-						<div class="inline fields">
-                            {{ form_label(add_contact_form.contact) }}
-							{{ form_widget(add_contact_form.contact) }}
-						</div>
-					</td>
-					<td>
-						<div class="inline fields">
-							<input class='ui button' id='advanced_contact_search_popup' value='Advanced Search' type='button'/>
-						</div>
-					</td>
-					<td>
-						<div class="inline fields">
-							{{ form_row(add_contact_form.Add) }}
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		{{form_row(add_contact_form.property)}}
-	    {{ form_end(add_contact_form) }}
-    </div>
-
-    {% if property.contacts is empty %}
-    <h2>No associated contacts</h2>
-
-    {% else %}
-        
-        <table class="contacts associations ui sortable celled table" border="1">
-            <thead>
-                <tr>
-                    <th class="sorted ascending">Name</th>
-                    <th>Role</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Organization</th>
-                    <th>Remove</th>
-                </tr>
-            </thead>
-                <tbody>
-                {% for contact in property.contacts %}
-                <tr>
-                    <td>{{contact.lastName}}, {{contact.firstName}}</td>
-                    <td>{{contact.role}}</td>                    
-                    <td>{{contact.primaryPhone}}</td>
-                    <td>{{contact.emailAddress}}</td>
-                    <td>{{contact.companyName}}</td>
-                    <td>
-                        <form name="appbundle_removeContactFromProperty" method="post" action="{{path('remove_contact_from_property')}}" data-message="Are you sure you want to remove the association between {{contact.lastName}}, {{contact.firstName}} and {{property.address}}?">
-                            <input type="hidden" name="property" value="{{property.id}}"/>
-                            <input type="hidden" name="contact" value="{{contact.id}}"/>
-                            <button type="button" class="ui icon button removeButton red" id="rmb{{contact.id}}"><i class="close icon"></i></button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-                </tbody>
+            <tr>
+                <td>Num Units:</td>
+                <td>{{property.numUnits}}</td>
+            </tr>
+            <tr>
+                <td>Neighbourhood Name:</td>
+                <td>{{property.neighbourhoodName}}</td>
+            </tr>
+            <tr>
+                <td>Neighbourhood Id:</td>
+                <td>{{property.neighbourhoodId}}</td>
+            </tr>
+            <tr>
+                <td>Street Address:</td>
+                <td>{{property.address.streetAddress}}</td>
+            </tr>
+            <tr>
+                <td>Postal Code:</td>
+                <td>{{property.address.postalCode}}</td>
+            </tr>
+            <tr>
+                <td>City:</td>
+                <td>{{property.address.city}}</td>
+            </tr>
+            <tr>
+                <td>Province:</td>
+                <td>{{property.address.province}}</td>
+            </tr>
+            <tr>
+                <td>Country:</td>
+                <td>{{property.address.country}}</td>
+            </tr>
         </table>
 
-    {% endif %}
-
-    <h1>Container Info</h1>
-        {% if property.bins is empty %}
-        <h2>No containers found for this property</h2>
-
-        {% else %}
-        
-            <table class="containers associations ui sortable celled table" border="1">
-                <thead>
-                    <tr>
-                        <th class="sorted ascending">Serial #</th>
-                        <th>Type</th>
-                        <th>Size</th>
-                        <th>Frequency</th>
-                        <th>Route(s)</th>
-                        <th>Bin Status</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                    {% for container in property.bins %}
-                    <tr>
-                        <td>{{container.containerSerial}}</td>
-                        <td>{{container.type}}</td>
-                        <td>{{container.size}}</td>
-                        <td>{{container.frequency}}</td>
-                        <td> <!--Routes will be shown here later--></td>
-                        <td>{{container.status}}</td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-            </table>
-
-        {% endif %}
-
-        <h1>Communications</h1>
-        {% if property.communications is empty %}
-        <h2>No communication entries found for this property</h2>
+        <button class="ui button" onclick="window.location.href ='{{editPath}}'">Edit</button>
+    </div>
+</div>
+<div>
+    <div class="column contentSection">
+        <h1 class="ui header left attached top">Property Contacts</h1>
+        <div class="ui bottom attached segment">
+        {% if property.contacts is empty %}
+        <h3>No contacts found for this property</h3>
 
         {% else %}
         
-        <table class="communications associations ui sortable called table" border="1">
+            <table class="contacts associations ui celled table selectable">
                 <thead>
                     <tr>
-                        <th class="sorted ascending">CommID</th>
-                        <th>Date</th>
-                        <th>Type</th>
-                        <th>Direction</th>
+                        <th>Role</th>
                         <th>Name</th>
                         <th>Phone</th>
                         <th>Email</th>
-                        <th>Notes</th>
+                        <th>Organization</th>
                     </tr>
                 </thead>
                     <tbody>
-                    {% for communication in property.communications %}
+                    {% for contact in property.contacts %}
                     <tr>
-                        <td>{{communication.id}}</td>
-                        <td>{{communication.date}}</td>
-                        <td>{{communication.type}}</td>
-                        <td>{{communication.medium}}</td>
-                        <td>{{communication.contactName}}</td>
-                        <td>{{communication.contactPhone}}</td>
-                        <td>{{communication.contactEmail}}</td>
-                        <td>{{communication.description}}</td>
+                        <td>{{contact.role}}</td>
+                        <td>{{contact.firstName}} {{contact.lastName}}</td>
+                        <td>{{contact.primaryPhone}}</td>
+                        <td>{{contact.emailAddress}}</td>
+                        <td>{{contact.companyName}}</td>
                     </tr>
                     {% endfor %}
                     </tbody>
             </table>
 
         {% endif %}
+        </div>
+    </div>
+    <div class="column contentSection">
+        <h1 class="ui header left attached top">Container Info</h1>
+        <div class="ui bottom attached segment">
+                {% if property.bins is empty %}
+                <h3>No containers found for this property</h3>
+
+                {% else %}
+        
+                    <table class="containers associations ui celled table selectable">
+                        <thead>
+                            <tr>
+                                <th>Serial #</th>
+                                <th>Type</th>
+                                <th>Size</th>
+                                <th>Frequency</th>
+                                <th>Route(s)</th>
+                                <th>Bin Status</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                            {% for container in property.bins %}
+                            <tr data-id="{{container.id}}">
+                                <td>{{container.containerSerial}}</td>
+                                <td>{{container.type}}</td>
+                                <td>{{container.size}}</td>
+                                <td>{{container.frequency}}</td>
+                                <td> <!--Routes will be shown here later--></td>
+                                <td>{{container.status}}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                    </table>
+
+                {% endif %}
+            </div>
+    </div>
+    <div class="column contentSection">
+        <div class="ui top attached segment">
+            <h1>
+                Communications
+                <span>
+                    <button class="ui icon button green" id="newCommunication">
+                        <i class="plus icon"></i>
+                    </button>
+                </span>
+            </h1>
+        </div>
+
+        <div class="ui bottom attached segment">
+            {% if property.communications is empty %}
+            <h3>No communications found for this property</h3>
+
+            {% else %}
+        
+            <table class="communications associations ui celled table selectable">
+                    <thead>
+                        <tr>
+                            <th>CommID</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Direction</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                        {% for communication in property.communications %}
+                        <tr data-id="{{communication.id}}">
+                            <td>{{communication.id}}</td>
+                            <td>{{communication.date}}</td>
+                            <td>{{communication.type}}</td>
+                            <td>{{communication.medium}}</td>
+                            <td>{{communication.contactName}}</td>
+                            <td>{{communication.contactPhone}}</td>
+                            <td>{{communication.contactEmail}}</td>
+                            <td class="communicationNotes">{{communication.description}}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                </table>
+
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="ui long modal" id="communicationModal">
+        <i class="close icon"></i>
+        <div class="header">
+            New Communication
+        </div>
+            
+        <div class="content">
+            {{ form_start(newCommunicationForm, {'attr': {'id': 'communicationForm'}}) }}
+            {{ form_widget(newCommunicationForm) }}
+            <input type="hidden" name="isModal" value="1" />
+			<input type="submit" hidden="hidden" id="hiddenCommunicationSubmit" />
+			{{ form_end(newCommunicationForm) }}
+        </div>
+
+        <div class="actions">
+			<button id="communicationSubmit" class="ui button">Add</button>
+        </div>
+            
+    </div>
     {% endif %}
 </div>
 
