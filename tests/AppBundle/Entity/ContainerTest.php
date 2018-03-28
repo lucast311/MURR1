@@ -378,7 +378,8 @@ class ContainerTest extends KernelTestCase
         //$validOptions = Container::StatusChoices();
 
         //all the valid test options
-        $testOptions = array('Active', 'Inaccessable', 'Contaminated', 'Damage', 'Graffiti');
+        $testOptions = array('Active', 'Contaminated', 'Garbage Tip Authorized',
+            'Garbage Tip Denied', 'Garbage Tip Requested', 'Garbage Tip Scheduled','Inaccessible', 'Inactive', 'Overflowing');
 
         //run through each option and check that they are valid
         foreach ($testOptions as $tester)
