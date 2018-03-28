@@ -205,8 +205,12 @@ class PropertyController extends Controller
         // Get the specific property
         $property = $em->getRepository(Property::class)->findOneById($propertyId);
 
-        $addContactForm = $this->createForm(PropertyAddContactType::class, null,array('property'=>$property->getId()));
-        if($request->getMethod() == 'POST')
+        if($property != null)
+        {
+            $addContactForm = $this->createForm(PropertyAddContactType::class, null,array('property'=>$property->getId()));
+        }
+
+        if($request->getMethod() == 'POST' && $property != null)
         {
             if($request->request->has('appbundle_contactToProperty'))
             {
@@ -229,7 +233,7 @@ class PropertyController extends Controller
             }
         }
 
-        $deleteForm = $this->createDeleteForm($property); 
+        $deleteForm = $this->createDeleteForm($property);
 
         // Render the html and pass in the property
         return $this->render('property/viewProperty.html.twig', array(
@@ -317,7 +321,7 @@ class PropertyController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('property_index');
+        return $this->redirectToRoute('property_search');
     }
 
     private function createDeleteForm(Property $property)

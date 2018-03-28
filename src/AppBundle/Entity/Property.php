@@ -119,19 +119,19 @@ class Property
 
     /**
      * Properties have many contacts
-     * @ORM\ManyToMany(targetEntity="Contact", inversedBy="contacts", cascade={"persist", "refresh"}, fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="Contact", inversedBy="contacts", cascade={"persist", "refresh","remove"}, fetch="EAGER")
      * @var ArrayCollection
      */
     private $contacts;
 
     /**
-     * @ORM\OneToMany(targetEntity="Container",cascade={"persist"}, mappedBy="property")
+     * @ORM\OneToMany(targetEntity="Container",cascade={"persist","remove"}, mappedBy="property")
      */
     private $bins;
 
     /**
      * Holds a list of communications for this property
-     * @ORM\OneToMany(targetEntity="Communication", cascade={"persist","refresh"}, mappedBy="property")
+     * @ORM\OneToMany(targetEntity="Communication", cascade={"persist","refresh", "remove"}, mappedBy="property")
      * @var ArrayCollection
      */
     private $communications;
