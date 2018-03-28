@@ -78,13 +78,13 @@ class ContainerEditConfirmationTest extends WebTestCase
         $serialField = $page->find("css","#appbundle_container_containerSerial");
 
         // check that the field cannot be edited
-        $this->assertContains('disabled', $serialField->hasAttribute('disabled'));
+        $this->assertTrue($serialField->hasAttribute('readonly'));
 
         // Click the unlock button
         $page->find('named', array('button', "Unlock"))->click();
 
         // check that the field can be edited
-        $this->assertNotContains('disabled', $serialField->hasAttribute('disabled'));
+        $this->assertFalse($serialField->hasAttribute('readonly'));
     }
 
     /**
@@ -139,7 +139,7 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
 
         // Click the delete button inside the modal
-        $page->find('css', 'div.ui.red.ok.inverted.button')->click();
+        $page->find('css', '.ui.button.inverted')->click();
 
         // wait for the delete action
         $this->session->wait(2000);
@@ -185,7 +185,7 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
 
         // Click the cancel button inside the modal
-        $page->find('css', 'div.ui.cancel.inverted.button')->click();
+        $page->find('css', '.ui.button.inverted.red')->click();
 
         // Make sure the modal is no longer visable
         $this->assertFalse($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
@@ -228,44 +228,6 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->assertContains("Inaccessible", $options[7]);
         $this->assertContains("Inactive", $options[8]);
         $this->assertContains("Overflowing", $options[9]);
-    }
-
-    /**
-     * Story 12g
-     * Test that the ten most recently changed containers are displayed in order.
-     */
-    public function testTenMostRecentRecordsDisplayed()
-    {
-        // Go to the edit page of a container
-        $this->session->visit('http://localhost:8000/app_test.php/container/search');
-        // Get the page
-        $page = $this->session->getPage();
-
-        // wait for the 10 most recent records to show up
-        $this->session->wait(5000);
-
-        // an array of all the rows in the first table that appears on the search page
-        $searchTableRows = $page->findAll('css', 'table:first-child tr');
-
-        // an array for all the serial fields in the $searchTableRows array
-        $serialValues = array();
-
-        // foreach row
-        foreach ($searchTableRows as $row)
-        {
-            // get its container serial value
-        	$serialValues[] = $row->find('css', "$row:first-child");
-        }
-
-        // Loop through all the serials, and check their text.
-        // We append (10 - $i) onto each expected serial number so that we can decrement the number each time.
-        // Ex:  $i = 4
-        //      10 - 4 = 6
-        //      Serial number becomes: 'QWERTY6'
-        for ($i = 0; $i < 10; $i++)
-        {
-        	$this->assertContains("QWERTY" . (10 - $i), $serialValues[$i]->getText());
-        }
     }
 
     protected function tearDown()

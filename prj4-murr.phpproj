@@ -177,7 +177,7 @@
     <Compile Include="tests\AppBundle\Services\RecentUpdatesHelper.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
     <Compile Include="tests\Mink\AssociatingPropertiesToContactTest.php" />
-    <Compile Include="tests\Mink\ContainerEditConfirmationTest.php" />
+    <Compile Include="tests\Mink\ContainerEditTest.php" />
     <Compile Include="tests\Mink\PropertyCommunicationAddTest.php" />
     <Compile Include="tests\Mink\ContainerSearchTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />

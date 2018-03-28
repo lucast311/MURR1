@@ -234,7 +234,43 @@ class ContainerSearchTest extends WebTestCase
         $this->assertNull($page->find('named', array('content', "Active")));
     }
 
+    /**
+     * Story 12g
+     * Test that the ten most recently changed containers are displayed in order.
+     */
+    public function testTenMostRecentRecordsDisplayed()
+    {
+        // Go to the edit page of a container
+        $this->session->visit('http://localhost:8000/app_test.php/container/search');
+        // Get the page
+        $page = $this->session->getPage();
 
+        // wait for the 10 most recent records to show up
+        $this->session->wait(5000);
+
+        // an array of all the rows in the first table that appears on the search page
+        $searchTableRows = $page->findAll('css', 'table:first-child tr');
+
+        // an array for all the serial fields in the $searchTableRows array
+        $serialValues = array();
+
+        // foreach row
+        foreach ($searchTableRows as $row)
+        {
+            // get its container serial value
+        	$serialValues[] = $row->find('css', "$row:first-child");
+        }
+
+        // Loop through all the serials, and check their text.
+        // We append (10 - $i) onto each expected serial number so that we can decrement the number each time.
+        // Ex:  $i = 4
+        //      10 - 4 = 6
+        //      Serial number becomes: 'QWERTY6'
+        for ($i = 0; $i < 10; $i++)
+        {
+        	$this->assertContains("QWERTY" . (10 - $i), $serialValues[$i]->getText());
+        }
+    }
 
     protected function tearDown()
     {
