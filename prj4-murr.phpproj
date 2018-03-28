@@ -3387,6 +3387,7 @@
     <Content Include="web\JavaScript\PropertySearchPopup.js" />
     <Content Include="web\JavaScript\DeletePrompt.js" />
     <Content Include="web\JavaScript\RemoveModal.js" />
+    <Content Include="web\JavaScript\RouteManagerUtils.js" />
     <Content Include="web\JavaScript\Search.js" />
   </ItemGroup>
 </Project>
