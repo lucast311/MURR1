@@ -5,7 +5,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\Type\CommunicationType;
+use AppBundle\Form\CommunicationType;
 use AppBundle\Entity\Communication;
 use AppBundle\Entity\Contact;
 use AppBundle\Entity\Property;
@@ -32,13 +32,15 @@ class CommunicationController extends Controller
     /**
      * This route will be responsible for loading and submitting the form responsible
      * for entering Communication Data
-     * @Route("/communication/new", name = "new communication")
+     * @Route("/communication/new", name = "new_communication")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
-        $form = $this->createForm(CommunicationType::class, new Communication());
+        $communication = new Communication();
+
+        $form = $this->createForm(CommunicationType::class, $communication);
 
         $form->handleRequest($request);
 
@@ -54,11 +56,7 @@ class CommunicationController extends Controller
             //create a new blank form to erase the old data
             $form = $this->createForm(CommunicationType::class, new Communication());
 
-            //PLEASE RETURN TO ME WHEN USERS ARE IMPLEMENTED
-            //$communication->setUser(1); //set the user ID
 
-
-            //get the doctrine repository
             $repo = $this->getDoctrine()->getRepository(Communication::class);
             //insert into the database
             $repo->insert($communication);
@@ -66,6 +64,25 @@ class CommunicationController extends Controller
 
             //let the user know that the communication was added
             $added = true;
+
+            //if it was sent from a modal, redirect to the property it came from
+            //This happens on a success, so we can safely redirect and not worry about errors
+            if($request->get("isModal") == 1)
+            {
+                return $this->redirectToRoute("property_view",
+                    array("propertyId"=>$communication->getProperty()->getId()));
+            }
+        }
+
+        //if it was sent from a modal, forward the request to the view action (to show errors)
+        if($request->get("isModal") == 1)
+        {
+            //return $this->redirectToRoute("property_view",
+            //    array("propertyId"=>$communication->getProperty()->getId(),
+            //    "addCommunicationForm" => $form));
+            return $this->forward('AppBundle:Property:view',
+                array("propertyId"=>$communication->getProperty()->getId(),
+                "addCommunicationForm" => $form));
         }
 
         return $this->render('communication/newComm.html.twig', [
@@ -75,12 +92,64 @@ class CommunicationController extends Controller
     }
 
     /**
+     * Summary of editAction
+     * @Route ("/communication/{commId}/edit", name = "communication_edit")
+     * @Method({"GET","POST"})
+     */
+    public function editAction(Request $request, $commId = null)
+    {
+        // Get the entity manager
+        $em = $this->getDoctrine()->getManager();
+
+        //get the repository for communications
+        $repo = $em->getRepository(Communication::class);
+
+        // Get the specific Communication
+        $comm = $repo->findOneById($commId);
+
+        //variable that willl handle what type of error will be shown
+        $errorType = null;
+
+        $communicationId = -1;
+        if ($comm != null)
+        {
+        	$communicationId = $comm->getId();
+        }
+
+
+        if($comm == null) $errorType="notfound";
+
+        $form = $this->createForm(CommunicationType::class, $comm);
+
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            //get the data from the form
+            $communication = $form->getData();
+
+            //insert into the database
+            $repo->insert($communication);
+
+            //redirect to the view page
+            return $this->redirectToRoute("communication_view",array("comId" => $communication->getId()));
+        }
+
+        return $this->render('communication/editComm.html.twig', [
+            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+            'form' => $form->createView(),
+            'errorType'=>$errorType,
+            'communicationId'=>$communicationId]);
+    }
+
+    /**
      * Story 11b
      * Controller responsible for viewing a communication
      * Summary of viewAction
      * @param mixed $comId
-     * @Route ("/communication/view/{comId}")
-     * @Route ("/communication/view/")
+     * @Route ("/communication/{comId}", name = "communication_view")
+     * @Route ("/communication/")
      */
     public function viewAction($comId = null){
         // Get the entity manager

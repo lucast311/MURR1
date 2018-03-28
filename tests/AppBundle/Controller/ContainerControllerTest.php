@@ -118,7 +118,7 @@ class ContainerControllerTest extends WebTestCase
     /**
      * 12c - test that the page loads the view page after the submit button in clicked
      */
-    public function testEditSubmitRedirect()
+    public function testContainerEdit()
     {
         //create a container to insert into the database
         $container = new Container();

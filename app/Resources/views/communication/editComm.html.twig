@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
-{% block javascripts %}
-
+{% block javascripts %} 
+{# include the PropertySearchPopupSemantic  #}
 <script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
 <script>
     $(function ()
@@ -13,15 +13,23 @@
 {% endblock %}
 {% block body %}
     <div id="wrapper">
-        <h2 class="ui header left attached top">Add Communication</h2>
+        <h2 class="ui header left attached top">Edit Communication</h2>
         <div class="ui bottom attached segment">
-            {{ form_start(form) }}
-            {{ form_widget(form) }}
-			<div class="field"><button type="submit" id="communication_add" name="communication[add]" class="ui button">Add</button></div>
-            {{ form_end(form) }}
+            {% if errorType == "notfound"%}
+                <h2>The specified communication ID could not be found</h2>
+            {% else %}
+        
 
-            {% if added is defined and added %}
-                Communication added successfully
+                    {{ form_start(form, {'action' : '#' }) }}
+                    {{ form_widget(form) }}
+			
+		            <div class="field">
+				        <a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button">Cancel</a>
+				        <button type="submit" id="communication_add" name="communication[add]" class="ui button">Save</button>
+			        </div>
+                    {{ form_end(form) }}
+
+
             {% endif %}
         </div>
     </div>
