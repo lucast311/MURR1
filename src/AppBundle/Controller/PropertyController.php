@@ -183,7 +183,6 @@ class PropertyController extends Controller
     public function viewAction($propertyId = 'not_specified', $addCommunicationForm = null, Request $request)
     {
 
-
         //Default don't dhow the communication form
         $showCommunicationForm = false;
 
@@ -324,6 +323,11 @@ class PropertyController extends Controller
         return $this->redirectToRoute('property_search');
     }
 
+    /**
+     * Summary of createDeleteForm
+     * @param Property $property
+     * @return mixed
+     */
     private function createDeleteForm(Property $property)
     {
         return $this->createFormBuilder()

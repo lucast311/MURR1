@@ -172,7 +172,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
     public function testAssociationAdvancedSearch()
     {
         // Navigate to the contact view page
-        $this->session->visit('http://localhost:8000/app_test.php/contact/23');
+        $this->session->visit('http://localhost:8000/app_test.php/contact/343');
         // Get the page
         $page = $this->session->getPage();
 
@@ -258,7 +258,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
     public function testRemoveAssociationDecline()
     {
         //start up a new session, going to the contact view page for Bill Jones (ID 24)
-        $this->session->visit('http://localhost:8000/app_test.php/contact/24');
+        $this->session->visit('http://localhost:8000/app_test.php/contact/392');
         // Get the page
         $page = $this->session->getPage();
 
@@ -267,7 +267,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $this->assertContains("456 West Street",$associatedProperties->getHtml());
 
         //the remove button from property with ID 2 (should be Balla Highrize)
-        $removeButton = $page->find("css","#rmb1");
+        $removeButton = $page->find("css","#rmb350");
 
         $removeButton->click();
 

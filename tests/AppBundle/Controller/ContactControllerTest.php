@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Contact;
-use AppBundle\Entity\ContactProperty;
+//use AppBundle\Entity\ContactProperty;
 use AppBundle\Services\Changer;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadContactData;

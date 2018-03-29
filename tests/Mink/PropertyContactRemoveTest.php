@@ -81,6 +81,10 @@ class PropertyContactRemoveTest extends WebTestCase
     {
         //create a new property
         $property = new Property();
+        $property->setPropertyName("123 Testie Terrace");
+        $property->setSiteId(1001);
+        $property->setNumUnits(3);
+        $property->setNeighbourhoodName("Satherland");
 
         $repo = $this->em->getRepository(Property::class);
         $repo->save($property);
@@ -123,7 +127,10 @@ class PropertyContactRemoveTest extends WebTestCase
     {
         //create a new property
         $property = new Property();
-        $property->setPropertyName("Swagville"); 
+        $property->setPropertyName("123 Testie Terrace");
+        $property->setSiteId(1001);
+        $property->setNumUnits(3);
+        $property->setNeighbourhoodName("Satherland");
 
         $repo = $this->em->getRepository(Property::class);
         $repo->save($property);
@@ -165,6 +172,10 @@ class PropertyContactRemoveTest extends WebTestCase
     {
         //create a new property
         $property = new Property();
+        $property->setPropertyName("123 Testie Terrace");
+        $property->setSiteId(1001);
+        $property->setNumUnits(3);
+        $property->setNeighbourhoodName("Satherland");
 
         $repo = $this->em->getRepository(Property::class);
         $repo->save($property);
@@ -205,6 +216,10 @@ class PropertyContactRemoveTest extends WebTestCase
     {
         //create a new property
         $property = new Property();
+        $property->setPropertyName("123 Testie Terrace");
+        $property->setSiteId(1001);
+        $property->setNumUnits(3);
+        $property->setNeighbourhoodName("Satherland");
 
         $repo = $this->em->getRepository(Property::class);
         $repo->save($property);
@@ -245,6 +260,10 @@ class PropertyContactRemoveTest extends WebTestCase
     {
         //create a new property
         $property = new Property();
+        $property->setPropertyName("123 Testie Terrace");
+        $property->setSiteId(1001);
+        $property->setNumUnits(3);
+        $property->setNeighbourhoodName("Satherland");
 
         $repo = $this->em->getRepository(Property::class);
         $repo->save($property);
@@ -282,6 +301,10 @@ class PropertyContactRemoveTest extends WebTestCase
     {
         //create a new property
         $property = new Property();
+        $property->setPropertyName("123 Testie Terrace");
+        $property->setSiteId(1001);
+        $property->setNumUnits(3);
+        $property->setNeighbourhoodName("Satherland");
 
         $repo = $this->em->getRepository(Property::class);
         $repo->save($property);
@@ -331,6 +354,10 @@ class PropertyContactRemoveTest extends WebTestCase
     {
         //create a new property
         $property = new Property();
+        $property->setPropertyName("123 Testie Terrace");
+        $property->setSiteId(1001);
+        $property->setNumUnits(3);
+        $property->setNeighbourhoodName("Satherland");
 
         $repo = $this->em->getRepository(Property::class);
         $repo->save($property);

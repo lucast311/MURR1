@@ -210,7 +210,7 @@ class ContainerSearchTest extends WebTestCase
     public function testContainerDelete()
     {
         // Go to the page of a container
-        $this->session->visit('http://localhost:8000/app_test.php/container/1');
+        $this->session->visit('http://localhost:8000/app_test.php/container/69');
 
         // Get the page
         $page = $this->session->getPage();
