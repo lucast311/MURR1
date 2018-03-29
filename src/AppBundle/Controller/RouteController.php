@@ -161,4 +161,26 @@ class RouteController extends Controller
         }
     }
 
+    /**
+     * Story 40b
+     * Handles associating a truck with a route id.
+     * @param Request $request
+     * @param mixed $routeId
+     */
+    public function associateTruckAction(Request $request, $routeId)
+    {
+
+    }
+
+    /**
+     * Story 40b
+     * Handles removing a truck from a route.
+     * @param Request $request
+     * @param mixed $routeId
+     */
+    public function removeTruckAction(Request $request, $routeId)
+    {
+
+    }
+
 }

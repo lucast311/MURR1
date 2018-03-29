@@ -3391,5 +3391,6 @@
     <Content Include="web\JavaScript\RemoveModal.js" />
     <Content Include="web\JavaScript\RouteManagerUtils.js" />
     <Content Include="web\JavaScript\Search.js" />
+    <Content Include="web\JavaScript\TruckRouteAssociations.js" />
   </ItemGroup>
 </Project>
