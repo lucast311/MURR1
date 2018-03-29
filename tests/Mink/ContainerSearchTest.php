@@ -209,7 +209,7 @@ class ContainerSearchTest extends WebTestCase
      */
     public function testContainerDelete()
     {
-        // Go to the page of a container
+        // Go to the view page of a container
         $this->session->visit('http://localhost:8000/app_test.php/container/1');
 
         // Get the page
@@ -220,18 +220,29 @@ class ContainerSearchTest extends WebTestCase
         // Make sure a modal pops up
         $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
 
-        // Click the delete button
-        $page->find('css', 'div.ui.red.ok.inverted.button')->click();
+        // Click the remove button
+        $page->find('named', array('button', "Remove"))->click();
 
-        // Make sure the container is gone from the list page
-        $this->assertNull($page->find('named', array('content', "123457")));
-        $this->assertNull($page->find('named', array('content', "weekly")));
-        $this->assertNull($page->find('named', array('content', "Cosmo")));
-        $this->assertNull($page->find('named', array('content', "South-west side")));
-        $this->assertNull($page->find('named', array('content', "Cart")));
-        $this->assertNull($page->find('named', array('content', "6 yd")));
-        $this->assertNull($page->find('named', array('content', "Wheels")));
-        $this->assertNull($page->find('named', array('content', "Active")));
+        // wait for the delete action
+        $this->session->wait(2000);
+
+        // check that we did get redirected to the search page
+        $this->assertTrue($this->session->getCurrentUrl() == 'http://localhost:8000/app_test.php/container/search');
+
+        // find the header for the "Container Search" page
+        $searchHeader = $page->find("css", "h2");
+
+        // compare the header we find, with the one we know the search page contains
+        $this->assertContains("Container Search", $searchHeader->getHtml());
+
+        // Go back to the view page of the container we just removed
+        $this->session->visit('http://localhost:8000/app_test.php/container/1');
+
+        // Get the page
+        $page = $this->session->getPage();
+
+        // make sure that the container no longer exists
+        $this->assertContains("Container does not exist", $page->getHtml());
     }
 
     /**
@@ -246,29 +257,15 @@ class ContainerSearchTest extends WebTestCase
         $page = $this->session->getPage();
 
         // wait for the 10 most recent records to show up
-        $this->session->wait(5000);
+        $this->session->wait(3000);
 
-        // an array of all the rows in the first table that appears on the search page
-        $searchTableRows = $page->findAll('css', 'table:first-child tr');
-
-        // an array for all the serial fields in the $searchTableRows array
-        $serialValues = array();
-
-        // foreach row
-        foreach ($searchTableRows as $row)
-        {
-            // get its container serial value
-        	$serialValues[] = $row->find('css', "$row:first-child");
-        }
+        //
+        $searchTableRows = $page->findAll('css', 'tbody tr');
 
         // Loop through all the serials, and check their text.
-        // We append (10 - $i) onto each expected serial number so that we can decrement the number each time.
-        // Ex:  $i = 4
-        //      10 - 4 = 6
-        //      Serial number becomes: 'QWERTY6'
         for ($i = 0; $i < 10; $i++)
         {
-        	$this->assertContains("QWERTY" . (10 - $i), $serialValues[$i]->getText());
+            $this->assertContains("QWERTY" . (10 - $i), $searchTableRows[$i]->getText());
         }
     }
 

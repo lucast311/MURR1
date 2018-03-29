@@ -108,7 +108,7 @@ class ContainerEditConfirmationTest extends WebTestCase
         $page->find('named', array('button', "Save"))->click();
 
         // wait for the save action to complete
-        $this->session->wait(5000);
+        $this->session->wait(3000);
 
         // check that we did get redirected to the search page
         $this->assertTrue($this->session->getCurrentUrl() == 'http://localhost:8000/app_test.php/container/1');
@@ -209,25 +209,25 @@ class ContainerEditConfirmationTest extends WebTestCase
         $page = $this->session->getPage();
 
         // Click on the select box so it opens
-        $page->find('css', ".select2-selection, .select2-selection--single")->click();
+        $page->find('css', '#appbundle_container_status')->click();
 
         // get the results
-        $results = $page->find('css', ".select2-results");
+        $results = $page->find('css', "div.menu.transition.visible");
 
         // get an array of all the options in the results
-        $options = $results->findAll('css', 'option');
+        $options = $results->findAll('css', 'div.item');
 
         // Check that the select box contains all the right options, and that they are in the correct order (alphabetical)
-        $this->assertContains("--Please Select a Type--", $options[0]);
-        $this->assertContains("Active", $options[1]);
-        $this->assertContains("Contaminated", $options[2]);
-        $this->assertContains("Garbage Tip Authorized", $options[3]);
-        $this->assertContains("Garbage Tip Denied", $options[4]);
-        $this->assertContains("Garbage Tip Requested", $options[5]);
-        $this->assertContains("Garbage Tip Scheduled", $options[6]);
-        $this->assertContains("Inaccessible", $options[7]);
-        $this->assertContains("Inactive", $options[8]);
-        $this->assertContains("Overflowing", $options[9]);
+        $this->assertContains("--Please Select a Status--", $options[0]->getText());
+        $this->assertContains("Active", $options[1]->getText());
+        $this->assertContains("Contaminated", $options[2]->getText());
+        $this->assertContains("Garbage Tip Authorized", $options[3]->getText());
+        $this->assertContains("Garbage Tip Denied", $options[4]->getText());
+        $this->assertContains("Garbage Tip Requested", $options[5]->getText());
+        $this->assertContains("Garbage Tip Scheduled", $options[6]->getText());
+        $this->assertContains("Inaccessible", $options[7]->getText());
+        $this->assertContains("Inactive", $options[8]->getText());
+        $this->assertContains("Overflowing", $options[9]->getText());
     }
 
     protected function tearDown()

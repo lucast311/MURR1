@@ -282,7 +282,7 @@ class ContactController extends Controller
                 $normalizer = new ObjectNormalizer();
 
                 // Don't display the 'properties' data or the 'address' data as JSON. Makes it more human readable.
-                $normalizer->setIgnoredAttributes(array("properties", "address"));
+                $normalizer->setIgnoredAttributes(array("properties", "address", "dateModified"));
                 $serializer = new Serializer(array($normalizer), array($encoder));
 
                 return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));

@@ -90,7 +90,7 @@ class LoadContainerData implements FixtureInterface
 
             //custom, independant autoloaded fixtures
             $this->container = (new Container())
-                ->setFrequency("weekly")
+                ->setFrequency("Weekly")
                 ->setContainerSerial("123457")
                 ->setLocationDesc("South-west side")
                 ->setLon("87")
@@ -110,7 +110,7 @@ class LoadContainerData implements FixtureInterface
             $obMan->flush();
 
             $this->container = (new Container())
-                ->setFrequency("daily")
+                ->setFrequency("Weekly")
                 ->setContainerSerial("888888")
                 ->setLocationDesc("North-East side")
                 ->setLon("51")
@@ -118,7 +118,7 @@ class LoadContainerData implements FixtureInterface
                 ->setType("Bin")
                 ->setSize("12 yd")
                 ->setAugmentation("Locks")
-                ->setStatus("Damaged")
+                ->setStatus("Active")
                 ->setReasonForStatus("Everything normal")
                 ->setProperty($property2)
                 ->setStructure($structure);
@@ -129,8 +129,10 @@ class LoadContainerData implements FixtureInterface
 
             for ($i = 1; $i <= 10; $i++)
             {
+                sleep(1);
+
             	$this->container = (new Container())
-                    ->setFrequency("weekly")
+                    ->setFrequency("Weekly")
                     ->setContainerSerial("QWERTY" . $i)
                     ->setLocationDesc("South-west side")
                     ->setLon(87)
@@ -141,7 +143,13 @@ class LoadContainerData implements FixtureInterface
                     ->setStatus("Active")
                     ->setReasonForStatus("Everything normal")
                     ->setProperty($property);
+
+                $obMan->persist($this->container);
+
+                $obMan->flush();
             }
+
+
 
         }
         else
