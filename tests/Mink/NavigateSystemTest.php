@@ -96,6 +96,19 @@ class NavigateSystemTest extends WebTestCase
 
     //NAVIGATION TESTS BELOW
 
+    public function testBrowseHome()
+    {
+        //start up a new session, starting at the property search page
+        $this->session->visit('http://localhost:8000/app_test.php/property/search');
+        // Get the page
+        $page = $this->session->getPage();
+
+        //click on the home button in the nav menu
+        $page->find("css","#home")->click();
+
+        //Check something unique to the home page? Not entirely sure
+    }
+
     /**
      * Story 23a
      * Tests that you can browse to the various communications pages (minus view, tested in search frontend)
@@ -187,7 +200,7 @@ class NavigateSystemTest extends WebTestCase
      */
     public function testContactsBack()
     {
-        //start up a new session, go to the communication view page
+        //start up a new session, go to the contact view page
         $this->session->visit('http://localhost:8000/app_test.php/contact/1');
         // Get the page
         $page = $this->session->getPage();
@@ -239,7 +252,7 @@ class NavigateSystemTest extends WebTestCase
      */
     public function testContainersBack()
     {
-        //start up a new session, go to the communication view page
+        //start up a new session, go to the container view page
         $this->session->visit('http://localhost:8000/app_test.php/container/1');
         // Get the page
         $page = $this->session->getPage();
@@ -291,7 +304,7 @@ class NavigateSystemTest extends WebTestCase
      */
     public function testPropertiesBack()
     {
-        //start up a new session, go to the communication view page
+        //start up a new session, go to the property view page
         $this->session->visit('http://localhost:8000/app_test.php/property/1');
         // Get the page
         $page = $this->session->getPage();
@@ -302,5 +315,43 @@ class NavigateSystemTest extends WebTestCase
         //check that we're back on the search page
         assertContains("Property Search", $page->find("css","h2:first-child")->getHtml());
         assertContains("/property/search", $this->session->getCurrentUrl());
+    }
+
+    /**
+     * Story 23a
+     * Tests that you can browse to the route index page
+     */
+    public function testBrowseRoutes()
+    {
+        //start up a new session, starting at the home page
+        $this->session->visit('http://localhost:8000/app_test.php/');
+        // Get the page
+        $page = $this->session->getPage();
+
+        //click on the containers button
+        $page->find("css","#routes")->click();
+
+        //check that the header is the property search page
+        assertContains("Add Route", $page->find("css","h2:first-child")->getHtml());
+        assertContains("/route", $this->session->getCurrentUrl());
+    }
+
+    /**
+     * Story 23a
+     * Tests that you can browse to the truck index page (edit and back is already tested)
+     */
+    public function testBrowseTrucks()
+    {
+        //start up a new session, starting at the home page
+        $this->session->visit('http://localhost:8000/app_test.php/');
+        // Get the page
+        $page = $this->session->getPage();
+
+        //click on the containers button
+        $page->find("css","#trucks")->click();
+
+        //check that the header is the property search page
+        assertContains("Add Truck", $page->find("css","h2:first-child")->getHtml());
+        assertContains("/truck", $this->session->getCurrentUrl());
     }
 }
