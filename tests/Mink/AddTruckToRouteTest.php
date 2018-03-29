@@ -137,6 +137,47 @@ class AddTruckToRouteTest extends WebTestCase
         $this->assertFalse($page->find('css', '#assignTruckForm')->isVisible());
     }
 
+    /**
+     * Story 40b
+     * This test checks the functionality of removing a truck on a route that already has a truck assigned.
+     */
+    public function testRemoveTruckFromRoute()
+    {
+        // Browse to the desired page
+        $this->session->visit('http://localhost:8000/app_test.php/route/2');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // There should already be a truck assigned, check for that
+        $this->assertContains($page->find('css', 'h1.ui.header.left.attached.top')->getHtml(), "Truck 000033");
+        // Make sure the change truck button is visible
+        $this->assertTrue($page->find('named', array('button', 'Change Truck'))->isVisible());
+        // Make sure the unassign truck button is visible
+        $this->assertTrue($page->find('named', array('button', 'Unassign Truck'))->isVisible());
+        // Make sure the assign truck form is NOT visible
+        $this->assertFalse($page->find('css', '#assignTruckForm')->isVisible());
+
+        // Click the remove truck button to open the form
+        $page->find('named', array('button', 'Unassign Truck'))->click();
+
+        // Assert that the modal is now visible
+        $this->assertTrue($page->find('css', '#deleteModal')->isVisible());
+        // Check the message on the modal
+        $this->assertContains($page->find('css', '#deleteModal')->getHtml(), "Are you sure you want to unassign the truck 000033 from route 1002");
+        // Click the delete button
+        $page->find('css', '#deleteButton')->click();
+
+        // When the page reloads, assert that there is no longer a truck assigned
+        $this->assertContains($page->find('css', 'h1.ui.header.left.attached.top')->getHtml(), "No Truck Assigned");
+        // Assert that the assign truck form exists
+        $this->assertTrue($page->find('css', '#assignTruckForm')->isVisible());
+        // Make sure the change truck button is NOT visible
+        $this->assertFalse($page->find('named', array('button', 'Change Truck'))->isVisible());
+        // Make sure the unassign truck button is NOT visible
+        $this->assertFalse($page->find('named', array('button', 'Unassign Truck'))->isVisible());
+
+    }
+
     protected function tearDown()
     {
         // After the test has been run, make sure to stop the session so you don't run into problems
