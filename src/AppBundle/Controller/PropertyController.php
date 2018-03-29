@@ -207,6 +207,8 @@ class PropertyController extends Controller
         if($property != null)
         {
             $addContactForm = $this->createForm(PropertyAddContactType::class, null,array('property'=>$property->getId()));
+        } else {
+            $property = new Property(); 
         }
 
         if($request->getMethod() == 'POST' && $property != null)

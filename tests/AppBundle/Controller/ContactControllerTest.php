@@ -663,7 +663,7 @@ class ContactControllerTest extends WebTestCase
             $address->setProvince("Saskatchewan");
             $address->setCountry("Canada");
             $property->setAddress($address);
-            $property->setContacts(new ArrayCollection(array($contact)));
+            //$property->setContacts(new ArrayCollection(array($contact)));
             $propertiesArray[] = $property;
 
             $propertyRepository = $this->em->getRepository(Property::class);
