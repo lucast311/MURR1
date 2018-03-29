@@ -119,7 +119,7 @@ class Property
 
     /**
      * Properties have many contacts
-     * @ORM\ManyToMany(targetEntity="Contact", inversedBy="contacts", cascade={"persist", "refresh","remove"}, fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="Contact", inversedBy="contacts", cascade={"persist","remove"}, fetch="EAGER")
      * @var ArrayCollection
      */
     private $contacts;
