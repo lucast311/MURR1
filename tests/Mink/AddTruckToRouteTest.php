@@ -80,7 +80,7 @@ class AddTruckToRouteTest extends WebTestCase
         // Assert that the assign truck form exists
         $this->assertTrue($page->find('css', '#assignTruckForm')->isVisible());
         // Make sure the change truck button is NOT visible
-        $this->assertFalse($page->find('named', array('button', 'Assign'))->isVisible());
+        $this->assertFalse($page->find('named', array('button', 'Change Truck'))->isVisible());
         // Make sure the unassign truck button is NOT visible
         $this->assertFalse($page->find('named', array('button', 'Unassign Truck'))->isVisible());
 
@@ -92,13 +92,50 @@ class AddTruckToRouteTest extends WebTestCase
         // When the page reloads, assert that the truck is now assigned
         $this->assertContains($page->find('css', 'h1.ui.header.left.attached.top')->getHtml(), "Truck 000034");
         // Make sure the change truck button is visible
-        $this->assertTrue($page->find('named', array('button', 'Assign'))->isVisible());
+        $this->assertTrue($page->find('named', array('button', 'Change Truck'))->isVisible());
         // Make sure the unassign truck button is visible
         $this->assertTrue($page->find('named', array('button', 'Unassign Truck'))->isVisible());
         // Make sure the assign truck form is NOT visible
         $this->assertFalse($page->find('css', '#assignTruckForm')->isVisible());
     }
 
+    /**
+     * Story 40b
+     * This test checks the functionality of changing a truck on a route that already has a truck assigned.
+     */
+    public function testChangeTruckOnRoute()
+    {
+        // Browse to the desired page
+        $this->session->visit('http://localhost:8000/app_test.php/route/2');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // There should already be a truck assigned, check for that
+        $this->assertContains($page->find('css', 'h1.ui.header.left.attached.top')->getHtml(), "Truck 000033");
+        // Make sure the change truck button is visible
+        $this->assertTrue($page->find('named', array('button', 'Change Truck'))->isVisible());
+        // Make sure the unassign truck button is visible
+        $this->assertTrue($page->find('named', array('button', 'Unassign Truck'))->isVisible());
+        // Make sure the assign truck form is NOT visible
+        $this->assertFalse($page->find('css', '#assignTruckForm')->isVisible());
+
+        // Click the change truck button to open the form
+        $page->find('named', array('button', 'Change Truck'))->click();
+
+        // Fill out the truck form
+        $page->find("css", "#truckDropdown")->setValue("000034");
+        // Submit the truck form
+        $page->find('named', array('button', 'Assign'))->click();
+
+        // When the page reloads, assert that the truck is now assigned
+        $this->assertContains($page->find('css', 'h1.ui.header.left.attached.top')->getHtml(), "Truck 000034");
+        // Make sure the change truck button is visible
+        $this->assertTrue($page->find('named', array('button', 'Change Truck'))->isVisible());
+        // Make sure the unassign truck button is visible
+        $this->assertTrue($page->find('named', array('button', 'Unassign Truck'))->isVisible());
+        // Make sure the assign truck form is NOT visible
+        $this->assertFalse($page->find('css', '#assignTruckForm')->isVisible());
+    }
 
     protected function tearDown()
     {
