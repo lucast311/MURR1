@@ -9,12 +9,14 @@ Container Creation
 {% endblock %}
 
 {% block body %}
-    <h1>Container creation</h1>
+    <h1 class="ui header left attached top">Container creation</h1>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" class="ui button" id="btnCreate" />
+    <div class="ui bottom attached segment">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <input type="submit" value="Create" class="ui button" id="btnCreate" />
 
-       <a href="{{ path('container_search') }}" class="ui button" id="btnSearch" >Search</a>
-    {{ form_end(form) }}
+           <a href="{{ path('container_search') }}" class="ui button" id="btnSearch" >Search</a>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

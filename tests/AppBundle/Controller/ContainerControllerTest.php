@@ -378,7 +378,7 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/container/1/edit');
 
         // grab the form
-        $form = $crawler->selectButton('Submit')->form();
+        $form = $crawler->selectButton('Save')->form();
 
         // change the value of the containerSerial field to be invalid (too long)
         $form['appbundle_container[containerSerial]'] = str_repeat("a", 51);
@@ -403,7 +403,7 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/container/1/edit');
 
         // grab the form
-        $form = $crawler->selectButton('Submit')->form();
+        $form = $crawler->selectButton('Save')->form();
 
         // change the value of the containerSerial field to be invalid (already exists)
         $form['appbundle_container[containerSerial]'] = "888888";
@@ -412,7 +412,7 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         // check that the error for an invalid serial (already exists) is displayed on the page
-        $this->assertContains("This value is already used", $client->getResponse()->getContent());
+        $this->assertContains("Serial already exists", $client->getResponse()->getContent());
     }
 
     /**
@@ -428,10 +428,10 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/container/1/edit');
 
         // grab the form
-        $form = $crawler->selectButton('Submit')->form();
+        $form = $crawler->selectButton('Save')->form();
 
         // change the value of the containerSerial field to be invalid (empty)
-        $form['appbundle_container[containerSerial]'] = "";
+        $form['appbundle_container[containerSerial]'] = trim("");
 
         // attempt to submit the invalid form
         $crawler = $client->submit($form);
@@ -478,7 +478,7 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/container/1/edit');
 
         // grab the form
-        $form = $crawler->selectButton('Submit')->form();
+        $form = $crawler->selectButton('Save')->form();
 
         // change the value of the status field to be invalid (default)
         $form['appbundle_container[status]'] = "--Please Select a Status--";
@@ -503,7 +503,7 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/container/1/edit');
 
         // grab the form
-        $form = $crawler->selectButton('Submit')->form();
+        $form = $crawler->selectButton('Save')->form();
 
         // change the value of the frequency field to be invalid (default)
         $form['appbundle_container[frequency]'] = "--Please Select a Frequency--";

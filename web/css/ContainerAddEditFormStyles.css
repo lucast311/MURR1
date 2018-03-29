@@ -41,7 +41,7 @@ table {
 }
 
 #btnDelete {
-    float: left;
+    /*float: left;*/
     margin-bottom: 25px
 }
 
@@ -52,6 +52,14 @@ table {
 #btnCreate {
     float: left
     /*margin-top: 10px*/
+}
+
+#advanced_property_search_popup {
+    margin-left: 10px
+}
+
+.ui.dropdown.selection {
+    width: 100%
 }
 
 /*

@@ -139,7 +139,7 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
 
         // Click the delete button inside the modal
-        $page->find('css', '.ui.button.inverted')->click();
+        $page->find('named', array('button', "Remove"))->click();
 
         // wait for the delete action
         $this->session->wait(2000);
@@ -182,13 +182,13 @@ class ContainerEditConfirmationTest extends WebTestCase
         $page->find('named', array('button', "Delete"))->click();
 
         // Make sure a modal pops up
-        $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
+        $this->assertTrue($page->find('css', "div.ui.modal.page.visible")->isVisible());
 
         // Click the cancel button inside the modal
-        $page->find('css', '.ui.button.inverted.red')->click();
+        $page->find('named', array('button', "Cancel"))->click();
 
         // Make sure the modal is no longer visable
-        $this->assertFalse($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
+        $this->assertFalse($page->find('css', "div.ui.modal.page.hidden")->isVisible());
 
         // get the page header after we close the delete modal (should contain the container serial)
         $containerEditHeaderAfter = $page->find("css", "h1")->getText();
@@ -213,6 +213,8 @@ class ContainerEditConfirmationTest extends WebTestCase
 
         // get the results
         $results = $page->find('css', "div.menu.transition.visible");
+
+        $this->assertEquals(0, sizeof($results));
 
         // get an array of all the options in the results
         $options = $results->findAll('css', 'div.item');

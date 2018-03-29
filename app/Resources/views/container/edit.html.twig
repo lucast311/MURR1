@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Edit Container {{ container.containerSerial }}
+Edit Container
 {% endblock %}
 
 {% block javascripts %}
@@ -47,13 +47,13 @@ Edit Container {{ container.containerSerial }}
 
 
 {% block body %}
-    <h1>Edit Container{% if not invalid_id_error %} {{container.containerSerial}}{% endif %}</h1>
+    <h1 class="ui header left attached top">Edit Container{% if not invalid_id_error %} {{container.containerSerial}}{% endif %}</h1>
     
 {% if invalid_id_error %}
     <h2>Container does not exist</h2>
 {% else %}
 
-	<div class="ui form">
+	<div class="ui form column bottom attached segment">
 	    {{ form_start(edit_form) }}
 		<table>
 			{#{{ form_errors(edit_form) }}#}
@@ -172,6 +172,17 @@ Edit Container {{ container.containerSerial }}
 		</table>
 		<input type="submit" value="Save" class="ui button" id="btnSave" />
 		{{ form_end(edit_form) }}
+
+        {% endif %}
+
+        <a href="{{ path('container_search') }}"class="ui button" id="btnSearch">Search</a>
+        {% if not invalid_id_error %}
+		    <form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to remove container {{container}}?">
+			    <input type="hidden" name="container" value="{{container.id}}"/>
+			    <button type="button" class="ui button removeButton" id="btnDelete">Delete</button>
+		    </form>
+            {#<input type="submit" value="Delete" class="ui button" id="btnDelete">#}
+        {% endif %}
     </div>
 
 
@@ -179,7 +190,7 @@ Edit Container {{ container.containerSerial }}
         {{ form_widget(edit_form) }}
         <input type="submit" value="Save" class="ui button" style="float:left"/>
     {{ form_end(edit_form) }}#}
-{% endif %}
+{#{% endif %}
 
 
     <a href="{{ path('container_search') }}"class="ui button" id="btnSearch">Search</a>
@@ -189,5 +200,5 @@ Edit Container {{ container.containerSerial }}
 			<button type="button" class="ui button removeButton" id="btnDelete">Delete</button>
 		</form>
         {#<input type="submit" value="Delete" class="ui button" id="btnDelete">#}
-    {% endif %}
+    {#{% endif %}#}
 {% endblock %}
