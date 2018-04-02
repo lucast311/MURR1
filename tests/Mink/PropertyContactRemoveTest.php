@@ -9,6 +9,8 @@ use AppBundle\Entity\Property;
 use AppBundle\Entity\Contact;
 use Doctrine\Common\Collections\ArrayCollection;
 use Tests\AppBundle\DatabasePrimer;
+use AppBundle\DataFixtures\ORM\LoadContactData;
+use AppBundle\DataFixtures\ORM\LoadPropertyData;
 /**
  * PropertyContactRemoveTest short summary.
  *
@@ -27,29 +29,28 @@ class PropertyContactRemoveTest extends WebTestCase
     {
         self::bootKernel();
         DatabasePrimer::prime(self::$kernel);
+
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load(DatabasePrimer::$entityManager);
+
+        //load contact and property data
+        $contactLoader = new LoadContactData();
+        $contactLoader->load(DatabasePrimer::$entityManager);
+
+        $propertyLoader = new LoadPropertyData();
+        $propertyLoader->load(DatabasePrimer::$entityManager);
     }
 
 
     protected function setUp()
     {
+        // get the entity manager
         self::bootKernel();
-
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
-
-        //Wipe database before beginning because tests seem to run into errors
-        $stmt = $this->em->getConnection()->prepare('DELETE FROM Property');
-        $stmt->execute();
-        $stmt = $this->em->getConnection()->prepare('DELETE FROM Contact');
-        $stmt->execute();
-        $stmt = $this->em->getConnection()->prepare('DELETE FROM User');
-        $stmt->execute();
-
-        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
-
-        $userLoader = new LoadUserData($encoder);
-        $userLoader->load($this->em);
 
         // Create a driver
         $this->driver = new ChromeDriver("http://localhost:9222",null, "localhost:8000");
@@ -61,7 +62,7 @@ class PropertyContactRemoveTest extends WebTestCase
         $this->session->start();
 
         // go to the login page
-        $this->session->visit('http://localhost:8000/login');
+        $this->session->visit('http://localhost:8000/app_test.php/login');
         // Get the current page
         $page = $this->session->getPage();
         // Fill out the login form
@@ -79,28 +80,10 @@ class PropertyContactRemoveTest extends WebTestCase
      */
     public function testRemoveButtonShowsModal()
     {
-        //create a new property
-        $property = new Property();
-        $property->setPropertyName("123 Testie Terrace");
-        $property->setSiteId(1001);
-        $property->setNumUnits(3);
-        $property->setNeighbourhoodName("Satherland");
 
-        $repo = $this->em->getRepository(Property::class);
-        $repo->save($property);
-
-        //create a new contact
-        $contact = new Contact();
-        $contact->setFirstName("Testman");
-        $contact->setRole("Owner");
-
-        //associate the two
-        $arrayCollection = new ArrayCollection();
-        $arrayCollection->add($contact);
-        $property->setContacts($arrayCollection);
         //now that the data exists, go to the page
         //start up a new session
-        $this->session->visit('http:://localhost:8000/app_test.php/property/view/1');
+        $this->session->visit('http:://localhost:8000/app_test.php/property/1');
         //get the page
         $page = $this->session->getPage();
         //find the button with the ID of the remove button
@@ -125,28 +108,10 @@ class PropertyContactRemoveTest extends WebTestCase
      */
     public function testRemoveContactFromPropertyAccept()
     {
-        //create a new property
-        $property = new Property();
-        $property->setPropertyName("123 Testie Terrace");
-        $property->setSiteId(1001);
-        $property->setNumUnits(3);
-        $property->setNeighbourhoodName("Satherland");
-
-        $repo = $this->em->getRepository(Property::class);
-        $repo->save($property);
-
-        //create a new contact
-        $contact = new Contact();
-        $contact->setFirstName("Testman");
-        $contact->setRole("Owner");
-
-        //associate the two
-        $arrayCollection = new ArrayCollection();
-        $arrayCollection->add($contact);
-        $property->setContacts($arrayCollection);
+        
         //now that the data exists, go to the page
         //start up a new session
-        $this->session->visit('http:://localhost:8000/app_test.php/property/96');
+        $this->session->visit('http:://localhost:8000/app_test.php/property/1');
         //get the page
         $page = $this->session->getPage();
 
@@ -170,25 +135,7 @@ class PropertyContactRemoveTest extends WebTestCase
      */
     public function testRemoveContactFromPropertyCancel()
     {
-        //create a new property
-        $property = new Property();
-        $property->setPropertyName("123 Testie Terrace");
-        $property->setSiteId(1001);
-        $property->setNumUnits(3);
-        $property->setNeighbourhoodName("Satherland");
-
-        $repo = $this->em->getRepository(Property::class);
-        $repo->save($property);
-
-        //create a new contact
-        $contact = new Contact();
-        $contact->setFirstName("Testman");
-        $contact->setRole("Owner");
-
-        //associate the two
-        $arrayCollection = new ArrayCollection();
-        $arrayCollection->add($contact);
-        $property->setContacts($arrayCollection);
+        
         //now that the data exists, go to the page
         //start up a new session
         $this->session->visit('http:://localhost:8000/app_test.php/property/1');
@@ -214,25 +161,6 @@ class PropertyContactRemoveTest extends WebTestCase
      */
     public function testAddContactToPropertyWithDropdown()
     {
-        //create a new property
-        $property = new Property();
-        $property->setPropertyName("123 Testie Terrace");
-        $property->setSiteId(1001);
-        $property->setNumUnits(3);
-        $property->setNeighbourhoodName("Satherland");
-
-        $repo = $this->em->getRepository(Property::class);
-        $repo->save($property);
-
-        //create a new contact
-        $contact = new Contact();
-        $contact->setFirstName("Testman");
-        $contact->setRole("Owner");
-
-        //associate the two
-        $arrayCollection = new ArrayCollection();
-        $arrayCollection->add($contact);
-        $property->setContacts($arrayCollection);
         //now that the data exists, go to the page
         //start up a new session
         $this->session->visit('http:://localhost:8000/app_test.php/property/1');
@@ -258,25 +186,7 @@ class PropertyContactRemoveTest extends WebTestCase
      */
     public function testAddModalIsShownOnlyAfterAdvancedSearchIsClicked()
     {
-        //create a new property
-        $property = new Property();
-        $property->setPropertyName("123 Testie Terrace");
-        $property->setSiteId(1001);
-        $property->setNumUnits(3);
-        $property->setNeighbourhoodName("Satherland");
-
-        $repo = $this->em->getRepository(Property::class);
-        $repo->save($property);
-
-        //create a new contact
-        $contact = new Contact();
-        $contact->setFirstName("Testman");
-        $contact->setRole("Owner");
-
-        //associate the two
-        $arrayCollection = new ArrayCollection();
-        $arrayCollection->add($contact);
-        $property->setContacts($arrayCollection);
+       
         //now that the data exists, go to the page
         //start up a new session
         $this->session->visit('http:://localhost:8000/property/1');
@@ -299,22 +209,7 @@ class PropertyContactRemoveTest extends WebTestCase
      */
     public function testAddContactToPropertyWithAdvancedModal()
     {
-        //create a new property
-        $property = new Property();
-        $property->setPropertyName("123 Testie Terrace");
-        $property->setSiteId(1001);
-        $property->setNumUnits(3);
-        $property->setNeighbourhoodName("Satherland");
-
-        $repo = $this->em->getRepository(Property::class);
-        $repo->save($property);
-
-        //create a new contact
-        $contact = new Contact();
-        $repo = $this->em->getRepository(Contact::class);
-        $contact->setFirstName("Testman");
-        $contact->setRole("Owner");
-        $repo->save($contact);
+      
 
         //start up a new session
         $this->session->visit('http:://localhost:8000/app_test.php/property/1');
@@ -352,25 +247,7 @@ class PropertyContactRemoveTest extends WebTestCase
      */
     public function testCannotAddContactToPropertyThatIsAlreadyAdded()
     {
-        //create a new property
-        $property = new Property();
-        $property->setPropertyName("123 Testie Terrace");
-        $property->setSiteId(1001);
-        $property->setNumUnits(3);
-        $property->setNeighbourhoodName("Satherland");
-
-        $repo = $this->em->getRepository(Property::class);
-        $repo->save($property);
-
-        //create a new contact
-        $contact = new Contact();
-        $contact->setFirstName("Testman");
-        $contact->setRole("Owner");
-
-        //associate the two
-        $arrayCollection = new ArrayCollection();
-        $arrayCollection->add($contact);
-        $property->setContacts($arrayCollection);
+       
         //now that the data exists, go to the page
         //start up a new session
         $this->session->visit('http:://localhost:8000/php_test.php/property/1');
