@@ -23,6 +23,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use AppBundle\Form\PropertyAddContactType;
+use Symfony\Component\Form\FormBuilder;
 
 /**
  * Controller that contains methods for anything having to do with a property.
@@ -185,6 +186,7 @@ class PropertyController extends Controller
 
         //Default don't dhow the communication form
         $showCommunicationForm = false;
+        $propertyName = "";
 
         //if the form wasn't given to us, create it
         if($addCommunicationForm == null)
@@ -207,8 +209,14 @@ class PropertyController extends Controller
         if($property != null)
         {
             $addContactForm = $this->createForm(PropertyAddContactType::class, null,array('property'=>$property->getId()));
+            $addContactForm->createView();
+            $deleteForm = $this->createDeleteForm($property);
+            $deleteForm->createView();
+            $propertyName = $property->getPropertyName();
         } else {
-            $property = new Property(); 
+            $property = false;
+            $deleteForm = null;
+            $addContactForm = null;
         }
 
         if($request->getMethod() == 'POST' && $property != null)
@@ -232,19 +240,35 @@ class PropertyController extends Controller
                     $em->refresh($property);
                 }
             }
+
         }
 
-        $deleteForm = $this->createDeleteForm($property);
+
 
         // Render the html and pass in the property
-        return $this->render('property/viewProperty.html.twig', array(
-            'property'=>$property,
-            'propertyId'=>$propertyId,
-            'delete_form' => $deleteForm->createView(),
-            'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
-            'newCommunicationForm' => $addCommunicationForm->createView(),
-            'showCommunicationForm' => $showCommunicationForm,
-            'add_contact_form' => $addContactForm->createView()));
+        if($deleteForm == null && $addContactForm == null)
+        {
+            return $this->render('property/viewProperty.html.twig', array(
+                'property'=>$property,
+                'propertyId'=>$propertyId,
+                'propertyName'=>$propertyName,
+                //'delete_form' => $deleteForm->createView(),
+                'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
+                'newCommunicationForm' => $addCommunicationForm->createView(),
+                'showCommunicationForm' => $showCommunicationForm)); 
+                //'add_contact_form' => $addContactForm->createView()));
+        } else {
+            return $this->render('property/viewProperty.html.twig', array(
+                'property'=>$property,
+                'propertyId'=>$propertyId,
+                'propertyName'=>$propertyName,
+                'delete_form' => $deleteForm->createView(),
+                'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
+                'newCommunicationForm' => $addCommunicationForm->createView(),
+                'showCommunicationForm' => $showCommunicationForm,
+                'add_contact_form' => $addContactForm->createView()));
+        }
+
     }
 
     /**
