@@ -105,6 +105,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         //Need to use named search to find button based on its content
         $viewLink = $page->find("named",array("content", "Jones"));
+        //$viewLink = $page->find("css", "table > tbody > tr:first-child > td"); 
 
         $viewLink->click();
 
@@ -125,7 +126,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $this->assertNotNull($page->find("css","#associatedProperties"));
 
         //a property that is on this contact
-        $this->assertContains("1132 Illinois Avenue",$pageContent);
+        $this->assertContains("1132 Illinois Avenue", $pageContent);
     }
 
     /**
@@ -190,7 +191,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $advancedSearchBtn->click();
 
         // WAIT for the page to load, otherwise it will be empty when mink tries to use it.
-        $this->session->wait(1000);
+        $this->session->wait(2000);
 
         // Get the names of all the windows AGAIN, so we can figure out which one is new
         $newWindowNames = $this->session->getWindowNames();

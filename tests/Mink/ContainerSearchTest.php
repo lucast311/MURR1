@@ -210,15 +210,16 @@ class ContainerSearchTest extends WebTestCase
     public function testContainerDelete()
     {
         // Go to the page of a container
-        $this->session->visit('http://localhost:8000/app_test.php/container/69');
+        $this->session->visit('http://localhost:8000/app_test.php/container/1');
 
         // Get the page
         $page = $this->session->getPage();
 
         // Click the delete button
-        $page->find('named', array('button', "Delete"))->click();
+        $page->find("css", "#delete")->click();
+        $this->session->wait(1000);
         // Make sure a modal pops up
-        $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
+        $this->assertTrue($page->find("css", "div.ui.dimmer.modals.page.transition.active")->isVisible());
 
         // Click the delete button
         $page->find('css', 'div.ui.red.ok.inverted.button')->click();

@@ -186,6 +186,8 @@ class PropertyController extends Controller
 
         //Default don't dhow the communication form
         $showCommunicationForm = false;
+        //sets the property name to be an empty string instead of using the actual property
+        //this is so the twig doesn't throw an error if the property isn't valid 
         $propertyName = "";
 
         //if the form wasn't given to us, create it
@@ -206,19 +208,20 @@ class PropertyController extends Controller
         // Get the specific property
         $property = $em->getRepository(Property::class)->findOneById($propertyId);
 
+        //if the property isn't null, do all the actions required
         if($property != null)
         {
             $addContactForm = $this->createForm(PropertyAddContactType::class, null,array('property'=>$property->getId()));
-            $addContactForm->createView();
             $deleteForm = $this->createDeleteForm($property);
-            $deleteForm->createView();
             $propertyName = $property->getPropertyName();
         } else {
+            //if not, set the forms to null and the property to false
             $property = false;
             $deleteForm = null;
             $addContactForm = null;
         }
 
+        //now check if the method is post and property is not null
         if($request->getMethod() == 'POST' && $property != null)
         {
             if($request->request->has('appbundle_contactToProperty'))
@@ -242,22 +245,19 @@ class PropertyController extends Controller
             }
 
         }
-
-
-
         // Render the html and pass in the property
-        if($deleteForm == null && $addContactForm == null)
+        //if the property is false, send everything but the form data 
+        if($property == false)
         {
             return $this->render('property/viewProperty.html.twig', array(
                 'property'=>$property,
                 'propertyId'=>$propertyId,
                 'propertyName'=>$propertyName,
-                //'delete_form' => $deleteForm->createView(),
                 'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
                 'newCommunicationForm' => $addCommunicationForm->createView(),
                 'showCommunicationForm' => $showCommunicationForm)); 
-                //'add_contact_form' => $addContactForm->createView()));
         } else {
+            //else return it with the correct data to display 
             return $this->render('property/viewProperty.html.twig', array(
                 'property'=>$property,
                 'propertyId'=>$propertyId,
