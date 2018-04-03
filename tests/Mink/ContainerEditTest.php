@@ -238,6 +238,27 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->assertContains("Overflowing", $options[9]->getText());
     }
 
+    /**
+     * Story 12g
+     * Test that the edit container page's dropdown list contains all the proper values
+     */
+    public function testEditButtonOnView()
+    {
+        // Go to the edit page of a container
+        $this->session->visit('http://localhost:8000/app_test.php/container/1');
+        // Get the page
+        $page = $this->session->getPage();
+
+        $this->session->wait(1000);
+
+        // Click the edit button
+        $page->find('css', '#btnEdit')->click();
+
+        $this->session->wait(1000);
+
+        $this->assertTrue($this->session->getCurrentUrl() == 'http://localhost:8000/app_test.php/container/1/edit');
+    }
+
     protected function tearDown()
     {
         // After the test has been run, make sure to stop the session so you don't run into problems
