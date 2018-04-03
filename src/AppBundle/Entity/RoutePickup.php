@@ -49,6 +49,13 @@ class RoutePickup
     private $pickupOrder;
 
 
+    private $pickedUp;
+
+    private $pickupDate;
+
+    private $pickupIssue;
+
+
     /**
      * Get id
      *
@@ -130,5 +137,20 @@ class RoutePickup
     {
         return $this->pickupOrder;
     }
+
+    /**
+     * 
+     */ 
+    public function pickup()
+    {
+        
+    }
+
+    public function setIssue($issue)
+    {
+        //return OOPs notice
+    }
+
+    //truckstuff [future story]
 }
 

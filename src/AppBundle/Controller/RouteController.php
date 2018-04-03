@@ -25,6 +25,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class RouteController extends Controller
 {
+
+    function addAction(Request $request){
+
+    }
+
     /**
      * Story 22b
      * Brings you to the manage route page

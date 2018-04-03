@@ -40,6 +40,24 @@ class Route
      */
     private $pickups;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=10)
+     *
+     */
+    private $startDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=10)
+     *
+     */
+    private $endDate;
+
+    //Trucks[]
+
 
     /**
      * Get id
@@ -97,6 +115,24 @@ class Route
     public function getPickups()
     {
         return $this->pickups;
+    }
+
+    public function setStartDate($date)
+    {
+
+    }
+    public function setEndDate($date)
+    {
+
+    }
+
+    public function getStartDate()
+    {
+
+    }
+    public function getEndDate()
+    {
+
     }
 }
 
