@@ -1167,7 +1167,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertTrue($crawler->filter('input[type=search]')->first() != null);
     }
 
-  
+
 
 
     /**
@@ -1191,6 +1191,8 @@ class PropertyControllerTest extends WebTestCase
         $stmt = $em->getConnection()->prepare('DELETE FROM Contact');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Contact_Properties');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM property_contact');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();

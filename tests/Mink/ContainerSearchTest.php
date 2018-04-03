@@ -219,7 +219,8 @@ class ContainerSearchTest extends WebTestCase
         $page->find("css", "#delete")->click();
         $this->session->wait(1000);
         // Make sure a modal pops up
-        $this->assertTrue($page->find("css", "div.ui.dimmer.modals.page.transition.active")->isVisible());
+        $modal = $page->find("css", "div.ui.dimmer.modals.page.transition.active"); 
+        $this->assertTrue($modal->isVisible());
 
         // Click the delete button
         $page->find('css', 'div.ui.red.ok.inverted.button')->click();
