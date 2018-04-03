@@ -308,7 +308,7 @@ class ContainerControllerTest extends WebTestCase
         $repository->containerSearch($queryStrings);
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{"id":1,"containerSerial":"123457","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"}]', $client->getResponse()->getContent());
+        $this->assertContains('{"id":1,"containerSerial":"123457","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"}', $client->getResponse()->getContent());
     }
 
     /**
@@ -341,7 +341,7 @@ class ContainerControllerTest extends WebTestCase
         $client->request('GET', '/container/jsonsearch/');
 
         // assert that what we expect is actually returned
-        $this->assertContains('[{"id":12,"containerSerial":"QWERTY10","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":11,"containerSerial":"QWERTY9","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":10,"containerSerial":"QWERTY8","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":9,"containerSerial":"QWERTY7","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":8,"containerSerial":"QWERTY6","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":7,"containerSerial":"QWERTY5","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":6,"containerSerial":"QWERTY4","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":5,"containerSerial":"QWERTY3","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":4,"containerSerial":"QWERTY2","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":3,"containerSerial":"QWERTY1","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"}]', $client->getResponse()->getContent());
+        $this->assertContains('[{"id":12,"containerSerial":"QWERTY10","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":11,"containerSerial":"QWERTY9","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":10,"containerSerial":"QWERTY8","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":9,"containerSerial":"QWERTY7","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":8,"containerSerial":"QWERTY6","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":7,"containerSerial":"QWERTY5","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":6,"containerSerial":"QWERTY4","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":5,"containerSerial":"QWERTY3","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":4,"containerSerial":"QWERTY2","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":3,"containerSerial":"QWERTY1","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"}]', $client->getResponse()->getContent());
     }
 
     /**
@@ -431,13 +431,14 @@ class ContainerControllerTest extends WebTestCase
         $form = $crawler->selectButton('Save')->form();
 
         // change the value of the containerSerial field to be invalid (empty)
-        $form['appbundle_container[containerSerial]'] = trim("");
+        $form['appbundle_container[containerSerial]'] = "";
 
         // attempt to submit the invalid form
         $crawler = $client->submit($form);
 
         // check that the error for an invalid serial (empty) is displayed on the page
-        $this->assertContains("Please fill out this field", $client->getResponse()->getContent());
+        $this->assertContains("This value should not be blank", $client->getResponse()->getContent());
+        $this->assertContains("This value should not be null", $client->getResponse()->getContent());
     }
 
     /**
@@ -453,7 +454,7 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/container/1/edit');
 
         // grab the form
-        $form = $crawler->selectButton('Submit')->form();
+        $form = $crawler->selectButton('Save')->form();
 
         // change the value of the type field to be invalid (default)
         $form['appbundle_container[type]'] = "--Please Select a Type--";
@@ -462,7 +463,7 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         // check that the error for an invalid type (default) is displayed on the page
-        $this->assertContains("Please select a valid type", $client->getResponse()->getContent());
+        $this->assertContains("Please select bin Type", $client->getResponse()->getContent());
     }
 
     /**
@@ -487,7 +488,7 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         // check that the error for an invalid status (default) is displayed on the page
-        $this->assertContains("Please select a valid status", $client->getResponse()->getContent());
+        $this->assertContains("Please select bin status", $client->getResponse()->getContent());
     }
 
     /**
@@ -512,7 +513,7 @@ class ContainerControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         // check that the error for an invalid frequency (default) is displayed on the page
-        $this->assertContains("Please select a valid frequency", $client->getResponse()->getContent());
+        $this->assertContains("Please select frequency type", $client->getResponse()->getContent());
     }
 
     //public function testTenMostRecentRecordsDisplayed()

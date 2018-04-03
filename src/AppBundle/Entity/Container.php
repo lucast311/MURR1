@@ -481,7 +481,14 @@ class Container
 
     public function __toString()
     {
-        return $this->containerSerial;
+        if($this->containerSerial != "")
+        {
+            return $this->containerSerial;
+        }
+        else
+        {
+            return "";
+        }
     }
 }
 

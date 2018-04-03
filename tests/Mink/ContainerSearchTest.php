@@ -99,7 +99,7 @@ class ContainerSearchTest extends WebTestCase
 
         //Assert that the proper container is returned by the search
         $this->assertNotNull($page->find('named', array('content', "123457")));
-        $this->assertNotNull($page->find('named', array('content', "weekly")));
+        $this->assertNotNull($page->find('named', array('content', "Weekly")));
         $this->assertNotNull($page->find('named', array('content', "Test ST")));
         $this->assertNotNull($page->find('named', array('content', "South-west side")));
         $this->assertNotNull($page->find('named', array('content', "Cart")));

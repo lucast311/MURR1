@@ -34,7 +34,7 @@ class LoadContainerData implements FixtureInterface
             //Address data
             $address = (new Address())
                 ->setStreetAddress("Test ST")
-                ->setPostalCode('T3S 3TS')
+                ->setPostalCode('T3S 3T4')
                 ->setCity('Saskatoon')
                 ->setProvince('Saskatchetest')
                 ->setCountry('Testnada');

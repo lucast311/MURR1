@@ -179,16 +179,16 @@ class ContainerEditConfirmationTest extends WebTestCase
         $containerEditHeaderBefore = $page->find("css", "h1")->getText();
 
         // Click the delete button
-        $page->find('named', array('button', "Delete"))->click();
+        $page->find('named', array('button', "Remove"))->click();
 
         // Make sure a modal pops up
-        $this->assertTrue($page->find('css', "div.ui.modal.page.visible")->isVisible());
+        $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.visible.active")->isVisible());
 
         // Click the cancel button inside the modal
         $page->find('named', array('button', "Cancel"))->click();
 
         // Make sure the modal is no longer visable
-        $this->assertFalse($page->find('css', "div.ui.modal.page.hidden")->isVisible());
+        $this->assertFalse($page->find('css', "div.ui.dimmer.modals.page.transition.hidden")->isVisible());
 
         // get the page header after we close the delete modal (should contain the container serial)
         $containerEditHeaderAfter = $page->find("css", "h1")->getText();
@@ -210,14 +210,18 @@ class ContainerEditConfirmationTest extends WebTestCase
 
         // Click on the select box so it opens
         $page->find('css', '#appbundle_container_status')->click();
+        //$page->find('css', '.select2-selection, .select2-selection--single')->click();
 
         // get the results
-        $results = $page->find('css', "div.menu.transition.visible");
+        //$results = $page->find('css', "div.menu.transition.visible");
+        //$results = $page->find('css', ".select2-results");
 
-        $this->assertEquals(0, sizeof($results));
+
+        //$this->assertEquals(0, sizeof($results));
 
         // get an array of all the options in the results
-        $options = $results->findAll('css', 'div.item');
+        $options = $page->findAll('css', '#appbundle_container_status option');
+        //$options = $results->findAll('css', 'option');
 
         // Check that the select box contains all the right options, and that they are in the correct order (alphabetical)
         $this->assertContains("--Please Select a Status--", $options[0]->getText());
