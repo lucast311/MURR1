@@ -99,7 +99,7 @@ class ContainerSearchTest extends WebTestCase
 
         //Assert that the proper container is returned by the search
         $this->assertNotNull($page->find('named', array('content', "123457")));
-        $this->assertNotNull($page->find('named', array('content', "weekly")));
+        $this->assertNotNull($page->find('named', array('content', "Weekly")));
         $this->assertNotNull($page->find('named', array('content', "Test ST")));
         $this->assertNotNull($page->find('named', array('content', "South-west side")));
         $this->assertNotNull($page->find('named', array('content', "Cart")));
@@ -209,7 +209,7 @@ class ContainerSearchTest extends WebTestCase
      */
     public function testContainerDelete()
     {
-        // Go to the page of a container
+        // Go to the view page of a container
         $this->session->visit('http://localhost:8000/app_test.php/container/1');
 
         // Get the page
@@ -222,21 +222,54 @@ class ContainerSearchTest extends WebTestCase
         $modal = $page->find("css", "div.ui.dimmer.modals.page.transition.active"); 
         $this->assertTrue($modal->isVisible());
 
-        // Click the delete button
-        $page->find('css', 'div.ui.red.ok.inverted.button')->click();
+        // Click the remove button
+        $page->find('named', array('button', "Remove"))->click();
 
-        // Make sure the container is gone from the list page
-        $this->assertNull($page->find('named', array('content', "123457")));
-        $this->assertNull($page->find('named', array('content', "weekly")));
-        $this->assertNull($page->find('named', array('content', "Cosmo")));
-        $this->assertNull($page->find('named', array('content', "South-west side")));
-        $this->assertNull($page->find('named', array('content', "Cart")));
-        $this->assertNull($page->find('named', array('content', "6 yd")));
-        $this->assertNull($page->find('named', array('content', "Wheels")));
-        $this->assertNull($page->find('named', array('content', "Active")));
+        // wait for the delete action
+        $this->session->wait(2000);
+
+        // check that we did get redirected to the search page
+        $this->assertTrue($this->session->getCurrentUrl() == 'http://localhost:8000/app_test.php/container/search');
+
+        // find the header for the "Container Search" page
+        $searchHeader = $page->find("css", "h2");
+
+        // compare the header we find, with the one we know the search page contains
+        $this->assertContains("Container Search", $searchHeader->getHtml());
+
+        // Go back to the view page of the container we just removed
+        $this->session->visit('http://localhost:8000/app_test.php/container/1');
+
+        // Get the page
+        $page = $this->session->getPage();
+
+        // make sure that the container no longer exists
+        $this->assertContains("Container does not exist", $page->getHtml());
     }
 
+    /**
+     * Story 12g
+     * Test that the ten most recently changed containers are displayed in order.
+     */
+    public function testTenMostRecentRecordsDisplayed()
+    {
+        // Go to the edit page of a container
+        $this->session->visit('http://localhost:8000/app_test.php/container/search');
+        // Get the page
+        $page = $this->session->getPage();
 
+        // wait for the 10 most recent records to show up
+        $this->session->wait(3000);
+
+        //
+        $searchTableRows = $page->findAll('css', 'tbody tr');
+
+        // Loop through all the serials, and check their text.
+        for ($i = 0; $i < 10; $i++)
+        {
+            $this->assertContains("QWERTY" . (10 - $i), $searchTableRows[$i]->getText());
+        }
+    }
 
     protected function tearDown()
     {

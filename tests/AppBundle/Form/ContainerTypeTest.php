@@ -58,42 +58,42 @@ class ContainerTypeTest extends TypeTestCase
         }
     }
 
-    public function testEditContainerForm()
-    {
-        $formData = array(
-           'type' => 'Bin',
-           'size' => '6',
-           'status' => 'Active',
-           'augmentation' => 'wheels'
-       );
+    //public function testEditContainerForm()
+    //{
+    //    $formData = array(
+    //       'type' => 'Bin',
+    //       'size' => '6',
+    //       'status' => 'Active',
+    //       'augmentation' => 'wheels'
+    //   );
 
-        //create a new form
-        $form = $this->factory->create(ContainerEditType::class, new Container());
+    //    //create a new form
+    //    $form = $this->factory->create(ContainerEditType::class, new Container());
 
-        $object = new Container();
-        //populate the new address with the new data
-        foreach ($formData as $key=>$value)
-        {
-            $methodName = "set" . $key;
-            $object->$methodName($value);
-        }
+    //    $object = new Container();
+    //    //populate the new address with the new data
+    //    foreach ($formData as $key=>$value)
+    //    {
+    //        $methodName = "set" . $key;
+    //        $object->$methodName($value);
+    //    }
 
 
-        //submit the data
-        $form->submit($formData);
+    //    //submit the data
+    //    $form->submit($formData);
 
-        //Make sure the from doesent through exceptions
-        $this->assertTrue($form->isSynchronized());
-        //Check that the from contains the objects info.
-        $this->assertEquals($object,$form->getData());
-        //create the forms view
-        $view = $form->createView();
-        //get the children of the form
-        $children = $view->children;
-        //make sure the form has all the right fields
-        foreach ($formData as $key=>$value)
-        {
-            $this->assertArrayHasKey($key,$children);
-        }
-    }
+    //    //Make sure the from doesent through exceptions
+    //    $this->assertTrue($form->isSynchronized());
+    //    //Check that the from contains the objects info.
+    //    $this->assertEquals($object,$form->getData());
+    //    //create the forms view
+    //    $view = $form->createView();
+    //    //get the children of the form
+    //    $children = $view->children;
+    //    //make sure the form has all the right fields
+    //    foreach ($formData as $key=>$value)
+    //    {
+    //        $this->assertArrayHasKey($key,$children);
+    //    }
+    //}
 }
