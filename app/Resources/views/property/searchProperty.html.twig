@@ -14,7 +14,7 @@
 {# magic invisible div that allows us to pass information to the search script #}
 <div class="js-jsonpage" data-jsonpage="{{ path('property_jsonsearch_empty') }}"></div>
 <div class="js-isPopup" data-ispopup="{{isPopup}}"></div>
-<h2>Property Search</h2>
+<h2>Property Search <a href="{{ path('property_add') }}"><i class="green plus icon"></i></a></h2>
 
 <div class="ui search">
     <input type="text" id="searchBox" class="prompt" maxlength="100" placeholder="Search..." />

@@ -231,25 +231,25 @@ class NavigateSystemTest extends WebTestCase
         $page = $this->session->getPage();
 
         //click on the contacts button
-        $page->find("css","#contacts")->click();
+        $page->find("css","#contactsPage")->click();
 
         //check that the header is the contact search page
-        assertContains("Contact Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/contact/search", $this->session->getCurrentUrl());
+        $this->assertContains("Contact Search", $page->find("css","h2")->getHtml());
+        $this->assertContains("/contact/search", $this->session->getCurrentUrl());
 
         //Click on the add contact button
         $page->find("css","#newContact")->click();
 
         //check that the header is there and we're on the new contact page
-        assertContains("Add Contact" , $page->find("css","h2:first-child")->getHtml());
-        assertContains("/contact/new", $this->session->getCurrentUrl());
+        $this->assertContains("Add Contact" , $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("/contact/new", $this->session->getCurrentUrl());
 
         //Attempt to click on the cancel button
         $page->find("css","#cancelButton")->click();
 
         //check that we're back on the search page
-        assertContains("Contact Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/contact/search", $this->session->getCurrentUrl());
+        $this->assertContains("Contact Search", $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("/contact/search", $this->session->getCurrentUrl());
     }
 
     /**
