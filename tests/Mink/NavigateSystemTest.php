@@ -110,7 +110,7 @@ class NavigateSystemTest extends WebTestCase
         // Test that the hamburger button doesn't show up on desktop
         $this->assertFalse($menuButton->isVisible());
 
-        // Resize the window
+        // Resize the window to mobile view
         $this->session->resizeWindow(766, 1080, "current");
         // Test that the hamburger button does show up on mobile
         $this->assertTrue($menuButton->isVisible());
