@@ -104,30 +104,32 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $this->session->wait(10000);
 
         //Need to use named search to find button based on its content
-        //$page->find("named",array("content", "Jones"))->click();
-        //$page->find('xpath', $this->session->getSelectorsHandler()->selectorToXpath('xpath', "//a[contains(@href, 'contact/24')]"))->click(); 
-        $page->find("css", "table > tbody > tr:first-child > td")->doubleClick();
+        //
+        //$page->find('xpath', $this->session->getSelectorsHandler()->selectorToXpath('xpath', "//a[contains(@href, 'contact/24')]"))->click();
+        //$page->find("css", "table > tbody > tr:first-child > td")->doubleClick();
+        $page = $this->session->getPage();
+        $page->find("named",array("content", "Jones"))->click();
 
         //$viewLink->;
 
         $this->session->wait(10000);
 
-        //$pageContent = $page->getHtml();
+        $pageContent = $page->getHtml();
 
-        ////check that expected content is on the page
-        //$this->assertContains("View Contact", $pageContent);
-        //$this->assertContains("Bill",$pageContent);
-        //$this->assertContains("Jones",$pageContent);
-        //$this->assertContains("Property Roster",$pageContent);
+        //check that expected content is on the page
+        $this->assertContains("View Contact", $pageContent);
+        $this->assertContains("Bill",$pageContent);
+        $this->assertContains("Jones",$pageContent);
+        $this->assertContains("Property Roster",$pageContent);
 
-        ////check that the form is on the page
-        //$this->assertNotNull($page->find("css","form[name=appbundle_propertyToContact]"));
+        //check that the form is on the page
+        $this->assertNotNull($page->find("css","form[name=appbundle_propertyToContact]"));
 
-        ////check that the table is on the page
-        //$this->assertNotNull($page->find("css","#associatedProperties"));
+        //check that the table is on the page
+        $this->assertNotNull($page->find("css","#associatedProperties"));
 
-        ////a property that is on this contact
-        //$this->assertContains("1132 Illinois Avenue", $pageContent);
+        //a property that is on this contact
+        $this->assertContains("1132 Illinois Avenue", $pageContent);
     }
 
     /**
