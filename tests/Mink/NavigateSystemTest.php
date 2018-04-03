@@ -93,9 +93,39 @@ class NavigateSystemTest extends WebTestCase
         $this->session->stop();
     }
 
+    // TEST HAMBURGER BUTTON VISIBILITY
+    /**
+        story 23a
+        Tests the visibility of the menu bar
+    */
+    public function testMenu()
+    {
+        //start up a new session, starting at the home page
+        $this->session->visit('http://localhost:8000/app_test.php');
+        // Get the page
+        $page = $this->session->getPage();
+
+        $menuButton = $page->find("css", "#openMenu");
+
+        // Test that the hamburger button doesn't show up on desktop
+        $this->assertFalse($menuButton->isVisible());
+
+        // Resize the window
+        $this->session->resizeWindow(766, 1080, "current");
+        // Test that the hamburger button does show up on mobile
+        $this->assertTrue($menuButton->isVisible());
+
+        $menuButton->click();
+        $this->session->wait(500);
+        // Test that the sidebar pops out when the hamburger is pressed
+        $this->assertTrue($page->find("css", "#sideNav")->isVisible());
+    }
 
     //NAVIGATION TESTS BELOW
-
+    /**
+        story 23a
+        Tests that you can browse to the homepage and everything shows up correctly
+    */
     public function testBrowseHome()
     {
         //start up a new session, starting at the property search page
@@ -125,7 +155,7 @@ class NavigateSystemTest extends WebTestCase
     public function testBrowseCommunications()
     {
         //start up a new session, starting at the home page
-        $this->session->visit('http://localhost:8000/app_test.php/');
+        $this->session->visit('http://localhost:8000/app_test.php');
         // Get the page
         $page = $this->session->getPage();
 
@@ -158,7 +188,7 @@ class NavigateSystemTest extends WebTestCase
     public function testBrowseCommunicationsHome()
     {
         //start up a new session, starting at the home page
-        $this->session->visit('http://localhost:8000/app_test.php/');
+        $this->session->visit('http://localhost:8000/app_test.php');
         // Get the page
         $page = $this->session->getPage();
 
@@ -196,7 +226,7 @@ class NavigateSystemTest extends WebTestCase
     public function testBrowseContacts()
     {
         //start up a new session, starting at the home page
-        $this->session->visit('http://localhost:8000/app_test.php/');
+        $this->session->visit('http://localhost:8000/app_test.php');
         // Get the page
         $page = $this->session->getPage();
 
@@ -229,7 +259,7 @@ class NavigateSystemTest extends WebTestCase
     public function testBrowseContactsHome()
     {
         //start up a new session, starting at the home page
-        $this->session->visit('http://localhost:8000/app_test.php/');
+        $this->session->visit('http://localhost:8000/app_test.php');
         // Get the page
         $page = $this->session->getPage();
 
@@ -267,7 +297,7 @@ class NavigateSystemTest extends WebTestCase
     public function testBrowseContainers()
     {
         //start up a new session, starting at the home page
-        $this->session->visit('http://localhost:8000/app_test.php/');
+        $this->session->visit('http://localhost:8000/app_test.php');
         // Get the page
         $page = $this->session->getPage();
 
@@ -300,7 +330,7 @@ class NavigateSystemTest extends WebTestCase
     public function testBrowseContainersHome()
     {
         //start up a new session, starting at the home page
-        $this->session->visit('http://localhost:8000/app_test.php/');
+        $this->session->visit('http://localhost:8000/app_test.php');
         // Get the page
         $page = $this->session->getPage();
 
@@ -338,7 +368,7 @@ class NavigateSystemTest extends WebTestCase
     public function testBrowseProperties()
     {
         //start up a new session, starting at the home page
-        $this->session->visit('http://localhost:8000/app_test.php/');
+        $this->session->visit('http://localhost:8000/app_test.php');
         // Get the page
         $page = $this->session->getPage();
 
@@ -371,7 +401,7 @@ class NavigateSystemTest extends WebTestCase
     public function testBrowsePropertiesHome()
     {
         //start up a new session, starting at the home page
-        $this->session->visit('http://localhost:8000/app_test.php/');
+        $this->session->visit('http://localhost:8000/app_test.php');
         // Get the page
         $page = $this->session->getPage();
 
@@ -409,7 +439,7 @@ class NavigateSystemTest extends WebTestCase
     public function testBrowseRoutes()
     {
         //start up a new session, starting at the home page
-        $this->session->visit('http://localhost:8000/app_test.php/');
+        $this->session->visit('http://localhost:8000/app_test.php');
         // Get the page
         $page = $this->session->getPage();
 
@@ -428,7 +458,7 @@ class NavigateSystemTest extends WebTestCase
     public function testBrowseRoutesHome()
     {
         //start up a new session, starting at the home page
-        $this->session->visit('http://localhost:8000/app_test.php/');
+        $this->session->visit('http://localhost:8000/app_test.php');
         // Get the page
         $page = $this->session->getPage();
 
@@ -447,7 +477,7 @@ class NavigateSystemTest extends WebTestCase
     public function testBrowseTrucks()
     {
         //start up a new session, starting at the home page
-        $this->session->visit('http://localhost:8000/app_test.php/');
+        $this->session->visit('http://localhost:8000/app_test.php');
         // Get the page
         $page = $this->session->getPage();
 
@@ -466,7 +496,7 @@ class NavigateSystemTest extends WebTestCase
     public function testBrowseTrucksHome()
     {
         //start up a new session, starting at the home page
-        $this->session->visit('http://localhost:8000/app_test.php/');
+        $this->session->visit('http://localhost:8000/app_test.php');
         // Get the page
         $page = $this->session->getPage();
 
