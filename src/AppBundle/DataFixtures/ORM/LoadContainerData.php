@@ -149,7 +149,7 @@ class LoadContainerData implements FixtureInterface
                 $obMan->flush();
             }
 
-
+            sleep(1);
 
         }
         else
