@@ -184,6 +184,7 @@
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
     <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
     <Compile Include="tests\Mink\TruckEditPageTest.php" />
+    <Compile Include="tests\Mink\RouteUtilPageTest.php" />
     <Compile Include="tests\Mink\TruckUtilPageTest.php" />
     <Compile Include="var\cache\dev\doctrine\orm\Proxies\__CG__AppBundleEntityAddress.php" />
     <Compile Include="var\cache\dev\pools\4xgj6XummP\+\5\KtszP7xMmjGcXxpXfSie" />
