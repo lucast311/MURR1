@@ -11,6 +11,7 @@ use DateTime;
  *
  * @ORM\Table(name="communication")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommunicationRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Communication
 {
@@ -114,11 +115,11 @@ class Communication
      */
     private $description;
 
-    ///**
-    // * @var int
-    // * @ORM\Column(type="integer")
-    // */
-    //private $user;
+    /**
+     * @ORM\Column(name="dateModified", type="datetime")
+     * @var mixed
+     */
+    protected $dateModified;
 
     /**
      * Default constructor for a Communication object. This will just set the value of date to be today by default
@@ -127,6 +128,11 @@ class Communication
     {
         $tempDate = new DateTime('now');
         $this->date = $tempDate->format('Y-m-d');
+
+        if($this->getDateModified() == NULL)
+        {
+            $this->setDateModified(new \DateTime());
+        }
     }
 
 
@@ -354,6 +360,38 @@ class Communication
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set dateModified
+     *
+     * @param \DateTime $dateModified
+     * @return Communication
+     */
+    public function setDateModified($dateModified)
+    {
+        $this->dateModified = $dateModified;
+
+        return $this;
+    }
+
+    /**
+     * Get dateModified
+     *
+     * @return \DateTime
+     */
+    public function getDateModified()
+    {
+        return $this->dateModified;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime()
+    {
+        $this->setDateModified(new \DateTime());
     }
 
     ///**

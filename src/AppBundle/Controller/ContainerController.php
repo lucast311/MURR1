@@ -3,15 +3,20 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Container;
+use AppBundle\Entity\Property;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
+use AppBundle\Services\RecentUpdatesHelper;
+use AppBundle\Form\PropertyType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
+
 
 /**
  * Container controller.
@@ -29,12 +34,21 @@ class ContainerController extends Controller
      */
     public function searchAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        // get the RecentUpdates service to query for the 10 most recently updated containers
+        $recentUpdates = new RecentUpdatesHelper();
+
+        // the service takes in an EntityManager, and the name of the Entity
+        $tenRecent = $recentUpdates->tenMostRecent($em, 'AppBundle:Container');
+
         // Get if it is in a search to view or if it is a search to insert
         $isPopup = ($request->query->get("isPopup")) == "true" ? true : false;
         // Render the twig with required data
         return $this->render('container/searchContainer.html.twig', array(
             'viewURL' => '/container/',
-            'isPopup' => $isPopup
+            'isPopup' => $isPopup,
+            'defaultTen' => $tenRecent
         ));
     }
 
@@ -99,7 +113,8 @@ class ContainerController extends Controller
             return $this->render('container/show.html.twig', array(
             'container' => $container,
             'delete_form' => $deleteForm->createView(),
-            'invalid_id_error'=>false
+            'invalid_id_error'=>false,
+            'container' => $container
             ));
         }
 
@@ -117,16 +132,30 @@ class ContainerController extends Controller
      */
     public function editAction(Request $request, $id=null)
     {
-
         $repo = $this->getDoctrine()->getManager()->getRepository(Container::class);
         $container = $repo->findOneById($id);
 
         if($container != null)
         {
+            $em = $this->getDoctrine()->getManager();
+
             //generate the necessary forms
             $deleteForm = $this->createDeleteForm($container);
-            $editForm = $this->createForm('AppBundle\Form\ContainerEditType', $container);
+            $editForm = $this->createForm('AppBundle\Form\ContainerEditType', $container, array('em' => $em));
             $editForm->handleRequest($request);
+            $addPropertyForm = $this->createForm(PropertyType::class);
+            $addPropertyForm->handleRequest($request);
+
+            $em = $this->getDoctrine()->getManager();
+
+            if($container->getProperty() == null)
+            {
+                $property = 0;
+            }
+            else
+            {
+                $property = $em->getRepository(Property::class)->find($container->getProperty());
+            }
 
             //if the form is valid and submitted, edit the container
             if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -141,7 +170,9 @@ class ContainerController extends Controller
                 'container' => $container,
                 'edit_form' => $editForm->createView(),
                 'delete_form' => $deleteForm->createView(),
-                'invalid_id_error' => false
+                'add_property_form' => $addPropertyForm->createView(),
+                'invalid_id_error' => false,
+                'property' => $property
             ));
         }
 
@@ -155,21 +186,16 @@ class ContainerController extends Controller
     /**
      * Deletes a container entity.
      *
-     * @Route("/{id}", name="container_delete")
-     * @Method("DELETE")
+     * @Route("/delete/{id}", name="container_delete")
+     * @Method("POST")
      */
-    public function deleteAction(Request $request, Container $container)
+    public function deleteAction(Container $container)
     {
-        $form = $this->createDeleteForm($container);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($container);
+        $em->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($container);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('container_index');
+        return $this->redirectToRoute('container_search');
     }
 
     /**
@@ -201,32 +227,60 @@ class ContainerController extends Controller
      */
     public function jsonSearchAction($searchQuery = "")
     {
-        // Clean the input
-        $searchQuery = htmlentities($searchQuery);
-
-        // if the string to query onn is less than or equal to 100 characters
-        if(strlen($searchQuery) <= 500 && !empty($searchQuery))
+        if($searchQuery != "")
         {
-            // create a cleaner to cleanse the search query
-            $cleaner = new Cleaner();
+            // Clean the input
+            $searchQuery = htmlentities($searchQuery);
 
-            // cleanse the query
-            $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
+            // if the string to query onn is less than or equal to 100 characters
+            if(strlen($searchQuery) <= 500 && !empty($searchQuery))
+            {
+                // create a cleaner to cleanse the search query
+                $cleaner = new Cleaner();
 
-            // get an entity manager
+                // cleanse the query
+                $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
+
+                // get an entity manager
+                $em = $this->getDoctrine()->getManager();
+
+
+
+                // Use the repository to query for the records we want.
+            // Store those records into an array.
+                $containerSearches = $em->getRepository(Container::class)->containerSearch($cleanQuery);
+
+                // create a SearchNarrower to narrow down our searches
+                $searchNarrower = new SearchNarrower();
+
+                // narrow down our searches, and store their values along side their field values
+                $searchedData = $searchNarrower->narrower($containerSearches, $cleanQuery, new Container());
+
+                // Return the results as a json object
+            // NOTE: Serializer service needs to be enabled for this to work properly
+                $encoder = new JsonEncoder();
+                $normalizer = new ObjectNormalizer();
+
+                // We used to get a circular reference error. This line prevents it.
+                //$normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
+
+                // Don't display the 'property', 'structure', 'address', and 'Datemodified' data as JSON. Makes it more human readable.
+                $normalizer->setIgnoredAttributes(array("property", "structure", "address", "dateModified"));
+                $serializer = new Serializer(array($normalizer), array($encoder));
+
+                return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
+            }
+        }
+        else
+        {
+            //get an entity manager
             $em = $this->getDoctrine()->getManager();
 
+            //get the recentUpdates service to query for the 10 most recently updated containers
+            $recentUpdates = new RecentUpdatesHelper();
 
-
-            // Use the repository to query for the records we want.
-            // Store those records into an array.
-            $containerSearches = $em->getRepository(Container::class)->containerSearch($cleanQuery);
-
-            // create a SearchNarrower to narrow down our searches
-            $searchNarrower = new SearchNarrower();
-
-            // narrow down our searches, and store their values along side their field values
-            $searchedData = $searchNarrower->narrower($containerSearches, $cleanQuery, new Container());
+            //The service takes in an entitymanager, and the name of the entity
+            $tenRecent = $recentUpdates->TenMostRecent($em, 'AppBundle:Container');
 
             // Return the results as a json object
             // NOTE: Serializer service needs to be enabled for this to work properly
@@ -234,18 +288,16 @@ class ContainerController extends Controller
             $normalizer = new ObjectNormalizer();
 
             // We used to get a circular reference error. This line prevents it.
-            $normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
+            //$normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
 
-            // Don't display the 'property' data as JSON. Makes it more human readable.
-            $normalizer->setIgnoredAttributes(array("property", "structure", "address"));
+            // Don't display the 'property', 'structure', 'address', and 'Datemodified' data as JSON. Makes it more human readable.
+            $normalizer->setIgnoredAttributes(array("property", "structure", "address", "dateModified"));
             $serializer = new Serializer(array($normalizer), array($encoder));
 
-            return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
+            return JsonResponse::fromJsonString($serializer->serialize($tenRecent, 'json'));
         }
 
         // string over 100, return empty array.
         return $this->json(array());
     }
-
-
 }
