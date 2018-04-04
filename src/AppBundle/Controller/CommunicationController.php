@@ -14,6 +14,7 @@ use AppBundle\Entity\Container;
 use AppBundle\Entity\ContactProperty;
 use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
+use AppBundle\Services\RecentUpdatesHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -182,34 +183,62 @@ class CommunicationController extends Controller
      */
     public function jsonSearchAction($searchQuery = "")
     {
-        // Clean the input
-        $searchQuery = htmlentities($searchQuery);
-
-        // if the string to query onn is less than or equal to 100 characters
-        if(strlen($searchQuery) <= 500 && !empty($searchQuery))
+        if($searchQuery != "")
         {
-            // create a cleaner to cleanse the search query
-            $cleaner = new Cleaner();
+            // Clean the input
+            $searchQuery = htmlentities($searchQuery);
 
-            // cleanse the query
-            $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
+            // if the string to query onn is less than or equal to 100 characters
+            if(strlen($searchQuery) <= 500 && !empty($searchQuery))
+            {
+                // create a cleaner to cleanse the search query
+                $cleaner = new Cleaner();
 
+                // cleanse the query
+                $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
+
+                // get an entity manager
+                $em = $this->getDoctrine()->getManager();
+
+
+                $communicationJoins = array(new Communication(), new Property());
+
+
+                // Use the repository to query for the records we want.
+                // Store those records into an array.
+                $communicationSearches = $em->getRepository(Communication::class)->communicationSearch($cleanQuery);
+
+                // create a SearchNarrower to narrow down our searches
+                $searchNarrower = new SearchNarrower();
+
+                // narrow down our searches, and store their values along side their field values
+                $searchedData = $searchNarrower->narrower($communicationSearches, $cleanQuery, new Communication());
+
+                // Return the results as a json object
+                // NOTE: Serializer service needs to be enabled for this to work properly
+                $encoder = new JsonEncoder();
+                $normalizer = new ObjectNormalizer();
+
+                // We used to get a circular reference error. This line prevents it.
+                $normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
+
+                // Don't display the 'property' data as JSON. Makes it more human readable.
+                $normalizer->setIgnoredAttributes(array("property", "dateModified"));
+                $serializer = new Serializer(array($normalizer), array($encoder));
+
+                return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
+            }
+        }
+        else
+        {
             // get an entity manager
             $em = $this->getDoctrine()->getManager();
 
+            // get the RecentUpdates service to query for the 10 most recently updated communications
+            $recentUpdates = new RecentUpdatesHelper();
 
-            $communicationJoins = array(new Communication(), new Property());
-
-
-            // Use the repository to query for the records we want.
-            // Store those records into an array.
-            $communicationSearches = $em->getRepository(Communication::class)->communicationSearch($cleanQuery);
-
-            // create a SearchNarrower to narrow down our searches
-            $searchNarrower = new SearchNarrower();
-
-            // narrow down our searches, and store their values along side their field values
-            $searchedData = $searchNarrower->narrower($communicationSearches, $cleanQuery, new Communication());
+            // the service takes in an EntityManager, and the name of the Entity
+            $tenRecent = $recentUpdates->tenMostRecent($em, 'AppBundle:Communication');
 
             // Return the results as a json object
             // NOTE: Serializer service needs to be enabled for this to work properly
@@ -220,10 +249,10 @@ class CommunicationController extends Controller
             $normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
 
             // Don't display the 'property' data as JSON. Makes it more human readable.
-            $normalizer->setIgnoredAttributes(array("property"));
+            $normalizer->setIgnoredAttributes(array("property", "dateModified"));
             $serializer = new Serializer(array($normalizer), array($encoder));
 
-            return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
+            return JsonResponse::fromJsonString($serializer->serialize($tenRecent, 'json'));
         }
 
         // string over 100, return empty array.

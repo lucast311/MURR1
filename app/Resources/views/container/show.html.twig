@@ -4,7 +4,23 @@
 
 {# Include javascript for delete modal #}
 {% block javascripts %}
-<script src="{{ asset("JavaScript/DeleteModal.js") }}"></script>
+<link href="../../../../css/ContainerViewStyles.css" rel="stylesheet" />
+<script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
+<script>
+	$(function () {
+		//initialize('#appbundle_container_property');
+
+		addModal();
+
+		$('.removeButton').click(function () {
+			var parent = $($(this).parent().get(0));
+
+			console.log(parent);
+
+			showModal(parent.data('message'), parent);
+		});
+	});
+</script>
 {% endblock %}
 
 {% block body %}
@@ -12,76 +28,74 @@
     th{ text-align:left; }
 </style>
 
-    <h1>Container</h1>
+    <h1 class="ui header left attached top">Container</h1>
     
 {% if invalid_id_error %}
     <h2>Container does not exist</h2>
 {% else %}
 
+    <div class="ui bottom attached segment">
+        <table>
+            <tbody>
+			    <tr>
+                    <th>Container Serial:</th>
+                    <td>{{ container.containerSerial }}</td>
+                </tr>
+			    <tr>
+                    <th>Type:</th>
+                    <td>{{ container.type }}</td>
+                </tr>
+                <tr>
+                    <th>Size:</th>
+                    <td>{{ container.size }}</td>
+                </tr>
+			    <tr>
+                    <th>Augmentation:</th>
+                    <td>{{ container.augmentation }}</td>
+                </tr>
+                <tr>
+                    <th>Status:</th>
+                    <td>{{ container.status }}</td>
+                </tr>
+			    <tr>
+                    <th>Reason for status:</th>
+                    <td>{{ container.reasonForStatus }}</td>
+                </tr>
+                <tr>
+                    <th>Frequency:</th>
+                    <td>{{ container.frequency }}</td>
+                </tr>
+                <tr>
+                    <th>Location Description:</th>
+                    <td>{{ container.locationDesc }}</td>
+                </tr>
+                <tr>
+                    <th>Longitude:</th>
+                    <td>{{ container.lon }}</td>
+                </tr>
+                <tr>
+                    <th>Latitude:</th>
+                    <td>{{ container.lat }}</td>
+                </tr>
+                <tr>
+                    <th>Property:</th>
+                    <td>{{ container.property }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id:</th>
-                <td>{{ container.id }}</td>
-            </tr>
-            <tr>
-                <th>Frequency:</th>
-                <td>{{ container.frequency }}</td>
-            </tr>
-            <tr>
-                <th>Container Serial:</th>
-                <td>{{ container.containerSerial }}</td>
-            </tr>
-            <tr>
-                <th>Location Description:</th>
-                <td>{{ container.locationDesc }}</td>
-            </tr>
-            <tr>
-                <th>Longitude:</th>
-                <td>{{ container.lon }}</td>
-            </tr>
-            <tr>
-                <th>Latitude:</th>
-                <td>{{ container.lat }}</td>
-            </tr>
-            <tr>
-                <th>Type:</th>
-                <td>{{ container.type }}</td>
-            </tr>
-            <tr>
-                <th>Size:</th>
-                <td>{{ container.size }}</td>
-            </tr>
-            <tr>
-                <th>Augmentation:</th>
-                <td>{{ container.augmentation }}</td>
-            </tr>
-            <tr>
-                <th>Status:</th>
-                <td>{{ container.status }}</td>
-            </tr>
-            <tr>
-                <th>Reason for status:</th>
-                <td>{{ container.reasonForStatus }}</td>
-            </tr>
-            <tr>
-                <th>Property:</th>
-                <td>{{ container.property }}</td>
-            </tr>
-            <tr>
-                <th>Structure:</th>
-                <td>{{ container.structure }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <a href="{{ path('container_search') }}" class="ui button" id="btnSearch">Search</a>
+        <a href="{{ path('container_edit', { 'id': container.id }) }}" class="ui button" id="btnEdit">Edit</a>
 
-<a href="{{ path('container_index') }}" class="ui button">Back to the list</a>
-<a href="{{ path('container_edit', { 'id': container.id }) }}" class="ui button">Edit</a>
-<button class="ui button" id="delete">Delete</button>
+	    <form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to remove container {{container}}?">
+		    <input type="hidden" name="container" value="{{container.id}}"/>
+		    <button type="button" class="ui button removeButton" id="btnDelete">Delete</button>
+	    </form>
+    </div>
+        {#<input type="submit" value="Delete" class="ui button" id="btnDelete">#}
 
 {# Modal for the delete confirmation #}
-<div class="ui basic modal delete">
+{#<div class="ui basic modal delete">
   <div class="ui icon header">
             {{ form_start(delete_form) }}
             {{ form_end(delete_form) }}
@@ -100,7 +114,7 @@
       Delete
     </div>
   </div>
-</div>
+</div>#}
 
 {% endif %}
 

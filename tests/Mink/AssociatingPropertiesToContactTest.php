@@ -82,7 +82,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $menu = $page->find("css","#menuBtn");
         $menu->click();
 
-        $this->session->wait(1000);
+        $this->session->wait(5000);
 
         //A: CHANGED IN S40A -AB
         //click the contacts page
@@ -91,7 +91,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         $contactsBtn->click();
 
-        $this->session->wait(2000);
+        $this->session->wait(6000);
 
         //get the search bar
         $searchBox = $page->find("css","#searchBox");
@@ -101,15 +101,18 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $searchBox->keyPress("s");
 
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $this->session->wait(5000);
+        $this->session->wait(10000);
 
         //Need to use named search to find button based on its content
-        $viewLink = $page->find("named",array("content", "Jones"));
-        //$viewLink = $page->find("css", "table > tbody > tr:first-child > td"); 
+        //
+        //$page->find('xpath', $this->session->getSelectorsHandler()->selectorToXpath('xpath', "//a[contains(@href, 'contact/24')]"))->click();
+        //$page->find("css", "table > tbody > tr:first-child > td")->doubleClick();
+        $page = $this->session->getPage();
+        $page->find("named",array("content", "Jones"))->click();
 
-        $viewLink->click();
+        //$viewLink->;
 
-        $this->session->wait(1000);
+        $this->session->wait(10000);
 
         $pageContent = $page->getHtml();
 

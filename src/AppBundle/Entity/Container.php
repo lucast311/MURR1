@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="container")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContainerRepository")
+ * @ORM\HasLifecycleCallbacks
  * @UniqueEntity(fields = {"containerSerial"}, message = "Serial already exists")
  */
 class Container
@@ -29,6 +30,10 @@ class Container
      *
      * @ORM\Column(name="frequency", type="string", nullable=true)
      * @Assert\Choice(strict=true, callback="FrequencyChoices", message = "Please select frequency type")
+     * @Assert\Regex(
+     *      match       = false,
+     *      pattern = "/^(-){2}([a-zA-Z ])*(-){2}$/", message = "Please select frequency type"
+     * )
      */
     private $frequency;
 
@@ -74,6 +79,10 @@ class Container
      * @ORM\Column(name="type", type="string", length=50)
      * @Assert\Choice(strict=true, callback="TypeChoices", message = "Please select bin Type")
      * @Assert\NotNull()
+     * @Assert\Regex(
+     *      match       = false,
+     *      pattern = "/^(-){2}([a-zA-Z ])*(-){2}$/", message = "Please select bin Type"
+     * )
      */
     private $type;
 
@@ -90,6 +99,10 @@ class Container
      * @var string
      * @ORM\Column(name="status", type="string", length=50)
      * @Assert\Choice(strict=true, callback="StatusChoices", message = "Please select bin status")
+     * @Assert\Regex(
+     *      match       = false,
+     *      pattern = "/^(-){2}([a-zA-Z ])*(-){2}$/", message = "Please select bin status"
+     * )
      */
     private $status;
 
@@ -125,6 +138,20 @@ class Container
      * @ORM\JoinColumn(name="structureId", referencedColumnName="id")
      */
     private $structure;
+
+    /**
+     * @ORM\Column(name="dateModified", type="datetime")
+     * @var mixed
+     */
+    protected $dateModified;
+
+    public function __construct()
+    {
+        if($this->getDateModified() == Null)
+        {
+            $this->setDateModified(new \DateTime());
+        }
+    }
 
     /**
      * Get id
@@ -361,14 +388,47 @@ class Container
     }
 
     /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime()
+    {
+        $this->setDateModified(new \DateTime());
+    }
+
+    /**
+     * Set dateModified
+     *
+     * @param \DateTime $dateModified
+     * @return Container
+     */
+    public function setDateModified($dateModified)
+    {
+        $this->dateModified = $dateModified;
+    }
+
+    /**
+     * Get dateModified
+     *
+     * @return \DateTime
+     */
+    public function getDateModified()
+    {
+        return $this->dateModified;
+    }
+
+
+
+    /**
      * Gets the choices available for the Type attribute
      *
      * @return array
      */
     public static function TypeChoices()
     {
-        return array('Bin' => 'Bin',
-                     'Cart'=>'Cart');
+        return array('--Please Select a Type--' => '--Please Select a Type--',
+                    'Bin' => 'Bin',
+                    'Cart'=>'Cart');
     }
 
     /**
@@ -377,11 +437,16 @@ class Container
      */
     public static function StatusChoices()
     {
-        return array('Active' => 'Active',
-                     'Inaccessable' => 'Inaccessable',
+        return array('--Please Select a Status--' => '--Please Select a Status--',
+                     'Active' => 'Active',
                      'Contaminated' => 'Contaminated',
-                     'Damage' => 'Damage',
-                     'Graffiti' => 'Graffiti');
+                     'Garbage Tip Authorized' => 'Garbage Tip Authorized',
+                     'Garbage Tip Denied' => 'Garbage Tip Denied',
+                     'Garbage Tip Requested' => 'Garbage Tip Requested',
+                     'Garbage Tip Scheduled' => 'Garbage Tip Scheduled',
+                     'Inaccessible' => 'Inaccessible',
+                     'Inactive' => 'Inactive',
+                     'Overflowing' => 'Overflowing');
     }
 
     /**
@@ -390,7 +455,8 @@ class Container
      */
     public static function FrequencyChoices()
     {
-        return array('Monthly' => 'Monthly',
+        return array('--Please Select a Frequency--' => '--Please Select a Frequency--',
+                     'Monthly' => 'Monthly',
                      'Weekly' => 'Weekly',
                      'Twice weekly' => 'Twice weekly');
     }
@@ -409,13 +475,20 @@ class Container
         }
         else
         {
-            return "N/A";  
+            return "N/A";
         }
     }
 
     public function __toString()
     {
-        return $this->containerSerial;
+        if($this->containerSerial != "")
+        {
+            return $this->containerSerial;
+        }
+        else
+        {
+            return "";
+        }
     }
 }
 

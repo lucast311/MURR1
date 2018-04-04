@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="property")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PropertyRepository")
+ * @ORM\HasLifecycleCallbacks
  * @UniqueEntity(fields = {"siteId"}, message = "Site Id already exists")
  */
 class Property
@@ -136,9 +137,20 @@ class Property
      */
     private $communications;
 
+    /**
+     * @ORM\Column(name="dateModified", type="datetime")
+     * @var mixed
+     */
+    protected $dateModified;
+
     public function __construct()
     {
         $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
+
+        if($this->getDateModified() == NULL)
+        {
+            $this->setDateModified(new \DateTime());
+        }
     }
 
     /**
@@ -429,8 +441,36 @@ class Property
         return $this;
     }
 
-    public function __toString(){
-        return $this->address->getStreetAddress();
+    /**
+     * Set dateModified
+     *
+     * @param \DateTime $dateModified
+     * @return Property
+     */
+    public function setDateModified($dateModified)
+    {
+        $this->dateModified = $dateModified;
+
+        return $this;
+    }
+
+    /**
+     * Get dateModified
+     *
+     * @return \DateTime
+     */
+    public function getDateModified()
+    {
+        return $this->dateModified;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime()
+    {
+        $this->setDateModified(new \DateTime());
     }
 
     /**
@@ -465,5 +505,9 @@ class Property
             "Mixed Use Condo Apartment"=>"Mixed Use Condo Apartment",
             "Mixed Use Apartment Commercial"=>"Mixed Use Apartment Commercial"
         );
+    }
+
+    public function __toString(){
+        return $this->address->getStreetAddress();
     }
 }
