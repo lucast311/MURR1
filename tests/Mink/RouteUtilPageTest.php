@@ -65,10 +65,13 @@ class RouteUtilPageTest extends WebTestCase
         $truckLoader->load($this->em);
     }
 
+
+    // A BUNCH of these tests are deprecated because our story was changed to be something totally different.
     /**
      * Story 40c
      * Tests that the user can create a new route successfully with the add route form with auto populated values
      */
+    /*
     public function testAddNewRouteSuccessAutoValues()
     {
         // Navigate to the route add page
@@ -96,11 +99,13 @@ class RouteUtilPageTest extends WebTestCase
         $this->assertContains($page->find("css", "h1")->getHtml(), "Started: " . $todayDate);
 
     }
+    */
 
     /**
      * Story 40c
      * Submit the new route form wrong and assert the errors on the page
      */
+    /*
     public function testInvalidNewRoute()
     {
         // Navigate to the route add page
@@ -130,12 +135,13 @@ class RouteUtilPageTest extends WebTestCase
         $page->find('named', array('field', 'Route ID'))->setValue("1001");
         $page->find('css', 'appbundle_route')->submit();
         $this->assertContains($page->find("css", "ui.message")->getHtml(), "Route '1001' already exists in the system");
-    }
+    }*/
 
     /**
      * Story 40c
      * Tests that the user can create a new route successfully with the add route form manually specifying values
      */
+    /*
     public function testAddNewRouteSuccessManual()
     {
         // Navigate to the route add page
@@ -161,9 +167,75 @@ class RouteUtilPageTest extends WebTestCase
         $this->assertContains($page->find("css", "h1")->getHtml(), "Started: 01/01/2033");
 
     }
+    */
 
+    /**
+     * Story 40c
+     * Tests successfully creating a new route template
+     */
+    public function testCreateNewRouteTemplate()
+    {
+        // Navigate to the route add page
+        $this->session->visit('http://localhost:8000/app_test.php/route');
+        // Get the page
+        $page = $this->session->getPage();
 
-     /**
+        // There should be two buttons on the page. Assert their existance
+        $this->assertNotNull($page->find('named', array('button', 'New Route Template')));
+        $this->assertNotNull($page->find('named', array('button', 'Route From Template')));
+
+        // click the new route template button
+        $page->find('named', array('button', 'New Route Template'))->click();
+
+        // Assert we are now on the new route template page
+        $this->assertContains('/route/template/new', $this->session->getCurrentUrl());
+
+        // Fill out the template name
+        $page->find('named', array('field', 'Template Name'))->setValue("Sample Template");
+
+        // Add some containers to the route pickups
+        $page->find("css", "#availableContainers")->find('named', array('content', "T3STSRL"))->click();
+        $page->find("css", "#availableContainers")->find('named', array('content', "T3STSR3"))->click();
+
+        // Assert those containers were put into the route pickups area
+        $this->assertNotNull($page->find("css", "#availableContainers")->find('named', array('content', "T3STSRL")));
+        $this->assertNotNull($page->find("css", "#availableContainers")->find('named', array('content', "T3STSR3")));
+
+        // Now add the template to the system
+        $page->find('named', array('button', 'Add Template'))->click();
+
+        // Assert we are back on the add route page
+        $this->assertContains('/route', $this->session->getCurrentUrl());
+    }
+
+    /**
+     * Story 40c
+     * Checks what happens when you try to submit the route template form without actually filling out the page
+     */
+    public function testCreateNewTemplateErrorsAppear()
+    {
+        // Do the same as above but don't fill out the form and then submit it. Check for the errors to appear
+    }
+
+    /**
+     * Story 40c
+     * Checks Creating a new route from a template
+     */
+    public function testCreateNewRouteFromTemplate()
+    {
+        
+    }
+
+    /**
+     * Story 40c
+     * Checks Errors when you try to create a route from a template without filling anything out (AKA ERRORS)
+     */
+    public function testCreateNewRouteFromTemplateErrorsAppear()
+    {
+
+    }
+
+    /**
      * (@inheritDoc)
      */
     protected function tearDown()
@@ -173,7 +245,6 @@ class RouteUtilPageTest extends WebTestCase
         $this->session->stop();
 
         //Now wipe the database
-        $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();
     }
