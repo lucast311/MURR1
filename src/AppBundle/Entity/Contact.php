@@ -18,6 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="contact")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContactRepository")
+ * @ORM\HasLifecycleCallbacks
  * @AcmeAssert\ContactAtLeastOneField
  */
 class Contact
@@ -137,9 +138,20 @@ class Contact
      */
     private $properties;
 
+    /**
+     * @ORM\Column(name="dateModified", type="datetime")
+     * @var mixed
+     */
+    protected $dateModified;
+
     public function __construct()
     {
         $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
+
+        if($this->getDateModified() == NULL)
+        {
+            $this->setDateModified(new \DateTime());
+        }
     }
 
     /**
@@ -426,5 +438,37 @@ class Contact
     public function setProperties($properties)
     {
         $this->properties = $properties;
+    }
+
+    /**
+     * Set dateModified
+     *
+     * @param \DateTime $dateModified
+     * @return Communication
+     */
+    public function setDateModified($dateModified)
+    {
+        $this->dateModified = $dateModified;
+
+        return $this;
+    }
+
+    /**
+     * Get dateModified
+     *
+     * @return \DateTime
+     */
+    public function getDateModified()
+    {
+        return $this->dateModified;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime()
+    {
+        $this->setDateModified(new \DateTime());
     }
 }

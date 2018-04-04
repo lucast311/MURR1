@@ -107,6 +107,19 @@ var onLoad = function () {
     // Run the code to make autocomplete work
     autoComplete();
 
+
+
+
+
+    if ($('#searchBox').val() == "") {
+        viewModel.getResults();
+    }
+
+
+
+
+
+
     // get results if there is any text in the searchbox on load
     //fixes issue where it wouldn't get the data when you went back to the page
     if ($('#searchBox').val() != "")
@@ -123,6 +136,8 @@ var onLoad = function () {
         // Do some aesthetic fixes
         $("table").hide();
         $("#message").text("");
+
+        viewModel.getResults();
     });
 
     /*
