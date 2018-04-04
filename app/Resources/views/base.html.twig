@@ -28,11 +28,11 @@
         <!-- Encase the body/content of each page in whatever template you think is nice -->
         <div class="ui vertical inverted left sidebar menu" id="sideNav">
             <a class="item" id="homePage" href="{{ path('homepage') }}">Home</a>
-            <a class="item" id="communicationsPage" href="#">Communications</a>
+            <a class="item" id="communicationsPage" href="{{ path('communication_search')}}">Communications</a>
             <a class="item" id="contactsPage" href="{{ path('contact_search') }}">Contacts</a>
             <a class="item" id="containersPage" href="{{ path('container_search') }}">Containers</a>
             <a class="item" id="propertiesPage" href="{{ path('property_search') }}">Properties</a>
-            <a class="item" id="routesPage" href="#">Routes</a>
+            <a class="item" id="routesPage" href="{{path('route_util')}}">Routes</a>
             <a class="item" id="trucksPage" href="{{ path('truck_util') }}">Trucks</a>
         </div>
         <div id="pageContent" class="pusher">
