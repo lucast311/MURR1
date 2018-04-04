@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}View | Contact Search{% endblock %}
+
 {% block body %}
     <script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
     <script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
@@ -187,7 +189,7 @@
                     <form name="appbundle_removePropertyFromContact" method="post" action="{{path('remove_property_from_contact')}}" data-message="Are you sure you want to remove {{property.address.streetAddress}}?">
                         <input type="hidden" name="contact" value="{{contact.id}}"/>
                         <input type="hidden" name="property" value="{{property.id}}"/>
-                        <button type="button" class="ui icon button removeButton red" id="rmb{{property.id}}"><i class="close icon"></i></button>
+                        <button type="button" class="ui icon google plus button removeButton" id="rmb{{property.id}}"><i class="close icon"></i></button>
                     </form>
                 </td>
             </tr>

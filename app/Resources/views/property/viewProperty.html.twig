@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}View Property{% endblock %}
+{% block title %}View | Property Search{% endblock %}
 
 {% block javascripts %}
 <script type="text/javascript" src="{{ asset('JavaScript/PropertyCommunicationAdd.js') }}"></script>
@@ -80,7 +80,7 @@
         </table>
         <div class="ui buttons">
             <a class="ui labeled icon button" href="{{ path("property_search") }}"><i class="reply icon"></i>Back</a>
-            <button class="ui button" onclick="window.location.href ='{{editPath}}'">Edit</button>
+            <button class="ui blue button" onclick="window.location.href ='{{editPath}}'">Edit</button>
         </div>
         
     </div>

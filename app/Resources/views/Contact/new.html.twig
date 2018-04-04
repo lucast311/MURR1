@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Add | Contact Search{% endblock %}
+
 {% block body %}
         <h2 class="ui header left attached top">Add Contact</h2>
 	<div class="ui bottom attached segment">
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <div class="buttons">
+        <div class="ui buttons">
 		    <a class="ui button" href="{{ path("contact_search") }}">Cancel</a>
             <input class="ui green button" type="submit" value="Add" />
         </div>

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Property{% endblock %}
+{% block title %}Edit | Property Search{% endblock %}
 
 {% block body %}
 
@@ -16,7 +16,7 @@
         {{ form_widget(form) }}
         <div class="ui buttons">
             <a class="ui button" href="{{cancelPath}}">Cancel</a>
-            <input type="submit" value="Save" class="ui button" />
+            <input type="submit" value="Save" class="ui green button" />
         </div>
         {{ form_end(form) }}
 

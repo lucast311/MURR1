@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block javascripts %} 
+{% block title %}Edit | Communication Search{% endblock %}
+
 {# include the PropertySearchPopupSemantic  #}
 <script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
 <script>

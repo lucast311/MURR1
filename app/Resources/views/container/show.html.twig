@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Containers{% endblock %}
+{% block title %}View | Container Search{% endblock %}
 
 {# Include javascript for delete modal #}
 {% block javascripts %}
@@ -87,11 +87,11 @@
 
         <div class="ui buttons">
             <a class="ui labeled icon button" href="{{ path("container_search") }}"><i class="reply icon"></i>Back</a>
-            <a href="{{ path('container_edit', { 'id': container.id }) }}" class="ui button" id="btnEdit">Edit</a>
+            <a href="{{ path('container_edit', { 'id': container.id }) }}" class="ui blue button" id="btnEdit">Edit</a>
 
 	        <form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to remove container {{container}}?">
 		        <input type="hidden" name="container" value="{{container.id}}"/>
-		        <button type="button" class="ui button removeButton" id="btnDelete">Delete</button>
+		        <button type="button" class="ui google plus button removeButton" id="btnDelete">Delete</button>
 	        </form>
         </div>
     </div>
