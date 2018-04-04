@@ -5,8 +5,10 @@
     <div class="ui bottom attached segment">
         {{ form_start(edit_form) }}
             {{ form_widget(edit_form) }}
-		    <a href="{{ path('contact_show', { 'id': contact.Id }) }}" class="ui button">Cancel</a>
-            <input class="ui button" type="submit" value="Save" />
+            <div class="ui buttons">
+                <a href="{{ path('contact_show', { 'id': contact.Id }) }}" class="ui button">Cancel</a>
+                <input class="ui green button" type="submit" value="Save" />
+            </div>
         {{ form_end(edit_form) }}
     </div>
 

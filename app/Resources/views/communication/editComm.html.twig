@@ -24,9 +24,11 @@
                     {{ form_widget(form) }}
 			
 		            <div class="field">
-				        <a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button">Cancel</a>
-				        <button type="submit" id="communication_add" name="communication[add]" class="ui button">Save</button>
-			        </div>
+                        <div class="ui buttons">
+				            <a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button">Cancel</a>
+				            <button type="submit" id="communication_add" name="communication[add]" class="ui green button">Save</button>
+			            </div>
+                    </div>
                     {{ form_end(form) }}
 
 

@@ -17,8 +17,10 @@
         <div class="ui bottom attached segment">
             {{ form_start(form) }}
             {{ form_widget(form) }}
-			<a class="ui button" href="{{ path("communication_search") }}">Cancel</a>
-			<button type="submit" id="communication_add" name="communication[add]" class="ui button">Add</button>
+            <div class="ui buttons">
+                <a class="ui button" href="{{ path("communication_search") }}">Cancel</a>
+			    <button type="submit" id="communication_add" name="communication[add]" class="ui green button">Add</button>
+            </div>
             {{ form_end(form) }}
 
             {% if added is defined and added %}
