@@ -160,15 +160,6 @@ class PropertySearchPopupTest extends WebTestCase
         $this->session->visit('http://localhost:8000/app_test.php/communication/new');
         // Get the page
         $page = $this->session->getPage();
-        // Click on the select box so it opens
-        //$page->find('css', ".select2-selection, .select2-selection--single")->click();
-        $page->find('css', "#communication_category")->click();
-        // Check that the select box contains a specific property
-        $this->assertContains("12 15th st east", $page->find('css', ".select2-results")->getHtml());
-        // Get the search box for the drop down and search for something to narrow the results
-        $page->find('css', ".select2-search__field")->setValue("Test ST");
-        // Now assert that the property is gone
-        $this->assertNotContains("12 15th st east", $page->find('css', ".select2-results")->getHtml());
 
         $searchBox = $page->find("css",".ui.search.dropdown input.search");
 
@@ -191,6 +182,7 @@ class PropertySearchPopupTest extends WebTestCase
         //check that the form field contains the property charlton legs
         $formField = $page->find("css", "#appbundle_communication_property");
         $this->assertEquals(17, $formField->getValue());
+
 
     }
 

@@ -75,6 +75,68 @@ class PropertyContactRemoveTest extends WebTestCase
     }
 
     /**
+     * 4L
+     * Test that you can browse to the Property page
+     */
+    public function testBrowsePage()
+    {
+        //start up a new session, going to the contact view page for Bill Jones (ID 24)
+        $this->session->visit('http://localhost:8000/app_test.php');
+        // Get the page
+        $page = $this->session->getPage();
+
+        //click the menu button
+        $menu = $page->find("css","#menuBtn");
+        $menu->click();
+
+        $this->session->wait(1000);
+
+        //A: CHANGED IN S40A -AB
+        //click the contacts page
+        $propertyBtn = $page->find('xpath', $this->session->getSelectorsHandler()
+            ->selectorToXpath('xpath',"//a[contains(@href, 'property/search')]"));
+
+        $propertyBtn->click();
+
+        $this->session->wait(2000);
+
+        //get the search bar
+        $searchBox = $page->find("css","#searchBox");
+
+        //Type in legs
+        $searchBox->setValue("leg");
+        $searchBox->keyPress("s");
+
+        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
+        $this->session->wait(5000);
+
+        //Need to use named search to find button based on its content
+        $viewLink = $page->find("named",array("content", "Legs"));
+        //$viewLink = $page->find("css", "table > tbody > tr:first-child > td");
+
+        $viewLink->click();
+
+        $this->session->wait(1000);
+
+        $pageContent = $page->getHtml();
+
+        //check that expected content is on the page
+        $this->assertContains("View Property", $pageContent);
+        $this->assertContains("Charlton Legs",$pageContent);
+        $this->assertContains("House",$pageContent);
+        $this->assertContains("Property Contacts",$pageContent);
+
+        //check that the form is on the page
+        $this->assertNotNull($page->find("css","form[name=appbundle_contactToProperty]"));
+
+        //check that the table is on the page
+        $this->assertNotNull($page->find("css","#associatedContacts"));
+
+        //a contact that is on this contact
+        $this->assertContains("Kenson, Ken", $pageContent);
+    }
+
+    /**
      * Story 4L
      * Tests that when you click the remove button, a modal is displayed
      */
@@ -108,7 +170,7 @@ class PropertyContactRemoveTest extends WebTestCase
      */
     public function testRemoveContactFromPropertyAccept()
     {
-        
+
         //now that the data exists, go to the page
         //start up a new session
         $this->session->visit('http:://localhost:8000/app_test.php/property/1');
@@ -135,7 +197,7 @@ class PropertyContactRemoveTest extends WebTestCase
      */
     public function testRemoveContactFromPropertyCancel()
     {
-        
+
         //now that the data exists, go to the page
         //start up a new session
         $this->session->visit('http:://localhost:8000/app_test.php/property/1');
@@ -186,7 +248,7 @@ class PropertyContactRemoveTest extends WebTestCase
      */
     public function testAddModalIsShownOnlyAfterAdvancedSearchIsClicked()
     {
-       
+
         //now that the data exists, go to the page
         //start up a new session
         $this->session->visit('http:://localhost:8000/property/1');
@@ -209,8 +271,6 @@ class PropertyContactRemoveTest extends WebTestCase
      */
     public function testAddContactToPropertyWithAdvancedModal()
     {
-      
-
         //start up a new session
         $this->session->visit('http:://localhost:8000/app_test.php/property/1');
         //get the page
@@ -247,7 +307,7 @@ class PropertyContactRemoveTest extends WebTestCase
      */
     public function testCannotAddContactToPropertyThatIsAlreadyAdded()
     {
-       
+
         //now that the data exists, go to the page
         //start up a new session
         $this->session->visit('http:://localhost:8000/php_test.php/property/1');
@@ -269,6 +329,30 @@ class PropertyContactRemoveTest extends WebTestCase
         $page = $this->session->getPage();
 
         assertContains("You cannot add the same contact more than once", $page->getHtml());
+    }
+
+    /**
+     * 4L
+     * test that a contact can be deleted
+     */
+    public function testDeleteContactConfirm()
+    {
+        $this->session->visit('http:://localhost:8000/php_test.php/property/1');
+
+        $page = $this->session->getPage();
+
+        $deleteBtn = $page->find("css", "#deleteBtn");
+        $deleteBtn->click();
+
+        $this->session->wait(1000);
+
+        $page = $this->session->getPage();
+
+        //search for property 1
+
+        //ensure property 1 does not exist on the page
+
+
     }
 
 
