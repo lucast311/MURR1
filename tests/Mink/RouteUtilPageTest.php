@@ -264,6 +264,7 @@ class RouteUtilPageTest extends WebTestCase
         $page->find('named', array('field', 'Route ID'))->setValue("735701");
         //set route date
         $page->find('named', array('field', 'Date'))->setValue("01/01/2024");
+        //TODO: ASSERT THE TEMPLATE OPTION IS '...' by default
         //select template from semantic picker
         $page->find('named', array('field', 'Route Template'))->selectOption("RouteTemplate1_FromFixture");
 
@@ -288,7 +289,7 @@ class RouteUtilPageTest extends WebTestCase
      * Story 40c
      * Checks Errors when you try to create a route from a template without filling anything out (AKA ERRORS)
      */
-    public function testCreateNewRouteFromTemplateErrorsAppear()
+    public function testCreateNewRouteErrorsAppear()
     {
         // Navigate to the route add page
         $this->session->visit('http://localhost:8000/app_test.php/route');
@@ -319,13 +320,11 @@ class RouteUtilPageTest extends WebTestCase
 
         //Date
         $this->assertContains($page->find("css", "ui.message")->getHtml(), "Please specify a date");
-        //TODO
-        $this->assertContains($page->find("css", "ui.message")->getHtml(), "Date cannot be in the past");
-
-        //Route Template
-        $this->assertContains($page->find("css", "ui.message")->getHtml(), "Please specify a route template");
-
+        //$this->assertContains($page->find("css", "ui.message")->getHtml(), "Date cannot be in the past"); //yes it can
     }
+
+    //TODO: FILTER/SEARCH TESTS
+    //TODO: REVAMP WEEKS TESTS
 
     /**
      * (@inheritDoc)
@@ -337,6 +336,10 @@ class RouteUtilPageTest extends WebTestCase
         $this->session->stop();
 
         //Now wipe the database
+        $stmt = $em->getConnection()->prepare('DELETE FROM Route');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM RoutePickup');
+        $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();
     }
