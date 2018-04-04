@@ -31,6 +31,18 @@ use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 class CommunicationController extends Controller
 {
     /**
+     * story10a
+     * Front end for searching for a communication.
+     *
+     * @Route("/search", name="communication_search")
+     * @Method("GET")
+     */
+    public function searchAction(Request $request)
+    {
+        
+    }
+
+    /**
      * This route will be responsible for loading and submitting the form responsible
      * for entering Communication Data
      * @Route("/communication/new", name = "new_communication")
