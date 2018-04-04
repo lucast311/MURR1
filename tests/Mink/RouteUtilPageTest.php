@@ -198,8 +198,8 @@ class RouteUtilPageTest extends WebTestCase
         $page->find("css", "#availableContainers")->find('named', array('content', "T3STSR3"))->click();
 
         // Assert those containers were put into the route pickups area
-        $this->assertNotNull($page->find("css", "#availableContainers")->find('named', array('content', "T3STSRL")));
-        $this->assertNotNull($page->find("css", "#availableContainers")->find('named', array('content', "T3STSR3")));
+        $this->assertNotNull($page->find("css", "#routePickups")->find('named', array('content', "T3STSRL")));
+        $this->assertNotNull($page->find("css", "#routePickups")->find('named', array('content', "T3STSR3")));
 
         // Now add the template to the system
         $page->find('named', array('button', 'Add Template'))->click();
@@ -214,16 +214,74 @@ class RouteUtilPageTest extends WebTestCase
      */
     public function testCreateNewTemplateErrorsAppear()
     {
-        // Do the same as above but don't fill out the form and then submit it. Check for the errors to appear
+        //// Do the same as above test but don't fill out the form and then submit it. Check for the errors to appear
+        // Navigate to the route add page
+        $this->session->visit('http://localhost:8000/app_test.php/route');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // There should be two buttons on the page. Assert their existance
+        $this->assertNotNull($page->find('named', array('button', 'New Route Template')));
+        $this->assertNotNull($page->find('named', array('button', 'Route From Template')));
+
+        // click the new route template button
+        $page->find('named', array('button', 'New Route Template'))->click();
+
+        // Assert we are now on the new route template page
+        $this->assertContains('/route/template/new', $this->session->getCurrentUrl());
+
+        // Attempt to submit the invalid form
+        $page->find('named', array('button', 'Add Template'))->click();
+
+        // Assert that the errors are displayed on the form
+        $this->assertContains($page->find("css", "ui.message")->getHtml(), "Please specify a template name");
+        $this->assertContains($page->find("css", "ui.message")->getHtml(), "You must specify at least one route pickup");
     }
 
     /**
      * Story 40c
      * Checks Creating a new route from a template
+     * TODO: CREATE A ROUTE TEMPLATE FROM A FIXTURE CALLED "RouteTemplate1_FromFixture"
      */
     public function testCreateNewRouteFromTemplate()
     {
-        
+        // Navigate to the route add page
+        $this->session->visit('http://localhost:8000/app_test.php/route');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // There should be two buttons on the page. Assert their existance
+        $this->assertNotNull($page->find('named', array('button', 'New Route Template')));
+        $this->assertNotNull($page->find('named', array('button', 'Route From Template')));
+
+        // click the new route button
+        $page->find('named', array('button', 'Route From Template'))->click();
+
+        // Assert we are now on the new route page
+        $this->assertContains('/route/new', $this->session->getCurrentUrl());
+
+        //set route id
+        $page->find('named', array('field', 'Route ID'))->setValue("735701");
+        //set route date
+        $page->find('named', array('field', 'Date'))->setValue("01/01/2024");
+        //select template from semantic picker
+        $page->find('named', array('field', 'Route Template'))->selectOption("RouteTemplate1_FromFixture");
+
+        //make sure the data from the template was loaded
+        $this->assertNotNull($page->find("css", "#routePickups")->find('named', array('content', "T3STSRL")));
+        $this->assertNotNull($page->find("css", "#routePickups")->find('named', array('content', "T3STSR3")));
+
+        $addRouteBtn = $page->find('named', array('button', 'Add Route'));
+        $this->assertNotNull($addRouteBtn);
+        $addRouteBtn->click();
+
+        // Assert we are now on the edit route page
+        $this->assertContains('/route/edit/', $this->session->getCurrentUrl());
+
+        //make sure all the data was added to the new route
+        $this->assertContains($page->find("css", "h1")->getHtml(), "735701");
+        $this->assertNotNull($page->find("css", "#TODO_WEEKS")->find('named', array('content', "T3STSRL")));
+        $this->assertNotNull($page->find("css", "#TODO_WEEKS")->find('named', array('content', "T3STSR3")));
     }
 
     /**
@@ -232,6 +290,40 @@ class RouteUtilPageTest extends WebTestCase
      */
     public function testCreateNewRouteFromTemplateErrorsAppear()
     {
+        // Navigate to the route add page
+        $this->session->visit('http://localhost:8000/app_test.php/route');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // There should be two buttons on the page. Assert their existance
+        $this->assertNotNull($page->find('named', array('button', 'New Route Template')));
+        $this->assertNotNull($page->find('named', array('button', 'Route From Template')));
+
+        // click the new route button
+        $page->find('named', array('button', 'Route From Template'))->click();
+
+        // Assert we are now on the new route page
+        $this->assertContains('/route/new', $this->session->getCurrentUrl());
+
+        $addRouteBtn = $page->find('named', array('button', 'Add Route'));
+        $this->assertNotNull($addRouteBtn);
+        $addRouteBtn->click();
+
+        // Assert that the errors are displayed on the form
+        //Route ID
+        $this->assertContains($page->find("css", "ui.message")->getHtml(), "Please specify a Route ID");
+        //TODO
+        $this->assertContains($page->find("css", "ui.message")->getHtml(), "Route ID already in use");
+        //TODO
+        $this->assertContains($page->find("css", "ui.message")->getHtml(), "Route ID cannot be negative");
+
+        //Date
+        $this->assertContains($page->find("css", "ui.message")->getHtml(), "Please specify a date");
+        //TODO
+        $this->assertContains($page->find("css", "ui.message")->getHtml(), "Date cannot be in the past");
+
+        //Route Template
+        $this->assertContains($page->find("css", "ui.message")->getHtml(), "Please specify a route template");
 
     }
 

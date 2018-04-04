@@ -25,19 +25,72 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class RouteController extends Controller
 {
+    /**
+     * S40C
+     * Used to create new Routes
+     * @param Request $request
+     */
+    function newAction(Request $request){
 
-    function addAction(Request $request){
+    }
+    /**
+     * S40C
+     * Used to create new Route Templates
+     * @param Request $request
+     */
+    function newTemplateAction(Request $request){
 
     }
 
     /**
+     * S40C
+     * Used to edit Routes
+     * @param Request $request
+     */
+    function editAction(Request $request){
+
+    }
+
+    /**
+     * S40C
+     * Used to add RoutePickups to Routes[Templates]
+     * @param Request $request
+     */
+    function addRoutePickupAction(Request $request){
+
+    }
+
+    /**
+     * S40? //UNFINISHED STORY
+     * @param Request $request
+     */
+    function associateTruckAction(Request $request){
+
+    }
+    /**
+     * S40? //UNFINISHED STORY
+     * @param Request $request
+     */
+    function removeTruckAction(Request $request){
+
+    }
+    /**
+     * S40? //UNFINISHED STORY
+     * @param Request $request
+     */
+    function importCSVAction(Request $request){
+
+    }
+
+
+    /**
      * Story 22b
-     * Brings you to the manage route page
+     * Brings you to the route management page
      * @Route("/route/{routeId}", name="route_manage")
      * @param Request $request
      * @param integer $routeId
      */
-    function manageRouteAction(Request $request, $routeId=null){
+    function indexAction(Request $request, $routeId=null){
 
         $em = $this->getDoctrine()->getManager();
 
