@@ -12,6 +12,10 @@
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
+    <div class="ui buttons">
+        <a class="ui button" href="{{ path("property_search") }}">Cancel</a>
+        <input type="submit" class="ui button" value="Add" />
+    </div>
     {{ form_end(form) }}
 </div>
 {% endblock %}

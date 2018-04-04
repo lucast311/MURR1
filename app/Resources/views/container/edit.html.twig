@@ -162,19 +162,19 @@ Edit Container
 				</tr>
 			</tbody>
 		</table>
+        <div class="ui buttons">
+        {% endif %}
+        <a href="{{ path('container_show',{'id' : container.id}) }}"class="ui button" id="btnSearch">Cancel</a>
+        {% if not invalid_id_error %}
+        <form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to remove container {{container}}?">
+			<input type="hidden" name="container" value="{{container.id}}"/>
+			<button type="button" class="ui button removeButton" id="btnDelete">Delete</button>
+		</form>
 		<input type="submit" value="Save" class="ui button" id="btnSave" />
 		{{ form_end(edit_form) }}
 
         {% endif %}
-
-        <a href="{{ path('container_search') }}"class="ui button" id="btnSearch">Search</a>
-        {% if not invalid_id_error %}
-		    <form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to remove container {{container}}?">
-			    <input type="hidden" name="container" value="{{container.id}}"/>
-			    <button type="button" class="ui button removeButton" id="btnDelete">Delete</button>
-		    </form>
-            {#<input type="submit" value="Delete" class="ui button" id="btnDelete">#}
-        {% endif %}
+        </div>
     </div>
 
 

@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Contact edit</h1>
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-		<a href="{{ path('contact_show', { 'id': contact.Id }) }}" class="ui button">Cancel</a>
-        <input class="ui button" type="submit" value="Save" />
-    {{ form_end(edit_form) }}
+    <h2 class="ui header left attached top">Edit Contact</h2>
+    <div class="ui bottom attached segment">
+        {{ form_start(edit_form) }}
+            {{ form_widget(edit_form) }}
+		    <a href="{{ path('contact_show', { 'id': contact.Id }) }}" class="ui button">Cancel</a>
+            <input class="ui button" type="submit" value="Save" />
+        {{ form_end(edit_form) }}
+    </div>
 
 {% endblock %}

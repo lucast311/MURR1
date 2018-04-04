@@ -30,94 +30,99 @@
 			display: inline-block;
 		}
 	</style>
+    
+<div class="column contentSection">
 
-    <h1>View Contact</h1>
+    <h2 class="ui header left attached top">View Contact</h2>
+    <div class="ui bottom attached segment">
+        <table>
+            <tbody>
+                <tr>
+                    <td>First Name:</td>
+                    <td>{{ contact.firstName }}</td>
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td>{{ contact.lastName }}</td>
+                </tr>
+                <tr>
+                    <td>Role:</td>
+                    <td>{{ contact.role }}</td>
+                </tr>
+                <tr>
+                    <td>Company Name:</td>
+                    <td>{{ contact.companyName }}</td>
+                </tr>
+                <tr>
+                    <td>Primary Phone:</td>
+                    <td>{{ contact.primaryPhone }}</td>
+                </tr>
+                <tr>
+                    <td>Phone Extension:</td>
+                    <td>{{ contact.phoneExtension }}</td>
+                </tr>
+                <tr>
+                    <td>Secondary Phone:</td>
+                    <td>{{ contact.secondaryPhone }}</td>
+                </tr>
+                <tr>
+                    <td>Email Address:</td>
+                    <td>{{ contact.emailAddress }}</td>
+                </tr>
+                <tr>
+                    <td>Fax:</td>
+                    <td>{{ contact.fax }}</td>
+                </tr>
+                {% if contact.address is empty%}
+                <tr>
+                    <td>Street Address:</td>
+                </tr>
+                <tr>
+                    <td>Postal Code:</td>
+                </tr>
+                <tr>
+                    <td>City:</td>
+                </tr>
+                <tr>
+                    <td>Province:</td>
+                </tr>
+                <tr>
+                    <td>Country:</td>
+                </tr>
+                {%else%}
+                <tr>
+                    <td>Street Address:</td>
+                    <td>{{contact.address.streetAddress}}</td>
+                </tr>
+                <tr>
+                    <td>Postal Code:</td>
+                    <td>{{contact.address.postalCode}}</td>
+                </tr>
+                <tr>
+                    <td>City:</td>
+                    <td>{{contact.address.city}}</td>
+                </tr>
+                <tr>
+                    <td>Province:</td>
+                    <td>{{contact.address.province}}</td>
+                </tr>
+                <tr>
+                    <td>Country:</td>
+                    <td>{{contact.address.country}}</td>
+                </tr>
+                {%endif%}
+            </tbody>
+        </table>
 
-    <table>
-        <tbody>
-            <tr>
-                <td>First Name:</td>
-                <td>{{ contact.firstName }}</td>
-            </tr>
-            <tr>
-                <td>Last Name:</td>
-                <td>{{ contact.lastName }}</td>
-            </tr>
-            <tr>
-                <td>Role:</td>
-                <td>{{ contact.role }}</td>
-            </tr>
-            <tr>
-                <td>Company Name:</td>
-                <td>{{ contact.companyName }}</td>
-            </tr>
-            <tr>
-                <td>Primary Phone:</td>
-                <td>{{ contact.primaryPhone }}</td>
-            </tr>
-            <tr>
-                <td>Phone Extension:</td>
-                <td>{{ contact.phoneExtension }}</td>
-            </tr>
-            <tr>
-                <td>Secondary Phone:</td>
-                <td>{{ contact.secondaryPhone }}</td>
-            </tr>
-            <tr>
-                <td>Email Address:</td>
-                <td>{{ contact.emailAddress }}</td>
-            </tr>
-            <tr>
-                <td>Fax:</td>
-                <td>{{ contact.fax }}</td>
-            </tr>
-            {% if contact.address is empty%}
-            <tr>
-                <td>Street Address:</td>
-            </tr>
-            <tr>
-                <td>Postal Code:</td>
-            </tr>
-            <tr>
-                <td>City:</td>
-            </tr>
-            <tr>
-                <td>Province:</td>
-            </tr>
-            <tr>
-                <td>Country:</td>
-            </tr>
-            {%else%}
-            <tr>
-                <td>Street Address:</td>
-                <td>{{contact.address.streetAddress}}</td>
-            </tr>
-            <tr>
-                <td>Postal Code:</td>
-                <td>{{contact.address.postalCode}}</td>
-            </tr>
-            <tr>
-                <td>City:</td>
-                <td>{{contact.address.city}}</td>
-            </tr>
-            <tr>
-                <td>Province:</td>
-                <td>{{contact.address.province}}</td>
-            </tr>
-            <tr>
-                <td>Country:</td>
-                <td>{{contact.address.country}}</td>
-            </tr>
-            {%endif%}
-        </tbody>
-    </table>
-
-	<a class="ui labeled icon button" href="{{ path("contact_search") }}"><i class="reply icon"></i>Back</a>
+    <a class="ui labeled icon button" href="{{ path("contact_search") }}"><i class="reply icon"></i>Back</a>
     <a class="ui button" href="{{ path('contact_edit', { 'id': contact.id }) }}">Edit</a>
     <button id="deleteButton" type="button" class="ui button">Delete</button>
     {{ form_start(delete_form, {'attr': {'id': 'deleteForm'}}) }}
         
     {{ form_end(delete_form) }}
+    </div>
+</div>
+
 
     <h2>Property Roster</h2>
 

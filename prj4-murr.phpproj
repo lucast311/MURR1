@@ -3388,7 +3388,6 @@
     <Content Include="TestPlaylists\Truck_All.playlist" />
     <Content Include="web.config" />
     <Content Include="phpunit.xml.dist.tmppica" />
-    <Content Include="web\css\ContainerViewStyles.css" />
     <Content Include="web\css\ContainerAddEditFormStyles.css" />
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\css\util_twig.css" />

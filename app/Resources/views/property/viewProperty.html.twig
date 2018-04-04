@@ -78,8 +78,11 @@
                 <td>{{property.address.country}}</td>
             </tr>
         </table>
-
-        <button class="ui button" onclick="window.location.href ='{{editPath}}'">Edit</button>
+        <div class="ui buttons">
+            <a class="ui labeled icon button" href="{{ path("property_search") }}"><i class="reply icon"></i>Back</a>
+            <button class="ui button" onclick="window.location.href ='{{editPath}}'">Edit</button>
+        </div>
+        
     </div>
 </div>
 <div>
