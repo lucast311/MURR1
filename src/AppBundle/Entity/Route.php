@@ -56,6 +56,9 @@ class Route
      */
     private $endDate;
 
+    //bool
+    private $template = false;
+
     //Trucks[]
 
 
@@ -133,6 +136,16 @@ class Route
     public function getEndDate()
     {
 
+    }
+
+
+    public function setTemplate()
+    {
+        $this->template = true;
+    }
+    public function getTemplate()
+    {
+        return $this->template;
     }
 }
 
