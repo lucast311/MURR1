@@ -2,15 +2,10 @@
 
 {% block body %}
     <h1>Contact edit</h1>
-
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Submit" />
+		<a href="{{ path('contact_show', { 'id': contact.Id }) }}" class="ui button">Cancel</a>
+        <input class="ui button" type="submit" value="Save" />
     {{ form_end(edit_form) }}
-    {{ form_start(delete_form) }}
-        <input type="submit" value="Delete">
-    {{ form_end(delete_form) }}
-
-            {#<a href="{{ path('contact_index') }}">Back to the list</a>#}
 
 {% endblock %}

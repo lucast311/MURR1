@@ -55,8 +55,8 @@
         </table>
 
 	    {#<a href="{{ path('property_view', { 'propertyId': comm.property.id }) }}" class="ui button">Return to Property</a>#}
-	    <a href="{{ path('communication_edit', { 'commId': comm.id }) }}" class="ui button">Edit</a>
-
+		<a class="ui labeled icon button" href="{{ path("communication_search") }}"><i class="reply icon"></i>Back</a>
+		<a href="{{ path('communication_edit', { 'commId': comm.id }) }}" class="ui button">Edit</a>
         {% endif %}
     </div>
 </div>

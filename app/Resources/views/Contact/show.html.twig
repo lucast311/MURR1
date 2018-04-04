@@ -112,6 +112,7 @@
         </tbody>
     </table>
 
+	<a class="ui labeled icon button" href="{{ path("contact_search") }}"><i class="reply icon"></i>Back</a>
     <a class="ui button" href="{{ path('contact_edit', { 'id': contact.id }) }}">Edit</a>
     <button id="deleteButton" type="button" class="ui button">Delete</button>
     {{ form_start(delete_form, {'attr': {'id': 'deleteForm'}}) }}
