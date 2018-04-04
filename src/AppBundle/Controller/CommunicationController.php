@@ -34,12 +34,27 @@ class CommunicationController extends Controller
      * story10a
      * Front end for searching for a communication.
      *
-     * @Route("/search", name="communication_search")
+     * @Route("/communication/search", name="communication_search")
      * @Method("GET")
      */
     public function searchAction(Request $request)
     {
-        
+        $em = $this->getDoctrine()->getManager();
+
+        // get the RecentUpdates service to query for the 10 most recently updated communications
+        $recentUpdates = new RecentUpdatesHelper();
+
+        // the service takes in an EntityManager, and the name of the Entity
+        $tenRecent = $recentUpdates->tenMostRecent($em, 'AppBundle:Communication');
+
+        // Get if it is in a search to view or if it is a search to insert
+        $isPopup = ($request->query->get("isPopup")) == "true" ? true : false;
+        // Render the twig with required data
+        return $this->render('communication/searchCommunication.html.twig', array(
+            'viewURL' => '/communication/',
+            'isPopup' => $isPopup,
+            'defaultTen' => $tenRecent
+        ));
     }
 
     /**
@@ -154,6 +169,37 @@ class CommunicationController extends Controller
             'form' => $form->createView(),
             'errorType'=>$errorType,
             'communicationId'=>$communicationId]);
+    }
+
+    /**
+     * Deletes a Communication entity.
+     *
+     * @Route("/delete/{id}", name="communication_delete")
+     * @Method("POST")
+     */
+    public function deleteAction(Communication $communication)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($communication);
+        $em->flush();
+
+        return $this->redirectToRoute('communication_search');
+    }
+
+    /**
+     * Creates a form to delete a Communication entity.
+     *
+     * @param Communication $communication The Communication entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(Communication $communication)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('communication_delete', array('id' => $communication->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
     }
 
     /**

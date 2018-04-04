@@ -26,6 +26,12 @@
 		            <div class="field">
 				        <a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button">Cancel</a>
 				        <button type="submit" id="communication_add" name="communication[add]" class="ui button">Save</button>
+
+                        <form name="appbundle_removeCommunication" method="post" action="{{path('communication_delete', {'id': communication.id})}}" data-message="Are you sure you want to remove Communication {{communication}}?">
+		                    <input type="hidden" name="communication" value="{{communication.id}}"/>
+		                    <button type="button" class="ui button removeButton" id="btnDelete">Delete</button>
+	                    </form>
+
 			        </div>
                     {{ form_end(form) }}
 

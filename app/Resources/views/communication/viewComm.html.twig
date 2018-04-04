@@ -57,6 +57,11 @@
 	    <a href="{{ path('property_view', { 'propertyId': comm.property.id }) }}" class="ui button">Return to Property</a>
 	    <a href="{{ path('communication_edit', { 'commId': comm.id }) }}" class="ui button">Edit</a>
 
+        <form name="appbundle_removeCommunication" method="post" action="{{path('communication_delete', {'id': comm.id})}}" data-message="Are you sure you want to remove Communication {{comm}}?">
+		    <input type="hidden" name="communication" value="{{comm.id}}"/>
+		    <button type="button" class="ui button removeButton" id="btnDelete">Delete</button>
+	    </form>
+
         {% endif %}
     </div>
 </div>

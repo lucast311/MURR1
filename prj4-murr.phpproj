@@ -3348,6 +3348,7 @@
     <Content Include="app\Resources\views\collectionhistory\new.html.twig" />
     <Content Include="app\Resources\views\collectionhistory\show.html.twig" />
     <Content Include="app\Resources\views\communication\editComm.html.twig" />
+    <Content Include="app\Resources\views\communication\searchCommunication.html.twig" />
     <Content Include="app\Resources\views\container\edit.html.twig" />
     <Content Include="app\Resources\views\container\index.html.twig" />
     <Content Include="app\Resources\views\container\new.html.twig" />
