@@ -206,6 +206,7 @@ class AdvancedSerachModalTest extends WebTestCase
 
         // make sure the modal is no longer visible
         $this->assertFalse($page->find('css', "#propertyModal")->isVisible());
+
     }
 
     protected function tearDown()
