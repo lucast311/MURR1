@@ -401,6 +401,8 @@ class NavigateSystemTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
+        $this->session->wait(100); 
+
         //click on the container button
         $page->find("css","#homeContainers")->click();
 

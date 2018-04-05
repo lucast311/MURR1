@@ -99,11 +99,13 @@
             </tr>
         </table>
 
-        <button class="ui button" onclick="window.location.href ='{{editPath}}'">Edit</button>
+        
+        <button class="ui blue button" onclick="window.location.href ='{{editPath}}'">Edit</button>      
 		{% if not delete_form is empty  %}
 		<button id="deleteButton" type="button" class="ui button">Delete</button>
 		{{form_start(delete_form, {'attr':{'id':'deleteForm'}} ) }}
-		{{form_end(delete_form)}}
+		{{form_end(delete_form)}}  
+        <a class="ui labeled icon button" href="{{ path("property_search") }}" id="backButton"><i class="reply icon"></i>Back to Search</a>
 		{% endif %}
     </div>
 </div>
