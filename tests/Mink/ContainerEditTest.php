@@ -23,8 +23,7 @@ class ContainerEditConfirmationTest extends WebTestCase
         self::bootKernel();
         DatabasePrimer::prime(self::$kernel);
 
-        $containerLoader = new LoadContainerData();
-        $containerLoader->load(DatabasePrimer::$entityManager);
+
 
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
 
@@ -39,6 +38,9 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        $containerLoader = new LoadContainerData();
+        $containerLoader->load($this->em);
 
         // Create a driver
         $this->driver = new ChromeDriver("http://localhost:9222",null, "localhost:8000");
@@ -265,8 +267,6 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->session->stop();
 
         // Delete the user from the database
-        $stmt = $this->em->getConnection()->prepare("DELETE FROM User");
-        $stmt->execute();
         $stmt = $this->em->getConnection()->prepare('DELETE FROM Container');
         $stmt->execute();
         $stmt = $this->em->getConnection()->prepare('DELETE FROM Property');
