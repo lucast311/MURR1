@@ -3361,6 +3361,7 @@
     <Content Include="app\Resources\views\communication\viewComm.html.twig" />
     <Content Include="app\Resources\views\route\deletePickup.html.twig" />
     <Content Include="app\Resources\views\route\manageRoute.html.twig" />
+    <Content Include="app\Resources\views\route\search.html.twig" />
     <Content Include="app\Resources\views\security\login.html.twig" />
     <Content Include="app\Resources\views\structure\edit.html.twig" />
     <Content Include="app\Resources\views\structure\index.html.twig" />
@@ -3396,10 +3397,13 @@
     <Content Include="web\css\ContainerViewStyles.css" />
     <Content Include="web\css\ContainerAddEditFormStyles.css" />
     <Content Include="web\css\base_twig.css" />
+    <Content Include="web\css\route_and_template_search.css" />
     <Content Include="web\css\util_twig.css" />
+    <Content Include="web\css\view_property.css" />
     <Content Include="web\JavaScript\base_twig.js" />
     <Content Include="web\JavaScript\Filter.js" />
     <Content Include="web\JavaScript\DeleteModal.js" />
+    <Content Include="web\JavaScript\RouteAndTemplateSearch.js" />
     <Content Include="web\JavaScript\PropertySearchPopupSemantic.js" />
     <Content Include="web\JavaScript\PropertyCommunicationAdd.js" />
     <Content Include="web\JavaScript\PropertySearchPopup.js" />

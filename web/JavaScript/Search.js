@@ -27,6 +27,7 @@ var viewModel = {
         if ($(".spinner.loading.icon").length === 0)
         {
             $("#btnClear").after('<i class="spinner loading icon"></i>');
+            $(".tblSpinner").show();
         }
         
 		
@@ -42,6 +43,7 @@ var viewModel = {
             }
             else
             {
+                $(".tblSpinner").hide();
                 $("table").show();
                 $("#message").text("");
             }
@@ -106,10 +108,6 @@ var onLoad = function () {
 
     // Run the code to make autocomplete work
     autoComplete();
-
-
-
-
 
     if ($('#searchBox').val() == "") {
         viewModel.getResults();

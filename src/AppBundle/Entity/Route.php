@@ -34,8 +34,8 @@ class Route
      *  minMessage = "Route ID must be atleast {{ limit }} digits long",
      *  maxMessage = "Route ID can not be more than {{ limit }} digits long")
      *
-     * @Assert\NotNull(message="Please specify a Route ID")     
-     * 
+     * @Assert\NotNull(message="Please specify a Route ID")
+     *
      * //Used to store "routeID" int string or, if template, route template name
      * //A?: is there a way to have a dynamic length validation? ie: 6 for routeid, 15 for template name
      * //A?: '' dynamic regex
@@ -59,16 +59,16 @@ class Route
     /**
      * @var mixed
      *
-     * @ORM\Column(name="startDate", type="datetime")
-     *
+     * @ORM\Column(name="startDate", type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     private $startDate;
 
     /**
      * @var mixed
      *
-     * @ORM\Column(name="endDate", type="datetime")
-     *
+     * @ORM\Column(name="endDate", type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     private $endDate;
 

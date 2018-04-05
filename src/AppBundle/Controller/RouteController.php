@@ -4,11 +4,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\RoutePickup;
 use AppBundle\Form\RoutePickupType;
 use AppBundle\Entity\Route as ContainerRoute;
+use AppBundle\Entity\Route as ContainerRouteTemplate;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+
+use AppBundle\Services\Cleaner;
+use AppBundle\Services\SearchNarrower;
+use AppBundle\Services\RecentUpdatesHelper;
+
 
 /**
  * RouteController short summary.
@@ -22,9 +30,39 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Controller that contains the actions for managing a route
+ *
+ * @Route("route")
  */
 class RouteController extends Controller
 {
+    /**
+     * S40C
+     * Used to search Routes + Templates
+     *
+     * @Route("/search", name="route_search")
+     * @param Request $request
+     * @Method("GET")
+     */
+    function searchAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        // get the RecentUpdates service to query for the 10 most recently updated containers
+        $recentUpdates = new RecentUpdatesHelper();
+
+        // the service takes in an EntityManager, and the name of the Entity
+        $tenRecent = $recentUpdates->tenMostRecent($em, 'AppBundle:Container');
+
+        // Get if it is in a search to view or if it is a search to insert
+        $isPopup = ($request->query->get("isPopup")) == "true" ? true : false;
+        // Render the twig with required data
+        return $this->render('route/search.html.twig', array(
+            'viewURL' => '/container/',
+            'isPopup' => $isPopup,
+            'defaultTen' => $tenRecent
+        ));
+    }
+
     /**
      * S40C
      * Used to create new Routes
@@ -60,28 +98,28 @@ class RouteController extends Controller
 
     }
 
-    /**
-     * S40? //UNFINISHED STORY
-     * @param Request $request
-     */
-    function associateTruckAction(Request $request){
-
-    }
-    /**
-     * S40? //UNFINISHED STORY
-     * @param Request $request
-     */
-    function removeTruckAction(Request $request){
-
-    }
-    /**
-     * S40? //UNFINISHED STORY
-     * @param Request $request
-     */
-    function importCSVAction(Request $request){
-
-    }
-
+    // FUTURE FUNCTIONALITY
+    ///**
+    // * S40? //UNFINISHED STORY
+    // * @param Request $request
+    // */
+    //function associateTruckAction(Request $request){
+    //
+    //}
+    ///**
+    // * S40? //UNFINISHED STORY
+    // * @param Request $request
+    // */
+    //function removeTruckAction(Request $request){
+    //
+    //}
+    ///**
+    // * S40? //UNFINISHED STORY
+    // * @param Request $request
+    // */
+    //function importCSVAction(Request $request){
+    //
+    //}
 
     /**
      * Story 22b
