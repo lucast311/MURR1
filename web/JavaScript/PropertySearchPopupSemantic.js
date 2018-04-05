@@ -6,13 +6,13 @@
  */
 function initialize(selectbox)
 {
-    console.log(selectbox);
+
     searchSelectBox = selectbox;
 
     // Insert an advanced search button beside the dropdown. This is so it's easy to insert instead of modifying the form everywhere it's needed.
     //selectbox.after("<input class='ui button' id='advanced_property_search_popup' value='Advanced Search' type='button'/>"); 
 
-    console.log($('#advanced_property_search_popup'));
+
 
     // Register an event handler for clicking the button
     $("#advanced_property_search_popup").click(function () { advancedSearch() });
