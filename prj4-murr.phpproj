@@ -34,6 +34,7 @@
     <Compile Include="app\Resources\views\Contact\addContact.html.twig" />
     <Compile Include="app\Resources\views\Contact\edit.html.twig" />
     <Compile Include="app\Resources\views\Contact\EditContact.html.twig" />
+    <Compile Include="app\Resources\views\Contact\EditContact.html.twig~HEAD" />
     <Compile Include="app\Resources\views\Contact\index.html.twig" />
     <Compile Include="app\Resources\views\Contact\listContacts.html.twig" />
     <Compile Include="app\Resources\views\Contact\new.html.twig" />
@@ -67,7 +68,6 @@
     <Compile Include="src\AppBundle\Controller\PropertyController.php" />
     <Compile Include="src\AppBundle\Controller\StructureController.php" />
     <Compile Include="src\AppBundle\Controller\TruckController.php" />
-    <Compile Include="src\AppBundle\DatabasePrimer.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadAddressData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadCommunicationData.php" />
     <Compile Include="src\AppBundle\DataFixtures\ORM\LoadContactData.php" />
@@ -97,7 +97,6 @@
     <Compile Include="src\AppBundle\Form\ContactAddPropertyType.php" />
     <Compile Include="src\AppBundle\Form\ContainerEditType.php" />
     <Compile Include="src\AppBundle\Form\ContainerType.php" />
-    <Compile Include="src\AppBundle\Form\PropertyAddContactType.php" />
     <Compile Include="src\AppBundle\Form\RoutePickupType.php" />
     <Compile Include="src\AppBundle\Form\StructureType.php" />
     <Compile Include="src\AppBundle\Form\TruckEditType.php" />
@@ -121,7 +120,6 @@
     <Compile Include="src\AppBundle\Repository\RouteRepository.php" />
     <Compile Include="src\AppBundle\Repository\StructureRepository.php" />
     <Compile Include="src\AppBundle\Repository\UserRepository.php" />
-    <Compile Include="src\AppBundle\Services\RecentUpdatesHelper.php" />
     <Compile Include="src\AppBundle\Services\Changer.php" />
     <Compile Include="src\AppBundle\Services\Cleaner.php" />
     <Compile Include="src\AppBundle\Services\SearchHelper.php" />
@@ -175,13 +173,11 @@
     <Compile Include="tests\AppBundle\Repository\RoutePickupRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\RouteRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
-    <Compile Include="tests\AppBundle\Services\RecentUpdatesHelper.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
     <Compile Include="tests\Mink\AssociatingPropertiesToContactTest.php" />
-    <Compile Include="tests\Mink\ContainerEditTest.php" />
+    <Compile Include="tests\Mink\NavigateSystemTest.php" />
     <Compile Include="tests\Mink\PropertyCommunicationAddTest.php" />
     <Compile Include="tests\Mink\ContainerSearchTest.php" />
-    <Compile Include="tests\Mink\PropertyContactRemoveTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
     <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
     <Compile Include="tests\Mink\TruckEditPageTest.php" />
@@ -3393,13 +3389,10 @@
     <Content Include="TestPlaylists\Truck_All.playlist" />
     <Content Include="web.config" />
     <Content Include="phpunit.xml.dist.tmppica" />
-    <Content Include="web\css\ContainerViewStyles.css" />
-    <Content Include="web\css\ContainerAddEditFormStyles.css" />
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\css\util_twig.css" />
     <Content Include="web\JavaScript\base_twig.js" />
     <Content Include="web\JavaScript\Filter.js" />
-    <Content Include="web\JavaScript\ContactSearchPopupSemantic.js" />
     <Content Include="web\JavaScript\DeleteModal.js" />
     <Content Include="web\JavaScript\PropertySearchPopupSemantic.js" />
     <Content Include="web\JavaScript\PropertyCommunicationAdd.js" />
