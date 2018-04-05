@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {# A: THIS IS BASICALLY LIKE "NEW" + "INDEX" ON THE SAME PAGE. #}
-{% block title %}Truck Utils{% endblock %}
+{% block title %}Truck Utility | M.U.R.R.{% endblock %}
 
 {% block stylesheets %}
 <link href="{{ asset('css/util_twig.css') }}" type="text/css" rel="stylesheet" />
@@ -23,7 +23,7 @@
 
 <div>
 	<div class="column truckAdd">
-		<h1 class="ui header left attached top">Add Truck</h1>
+		<h2 class="ui header left attached top">Add Truck</h2>
 		<div class="ui bottom attached segment">
 			{{ form_start(add_truck_form) }}
 
@@ -63,7 +63,7 @@
     {# LISTS SHOULD NOW BE POPULATED WITH KO + JSON LIKE THIS: #}
     {# A: MAYBE IMPLEMENT INFINITE SCROLLING #}
 	<div class="column truckList">
-		<h1 class="ui header left attached top">Truck List</h1>
+		<h2 class="ui header left attached top">Truck List</h2>
 		<div class="ui bottom attached segment">
 		
 			<div class="ui search">
@@ -88,7 +88,7 @@
 								<button type="submit" class="ui icon button editButton" data-bind="attr: {id: 'rmb'+id}" ><i class="pencil alternate icon"></i></button>
 							</form>
 							<form name="appbundle_removeTruck" method="post" data-bind="attr: {action: '{{ path('truck_remove') }}/'+id, 'data-message': 'Are you sure you want to remove Truck \''+truckId+'\''}">
-								<button type="button" class="ui icon button removeButton red" data-bind="attr: {id: 'rmb'+id}" ><i class="close icon"></i></button>
+								<button type="button" class="ui icon google plus button removeButton" data-bind="attr: {id: 'rmb'+id}" ><i class="close icon"></i></button>
 							</form>
 						</td>
 					</tr>

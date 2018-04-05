@@ -1,22 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-Container Creation
-{% endblock %}
-
-{% block javascripts %}
-<link href="../../../../css/ContainerAddEditFormStyles.css" rel="stylesheet" />
-{% endblock %}
+{% block title %}Add Container | M.U.R.R.{% endblock %}
 
 {% block body %}
-    <h1 class="ui header left attached top">Container creation</h1>
+<div class="ui text container">
+    <h2 class="ui header left attached top">Add Container</h2>
 
     <div class="ui bottom attached segment">
         {{ form_start(form) }}
             {{ form_widget(form) }}
-            <input type="submit" value="Create" class="ui button" id="btnCreate" />
-
-           <a href="{{ path('container_search') }}" class="ui button" id="btnSearch" >Search</a>
+             
+        <div class="ui buttons">
+            <a class="ui button" href="{{ path("container_search") }}" id="cancelButton">Cancel</a>
+            <input type="submit" value="Add" class="ui green button" id="btnCreate" />
+        </div>
         {{ form_end(form) }}
     </div>
+</div>
 {% endblock %}

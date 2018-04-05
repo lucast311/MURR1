@@ -1,1 +1,1 @@
-d:\PHP\v7.0\php.exe vendor\phpunit\phpunit\phpunit -c .\phpunit.xml.dist .\tests\ -d memory_limit=256M %*
+d:\PHP\v7.0\php.exe vendor\phpunit\phpunit\phpunit -c .\phpunit.xml.dist .\tests\ -d memory_limit=512M %*

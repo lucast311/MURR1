@@ -93,7 +93,7 @@ class PropertyController extends Controller
      * Handles the adding of a property.
      * @param Request $request
      *
-     * @Route("/property/add", name="property_add")
+     * @Route("/property/new", name="property_add")
      */
     public function addAction(Request $request)
     {
@@ -143,8 +143,7 @@ class PropertyController extends Controller
      * This function will be responsible for handling the requests to the edit page
      * and contain the form to edit a property
      * @param mixed $propertyId
-     * @Route("/property/edit/{propertyId}", name="property_edit")
-     * @Route("/property/edit/")
+     * @Route("/property/{propertyId}/edit", name="property_edit")
      */
     public function editAction(Request $request, $propertyId = null)
     {

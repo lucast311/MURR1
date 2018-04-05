@@ -150,7 +150,7 @@ class ContactControllerTest extends WebTestCase
         // Go there - should be viewing a specific contact after this
         $crawler = $client->click($link);
 
-        $this->assertGreaterThan(0, $crawler->filter(("h1:contains(Contact Edit)"))->count());
+        $this->assertGreaterThan(0, $crawler->filter(("#contentSeparator h2:contains(Contact Edit)"))->count());
     }
 
     public function testEditSubmitRedirect()
@@ -163,7 +163,7 @@ class ContactControllerTest extends WebTestCase
         //// Go there - should be viewing a specific contact after this
         //$crawler = $client->click($link);
 
-        $form = $crawler->selectButton('Submit')->form();
+        $form = $crawler->selectButton('Save')->form();
 
         $crawler = $client->submit($form);
 
@@ -179,7 +179,7 @@ class ContactControllerTest extends WebTestCase
         //Reques the contact add page
         $crawler = $client->request('GET','/contact/new');
         //select the form and add values to it.
-        $form = $crawler->selectButton('Create')->form();
+        $form = $crawler->selectButton('Add')->form();
         $form['appbundle_contact[firstName]'] = 'Bob';
         $form['appbundle_contact[lastName]'] = 'frank';
         $form['appbundle_contact[role]'] = "Property Manager";
