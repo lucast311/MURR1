@@ -120,6 +120,16 @@ class RouteController extends Controller
     //}
 
     /**
+     * Stub function for the route addAction (index)
+     * @Route("/route", name="route_util")
+     * @param Request $request
+     */
+    function indexAction()
+    {
+        return $this->render("route/addRoute.html.twig");
+    }
+
+    /**
      * Story 22b
      * +S40C
      * Used to edit Routes

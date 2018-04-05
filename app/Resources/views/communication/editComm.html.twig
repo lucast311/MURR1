@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block javascripts %} 
+{% block title %}Edit Commununication | M.U.R.R.{% endblock %}
+
 {# include the PropertySearchPopupSemantic  #}
 <script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
 <script>
@@ -12,7 +14,7 @@
 </script>
 {% endblock %}
 {% block body %}
-    <div id="wrapper">
+    <div id="wrapper" class="ui text container">
         <h2 class="ui header left attached top">Edit Communication</h2>
         <div class="ui bottom attached segment">
             {% if errorType == "notfound"%}
@@ -24,9 +26,11 @@
                     {{ form_widget(form) }}
 			
 		            <div class="field">
-				        <a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button">Cancel</a>
-				        <button type="submit" id="communication_add" name="communication[add]" class="ui button">Save</button>
-			        </div>
+                        <div class="ui buttons">
+				            <a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button" id="cancelButton">Cancel</a>
+				            <button type="submit" id="communication_add" name="communication[add]" class="ui green button">Save</button>
+			            </div>
+                    </div>
                     {{ form_end(form) }}
 
 

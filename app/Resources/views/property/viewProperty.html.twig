@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}View Property{% endblock %}
+{% block title %}View Property | M.U.R.R.{% endblock %}
 
 {% block javascripts %}
 <script type="text/javascript" src="{{ asset('JavaScript/PropertyCommunicationAdd.js') }}"></script>
@@ -78,8 +78,11 @@
                 <td>{{property.address.country}}</td>
             </tr>
         </table>
-
-        <button class="ui button" onclick="window.location.href ='{{editPath}}'">Edit</button>
+        <div class="ui buttons">
+            <a class="ui labeled icon button" href="{{ path("property_search") }}" id="backButton"><i class="reply icon"></i>Back to Search</a>
+            <button class="ui blue button" onclick="window.location.href ='{{editPath}}'">Edit</button>
+        </div>
+        
     </div>
 </div>
 <div>
@@ -161,6 +164,7 @@
                     <button class="ui icon button green" id="newCommunication">
                         <i class="plus icon"></i>
                     </button>
+                    <a href="{{path("communication_search")}}" class="ui icon button"><i class="search icon"></i></a>
                 </span>
             </h1>
         </div>

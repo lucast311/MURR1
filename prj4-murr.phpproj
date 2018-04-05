@@ -31,16 +31,12 @@
     <Compile Include="app\Resources\images\OOPs NOTICE Valid1.png" />
     <Compile Include="app\Resources\images\OOPs NOTICE Valid2.jpg" />
     <Compile Include="app\Resources\views\communication\newComm.html.twig" />
-    <Compile Include="app\Resources\views\Contact\addContact.html.twig" />
     <Compile Include="app\Resources\views\Contact\edit.html.twig" />
-    <Compile Include="app\Resources\views\Contact\EditContact.html.twig" />
-    <Compile Include="app\Resources\views\Contact\EditContact.html.twig~HEAD" />
     <Compile Include="app\Resources\views\Contact\index.html.twig" />
     <Compile Include="app\Resources\views\Contact\listContacts.html.twig" />
     <Compile Include="app\Resources\views\Contact\new.html.twig" />
     <Compile Include="app\Resources\views\Contact\show.html.twig" />
     <Compile Include="app\Resources\views\Contact\updateTEST.html.twig" />
-    <Compile Include="app\Resources\views\Contact\viewContact.html.twig" />
     <Compile Include="app\Resources\views\contactsearch\contactJSONSearches.html.twig" />
     <Compile Include="app\Resources\views\contactsearch\show.html.twig" />
     <Compile Include="app\Resources\views\default\EduMatForm.html.twig" />
@@ -179,6 +175,7 @@
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
     <Compile Include="tests\Mink\AssociatingPropertiesToContactTest.php" />
     <Compile Include="tests\Mink\ContainerEditTest.php" />
+    <Compile Include="tests\Mink\NavigateSystemTest.php" />
     <Compile Include="tests\Mink\PropertyCommunicationAddTest.php" />
     <Compile Include="tests\Mink\ContainerSearchTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
@@ -3339,6 +3336,7 @@
     <Folder Include="var" />
     <Folder Include="web\bundles" />
     <Folder Include="web" />
+    <Folder Include="web\img\" />
     <Folder Include="web\JavaScript\" />
     <Folder Include="web\css\" />
   </ItemGroup>
@@ -3349,6 +3347,7 @@
     <Content Include="app\Resources\views\collectionhistory\new.html.twig" />
     <Content Include="app\Resources\views\collectionhistory\show.html.twig" />
     <Content Include="app\Resources\views\communication\editComm.html.twig" />
+    <Content Include="app\Resources\views\communication\searchComm.html.twig" />
     <Content Include="app\Resources\views\container\edit.html.twig" />
     <Content Include="app\Resources\views\container\index.html.twig" />
     <Content Include="app\Resources\views\container\new.html.twig" />
@@ -3394,12 +3393,12 @@
     <Content Include="TestPlaylists\Truck_All.playlist" />
     <Content Include="web.config" />
     <Content Include="phpunit.xml.dist.tmppica" />
-    <Content Include="web\css\ContainerViewStyles.css" />
     <Content Include="web\css\ContainerAddEditFormStyles.css" />
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\css\route_and_template_search.css" />
     <Content Include="web\css\util_twig.css" />
     <Content Include="web\css\view_property.css" />
+    <Content Include="web\img\cosmoindustries_icon.png" />
     <Content Include="web\JavaScript\base_twig.js" />
     <Content Include="web\JavaScript\Filter.js" />
     <Content Include="web\JavaScript\DeleteModal.js" />

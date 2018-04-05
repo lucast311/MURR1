@@ -31,6 +31,17 @@ use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 class CommunicationController extends Controller
 {
     /**
+     * Stub method for communication search action
+     *
+     * @Route("/communication/search", name="communication_search")
+     * @Method("GET")
+     */
+    public function searchAction()
+    {
+        return $this->render('communication/searchComm.html.twig');
+    }
+
+    /**
      * This route will be responsible for loading and submitting the form responsible
      * for entering Communication Data
      * @Route("/communication/new", name = "new_communication")
