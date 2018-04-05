@@ -177,7 +177,7 @@ var autoComplete = function ()
     });
 
     // Force a re-query of the search box (since the array has likely changed since the user finished typing);
-    $(".ui.search").search('query');
+    //$("#communicationSearch").search('query');
 }
 
 /**
