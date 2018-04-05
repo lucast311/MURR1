@@ -86,7 +86,7 @@
         </table>
 
         <div class="ui buttons">
-            <a class="ui labeled icon button" href="{{ path("container_search") }}" id="backButton"><i class="reply icon"></i>Back</a>
+            <a class="ui labeled icon button" href="{{ path("container_search") }}" id="backButton"><i class="reply icon"></i>Back to Search</a>
             <a href="{{ path('container_edit', { 'id': container.id }) }}" class="ui blue button" id="btnEdit">Edit</a>
 
 	        <form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to remove container {{container}}?">

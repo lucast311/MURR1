@@ -3,7 +3,8 @@
 {% block title %}Add Contact | M.U.R.R.{% endblock %}
 
 {% block body %}
-        <h2 class="ui header left attached top">Add Contact</h2>
+<div class="ui text container">
+    <h2 class="ui header left attached top">Add Contact</h2>
 	<div class="ui bottom attached segment">
     {{ form_start(form) }}
         {{ form_widget(form) }}
@@ -14,4 +15,5 @@
 
     {{ form_end(form) }}
 	</div>
+</div>
 {% endblock %}

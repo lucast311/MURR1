@@ -1,6 +1,4 @@
-﻿.column {
-    max-width: max-content;
-}
+﻿
 
 .grid .column{
     max-width: initial;
@@ -73,5 +71,10 @@ table.selectable tbody tr:hover {
     /*Don't display the menu button on desktop*/
     #openMenu{
         display:none;
+    }
+
+    .column {
+        max-width: max-content;
+
     }
 }

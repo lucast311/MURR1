@@ -3,27 +3,28 @@
 {% block title %}Edit Property | M.U.R.R.{% endblock %}
 
 {% block body %}
+<div class="ui text container">
 
-<h2 class="ui header left attached top">Edit Property</h2>
-<div class="ui bottom attached segment">
-    {% if errorType =="notfound" %}
-        <h2>The specified property could not be found</h2>
-    {% elseif errorType=="noid" %}
-        <h2>No property specified</h2>
-    {% else %}
+    <h2 class="ui header left attached top">Edit Property</h2>
+    <div class="ui bottom attached segment">
+        {% if errorType =="notfound" %}
+            <h2>The specified property could not be found</h2>
+        {% elseif errorType=="noid" %}
+            <h2>No property specified</h2>
+        {% else %}
 
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <div class="ui buttons">
-            <a class="ui button" href="{{cancelPath}}" id="cancelButton">Cancel</a>
-            <input type="submit" value="Save" class="ui green button" />
-        </div>
-        {{ form_end(form) }}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="ui buttons">
+                <a class="ui button" href="{{cancelPath}}" id="cancelButton">Cancel</a>
+                <input type="submit" value="Save" class="ui green button" />
+            </div>
+            {{ form_end(form) }}
 
 
-    {% endif %}
+        {% endif %}
+    </div>
 </div>
-
 <style>
     #property_Clear{
         display:none;

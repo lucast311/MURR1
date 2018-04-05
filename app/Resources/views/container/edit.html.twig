@@ -51,6 +51,7 @@
 
 
 {% block body %}
+<div class=" ui text container">
     <h2 class="ui header left attached top">Edit Container{% if not invalid_id_error %} {{container.containerSerial}}{% endif %}</h2>
     
 {% if invalid_id_error %}
@@ -179,5 +180,6 @@
          <form id="appbundle_removeContainer" name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to remove container {{container}}?"></form>
         
     </div>
+</div>
 {% endif %}
 {% endblock %}
