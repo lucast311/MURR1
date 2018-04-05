@@ -77,7 +77,7 @@
 						<th>Pickup Order</th>
 						<th>Container Serial</th>
 						<th>Property</th>
-						<th>Truck</th>
+						{#<th>Truck</th>#}
 						<th>Remove</th>
 					</tr>
 				</thead>
@@ -87,7 +87,7 @@
 							<td>{{ rp.pickupOrder }}</td>
 							<td>{{ rp.container.containerSerial }}</td>
 							<td>{{ rp.container.property }}</td>
-							<td>{% if rp.truck.truckId is defined %}{{ rp.truck.truckId }}{% endif %}</td>
+							{#<td>{% if rp.truck.truckId is defined %}{{ rp.truck.truckId }}{% endif %}</td>#}
 							<td>
 								<form id="rmf{{rp.id}}" name="appbundle_removeContainer" data-id="{{rp.id}}" method="post" action="{{ path('route_pickup_removal', { 'id': rp.id })}}" data-message="'Are you sure you want to remove Truck \''+truckId+'\''">
 									<button id="rmb{{rp.id}}" type="button" class="ui icon button rmb removeButton red">
