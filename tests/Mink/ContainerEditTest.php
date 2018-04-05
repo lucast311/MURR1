@@ -179,7 +179,7 @@ class ContainerEditConfirmationTest extends WebTestCase
         $containerEditHeaderBefore = $page->find("css", "h1")->getText();
 
         // Click the delete button
-        $page->find('named', array('button', "Delete"))->click();
+        $page->find('named', array('button', "btnDelete"))->click();
 
         // Make sure a modal pops up
         $this->assertTrue($page->find('css', "#removeModal")->isVisible());

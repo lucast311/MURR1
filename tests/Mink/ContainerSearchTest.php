@@ -216,7 +216,7 @@ class ContainerSearchTest extends WebTestCase
         $page = $this->session->getPage();
 
         // Click the delete button
-        $page->find("css", "#delete")->click();
+        $page->find("css", "#btnDelete")->click();
         $this->session->wait(1000);
         // Make sure a modal pops up
         $modal = $page->find("css", "div.ui.dimmer.modals.page.transition.active"); 
