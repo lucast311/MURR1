@@ -52,6 +52,20 @@ class Truck
     private $type;
 
 
+    /** S40C
+     * @ORM\Column(name="dateModified", type="datetime")
+     * @var mixed
+     */
+    protected $dateModified;
+
+    public function __construct()
+    {
+        if($this->getDateModified() == Null)
+        {
+            $this->setDateModified(new \DateTime());
+        }
+    }
+
     /**
      * Get id
      *
@@ -109,5 +123,39 @@ class Truck
     {
         return $this->type;
     }
+
+
+    //S40C: New functions
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime()
+    {
+        $this->setDateModified(new \DateTime());
+    }
+
+    /**
+     * Set dateModified
+     *
+     * @param \DateTime $dateModified
+     * @return Truck
+     */
+    public function setDateModified($dateModified)
+    {
+        $this->dateModified = $dateModified;
+        return $this;
+    }
+
+    /**
+     * Get dateModified
+     *
+     * @return \DateTime
+     */
+    public function getDateModified()
+    {
+        return $this->dateModified;
+    }
+    //End S40C: New functions
 }
 

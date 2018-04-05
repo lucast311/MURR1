@@ -23,12 +23,27 @@ class Route
      */
     private $id;
 
+
+    //A: Maybe change this to routeName for code readability
+    //S40C: changed int -> String for storing template names
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="routeId", type="integer", unique=true)
-     * @Assert\NotNull(message="Please specify a Route ID")
-     * @Assert\GreaterThan(value=0, message="Route ID must be a value greater than 0")
+     * @ORM\Column(name="routeId", type="string", length=15, unique=true)
+     * @Assert\Length(min=1,max=6,
+     *  minMessage = "Route ID must be atleast {{ limit }} digits long",
+     *  maxMessage = "Route ID can not be more than {{ limit }} digits long")
+     *
+     * @Assert\NotNull(message="Please specify a Route ID")     
+     * 
+     * //Used to store "routeID" int string or, if template, route template name
+     * //A?: is there a way to have a dynamic length validation? ie: 6 for routeid, 15 for template name
+     * //A?: '' dynamic regex
+     * //Assert\Regex(
+     * // pattern="/^[0-9]*$/",
+     * // htmlPattern=".*",
+     * // message="The Route ID must contain 1 to 6 digits, no letters")
+     * //A?: '' dynamic messages
      */
     private $routeId;
 
@@ -40,26 +55,55 @@ class Route
      */
     private $pickups;
 
+    //S40C
     /**
-     * @var string
+     * @var mixed
      *
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(name="startDate", type="datetime")
      *
      */
     private $startDate;
 
     /**
-     * @var string
+     * @var mixed
      *
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(name="endDate", type="datetime")
      *
      */
     private $endDate;
 
-    //bool
-    private $template = false;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="template", type="boolean", options={"default":"0"})
+     */
+    private $template;
 
-    //TODO: $dateModified
+    /**
+     * @var mixed
+     *
+     * @ORM\Column(name="dateModified", type="datetime")
+     *
+     */
+    protected $dateModified;
+    //End S40C
+
+    /**
+     * S40C
+     * init a normal Route
+     */
+    public function __construct()
+    {
+        if($this->getDateModified() == Null)
+        {
+            $this->setDateModified(new \DateTime());
+        }
+
+        if($this->getTemplate() == Null)
+        {
+            $this->setTemplate(false);
+        }
+    }
 
 
     /**
@@ -120,32 +164,110 @@ class Route
         return $this->pickups;
     }
 
+
+    //S40C: New functions
+    /**
+     * Set startDate
+     *
+     * @param mixed $date
+     *
+     * @return Route
+     */
     public function setStartDate($date)
     {
-
+        $this->startDate = $date;
+        return $this;
     }
+
+    /**
+     * Set endDate
+     *
+     * @param mixed $date
+     *
+     * @return Route
+     */
     public function setEndDate($date)
     {
-
+        $this->endDate = $date;
+        return $this;
     }
 
+    /**
+     * Get startDate
+     *
+     * @return mixed
+     */
     public function getStartDate()
     {
-
+        return $this->startDate;
     }
+
+    /**
+     * Get endDate
+     *
+     * @return mixed
+     */
     public function getEndDate()
     {
-
+        return $this->endDate;
     }
 
 
-    public function setTemplate()
+    /**
+     * Set template
+     * Used to turn this into a template, or specify otherwise hacky but works
+     *
+     * @param boolean $template
+     *
+     * @return Route
+     */
+    public function setTemplate($template = true)
     {
-        $this->template = true;
+        $this->template = $template;
+        return $this;
     }
+
+    /**
+     * Get template
+     *
+     * @return boolean
+     */
     public function getTemplate()
     {
         return $this->template;
     }
+
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime()
+    {
+        $this->setDateModified(new \DateTime());
+    }
+
+    /**
+     * Set dateModified
+     *
+     * @param \DateTime $dateModified
+     * @return Route
+     */
+    public function setDateModified($dateModified)
+    {
+        $this->dateModified = $dateModified;
+        return $this;
+    }
+
+    /**
+     * Get dateModified
+     *
+     * @return \DateTime
+     */
+    public function getDateModified()
+    {
+        return $this->dateModified;
+    }
+    //End S40C: New functions
 }
 

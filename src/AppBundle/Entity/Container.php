@@ -116,8 +116,6 @@ class Container
     private $reasonForStatus;
 
 
-
-
     /**
      * @ORM\ManyToOne(targetEntity="Property", inversedBy="bins", cascade={"persist"})
      * @ORM\JoinColumn(name="propertyID", referencedColumnName="id")
@@ -126,8 +124,8 @@ class Container
 
 
     /**
-     *@ORM\Column(name="augmentation", type="string", length=255, nullable=true)
-     *@Assert\Length(max=255, maxMessage="Size must be less than 255")
+     * @ORM\Column(name="augmentation", type="string", length=255, nullable=true)
+     * @Assert\Length(max=255, maxMessage="Size must be less than 255")
      *
      * @var string
      */
@@ -405,6 +403,7 @@ class Container
     public function setDateModified($dateModified)
     {
         $this->dateModified = $dateModified;
+        return $this;//S40C A: noticed this function use to return nothing
     }
 
     /**
