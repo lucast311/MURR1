@@ -67,7 +67,7 @@ class RouteRepository extends \Doctrine\ORM\EntityRepository
      * @param mixed $queryStrings an array of strings to query the database on
      * @return array of searched entites returned from the queries
      */
-    public function routeSearch($queryStrings, $excludedProperties = array(), $sortOnProperty = null, $sortDirection = "DESC")///, $numResults=10) <-- this would be the better way
+    public function routeSearch($queryStrings, $excludedProperties = array(), $sortOnProperty = null, $sortDirection = "DESC")
     {
         // get the field names of the Route entity
         $routeClassProperties = $this->getClassMetadata(Route::class)->fieldNames;
@@ -94,14 +94,14 @@ class RouteRepository extends \Doctrine\ORM\EntityRepository
         $sortString="";
         if(!is_null($sortOnProperty))
         {
-            $sortString = " ORDER BY $classNames[0].$sortOnProperty $sortDirection";
+            $sortString = " ORDER BY r.$sortOnProperty $sortDirection";
         }
 
         // query on route ONLY (not associated entities)
         // TODO: maybe fix looking for non templates?
         $records = $this->getEntityManager()->createQuery(
-        "SELECT $classNames[0] FROM AppBundle:Route $classNames[0]
-        WHERE $classPropertiesString AND $classNames[0].template=0
+        "SELECT r FROM AppBundle:Route r
+        WHERE $classPropertiesString
         $sortString"
         )->getResult();
 

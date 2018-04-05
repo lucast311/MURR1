@@ -17,8 +17,7 @@
 
 {% block body %}
 {# magic invisible div that allows us to pass information to the search script #}
-<div class="js-routejsonpage" data-jsonpage="{{ path('route_jsonsearch_empty') }}"></div>
-{#<!--<div class="js-routetemplatejsonpage" data-jsonpage="{{ path('routetemplate_jsonsearch_empty') }}"></div>-->#}
+<div class="js-jsonpage" data-jsonpage="{{ path('route_jsonsearch_empty') }}"></div>
 
 <div class="js-isPopup" data-ispopup="{{isPopup}}"></div>
 <h2>Route Search</h2>
@@ -29,16 +28,15 @@
     <div class="results"></div>
 </div>
 
-<div id="message"></div>
-
 <div class="ui rtResults">
     <div class="ui menu top attached tabular">
         <a class="active item" data-tab="routes">Routes</a>
         <a class="item" data-tab="templates">Templates</a>
     </div>
     <div class="ui tab bottom attached segment" data-tab="routes">
-        <div class="ui active centered inline loader tblSpinner"></div>
+        {#<div class="ui active centered inline loader tblSpinner"></div>#}
         <div class="routeResults">
+			<div id="message"></div>
             <table hidden class="ui selectable celled table">
                 <thead>
                     <tr>
@@ -48,7 +46,7 @@
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: results">
-                    <tr data-bind="attr:{'data-id': id}">
+                    <tr data-bind="if: template == 0, attr:{'data-id': id}">
                         <td data-bind="text: routeId"></td>
                         <td data-bind="text: startDate"></td>
                         <td data-bind="text: endDate"></td>
@@ -63,7 +61,30 @@
         </div>
     </div>
     <div class="ui tab bottom attached segment" data-tab="templates">
-        Other content
+        <div class="templateResults">
+			<div id="message"></div>
+            <table hidden class="ui selectable celled table">
+                <thead>
+                    <tr>
+                        <th>Route ID</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: results">
+                    <tr data-bind="if: template == 1, attr:{'data-id': id}">
+                        <td data-bind="text: routeId"></td>
+                        <td data-bind="text: startDate"></td>
+                        <td data-bind="text: endDate"></td>
+                        {#{%if isPopup%}
+                        <td><a href="#" class="popupSelectButton" data-bind="attr: {'data-id': id}">Select</a></td>
+                        {% else %}
+                        <td><a data-bind="attr: {href: '{{ viewURL }}' + id}">View</a></td>
+                        {% endif %}#}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

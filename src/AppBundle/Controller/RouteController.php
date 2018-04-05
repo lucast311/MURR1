@@ -3,12 +3,12 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\RoutePickup;
 use AppBundle\Form\RoutePickupType;
-use AppBundle\Entity\Route; //as RouteEntity;
+use AppBundle\Entity\Route as RouteEntity; //as RouteEntity;
 use AppBundle\Entity\Route as ContainerRoute;
 use AppBundle\Entity\Route as ContainerRouteTemplate;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormError;
@@ -123,7 +123,7 @@ class RouteController extends Controller
      * Story 22b
      * +S40C
      * Used to edit Routes
-     * @Route("/route/edit/{routeId}", name="route_manage")
+     * @Route("/{routeId}", name="route_manage")
      * @param Request $request
      * @param integer $routeId
      */
@@ -269,13 +269,13 @@ class RouteController extends Controller
      */
     public function jsonSearchAction($searchQuery = "", $template = false)
     {
+        // get an entity manager
+        $em = $this->getDoctrine()->getManager();
+
         if($searchQuery != "")
         {
             // Clean the input
             $searchQuery = htmlentities($searchQuery);
-
-            // get an entity manager
-            $em = $this->getDoctrine()->getManager();
 
             // if the string to query onn is less than or equal to 100 characters
             if(strlen($searchQuery) <= 500 && !empty($searchQuery))
@@ -288,13 +288,13 @@ class RouteController extends Controller
 
                 // Use the repository to query for the records we want.
                 // Store those records into an array.
-                $routeSearches = $em->getRepository(Route::class)->routeSearch($cleanQuery);
+                $routeSearches = $em->getRepository(RouteEntity::class)->routeSearch($cleanQuery);
 
                 // create a SearchNarrower to narrow down our searches
                 $searchNarrower = new SearchNarrower();
 
                 // narrow down our searches, and store their values along side their field values
-                $searchedData = $searchNarrower->narrower($routeSearches, $cleanQuery, new Route());
+                $searchedData = $searchNarrower->narrower($routeSearches, $cleanQuery, new RouteEntity());
 
                 // Return the results as a json object
                 // NOTE: Serializer service needs to be enabled for this to work properly
