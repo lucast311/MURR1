@@ -96,7 +96,7 @@ class NavigateSystemTest extends WebTestCase
     // TEST HAMBURGER BUTTON VISIBILITY
     /**
         story 23a
-        Tests the visibility of the menu bar
+        Tests the visibility of the menu bar, and the columns of the homepage links
     */
     public function testMenu()
     {
@@ -110,8 +110,44 @@ class NavigateSystemTest extends WebTestCase
         // Test that the hamburger button doesn't show up on desktop
         $this->assertFalse($menuButton->isVisible());
 
+        //Tests that the links on the homepage are in columns of 2
+        //loop for all 3 rows
+        for ($i = 1; $i <= 3; $i+= 2)
+        {
+            //index of the second column
+            $j = $i + 1;
+
+            //checks that the items in each column have the same y index
+        	$isTwoColumns = $this->session->evaluateScript("
+                $('#mainLinks .column:nth-of-type($i)').position().top == $('#mainLinks .column:nth-of-type($j)').position().top
+            ");
+
+            //was the script true?
+            //The script returns a string technically
+            $this->assertTrue($isTwoColumns);
+        }
+
+
         // Resize the window to mobile view
         $this->session->resizeWindow(766, 1080, "current");
+
+        //Test that the next item in the list is not on the same y index
+        //loop for the first 5 rows (6th row doesn't have a next row)
+        for ($i = 1; $i <= 5; $i++)
+        {
+            //index of the next column
+            $j = $i + 1;
+
+            //checks that the items in each column do not have the same y index
+        	$isOneColumn = $this->session->evaluateScript("
+                $('#mainLinks .column:nth-of-type($i)').position().top == $('#mainLinks .column:nth-of-type($j)').position().top
+            ");
+
+            //Was the script false?
+            $this->assertFalse($isOneColumn);
+        }
+
+
         // Test that the hamburger button does show up on mobile
         $this->assertTrue($menuButton->isVisible());
 
@@ -134,7 +170,7 @@ class NavigateSystemTest extends WebTestCase
         $page = $this->session->getPage();
 
         //click on the home button in the nav menu
-        $page->find("css","#home")->click();
+        $page->find("css","#homePage")->click();
 
 
         // Assert that we were redirected to the main page
@@ -160,25 +196,32 @@ class NavigateSystemTest extends WebTestCase
         $page = $this->session->getPage();
 
         //click on the communications button
-        $page->find("css","#communications")->click();
+        $page->find("css","#communicationsPage")->click();
 
         //check that the header is the communication search page
-        assertContains("Communication Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/communication/search", $this->session->getCurrentUrl());
+        $this->assertContains("Communication Search", $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("/communication/search", $this->session->getCurrentUrl());
 
         //Click on the add communication button
         $page->find("css","#newCommunication")->click();
 
         //check that the header is there and we're on the new communication page
-        assertContains("Add Communication" , $page->find("css","h2:first-child")->getHtml());
-        assertContains("/communication/new", $this->session->getCurrentUrl());
+        $this->assertContains("Add Communication" , $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("/communication/new", $this->session->getCurrentUrl());
+
+
+        //check that the buttons on the new communication page are in the same y index
+        $this->assertTrue($this->session->evaluateScript("
+                $('.ui.buttons .ui.button:contains(Cancel)').position().top == $('.ui.buttons .ui.button:contains(Add)').position().top"
+        ));
+
 
         //Attempt to click on the cancel button
         $page->find("css","#cancelButton")->click();
 
         //check that we're back on the search page
-        assertContains("Communication Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/communication/search", $this->session->getCurrentUrl());
+        $this->assertContains("Communication Search", $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("/communication/search", $this->session->getCurrentUrl());
     }
 
     /**
@@ -196,8 +239,8 @@ class NavigateSystemTest extends WebTestCase
         $page->find("css","#homeCommunications")->click();
 
         //check that the header is the communication search page
-        assertContains("Communication Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/communication/search", $this->session->getCurrentUrl());
+        $this->assertContains("Communication Search", $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("/communication/search", $this->session->getCurrentUrl());
     }
 
     /**
@@ -207,16 +250,21 @@ class NavigateSystemTest extends WebTestCase
     public function testCommunicationsBack()
     {
         //start up a new session, go to the communication view page
-        $this->session->visit('http://localhost:8000/app_test.php/communication/7');
+        $this->session->visit('http://localhost:8000/app_test.php/communication/1');
         // Get the page
         $page = $this->session->getPage();
+
+        //check that the buttons on the view communication page are in the same y index
+        $this->assertTrue($this->session->evaluateScript('
+                $(".ui.buttons .ui.button:contains(Back)").position().top == $(".ui.buttons .ui.button:contains(Edit)").position().top
+        '));
 
         //click on the back button
         $page->find("css","#backButton")->click();
 
         //check that we're back on the search page
-        assertContains("Communication Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/communication/search", $this->session->getCurrentUrl());
+        $this->assertContains("Communication Search", $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("/communication/search", $this->session->getCurrentUrl());
     }
 
     /**
@@ -244,11 +292,17 @@ class NavigateSystemTest extends WebTestCase
         $this->assertContains("Add Contact" , $page->find("css","h2:first-child")->getHtml());
         $this->assertContains("/contact/new", $this->session->getCurrentUrl());
 
+
+        //check that the buttons on the new contact page are in the same y index
+        $this->assertTrue( $this->session->evaluateScript('
+                $(".ui.buttons .ui.button:contains(Cancel)").position().top == $(".ui.buttons .ui.button[value=\"Add\"").position().top
+        '));
+
         //Attempt to click on the cancel button
         $page->find("css","#cancelButton")->click();
 
         //check that we're back on the search page
-        $this->assertContains("Contact Search", $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("Contact Search", $page->find("css","#contentSeparator h2")->getHtml());
         $this->assertContains("/contact/search", $this->session->getCurrentUrl());
     }
 
@@ -267,8 +321,8 @@ class NavigateSystemTest extends WebTestCase
         $page->find("css","#homeContacts")->click();
 
         //check that the header is the contact search page
-        assertContains("Contact Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/contact/search", $this->session->getCurrentUrl());
+        $this->assertContains("Contact Search", $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/contact/search", $this->session->getCurrentUrl());
     }
 
     /**
@@ -282,12 +336,20 @@ class NavigateSystemTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
+
+        //check that the buttons on the view contact page are in the same y index
+        $this->assertTrue( $this->session->evaluateScript('
+                cancelButtonY = $(".ui.buttons .ui.button:contains(Back)").position().top;
+                cancelButtonY == $(".ui.buttons .ui.button:contains(Edit)").position().top && cancelButtonY == $(".ui.buttons .ui.button:contains(Delete)").position().top;
+        '));
+
+
         //click on the back button
         $page->find("css","#backButton")->click();
 
         //check that we're back on the search page
-        assertContains("Contact Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/contact/search", $this->session->getCurrentUrl());
+        $this->assertContains("Contact Search", $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/contact/search", $this->session->getCurrentUrl());
     }
 
     /**
@@ -302,25 +364,30 @@ class NavigateSystemTest extends WebTestCase
         $page = $this->session->getPage();
 
         //click on the containers button
-        $page->find("css","#containers")->click();
+        $page->find("css","#containersPage")->click();
 
         //check that the header is the container search page
-        assertContains("Container Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/container/search", $this->session->getCurrentUrl());
+        $this->assertContains("Container Search", $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/container/search", $this->session->getCurrentUrl());
 
         //Click on the add container button
         $page->find("css","#newContainer")->click();
 
         //check that the header is there and we're on the new container page
-        assertContains("Add Container" , $page->find("css","h2:first-child")->getHtml());
-        assertContains("/container/new", $this->session->getCurrentUrl());
+        $this->assertContains("Add Container" , $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/container/new", $this->session->getCurrentUrl());
+
+        //check that the buttons on the new container page are in the same y index
+        $this->assertTrue($this->session->evaluateScript('
+                $(".ui.buttons .ui.button:contains(Cancel)").position().top == $(".ui.buttons .ui.button[value=\"Add\"").position().top
+        '));
 
         //Attempt to click on the cancel button
         $page->find("css","#cancelButton")->click();
 
         //check that we're back on the search page
-        assertContains("Container Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/container/search", $this->session->getCurrentUrl());
+        $this->assertContains("Container Search", $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/container/search", $this->session->getCurrentUrl());
     }
 
     /**
@@ -338,8 +405,8 @@ class NavigateSystemTest extends WebTestCase
         $page->find("css","#homeContainers")->click();
 
         //check that the header is the container search page
-        assertContains("Container Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/container/search", $this->session->getCurrentUrl());
+        $this->assertContains("Container Search", $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/container/search", $this->session->getCurrentUrl());
     }
 
     /**
@@ -353,12 +420,19 @@ class NavigateSystemTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
+        //check that the buttons on the view container page are in the same y index
+        $this->assertTrue( $this->session->evaluateScript('
+                cancelButtonY = $(".ui.buttons .ui.button:contains(Back)").position().top;
+                cancelButtonY == $(".ui.buttons .ui.button:contains(Edit)").position().top && cancelButtonY == $(".ui.buttons .ui.button:contains(Delete)").position().top;
+        '));
+
         //click on the back button
         $page->find("css","#backButton")->click();
 
+
         //check that we're back on the search page
-        assertContains("Container Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/container/search", $this->session->getCurrentUrl());
+        $this->assertContains("Container Search", $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/container/search", $this->session->getCurrentUrl());
     }
 
     /**
@@ -373,25 +447,31 @@ class NavigateSystemTest extends WebTestCase
         $page = $this->session->getPage();
 
         //click on the containers button
-        $page->find("css","#properties")->click();
+        $page->find("css","#propertiesPage")->click();
 
         //check that the header is the property search page
-        assertContains("Property Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/property/search", $this->session->getCurrentUrl());
+        $this->assertContains("Property Search", $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/property/search", $this->session->getCurrentUrl());
 
         //Click on the add property button
         $page->find("css","#newProperty")->click();
 
         //check that the header is there and we're on the new property page
-        assertContains("Add Property" , $page->find("css","h2:first-child")->getHtml());
-        assertContains("/property/new", $this->session->getCurrentUrl());
+        $this->assertContains("Add Property" , $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/property/new", $this->session->getCurrentUrl());
+
+        //check that the buttons on the new property page are in the same y index
+        $this->assertTrue( $this->session->evaluateScript('
+                $(".ui.buttons .ui.button:contains(Cancel)").position().top == $(".ui.buttons .ui.button[value=\"Add\"").position().top
+        '));
+
 
         //Attempt to click on the cancel button
         $page->find("css","#cancelButton")->click();
 
         //check that we're back on the search page
-        assertContains("Property Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/property/search", $this->session->getCurrentUrl());
+        $this->assertContains("Property Search", $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/property/search", $this->session->getCurrentUrl());
     }
 
     /**
@@ -409,8 +489,8 @@ class NavigateSystemTest extends WebTestCase
         $page->find("css","#homeProperties")->click();
 
         //check that the header is the property search page
-        assertContains("Property Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/property/search", $this->session->getCurrentUrl());
+        $this->assertContains("Property Search", $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/property/search", $this->session->getCurrentUrl());
     }
 
     /**
@@ -424,12 +504,17 @@ class NavigateSystemTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
+        //check that the buttons on the view property page are in the same y index
+        $this->assertTrue( $this->session->evaluateScript('
+                $(".ui.buttons .ui.button:contains(Back)").position().top == $(".ui.buttons .ui.button:contains(Edit)").position().top
+        '));
+
         //click on the back button
         $page->find("css","#backButton")->click();
 
         //check that we're back on the search page
-        assertContains("Property Search", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/property/search", $this->session->getCurrentUrl());
+        $this->assertContains("Property Search", $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/property/search", $this->session->getCurrentUrl());
     }
 
     /**
@@ -444,11 +529,11 @@ class NavigateSystemTest extends WebTestCase
         $page = $this->session->getPage();
 
         //click on the routes button
-        $page->find("css","#routes")->click();
+        $page->find("css","#routesPage")->click();
 
         //check that the header is the route index page
-        assertContains("Add Route", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/route", $this->session->getCurrentUrl());
+        $this->assertContains("Add Route", $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("/route", $this->session->getCurrentUrl());
     }
 
     /**
@@ -466,8 +551,8 @@ class NavigateSystemTest extends WebTestCase
         $page->find("css","#homeRoutes")->click();
 
         //check that the header is the route index page
-        assertContains("Add Route", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/route", $this->session->getCurrentUrl());
+        $this->assertContains("Add Route", $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/route", $this->session->getCurrentUrl());
     }
 
     /**
@@ -482,11 +567,11 @@ class NavigateSystemTest extends WebTestCase
         $page = $this->session->getPage();
 
         //click on the trucks button
-        $page->find("css","#trucks")->click();
+        $page->find("css","#trucksPage")->click();
 
         //check that the header is the truck index page
-        assertContains("Add Truck", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/truck", $this->session->getCurrentUrl());
+        $this->assertContains("Add Truck", $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/truck", $this->session->getCurrentUrl());
     }
 
     /**
@@ -504,7 +589,7 @@ class NavigateSystemTest extends WebTestCase
         $page->find("css","#homeTrucks")->click();
 
         //check that the header is the truck index page
-        assertContains("Add Truck", $page->find("css","h2:first-child")->getHtml());
-        assertContains("/truck", $this->session->getCurrentUrl());
+        $this->assertContains("Add Truck", $page->find("css","#contentSeparator h2")->getHtml());
+        $this->assertContains("/truck", $this->session->getCurrentUrl());
     }
 }

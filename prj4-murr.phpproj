@@ -3334,6 +3334,7 @@
     <Folder Include="var" />
     <Folder Include="web\bundles" />
     <Folder Include="web" />
+    <Folder Include="web\img\" />
     <Folder Include="web\JavaScript\" />
     <Folder Include="web\css\" />
   </ItemGroup>
@@ -3344,6 +3345,7 @@
     <Content Include="app\Resources\views\collectionhistory\new.html.twig" />
     <Content Include="app\Resources\views\collectionhistory\show.html.twig" />
     <Content Include="app\Resources\views\communication\editComm.html.twig" />
+    <Content Include="app\Resources\views\communication\searchComm.html.twig" />
     <Content Include="app\Resources\views\container\edit.html.twig" />
     <Content Include="app\Resources\views\container\index.html.twig" />
     <Content Include="app\Resources\views\container\new.html.twig" />
@@ -3391,6 +3393,7 @@
     <Content Include="web\css\ContainerAddEditFormStyles.css" />
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\css\util_twig.css" />
+    <Content Include="web\img\cosmoindustries_icon.png" />
     <Content Include="web\JavaScript\base_twig.js" />
     <Content Include="web\JavaScript\Filter.js" />
     <Content Include="web\JavaScript\DeleteModal.js" />

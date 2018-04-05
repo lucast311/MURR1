@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Add | Container Search{% endblock %}
+{% block title %}Add Container | M.U.R.R.{% endblock %}
 
 {% block body %}
-    <h1 class="ui header left attached top">Add Container</h1>
+    <h2 class="ui header left attached top">Add Container</h2>
 
     <div class="ui bottom attached segment">
         {{ form_start(form) }}
             {{ form_widget(form) }}
              
         <div class="ui buttons">
-            <a class="ui button" href="{{ path("container_search") }}">Cancel</a>
+            <a class="ui button" href="{{ path("container_search") }}" id="cancelButton">Cancel</a>
             <input type="submit" value="Add" class="ui green button" id="btnCreate" />
         </div>
         {{ form_end(form) }}

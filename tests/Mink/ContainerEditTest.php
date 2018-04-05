@@ -176,7 +176,7 @@ class ContainerEditConfirmationTest extends WebTestCase
         $page = $this->session->getPage();
 
         // get the page header before we open the delete modal (should contain the container serial)
-        $containerEditHeaderBefore = $page->find("css", "h1")->getText();
+        $containerEditHeaderBefore = $page->find("css", "#contentSeparator h2")->getText();
 
         // Click the delete button
         $page->find('named', array('button', "Delete"))->click();
@@ -193,7 +193,7 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->assertFalse($page->find('css', "#removeModal")->isVisible());
 
         // get the page header after we close the delete modal (should contain the container serial)
-        $containerEditHeaderAfter = $page->find("css", "h1")->getText();
+        $containerEditHeaderAfter = $page->find("css", "#contentSeparator h2")->getText();
 
         // make sure that we are on the same container view page, by comparing the two page headers
         $this->assertTrue($containerEditHeaderBefore == $containerEditHeaderAfter);

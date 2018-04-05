@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}M.U.R.R.{% endblock %}
+
 {% block body %}
 	<!--
 		Supposedly the only way we can get a semantic container to be centered
@@ -10,8 +12,8 @@
             <div class="ui stackable center aligned grid two column" id="mainLinks">
                 <div class="column">
                     {#<h3 class="ui icon header">#}
-                        <a class="ui icon header" href="{{path('communication_search')}}">
-                            <i class="book icon"></i>
+                        <a class="ui icon header" href="{{path('communication_search')}}" id="homeCommunications">
+                            <i class="blue book icon"></i>
                             <div class="content">
                                 Communications
                             </div>
@@ -19,40 +21,40 @@
                     {#</h3>#}
                 </div>
                 <div class="column">
-                    <a class="ui icon header" href="{{path('contact_search')}}">
-                        <i class="user icon"></i>
+                    <a class="ui icon header" href="{{path('contact_search')}}" id="homeContacts">
+                        <i class="blue user icon"></i>
                         <div class="content">
                             Contacts
                         </div>
                     </a>
                 </div>
                 <div class="column">
-                    <a class="ui icon header" href="{{path('container_search')}}">
-                        <i class="cubes icon"></i>
+                    <a class="ui icon header" href="{{path('container_search')}}" id="homeContainers">
+                        <i class="blue cubes icon"></i>
                         <div class="content">
                             Containers
                         </div>
                     </a>
                 </div>
                 <div class="column">
-                    <a class="ui icon header" href="{{path('property_search')}}">
-                        <i class="building icon"></i>
+                    <a class="ui icon header" href="{{path('property_search')}}" id="homeProperties">
+                        <i class="blue building icon"></i>
                         <div class="content">
                             Properties
                         </div>
                     </a>
                 </div>
                 <div class="column">
-                    <a class="ui icon header" href="{{path('route_util')}}">
-                        <i class="road icon"></i>
+                    <a class="ui icon header" href="{{path('route_util')}}" id="homeRoutes">
+                        <i class="blue road icon"></i>
                         <div class="content">
                             Routes
                         </div>
                     </a>
                 </div>
                 <div class="column">
-                    <a class="ui icon header" href="{{path('truck_util')}}">
-                        <i class="truck icon"></i>
+                    <a class="ui icon header" href="{{path('truck_util')}}"  id="homeTrucks">
+                        <i class="blue truck icon"></i>
                         <div class="content">
                             Trucks
                         </div>

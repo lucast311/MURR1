@@ -55,6 +55,11 @@ table.selectable tbody tr:hover {
     z-index: 999;
 }
 
+#mainLinks a{
+    font-size: 2em;
+    padding: 1em;
+}
+
 /*DESKTOP ONLY CSS*/
 @media (min-width: 768px) {
     /*

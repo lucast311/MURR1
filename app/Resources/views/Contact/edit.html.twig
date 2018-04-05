@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit | Contact Search{% endblock %}
+{% block title %}Edit Contact | M.U.R.R.{% endblock %}
 
 {% block body %}
     <h2 class="ui header left attached top">Edit Contact</h2>
@@ -8,7 +8,7 @@
         {{ form_start(edit_form) }}
             {{ form_widget(edit_form) }}
             <div class="ui buttons">
-                <a href="{{ path('contact_show', { 'id': contact.Id }) }}" class="ui button">Cancel</a>
+                <a href="{{ path('contact_show', { 'id': contact.Id }) }}" class="ui button" id="cancelButton">Cancel</a>
                 <input class="ui green button" type="submit" value="Save" />
             </div>
         {{ form_end(edit_form) }}

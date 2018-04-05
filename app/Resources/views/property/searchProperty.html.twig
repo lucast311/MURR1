@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Property Search{% endblock %}
+{% block title %}Property Search | M.U.R.R.{% endblock %}
 
 {% block javascripts %}
 {# include Knockout to make the search script works #}
@@ -16,8 +16,7 @@
 <div class="js-isPopup" data-ispopup="{{isPopup}}"></div>
 <h2>
     Property Search
-    <a href="{{ path('property_add') }}" class="ui icon button green"><i class="plus icon"></i></a>
-    <a href="{{path("communication_search")}}" class="ui icon button"><i class="search icon"></i></a>
+    <a href="{{ path('property_add') }}" class="ui icon button green"><i class="plus icon" id="newProperty"></i></a>
 </h2>
 
 <div class="ui search">

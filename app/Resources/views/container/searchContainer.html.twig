@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Container Search{% endblock %}
+{% block title %}Container Search | M.U.R.R.{% endblock %}
 
 {% block javascripts %}
 {# include Knockout to make the search script works #}
@@ -14,7 +14,7 @@
 {# magic invisible div that allows us to pass information to the search script #}
 <div class="js-jsonpage" data-jsonpage="{{ path('container_jsonsearch_empty') }}"></div>
 <div class="js-isPopup" data-ispopup="{{isPopup}}"></div>
-<h2>Container Search <a href="{{ path('container_new') }}" class="ui icon button green"><i class="plus icon"></i></a></h2>
+<h2>Container Search <a href="{{ path('container_new') }}" class="ui icon button green" id="newContainer"><i class="plus icon"></i></a></h2>
 
 <div class="ui search">
     <input type="text" id="searchBox" class="prompt" maxlength="100" placeholder="Search..." />

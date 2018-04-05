@@ -78,11 +78,6 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
-        //click the menu button
-        $menu = $page->find("css","#menuBtn");
-        $menu->click();
-
-        $this->session->wait(1000);
 
         //A: CHANGED IN S40A -AB
         //click the contacts page

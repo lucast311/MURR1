@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}View | Communication Search{% endblock %}
+{% block title %}View Commununication | M.U.R.R.{% endblock %}
 
 {% block body %}
 <div class="column contentSection">
@@ -55,7 +55,7 @@
         </table>
 
         <div class="ui buttons">
-		    <a class="ui labeled icon button" href="{{ path("communication_search") }}"><i class="reply icon"></i>Back</a>
+		    <a class="ui labeled icon button" href="{{ path("communication_search") }}" id="backButton"><i class="reply icon"></i>Back</a>
 		    <a href="{{ path('communication_edit', { 'commId': comm.id }) }}" class="ui blue button">Edit</a>
         </div>
         {% endif %}
