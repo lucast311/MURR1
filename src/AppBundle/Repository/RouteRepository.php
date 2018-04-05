@@ -1,6 +1,8 @@
 <?php
-
 namespace AppBundle\Repository;
+
+use AppBundle\Entity\Route;
+use AppBundle\Services\SearchHelper;
 
 /**
  * RouteRepository
@@ -9,7 +11,6 @@ namespace AppBundle\Repository;
  * repository methods below.
  */
 
-use AppBundle\Entity\Route;
 class RouteRepository extends \Doctrine\ORM\EntityRepository
 {
     /**
@@ -27,4 +28,97 @@ class RouteRepository extends \Doctrine\ORM\EntityRepository
         // return the id of the new contact in the database
         return $route->getId();
     }
+
+    /**
+     * S40C
+     * returns all (if null), returns from search if not null
+     * @param mixed $queryStrings an array of strings to query the database on
+     * @return array of searched entites returned from the queries
+     */
+    public function routeFilter($filters=null)
+    {
+        $routes = array();
+
+        if(is_null($filters))
+        {
+            $routes = $this->getEntityManager()
+                ->getRepository(Route::class)->findAll();
+        }
+        else
+        {
+            rsort( $filters );
+            if(isset( $filters[0] ) && is_array( $filters[0])) //if 2d array(from POST Request)
+            {
+                $filters = $filters['filter_list'];
+            }
+
+            $routes = $this->getEntityManager()
+                ->getRepository(Route::class)->routeSearch($filters, array("id"), "routeId");
+        }
+
+        return $routes;
+    }
+
+    /**
+     * S40C
+     * Search through the database and check if any records contain any of
+     *  the passed in strings (array of strings) in any of their fields.
+     *  //TODO: allow to specify desired number of results
+     * @param mixed $queryStrings an array of strings to query the database on
+     * @return array of searched entites returned from the queries
+     */
+    public function routeSearch($queryStrings, $excludedProperties = array(), $sortOnProperty = null, $sortDirection = "DESC")///, $numResults=10) <-- this would be the better way
+    {
+        // get the field names of the Route entity
+        $routeClassProperties = $this->getClassMetadata(Route::class)->fieldNames;
+
+        //an array of abbreviations to be used in the query. These represent each join
+        $classNames = array('r');
+
+        foreach ($excludedProperties as $excludedProperty)
+        {
+            if(in_array($excludedProperty, $routeClassProperties))
+            {
+                $routeClassProperties = array_diff($routeClassProperties, $excludedProperties);
+            }
+        }
+
+        $classPropertiesArray = array($routeClassProperties);
+
+        //create a searchHelper instance
+        $searchHelper = new SearchHelper();
+
+        //call the searchHelper service to return the class properties string
+        $classPropertiesString = $searchHelper->searchHelper($classPropertiesArray, $queryStrings, $classNames);
+
+        $sortString="";
+        if(!is_null($sortOnProperty))
+        {
+            $sortString = " ORDER BY $classNames[0].$sortOnProperty $sortDirection";
+        }
+
+        // query on route ONLY (not associated entities)
+        // TODO: maybe fix looking for non templates?
+        $records = $this->getEntityManager()->createQuery(
+        "SELECT $classNames[0] FROM AppBundle:Route $classNames[0]
+        WHERE $classPropertiesString AND $classNames[0].template=0
+        $sortString"
+        )->getResult();
+
+        // remove any NULL values from the array (NULL values are represented by non-propety objects)
+        $records = array_filter($records);
+
+        $routeObjects = array();
+
+        foreach ($records as $record)
+        {
+        	if(get_class($record) == "AppBundle\Entity\Route")
+            {
+                $routeObjects[] = $record;
+            }
+        }
+
+        return $routeObjects;
+    }
+
 }

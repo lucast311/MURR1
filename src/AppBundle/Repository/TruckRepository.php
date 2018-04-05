@@ -82,8 +82,7 @@ class TruckRepository extends \Doctrine\ORM\EntityRepository
             $sortString = " ORDER BY $classNames[0].$sortOnProperty $sortDirection";
         }
 
-        // The query that defines all the joins on communications to search for,
-        //  and links them together based on id's
+        // query db
         $records = $this->getEntityManager()->createQuery(
         "SELECT t FROM AppBundle:Truck t
         WHERE $classPropertiesString

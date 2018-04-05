@@ -3,19 +3,26 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\RoutePickup;
 use AppBundle\Form\RoutePickupType;
+use AppBundle\Entity\Route; //as RouteEntity;
 use AppBundle\Entity\Route as ContainerRoute;
 use AppBundle\Entity\Route as ContainerRouteTemplate;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
 
 use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\Services\RecentUpdatesHelper;
+
+
 
 
 /**
@@ -51,13 +58,13 @@ class RouteController extends Controller
         $recentUpdates = new RecentUpdatesHelper();
 
         // the service takes in an EntityManager, and the name of the Entity
-        $tenRecent = $recentUpdates->tenMostRecent($em, 'AppBundle:Container');
+        $tenRecent = $recentUpdates->tenMostRecent($em, 'AppBundle:Route');
 
         // Get if it is in a search to view or if it is a search to insert
         $isPopup = ($request->query->get("isPopup")) == "true" ? true : false;
         // Render the twig with required data
         return $this->render('route/search.html.twig', array(
-            'viewURL' => '/container/',
+            'viewURL' => '/route/edit/',
             'isPopup' => $isPopup,
             'defaultTen' => $tenRecent
         ));
@@ -77,15 +84,6 @@ class RouteController extends Controller
      * @param Request $request
      */
     function newTemplateAction(Request $request){
-
-    }
-
-    /**
-     * S40C
-     * Used to edit Routes
-     * @param Request $request
-     */
-    function editAction(Request $request){
 
     }
 
@@ -123,12 +121,13 @@ class RouteController extends Controller
 
     /**
      * Story 22b
-     * Brings you to the route management page
-     * @Route("/route/{routeId}", name="route_manage")
+     * +S40C
+     * Used to edit Routes
+     * @Route("/route/edit/{routeId}", name="route_manage")
      * @param Request $request
      * @param integer $routeId
      */
-    function indexAction(Request $request, $routeId=null){
+    function editAction(Request $request, $routeId=null){
 
         $em = $this->getDoctrine()->getManager();
 
@@ -257,4 +256,85 @@ class RouteController extends Controller
         }
     }
 
+    /**
+     * Story S40C
+     * A function that will take in a string to separate, and then pass
+     *  into the repository as an array. It will then narrow the results further,
+     *  and display those results to a page containing a json header.
+     * @param string $searchQuery - the string to split apart into the individual search queries.
+     *
+     * @Route("/jsonsearch/", name="route_jsonsearch_empty")
+     * @Route("/jsonsearch/{searchQuery}", name="route_jsonsearch")
+     * @Method("GET")
+     */
+    public function jsonSearchAction($searchQuery = "", $template = false)
+    {
+        if($searchQuery != "")
+        {
+            // Clean the input
+            $searchQuery = htmlentities($searchQuery);
+
+            // get an entity manager
+            $em = $this->getDoctrine()->getManager();
+
+            // if the string to query onn is less than or equal to 100 characters
+            if(strlen($searchQuery) <= 500 && !empty($searchQuery))
+            {
+                // create a cleaner to cleanse the search query
+                $cleaner = new Cleaner();
+
+                // cleanse the query
+                $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
+
+                // Use the repository to query for the records we want.
+                // Store those records into an array.
+                $routeSearches = $em->getRepository(Route::class)->routeSearch($cleanQuery);
+
+                // create a SearchNarrower to narrow down our searches
+                $searchNarrower = new SearchNarrower();
+
+                // narrow down our searches, and store their values along side their field values
+                $searchedData = $searchNarrower->narrower($routeSearches, $cleanQuery, new Route());
+
+                // Return the results as a json object
+                // NOTE: Serializer service needs to be enabled for this to work properly
+                $encoder = new JsonEncoder();
+                $normalizer = new ObjectNormalizer();
+
+                // We used to get a circular reference error. This line prevents it.
+                //$normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
+
+                // Don't display the 'pickups' or 'dateModified' data as JSON. Makes it more human readable.
+                $normalizer->setIgnoredAttributes(array("pickups", "dateModified"));
+                $serializer = new Serializer(array($normalizer), array($encoder));
+
+                return JsonResponse::fromJsonString($serializer->serialize($searchedData, 'json'));
+            }
+        }
+        else
+        {
+            //get the recentUpdates service to query for the 10 most recently updated routes
+            $recentUpdates = new RecentUpdatesHelper();
+
+            //The service takes in an entitymanager, and the name of the entity
+            $tenRecent = $recentUpdates->TenMostRecent($em, 'AppBundle:Route');
+
+            // Return the results as a json object
+            // NOTE: Serializer service needs to be enabled for this to work properly
+            $encoder = new JsonEncoder();
+            $normalizer = new ObjectNormalizer();
+
+            // We used to get a circular reference error. This line prevents it.
+            //$normalizer->setCircularReferenceHandler(function($object){return $object->getDate();});
+
+            // Don't display the 'pickups' or 'dateModified' data as JSON. Makes it more human readable.
+            $normalizer->setIgnoredAttributes(array("pickups", "dateModified"));
+            $serializer = new Serializer(array($normalizer), array($encoder));
+
+            return JsonResponse::fromJsonString($serializer->serialize($tenRecent, 'json'));
+        }
+
+        // string over 100, return empty array.
+        return $this->json(array());
+    }
 }

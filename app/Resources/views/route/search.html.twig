@@ -17,7 +17,7 @@
 
 {% block body %}
 {# magic invisible div that allows us to pass information to the search script #}
-<div class="js-jsonpage" data-jsonpage="{{ path('container_jsonsearch_empty') }}"></div>
+<div class="js-routejsonpage" data-jsonpage="{{ path('route_jsonsearch_empty') }}"></div>
 {#<!--<div class="js-routetemplatejsonpage" data-jsonpage="{{ path('routetemplate_jsonsearch_empty') }}"></div>-->#}
 
 <div class="js-isPopup" data-ispopup="{{isPopup}}"></div>
@@ -42,24 +42,16 @@
             <table hidden class="ui selectable celled table">
                 <thead>
                     <tr>
-                        <th>Serial</th>
-                        <th>Frequency</th>
-                        <th>Address</th>
-                        <th>Location</th>
-                        <th>Type</th>
-                        <th>Size</th>
-                        <th>Status</th>
+                        <th>Route ID</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: results">
                     <tr data-bind="attr:{'data-id': id}">
-                        <td data-bind="text: containerSerial"></td>
-                        <td data-bind="text: frequency"></td>
-                        <td data-bind="text: propertyToString"></td>
-                        <td data-bind="text: locationDesc"></td>
-                        <td data-bind="text: type"></td>
-                        <td data-bind="text: size"></td>
-                        <td data-bind="text: status"></td>
+                        <td data-bind="text: routeId"></td>
+                        <td data-bind="text: startDate"></td>
+                        <td data-bind="text: endDate"></td>
                         {#{%if isPopup%}
                         <td><a href="#" class="popupSelectButton" data-bind="attr: {'data-id': id}">Select</a></td>
                         {% else %}
