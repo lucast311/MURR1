@@ -132,6 +132,8 @@ class CommunicationController extends Controller
         //get the repository for communications
         $repo = $em->getRepository(Communication::class);
 
+        $communication = $repo->findOneById($commId);
+
         // Get the specific Communication
         $comm = $repo->findOneById($commId);
 
@@ -155,20 +157,21 @@ class CommunicationController extends Controller
         if($form->isSubmitted() && $form->isValid())
         {
             //get the data from the form
-            $communication = $form->getData();
+            $communicationData = $form->getData();
 
             //insert into the database
-            $repo->insert($communication);
+            $repo->insert($communicationData);
 
             //redirect to the view page
-            return $this->redirectToRoute("communication_view",array("comId" => $communication->getId()));
+            return $this->redirectToRoute("communication_view",array("comId" => $communicationData->getId()));
         }
 
         return $this->render('communication/editComm.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
             'form' => $form->createView(),
             'errorType'=>$errorType,
-            'communicationId'=>$communicationId]);
+            'communicationId'=>$communicationId,
+            'communication'=>$communication]);
     }
 
     /**

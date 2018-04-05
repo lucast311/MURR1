@@ -37,6 +37,8 @@ Edit Container
 		$('.removeButton').click(function () {
 			var parent = $($(this).parent().get(0));
 
+            console.log(parent);
+
             showModal(parent.data('message'), parent);
 		});
 
