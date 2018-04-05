@@ -176,6 +176,7 @@
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\AppBundle\Services\RecentUpdatesHelper.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
+    <Compile Include="tests\Mink\AdvancedSearchModalTest.php" />
     <Compile Include="tests\Mink\AssociatingPropertiesToContactTest.php" />
     <Compile Include="tests\Mink\ContainerEditTest.php" />
     <Compile Include="tests\Mink\PropertyCommunicationAddTest.php" />

@@ -10,9 +10,9 @@ use AppBundle\DataFixtures\ORM\LoadCommunicationData;
 use Tests\AppBundle\DatabasePrimer;
 
 /**
- * This test uses mink for browser based front-end testing of the javascript used in story 4k
+ * This test uses mink for browser based front-end testing of the javascript used in story 24c
  */
-class AssociatingPropertiesToContactTest extends WebTestCase
+class AdvancedSerachModalTest extends WebTestCase
 {
     private $driver;
     private $session;
@@ -66,10 +66,10 @@ class AssociatingPropertiesToContactTest extends WebTestCase
     /**
      * story 24c
      * This will test that when the user uses the Advanced Search by clicking on the button,
-     * a modal will appear instead of a popup window. It will also test that the modal disappears
-     * when a user presses the "Cancel" button.
+     * a modal will appear instead of a popup window. I don't test closing the modal here
+     * since I will have a test later that tests the different methods for closing the modal.
      */
-    function testModalAppearsDisappears()
+    function testModalAppears()
     {
         //start up a new session, and navigate to a communication's edit page
         $this->session->visit('http://localhost:8000/app_test.php/communication/2/edit');
@@ -81,14 +81,6 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         // make sure the modal is visible
         $this->assertTrue($page->find('css', "#propertyModal")->isVisible());
-
-        // close the modal
-        $page->find('named', array('button', 'Cancel'))->click();
-
-        $this->session->wait(1000);
-
-        // make sure the modal is no longer visible
-        $this->assertFalse($page->find('css', "#propertyModal")->isVisible());
     }
 
     /**
@@ -116,14 +108,104 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         // get all the table rows in the results table
         $propertySearchTableRows = $page->findAll('css', 'div#propertyModal table tr');
 
-        // check that the table has more than 11 rows (10 from most recent, and 1 for the header row)
-        $this->assertTrue(sizeof($propertySearchTableRows) > 11);
-
+        // for every row that isn't the first (header row)
         for ($i = 1; $i < sizeof($propertySearchTableRows); $i++)
         {
-            $this->assertTrue($propertySearchTableRows[$i]->getText());
+            // check that the text contained within that row contains the text we searched for
+            $this->assertTrue(strpos($propertySearchTableRows[$i]->getText(), "Condo") !== False);
         }
+    }
 
+    /**
+     * story 24c
+     * This will test that the user can click on one of the results in the modal table
+     * to pick a property for the select box.
+     */
+    function testSelectableResultRows()
+    {
+        //start up a new session, and navigate to a communication's edit page
+        $this->session->visit('http://localhost:8000/app_test.php/communication/2/edit');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // open the modal
+        $page->find('named', array('button', 'Advanced Search'))->click();
+
+        // get all the table rows in the results table
+        $propertySearchTableRows = $page->findAll('css', 'div#propertyModal table tr');
+
+        // Before we click the row, take the id of the property we clicked
+        $id = $propertySearchTableRows[1]->getAttribute("data-id");
+
+        // click on the row of the property whose id we stored
+        $propertySearchTableRows[1]->click();
+
+        // check that the value of the select box is now populated with the address of the property that was clicked
+        $this->assertEquals($page->find('css',"#appbundle_communication_property")->getValue(), $id);
+    }
+
+    /**
+     * story 24c
+     *
+     * NOTE: THIS TEST MAY BE REMOVED SINCE IT HAS ALSO BEEN FIXED IN ANOTHER STORY WHILE I WAS CODING THIS
+     *
+     * This will test that the user cannot select a property by clicking on
+     * the header row of the modal table.
+     */
+    function testHeaderRowNotSelectable()
+    {
+        //start up a new session, and navigate to a communication's edit page
+        $this->session->visit('http://localhost:8000/app_test.php/communication/2/edit');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // click the Advanced Search button
+        $page->find('named', array('button', 'Advanced Search'))->click();
+
+        // get all the table rows in the results table
+        $propertySearchTableRows = $page->findAll('css', 'div#propertyModal table tr');
+
+        // click on the header row of the modal table
+        $propertySearchTableRows[0]->click();
+
+        // make sure that the modal is still visible
+        $this->assertTrue($page->find('css', "#propertyModal")->isVisible());
+    }
+
+    /**
+     * story 24c
+     * This will test closing the modal using the "Cancel" button
+     */
+    function testModalCancel()
+    {
+        //start up a new session, and navigate to a communication's edit page
+        $this->session->visit('http://localhost:8000/app_test.php/communication/2/edit');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // click the Advanced Search button
+        $page->find('named', array('button', 'Advanced Search'))->click();
+
+        // We don't need to check if the modal opened when we clicked the "Advanced Search" button
+        // since we already has a test for that above.
+
+        // close the modal
+        $page->find('named', array('button', 'Cancel'))->click();
+
+        // wait for the modal to disappear
+        $this->session->wait(1000);
+
+        // make sure the modal is no longer visible
+        $this->assertFalse($page->find('css', "#propertyModal")->isVisible());
+
+        // open the modal again
+        $page->find('named', array('button', 'Advanced Search'))->click();
+
+        // find the description field so we can click on it and close the modal
+        $page->find('css', '#appbundle_communication_description')->click();
+
+        // make sure the modal is no longer visible
+        $this->assertFalse($page->find('css', "#propertyModal")->isVisible());
     }
 
     protected function tearDown()
