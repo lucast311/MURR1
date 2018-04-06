@@ -77,13 +77,8 @@ var viewModel = {
                 autoComplete();
             }
 
-            // Register event handler for the select links, but ONLY if it is a popup box
-            // Note this has to be here, otherwise jquery can't bind to an element that doesn't exist yet
-            if ($('.js-isPopup').data('ispopup') == 1)
-            {
-                $('tr').click(postValue);
-            }
-            else // otherwise register handler for normal click
+
+            if (window.location.href.indexOf("search") > -1) //click handler for a dedicated search page
             {
                 // Register a click handler for the row of the result (instead of a view button)
                 // Note this also has to be done after updating the rows, otherwise new rows won't be affected.
@@ -93,6 +88,22 @@ var viewModel = {
                     // Go to the URL
                     window.location = './' + id;
                 });
+            }
+            else // otherwise register handler for normal click
+            {
+                if ($('#searchTable').data() != null) {
+                    $('tbody tr').click(postValue);
+                }
+                else {
+                    $('.ui.celled.table.selectable tbody tr').click(function () {
+                        //console.log($(event.target).parent().data('entity'));
+
+                        var id = $(event.target).parent().data('id');
+                        var entity = $(event.target).parent().data('entity');
+                        // Go to the URL
+                        window.location = '/' + entity + '/' + id;
+                    });
+                }
             }
             
         });
@@ -107,18 +118,9 @@ var onLoad = function () {
     // Run the code to make autocomplete work
     autoComplete();
 
-
-
-
-
     if ($('#searchBox').val() == "") {
         viewModel.getResults();
     }
-
-
-
-
-
 
     // get results if there is any text in the searchbox on load
     //fixes issue where it wouldn't get the data when you went back to the page
@@ -177,23 +179,34 @@ var autoComplete = function ()
     });
 
     // Force a re-query of the search box (since the array has likely changed since the user finished typing);
-    $(".ui.search").search('query');
+    $("#propertySearch").search('query');
+    $("#contactSearch").search('query');
+    //$(".ui.search").search('query');
 }
 
 /**
  * Story 4e
  * Sends the chosen entity back to the parent page
  */
-function postValue()
-{
+function postValue() {
     // Get the id of the selected item
-    var id = $(event.target).parent().data('id');
+    var id = $($(this).get(0)).data('id');
+
     // Send the information back to the parent page
-    opener.receiveSelection(id);
-    // Close the window
-    // This beautiful delay is just long enough to make Mink not crash when it clicks the link, but the user won't notice it :)
-    setTimeout(function () { window.close(); }, 10);
-    //window.close();
+    receiveSelection(id);
+
+    // Close the modal
+    $('#propertyModal').modal('hide');
+}
+
+/**
+ * Story 4e
+ * This is called by the popup to tell this page which item was picked. This page updates the select box with the picked value.
+ * @param {any} id the id of the selected item
+ */
+function receiveSelection(id)
+{
+    $('#appbundle_communication_property').dropdown('set selected', id);
 }
 
 $(onLoad);
