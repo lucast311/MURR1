@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block javascripts %} 
 {# include the PropertySearchPopupSemantic  #}
+<link href="../../../../css/ContainerAddEditFormStyles.css" rel="stylesheet" />
 <script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
 <script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
 <script>
@@ -39,8 +40,8 @@
                     {{ form_widget(form) }}
 			
 		            {#<div class="field">#}
-				        <a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button">Cancel</a>
-				        <button type="submit" id="communication_add" name="communication[add]" class="ui button">Save</button>
+				        <a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button" id="btnSearch">Cancel</a>
+				        <button type="submit" id="btnSave" name="communication[add]" class="ui button">Save</button>
 
                         
 

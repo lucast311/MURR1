@@ -108,7 +108,7 @@
                 </thead>
                     <tbody>
                     {% for contact in property.contacts %}
-                    <tr data-id="{{property.id}}" data-entity="{{'contact'}}">
+                    <tr data-id="{{contact.id}}" data-entity="{{'contact'}}">
                         <td>{{contact.role}}</td>
                         <td>{{contact.firstName}} {{contact.lastName}}</td>
                         <td>{{contact.primaryPhone}}</td>
@@ -178,6 +178,7 @@
         
             {# magic invisible div that allows us to pass information to the search script #}
             <div class="js-jsonpage" data-jsonpage="{{ path('communication_jsonsearch_empty') }}"></div>
+            <div class="js-propertyid" data-propertyid="{{ property.id }}"></div>
 
             <div class="ui search" id="communicationSearch">
                 <input type="text" id="searchBox" class="prompt" maxlength="100" placeholder="Search..." />
@@ -186,7 +187,7 @@
             </div>
 
             <div id="message"></div>
-            <table hidden class="ui selectable celled table">
+            <table hidden class="ui selectable celled table" id="tblCommunications">
                 <thead>
                     <tr>
                         <th>Date</th>

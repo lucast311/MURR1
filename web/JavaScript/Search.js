@@ -77,13 +77,15 @@ var viewModel = {
                 autoComplete();
             }
 
+            console.log(window.location.pathname);
+
             // Register event handler for the select links, but ONLY if it is a popup box
             // Note this has to be here, otherwise jquery can't bind to an element that doesn't exist yet
             if ($('.js-isPopup').data('ispopup') == 1)
             {
                 $('tr').click(postValue);
             }
-            else if (window.location.pathname == "/search") //click handler for a dedicated search page
+            else if (window.location.href.indexOf("search") > -1) //click handler for a dedicated search page
             {
                 // Register a click handler for the row of the result (instead of a view button)
                 // Note this also has to be done after updating the rows, otherwise new rows won't be affected.
@@ -188,7 +190,8 @@ var autoComplete = function ()
     });
 
     // Force a re-query of the search box (since the array has likely changed since the user finished typing);
-    //$("#communicationSearch").search('query');
+    $("#communicationSearch").search('query');
+    $("#containerSearch").search('query');
 }
 
 /**
