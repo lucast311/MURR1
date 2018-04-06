@@ -76,8 +76,14 @@ class AdvancedSerachModalTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
+        // modal isn't visible when the page loads
+        $this->assertFalse($page->find('css', "#propertyModal")->isVisible());
+
         // click the Advanced Search button
         $page->find('named', array('button', 'Advanced Search'))->click();
+
+        // wait for the modal to appear
+        $this->session->wait(1000);
 
         // make sure the modal is visible
         $this->assertTrue($page->find('css', "#propertyModal")->isVisible());
@@ -85,10 +91,11 @@ class AdvancedSerachModalTest extends WebTestCase
 
     /**
      * story 24c
-     * This will test that a user can still enter into the search field and have
-     * the table of results update to only show properties that match the query.
+     * This will test that a user can still enter into a search query into the
+     * modal window's search field, and have the table of results update to only
+     * show properties that match the query.
      */
-    function testSearchFieldWorks()
+    function testSearchFieldWorksInsideModalWindow()
     {
         //start up a new session, and navigate to a communication's edit page
         $this->session->visit('http://localhost:8000/app_test.php/communication/2/edit');
@@ -97,6 +104,9 @@ class AdvancedSerachModalTest extends WebTestCase
 
         // click the Advanced Search button
         $page->find('named', array('button', 'Advanced Search'))->click();
+
+        // wait for the modal to appear
+        $this->session->wait(1000);
 
         // get the search field
         $searchField = $page->find('css', '.prompt #searchBox');
@@ -121,7 +131,7 @@ class AdvancedSerachModalTest extends WebTestCase
      * This will test that the user can click on one of the results in the modal table
      * to pick a property for the select box.
      */
-    function testSelectableResultRows()
+    function testSelectableResultRowsInModalTable()
     {
         //start up a new session, and navigate to a communication's edit page
         $this->session->visit('http://localhost:8000/app_test.php/communication/2/edit');
@@ -131,6 +141,9 @@ class AdvancedSerachModalTest extends WebTestCase
         // open the modal
         $page->find('named', array('button', 'Advanced Search'))->click();
 
+        // wait for the modal to appear
+        $this->session->wait(1000);
+
         // get all the table rows in the results table
         $propertySearchTableRows = $page->findAll('css', 'div#propertyModal table tr');
 
@@ -139,6 +152,12 @@ class AdvancedSerachModalTest extends WebTestCase
 
         // click on the row of the property whose id we stored
         $propertySearchTableRows[1]->click();
+
+        // wait for modal to disappear
+        $this->session->wait(1000);
+
+        // make sure the modal has disappeared
+        $this->assertFalse($page->find('css', "#propertyModal")->isVisible());
 
         // check that the value of the select box is now populated with the address of the property that was clicked
         $this->assertEquals($page->find('css',"#appbundle_communication_property")->getValue(), $id);
@@ -159,6 +178,9 @@ class AdvancedSerachModalTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
+        // get the value of the select box when the page loads to make sure the value doesn't change later
+        $currentProperty = $page->find('css',"#appbundle_communication_property")->getValue();
+
         // click the Advanced Search button
         $page->find('named', array('button', 'Advanced Search'))->click();
 
@@ -168,8 +190,14 @@ class AdvancedSerachModalTest extends WebTestCase
         // click on the header row of the modal table
         $propertySearchTableRows[0]->click();
 
+        // get the value of the select box after the header row has been clicked
+        $propertyAfterClicking = $page->find('css',"#appbundle_communication_property")->getValue();
+
         // make sure that the modal is still visible
         $this->assertTrue($page->find('css', "#propertyModal")->isVisible());
+
+        // make sure that the property select box value is the same value as before the header was clicked
+        $this->assertEquals($currentProperty, $propertyAfterClicking);
     }
 
     /**
@@ -186,6 +214,9 @@ class AdvancedSerachModalTest extends WebTestCase
         // click the Advanced Search button
         $page->find('named', array('button', 'Advanced Search'))->click();
 
+        // wait for the modal to appear
+        $this->session->wait(1000);
+
         // We don't need to check if the modal opened when we clicked the "Advanced Search" button
         // since we already has a test for that above.
 
@@ -200,6 +231,9 @@ class AdvancedSerachModalTest extends WebTestCase
 
         // open the modal again
         $page->find('named', array('button', 'Advanced Search'))->click();
+
+        // wait for the modal to appear
+        $this->session->wait(1000);
 
         // find the description field so we can click on it and close the modal
         $page->find('css', '#appbundle_communication_description')->click();
