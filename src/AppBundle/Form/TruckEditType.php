@@ -20,10 +20,7 @@ class TruckEditType extends AbstractType
     {
         $builder->add('truckId', null, array('label'=>'Truck ID:'))
                 ->add('type', null, array('label'=>'Type:'))
-                ->add('Save', SubmitType::class)
-                //THIS IS NOW DONE IN THE TWIG ??
-                //->add('Cancel', ButtonType::class,array('attr' => array('onclick' => "window.location.href='../'")));
-                ; 
+                ->add('Save', SubmitType::class, array('attr' => array("class"=>"green")));
     }
 
     /**

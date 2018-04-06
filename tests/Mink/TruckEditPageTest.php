@@ -94,7 +94,7 @@ class TruckEditPageTest extends WebTestCase
         // Click the first edit button
         $page->findAll('css', '.editButton')[0]->click();
 
-        $editPageTruckId = $page->findAll('css', 'h1')[0]->getText();
+        $editPageTruckId = $page->findAll('css', '#contentSeparator h2')[0]->getText();
 
         $this->assertContains($truckId, $editPageTruckId);
     }

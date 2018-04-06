@@ -38,13 +38,10 @@ class PropertyType extends AbstractType
         // Add the address form into this form
         $builder->add('address', AddressType::class, array('label'=>false));
 
-        // Add a clear button
-        $builder->add('Clear', ResetType::class, array(
-            'attr' => array('class' => 'save')
-        ));
 
-        // Add a submit button
-        $builder->add('Submit', SubmitType::class);
+
+        //// Add a submit button
+        //$builder->add('Submit', SubmitType::class);
     }
 
 

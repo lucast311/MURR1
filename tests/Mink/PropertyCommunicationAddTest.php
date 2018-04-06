@@ -225,8 +225,6 @@ class PropertyCommunicationAddTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
-        $page->find('css',"#menuBtn")->click();
-        $this->session->wait(200);
 
         //browse to the property search page
         $page->find('css',"#propertiesPage")->click();

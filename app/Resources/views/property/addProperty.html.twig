@@ -1,17 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Add Property{% endblock %}
+{% block title %}Add Property | M.U.R.R.{% endblock %}
 
 {% block body %}
 
-<h2 class="ui header left attached top">Add Property</h2>
-<div class="ui bottom attached segment">
-    {% if showSuccess %}
-        <h2>Successfully added property</h2>
-    {% endif %}
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+<div class="ui text container">
+    <h2 class="ui header left attached top">Add Property</h2>
+    <div class="ui bottom attached segment">
+        {% if showSuccess %}
+            <h2>Successfully added property</h2>
+        {% endif %}
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="ui buttons">
+            <a class="ui button" href="{{ path("property_search") }}" id="cancelButton">Cancel</a>
+            <input type="submit" class="ui green button" value="Add" />
+        </div>
+        {{ form_end(form) }}
+    </div>
 </div>
 {% endblock %}

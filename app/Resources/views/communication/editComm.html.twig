@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block javascripts %} 
+{% block title %}Edit Commununication | M.U.R.R.{% endblock %}
+
 {# include the PropertySearchPopupSemantic  #}
 <link href="../../../../css/ContainerAddEditFormStyles.css" rel="stylesheet" />
 <script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
@@ -28,9 +30,9 @@
 </script>
 {% endblock %}
 {% block body %}
-    <div id="wrapper">
+    <div id="wrapper" class="ui text container">
         <h2 class="ui header left attached top">Edit Communication</h2>
-        <div class="ui form bottom attached segment">
+        <div class="ui bottom attached segment">
             {% if errorType == "notfound"%}
                 <h2>The specified communication ID could not be found</h2>
             {% else %}
@@ -39,13 +41,12 @@
                     {{ form_start(form, {'action' : '#' }) }}
                     {{ form_widget(form) }}
 			
-		            {#<div class="field">#}
-				        <a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button" id="btnSearch">Cancel</a>
-				        <button type="submit" id="btnSave" name="communication[add]" class="ui button">Save</button>
-
-                        
-
-			        {#</div>#}
+		            <div class="field">
+                        <div class="ui buttons">
+				            <a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button" id="cancelButton">Cancel</a>
+				            <button type="submit" id="communication_add" name="communication[add]" class="ui green button">Save</button>
+			            </div>
+                    </div>
                     {{ form_end(form) }}
 
                     <form name="appbundle_removeCommunication" method="post" action="{{path('communication_delete', {'id': communication.id })}}" data-message="Are you sure you want to remove Communication {{communication.date}}?">

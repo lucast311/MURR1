@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Container View{% endblock %}
+{% block title %}View Container | M.U.R.R.{% endblock %}
 
 {# Include javascript for delete modal #}
 {% block javascripts %}
-<link href="../../../../css/ContainerViewStyles.css" rel="stylesheet" />
+
 <script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
 <script>
 	$(function () {
@@ -28,7 +28,8 @@
     th{ text-align:left; }
 </style>
 
-    <h1 class="ui header left attached top">Container</h1>
+<div class="column contentSection">
+    <h2 class="ui header left attached top">View Container</h2>
     
 {% if invalid_id_error %}
     <h2>Container does not exist</h2>
@@ -84,38 +85,19 @@
             </tbody>
         </table>
 
-        <a href="{{ path('container_search') }}" class="ui button" id="btnSearch">Search</a>
-        <a href="{{ path('container_edit', { 'id': container.id }) }}" class="ui button" id="btnEdit">Edit</a>
+        <div class="ui buttons">
+            <a class="ui labeled icon button" href="{{ path("container_search") }}" id="backButton"><i class="reply icon"></i>Back to Search</a>
+            <a href="{{ path('container_edit', { 'id': container.id }) }}" class="ui blue button" id="btnEdit">Edit</a>
 
-	    <form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to remove container {{container}}?">
-		    <input type="hidden" name="container" value="{{container.id}}"/>
-		    <button type="button" class="ui button removeButton" id="btnDelete">Delete</button>
-	    </form>
+	        <form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to remove container {{container}}?">
+		        <input type="hidden" name="container" value="{{container.id}}"/>
+		        <button type="button" class="ui google plus button removeButton" id="btnDelete">Delete</button>
+	        </form>
+        </div>
     </div>
-        {#<input type="submit" value="Delete" class="ui button" id="btnDelete">#}
 
-{# Modal for the delete confirmation #}
-{#<div class="ui basic modal delete">
-  <div class="ui icon header">
-            {{ form_start(delete_form) }}
-            {{ form_end(delete_form) }}
-    <i class="trash alternate outline icon"></i>
-    Delete Container?
-  </div>
-  <div class="content">
-    <p>Are you sure you want to delete container: {{ container.containerSerial }}?</p>  </div>
-  <div class="actions">
-    <div class="ui green basic cancel inverted button">
-      <i class="remove icon"></i>
-      Cancel
-    </div>
-    <div class="ui red ok inverted button">
-      <i class="checkmark icon"></i>
-      Delete
-    </div>
-  </div>
-</div>#}
 
+</div>
 {% endif %}
 
 {% endblock %}

@@ -24,33 +24,48 @@
     
         <script type="text/javascript" src="{{ asset('JavaScript/base_twig.js') }}"></script>
     </head>
-    <body class="Site">
+    <body>
         <!-- Encase the body/content of each page in whatever template you think is nice -->
-        <div class="ui inverted sidebar vertical menu">
-            <a class="item" href="/">Home</a>
+        <div class="ui vertical inverted left sidebar menu" id="sideNav">
+            <a class="item" id="homePage" href="{{ path('homepage') }}">Home</a>
+            <a class="item" id="communicationsPage" href="{{ path('communication_search')}}">Communications</a>
             <a class="item" id="contactsPage" href="{{ path('contact_search') }}">Contacts</a>
+            <a class="item" id="containersPage" href="{{ path('container_search') }}">Containers</a>
             <a class="item" id="propertiesPage" href="{{ path('property_search') }}">Properties</a>
-            <a class="item" href="/container">Containers</a>
-            <a class="item" href="{{ path('truck_util') }}">Trucks</a>
-            <a class="item" href="/route/1">Routes</a>
-            <a class="item" href="/communication/view">Communications</a>
+            <a class="item" id="routesPage" href="{{path('route_util')}}">Routes</a>
+            <a class="item" id="trucksPage" href="{{ path('truck_util') }}">Trucks</a>
         </div>
-        <div class="pusher Site-content">
-        <div class="ui container">
-            <a class="ui sticky black label" id="menuBtn">Menu</a>
-            <div class="ui container">
-            {% block body %}{% endblock %}
-            </div>
-            {% block javascripts %}
-            {% endblock %}
+        <div id="pageContent" class="pusher">
+			<!-- Header for the page -->
+			<div class="ui masthead vertical center aligned segment" id="mainHeader">
+				<div class="ui container">
+					<h1 class="ui inverted header">
+                        <img src="{{asset("img/cosmoindustries_icon.png")}}" alt="Cosmo Logo" />
+						<div class="content">
+							Cosmo M.U.R.R. <i class="recycle icon"></i>
+						</div>
+					</h1>
+				</div>
+			</div>
 
-            <!-- Semantic UI's footer just rests at the bottom of a page's content,
-                NOT neccessarily at the bottom of the page. If we want the footer
-                to always be at the bottom of the page we'll need our own css -->
+			<!-- Horizontal Menu bar - NOTE: This bar is only sticky on mobile -->
+			<div class="ui icon sticky menu" id="horizontalNav">
+				<div class="ui container">
+					<!-- A hamburger button that only shows up on mobile -->
+					<a class="item" id="openMenu">
+						<i class="bars icon"></i>
+					</a>
+				</div>
+			</div>
+
+			<!-- The actual contents of the page -->
+			<div id="contentSeparator">
+				<div class="ui container">
+				{% block body %}{% endblock %}
+				</div>
+			</div>
         </div>
-        </div>
-        <div class="ui inverted attached footer segment">
-            <div class="ui center aligned text container">M.U.R.R.</div>
-        </div>
+		{% block javascripts %}
+		{% endblock %}
     </body>
 </html>
