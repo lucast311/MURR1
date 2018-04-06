@@ -178,6 +178,7 @@
     <Compile Include="tests\Mink\NavigateSystemTest.php" />
     <Compile Include="tests\Mink\PropertyCommunicationAddTest.php" />
     <Compile Include="tests\Mink\ContainerSearchTest.php" />
+    <Compile Include="tests\Mink\PropertyContactRemoveTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
     <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
     <Compile Include="tests\Mink\TruckEditPageTest.php" />

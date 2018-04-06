@@ -87,10 +87,6 @@ class PropertyContactRemoveTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
-        //click the menu button
-        $menu = $page->find("css","#menuBtn");
-        $menu->click();
-
         $this->session->wait(1000);
 
         //A: CHANGED IN S40A -AB
@@ -145,44 +141,9 @@ class PropertyContactRemoveTest extends WebTestCase
     public function testRemoveButtonShowsModal()
     {
         //start up a new session, going to the Property Charlton Arms
-        $this->session->visit('http://localhost:8000/app_test.php');
-        // Get the page
-        $page = $this->session->getPage();
+        $this->session->visit('http://localhost:8000/app_test.php/property/4');
 
-        $this->session->wait(1000);
-
-        //click the menu button
-        $menu = $page->find("css","#menuBtn");
-        $menu->click();
-
-        $this->session->wait(1000);
-
-        //A: CHANGED IN S40A -AB
-        //click the contacts page
-        $propertyBtn = $page->find('xpath', $this->session->getSelectorsHandler()
-            ->selectorToXpath('xpath',"//a[contains(@href, 'property/search')]"));
-
-        $propertyBtn->click();
-
-        $this->session->wait(2000);
-
-        //get the search bar
-        $searchBox = $page->find("css","#searchBox");
-
-        //Type in legs
-        $searchBox->setValue("arm");
-        $searchBox->keyPress("s");
-
-        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $this->session->wait(5000);
-
-        //Need to use named search to find button based on its content
-        $viewLink = $page->find("named",array("content", "Charlton Arms"));
-        //$viewLink = $page->find("css", "table > tbody > tr:first-child > td");
-
-        $viewLink->click();
-
-        $this->session->wait(1000);
+        $page= $this->session->getPage();
 
         //find the button with the ID of the remove button
         $this->assertNotNull($page->find("css", "#rmb4"));
@@ -210,46 +171,10 @@ class PropertyContactRemoveTest extends WebTestCase
     {
 
         //start up a new session, going to the Property Charlton Arms
-        $this->session->visit('http://localhost:8000/app_test.php');
-        // Get the page
-        $page = $this->session->getPage();
-
-        $this->session->wait(1000);
-
-        //click the menu button
-        $menu = $page->find("css","#menuBtn");
-        $menu->click();
-
-        $this->session->wait(1000);
-
-        //A: CHANGED IN S40A -AB
-        //click the contacts page
-        $propertyBtn = $page->find('xpath', $this->session->getSelectorsHandler()
-            ->selectorToXpath('xpath',"//a[contains(@href, 'property/search')]"));
-
-        $propertyBtn->click();
-
-        $this->session->wait(2000);
-
-        //get the search bar
-        $searchBox = $page->find("css","#searchBox");
-
-        //Type in legs
-        $searchBox->setValue("arm");
-        $searchBox->keyPress("s");
-
-        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $this->session->wait(5000);
-
-        //Need to use named search to find button based on its content
-        $viewLink = $page->find("named",array("content", "Charlton Arms"));
-        //$viewLink = $page->find("css", "table > tbody > tr:first-child > td");
-
-        $viewLink->click();
-
-        $this->session->wait(1000);
+        $this->session->visit('http://localhost:8000/app_test.php/property/4');
 
         $page = $this->session->getPage();
+        $this->session->wait(1000);
 
         //click on the remove button
         $removeButton = $page->find("css", "#rmb4");
@@ -273,42 +198,11 @@ class PropertyContactRemoveTest extends WebTestCase
     {
 
         //start up a new session, going to the Property Charlton Arms
-        $this->session->visit('http://localhost:8000/app_test.php');
-        // Get the page
+        $this->session->visit('http://localhost:8000/app_test.php/property/4');
+
+        $this->session->wait(1000);
+
         $page = $this->session->getPage();
-
-        $this->session->wait(1000);
-
-        //click the menu button
-        $menu = $page->find("css","#menuBtn");
-        $menu->click();
-
-        $this->session->wait(1000);
-
-        //A: CHANGED IN S40A -AB
-        //click the contacts page
-        $propertyBtn = $page->find('xpath', $this->session->getSelectorsHandler()
-            ->selectorToXpath('xpath',"//a[contains(@href, 'property/search')]"));
-
-        $propertyBtn->click();
-
-        $this->session->wait(2000);
-
-        //get the search bar
-        $searchBox = $page->find("css","#searchBox");
-
-        //Type in legs
-        $searchBox->setValue("arm");
-        $searchBox->keyPress("s");
-
-        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $this->session->wait(5000);
-
-        //Need to use named search to find button based on its content
-        $viewLink = $page->find("named",array("content", "Charlton Arms"));
-        //$viewLink = $page->find("css", "table > tbody > tr:first-child > td");
-
-        $viewLink->click();
 
         $this->session->wait(1000);
 
@@ -322,7 +216,7 @@ class PropertyContactRemoveTest extends WebTestCase
 
         $this->session->wait(10000, "document.readyState === 'complete'");
         //assert that Testman is no longer on the page
-        $this->assertContains("Kenson, Ken", $page->getHtml());
+        $this->assertContains("Kenson, Ken", $page->find("css","#associatedContacts")->getHtml());
     }
 
     /**
@@ -332,44 +226,11 @@ class PropertyContactRemoveTest extends WebTestCase
     public function testAddContactToPropertyWithDropdown()
     {
         //start up a new session, going to the Property Charlton Arms
-        $this->session->visit('http://localhost:8000/app_test.php');
+        $this->session->visit('http://localhost:8000/app_test.php/property/4');
         // Get the page
         $page = $this->session->getPage();
 
-        $this->session->wait(1000);
-
-        //click the menu button
-        $menu = $page->find("css","#menuBtn");
-        $menu->click();
-
-        $this->session->wait(1000);
-
-        //A: CHANGED IN S40A -AB
-        //click the contacts page
-        $propertyBtn = $page->find('xpath', $this->session->getSelectorsHandler()
-            ->selectorToXpath('xpath',"//a[contains(@href, 'property/search')]"));
-
-        $propertyBtn->click();
-
-        $this->session->wait(2000);
-
-        //get the search bar
-        $searchBox = $page->find("css","#searchBox");
-
-        //Type in legs
-        $searchBox->setValue("arm");
-        $searchBox->keyPress("s");
-
-        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $this->session->wait(5000);
-
-        //Need to use named search to find button based on its content
-        $viewLink = $page->find("named",array("content", "Charlton Arms"));
-        //$viewLink = $page->find("css", "table > tbody > tr:first-child > td");
-
-        $viewLink->click();
-
-        $this->session->wait(1000);
+        $this->session->wait(10000);
 
         $dropDown = $page->find("css", ".ui.search.dropdown input.search");
         $dropDown->setValue("Kenson");
@@ -396,47 +257,16 @@ class PropertyContactRemoveTest extends WebTestCase
     {
 
         //start up a new session, going to the Property Charlton Arms
-        $this->session->visit('http://localhost:8000/app_test.php');
+        $this->session->visit('http://localhost:8000/app_test.php/property/4');
         // Get the page
         $page = $this->session->getPage();
 
-        $this->session->wait(1000);
 
-        //click the menu button
-        $menu = $page->find("css","#menuBtn");
-        $menu->click();
-
-        $this->session->wait(1000);
-
-        //A: CHANGED IN S40A -AB
-        //click the contacts page
-        $propertyBtn = $page->find('xpath', $this->session->getSelectorsHandler()
-            ->selectorToXpath('xpath',"//a[contains(@href, 'property/search')]"));
-
-        $propertyBtn->click();
-
-        $this->session->wait(2000);
-
-        //get the search bar
-        $searchBox = $page->find("css","#searchBox");
-
-        //Type in legs
-        $searchBox->setValue("arm");
-        $searchBox->keyPress("s");
-
-        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $this->session->wait(5000);
-
-        //Need to use named search to find button based on its content
-        $viewLink = $page->find("named",array("content", "Charlton Arms"));
-        //$viewLink = $page->find("css", "table > tbody > tr:first-child > td");
-
-        $viewLink->click();
-
-        $this->session->wait(1000);
 
         //assert modal is not active
         $this->assertNull($page->find("css","#addModal.active"));
+
+        $this->session->wait(1000);
 
         //click the advanced button
         $advancedSearchBtn = $page->find("css", "#advanced_contact_search_popup");
@@ -454,44 +284,9 @@ class PropertyContactRemoveTest extends WebTestCase
     public function testAddContactToPropertyWithAdvancedModal()
     {
         //start up a new session, going to the Property Charlton Arms
-        $this->session->visit('http://localhost:8000/app_test.php');
+        $this->session->visit('http://localhost:8000/app_test.php/property/3');
         // Get the page
         $page = $this->session->getPage();
-
-        $this->session->wait(1000);
-
-        //click the menu button
-        $menu = $page->find("css","#menuBtn");
-        $menu->click();
-
-        $this->session->wait(1000);
-
-        //A: CHANGED IN S40A -AB
-        //click the contacts page
-        $propertyBtn = $page->find('xpath', $this->session->getSelectorsHandler()
-            ->selectorToXpath('xpath',"//a[contains(@href, 'property/search')]"));
-
-        $propertyBtn->click();
-
-        $this->session->wait(2000);
-
-        //get the search bar
-        $searchBox = $page->find("css","#searchBox");
-
-        //Type in legs
-        $searchBox->setValue("legs");
-        $searchBox->keyPress("s");
-
-        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $this->session->wait(5000);
-
-        //Need to use named search to find button based on its content
-        $viewLink = $page->find("named",array("content", "Charlton Legs"));
-        //$viewLink = $page->find("css", "table > tbody > tr:first-child > td");
-
-        $viewLink->click();
-
-        $this->session->wait(1000);
 
         //click the advanced button
         $advancedSearchBtn = $page->find("css", "#advanced_contact_search_popup");
@@ -501,11 +296,13 @@ class PropertyContactRemoveTest extends WebTestCase
         // Take note of this current window so we can return to it later
         $originalWindow = $this->session->getWindowName();
 
+        $this->session->wait(10000);
+
         // Click on the advanced search button
         $advancedSearchBtn->click();
 
         // WAIT for the page to load, otherwise it will be empty when mink tries to use it.
-        $this->session->wait(2000);
+        $this->session->wait(4000);
 
         // Get the names of all the windows AGAIN, so we can figure out which one is new
         $newWindowNames = $this->session->getWindowNames();
@@ -526,11 +323,10 @@ class PropertyContactRemoveTest extends WebTestCase
         $contactSearchBox->keyPress("h");
 
         //wait for results
-        $this->session->wait(1000);
+        $this->session->wait(2000);
 
         //click first select btn
         $viewLink = $page->find("named",array("content", "Smith"));
-
         $viewLink->click();
 
         $this->session->switchToWindow($originalWindow);
@@ -555,42 +351,9 @@ class PropertyContactRemoveTest extends WebTestCase
     public function testCannotAddContactToPropertyThatIsAlreadyAdded()
     {
         //start up a new session, going to the Property Charlton Arms
-        $this->session->visit('http://localhost:8000/app_test.php');
+        $this->session->visit('http://localhost:8000/app_test.php/property/4');
         // Get the page
         $page = $this->session->getPage();
-
-        $this->session->wait(1000);
-
-        //click the menu button
-        $menu = $page->find("css","#menuBtn");
-        $menu->click();
-
-        $this->session->wait(1000);
-
-        //A: CHANGED IN S40A -AB
-        //click the contacts page
-        $propertyBtn = $page->find('xpath', $this->session->getSelectorsHandler()
-            ->selectorToXpath('xpath',"//a[contains(@href, 'property/search')]"));
-
-        $propertyBtn->click();
-
-        $this->session->wait(2000);
-
-        //get the search bar
-        $searchBox = $page->find("css","#searchBox");
-
-        //Type in legs
-        $searchBox->setValue("legs");
-        $searchBox->keyPress("s");
-
-        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $this->session->wait(5000);
-
-        //Need to use named search to find button based on its content
-        $viewLink = $page->find("named",array("content", "Charlton Legs"));
-        //$viewLink = $page->find("css", "table > tbody > tr:first-child > td");
-
-        $viewLink->click();
 
         $this->session->wait(1000);
 
@@ -621,7 +384,7 @@ class PropertyContactRemoveTest extends WebTestCase
         //wait for results
         $this->session->wait(1000);
 
-        $this->assertContains("This property is already associated to the selected contact", $page->getHtml());
+        $this->assertContains("This property is already associated to the selected contact", $page->find("css", "form .ui.message .item")->getHTML());
     }
 
     /**
@@ -631,47 +394,11 @@ class PropertyContactRemoveTest extends WebTestCase
     public function testDeletePropertyConfirm()
     {
         //start up a new session, going to the Property Charlton Arms
-        $this->session->visit('http://localhost:8000/app_test.php');
+        $this->session->visit('http://localhost:8000/app_test.php/property/4');
         // Get the page
         $page = $this->session->getPage();
 
         $this->session->wait(1000);
-
-        //click the menu button
-        $menu = $page->find("css","#menuBtn");
-        $menu->click();
-
-        $this->session->wait(1000);
-
-        //A: CHANGED IN S40A -AB
-        //click the contacts page
-        $propertyBtn = $page->find('xpath', $this->session->getSelectorsHandler()
-            ->selectorToXpath('xpath',"//a[contains(@href, 'property/search')]"));
-
-        $propertyBtn->click();
-
-        $this->session->wait(2000);
-
-        //get the search bar
-        $searchBox = $page->find("css","#searchBox");
-
-        //Type in legs
-        $searchBox->setValue("arms");
-        $searchBox->keyPress("s");
-
-        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $this->session->wait(5000);
-
-        //Need to use named search to find button based on its content
-        $viewLink = $page->find("named",array("content", "Charlton Arms"));
-        //$viewLink = $page->find("css", "table > tbody > tr:first-child > td");
-
-        $viewLink->click();
-
-        $this->session->wait(1000);
-
-        //get the search bar
-        $searchBox = $page->find("css","#searchBox");
 
         //find the delete button
         $deleteBtn = $page->find("css", "#deleteButton");
@@ -704,47 +431,12 @@ class PropertyContactRemoveTest extends WebTestCase
     public function testDeletePropertyCancel()
     {
         //start up a new session, going to the Property Charlton Arms
-        $this->session->visit('http://localhost:8000/app_test.php');
+        $this->session->visit('http://localhost:8000/app_test.php/property/4');
         // Get the page
         $page = $this->session->getPage();
 
         $this->session->wait(1000);
 
-        //click the menu button
-        $menu = $page->find("css","#menuBtn");
-        $menu->click();
-
-        $this->session->wait(1000);
-
-        //A: CHANGED IN S40A -AB
-        //click the contacts page
-        $propertyBtn = $page->find('xpath', $this->session->getSelectorsHandler()
-            ->selectorToXpath('xpath',"//a[contains(@href, 'property/search')]"));
-
-        $propertyBtn->click();
-
-        $this->session->wait(2000);
-
-        //get the search bar
-        $searchBox = $page->find("css","#searchBox");
-
-        //Type in legs
-        $searchBox->setValue("arms");
-        $searchBox->keyPress("s");
-
-        // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $this->session->wait(5000);
-
-        //Need to use named search to find button based on its content
-        $viewLink = $page->find("named",array("content", "Charlton Arms"));
-        //$viewLink = $page->find("css", "table > tbody > tr:first-child > td");
-
-        $viewLink->click();
-
-        $this->session->wait(1000);
-
-        //get the search bar
-        $searchBox = $page->find("css","#searchBox");
 
         //find the delete button
         $deleteBtn = $page->find("css", "#deleteButton");
