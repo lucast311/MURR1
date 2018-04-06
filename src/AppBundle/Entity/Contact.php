@@ -471,4 +471,9 @@ class Contact
     {
         $this->setDateModified(new \DateTime());
     }
+
+    public function __toString()
+    {
+        return $this->lastName . ", " . $this->firstName;
+    }
 }

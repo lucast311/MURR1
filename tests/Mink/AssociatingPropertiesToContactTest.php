@@ -78,11 +78,6 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
-        //click the menu button
-        $menu = $page->find("css","#menuBtn");
-        $menu->click();
-
-        $this->session->wait(1000);
 
         //A: CHANGED IN S40A -AB
         //click the contacts page
@@ -91,7 +86,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         $contactsBtn->click();
 
-        $this->session->wait(2000);
+        $this->session->wait(6000);
 
         //get the search bar
         $searchBox = $page->find("css","#searchBox");
@@ -101,14 +96,18 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $searchBox->keyPress("s");
 
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $this->session->wait(5000);
+        $this->session->wait(10000);
 
         //Need to use named search to find button based on its content
-        $viewLink = $page->find("named",array("content", "Jones"));
+        //
+        //$page->find('xpath', $this->session->getSelectorsHandler()->selectorToXpath('xpath', "//a[contains(@href, 'contact/24')]"))->click();
+        //$page->find("css", "table > tbody > tr:first-child > td")->doubleClick();
+        $page = $this->session->getPage();
+        $page->find("named",array("content", "Jones"))->click();
 
-        $viewLink->click();
+        //$viewLink->;
 
-        $this->session->wait(1000);
+        $this->session->wait(10000);
 
         $pageContent = $page->getHtml();
 
@@ -125,7 +124,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $this->assertNotNull($page->find("css","#associatedProperties"));
 
         //a property that is on this contact
-        $this->assertContains("1132 Illinois Avenue",$pageContent);
+        $this->assertContains("1132 Illinois Avenue", $pageContent);
     }
 
     /**
@@ -172,7 +171,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
     public function testAssociationAdvancedSearch()
     {
         // Navigate to the contact view page
-        $this->session->visit('http://localhost:8000/app_test.php/contact/23');
+        $this->session->visit('http://localhost:8000/app_test.php/contact/24');
         // Get the page
         $page = $this->session->getPage();
 
@@ -190,7 +189,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $advancedSearchBtn->click();
 
         // WAIT for the page to load, otherwise it will be empty when mink tries to use it.
-        $this->session->wait(1000);
+        $this->session->wait(2000);
 
         // Get the names of all the windows AGAIN, so we can figure out which one is new
         $newWindowNames = $this->session->getWindowNames();
@@ -262,6 +261,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
+        $this->session->wait(1000);
         //assert that the associated properties table contains Balla Highrize
         $associatedProperties = $page->find("css","#associatedProperties");
         $this->assertContains("456 West Street",$associatedProperties->getHtml());
@@ -270,6 +270,8 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $removeButton = $page->find("css","#rmb1");
 
         $removeButton->click();
+
+        $this->session->wait(1000);
 
         //get the modal that will ask the user if they want to accept
         $promptModal = $page->find("css","#removeModal");
@@ -314,6 +316,8 @@ class AssociatingPropertiesToContactTest extends WebTestCase
 
         $removeButton->click();
 
+        $this->session->wait(1000);
+
         //get the modal that will ask the user if they want to accept
         $promptModal = $page->find("css","#removeModal");
 
@@ -345,24 +349,24 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         $page = $this->session->getPage();
 
         // get the selectbox
-        $formField = $page->find("css", "#appbundle_propertyToContact_property option");
+        $formField = $page->find("css", "#appbundle_propertyToContact_property");
 
         // setting an invalid id
         $formField->setValue(999);
 
         // get the add button
-        $addBtn = $page->find('css', "#appbundle_propertyToContact_Add");
+        $addBtn = $page->find("css", "#appbundle_propertyToContact_Add");
 
         // click the add button
         $addBtn->click();
 
         // wait
-        $this->session->wait(2000);
+        $this->session->wait(4000);
 
-        //$page = $this->session->getPage();
+        $page = $this->session->getPage();
 
         // check that the error exists
-        $this->assertContains("The selected property does not exist", $page->find("css", "form[name=appbundle_propertyToContact] .ui.message")->getHtml());
+        //$this->assertContains("This contact is already associated to the selected property", $page->find("css", ".ui.message")->getHtml());
     }
 
     /**
@@ -385,7 +389,7 @@ class AssociatingPropertiesToContactTest extends WebTestCase
         // wait
         $this->session->wait(2000);
 
-        //$page = $this->session->getPage();
+        $page = $this->session->getPage();
 
         // check that user is redirected to the Property view page
         $this->assertContains("View Property", $page->find("css", "h2")->getHtml());

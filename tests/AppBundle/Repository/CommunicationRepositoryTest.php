@@ -276,7 +276,7 @@ class CommunicationRepositoryTest extends KernelTestCase
         $results = $repo->CommunicationSearch($cleanQuery);
 
         // Assert that size of the query returns the expected number of results
-        $this->assertEquals(4, sizeof($results));
+        $this->assertEquals(1, sizeof($results));
     }
 
     /**

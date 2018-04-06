@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact Search{% endblock %}
+{% block title %}Contact Search | M.U.R.R.{% endblock %}
 
 {% block javascripts %}
 {# include jQuery and Knockout to make the search script work #}
@@ -13,7 +13,8 @@
 {% block body %}
 {# magic invisible div that allows us to pass information to the search script #}
 <div class="js-jsonpage" data-jsonpage="{{ path('contact_jsonsearch_empty') }}"></div>
-<h2>Contact Search</h2>
+<div class="js-isPopup" data-ispopup="{{isPopup}}"></div>
+<h2>Contact Search <a href="{{ path('contact_new') }}" class="ui icon button green" id="newContact"><i class="plus icon"></i></a></h2>
 
 <div class="ui search">
     <input type="text" id="searchBox" class="prompt" maxlength="100" placeholder="Search..." />

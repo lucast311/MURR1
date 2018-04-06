@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}View Communication{% endblock %}
+{% block title %}View Commununication | M.U.R.R.{% endblock %}
 
 {% block body %}
-<div id="column contentSection">
+<div class="column contentSection">
     <h2 class="ui header left attached top">View Communication</h2>
 
     <div class="ui bottom attached segment">
@@ -54,9 +54,10 @@
             </tr>
         </table>
 
-	    <a href="{{ path('property_view', { 'propertyId': comm.property.id }) }}" class="ui button">Return to Property</a>
-	    <a href="{{ path('communication_edit', { 'commId': comm.id }) }}" class="ui button">Edit</a>
-
+        <div class="ui buttons">
+		    <a class="ui labeled icon button" href="{{ path("communication_search") }}" id="backButton"><i class="reply icon"></i>Back to Search</a>
+		    <a href="{{ path('communication_edit', { 'commId': comm.id }) }}" class="ui blue button">Edit</a>
+        </div>
         {% endif %}
     </div>
 </div>

@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-Edit Container
-{% endblock %}
+{% block title %}Edit Container | M.U.R.R.{% endblock %}
 
 {% block javascripts %}
 {# include jQuery to make the search script work #}
@@ -26,6 +24,8 @@ Edit Container
         var onLoad = function () {
             $('#appbundle_container_containerSerial').prop('readonly', true);
             console.log(document.getElementById("appbundle_container_property"));
+
+
         };
 
 		initialize('#appbundle_container_property');
@@ -34,10 +34,14 @@ Edit Container
 
         $(onLoad);
 
-		$('.removeButton').click(function () {
-			var parent = $($(this).parent().get(0));
+        
 
-            showModal(parent.data('message'), parent);
+		$('.removeButton').click(function () {
+
+            //gets the form for the remove button to submit
+            deleteForm = $("#appbundle_removeContainer");
+
+            showModal(deleteForm.data('message'), deleteForm);
 		});
 
         $('.ui.search.dropdown').dropdown();
@@ -47,7 +51,8 @@ Edit Container
 
 
 {% block body %}
-    <h1 class="ui header left attached top">Edit Container{% if not invalid_id_error %} {{container.containerSerial}}{% endif %}</h1>
+<div class=" ui text container">
+    <h2 class="ui header left attached top">Edit Container{% if not invalid_id_error %} {{container.containerSerial}}{% endif %}</h2>
     
 {% if invalid_id_error %}
     <h2>Container does not exist</h2>
@@ -152,14 +157,6 @@ Edit Container
                 </tr>
                 <tr>
 					<td>
-						{#{{ form_start(add_property_form) }}
-						{{ form_label(add_property_form.property) }}
-						<div class="inline fields">
-							{{ form_widget(add_property_form.property) }}
-							<input class='ui button' id='advanced_property_search_popup' value='Advanced Search' type='button'/>
-						</div>
-						{{ form_end(add_property_form) }}#}
-
                         {{ form_label(edit_form.property) }}
                         <div class="inline fields">
 							{{ form_widget(edit_form.property) }}
@@ -170,35 +167,19 @@ Edit Container
 				</tr>
 			</tbody>
 		</table>
-		<input type="submit" value="Save" class="ui button" id="btnSave" />
-		{{ form_end(edit_form) }}
+       
+        <div class="ui buttons">
+            <a href="{{ path('container_show',{'id' : container.id}) }}"class="ui button" id="btnSearch cancelButton">Cancel</a>
 
-        {% endif %}
+			    <button type="button" class="ui google plus button removeButton" id="btnDelete">Delete</button>
+		    <input type="submit" value="Save" class="ui green button" id="btnSave" />
 
-        <a href="{{ path('container_search') }}"class="ui button" id="btnSearch">Search</a>
-        {% if not invalid_id_error %}
-		    <form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to remove container {{container}}?">
-			    <input type="hidden" name="container" value="{{container.id}}"/>
-			    <button type="button" class="ui button removeButton" id="btnDelete">Delete</button>
-		    </form>
-            {#<input type="submit" value="Delete" class="ui button" id="btnDelete">#}
-        {% endif %}
+        </div>
+        <input type="hidden" name="container" value="{{container.id}}"/>
+        {{ form_end(edit_form) }}
+         <form id="appbundle_removeContainer" name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to remove container {{container}}?"></form>
+        
     </div>
-
-
-    {#{{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Save" class="ui button" style="float:left"/>
-    {{ form_end(edit_form) }}#}
-{#{% endif %}
-
-
-    <a href="{{ path('container_search') }}"class="ui button" id="btnSearch">Search</a>
-    {% if not invalid_id_error %}
-		<form name="appbundle_removeContainer" method="post" action="{{path('container_delete', {'id': container.id})}}" data-message="Are you sure you want to remove container {{container}}?">
-			<input type="hidden" name="container" value="{{container.id}}"/>
-			<button type="button" class="ui button removeButton" id="btnDelete">Delete</button>
-		</form>
-        {#<input type="submit" value="Delete" class="ui button" id="btnDelete">#}
-    {#{% endif %}#}
+</div>
+{% endif %}
 {% endblock %}

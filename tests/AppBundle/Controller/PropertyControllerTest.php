@@ -54,9 +54,9 @@ class PropertyControllerTest extends WebTestCase
     {
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
-        $crawler = $client->request('GET', '/property/add');
+        $crawler = $client->request('GET', '/property/new');
 
-        $form = $crawler->selectButton('Submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         //set form values
         $form['appbundle_property[siteId]'] = 1593843;
@@ -87,7 +87,7 @@ class PropertyControllerTest extends WebTestCase
         $this->assertContains("Successfully added property",$client->getResponse()->getContent());
 
         //Refresh the form because a new one was created after submission
-        $form = $crawler->selectButton('Submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         //test that all fields are now empty
         //$this->assertEmpty($form['communication[date][year]']->getValue());
@@ -113,9 +113,9 @@ class PropertyControllerTest extends WebTestCase
     {
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
-        $crawler = $client->request('GET', '/property/add');
+        $crawler = $client->request('GET', '/property/new');
 
-        $form = $crawler->selectButton('Submit')->form();
+        $form = $crawler->selectButton('Add')->form();
 
         //set form values
         $form['appbundle_property[siteId]'] = 1593843;
@@ -144,12 +144,12 @@ class PropertyControllerTest extends WebTestCase
     {
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
-        $crawler = $client->request('GET', '/property/add');
+        $crawler = $client->request('GET', '/property/new');
 
         for ($i = 0; $i < 2; $i++)
         {
 
-            $form = $crawler->selectButton('Submit')->form();
+            $form = $crawler->selectButton('Add')->form();
 
             //set form values
             $form['appbundle_property[siteId]'] = 1593843;
@@ -205,9 +205,9 @@ class PropertyControllerTest extends WebTestCase
         //insert the property
         $propertyId = $repo->save($property);
 
-        $crawler = $client->request('GET', "/property/edit/$propertyId");
+        $crawler = $client->request('GET', "/property/$propertyId/edit");
 
-        $form = $crawler->selectButton('Submit')->form();
+        $form = $crawler->selectButton('Save')->form();
 
         //set form values
         $form['appbundle_property[propertyName]'] = "Charlton Legs";
@@ -283,9 +283,9 @@ class PropertyControllerTest extends WebTestCase
 
 
 
-        $crawler = $client->request('GET', "/property/edit/$propertyId");
+        $crawler = $client->request('GET', "/property/$propertyId/edit");
 
-        $form = $crawler->selectButton('Submit')->form();
+        $form = $crawler->selectButton('Save')->form();
 
         //set form values
         $form['appbundle_property[siteId]'] = 1593844;
@@ -313,20 +313,20 @@ class PropertyControllerTest extends WebTestCase
         $this->assertContains('Charlton Armies', $client->getResponse()->getContent());
     }
 
-    /**
-     * This method will test that an error appears if the user does not enter an ID
-     * Story 4c User edits property
-     */
-    public function testEditPropetyNoId(){
-        //Create a client to go through the web page
-        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
+    ///**
+    // * This method will test that an error appears if the user does not enter an ID
+    // * Story 4c User edits property
+    // */
+    //public function testEditPropetyNoId(){
+    //    //Create a client to go through the web page
+    //    $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
-        //request the property edit page without specifying an ID
-        $crawler = $client->request('GET', "/property/edit/");
+    //    //request the property edit page without specifying an ID
+    //    $crawler = $client->request('GET', "/property//edit");
 
-        //Check if the appropriate error message exists on the page
-        $this->assertContains("No property specified", $client->getResponse()->getContent());
-    }
+    //    //Check if the appropriate error message exists on the page
+    //    $this->assertContains("No property specified", $client->getResponse()->getContent());
+    //}
 
     /**
      * This method will test that an error appears if the user enters an invalid ID into the address bar
@@ -338,7 +338,7 @@ class PropertyControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
         //request the property edit page without specifying an ID
-        $crawler = $client->request('GET', "/property/edit/-5");
+        $crawler = $client->request('GET', "/property/-5/edit");
 
         //Check if the appropriate error message exists on the page
         $this->assertContains("The specified property could not be found", $client->getResponse()->getContent());
@@ -983,7 +983,7 @@ class PropertyControllerTest extends WebTestCase
 
         // Assert that the table contains all the proper data
         $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Property Manager")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Ashton South")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("South, Ashton")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("306-345-8932")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("south@gmail.com")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("COSMO!")')->count());
@@ -1167,6 +1167,9 @@ class PropertyControllerTest extends WebTestCase
         $this->assertTrue($crawler->filter('input[type=search]')->first() != null);
     }
 
+
+
+
     /**
      * (@inheritDoc)
      */
@@ -1188,6 +1191,8 @@ class PropertyControllerTest extends WebTestCase
         $stmt = $em->getConnection()->prepare('DELETE FROM Contact');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Contact_Properties');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM property_contact');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();

@@ -23,8 +23,7 @@ class ContainerEditConfirmationTest extends WebTestCase
         self::bootKernel();
         DatabasePrimer::prime(self::$kernel);
 
-        $containerLoader = new LoadContainerData();
-        $containerLoader->load(DatabasePrimer::$entityManager);
+
 
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
 
@@ -39,6 +38,9 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        $containerLoader = new LoadContainerData();
+        $containerLoader->load($this->em);
 
         // Create a driver
         $this->driver = new ChromeDriver("http://localhost:9222",null, "localhost:8000");
@@ -176,10 +178,10 @@ class ContainerEditConfirmationTest extends WebTestCase
         $page = $this->session->getPage();
 
         // get the page header before we open the delete modal (should contain the container serial)
-        $containerEditHeaderBefore = $page->find("css", "h1")->getText();
+        $containerEditHeaderBefore = $page->find("css", "#contentSeparator h2")->getText();
 
         // Click the delete button
-        $page->find('named', array('button', "Delete"))->click();
+        $page->find('named', array('button', "btnDelete"))->click();
 
         // Make sure a modal pops up
         $this->assertTrue($page->find('css', "#removeModal")->isVisible());
@@ -193,7 +195,7 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->assertFalse($page->find('css', "#removeModal")->isVisible());
 
         // get the page header after we close the delete modal (should contain the container serial)
-        $containerEditHeaderAfter = $page->find("css", "h1")->getText();
+        $containerEditHeaderAfter = $page->find("css", "#contentSeparator h2")->getText();
 
         // make sure that we are on the same container view page, by comparing the two page headers
         $this->assertTrue($containerEditHeaderBefore == $containerEditHeaderAfter);
@@ -265,8 +267,6 @@ class ContainerEditConfirmationTest extends WebTestCase
         $this->session->stop();
 
         // Delete the user from the database
-        $stmt = $this->em->getConnection()->prepare("DELETE FROM User");
-        $stmt->execute();
         $stmt = $this->em->getConnection()->prepare('DELETE FROM Container');
         $stmt->execute();
         $stmt = $this->em->getConnection()->prepare('DELETE FROM Property');

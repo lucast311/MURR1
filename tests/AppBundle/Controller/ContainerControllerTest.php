@@ -58,7 +58,7 @@ class ContainerControllerTest extends WebTestCase
         //Reques the contact add page
         $crawler = $client->request('GET','/container/new');
         //select the form and add values to it.
-        $form = $crawler->selectButton('Create')->form();
+        $form = $crawler->selectButton('Add')->form();
         $form['appbundle_container[containerSerial]'] = 'testSerialController'.time();
         $form['appbundle_container[frequency]'] = 'Weekly';
         $form['appbundle_container[locationDesc]'] = 'Near backdoor';
@@ -344,26 +344,6 @@ class ContainerControllerTest extends WebTestCase
         $this->assertContains('[{"id":12,"containerSerial":"QWERTY10","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":11,"containerSerial":"QWERTY9","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":10,"containerSerial":"QWERTY8","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":9,"containerSerial":"QWERTY7","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":8,"containerSerial":"QWERTY6","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":7,"containerSerial":"QWERTY5","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":6,"containerSerial":"QWERTY4","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":5,"containerSerial":"QWERTY3","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":4,"containerSerial":"QWERTY2","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"},{"id":3,"containerSerial":"QWERTY1","locationDesc":"South-west side","type":"Cart","lon":87,"lat":88,"reasonForStatus":"Everything normal","size":"6 yd","frequency":"Weekly","status":"Active","augmentation":"Wheels","propertyToString":"Test ST"}]', $client->getResponse()->getContent());
     }
 
-    /**
-     * Story 12e
-     * Test that the nav link for the container search exists
-     */
-    public function testSearchNavLinkExists()
-    {
-        // create a client so we can view the page
-        $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
-        $client->followRedirects(true);
-
-        // create a crawler for the  main page to check the nav link
-        $crawler = $client->request('GET',"/");
-
-        // Assert that the link exists on in the nav
-        $this->assertContains('href="/container"',$crawler->filter(".ui.inverted.sidebar.vertical.menu")->html());
-
-        // Go to the container page and assert that the link to the search page also exists there
-        $crawler = $client->request('GET',"/container");
-        $this->assertContains('href="/container/search"', $crawler->filter("div.ui.container")->html());
-    }
 
     /**
      * Story 12g

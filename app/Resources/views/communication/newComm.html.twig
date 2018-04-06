@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block javascripts %}
-
+{% block title %}Add Commununication | M.U.R.R.{% endblock %}
 <script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
 <script>
     $(function ()
@@ -13,16 +13,21 @@
 {% endblock %}
 {% block body %}
     <div id="wrapper">
-        <h2 class="ui header left attached top">Add Communication</h2>
-        <div class="ui bottom attached segment">
-            {{ form_start(form) }}
-            {{ form_widget(form) }}
-			<div class="field"><button type="submit" id="communication_add" name="communication[add]" class="ui button">Add</button></div>
-            {{ form_end(form) }}
+        <div class="ui text container">
+            <h2 class="ui header left attached top">Add Communication</h2>
+            <div class="ui bottom attached segment">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <div class="ui buttons">
+                    <a class="ui button" href="{{ path("communication_search") }}" id="cancelButton">Cancel</a>
+			        <button type="submit" id="communication_add" name="communication[add]" class="ui green button">Add</button>
+                </div>
+                {{ form_end(form) }}
 
-            {% if added is defined and added %}
-                Communication added successfully
-            {% endif %}
+                {% if added is defined and added %}
+                    Communication added successfully
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}

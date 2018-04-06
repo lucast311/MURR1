@@ -120,7 +120,6 @@
     <Compile Include="src\AppBundle\Repository\RouteRepository.php" />
     <Compile Include="src\AppBundle\Repository\StructureRepository.php" />
     <Compile Include="src\AppBundle\Repository\UserRepository.php" />
-    <Compile Include="src\AppBundle\Services\RecentUpdatesHelper.php" />
     <Compile Include="src\AppBundle\Services\Changer.php" />
     <Compile Include="src\AppBundle\Services\Cleaner.php" />
     <Compile Include="src\AppBundle\Services\SearchHelper.php" />
@@ -174,13 +173,13 @@
     <Compile Include="tests\AppBundle\Repository\RoutePickupRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Repository\RouteRepositoryTest.php" />
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
-    <Compile Include="tests\AppBundle\Services\RecentUpdatesHelper.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
     <Compile Include="tests\Mink\AdvancedSearchModalTest.php" />
     <Compile Include="tests\Mink\AssociatingPropertiesToContactTest.php" />
-    <Compile Include="tests\Mink\ContainerEditTest.php" />
+    <Compile Include="tests\Mink\NavigateSystemTest.php" />
     <Compile Include="tests\Mink\PropertyCommunicationAddTest.php" />
     <Compile Include="tests\Mink\ContainerSearchTest.php" />
+    <Compile Include="tests\Mink\PropertyContactRemoveTest.php" />
     <Compile Include="tests\Mink\RoutePickupRemoveTest.php" />
     <Compile Include="tests\Mink\PropertySearchPopupTest.php" />
     <Compile Include="tests\Mink\TruckEditPageTest.php" />
@@ -3392,8 +3391,6 @@
     <Content Include="TestPlaylists\Truck_All.playlist" />
     <Content Include="web.config" />
     <Content Include="phpunit.xml.dist.tmppica" />
-    <Content Include="web\css\ContainerViewStyles.css" />
-    <Content Include="web\css\ContainerAddEditFormStyles.css" />
     <Content Include="web\css\base_twig.css" />
     <Content Include="web\css\util_twig.css" />
     <Content Include="web\JavaScript\base_twig.js" />
