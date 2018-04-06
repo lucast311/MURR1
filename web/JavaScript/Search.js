@@ -83,7 +83,7 @@ var viewModel = {
             {
                 $('tr').click(postValue);
             }
-            else // otherwise register handler for normal click
+            else if (window.location.pathname == "/search") //click handler for a dedicated search page
             {
                 // Register a click handler for the row of the result (instead of a view button)
                 // Note this also has to be done after updating the rows, otherwise new rows won't be affected.
@@ -92,6 +92,17 @@ var viewModel = {
                     var id = $(event.target).parent().data('id');
                     // Go to the URL
                     window.location = './' + id;
+                });
+            }
+            else // otherwise register handler for normal click
+            {
+                $('.ui.celled.table.selectable tbody tr').click(function () {
+                    //console.log($(event.target).parent().data('entity'));
+                    
+                    var id = $(event.target).parent().data('id');
+                    var entity = $(event.target).parent().data('entity');
+                    // Go to the URL
+                    window.location = '/' + entity + '/' + id;
                 });
             }
             

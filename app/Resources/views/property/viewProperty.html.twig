@@ -108,7 +108,7 @@
                 </thead>
                     <tbody>
                     {% for contact in property.contacts %}
-                    <tr>
+                    <tr data-id="{{property.id}}" data-entity="{{'contact'}}">
                         <td>{{contact.role}}</td>
                         <td>{{contact.firstName}} {{contact.lastName}}</td>
                         <td>{{contact.primaryPhone}}</td>
@@ -143,7 +143,7 @@
                         </thead>
                             <tbody>
                             {% for container in property.bins %}
-                            <tr data-id="{{container.id}}">
+                            <tr data-id="{{container.id}}" data-entity="{{'container'}}">
                                 <td>{{container.containerSerial}}</td>
                                 <td>{{container.type}}</td>
                                 <td>{{container.size}}</td>
@@ -199,7 +199,7 @@
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: results">
-                    <tr data-bind="attr:{'data-id': id}">
+                    <tr data-bind="attr:{'data-id': id}" data-entity="{{'communication'}}">
                         <td data-bind="text: date"></td>
                         <td data-bind="text: type"></td>
                         <td data-bind="text: medium"></td>
