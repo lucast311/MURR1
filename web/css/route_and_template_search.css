@@ -1,3 +1,32 @@
 ﻿.rtResults {
     margin-top: 1rem;
 }
+
+.rtResults .ui.tabular.menu {
+    border-bottom: none;
+    margin-bottom: -0.1rem;
+}
+    
+.rtResults .ui.table, .rtResults .bottom.attached {
+    margin: 0rem;
+}
+
+.rtResults .active.item {
+    background: linear-gradient(#f4f4f5, #e0e0e0) !important;
+}
+.rtResults .bottom.attached {
+    padding: 0.5rem;
+    padding-top: 0.6rem;
+    background-color: #e0e0e0;
+    border-radius: .28571429rem .28571429rem;   
+}
+
+#newRouteOptions{
+    margin-left: .1rem;
+}
+
+.message{
+    text-align:center;
+    font-size:medium;
+}
+

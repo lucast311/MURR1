@@ -13,15 +13,15 @@
 {# include the search javasript #}
 <script type="text/javascript" src="{{ asset('JavaScript/Search.js') }}"></script>
 <script type="text/javascript" src="{{ asset('JavaScript/RouteAndTemplateSearch.js') }}"></script>
+<script type="text/javascript" src="{{ asset('JavaScript/BurnUtils.js') }}"></script>
 {% endblock %}
 
 {% block body %}
 {# magic invisible div that allows us to pass information to the search script #}
 <div class="js-jsonpage" data-jsonpage="{{ path('route_jsonsearch_empty') }}"></div>
-
 <div class="js-isPopup" data-ispopup="{{isPopup}}"></div>
-<h2>Route Search</h2>
 
+<h2>Route Search<a class="ui icon button green add" id="newRouteOptions"><i class="plus icon"></i></a></h2>
 <div class="ui search">
     <input type="text" id="searchBox" class="prompt" maxlength="100" placeholder="Search..." />
     <i class="times circle icon" id="btnClear"></i>
@@ -36,7 +36,7 @@
     <div class="ui tab bottom attached segment" data-tab="routes">
         {#<div class="ui active centered inline loader tblSpinner"></div>#}
         <div class="routeResults">
-			<div id="message"></div>
+			<div class="message"></div>
             <table hidden class="ui selectable celled table">
                 <thead>
                     <tr>
@@ -62,20 +62,20 @@
     </div>
     <div class="ui tab bottom attached segment" data-tab="templates">
         <div class="templateResults">
-			<div id="message"></div>
+			<div class="message"></div>
             <table hidden class="ui selectable celled table">
                 <thead>
                     <tr>
-                        <th>Route ID</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
+                        <th>Template Name</th>
+                        {#<th>Start Date</th>
+                        <th>End Date</th>#}
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: results">
                     <tr data-bind="if: template == 1, attr:{'data-id': id}">
                         <td data-bind="text: routeId"></td>
-                        <td data-bind="text: startDate"></td>
-                        <td data-bind="text: endDate"></td>
+                        {#<td data-bind="text: startDate"></td>
+                        <td data-bind="text: endDate"></td>#}
                         {#{%if isPopup%}
                         <td><a href="#" class="popupSelectButton" data-bind="attr: {'data-id': id}">Select</a></td>
                         {% else %}
@@ -86,6 +86,9 @@
             </table>
         </div>
     </div>
+</div>
+<div id="addRouteModal">
+{{ include('route/newOptions.html.twig',{modalmode:null}) }}
 </div>
 
 {% endblock %}

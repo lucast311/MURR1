@@ -1,0 +1,19 @@
+﻿#newRouteTemplate {
+    background: repeating-linear-gradient( 45deg, #aa0, #aa0 4px, #21ba45 4px, #21ba45 16px );
+    color: white;
+    margin-left:.8rem
+}
+#newRouteTemplate:hover {
+    background: repeating-linear-gradient( 45deg, #990, #990 4px, #18ae40 4px, #18ae40 16px );
+}
+
+.new.route.actions {
+    border-top: none;
+}
+.new.route.actions .button{
+    margin: 0 auto;
+}
+
+.new.route.options {
+    width: max-content;
+}

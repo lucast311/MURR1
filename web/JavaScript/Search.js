@@ -1,5 +1,6 @@
 ﻿// This variable holds modified results from the search JSON that is reformatted in a way that semantic's autocomplete enjoys.
 var autocompleteValues = [];
+var AB;
 
 var viewModel = {
     results: ko.observableArray(),
@@ -30,15 +31,20 @@ var viewModel = {
             $(".tblSpinner").show();
         }
         
+        //aesthetic fixes
+        hideResultsAndMessage();
 		
         // do a json call to the server to get the results
         viewModel.currentJSONRequest = $.getJSON(page, {}, function (jsonResults) {
             // Callback function
-
-            // If no results came back, hide table and display message instead
-            if (jsonResults.length === 0)
+            if(routeSearch)
             {
-                $("table").hide();
+                eval("handleRouteAndTemplateSearchResults(jsonResults)");
+            }
+            else if (jsonResults.length === 0)// If no results came back, hide table and display message instead
+            {
+                //$("table").hide();
+                hideResults();//==^
                 $("#message").text("No results found");
             }
             else
@@ -101,10 +107,20 @@ var viewModel = {
     }
 };
 
+var hideResultsAndMessage = function()
+{
+    $("table").hide();
+    $("#message").text("");
+}
+
+var routeSearch = false;
 var timeOutInst = null;
 var onLoad = function () {
     // apply the bindings
     ko.applyBindings(viewModel);
+
+    //determine if being used for routeSearch
+    routeSearch = (window.location.href.search("/route/search") > 0)
 
     // Run the code to make autocomplete work
     autoComplete();
@@ -112,11 +128,6 @@ var onLoad = function () {
     if ($('#searchBox').val() == "") {
         viewModel.getResults();
     }
-
-
-
-
-
 
     // get results if there is any text in the searchbox on load
     //fixes issue where it wouldn't get the data when you went back to the page
@@ -131,10 +142,6 @@ var onLoad = function () {
         var searchText = $('#searchBox').val("");
         // clear the results
         viewModel.results([]);
-        // Do some aesthetic fixes
-        $("table").hide();
-        $("#message").text("");
-
         viewModel.getResults();
     });
 
@@ -145,7 +152,7 @@ var onLoad = function () {
     */
     $('#searchBox').keyup(function () {
         lastVal = $('#searchBox').val();
-        console.log(lastVal);
+        //console.log(lastVal);
         if (timeOutInst != null) {
             clearTimeout(timeOutInst);
             timeOutInst = null;

@@ -73,6 +73,17 @@ var onLoad = function () {
     // apply the bindings
     ko.applyBindings(viewModel);
 
+    listInfoMessage = $('<h2 class="listError">');
+    listInfoMessage.text("No results found");
+    listInfoMessage.appendTo("#listInfoContent");
+
+    loadingInfo = $('<div class="ui big text active centered inline indeterminate loader">');//Loading...</div>
+    //loadingImage = $('<img class="loadingGIF">'); //Equivalent: $(document.createElement('img'))
+    //loadingImage.attr('src', 'https://media.giphy.com/media/ySeqU9tC1eFjy/200.gif');
+    loadingInfo.text("Loading...");
+    loadingInfo.appendTo("#listInfoContent");
+    loadingInfo.hide();
+
     /*
         Every time a key is pressed in the filter box this event will check if timeOutInst is set.
         If it is set then we call clearTimeout to cancel the timeout function and set it to be null
@@ -107,16 +118,9 @@ var onLoad = function () {
 
     $('.js-inittrucks').remove();
 
-    listInfoMessage = $('<h2 class="listError">');
-    listInfoMessage.text("No results found");
-    listInfoMessage.appendTo("#listInfoContent");
 
-    loadingInfo = $('<div class="ui big text active centered inline indeterminate loader">');//Loading...</div>
-    //loadingImage = $('<img class="loadingGIF">'); //Equivalent: $(document.createElement('img'))
-    //loadingImage.attr('src', 'https://media.giphy.com/media/ySeqU9tC1eFjy/200.gif');
-    loadingInfo.text("Loading...");
-    loadingInfo.appendTo("#listInfoContent");
-    loadingInfo.hide();
+
+
 
     initModals();
 }

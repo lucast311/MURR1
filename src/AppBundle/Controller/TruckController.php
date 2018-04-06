@@ -244,7 +244,7 @@ class TruckController extends Controller
 
             $encoder = new JsonEncoder();
             $normalizer = new ObjectNormalizer();
-            $normalizer->setIgnoredAttributes(array("__initializer__", "__cloner__", "__isInitialized__")); //idk why i need these ones, but I do..
+            $normalizer->setIgnoredAttributes(array("dateModified", "__initializer__", "__cloner__", "__isInitialized__")); //idk why i need these ones, but I do..
             $serializer = new Serializer(array($normalizer), array($encoder));
 
             // Return the results as a json object

@@ -1,0 +1,44 @@
+{# S40C #}
+{% set basetwig = 'base.html.twig' %}
+{% if modalmode is defined %}
+    {% set basetwig = 'empty.html.twig' %}
+    {% extends basetwig %}
+{% else %}
+    {% block title %}New Route Options{% endblock %}
+{% endif %}
+
+{% block stylesheets %}
+<link href="{{ asset('css/new_route_options.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}    
+
+{% block javascripts %}
+{# include Knockout to make the search script works #}
+{% endblock %}
+
+{% block body %}
+
+{% if modalmode is defined %}
+<div class="ui new route options mini modal">
+  <i class="close icon"></i>
+{% endif %}
+
+  <div class="header">
+    Add Route
+  </div>
+  <div class="new route actions">
+    <div class="ui positive icon button">
+      New Route
+    </div>
+    <div id="newRouteTemplate" class="ui icon button">
+      New Route Template
+    </div>    
+    {#<div class="ui black button">
+      Import from CSV[NOT IMPLEMENTED]
+    </div>#}
+  </div>
+
+{% if modalmode is defined %}
+</div>
+{% endif %}
+
+{% endblock %}
