@@ -1,29 +1,32 @@
 <?php
 namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AppBundle\Entity\RoutePickup;
+
 use AppBundle\Form\RoutePickupType;
-use AppBundle\Entity\Route as RouteEntity; //as RouteEntity;
+use AppBundle\Form\RouteTemplateType;
+use AppBundle\Form\RouteType;
+
+use AppBundle\Entity\RoutePickup;
+use AppBundle\Entity\Route as RouteEntity;
 use AppBundle\Entity\Route as ContainerRoute;
 use AppBundle\Entity\Route as ContainerRouteTemplate;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
 
 use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\Services\RecentUpdatesHelper;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * RouteController short summary.
@@ -78,13 +81,138 @@ class RouteController extends Controller
     function newAction(Request $request){
 
     }
+
     /**
      * S40C
-     * Used to create new Route Templates
+     * Used to create+edit Route Templates
+     * @Route("/template/new", name="route_template")
+     * @Route("/template/{templateId}", name="route_template_edit")
      * @param Request $request
+     * @param integer $templateId
      */
-    function newTemplateAction(Request $request){
+    function templateAction(Request $request, $templateId = null){
+        $em = $this->getDoctrine()->getManager();
 
+        //NOTE THE USE OF THE USING STATEMENT TO MAKE CONTAINER ROUTE A SHORTCUT TO ROUTE
+        //Otherwise there is conflicts between the route annotations and the route class
+        $routeRepo = $em->getRepository(ContainerRouteTemplate::class);
+        $routeTemplate = null;
+        if(!is_null($templateId)){
+            $routeTemplate = $routeRepo->find($templateId);
+        }else{
+            $routeTemplate = (new ContainerRouteTemplate())
+            ->setRouteId("FRESH")
+            ->setTemplate()->setDateModified(new \DateTime("00/00/0000 00:00:00"));
+            $em->persist($routeTemplate);
+            $em->flush();
+            $id = $routeTemplate->getId();
+            $routeTemplate->setRouteId("New Template $id");
+            $em->persist($routeTemplate);
+            $em->flush();
+        }
+
+        $preName = $routeTemplate->getRouteId();
+
+        if($routeTemplate != null){
+            //Create the routePickupForm and set its route
+            $rp = (new RoutePickup())
+                ->setRoute($routeTemplate);
+
+            $nameForm = $this->createForm(RouteTemplateType::class, $routeTemplate);
+
+            $pickupForm = $this->createForm(RoutePickupType::class, $rp);
+            $pickupForm->handleRequest($request);
+
+            if ($nameForm->isSubmitted() && $nameForm->isValid())
+            {
+                //return $this->forward('AppBundle:Route:addRoutePickup', array('rp'=>$rp));
+                $serialExists = false;
+                //loop through the existing pickups
+                if(count($routeRepo->findBy(array("routeId"=>$routeTemplate->getRouteId())) > 0))
+                {
+                    //if name in use
+                }else{
+                    $routeTemplate->updateModifiedDatetime();
+                    $em->persist($routeTemplate);
+                    $em->flush();
+                }
+            }
+
+            if ($pickupForm->isSubmitted() && $pickupForm->isValid())
+            {
+                //return $this->forward('AppBundle:Route:addRoutePickup', array('rp'=>$rp));
+                $serialExists = false;
+                //loop through the existing pickups
+                if(!is_null($routeTemplate->getPickups())){
+                    foreach ($routeTemplate->getPickups() as $pickup)
+                    {
+                        //if the container already exists, break and indiciate error
+                        if($pickup->getContainer()->getContainerSerial() === $rp->getContainer()->getContainerSerial()){
+                            $serialExists = true;
+                            break;
+                        }
+                    }
+                }
+
+
+                //Add custom error to form
+                if($serialExists){
+                    $pickupForm->addError(new FormError('This container already exists in this route'));
+                }
+                else{
+                    $routeTemplate->updateModifiedDatetime();
+                    $em->persist($routeTemplate);
+                    $em->flush();
+
+                    //get the last pickup, they are already ordered
+                    $pickups = $routeTemplate->getPickups();
+                    $lastRp = $pickups[count($pickups)-1];
+
+                    $repo = $this->getDoctrine()->getManager()->getRepository(RoutePickup::class);
+
+                    //If there is no last pickup, this pickup needs to go first
+                    if($lastRp == null){
+
+                        $rp->setPickupOrder(1);
+                    }//If the added pickup order is greater than the last by more than 1, set it to be the last one
+                    else if ($rp->getPickupOrder() >= $lastRp->getPickupOrder() + 1){
+                        $rp->setPickupOrder($lastRp->getPickupOrder() + 1);
+                    }
+                    else { //The rp is being inserted in the middle of the list
+                        //Increment every route pickup that will be after the current route pickup
+                        $repo->updateOrders($templateId, $rp->getPickupOrder(), true);
+
+                        //Refresh all the pickups because they may have been changed
+                        foreach ($pickups as $pickup)
+                        {
+                        	$em->refresh($pickup);
+                        }
+                    }
+                    //set this pickup on the current route
+                    //$rp->setRoute($route);
+                    $repo->save($rp);
+
+                    //refresh the route to display the new data
+                    //And since the pickups are set to cascade refresh it will reload them too
+                    $em->refresh($routeTemplate);
+
+                    //Wipe the form by creating a new one
+                    $rp = new RoutePickup();
+                    $pickupForm = $this->createForm(RoutePickupType::class, $rp);
+                }
+            }
+
+            return $this->render('route/manageRouteDeluxe.html.twig',
+                array('nameform'=>$nameForm->createView(),
+                      'pickupform'=>$pickupForm->createView(),
+                      'route'=>$routeTemplate,
+                      'templatemode'=>true));
+        }
+
+        //We only get to this point if the route is not found
+        //return the page with an error
+        return $this->render('route/manageRouteDeluxe.html.twig',
+                array('templatemode'=>true));
     }
 
     /**
@@ -138,7 +266,6 @@ class RouteController extends Controller
      * @param integer $routeId
      */
     function editAction(Request $request, $routeId=null){
-
         $em = $this->getDoctrine()->getManager();
 
         //NOTE THE USE OF THE USING STATEMENT TO MAKE CONTAINER ROUTE A SHORTCUT TO ROUTE

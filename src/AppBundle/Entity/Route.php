@@ -119,7 +119,7 @@ class Route
     /**
      * Set routeId
      *
-     * @param integer $routeId
+     * @param String $routeId
      *
      * @return Route
      */
@@ -133,7 +133,7 @@ class Route
     /**
      * Get routeId
      *
-     * @return int
+     * @return String
      */
     public function getRouteId()
     {

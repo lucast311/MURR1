@@ -1,0 +1,89 @@
+{#S40C#}
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Route {% if templatemode is defined %}Template {% endif %}| M.U.R.R.{% endblock %}
+
+{% block stylesheets %}
+<link href="{{ asset('css/util_twig.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}  
+
+{% block javascripts %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+<!-- Link in custom script that uses the delete prompts-->
+<script type="text/javascript" src="{{ asset('JavaScript/RemoveModal.js') }}"></script>
+
+{#<div class="js-jsonpage" data-jsonpage="{{ path('property_jsonsearch_empty') }}"></div>
+<div class="js-inittrucks" data-inittrucks="{{inittrucks}}"></div>#}
+
+{# include the filter javasript #}
+<script type="text/javascript" src="{{ asset('JavaScript/RouteManagerUtils.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="ui text container">
+    {% if ( route is defined ) and ( route.dateModified|date("Y") != "-0001" )%}
+        <h2 class="ui header left attached top">Edit Route {% if templatemode is defined %}Template{% endif %}: {{route.routeId}}</h2>
+    {% else %}
+        <h2 class="ui header left attached top">Add Route {% if templatemode is defined %}Template{% endif %}</h2>
+    {% endif %}
+
+    <div class="ui bottom attached segment">
+        {{ form_start(nameform) }}
+        {{ form_widget(nameform) }}
+        
+        {% if invalid_id_error is defined %}
+            {% if invalid_id_error %}
+                <h2>Route does not exist</h2>
+            {% endif %}
+        {% else %}
+            {% set invalid_id_error = false %}
+        {% endif %}
+
+        {% if (( templatemode is defined ) or ( invalid_id_error == false )) and (( route.dateModified|date("Y") != "-0001" )) %}
+            <div class="column containerAdd">
+                <h1 class="ui header left attached top">Add Container to Route{% if templatemode is defined %} Template{%endif%}</h1>
+		        <div class="ui bottom attached segment">
+			        {{ form_start(pickupform) }}
+			        {{ form_errors(pickupform) }}
+			        <table>
+				        <tbody>
+					        <tr>
+						        {{ form_errors(pickupform.container) }}
+						        <td>
+							        <div class="inline fields">
+								        {{ form_label(pickupform.container)  }}
+								        {{ form_widget(pickupform.container) }}
+							        </div>
+						        </td>
+
+						        {{ form_errors(pickupform.pickupOrder) }}
+						        <td>
+							        <div class="inline fields">
+								        {{ form_label(pickupform.pickupOrder)  }}
+								        {{ form_widget(pickupform.pickupOrder) }}						    
+							        </div>
+						        </td>
+
+						        <td>
+							        <div class="inline fields">
+								        {{ form_row(pickupform.Add) }}
+							        </div>
+						        </td>
+					        </tr>
+				        </tbody>
+			        </table>
+			        {{ form_end(pickupform) }}
+		        </div>
+            </div>
+            
+	        {#LLIST#}
+        {% endif %}
+
+        <div class="ui buttons">
+            <a class="ui button" href="{{ path("route_search") }}" id="cancelButton">Cancel</a>
+            <input type="submit" value="Add {% if templatemode is defined %}Template{% endif %}" class="ui green button" id="btnCreate" />
+        </div>
+        {#{ form_end(form) }#}
+    </div>
+</div>
+{% endblock %}
