@@ -4,11 +4,7 @@
 
 {% block javascripts %}
 <script type="text/javascript" src="{{ asset('JavaScript/PropertyCommunicationAdd.js') }}"></script>
-{# include Knockout to make the search script works #}
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
     
-{# include the search javasript #}
-<script type="text/javascript" src="{{ asset('JavaScript/Search.js') }}"></script>
 {% endblock %}
 
 {% block stylesheets %}
@@ -180,7 +176,7 @@
 
             {% else %}
         
-            {# magic invisible div that allows us to pass information to the search script #}
+            {#{#magic invisible div that allows us to pass information to the search script 
             <div class="js-jsonpage" data-jsonpage="{{ path('communication_jsonsearch_empty') }}"></div>
             <div class="js-propertyid" data-propertyid="{{ property.id }}"></div>
 
@@ -214,10 +210,10 @@
                         <td data-bind="text: description"></td>
                     </tr>
                 </tbody>
-            </table>
+            </table>#}
 
 
-            {#<table class="communications associations ui celled table selectable">
+            <table class="communications associations ui celled table selectable">
                     <thead>
                         <tr>
                             <th>CommID</th>
@@ -231,7 +227,7 @@
                         </tr>
                     </thead>
                         <tbody>
-                        {% for communication in property.communications %}
+                        {% for communication in property.communications | sortbyfield('dateModified', 'desc') | slice(0,10)%}
                         <tr data-id="{{communication.id}}">
                             <td>{{communication.id}}</td>
                             <td>{{communication.date}}</td>
@@ -244,7 +240,7 @@
                         </tr>
                         {% endfor %}
                         </tbody>
-                </table>#}
+                </table>
 
             {% endif %}
         </div>

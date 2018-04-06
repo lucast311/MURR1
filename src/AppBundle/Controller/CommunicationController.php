@@ -189,21 +189,21 @@ class CommunicationController extends Controller
         return $this->redirectToRoute('communication_search');
     }
 
-    /**
-     * Creates a form to delete a Communication entity.
-     *
-     * @param Communication $communication The Communication entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Communication $communication)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('communication_delete', array('id' => $communication->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
-    }
+    ///**
+    // * Creates a form to delete a Communication entity.
+    // *
+    // * @param Communication $communication The Communication entity
+    // *
+    // * @return \Symfony\Component\Form\Form The form
+    // */
+    //private function createDeleteForm(Communication $communication)
+    //{
+    //    return $this->createFormBuilder()
+    //        ->setAction($this->generateUrl('communication_delete', array('id' => $communication->getId())))
+    //        ->setMethod('DELETE')
+    //        ->getForm()
+    //    ;
+    //}
 
     /**
      * Story 11b
