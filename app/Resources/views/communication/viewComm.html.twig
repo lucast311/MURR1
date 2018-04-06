@@ -3,7 +3,6 @@
 {% block title %}View Commununication | M.U.R.R.{% endblock %}
 
 {% block javascripts %}
-<link href="../../../../css/ContainerViewStyles.css" rel="stylesheet" />
 <script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
 <script>
 	$(function () {
@@ -72,17 +71,17 @@
             </tr>
         </table>
 
-	    <a href="{{ path('property_view', { 'propertyId': comm.property.id }) }}" class="ui button" id="btnSearch">Return to Property</a>
-	    <a href="{{ path('communication_edit', { 'commId': comm.id }) }}" class="ui button" id="btnEdit">Edit</a>
-
-        <form name="appbundle_removeCommunication" method="post" action="{{path('communication_delete', {'id': comm.id})}}" data-message="Are you sure you want to remove Communication {{comm}}?">
-		    <input type="hidden" name="communication" value="{{comm.id}}"/>
-		    <button type="button" class="ui button removeButton" id="btnDelete">Delete</button>
-	    </form>
+        
 
         <div class="ui buttons">
 		    <a class="ui labeled icon button" href="{{ path("communication_search") }}" id="backButton"><i class="reply icon"></i>Back to Search</a>
 		    <a href="{{ path('communication_edit', { 'commId': comm.id }) }}" class="ui blue button">Edit</a>
+
+            <form name="appbundle_removeCommunication" method="post" action="{{path('communication_delete', {'id': comm.id})}}" data-message="Are you sure you want to remove Communication {{comm}}?">
+		        <input type="hidden" name="communication" value="{{comm.id}}"/>
+		        <button type="button" class="ui google plus button removeButton" id="btnDelete">Delete</button>
+	        </form>
+
         </div>
         {% endif %}
     </div>
