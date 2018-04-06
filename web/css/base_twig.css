@@ -46,6 +46,35 @@ table.selectable tbody tr:hover {
     margin: 0.5em;
 }
 
+#mainHeader img {
+    height: 2.5em;
+    background-color: white;
+    padding: .3rem;
+    margin-top: 0;
+    border: 5px solid rgb(13, 92, 171);
+    border-radius: 2.3rem;
+    vertical-align: middle;
+}
+
+#headerLogoContainer {
+    display: inline-block;
+}
+
+#headerLogoContainer > .image:not(.icon), #headerLogoContainer > img {
+    display: inline-block;
+    height: 2.5em;
+    vertical-align: middle;
+}
+
+#mainHeader .content {
+    background-color: rgb(13, 92, 171);
+    border-radius: 2.3rem;
+    padding-left: 10px;    
+    vertical-align: middle;
+}
+    
+
+
 #horizontalNav{
     /*Remove the automatic margin*/
     margin: 0;
@@ -58,23 +87,65 @@ table.selectable tbody tr:hover {
     padding: 1em;
 }
 
-/*DESKTOP ONLY CSS*/
+@media (max-width: 1000px){
+    #mainHeader .content {
+        vertical-align: top;
+    }
+    #headerLogoContainer > .image:not(.icon), #headerLogoContainer > img {
+        display: block;
+        vertical-align: top;
+        margin-bottom: -5px;
+    }
+    #headerLogoContainer {
+        display: inline-block;
+        vertical-align: middle;        
+        margin-bottom: -5px;
+    }
+    #headerLogoContainer::before, #headerLogoContainer::after {
+        content: ' ';
+        float: left;
+        height: 1.5em;
+        width: 1.5em;
+        margin: 0 -0.11em;
+        margin-top: 1em;
+        vertical-align: middle;
+        border: 5px solid rgb(13, 92, 171);
+        border-radius: 3.5rem;
+        border-top: none;
+    }
+    #headerLogoContainer::before {
+        border-left: none;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    #headerLogoContainer::after {
+        border-right: none;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: 0;
+    }
+    #headerLogoContainer * {
+        float: left;
+    }
+}
+
+
+
+    /*DESKTOP ONLY CSS*/
 @media (min-width: 768px) {
-    /*
+        /*
         CSS required to make the ui container next to the sidebar not go off the page
         Found online semantic github from people who wanted an always-visible sidebar
     */
-    #pageContent {
-        width: calc(100% - 260px); /*260px is the sidebar width*/
-    }
+        #pageContent {
+            width: calc(100% - 260px); /*260px is the sidebar width*/
+        }
 
-    /*Don't display the menu button on desktop*/
-    #openMenu{
-        display:none;
-    }
+        /*Don't display the menu button on desktop*/
+        #openMenu {
+            display: none;
+        }
 
-    .column {
-        max-width: max-content;
-
+        .column {
+            max-width: max-content;
+        }
     }
-}
