@@ -1,7 +1,8 @@
 {#S40C#}
 {% extends 'base.html.twig' %}
+{% if (template is not defined) %}{% set template = false %}{% endif %}
 
-{% block title %}Add Route {% if templatemode is defined %}Template {% endif %}| M.U.R.R.{% endblock %}
+{% block title %}Add Route {% if template is defined %}Template {% endif %}| M.U.R.R.{% endblock %}
 
 {% block stylesheets %}
 <link href="{{ asset('css/util_twig.css') }}" type="text/css" rel="stylesheet" />
@@ -21,27 +22,19 @@
 
 {% block body %}
 <div class="ui text container">
-    {% if ( route is defined ) and ( route.dateModified|date("Y") != "-0001" )%}
-        <h2 class="ui header left attached top">Edit Route {% if templatemode is defined %}Template{% endif %}: {{route.routeId}}</h2>
+    {% if invalid_id_error is defined %}
+        {% if invalid_id_error %}
+            <h2>Route does not exist</h2>
+        {% endif %}
     {% else %}
-        <h2 class="ui header left attached top">Add Route {% if templatemode is defined %}Template{% endif %}</h2>
-    {% endif %}
+        {% set invalid_id_error = false %}
+    {% endif %}   
+    <h2 class="ui header left attached top">Edit Route {% if template == true %}Template{% endif %}: {{route.routeId}}</h2>
 
     <div class="ui bottom attached segment">
-        {{ form_start(nameform) }}
-        {{ form_widget(nameform) }}
-        
-        {% if invalid_id_error is defined %}
-            {% if invalid_id_error %}
-                <h2>Route does not exist</h2>
-            {% endif %}
-        {% else %}
-            {% set invalid_id_error = false %}
-        {% endif %}
-
-        {% if (( templatemode is defined ) or ( invalid_id_error == false ))%}
+        {% if (( template == true ) or ( invalid_id_error == false ))%}
             <div class="column containerAdd">
-                <h1 class="ui header left attached top">Add Container to Route{% if templatemode is defined %} Template{%endif%}</h1>
+                <h1 class="ui header left attached top">Add Pickup to{% if template == true %} Template{%else%} Route{%endif%}</h1>
 		        <div class="ui bottom attached segment">
 			        {{ form_start(pickupform) }}
 			        {{ form_errors(pickupform) }}
@@ -65,9 +58,9 @@
 						        </td>
 
 						        <td>
-							        <div class="inline fields">
-								        {{ form_row(pickupform.Add) }}
-							        </div>
+							        <div class="inline buttons">
+                                        <input type="submit" value="Add" class="ui green button" id="btnSave" />
+                                    </div>
 						        </td>
 					        </tr>
 				        </tbody>
@@ -76,14 +69,46 @@
 		        </div>
             </div>
             
-	        {#LLIST#}
+            <div class="column containerList">
+		        <h1 class="ui header left attached top">Container List</h1>
+		        <div class="ui bottom attached segment">
+			        <table class="route_pickups ui celled table">
+				        <thead>
+					        <tr>
+						        <th>Pickup Order</th>
+						        <th>Container Serial</th>
+						        <th>Property</th>
+						        {#<th>Truck</th>#}
+						        <th>Remove</th>
+					        </tr>
+				        </thead>
+				        <tbody>
+					        {% for rp in route.pickups %}
+						        <tr>
+							        <td>{{ rp.pickupOrder }}</td>
+							        <td>{{ rp.container.containerSerial }}</td>
+							        <td>{{ rp.container.property }}</td>
+							        {#<td>{% if rp.truck.truckId is defined %}{{ rp.truck.truckId }}{% endif %}</td>#}
+							        <td>
+								        <form id="rmf{{rp.id}}" name="appbundle_removeContainer" data-id="{{rp.id}}" method="post" action="{{ path('route_pickup_removal', { 'id': rp.id })}}" data-message="Are you sure you want to remove Container '{{rp.container.containerSerial}}'">
+									        <button id="rmb{{rp.id}}" type="button" class="ui icon button rmb removeButton red">
+										        <i class="close icon"></i>
+									        </button>
+								        </form>
+							        </td>
+						        </tr>
+					        {% endfor %}
+				        </tbody>
+			        </table>
+		        </div>
+	        </div>       
         {% endif %}
 
-        <div class="ui buttons">
+        {#<div class="ui buttons">
             <a class="ui button" href="{{ path("route_search") }}" id="cancelButton">Cancel</a>
-            <input type="submit" value="Add {% if templatemode is defined %}Template{% endif %}" class="ui green button" id="btnCreate" />
+            <input type="submit" value="Save" class="ui green button" id="btnSave" />
         </div>
-        {#{ form_end(form) }#}
+        { form_end(form) }#}
     </div>
 </div>
 {% endblock %}

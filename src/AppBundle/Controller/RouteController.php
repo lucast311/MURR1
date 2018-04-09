@@ -75,6 +75,120 @@ class RouteController extends Controller
 
     /**
      * S40C
+     * @Route("/manage/{id}", name="route_manage")
+     * @Route("/manage/template/{id}", name="route_template_manage_id")
+     * @Route("/manage/template", name="route_template_manage")
+     * @param Request $request
+     * @param integer $id = null
+     * @param boolean $template
+     * @Method({"GET","POST"})
+     */
+    function manageAction(Request $request, $id=null, $template=null){
+        $em = $this->getDoctrine()->getManager();
+        if(is_null($id)) $id = $request->get('id');
+        if(is_null($template)) $template = $request->get('template');
+        if($template=="1")$template=true;
+
+        //NOTE THE USE OF THE USING STATEMENT TO MAKE CONTAINER ROUTE A SHORTCUT TO ROUTE
+        //Otherwise there is conflicts between the route annotations and the route class
+        $routeRepo = $em->getRepository(ContainerRoute::class);
+        $route = $routeRepo->findOneById($id);
+
+        if($request->get('_route') == 'route_template_manage'||$request->get('_route') == 'route_template_manage_id'){
+            if(!$route->getTemplate())$route=null;
+        }else{
+            if($route->getTemplate()){
+                return $this->redirectToRoute('route_template_manage_id', array(
+                'id' => $route->getId(),
+                ));
+            }
+        }
+
+        if($route != null){
+            $template = $route->getTemplate();
+            //Create the routePickupForm and set its route
+            $rp = (new RoutePickup())
+                ->setRoute($route);
+            $form = $this->createForm(RoutePickupType::class, $rp);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid())
+            {
+                //return $this->forward('AppBundle:Route:addRoutePickup', array('rp'=>$rp));
+                $serialExists = false;
+                //loop through the existing pickups
+                foreach ($route->getPickups() as $pickup)
+                {
+                    //if the container already exists, break and indiciate error
+                	if($pickup->getContainer()->getContainerSerial() === $rp->getContainer()->getContainerSerial()){
+                        $serialExists = true;
+                        break;
+                    }
+                }
+
+                //Add custom error to form
+                if($serialExists){
+                    $form->addError(new FormError('This container already exists in this route'));
+                }
+                else{
+                    //get the last pickup, they are already ordered
+                    $pickups = $route->getPickups();
+                    $lastRp = $pickups[count($pickups)-1];
+
+                    $repo = $this->getDoctrine()->getManager()->getRepository(RoutePickup::class);
+
+                    //If there is no last pickup, this pickup needs to go first
+                    if($lastRp == null){
+
+                        $rp->setPickupOrder(1);
+                    }//If the added pickup order is greater than the last by more than 1, set it to be the last one
+                    else if ($rp->getPickupOrder() >= $lastRp->getPickupOrder() + 1){
+                        $rp->setPickupOrder($lastRp->getPickupOrder() + 1);
+                    }
+                    else { //The rp is being inserted in the middle of the list
+                        //Increment every route pickup that will be after the current route pickup
+                        $repo->updateOrders($routeId, $rp->getPickupOrder(), true);
+
+                        //Refresh all the pickups because they may have been changed
+                        foreach ($pickups as $pickup)
+                        {
+                        	$em->refresh($pickup);
+                        }
+
+
+                    }
+                    //set this pickup on the current route
+                    //$rp->setRoute($route);
+                    $repo->save($rp);
+
+                    //refresh the route to display the new data
+                    //And since the pickups are set to cascade refresh it will reload them too
+                    $em->refresh($route);
+
+                    //Wipe the form by creating a new one
+                    $rp = new RoutePickup();
+                    $form = $this->createForm(RoutePickupType::class, $rp);
+                }
+            }
+
+            return $this->render('route/manageRouteDeluxe.html.twig',
+                array(
+                'template'=>$template,
+                'pickupform'=>$form->createView(),
+                'route'=>$route,
+                'invalid_id_error'=>false));
+        }
+
+        //We only get to this point if the route is not found
+        //return the page with an error
+        return $this->render('route/manageRouteDeluxe.html.twig',
+                array('invalid_id_error'=>true));
+    }
+
+
+    /**
+     * S40C
      * Used to create new Routes
      * @Route("/new", name="new_route")
      * @param Request $request
@@ -83,7 +197,7 @@ class RouteController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $routeRepo = $em->getRepository(ContainerRoute::class);
-        $route = (new ContainerRoute())->setTemplate();
+        $route = (new ContainerRoute());
 
         $form = $this->createForm('AppBundle\Form\RouteType', $route);
         $form->handleRequest($request);
@@ -93,7 +207,7 @@ class RouteController extends Controller
             $em->persist($route);
             $em->flush();
 
-            return $this->redirectToRoute('edit_route', array(
+            return $this->redirectToRoute('route_manage', array(
                 'id' => $route->getId(),
                 ));
         }
@@ -125,7 +239,7 @@ class RouteController extends Controller
             $em->persist($routeTemplate);
             $em->flush();
 
-            return $this->redirectToRoute('edit_route', array(
+            return $this->redirectToRoute('route_template_manage_id', array(
                 'template' => true,
                 'id' => $routeTemplate->getId(),
                 ));
@@ -316,7 +430,7 @@ class RouteController extends Controller
      * Story 22b
      * +S40C
      * Used to edit Routes
-     * @Route("/{routeId}", name="route_manage")
+     * @Route("/{routeId}", name="route_edit")
      * @param Request $request
      * @param integer $routeId
      */
@@ -429,6 +543,7 @@ class RouteController extends Controller
         {
             //store the routeId for redirection
             $routeId = $pickup->getRoute()->getId();
+            $template = $pickup->getRoute()->getTemplate();
             //store the pickup order so that we can decrement everything after it
             $pickupOrder = $pickup->getPickupOrder();
 
@@ -438,8 +553,9 @@ class RouteController extends Controller
             //Decrement starting at the pickup that was removed
             $repo->updateOrders($routeId, $pickupOrder, false);
 
+            if($template) return $this->redirectToRoute("route_template_manage_id",array("id" =>$routeId));
             //redirect back to the route that the container was on
-            return $this->redirectToRoute("route_manage",array("routeId" =>$routeId));
+            return $this->redirectToRoute("route_manage",array("id" =>$routeId));
         }
         else
         {

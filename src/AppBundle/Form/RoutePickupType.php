@@ -21,8 +21,8 @@ class RoutePickupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options){
         $builder
             ->add('container',null,array('invalid_message' => 'Please select a container to add', 'attr' => array('placeholder' => '...', 'class' => 'search')))
-            ->add('pickupOrder', IntegerType::Class)
-            ->add('Add', SubmitType::class);
+            ->add('pickupOrder', IntegerType::Class);
+            //->add('Add', SubmitType::class);
     }
 
     /**

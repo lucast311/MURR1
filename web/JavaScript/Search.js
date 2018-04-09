@@ -75,7 +75,7 @@ var viewModel = {
                         if (autocompleteValues.map(function (e) { return e.title }).indexOf(resultVal) == -1 && resultVal != null && resultProp != "id") {
                             // Turn it into an object that semantic likes for the autocomplete
                             resultObj = { title: resultVal };
-                            // Put it into the array
+                            // Put it into the arra
                             autocompleteValues.push(resultObj);
                         }
                     }
@@ -95,12 +95,22 @@ var viewModel = {
             {
                 // Register a click handler for the row of the result (instead of a view button)
                 // Note this also has to be done after updating the rows, otherwise new rows won't be affected.
-                $('tbody tr').click(function () {
-                    // Get the id of the item from the bound data-id property of the row
-                    var id = $(event.target).parent().data('id');
-                    // Go to the URL
-                    window.location = './' + id;
-                });
+                if (window.location.href.indexOf('/route/search') > 0) {
+                    $('tbody tr').click(function () {
+                        // Get the id of the item from the bound data-id property of the row
+                        var id = $(event.target).parent().data('id');
+                        // Go to the URL
+                        window.location = './manage/' + id;
+                    });
+                } else {
+                    $('tbody tr').click(function () {
+                        // Get the id of the item from the bound data-id property of the row
+                        var id = $(event.target).parent().data('id');
+                        // Go to the URL
+                        window.location = './' + id;
+                    });
+                }
+
             }
             
         });
