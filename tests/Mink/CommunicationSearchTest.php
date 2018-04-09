@@ -28,7 +28,7 @@ class CommunicationSearchTest extends WebTestCase
     {
         // Load the user fixture so you can actually log in
         self::bootKernel();
-        $this->em = static::$kernel->getCommunication()
+        $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
 
@@ -36,7 +36,7 @@ class CommunicationSearchTest extends WebTestCase
         $containerLoader = new LoadCommunicationData();
         $containerLoader->load($this->em);
 
-        $encoder = static::$kernel->getCommunication()->get('security.password_encoder');
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
 
         $propertyLoader = new LoadPropertyData();
         $propertyLoader->load($this->em);

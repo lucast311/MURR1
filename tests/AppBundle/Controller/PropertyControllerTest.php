@@ -910,8 +910,8 @@ class PropertyControllerTest extends WebTestCase
         $crawler = $client->request('GET',"/property/$propertyId");
 
 
-        // Assert that the table contains 15 rows of data
-        $this->assertEquals(15, $crawler->filter("table.communications tbody tr")->count());
+        // Assert that the table contains 10 rows of data
+        $this->assertEquals(10, $crawler->filter("table.communications tbody tr")->count());
     }
 
     /**
