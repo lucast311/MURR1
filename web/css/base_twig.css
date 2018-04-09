@@ -145,7 +145,7 @@ table.selectable tbody tr:hover {
             display: none;
         }
 
-        .column {
+        /*.column {
             max-width: max-content;
-        }
+        }*/
     }

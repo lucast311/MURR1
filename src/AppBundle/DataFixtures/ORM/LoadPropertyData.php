@@ -3,9 +3,11 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Property;
 use AppBundle\Entity\Address;
+use AppBundle\Entity\Contact;
 use AppBundle\DataFixtures\ORM\LoadAddressData;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class LoadPropertyData implements FixtureInterface
 {
@@ -42,12 +44,24 @@ class LoadPropertyData implements FixtureInterface
                     ->setProvince('Saskatchetest')
                     ->setCountry('Testnada');
 
+                //contact data
+                $contact1 = (new Contact())
+                    ->setFirstName("Ken")
+                    ->setLastName("Kenson")
+                    ->setRole("Property Manager");
+                $contact2 = (new Contact())
+                    ->setFirstName("Matt")
+                    ->setLastName("Mattson")
+                    ->setRole("Property Manager");
+                $contacts = array($contact1, $contact2);
+
                 // call the Constructor that will add an address to the database
                 $addressFixtureLoader = new LoadAddressData($address);
 
                 // add the address to the database
                 $addressFixtureLoader->load($obMan);
 
+                $contactAC = new ArrayCollection($contacts);
 
                 // Property data
                 $this->property = (new Property())
@@ -60,6 +74,8 @@ class LoadPropertyData implements FixtureInterface
                     ->setNeighbourhoodName("Sutherland")
                     ->setNeighbourhoodId("O48")
                     ->setAddress($address);
+
+                $this->property->setContacts($contactAC); 
 
                 // add the Property to the database
                 $obMan->persist($this->property);
