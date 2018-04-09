@@ -183,6 +183,7 @@ class PropertySearchPopupTest extends WebTestCase
         $formField = $page->find("css", "#appbundle_communication_property");
         $this->assertEquals(17, $formField->getValue());
 
+
     }
 
     protected function tearDown()

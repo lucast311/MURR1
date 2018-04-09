@@ -120,18 +120,19 @@ class Property
 
     /**
      * Properties have many contacts
-     * @ORM\ManyToMany(targetEntity="Contact", mappedBy="properties", cascade={"persist"}, fetch="EAGER")
-     *@var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Contact", inversedBy="contacts", cascade={"persist","remove"}, fetch="EAGER")
+     * @var ArrayCollection
      */
     private $contacts;
+
     /**
-     * @ORM\OneToMany(targetEntity="Container",cascade={"persist"}, mappedBy="property")
+     * @ORM\OneToMany(targetEntity="Container",cascade={"persist","remove"}, mappedBy="property")
      */
     private $bins;
 
     /**
      * Holds a list of communications for this property
-     * @ORM\OneToMany(targetEntity="Communication", cascade={"persist"}, mappedBy="property")
+     * @ORM\OneToMany(targetEntity="Communication", cascade={"persist","refresh", "remove"}, mappedBy="property")
      * @var ArrayCollection
      */
     private $communications;
@@ -385,7 +386,13 @@ class Property
      */
     public function getContacts()
     {
-        return $this->contacts;
+        $iterator = $this->contacts->getIterator();
+
+        $iterator->uasort(
+           function($a, $b){
+               return ($a->getLastName() < $b->getLastName()) ? -1 : 1;
+           });
+        return new ArrayCollection(iterator_to_array($iterator));
     }
     /**
      * Sets associated contacts

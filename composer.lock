@@ -122,16 +122,16 @@
         },
         {
             "name": "dfridrich/php-mime-type",
-            "version": "v2.0.3",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dfridrich/PhpMimeType.git",
-                "reference": "adaefb4a0de58a5c6a9c21c83ef2592e9cd28be7"
+                "reference": "3aa49c430ad7c287f8162a093ee3fb26cf2c832f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dfridrich/PhpMimeType/zipball/adaefb4a0de58a5c6a9c21c83ef2592e9cd28be7",
-                "reference": "adaefb4a0de58a5c6a9c21c83ef2592e9cd28be7",
+                "url": "https://api.github.com/repos/dfridrich/PhpMimeType/zipball/3aa49c430ad7c287f8162a093ee3fb26cf2c832f",
+                "reference": "3aa49c430ad7c287f8162a093ee3fb26cf2c832f",
                 "shasum": ""
             },
             "require": {
@@ -167,7 +167,7 @@
                 "mimetype",
                 "php"
             ],
-            "time": "2018-01-26T11:24:13+00:00"
+            "time": "2018-01-26T10:52:55+00:00"
         },
         {
             "name": "dmore/chrome-mink-driver",
@@ -3794,16 +3794,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.4.6",
+            "version": "v3.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "874d4d659774d7bab90538072c83ed532dd17dc5"
+                "reference": "eb07b0eab0bda8441fbf94d06ad1f9896e0552cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/874d4d659774d7bab90538072c83ed532dd17dc5",
-                "reference": "874d4d659774d7bab90538072c83ed532dd17dc5",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/eb07b0eab0bda8441fbf94d06ad1f9896e0552cc",
+                "reference": "eb07b0eab0bda8441fbf94d06ad1f9896e0552cc",
                 "shasum": ""
             },
             "require": {
@@ -3944,7 +3944,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2018-03-05T20:02:01+00:00"
+            "time": "2018-04-03T05:50:03+00:00"
         },
         {
             "name": "textalk/websocket",
@@ -4027,16 +4027,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.4.7",
+            "version": "v2.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "69aacd44dbbaa3199d5afb68605c996d577896fc"
+                "reference": "7b604c89da162034bdf4bb66310f358d313dd16d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/69aacd44dbbaa3199d5afb68605c996d577896fc",
-                "reference": "69aacd44dbbaa3199d5afb68605c996d577896fc",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7b604c89da162034bdf4bb66310f358d313dd16d",
+                "reference": "7b604c89da162034bdf4bb66310f358d313dd16d",
                 "shasum": ""
             },
             "require": {
@@ -4089,7 +4089,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2018-03-20T04:31:17+00:00"
+            "time": "2018-04-02T09:24:19+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -4319,16 +4319,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.4.6",
+            "version": "v3.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "32b06d2b0babf3216e55acfce42249321a304f03"
+                "reference": "e4b72beb8961340764367a804f21044e83fc19a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/32b06d2b0babf3216e55acfce42249321a304f03",
-                "reference": "32b06d2b0babf3216e55acfce42249321a304f03",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/e4b72beb8961340764367a804f21044e83fc19a8",
+                "reference": "e4b72beb8961340764367a804f21044e83fc19a8",
                 "shasum": ""
             },
             "require": {
@@ -4381,7 +4381,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2018-02-14T23:24:28+00:00"
+            "time": "2018-03-20T23:37:33+00:00"
         }
     ],
     "aliases": [],

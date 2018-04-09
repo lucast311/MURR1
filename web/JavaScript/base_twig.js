@@ -51,4 +51,6 @@ $(function () {
 
     //This will enable javascript on any semantic select box on the page (or else it gets gross styles)
     $(".ui.dropdown").dropdown();
+
+
 });

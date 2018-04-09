@@ -23,6 +23,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
+use AppBundle\Form\PropertyAddContactType;
+use Symfony\Component\Form\FormBuilder;
 
 /**
  * Controller that contains methods for anything having to do with a property.
@@ -30,6 +32,38 @@ use Symfony\Component\Serializer\Serializer;
 class PropertyController extends Controller
 {
     public $property;
+
+    /**
+     * Handles removing an association between a contact and a property
+     * @param Request $request
+     * @Route("/property/removecontactfromproperty", name="remove_contact_from_property")
+     * @method({"POST","GET"})
+     */
+    public function removeContactAction(Request $request)
+    {
+        if($request->getMethod() == 'POST')
+        {
+            $em = $this->getDoctrine()->getManager();
+            $propertyRepo = $em->getRepository(Property::class);
+
+            $property = $propertyRepo->findOneBy(array('id'=>$request->request->get('property')));
+            $contact = $em->getRepository(Contact::class)->findOneBy(array('id'=>$request->request->get('contact')));
+
+            if($contact != null && $property != null)
+            {
+                if(in_array($contact, $property->getContacts()->toArray()))
+                {
+                    $contacts = $property->getContacts();
+                    $contacts->removeElement($contact);
+                    $property->setContacts($contacts);
+                    $propertyRepo->save($property);
+
+                    return $this->redirectToRoute("property_view", array("propertyId"=>$property->getId()));
+                }
+            }
+        }
+        return $this->redirectToRoute("property_search");
+    }
 
     /**
      * story4f
@@ -145,11 +179,16 @@ class PropertyController extends Controller
      * @Route("/property/{propertyId}", name="property_view")
      * @Route("/property")
      * @Route("/property/")
+     * @Method({"GET","POST"})
      */
-    public function viewAction($propertyId = 'not_specified', $addCommunicationForm = null)
+    public function viewAction($propertyId = 'not_specified', $addCommunicationForm = null, Request $request)
     {
+
         //Default don't dhow the communication form
         $showCommunicationForm = false;
+        //sets the property name to be an empty string instead of using the actual property
+        //this is so the twig doesn't throw an error if the property isn't valid 
+        $propertyName = "";
 
         //if the form wasn't given to us, create it
         if($addCommunicationForm == null)
@@ -169,13 +208,67 @@ class PropertyController extends Controller
         // Get the specific property
         $property = $em->getRepository(Property::class)->findOneById($propertyId);
 
+        //if the property isn't null, do all the actions required
+        if($property != null)
+        {
+            $addContactForm = $this->createForm(PropertyAddContactType::class, null,array('property'=>$property->getId()));
+            $deleteForm = $this->createDeleteForm($property);
+            $propertyName = $property->getPropertyName();
+        } else {
+            //if not, set the forms to null and the property to false
+            $property = false;
+            $deleteForm = null;
+            $addContactForm = null;
+        }
 
+        //now check if the method is post and property is not null
+        if($request->getMethod() == 'POST' && $property != null)
+        {
+            if($request->request->has('appbundle_contactToProperty'))
+            {
+                $em = $this->getDoctrine()->getManager();
+                $contactRepo = $em->getRepository(Contact::class);
+
+                $contact = $contactRepo->findOneById($request->request->get('appbundle_contactToProperty')['contact']);
+                if($property->getContacts()->contains($contact))
+                {
+                    $addContactForm->addError(new FormError('This property is already associated to the selected contact'));
+                }
+                else
+                {
+                    $contacts = $property->getContacts();
+                    $contacts->add($contact);
+                    $property->setContacts($contacts);
+                    $em->getRepository(Property::class)->save($property);
+                    $em->refresh($property);
+                }
+            }
+
+        }
         // Render the html and pass in the property
-        return $this->render('property/viewProperty.html.twig', array('property'=>$property,
-            'propertyId'=>$propertyId,
-            'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
-            'newCommunicationForm' => $addCommunicationForm->createView(),
-            'showCommunicationForm' => $showCommunicationForm));
+        //if the property is false, send everything but the form data 
+        if($property == false)
+        {
+            return $this->render('property/viewProperty.html.twig', array(
+                'property'=>$property,
+                'propertyId'=>$propertyId,
+                'propertyName'=>$propertyName,
+                'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
+                'newCommunicationForm' => $addCommunicationForm->createView(),
+                'showCommunicationForm' => $showCommunicationForm)); 
+        } else {
+            //else return it with the correct data to display 
+            return $this->render('property/viewProperty.html.twig', array(
+                'property'=>$property,
+                'propertyId'=>$propertyId,
+                'propertyName'=>$propertyName,
+                'delete_form' => $deleteForm->createView(),
+                'editPath'=>$this->generateUrl("property_edit", array('propertyId'=>$propertyId)),
+                'newCommunicationForm' => $addCommunicationForm->createView(),
+                'showCommunicationForm' => $showCommunicationForm,
+                'add_contact_form' => $addContactForm->createView()));
+        }
+
     }
 
     /**
@@ -261,4 +354,43 @@ class PropertyController extends Controller
         // string over 100, return empty array.
         return $this->json(array());
     }
+
+    /**
+     * Delete a property entity
+     * @param Request $request
+     * @param Property $property
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @Route("/property/{id}", name="property_delete")
+     * @method("DELETE")
+     */
+    public function deleteAction(Request $request, Property $property)
+    {
+        $form = $this->createDeleteForm($property);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($property);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('property_search');
+    }
+
+    /**
+     * Summary of createDeleteForm
+     * @param Property $property
+     * @return mixed
+     */
+    private function createDeleteForm(Property $property)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('property_delete', array('id' => $property->getId())))
+            ->setMethod('DELETE')
+            ->getForm();
+    }
+
+
 }

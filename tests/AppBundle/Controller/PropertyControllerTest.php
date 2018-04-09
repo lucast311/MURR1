@@ -983,7 +983,7 @@ class PropertyControllerTest extends WebTestCase
 
         // Assert that the table contains all the proper data
         $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Property Manager")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("Ashton South")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("South, Ashton")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("306-345-8932")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("south@gmail.com")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.contacts:contains("COSMO!")')->count());
@@ -1167,6 +1167,9 @@ class PropertyControllerTest extends WebTestCase
         $this->assertTrue($crawler->filter('input[type=search]')->first() != null);
     }
 
+
+
+
     /**
      * (@inheritDoc)
      */
@@ -1188,6 +1191,8 @@ class PropertyControllerTest extends WebTestCase
         $stmt = $em->getConnection()->prepare('DELETE FROM Contact');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM Contact_Properties');
+        $stmt->execute();
+        $stmt = $em->getConnection()->prepare('DELETE FROM property_contact');
         $stmt->execute();
         $stmt = $em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();

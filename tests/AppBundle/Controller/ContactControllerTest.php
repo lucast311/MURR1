@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use AppBundle\Entity\Contact;
-use AppBundle\Entity\ContactProperty;
+//use AppBundle\Entity\ContactProperty;
 use AppBundle\Services\Changer;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\DataFixtures\ORM\LoadContactData;
@@ -663,7 +663,7 @@ class ContactControllerTest extends WebTestCase
             $address->setProvince("Saskatchewan");
             $address->setCountry("Canada");
             $property->setAddress($address);
-            $property->setContacts(new ArrayCollection(array($contact)));
+            //$property->setContacts(new ArrayCollection(array($contact)));
             $propertiesArray[] = $property;
 
             $propertyRepository = $this->em->getRepository(Property::class);

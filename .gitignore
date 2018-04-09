@@ -21,7 +21,6 @@
 /TestResults/*
 /uploads/*
 
-/phpunit.xml.tmppica
-
-phpunit.xml.dist.tmppica
-
+/phpunit.xml.dist.tmppica
+/app/sqlite_test.db-journal
+*.tmppica

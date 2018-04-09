@@ -13,6 +13,7 @@
 {% block body %}
 {# magic invisible div that allows us to pass information to the search script #}
 <div class="js-jsonpage" data-jsonpage="{{ path('contact_jsonsearch_empty') }}"></div>
+<div class="js-isPopup" data-ispopup="{{isPopup}}"></div>
 <h2>Contact Search <a href="{{ path('contact_new') }}" class="ui icon button green" id="newContact"><i class="plus icon"></i></a></h2>
 
 <div class="ui search">
