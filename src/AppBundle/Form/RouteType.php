@@ -8,6 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Entity\Route;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 
 class RouteType extends AbstractType
@@ -17,9 +19,10 @@ class RouteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {                                                                                                                                                                                    //add appropriate classes
-        //$builder->add('routeId',null, array('label'=>'ID:'))
-       //         ->add('type',null, array('label'=>'Type:'))
-      //          ->add('Add', SubmitType::class, array('attr' => array('class' => 'ui button')));
+        $builder->add('routeId',  null, array('label' => 'Route ID:', 'attr' => array('maxlength' => 6)))
+                ->add('template', EntityType::class, array('label' => 'Template', 'class' => Route::class, 'attr'  => array('placeholder' => '...', 'class' => 'search')));
+    //          ->add('type',null, array('label'=>'Type:'))
+    //          ->add('Add', SubmitType::class, array('attr' => array('class' => 'ui button')));
     }
 
     //null,array('label'=>'ID:','invalid_message' => 'The Truck ID [TRUCKID] is already in use.', /*'class' => 'AppBundle:Truck',*/ 'attr' => array('class' => ''/*ui search dropdown*/)))
@@ -31,9 +34,9 @@ class RouteType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        // $resolver->setDefaults(array(
-       //     'data_class' => 'AppBundle\Entity\Route'
-       // ));
+        $resolver->setDefaults(array(
+            'data_class' => 'AppBundle\Entity\Route'
+        ));
     }
 
     /**
@@ -41,6 +44,6 @@ class RouteType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        //return 'appbundle_route';
+        return 'appbundle_route';
     }
 }

@@ -17,7 +17,7 @@ class RouteTemplateType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {                                                                                                                                                                                    //add appropriate classes
-        $builder->add('routeId',null, array('label'=>'Template Name:'));
+        $builder->add('routeId', null, array('label'=>'Template Name:', 'attr' => array('maxlength' => 20)));
     }
 
     //null,array('label'=>'ID:','invalid_message' => 'The Truck ID [TRUCKID] is already in use.', /*'class' => 'AppBundle:Truck',*/ 'attr' => array('class' => ''/*ui search dropdown*/)))

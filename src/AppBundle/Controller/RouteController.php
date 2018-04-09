@@ -76,16 +76,71 @@ class RouteController extends Controller
     /**
      * S40C
      * Used to create new Routes
+     * @Route("/new", name="new_route")
      * @param Request $request
      */
     function newAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
 
+        $routeRepo = $em->getRepository(ContainerRoute::class);
+        $route = (new ContainerRoute())->setTemplate();
+
+        $form = $this->createForm('AppBundle\Form\RouteType', $route);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($route);
+            $em->flush();
+
+            return $this->redirectToRoute('edit_route', array(
+                'id' => $route->getId(),
+                ));
+        }
+
+        return $this->render('route/new.html.twig', array(
+            'route'    => $route,
+            'form'     => $form->createView(),
+        ));
+    }
+
+    /**
+     * S40C
+     * Used to create new Route Templates
+     * @Route("/template/new", name="new_route_template")
+     * @param Request $request
+     */
+    function newTemplateAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+
+        $routeRepo = $em->getRepository(ContainerRouteTemplate::class);
+        $routeTemplate = (new ContainerRouteTemplate())->setTemplate();
+        //$em->persist($routeTemplate);
+        //$em->flush();
+        $form = $this->createForm('AppBundle\Form\RouteTemplateType', $routeTemplate);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($routeTemplate);
+            $em->flush();
+
+            return $this->redirectToRoute('edit_route', array(
+                'template' => true,
+                'id' => $routeTemplate->getId(),
+                ));
+        }
+
+        return $this->render('route/new.html.twig', array(
+            'template' => true,
+            'route'    => $routeTemplate,
+            'form'     => $form->createView(),
+        ));
     }
 
     /**
      * S40C
      * Used to create+edit Route Templates
-     * @Route("/template/new", name="route_template")
      * @Route("/template/{templateId}", name="route_template_edit")
      * @param Request $request
      * @param integer $templateId
@@ -254,7 +309,7 @@ class RouteController extends Controller
      */
     function indexAction()
     {
-        return $this->render("route/addRoute.html.twig");
+        return $this->render("route/search.html.twig");
     }
 
     /**

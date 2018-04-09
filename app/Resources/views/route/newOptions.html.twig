@@ -26,15 +26,15 @@
     Add Route
   </div>
   <div class="new route actions">
-    <a href="{{ path("route_template") }}" class="ui positive icon button">
+    <a href="{{ path("new_route") }}" class="ui positive icon button">
       New Route
     </a>
-    <div id="newRouteTemplate" class="ui icon button">
+    <a href="{{ path("new_route_template") }}" id="newRouteTemplate" class="ui icon button">
       New Route Template
-    </div>    
-    {#<div class="ui black button">
-      Import from CSV[NOT IMPLEMENTED]
-    </div>#}
+    </a>
+    <div class="ui black button">
+      [NOT IMPLEMENTED] CSV
+    </div>
   </div>
 
 {% if modalmode is defined %}

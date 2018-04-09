@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% if (template is not defined) %}{% set template = false %}{% endif %}
+
+
+{% block title %}Add Route{% if template == true %} Template{% endif %} | M.U.R.R.{% endblock %}
+
+{% block body %}
+<div class="ui text container">
+    <h2 class="ui header left attached top">Add Route{% if template == true %} Template{% endif %}</h2>
+
+    <div class="ui bottom attached segment">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+             
+        <div class="ui buttons">
+            <a class="ui button" href="{{ path("route_search") }}" id="cancelButton">Cancel</a>
+            <input type="submit" value="Add" class="ui green button" id="btnCreate" />
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

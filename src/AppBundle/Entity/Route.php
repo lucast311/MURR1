@@ -30,7 +30,7 @@ class Route
      * @var string
      *
      * @ORM\Column(name="routeId", type="string", length=15, unique=true)
-     * @Assert\Length(min=1,max=6,
+     * @Assert\Length(min=1,max=20,
      *  minMessage = "Route ID must be atleast {{ limit }} digits long",
      *  maxMessage = "Route ID can not be more than {{ limit }} digits long")
      *
@@ -267,6 +267,13 @@ class Route
     public function getDateModified()
     {
         return $this->dateModified;
+    }
+
+    public function __toString(){
+        //if($this->getTemplate())
+        //{
+            return $this->getRouteId();
+        //}
     }
     //End S40C: New functions
 }
