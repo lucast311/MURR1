@@ -29,12 +29,12 @@
     {% else %}
         {% set invalid_id_error = false %}
     {% endif %}   
-    <h2 class="ui header left attached top">Edit Route {% if template == true %}Template{% endif %}: {{route.routeId}}</h2>
+    <h2 class="ui header left attached top">Route {% if template == true %}Template{% endif %} "{{route.routeId}}"</h2>
 
     <div class="ui bottom attached segment">
         {% if (( template == true ) or ( invalid_id_error == false ))%}
             <div class="column containerAdd">
-                <h1 class="ui header left attached top">Add Pickup to{% if template == true %} Template{%else%} Route{%endif%}</h1>
+                <h1 class="ui header left attached top">Add Pickup{#{% if template == true %} Template{%else%} Route{%endif%}#}</h1>
 		        <div class="ui bottom attached segment">
 			        {{ form_start(pickupform) }}
 			        {{ form_errors(pickupform) }}
@@ -68,40 +68,38 @@
 			        {{ form_end(pickupform) }}
 		        </div>
             </div>
-            
-            <div class="column containerList">
-		        <h1 class="ui header left attached top">Container List</h1>
-		        <div class="ui bottom attached segment">
-			        <table class="route_pickups ui celled table">
-				        <thead>
-					        <tr>
-						        <th>Pickup Order</th>
-						        <th>Container Serial</th>
-						        <th>Property</th>
-						        {#<th>Truck</th>#}
-						        <th>Remove</th>
-					        </tr>
-				        </thead>
-				        <tbody>
-					        {% for rp in route.pickups %}
-						        <tr>
-							        <td>{{ rp.pickupOrder }}</td>
-							        <td>{{ rp.container.containerSerial }}</td>
-							        <td>{{ rp.container.property }}</td>
-							        {#<td>{% if rp.truck.truckId is defined %}{{ rp.truck.truckId }}{% endif %}</td>#}
-							        <td>
-								        <form id="rmf{{rp.id}}" name="appbundle_removeContainer" data-id="{{rp.id}}" method="post" action="{{ path('route_pickup_removal', { 'id': rp.id })}}" data-message="Are you sure you want to remove Container '{{rp.container.containerSerial}}'">
-									        <button id="rmb{{rp.id}}" type="button" class="ui icon button rmb removeButton red">
-										        <i class="close icon"></i>
-									        </button>
-								        </form>
-							        </td>
-						        </tr>
-					        {% endfor %}
-				        </tbody>
-			        </table>
-		        </div>
-	        </div>       
+			<div class="column containerList">
+				<h2 class="ui header left attached top">Pickups in {% if template == true %}Template{% else %}Route{% endif %}</h2>
+				<table class="route_pickups ui bottom attached segment celled table">
+					<thead>
+						<tr>
+							<th>Pickup Order</th>
+							<th>Container Serial</th>
+							<th>Property</th>
+							{#<th>Truck</th>#}
+							<th>Remove</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for rp in route.pickups %}
+							<tr>
+								<td>{{ rp.pickupOrder }}</td>
+								<td>{{ rp.container.containerSerial }}</td>
+								<td>{{ rp.container.property }}</td>
+								{#<td>{% if rp.truck.truckId is defined %}{{ rp.truck.truckId }}{% endif %}</td>#}
+								<td>
+									<form id="rmf{{rp.id}}" name="appbundle_removeContainer" data-id="{{rp.id}}" method="post" action="{{ path('route_pickup_removal', { 'id': rp.id })}}" data-message="Are you sure you want to remove Container '{{rp.container.containerSerial}}'">
+										<button id="rmb{{rp.id}}" type="button" class="ui icon button rmb removeButton red">
+											<i class="close icon"></i>
+										</button>
+									</form>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+        </div>
         {% endif %}
 
         {#<div class="ui buttons">
@@ -110,5 +108,4 @@
         </div>
         { form_end(form) }#}
     </div>
-</div>
 {% endblock %}

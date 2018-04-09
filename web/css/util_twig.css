@@ -11,25 +11,27 @@ td form {
     display: inline-block;
 }
 
-
 #appbundle_truck_Add,
 #appbundle_routepickup_Add {
     margin: 0 -1em 0 1em;
 }
 
 .truckList, .truckAdd,
-.containerList, .containerAdd {
+/*.containerList,*/ .containerAdd {
     margin-bottom: 1rem;
 }
 
-    .truckAdd .inline.fields,
-    .containerAdd .inline.fields {
-        margin-bottom: 0px !important;
-    }
+.truckAdd .inline.fields,
+.containerAdd .inline.fields {
+    margin-bottom: 0px !important;
+}
 
-#filteredTruckList,
-.route_pickups {
+#filteredTruckList {
     display: table-cell;
+}
+
+.route_pickups {
+    display: table;
 }
 
 /**MOBILE**/
