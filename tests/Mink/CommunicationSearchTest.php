@@ -115,7 +115,7 @@ class CommunicationSearchTest extends WebTestCase
         $page = $this->session->getPage();
 
         // Assert that we were redirected to the communication page
-        $this->assertContains('/communication/2', $this->session->getCurrentUrl());
+        $this->assertContains('/communication/1', $this->session->getCurrentUrl());
     }
 
     /**
@@ -242,7 +242,7 @@ class CommunicationSearchTest extends WebTestCase
         $page = $this->session->getPage();
 
         // make sure that the communication no longer exists
-        $this->assertContains("Communication does not exist", $page->getHtml());
+        $this->assertContains("The specified communication ID could not be found", $page->getHtml());
     }
 
     /**
@@ -284,7 +284,7 @@ class CommunicationSearchTest extends WebTestCase
         $page = $this->session->getPage();
 
         // make sure that the communication no longer exists
-        $this->assertContains("Communication does not exist", $page->getHtml());
+        $this->assertContains("The specified communication ID could not be found", $page->getHtml());
     }
 
     /**
