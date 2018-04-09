@@ -101,12 +101,12 @@
         </table>
 
         <div class="ui buttons">
+            <a class="ui labeled icon button" href="{{ path("property_search") }}" id="backButton"><i class="reply icon"></i>Back to Search</a>
             <button class="ui blue button" onclick="window.location.href ='{{editPath}}'">Edit</button>      
 		    {% if not delete_form is empty  %}
 		    <button class="ui red button" id="deleteButton" type="button" class="ui button">Delete</button>
 		    {{form_start(delete_form, {'attr':{'id':'deleteForm'}} ) }}
 		    {{form_end(delete_form)}}  
-            <a class="ui labeled icon button" href="{{ path("property_search") }}" id="backButton"><i class="reply icon"></i>Back to Search</a>
 		    {% endif %}
         </div>
     </div>
@@ -277,7 +277,6 @@
             <table class="communications associations ui celled table selectable" id="tblCommunications">
                     <thead>
                         <tr>
-                            <th>CommID</th>
                             <th>Date</th>
                             <th>Type</th>
                             <th>Direction</th>
@@ -290,7 +289,6 @@
                         <tbody>
                         {% for communication in property.communications | sortbyfield('dateModified', 'desc') | slice(0,10)%}
                         <tr data-id="{{communication.id}}">
-                            <td>{{communication.id}}</td>
                             <td>{{communication.date}}</td>
                             <td>{{communication.type}}</td>
                             <td>{{communication.medium}}</td>

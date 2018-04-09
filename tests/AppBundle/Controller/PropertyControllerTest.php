@@ -748,7 +748,6 @@ class PropertyControllerTest extends WebTestCase
         $this->assertNotContains("No communication entries found for this property", $client->getResponse()->getContent());
 
         // Assert that the table contains all the proper headers
-        $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("CommID")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Date")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Type")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Direction")')->count());
@@ -758,7 +757,6 @@ class PropertyControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Notes")')->count());
 
         // Assert that the table contains all the proper data
-        $this->assertGreaterThan(0, $crawler->filter("table.communications:contains('$commID')")->count());
         $this->assertGreaterThan(0, $crawler->filter("table.communications:contains('$commDate')")->count());
         $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Phone")')->count());
         $this->assertGreaterThan(0, $crawler->filter('table.communications:contains("Incoming")')->count());
@@ -838,7 +836,6 @@ class PropertyControllerTest extends WebTestCase
 
 
         //Check that no communication table headers exist on this page
-        $this->assertEquals(0, $crawler->filter('table.communications:contains("CommID")')->count());
         $this->assertEquals(0, $crawler->filter('table.communications:contains("Date")')->count());
         $this->assertEquals(0, $crawler->filter('table.communications:contains("Type")')->count());
         $this->assertEquals(0, $crawler->filter('table.communications:contains("Direction")')->count());
