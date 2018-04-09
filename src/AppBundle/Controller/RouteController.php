@@ -425,7 +425,7 @@ class RouteController extends Controller
 
                 // Use the repository to query for the records we want.
                 // Store those records into an array.
-                $routeSearches = $em->getRepository(RouteEntity::class)->routeSearch($cleanQuery);
+                $routeSearches = $em->getRepository(RouteEntity::class)->routeSearch($cleanQuery,array("id"));
 
                 // create a SearchNarrower to narrow down our searches
                 $searchNarrower = new SearchNarrower();

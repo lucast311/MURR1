@@ -39,7 +39,7 @@
             {% set invalid_id_error = false %}
         {% endif %}
 
-        {% if (( templatemode is defined ) or ( invalid_id_error == false )) and (( route.dateModified|date("Y") != "-0001" )) %}
+        {% if (( templatemode is defined ) or ( invalid_id_error == false ))%}
             <div class="column containerAdd">
                 <h1 class="ui header left attached top">Add Container to Route{% if templatemode is defined %} Template{%endif%}</h1>
 		        <div class="ui bottom attached segment">
