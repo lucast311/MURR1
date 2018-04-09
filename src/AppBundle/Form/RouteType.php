@@ -20,13 +20,17 @@ class RouteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {                                                                                                                                                                                    //add appropriate classes
         $builder->add('routeId',  null, array('label' => 'Route ID:', 'attr' => array('maxlength' => 6)))
+                //->
                 ->add('template', EntityType::class, array('label' => 'Template:',
                                                            'class' => Route::class,
                                                            'query_builder' => function (EntityRepository $er) {
                                                                return $er->createQueryBuilder('rt')
                                                                    ->where('rt.template = 1');
                                                            },
-                                                           'attr'  => array('placeholder' => '...', 'class' => 'search')));
+                                                           'required' => FALSE,
+                                                           'placeholder' => '...',
+                                                           'attr' => array( 'class' => 'search template'),
+                                                           'data' => '...' ));
     //          ->add('type',null, array('label'=>'Type:'))
     //          ->add('Add', SubmitType::class, array('attr' => array('class' => 'ui button')));
     }

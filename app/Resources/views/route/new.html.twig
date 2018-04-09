@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 {% if (template is not defined) %}{% set template = false %}{% endif %}
 
+{% if template == false %}
+    {% block stylesheets %}
+    <link href="{{ asset('css/new_route.css') }}" type="text/css" rel="stylesheet" />
+    {% endblock %}
+{% endif %}
 
 {% block title %}Add Route{% if template == true %} Template{% endif %} | M.U.R.R.{% endblock %}
 

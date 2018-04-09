@@ -200,18 +200,27 @@ class RouteController extends Controller
         $route = (new ContainerRoute());
 
         $form = $this->createForm('AppBundle\Form\RouteType', $route);
+        $form->get('template')->setData((new ContainerRouteTemplate())->setRouteId('...'));
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $selectedTemplate = $form['template']->getNormData();
+            if($selectedTemplate instanceof ContainerRouteTemplate && $selectedTemplate->getTemplate())
+            {
+                var_dump($selectedTemplate->getId());
+            }
+            $route->setTemplate(false);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($route);
             $em->flush();
 
-            return $this->redirectToRoute('route_manage', array(
-                'id' => $route->getId(),
-                ));
-        }
+            //return $this->redirectToRoute('route_manage', array(
+            //    'id' => $route->getId(),
+            //    ));
 
+        }
         return $this->render('route/new.html.twig', array(
             'route'    => $route,
             'form'     => $form->createView(),
