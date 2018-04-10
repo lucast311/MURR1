@@ -53,7 +53,8 @@ class RouteRepository extends \Doctrine\ORM\EntityRepository
             }
 
             $routes = $this->getEntityManager()
-                ->getRepository(Route::class)->routeSearch($filters, array("id"), "routeId");
+                            ->getRepository(Route::class)
+                             ->routeSearch($filters, array("id"), "routeId");
         }
 
         return $routes;
@@ -120,5 +121,4 @@ class RouteRepository extends \Doctrine\ORM\EntityRepository
 
         return $routeObjects;
     }
-
 }

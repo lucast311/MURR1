@@ -3,7 +3,11 @@
 
 {% if template == false %}
     {% block stylesheets %}
-    <link href="{{ asset('css/new_route.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('css/new_route.css') }}" type="text/css" rel="stylesheet" />
+        <link href="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.css" rel="stylesheet" type="text/css" />
+    {% endblock %}
+    {% block javascripts %}
+        <script src="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.js"></script>
     {% endblock %}
 {% endif %}
 

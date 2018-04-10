@@ -29,12 +29,12 @@
     {% else %}
         {% set invalid_id_error = false %}
     {% endif %}   
-    <h2 class="ui header left attached top">Route {% if template == true %}Template{% endif %} "{{route.routeId}}"</h2>
+    <h1 class="ui header left attached top">Route{% if template == true %} Template "{% else %}: {% endif %}{{route.routeId}}{% if template == true %}"{% endif %}</h1>
 
-    <div class="ui bottom attached segment">
+    <div id="routeContents" class="ui bottom attached segment">
         {% if (( template == true ) or ( invalid_id_error == false ))%}
             <div class="column containerAdd">
-                <h1 class="ui header left attached top">Add Pickup{#{% if template == true %} Template{%else%} Route{%endif%}#}</h1>
+                <h2 class="ui header left attached top">Add Container Pickup{#{% if template == true %} Template{%else%} Route{%endif%}#}</h2>
 		        <div class="ui bottom attached segment">
 			        {{ form_start(pickupform) }}
 			        {{ form_errors(pickupform) }}
@@ -68,8 +68,9 @@
 			        {{ form_end(pickupform) }}
 		        </div>
             </div>
+			{% if route.pickups is not empty %}
 			<div class="column containerList">
-				<h2 class="ui header left attached top">Pickups in {% if template == true %}Template{% else %}Route{% endif %}</h2>
+				<h3 class="ui header left attached top">Route {% if template == true %}Template {% endif %}Pickups </h3>
 				<table class="route_pickups ui bottom attached segment celled table">
 					<thead>
 						<tr>
@@ -99,13 +100,8 @@
 					</tbody>
 				</table>
 			</div>
+			{% endif %}
         </div>
         {% endif %}
-
-        {#<div class="ui buttons">
-            <a class="ui button" href="{{ path("route_search") }}" id="cancelButton">Cancel</a>
-            <input type="submit" value="Save" class="ui green button" id="btnSave" />
-        </div>
-        { form_end(form) }#}
     </div>
 {% endblock %}

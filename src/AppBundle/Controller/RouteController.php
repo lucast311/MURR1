@@ -14,6 +14,8 @@ use AppBundle\Entity\Route as ContainerRouteTemplate;
 use AppBundle\Services\Cleaner;
 use AppBundle\Services\SearchNarrower;
 use AppBundle\Services\RecentUpdatesHelper;
+use AppBundle\Services\TemplateToRoute;
+
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -148,7 +150,7 @@ class RouteController extends Controller
                     }
                     else { //The rp is being inserted in the middle of the list
                         //Increment every route pickup that will be after the current route pickup
-                        $repo->updateOrders($routeId, $rp->getPickupOrder(), true);
+                        $repo->updateOrders($route->getId(), $rp->getPickupOrder(), true);
 
                         //Refresh all the pickups because they may have been changed
                         foreach ($pickups as $pickup)
@@ -206,19 +208,21 @@ class RouteController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $selectedTemplate = $form['template']->getNormData();
-            if($selectedTemplate instanceof ContainerRouteTemplate && $selectedTemplate->getTemplate())
-            {
-                var_dump($selectedTemplate->getId());
-            }
-            $route->setTemplate(false);
 
+            $route->setTemplate(false)
+                  ->updateModifiedDatetime();
             $em = $this->getDoctrine()->getManager();
             $em->persist($route);
             $em->flush();
 
-            //return $this->redirectToRoute('route_manage', array(
-            //    'id' => $route->getId(),
-            //    ));
+            if($selectedTemplate instanceof ContainerRouteTemplate && $selectedTemplate->getTemplate())
+            {
+                (new TemplateToRoute($em))->templateToRoute($selectedTemplate, $route);
+            }
+
+            return $this->redirectToRoute('route_manage', array(
+                'id' => $route->getId(),
+                ));
 
         }
         return $this->render('route/new.html.twig', array(
@@ -501,8 +505,6 @@ class RouteController extends Controller
                         {
                         	$em->refresh($pickup);
                         }
-
-
                     }
                     //set this pickup on the current route
                     //$rp->setRoute($route);

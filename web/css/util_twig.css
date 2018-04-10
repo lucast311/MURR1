@@ -17,8 +17,12 @@ td form {
 }
 
 .truckList, .truckAdd,
-/*.containerList,*/ .containerAdd {
+/*.containerList, .containerAdd*/ {
     margin-bottom: 1rem;
+}
+
+.containerList {
+    margin-top: 1rem;
 }
 
 .truckAdd .inline.fields,

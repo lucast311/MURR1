@@ -99,14 +99,14 @@ table.selectable tbody tr:hover {
     #headerLogoContainer {
         display: inline-block;
         vertical-align: middle;        
-        margin-bottom: -5px;
+        margin-bottom: -6px;
     }
     #headerLogoContainer::before, #headerLogoContainer::after {
         content: ' ';
         float: left;
         height: 1.5em;
         width: 1.5em;
-        margin: 0 -0.11em;
+        margin: 0 -0.1em;
         margin-top: 1em;
         vertical-align: middle;
         border: 5px solid rgb(13, 92, 171);
