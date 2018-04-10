@@ -355,7 +355,7 @@ class PropertyContactRemoveTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
-        $this->session->wait(1000);
+        $this->session->wait(2000);
 
         //find the drop down and populate
         $dropDown = $page->find("css", "#appbundle_contactToProperty_contact");
@@ -367,7 +367,7 @@ class PropertyContactRemoveTest extends WebTestCase
         $addBtn->click();
 
         //wait for results
-        $this->session->wait(1000);
+        $this->session->wait(2000);
 
         //get the page and do it again
         $page = $this->session->getPage();
@@ -382,7 +382,7 @@ class PropertyContactRemoveTest extends WebTestCase
         $addBtn->click();
 
         //wait for results
-        $this->session->wait(1000);
+        $this->session->wait(2000);
 
         $this->assertContains("This property is already associated to the selected contact", $page->find("css", "form .ui.message .item")->getHTML());
     }
@@ -435,14 +435,14 @@ class PropertyContactRemoveTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
-        $this->session->wait(1000);
+        $this->session->wait(2000);
 
 
         //find the delete button
         $deleteBtn = $page->find("css", "#deleteButton");
         $deleteBtn->click();
 
-        $this->session->wait(1000);
+        $this->session->wait(2000);
 
         $page = $this->session->getPage();
 

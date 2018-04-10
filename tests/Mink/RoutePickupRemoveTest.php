@@ -118,19 +118,23 @@ class RoutePickupRemoveTest extends WebTestCase
         $rmButton->click();
 
         //Find the form with the ID of rmf1 (remove form 1)
-        $rmForm = $page->find("css","#rmf1");
+        $rmForm = $page->find("css","#removeModalMessage");
 
-        $this->assertContains("Are you sure?", $rmForm->getHtml()); //check that the form says "Are you sure?"
+        $this->assertContains("Are you sure", $rmForm->getHtml()); //check that the form says "Are you sure?"
 
         //find the button with the ID of rmba1 (Remove button accept 1)
-        $acceptBtn = $page->find('css','#rmba1');
+        $acceptBtn = $page->find('css','#btnAccept');
         $acceptBtn->click();
 
+        $this->session->wait(2000);
         //get the list of containers
-        $list = $page->find("css","table");
+        $list = $page->find("css","#route_pickups");
 
-        //check that the list is now missing the container
-        $this->assertNotContains("X11111", $list->getHtml());
+        if(!is_null($list))
+        {
+            //check that the list is now missing the container
+            $this->assertNotContains("X11111", $list->getHtml());
+        }
     }
 
     /**

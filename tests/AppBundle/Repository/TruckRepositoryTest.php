@@ -130,7 +130,7 @@ class TruckRepositoryTest extends KernelTestCase
         $repository = $this->em->getRepository(Truck::class);
 
         //asser that filtering with the second trucks truckid returns only it
-        $fTrucks = $repository->truckFilter("00689");
+        $fTrucks = $repository->truckFilter(array("00689"));
         $this->assertEquals(sizeof($fTrucks), 1);
         $this->assertEquals($fTrucks[0], "00689");
 
