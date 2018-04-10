@@ -100,7 +100,7 @@ class TruckRepositoryTest extends KernelTestCase
         //Get the truck's database id
         $id = $this->em->persist($this->truck);
         $this->em->flush();
-        
+
         //Now remove the truck
         $this->em->remove($this->truck);
         $this->em->flush();
@@ -111,6 +111,34 @@ class TruckRepositoryTest extends KernelTestCase
         //make sure that the truck could not be found in the database now
         $this->assertNull($repository->findOneById($id));
     }
+
+
+    /* Story 40C
+     * Tests truckFilter functionality
+     */
+    public function testTruckFilter()
+    {
+        $this->em->persist($this->truck);
+        $this->em->flush();
+
+        $this->truck = (new Truck())
+            ->setTruckId("00689")
+            ->setType("second");
+        $this->em->flush();
+
+        // Get the repository for the Truck
+        $repository = $this->em->getRepository(Truck::class);
+
+        //asser that filtering with the second trucks truckid returns only it
+        $fTrucks = $repository->truckFilter("00689");
+        $this->assertEquals(sizeof($fTrucks), 1);
+        $this->assertEquals($fTrucks[0], "00689");
+
+        //assert that filtering on nothing returns everything
+        $fTrucks = $repository->truckFilter();
+        $this->assertEquals(sizeof($fTrucks), 2);
+    }
+
 
     /**
      * (@inheritDoc)

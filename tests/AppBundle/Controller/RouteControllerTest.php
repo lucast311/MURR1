@@ -71,7 +71,7 @@ class RouteControllerTest extends WebTestCase
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
         $client->followRedirects(true);
 
-        $crawler = $client->request('GET', '/route/1');
+        $crawler = $client->request('GET', '/route/manage/1');
 
         $form = $crawler->selectButton('Add')->form();
         $form["appbundle_routepickup[pickupOrder]"] = 1;
@@ -132,7 +132,7 @@ class RouteControllerTest extends WebTestCase
         //get the client
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
-        $crawler = $client->request('GET', '/route/1');
+        $crawler = $client->request('GET', '/route/manage/1');
 
         $form = $crawler->selectButton('Add')->form();
         $form["appbundle_routepickup[pickupOrder]"] = 1; //set the pickup order to be 1 instead of the other container previously inserted
@@ -173,7 +173,7 @@ class RouteControllerTest extends WebTestCase
         //get the client
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
-        $crawler = $client->request('GET', '/route/1');
+        $crawler = $client->request('GET', '/route/manage/1');
 
         $form = $crawler->selectButton('Add')->form();
         $form["appbundle_routepickup[pickupOrder]"] = 1000; //put a pickup order much farther beyond the number of bins
@@ -223,7 +223,7 @@ class RouteControllerTest extends WebTestCase
         //get the client
         $client = static::createClient(array(), array('PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW'   => 'password'));
 
-        $crawler = $client->request('GET', '/route/1');
+        $crawler = $client->request('GET', '/route/manage/1');
 
         $form = $crawler->selectButton('Add')->form();
         $form["appbundle_routepickup[pickupOrder]"] = 1;

@@ -109,7 +109,7 @@ class RoutePickupRemoveTest extends WebTestCase
 
         //Now that data exists, go to the page
         //start up a new session
-        $this->session->visit('http://localhost:8000/app_test.php/route/1');
+        $this->session->visit('http://localhost:8000/app_test.php/route/manage/1');
         // Get the page
         $page = $this->session->getPage();
 
@@ -171,7 +171,7 @@ class RoutePickupRemoveTest extends WebTestCase
 
         //Now that data exists, go to the page
         //start up a new session
-        $this->session->visit('http://localhost:8000/app_test.php/route/1');
+        $this->session->visit('http://localhost:8000/app_test.php/route/manage/1');
         // Get the page
         $page = $this->session->getPage();
 
@@ -183,18 +183,13 @@ class RoutePickupRemoveTest extends WebTestCase
         //$rmForm = $page->find("css","#rmf1");
 
         //get the span that would hold the error message
-        $errMsg = $page->find("css","#rmmsg1");
+        $errMsg = $page->find("css","#removeModalMessage");
 
-        $this->assertContains("Are you sure?", $errMsg->getHtml()); //check that the form says "Are you sure?"
+        $this->assertContains("Are you sure", $errMsg->getHtml()); //check that the form says "Are you sure?"
 
         //find the button with the ID of rmba1 (Remove button cancel 1)
-        $acceptBtn = $page->find('css','#rmbc1');
-        $acceptBtn->click();
-
-
-
-        //check that the message is gone
-        $this->assertNotContains("Are you sure?", $errMsg->getHtml());
+        $cancelBtn = $page->find('css','#btnDecline');
+        $cancelBtn->click();
 
         //get the list of containers
         $list = $page->find("css","table");

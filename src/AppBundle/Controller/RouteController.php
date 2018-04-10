@@ -538,7 +538,7 @@ class RouteController extends Controller
      * Controller action responsible for removing a pickup from a route
      * @param mixed $id The ID of the route pickup to be removed. Posted from a form.
      *
-     * @Route("/route/removecontainer/{id}", name="route_pickup_removal")
+     * @Route("/removecontainer/{id}", name="route_pickup_removal")
      */
     public function deleteRoutePickupAction($id=null){
 

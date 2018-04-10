@@ -35,8 +35,8 @@ class RouteUtilPageTest extends WebTestCase
         // Load a truck into the DB
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
 
-        $userLoader = new LoadUserData($encoder);
-        $userLoader->load($this->em);
+        //$userLoader = new LoadUserData($encoder);
+        //$userLoader->load($this->em);
 
         // Create a driver
         $this->driver = new ChromeDriver("http://localhost:9222",null, "localhost:8000");

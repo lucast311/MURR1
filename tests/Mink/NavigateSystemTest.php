@@ -401,7 +401,7 @@ class NavigateSystemTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
-        $this->session->wait(100); 
+        $this->session->wait(100);
 
         //click on the container button
         $page->find("css","#homeContainers")->click();
@@ -534,15 +534,15 @@ class NavigateSystemTest extends WebTestCase
         $page->find("css","#routesPage")->click();
 
         //check that the header is the route index page
-        $this->assertContains("Add Route", $page->find("css","h2:first-child")->getHtml());
-        $this->assertContains("/route", $this->session->getCurrentUrl());
+        $this->assertContains("Route Search", $page->getHtml());
+        $this->assertContains("/route/search", $this->session->getCurrentUrl());
     }
 
-    /**
+    /** MOVED TO MINK
      * Story 23a
      * Tests that you can browse to the route index page from the home page
      */
-    public function testBrowseRoutesHome()
+    /*public function testBrowseRoutesManage()
     {
         //start up a new session, starting at the home page
         $this->session->visit('http://localhost:8000/app_test.php');
@@ -550,12 +550,13 @@ class NavigateSystemTest extends WebTestCase
         $page = $this->session->getPage();
 
         //click on the routes button
-        $page->find("css","#homeRoutes")->click();
+        $page->find("css","#routesPage")->click();
+        $page->find("css","#routesPage")->click();
 
         //check that the header is the route index page
         $this->assertContains("Add Route", $page->find("css","#contentSeparator h2")->getHtml());
         $this->assertContains("/route", $this->session->getCurrentUrl());
-    }
+    }*/
 
     /**
      * Story 23a

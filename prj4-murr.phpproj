@@ -3413,6 +3413,7 @@
     <Content Include="web\JavaScript\DeletePrompt.js" />
     <Content Include="web\JavaScript\RemoveModal.js" />
     <Content Include="web\JavaScript\RouteManagerUtils.js" />
+    <Content Include="web\JavaScript\RouteNew.js" />
     <Content Include="web\JavaScript\Search.js" />
   </ItemGroup>
 </Project>
