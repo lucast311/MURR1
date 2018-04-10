@@ -31,6 +31,11 @@ class CommunicationRepository extends EntityRepository
         return $communication->getId(); //return the set ID
     }
 
+    public function remove(Communication $communication)
+    {
+        
+    }
+
     /**
      * Story 11c
      * A function that will take in an array of strings that will be used to

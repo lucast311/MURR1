@@ -101,12 +101,12 @@
         </table>
 
         <div class="ui buttons">
+            <a class="ui labeled icon button" href="{{ path("property_search") }}" id="backButton"><i class="reply icon"></i>Back to Search</a>
             <button class="ui blue button" onclick="window.location.href ='{{editPath}}'">Edit</button>      
 		    {% if not delete_form is empty  %}
 		    <button class="ui red button" id="deleteButton" type="button" class="ui button">Delete</button>
 		    {{form_start(delete_form, {'attr':{'id':'deleteForm'}} ) }}
 		    {{form_end(delete_form)}}  
-            <a class="ui labeled icon button" href="{{ path("property_search") }}" id="backButton"><i class="reply icon"></i>Back to Search</a>
 		    {% endif %}
         </div>
     </div>
@@ -152,8 +152,8 @@
             <table id="associatedContacts" class="contacts associations ui celled table selectable">
                 <thead>
                     <tr>
-						<th>Name</th>
-                        <th>Role</th>                        
+                        <th>Role</th> 
+                        <th>Name</th>
                         <th>Phone</th>
                         <th>Email</th>
                         <th>Organization</th>
@@ -161,9 +161,9 @@
                 </thead>
                     <tbody>
                     {% for contact in property.contacts %}
-                    <tr>
-                        <td>{{contact.lastName}}, {{contact.firstName}}</td>
-						<td>{{contact.role}}</td>                       
+                    <tr data-id="{{contact.id}}" data-entity="{{'contact'}}">
+                        <td>{{contact.role}}</td>
+                        <td>{{contact.firstName}} {{contact.lastName}}</td>
                         <td>{{contact.primaryPhone}}</td>
                         <td>{{contact.emailAddress}}</td>
                         <td>{{contact.companyName}}</td>
@@ -203,7 +203,7 @@
                         </thead>
                             <tbody>
                             {% for container in property.bins %}
-                            <tr data-id="{{container.id}}">
+                            <tr data-id="{{container.id}}" data-entity="{{'container'}}">
                                 <td>{{container.containerSerial}}</td>
                                 <td>{{container.type}}</td>
                                 <td>{{container.size}}</td>
@@ -237,10 +237,46 @@
 
             {% else %}
         
-            <table class="communications associations ui celled table selectable">
+            {#{#magic invisible div that allows us to pass information to the search script 
+            <div class="js-jsonpage" data-jsonpage="{{ path('communication_jsonsearch_empty') }}"></div>
+            <div class="js-propertyid" data-propertyid="{{ property.id }}"></div>
+
+            <div class="ui search" id="communicationSearch">
+                <input type="text" id="searchBox" class="prompt" maxlength="100" placeholder="Search..." />
+                <i class="times circle icon" id="btnClear"></i>
+                <div class="results"></div>
+            </div>
+
+            <div id="message"></div>
+            <table hidden class="ui selectable celled table" id="tblCommunications">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Direction</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: results">
+                    <tr data-bind="attr:{'data-id': id}" data-entity="{{'communication'}}">
+                        <td data-bind="text: date"></td>
+                        <td data-bind="text: type"></td>
+                        <td data-bind="text: medium"></td>
+                        <td data-bind="text: contactName"></td>
+                        <td data-bind="text: contactPhone"></td>
+                        <td data-bind="text: contactEmail"></td>
+                        <td data-bind="text: description"></td>
+                    </tr>
+                </tbody>
+            </table>#}
+
+
+            <table class="communications associations ui celled table selectable" id="tblCommunications">
                     <thead>
                         <tr>
-                            <th>CommID</th>
                             <th>Date</th>
                             <th>Type</th>
                             <th>Direction</th>
@@ -251,9 +287,8 @@
                         </tr>
                     </thead>
                         <tbody>
-                        {% for communication in property.communications %}
+                        {% for communication in property.communications | sortbyfield('dateModified', 'desc') | slice(0,10)%}
                         <tr data-id="{{communication.id}}">
-                            <td>{{communication.id}}</td>
                             <td>{{communication.date}}</td>
                             <td>{{communication.type}}</td>
                             <td>{{communication.medium}}</td>

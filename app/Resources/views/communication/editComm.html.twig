@@ -3,6 +3,8 @@
 {% block title %}Edit Commununication | M.U.R.R.{% endblock %}
 
 {# include the PropertySearchPopupSemantic  #}
+<link href="../../../../css/ContainerAddEditFormStyles.css" rel="stylesheet" />
+<script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
 <script type="text/javascript" src="{{ asset('JavaScript/PropertySearchPopupSemantic.js') }}" class="popupjs" data-path="{{ path('property_search', { 'isPopup': "true" }) }}"></script>
 <script>
     $(function ()
@@ -11,6 +13,19 @@
         $(".ui.search.dropdown").parent().after("<div class='field'><input class='ui button' id='advanced_property_search_popup' value='Advanced Search' type='button'/></div>");
         initialize(propertySelect);
     });
+</script>
+<script>
+	$(function () {
+		
+		addModal();
+
+		$('.removeButton').click(function () {
+			//gets the form for the remove button to submit
+            deleteForm = $("#appbundle_removeCommunication");
+
+            showModal(deleteForm.data('message'), deleteForm);
+		});
+	});
 </script>
 {% endblock %}
 {% block body %}
@@ -25,15 +40,15 @@
                     {{ form_start(form, {'action' : '#' }) }}
                     {{ form_widget(form) }}
 			
-		            <div class="field">
+		            {#<div class="field">#}
                         <div class="ui buttons">
-				            <a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button" id="cancelButton">Cancel</a>
-				            <button type="submit" id="communication_add" name="communication[add]" class="ui green button">Save</button>
+				            <a href="{{ path('communication_view', { 'comId': communicationId }) }}" class="ui button" id="btnSearch cancelButton">Cancel</a>
+                            <button type="button" class="ui google plus button removeButton" id="btnDelete">Delete</button>
+				            <input type="submit" id="btnSave" value="Save" name="communication[add]" class="ui green button"/>
 			            </div>
-                    </div>
+                        <input type="hidden" name="communication" value="{{communication.id}}"/>
                     {{ form_end(form) }}
-
-
+                    <form name="appbundle_removeCommunication" id="appbundle_removeCommunication" method="post" action="{{path('communication_delete', {'id': communication.id })}}" data-message="Are you sure you want to remove Communication {{communication}}?"></form>
             {% endif %}
         </div>
     </div>

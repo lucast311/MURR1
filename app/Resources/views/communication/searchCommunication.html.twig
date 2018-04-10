@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Communication Search | M.U.R.R.{% endblock %}
+
+{% block javascripts %}
+{# include Knockout to make the search script works #}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    
+{# include the search javasript #}
+<script type="text/javascript" src="{{ asset('JavaScript/Search.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+{# magic invisible div that allows us to pass information to the search script #}
+<div class="js-jsonpage" data-jsonpage="{{ path('communication_jsonsearch_empty') }}"></div>
+<div class="js-isPopup" data-ispopup="{{isPopup}}"></div>
+<h2>Communication Search <a href="{{ path('new_communication') }}" class="ui icon button green" id="newCommunication"><i class="plus icon"></i></a></h2>
+
+<div class="ui search" id="communicationSearch">
+    <input type="text" id="searchBox" class="prompt" maxlength="100" placeholder="Search..." />
+    <i class="times circle icon" id="btnClear"></i>
+    <div class="results"></div>
+</div>
+
+<div id="message"></div>
+<table hidden class="ui selectable celled table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Direction</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: results">
+        <tr data-bind="attr:{'data-id': id}">
+            <td data-bind="text: date"></td>
+            <td data-bind="text: type"></td>
+            <td data-bind="text: medium"></td>
+            <td data-bind="text: contactName"></td>
+            <td data-bind="text: contactPhone"></td>
+            <td data-bind="text: contactEmail"></td>
+            <td data-bind="text: description"></td>
+            {#{%if isPopup%}
+            <td><a href="#" class="popupSelectButton" data-bind="attr: {'data-id': id}">Select</a></td>
+            {% else %}
+            <td><a data-bind="attr: {href: '{{ viewURL }}' + id}">View</a></td>
+            {% endif %}#}
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

@@ -2,6 +2,23 @@
 
 {% block title %}View Commununication | M.U.R.R.{% endblock %}
 
+{% block javascripts %}
+<script src="{{ asset("JavaScript/RemoveModal.js") }}"></script>
+<script>
+	$(function () {
+		addModal();
+
+		$('.removeButton').click(function () {
+			var parent = $($(this).parent().get(0));
+
+			console.log(parent);
+
+			showModal(parent.data('message'), parent);
+		});
+	});
+</script>
+{% endblock %}
+
 {% block body %}
 <div class="column contentSection">
     <h2 class="ui header left attached top">View Communication</h2>
@@ -54,9 +71,17 @@
             </tr>
         </table>
 
+        
+
         <div class="ui buttons">
 		    <a class="ui labeled icon button" href="{{ path("communication_search") }}" id="backButton"><i class="reply icon"></i>Back to Search</a>
 		    <a href="{{ path('communication_edit', { 'commId': comm.id }) }}" class="ui blue button">Edit</a>
+
+            <form name="appbundle_removeCommunication" method="post" action="{{path('communication_delete', {'id': comm.id})}}" data-message="Are you sure you want to remove Communication {{comm}}?">
+		        <input type="hidden" name="communication" value="{{comm.id}}"/>
+		        <button type="button" class="ui google plus button removeButton" id="btnDelete">Delete</button>
+	        </form>
+
         </div>
         {% endif %}
     </div>

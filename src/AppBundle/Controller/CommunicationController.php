@@ -31,14 +31,30 @@ use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 class CommunicationController extends Controller
 {
     /**
-     * Stub method for communication search action
+     * story10a
+     * Front end for searching for a communication.
      *
      * @Route("/communication/search", name="communication_search")
      * @Method("GET")
      */
-    public function searchAction()
+    public function searchAction(Request $request)
     {
-        return $this->render('communication/searchComm.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+        // get the RecentUpdates service to query for the 10 most recently updated communications
+        $recentUpdates = new RecentUpdatesHelper();
+
+        // the service takes in an EntityManager, and the name of the Entity
+        $tenRecent = $recentUpdates->tenMostRecent($em, 'AppBundle:Communication');
+
+        // Get if it is in a search to view or if it is a search to insert
+        $isPopup = ($request->query->get("isPopup")) == "true" ? true : false;
+        // Render the twig with required data
+        return $this->render('communication/searchCommunication.html.twig', array(
+            'viewURL' => '/communication/',
+            'isPopup' => $isPopup,
+            'defaultTen' => $tenRecent
+        ));
     }
 
     /**
@@ -116,6 +132,8 @@ class CommunicationController extends Controller
         //get the repository for communications
         $repo = $em->getRepository(Communication::class);
 
+        $communication = $repo->findOneById($commId);
+
         // Get the specific Communication
         $comm = $repo->findOneById($commId);
 
@@ -139,21 +157,38 @@ class CommunicationController extends Controller
         if($form->isSubmitted() && $form->isValid())
         {
             //get the data from the form
-            $communication = $form->getData();
+            $communicationData = $form->getData();
 
             //insert into the database
-            $repo->insert($communication);
+            $repo->insert($communicationData);
 
             //redirect to the view page
-            return $this->redirectToRoute("communication_view",array("comId" => $communication->getId()));
+            return $this->redirectToRoute("communication_view",array("comId" => $communicationData->getId()));
         }
 
         return $this->render('communication/editComm.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
             'form' => $form->createView(),
             'errorType'=>$errorType,
-            'communicationId'=>$communicationId]);
+            'communicationId'=>$communicationId,
+            'communication'=>$communication]);
     }
+
+    /**
+     * Deletes a Communication entity.
+     *
+     * @Route("/delete/{id}", name="communication_delete")
+     * @Method("POST")
+     */
+    public function deleteAction(Communication $communication)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($communication);
+        $em->flush();
+
+        return $this->redirectToRoute('communication_search');
+    }
+
 
     /**
      * Story 11b

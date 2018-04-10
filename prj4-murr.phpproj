@@ -176,6 +176,8 @@
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
     <Compile Include="tests\Mink\AssociatingPropertiesToContactTest.php" />
+    <Compile Include="tests\Mink\ContainerEditTest.php" />
+    <Compile Include="tests\Mink\CommunicationSearchTest.php" />
     <Compile Include="tests\Mink\NavigateSystemTest.php" />
     <Compile Include="tests\Mink\PropertyCommunicationAddTest.php" />
     <Compile Include="tests\Mink\ContainerSearchTest.php" />
@@ -3350,6 +3352,7 @@
     <Content Include="app\Resources\views\collectionhistory\new.html.twig" />
     <Content Include="app\Resources\views\collectionhistory\show.html.twig" />
     <Content Include="app\Resources\views\communication\editComm.html.twig" />
+    <Content Include="app\Resources\views\communication\searchCommunication.html.twig" />
     <Content Include="app\Resources\views\container\edit.html.twig" />
     <Content Include="app\Resources\views\container\index.html.twig" />
     <Content Include="app\Resources\views\container\new.html.twig" />

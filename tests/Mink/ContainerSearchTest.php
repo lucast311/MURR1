@@ -197,7 +197,7 @@ class ContainerSearchTest extends WebTestCase
         $page->find('css', ".result .content .title")->click();
         $this->assertEquals($page->find('named', array('id', "searchBox"))->getValue(), "Active");
 
-        $this->session->wait(500);
+        $this->session->wait(5000);
 
         // Assert the complete went away
         $this->assertFalse($page->find('css', "div.results.transition")->isVisible());

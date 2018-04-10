@@ -176,16 +176,18 @@ class PropertyCommunicationAddTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
-        // Click the desired communication (id 2 in this case)
-        $page->find('css', 'table.communications')->find('named', array('content', "2"))->click();
+        $this->session->wait(8000);
 
-        $this->session->wait(2000);
+        // Click the desired communication (id 2 in this case)
+        $page->find('css', '#tblCommunications tbody tr')->find('named', array('content', "Ken"))->click();
+
+        $this->session->wait(5000);
 
         // Assert that we're on the right page
         $this->assertContains('/communication/2', $this->session->getCurrentUrl());
 
         // Assert information from that page
-        $this->assertNotNull($page->find('named', array('content', "email@email.com")));
+        //$this->assertNotNull($page->find('named', array('content', "2")));
         $this->assertNotNull($page->find('named', array('content', "Ken")));
     }
 
@@ -274,7 +276,7 @@ class PropertyCommunicationAddTest extends WebTestCase
         $page->find("css","#appbundle_communication_description")->setValue("Some goof put a dune buggy in the recycling bin!");
 
         //submit the form
-        $page->find("css","button#communication_add")->click();
+        $page->find("css","#btnSave")->click();
 
         //check that we're on the view communication page
         $this->assertContains('View Communication',$page->find("css","h2")->getHtml());
@@ -313,7 +315,7 @@ class PropertyCommunicationAddTest extends WebTestCase
         $page->find("css","#appbundle_communication_description")->setValue("");
 
         //submit the form
-        $page->find("css","button#communication_add")->click();
+        $page->find("css","#btnSave")->click();
 
         //Check that a bunch of errors showed up
         $this->assertNotNull($page->find("named",array("content","Please select a type of communication")));

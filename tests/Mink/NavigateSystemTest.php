@@ -199,14 +199,14 @@ class NavigateSystemTest extends WebTestCase
         $page->find("css","#communicationsPage")->click();
 
         //check that the header is the communication search page
-        $this->assertContains("Communication Search", $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("Communication Search", $page->find("css","#contentSeparator h2")->getHtml());
         $this->assertContains("/communication/search", $this->session->getCurrentUrl());
 
         //Click on the add communication button
         $page->find("css","#newCommunication")->click();
 
         //check that the header is there and we're on the new communication page
-        $this->assertContains("Add Communication" , $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("Add Communication" , $page->find("css","#contentSeparator h2")->getHtml());
         $this->assertContains("/communication/new", $this->session->getCurrentUrl());
 
 
@@ -220,7 +220,7 @@ class NavigateSystemTest extends WebTestCase
         $page->find("css","#cancelButton")->click();
 
         //check that we're back on the search page
-        $this->assertContains("Communication Search", $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("Communication Search", $page->find("css","#contentSeparator h2")->getHtml());
         $this->assertContains("/communication/search", $this->session->getCurrentUrl());
     }
 
@@ -239,7 +239,7 @@ class NavigateSystemTest extends WebTestCase
         $page->find("css","#homeCommunications")->click();
 
         //check that the header is the communication search page
-        $this->assertContains("Communication Search", $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("Communication Search", $page->find("css","#contentSeparator h2")->getHtml());
         $this->assertContains("/communication/search", $this->session->getCurrentUrl());
     }
 
@@ -263,7 +263,7 @@ class NavigateSystemTest extends WebTestCase
         $page->find("css","#backButton")->click();
 
         //check that we're back on the search page
-        $this->assertContains("Communication Search", $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("Communication Search", $page->find("css","#contentSeparator h2")->getHtml());
         $this->assertContains("/communication/search", $this->session->getCurrentUrl());
     }
 
@@ -289,7 +289,7 @@ class NavigateSystemTest extends WebTestCase
         $page->find("css","#newContact")->click();
 
         //check that the header is there and we're on the new contact page
-        $this->assertContains("Add Contact" , $page->find("css","h2:first-child")->getHtml());
+        $this->assertContains("Add Contact" , $page->find("css","#contentSeparator h2")->getHtml());
         $this->assertContains("/contact/new", $this->session->getCurrentUrl());
 
 
