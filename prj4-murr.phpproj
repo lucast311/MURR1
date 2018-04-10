@@ -7,7 +7,6 @@
     </RootNamespace>
     <OutputType>Library</OutputType>
     <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
-    <ProjectHome />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <IncludeDebugInformation>true</IncludeDebugInformation>
@@ -32,12 +31,16 @@
     <Compile Include="app\Resources\images\OOPs NOTICE Valid1.png" />
     <Compile Include="app\Resources\images\OOPs NOTICE Valid2.jpg" />
     <Compile Include="app\Resources\views\communication\newComm.html.twig" />
+    <Compile Include="app\Resources\views\Contact\addContact.html.twig" />
     <Compile Include="app\Resources\views\Contact\edit.html.twig" />
+    <Compile Include="app\Resources\views\Contact\EditContact.html.twig" />
+    <Compile Include="app\Resources\views\Contact\EditContact.html.twig~HEAD" />
     <Compile Include="app\Resources\views\Contact\index.html.twig" />
     <Compile Include="app\Resources\views\Contact\listContacts.html.twig" />
     <Compile Include="app\Resources\views\Contact\new.html.twig" />
     <Compile Include="app\Resources\views\Contact\show.html.twig" />
     <Compile Include="app\Resources\views\Contact\updateTEST.html.twig" />
+    <Compile Include="app\Resources\views\Contact\viewContact.html.twig" />
     <Compile Include="app\Resources\views\contactsearch\contactJSONSearches.html.twig" />
     <Compile Include="app\Resources\views\contactsearch\show.html.twig" />
     <Compile Include="app\Resources\views\default\EduMatForm.html.twig" />
@@ -173,7 +176,6 @@
     <Compile Include="tests\AppBundle\Services\CleanerTest.php" />
     <Compile Include="tests\AppBundle\Services\SearchNarrowerTest.php" />
     <Compile Include="tests\Mink\AssociatingPropertiesToContactTest.php" />
-    <Compile Include="tests\Mink\ContainerEditTest.php" />
     <Compile Include="tests\Mink\NavigateSystemTest.php" />
     <Compile Include="tests\Mink\PropertyCommunicationAddTest.php" />
     <Compile Include="tests\Mink\ContainerSearchTest.php" />
@@ -2020,6 +2022,7 @@
     <Compile Include="composer.json" />
     <Compile Include="composer.lock" />
     <Compile Include="composer.phar" />
+    <Compile Include="genContactsAndAddresses.bat" />
     <Compile Include="phpunit.xml.dist" />
     <Compile Include="README.md" />
     <Compile Include="runSymfonyWebserver.bat" />
@@ -3335,14 +3338,12 @@
     <Folder Include="var" />
     <Folder Include="web\bundles" />
     <Folder Include="web" />
-    <Folder Include="web\bundles\harmonyui\" />
     <Folder Include="web\img\" />
     <Folder Include="web\JavaScript\" />
     <Folder Include="web\css\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\Resources\TwigBundle\views\Exception\error403.html.twig" />
-    <Content Include="app\Resources\views\communication\searchComm.html.twig" />
     <Content Include="app\Resources\views\empty.html.twig" />
     <Content Include="app\Resources\views\collectionhistory\edit.html.twig" />
     <Content Include="app\Resources\views\collectionhistory\index.html.twig" />
@@ -3359,11 +3360,8 @@
     <Content Include="app\Resources\views\property\searchProperty.html.twig" />
     <Content Include="app\Resources\views\Contact\searchContact.html.twig" />
     <Content Include="app\Resources\views\communication\viewComm.html.twig" />
-    <Content Include="app\Resources\views\route\addRoute.html.twig" />
     <Content Include="app\Resources\views\route\deletePickup.html.twig" />
     <Content Include="app\Resources\views\route\manageRoute.html.twig" />
-    <Content Include="app\Resources\views\route\manageRouteDeluxe.html.twig" />
-    <Content Include="app\Resources\views\route\new.html.twig" />
     <Content Include="app\Resources\views\route\newOptions.html.twig" />
     <Content Include="app\Resources\views\route\search.html.twig" />
     <Content Include="app\Resources\views\security\login.html.twig" />
@@ -3375,11 +3373,12 @@
     <Content Include="app\Resources\views\truck\util.html.twig" />
     <Content Include="app\sqlite.db" />
     <Content Include="app\sqlite_test.db" />
-    <Content Include="DBScripts\1__dropDB_MySQL.bat" />
-    <Content Include="DBScripts\2__createDB_MySQL.bat" />
-    <Content Include="DBScripts\3__makeSchema_MySQL.bat" />
-    <Content Include="DBScripts\4a_updateSchema_MySQL.bat" />
-    <Content Include="DBScripts\4b_loadFixtures_MySQL.bat" />
+    <Content Include="DBScripts\createDB_MySQL.bat" />
+    <Content Include="DBScripts\loadFixtures_MySQL.bat" />
+    <Content Include="DBScripts\makeSchema_MySQL.bat" />
+    <Content Include="DBScripts\updateSchema_MySQL.bat" />
+    <Content Include="PHPUnit%28dDrive%29_to_dphpUnit.txt.ps1" />
+    <Content Include="PHPUnit%28iDrive%29_to_dphpUnit.txt.ps1" />
     <Content Include="runTests.bat" />
     <Content Include="TestPlaylists\Address_All.playlist" />
     <Content Include="TestPlaylists\Collection_All.playlist" />
@@ -3396,18 +3395,14 @@
     <Content Include="TestPlaylists\Security_Controller.playlist" />
     <Content Include="TestPlaylists\Truck_All.playlist" />
     <Content Include="web.config" />
-    <Content Include="web\bundles\harmonyui\harmony-ui.css" />
-    <Content Include="web\cosmo.ico" />
+    <Content Include="phpunit.xml.dist.tmppica" />
     <Content Include="web\css\base_twig.css" />
-    <Content Include="web\css\ContainerAddEditFormStyles.css" />
-    <Content Include="web\css\new_route.css" />
     <Content Include="web\css\new_route_options.css" />
     <Content Include="web\css\route_and_template_search.css" />
     <Content Include="web\css\util_twig.css" />
     <Content Include="web\css\view_property.css" />
     <Content Include="web\img\cosmoindustries_icon.png" />
     <Content Include="web\JavaScript\base_twig.js" />
-    <Content Include="web\JavaScript\ContactSearchPopupSemantic.js" />
     <Content Include="web\JavaScript\Filter.js" />
     <Content Include="web\JavaScript\DeleteModal.js" />
     <Content Include="web\JavaScript\BurnUtils.js" />

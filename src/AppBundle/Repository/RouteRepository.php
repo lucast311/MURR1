@@ -35,14 +35,20 @@ class RouteRepository extends \Doctrine\ORM\EntityRepository
      * @param mixed $queryStrings an array of strings to query the database on
      * @return array of searched entites returned from the queries
      */
-    public function routeFilter($filters=null)
+    public function routeFilter($filters = null, $template = null)
     {
         $routes = array();
 
         if(is_null($filters))
         {
-            $routes = $this->getEntityManager()
-                ->getRepository(Route::class)->findAll();
+            if(is_null($template))
+            {
+                $routes = $this->getEntityManager()
+                    ->getRepository(Route::class)->findAll();
+            }else{
+                $routes = $this->getEntityManager()
+                    ->getRepository(Route::class)->findBy(array('template'=>$template));
+            }
         }
         else
         {
@@ -52,9 +58,14 @@ class RouteRepository extends \Doctrine\ORM\EntityRepository
                 $filters = $filters['filter_list'];
             }
 
+            if(!is_null($template))
+            {
+                $filters[] = array('template'=>$template);
+            }
+
             $routes = $this->getEntityManager()
                             ->getRepository(Route::class)
-                             ->routeSearch($filters, array("id"), "routeId");
+                            ->routeSearch($filters, array("id"), "routeId");
         }
 
         return $routes;

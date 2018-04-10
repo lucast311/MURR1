@@ -7,24 +7,74 @@
         <link href="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.css" rel="stylesheet" type="text/css" />
     {% endblock %}
     {% block javascripts %}
+        {# include Knockout to make the search script works #}
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
         <script src="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.js"></script>
+        <script type="text/javascript" src="{{ asset('JavaScript/RouteNew.js') }}"></script>
     {% endblock %}
 {% endif %}
 
 {% block title %}Add Route{% if template == true %} Template{% endif %} | M.U.R.R.{% endblock %}
 
 {% block body %}
+<div class="js-jsonpage" data-jsonpage="{{ path('routepickups_json') }}"></div>
+
 <div class="ui text container">
     <h2 class="ui header left attached top">Add Route{% if template == true %} Template{% endif %}</h2>
 
     <div class="ui bottom attached segment">
         {{ form_start(form) }}
-            {{ form_widget(form) }}
-             
+        {{ form_errors(form) }}
+            {#{ form_widget(form) }#}
+        <div class="required field">
+            {{form_errors(form.routeId)}}
+            {{form_label(form.routeId)}}      
+            {{form_widget(form.routeId)}}
+        </div >
+        {%if template == false%}
+        <div class="field">
+            {{form_errors(form.startDate)}}
+            {{form_label(form.startDate)}}
+            {{form_widget(form.startDate)}}
+        </div>
+        <div class="field">            
+            {{form_errors(form.template)}}
+            {{form_label(form.template)}}
+            {{form_widget(form.template)}}
+        </div>
+        <div class="column templatePickups">
+		    <h4 class="ui header left attached top">Template Pickups</h4>
+
+			<table id="tPickupList" class="pickups ui bottom attached celled table">
+				<thead>
+					<tr>
+						<th style="width: 4vw;">Pickup Order</th>
+						<th style="width: 6vw;">Container Serial</th>
+                        <th style="width: 6vw;">Property</th>
+					</tr>
+				</thead>
+				<tbody id="tPickupListBody" data-bind="foreach: results">
+					<tr>
+						<td class="pickupOrder" data-bind="text:pickupOrder">{#{ formtruck.truckId }#}</td>
+						<td class="containerSerial" data-bind="text:container.containerSerial">{#{ formtruck.type }#}</td>
+                        <td class="property" data-bind="text:container.propertyToString">{#{ formtruck.type }#}</td>
+					</tr>
+				</tbody>
+				<tbody id="listInfo" class="ui segment">
+					<tr>
+						<td id="listInfoContent" class="ui active" colspan="3" style="text-align: center"></td>
+					</tr>
+				</tbody>
+			</table>
+
+	    </div>
+        {%endif%}
+
         <div class="ui buttons">
             <a class="ui button" href="{{ path("route_search") }}" id="cancelButton">Cancel</a>
             <input type="submit" value="Add" class="ui green button" id="btnCreate" />
         </div>
+        
         {{ form_end(form) }}
     </div>
 </div>

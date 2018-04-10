@@ -201,7 +201,7 @@ class RouteController extends Controller
         $routeRepo = $em->getRepository(ContainerRoute::class);
         $route = (new ContainerRoute());
 
-        $form = $this->createForm('AppBundle\Form\RouteType', $route);
+        $form = $this->createForm('AppBundle\Form\RouteType', $route,array('em'=>$em));
         $form->get('template')->setData((new ContainerRouteTemplate())->setRouteId('...'));
 
         $form->handleRequest($request);
@@ -574,6 +574,61 @@ class RouteController extends Controller
             return $this->render('route/deletePickup.html.twig');
         }
     }
+
+
+    /**
+     * STORY40C
+     * @Route("/jsonpickups/{rID}", name="routepickups_json")
+     * @Method("GET")
+     */
+    public function jsonFilterAction($rID = "")
+    {
+        // Clean the input
+        $rID = htmlentities($rID);
+        /*
+
+
+        // if the string to query onn is less than or equal to 100 characters
+        if(strlen($searchQuery) <= 100)// && strlen($searchQuery) > 0)
+        {
+            // create a cleaner to cleanse the search query
+            $cleaner = new Cleaner();
+
+            // cleanse the query
+            $cleanQuery = $cleaner->cleanSearchQuery($searchQuery);
+
+            // get an entity manager
+            $em = $this->getDoctrine()->getManager();
+
+            // Use the repository to query for the records we want.
+            // Store those records into an array.
+            $truckSearches = $em->getRepository(Truck::class)->truckFilter($cleanQuery);
+
+            // create a SearchNarrower to narrow down our searches
+            $searchNarrower = new SearchNarrower();
+
+            // narrow down our searches, and store their values along side their field values
+            $searchedData = $searchNarrower->narrower($truckSearches, $cleanQuery, new Truck());
+            */
+            $encoder = new JsonEncoder();
+            $normalizer = new ObjectNormalizer();
+            $normalizer->setIgnoredAttributes(array("route", "property", "dateModified","__initializer__", "__cloner__", "__isInitialized__")); //idk why i need these ones, but I do..
+            //$normalizer->
+            $serializer = new Serializer(array($normalizer), array($encoder));
+
+            // Return the results as a json object
+            // NOTE: Serializer service needs to be enabled for this to work properly
+            $results = JsonResponse::fromJsonString($serializer->serialize($this->getDoctrine()->getManager()->getRepository(ContainerRouteTemplate::class)->find((int)$rID)->getPickups(), 'json'));/*
+        }
+        else
+        {
+            $results = $this->json(array());
+        }
+
+        // string over 100, return empty array.*/
+        return $results;
+    }
+
 
     /**
      * Story S40C
