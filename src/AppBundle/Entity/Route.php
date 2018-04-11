@@ -24,26 +24,31 @@ class Route
     private $id;
 
 
-    //A: Maybe change this to routeName for code readability
-    //S40C: changed int -> String for storing template names
+    //S40C: changed int -> String for storing template names + added group validators
     /**
      * @var string
      *
-     * @ORM\Column(name="routeId", type="string", length=15, unique=true)
+     * @ORM\Column(name="routeId", type="string", length=20, unique=true)
+     *
+     * @Assert\Length(min=1,max=6,
+     *          minMessage = "Route ID must be atleast {{ limit }} digits long",
+     *          maxMessage = "Route ID can not be more than {{ limit }} digits long",
+     *          groups={"route"})
      * @Assert\Length(min=1,max=20,
-     *  minMessage = "Route ID must be atleast {{ limit }} digits long",
-     *  maxMessage = "Route ID can not be more than {{ limit }} digits long")
+     *          minMessage = "Template name must be atleast {{ limit }} characters long",
+     *          maxMessage = "Template name can not be more than {{ limit }} characters long",
+     *          groups={"template"})
      *
-     * @Assert\NotNull(message="Please specify a Route ID")
+     * @Assert\NotNull(message="Please specify a Route ID",
+     *          groups={"route"})
+     * @Assert\NotNull(message="Please specify a Template name",
+     *          groups={"template"})
      *
-     * //Used to store "routeID" int string or, if template, route template name
-     * //A?: is there a way to have a dynamic length validation? ie: 6 for routeid, 15 for template name
-     * //A?: '' dynamic regex
-     * //Assert\Regex(
-     * // pattern="/^[0-9]*$/",
-     * // htmlPattern=".*",
-     * // message="The Route ID must contain 1 to 6 digits, no letters")
-     * //A?: '' dynamic messages
+     * @Assert\Regex(
+     *          pattern="/^[0-9]*$/",
+     *          htmlPattern=".*",
+     *          message="The Route ID must contain 1 to 6 digits, no letters",
+     *          groups={"route"})
      */
     private $routeId;
 

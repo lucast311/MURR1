@@ -124,15 +124,16 @@ class TruckRepositoryTest extends KernelTestCase
         $this->truck = (new Truck())
             ->setTruckId("00689")
             ->setType("second");
+        $this->em->persist($this->truck);
         $this->em->flush();
 
         // Get the repository for the Truck
         $repository = $this->em->getRepository(Truck::class);
 
         //asser that filtering with the second trucks truckid returns only it
-        $fTrucks = $repository->truckFilter(array("00689"));
+        $fTrucks = $repository->truckFilter(array("truckId"=>"00689"));
         $this->assertEquals(sizeof($fTrucks), 1);
-        $this->assertEquals($fTrucks[0], "00689");
+        $this->assertEquals($fTrucks[0]->getTruckId(), "00689");
 
         //assert that filtering on nothing returns everything
         $fTrucks = $repository->truckFilter();

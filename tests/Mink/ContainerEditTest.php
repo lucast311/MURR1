@@ -22,9 +22,7 @@ class ContainerEditConfirmationTest extends WebTestCase
     {
         self::bootKernel();
         DatabasePrimer::prime(self::$kernel);
-
-
-
+        
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
 
         $userLoader = new LoadUserData($encoder);

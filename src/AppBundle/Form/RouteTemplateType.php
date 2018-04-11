@@ -30,7 +30,8 @@ class RouteTemplateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Route'
+            'data_class' => 'AppBundle\Entity\Route',
+            'validation_groups' => array('Default', 'template')
         ));
     }
 

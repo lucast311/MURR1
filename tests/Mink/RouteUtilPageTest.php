@@ -22,6 +22,11 @@ class RouteUtilPageTest extends WebTestCase
     {
         self::bootKernel();
         DatabasePrimer::prime(self::$kernel);
+
+        $encoder = static::$kernel->getContainer()->get('security.password_encoder');
+
+        $userLoader = new LoadUserData($encoder);
+        $userLoader->load(DatabasePrimer::$entityManager);
     }
 
     protected function setUp()
@@ -61,8 +66,8 @@ class RouteUtilPageTest extends WebTestCase
 
 
         // Load in trucks from our truck fixture
-        $truckLoader = new LoadTruckData();
-        $truckLoader->load($this->em);
+        //$truckLoader = new LoadTruckData();
+       // $truckLoader->load($this->em);
     }
 
 

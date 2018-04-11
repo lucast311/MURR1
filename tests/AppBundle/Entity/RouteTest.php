@@ -21,7 +21,7 @@ class RouteTest extends KernelTestCase
         self::bootKernel();
 
         $this->route = new Route();
-        $this->route->setRouteId(1001);
+        $this->route->setRouteId("1001");
 
         //$this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
         // Gotta do some weird stuff because doing a validation on the class for unique
@@ -46,14 +46,14 @@ class RouteTest extends KernelTestCase
      */
     public function testRouteIdNegative(){
         //make the route invalid
-        $this->route->setRouteId(-1000);
+        $this->route->setRouteId("-1000");
 
         // Validate the route
-        $error = $this->validator->validate($this->route);
+        $error = $this->validator->validate($this->route, null, array('route'));
 
         // Assert sure their are 1 errors
         $this->assertEquals(1, count($error));
-        $this->assertEquals('Route ID must be a value greater than 0',$error[0]->getMessage());
+        $this->assertEquals('The Route ID must contain 1 to 6 digits, no letters',$error[0]->getMessage());
     }
 
     /**
@@ -65,7 +65,7 @@ class RouteTest extends KernelTestCase
         $this->route->setRouteId(null);
 
         // Validate the route
-        $error = $this->validator->validate($this->route);
+        $error = $this->validator->validate($this->route, null, array('route'));
 
         // Assert sure their are 1 errors
         $this->assertEquals(1, count($error));

@@ -77,7 +77,8 @@ class RouteType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Route',
-            'em'=>null
+            'em'=>null,
+            'validation_groups' => array('Default', 'route')
         ));
     }
 
