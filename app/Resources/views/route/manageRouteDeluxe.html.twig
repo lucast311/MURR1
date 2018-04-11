@@ -42,9 +42,13 @@
             Route{% if template == true %} Template "{% else %}: {% endif %}{{route.routeId}}{% if template == true %}"{% endif %}
         </h1>
         <h1 class="ui right floated header">
-            <div class="sub header">Start Date:</div>
-            <div class="sub header">End Date:</div>
-        </h1>
+        {% if template == true %}
+            <div class="sub header">Last Modified:</div>
+        {% else %}
+            <div class="sub header">Start Date:{% if route.startDate is not empty %} {{ route.startDate|date('M d, Y') }}{% else %} Not Started{% endif %}</div>
+            <div class="sub header">End Date:{% if route.endDate is not empty %} {{ route.endDate|date('M d, Y') }}{% else %} Not Completed{% endif %}</div>
+        {% endif %} 
+        </h1>        
     </div>
 
     <div id="routeContents" class="ui bottom attached segment">

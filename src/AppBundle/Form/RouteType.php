@@ -36,7 +36,7 @@ class RouteType extends AbstractType
                 ->add('startDate', DateType::class, array(//'data_class'=> DateTime::createFromFormat(),
                                                           'required' => false,
                                                           'widget' => 'single_text',
-                                                          'format' => 'M ',
+                                                         // 'format' => 'M ',
                                                           'block_name'=>'startDate',
                                                           'label' => 'Start Date:',
                                                           'attr' => array('class'=>'datefield','placeholder'=>'Date')

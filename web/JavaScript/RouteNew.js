@@ -76,6 +76,22 @@ $(document).ready(function ()
     $("#listInfo").addClass("hidden");
     $("#listInfo").hide();
 
+    $("#appbundle_route_startDate").parent().calendar({
+        type: 'date', formatter: {
+            date: function (date, settings) {
+                var d = new Date(date),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
+
+                if (month.length < 2) month = '0' + month;
+                if (day.length < 2) day = '0' + day;
+
+                return [year, month, day].join('-');
+            }
+        }
+    });
+
     $(".search.template.dropdown .menu .item").click(function () {
         templateId   = $(this).attr('data-value');
         templateName = $(this).text();

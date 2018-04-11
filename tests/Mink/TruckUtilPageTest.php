@@ -226,6 +226,41 @@ class TruckUtilPageTest extends WebTestCase
         $this->assertFalse( strpos($page->getText(), $firstTruckValue) > 0 );
     }
 
+    /**
+        40C Tests that the filter search works as intended
+     */
+    public function testMoreFilterFunctionality()
+    {
+        // Navigate to the Truck List page
+        $this->session->visit('http://localhost:8000/app_test.php/truck');
+        // Get the page
+        $page = $this->session->getPage();
+
+        // Grab the value of the first truck id
+        $initNumTrucks = count($page->findAll('css', '.truckId'));
+        $firstTruckId = $page->findAll('css', '.truckId')[0]->getText();
+
+        $filter = ($page->findAll('css', '.prompt')[0]);
+        $filter->setValue("Sma");
+        $filter->keyPress("s");
+
+        $this->session->wait(5000);
+
+        //assert the list was updated with filtered values
+        $this->assertTrue($page->findAll('css', '.truckId')[0]->getText() != $firstTruckId);
+        $this->assertTrue($page->findAll('css', '.truckType')[0]->getText() == "Small");
+        $this->assertTrue($initNumTrucks>count($page->findAll('css', '.truckId')));
+
+        $filter->setValue("");
+        $filter->keyPress("s");
+
+        //assert the results go back to normal
+        $this->assertTrue($page->findAll('css', '.truckId')[0]->getText() == $firstTruckId);
+        $this->assertTrue($page->findAll('css', '.truckType')[0]->getText() == "Large");
+        $this->assertTrue($initNumTrucks==count($page->findAll('css', '.truckId')));
+    }
+
+
      /**
      * (@inheritDoc)
      */
