@@ -338,13 +338,13 @@ class RouteUtilPageTest extends WebTestCase
         $this->session->stop();
 
         //Now wipe the database
-        $stmt = $em->getConnection()->prepare('DELETE FROM Route');
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Route');
         $stmt->execute();
-        $stmt = $em->getConnection()->prepare('DELETE FROM Container');
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM Container');
         $stmt->execute();
-        $stmt = $em->getConnection()->prepare('DELETE FROM RoutePickup');
+        $stmt =$this->em->getConnection()->prepare('DELETE FROM RoutePickup');
         $stmt->execute();
-        $stmt = $em->getConnection()->prepare('DELETE FROM User');
+        $stmt = $this->em->getConnection()->prepare('DELETE FROM User');
         $stmt->execute();
     }
 
