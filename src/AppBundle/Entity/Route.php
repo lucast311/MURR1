@@ -29,7 +29,6 @@ class Route
      * @var string
      *
      * @ORM\Column(name="routeId", type="string", length=20, unique=true)
-     *
      * @Assert\Length(min=1,max=6,
      *          minMessage = "Route ID must be atleast {{ limit }} digits long",
      *          maxMessage = "Route ID can not be more than {{ limit }} digits long",
@@ -38,12 +37,10 @@ class Route
      *          minMessage = "Template name must be atleast {{ limit }} characters long",
      *          maxMessage = "Template name can not be more than {{ limit }} characters long",
      *          groups={"template"})
-     *
      * @Assert\NotNull(message="Please specify a Route ID",
      *          groups={"route"})
      * @Assert\NotNull(message="Please specify a Template name",
      *          groups={"template"})
-     *
      * @Assert\Regex(
      *          pattern="/^[0-9]*$/",
      *          htmlPattern=".*",
