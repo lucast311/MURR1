@@ -22,7 +22,7 @@ class ContainerEditConfirmationTest extends WebTestCase
     {
         self::bootKernel();
         DatabasePrimer::prime(self::$kernel);
-        
+
         $encoder = static::$kernel->getContainer()->get('security.password_encoder');
 
         $userLoader = new LoadUserData($encoder);
@@ -136,7 +136,7 @@ class ContainerEditConfirmationTest extends WebTestCase
         $page->find('named', array('button', "Delete"))->click();
 
         // Make sure a modal pops up
-        $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
+        $this->assertTrue($page->find('css', ".ui.dimmer.modals.page.transition.visible.active")->isVisible());
 
         // Click the delete button inside the modal
         $page->find('named', array('button', "Remove"))->click();

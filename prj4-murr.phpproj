@@ -3408,7 +3408,6 @@
     <Content Include="web\JavaScript\base_twig.js" />
     <Content Include="web\JavaScript\Filter.js" />
     <Content Include="web\JavaScript\DeleteModal.js" />
-    <Content Include="web\JavaScript\BurnUtils.js" />
     <Content Include="web\JavaScript\RouteAndTemplateSearch.js" />
     <Content Include="web\JavaScript\PropertySearchPopupSemantic.js" />
     <Content Include="web\JavaScript\PropertyCommunicationAdd.js" />

@@ -40,8 +40,11 @@ class TemplateToRoute
         if($template instanceof ContainerRouteTemplate
            && $route instanceof ContainerRoute)
         {
+            $rRepo = $this->em->getRepository(ContainerRoute::class);
+            $rpRepo = $this->em->getRepository(RoutePickup::class);            
+            
             $tRoute = $route;
-            $rpRepo = $this->em->getRepository(RoutePickup::class);
+            if(is_null($tRoute->getId())||$tRoute->getId() > 0) $rRepo->save($tRoute);
 
             foreach($template->getPickups() as $templatePickup)
             {
@@ -51,6 +54,7 @@ class TemplateToRoute
                     ->setRoute($tRoute);
 
                 $rpRepo->save($routePickup);
+                
                 $this->em->refresh($tRoute);
             }
         }

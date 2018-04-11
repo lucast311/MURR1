@@ -15,6 +15,8 @@ use AppBundle\DataFixtures\ORM\LoadPropertyData;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use AppBundle\Services\TemplateToRoute;
+
 class LoadRouteData implements FixtureInterface
 {
     /**
@@ -87,12 +89,13 @@ class LoadRouteData implements FixtureInterface
         $propertyFixtureLoader->load($obMan);
 
         //generate route data
-        $route = (new Route())
-            ->setRouteId(1001);
+        $template = (new Route())
+            ->setRouteId("Template 1")
+            ->setTemplate();
 
         //generate RoutePickup data
         $routePickups[] = (new RoutePickup())
-            ->setRoute($route)
+            ->setRoute($template)
             ->setContainer($containers[0])
             ->setPickupOrder(1);
 
@@ -100,17 +103,19 @@ class LoadRouteData implements FixtureInterface
         $routePickupFixtureLoader->load($obMan);
 
         $routePickups[] = (new RoutePickup())
-            ->setRoute($route)
+            ->setRoute($template)
             ->setContainer($containers[1])
             ->setPickupOrder(2);
 
         $routePickupFixtureLoader = new LoadRoutePickupData($routePickups[1]);
         $routePickupFixtureLoader->load($obMan);
 
-        $route->setPickups($routePickups);
+        $template->setPickups($routePickups);
 
 
-        $obMan->persist($route);
+        $obMan->persist($template);
         $obMan->flush();
+
+        (new TemplateToRoute($obMan))->templateToRoute($template,(new Route())->setRouteId(1001));
     }
 }

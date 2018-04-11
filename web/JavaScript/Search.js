@@ -44,7 +44,8 @@ var viewModel = {
             else if (jsonResults.length === 0)// If no results came back, hide table and display message instead
             {
                 //$("table").hide();
-                hideResults();//==^
+                hideResultsAndMessage();
+                $("#message").show();
                 $("#message").text("No results found");
             }
             else

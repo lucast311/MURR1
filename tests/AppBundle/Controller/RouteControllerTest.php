@@ -277,8 +277,8 @@ class RouteControllerTest extends WebTestCase
         //Request a removal of the RoutePickup with the ID of the RoutePickup to be removed
         $crawler = $client->request('GET', '/route/removecontainer/1');
 
-        //Make make sure the table does not contain the removed container
-        $this->assertNotContains("X11111", $crawler->filter("table")->html());
+        //Make make sure the table that would normally have the container does not apppear
+        $this->assertNotContains("route_pickups", $crawler->html());
     }
 
     /**

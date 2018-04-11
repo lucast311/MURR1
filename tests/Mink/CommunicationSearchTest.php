@@ -138,7 +138,7 @@ class CommunicationSearchTest extends WebTestCase
         $page->find('named', array('id', "searchBox"))->keyPress("s");
 
         // Make Mink wait for the search to complete. This has to be REALLY long because the dev server is slow.
-        $this->session->wait(5000);
+        $this->session->wait(8000);
 
         // Assert that the error message is displayed on the page
         $this->assertNotNull($page->find('named', array('content', "No results found")));
@@ -217,8 +217,9 @@ class CommunicationSearchTest extends WebTestCase
 
         // Click the delete button
         $page->find('named', array('button', "Delete"))->click();
+        $this->session->wait(500);
         // Make sure a modal pops up
-        $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
+        $this->assertTrue($page->find('css', ".ui.dimmer.modals.page.transition.visible.active")->isVisible());
 
         // Click the remove button
         $page->find('named', array('button', "Remove"))->click();
@@ -260,7 +261,7 @@ class CommunicationSearchTest extends WebTestCase
         // Click the delete button
         $page->find('named', array('button', "Delete"))->click();
         // Make sure a modal pops up
-        $this->assertTrue($page->find('css', "div.ui.dimmer.modals.page.transition.active")->isVisible());
+        $this->assertTrue($page->find('css', ".ui.dimmer.modals.page.transition.visible.active")->isVisible());
 
         // Click the remove button
         $page->find('named', array('button', "Remove"))->click();

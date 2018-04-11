@@ -60,8 +60,10 @@ class RouteType extends AbstractType
                                                            'choices' => $templateChoices,
                                                            'required' => false,
                                                            'placeholder' => (new Route())->setRouteId('None'),//'...',//'m.name', 'ASC'
-                                                           'attr' => array( 'class' => 'search template'),
-                                                           'data' => null ));
+                                                           'attr' => array( 'id'=>'templateDropdown','class' => 'search template' ),                                                           
+                                                           'choice_attr' => array('class'=>'asdasd'),
+                                                           'data' => null
+                                                           ));
         //          ->add('type',null, array('label'=>'Type:'))
     //          ->add('Add', SubmitType::class, array('attr' => array('class' => 'ui button')));
     }

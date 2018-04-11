@@ -254,6 +254,8 @@ class TruckUtilPageTest extends WebTestCase
         $filter->setValue("");
         $filter->keyPress("s");
 
+        $this->session->wait(5000);
+
         //assert the results go back to normal
         $this->assertTrue($page->findAll('css', '.truckId')[0]->getText() == $firstTruckId);
         $this->assertTrue($page->findAll('css', '.truckType')[0]->getText() == "Large");
