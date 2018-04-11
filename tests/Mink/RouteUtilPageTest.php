@@ -220,9 +220,17 @@ class RouteUtilPageTest extends WebTestCase
         // Get the page
         $page = $this->session->getPage();
 
+        //make sure modal isnt visible before clicking add options button
+        $modal = $page->find("css", ".modal");
+        $this->assertFalse($modal->isVisible());
+
         // click the new route template button
         $page->find('css', '#newRouteOptions')->click();
         $this->session->wait(500);
+
+        //make sure modal is visible before clicking add options button
+        $modal = $page->find("css", ".modal");
+        $this->assertTrue($modal->isVisible());
 
         $page->find('css', "#newRouteTemplate")->click();
         $this->session->wait(1000);

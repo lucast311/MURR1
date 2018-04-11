@@ -23,9 +23,9 @@ $(function(){
         var weekdays = 'Mon Tue Wed Thu Fri Sat Sun'.split()
         for(var i = 0; i < jsonResults.length; i++)
         {
-            if (jsonResults[i].startDate != null) jsonResults[i].startDate = new Date(Date(jsonResults[i].startDate)).toLocaleDateString();
+            //if (jsonResults[i].startDate != null) jsonResults[i].startDate = new Date(Date(jsonResults[i].startDate)).toLocaleDateString();
             
-            if (jsonResults[i].endDate != null) jsonResults[i].endDate = new Date(Date(jsonResults[i].endDate)).toLocaleDateString();
+            //if (jsonResults[i].endDate != null) jsonResults[i].endDate = new Date(Date(jsonResults[i].endDate)).toLocaleDateString();
 
             if(jsonResults[i].template) resultsHaveTemplate = true; 
             else resultsHaveRoute = true;

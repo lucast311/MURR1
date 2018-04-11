@@ -523,11 +523,19 @@ class RouteController extends Controller
                 // Store those records into an array.
                 $routeSearches = $em->getRepository(RouteEntity::class)->routeSearch($cleanQuery,array("id"));
 
+                foreach ($routeSearches as $route)
+                {
+                    if(!is_null($route->getStartDate())){
+                        $dString = date_format($route->getStartDate(), "M d, Y");
+                        $route->setStartDate($dString);
+                    }
+                }
                 // create a SearchNarrower to narrow down our searches
                 $searchNarrower = new SearchNarrower();
 
                 // narrow down our searches, and store their values along side their field values
                 $searchedData = $searchNarrower->narrower($routeSearches, $cleanQuery, new RouteEntity());
+
 
                 // Return the results as a json object
                 // NOTE: Serializer service needs to be enabled for this to work properly
@@ -551,6 +559,14 @@ class RouteController extends Controller
 
             //The service takes in an entitymanager, and the name of the entity
             $tenRecent = $recentUpdates->TenMostRecent($em, 'AppBundle:Route');
+
+            foreach ($tenRecent as $route)
+            {
+                if(!is_null($route->getStartDate())){
+                    $dString = date_format($route->getStartDate(), "M d, Y");
+                    $route->setStartDate($dString);
+                }
+            }
 
             // Return the results as a json object
             // NOTE: Serializer service needs to be enabled for this to work properly
